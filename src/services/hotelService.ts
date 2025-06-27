@@ -1,196 +1,133 @@
-
-import { supabase } from '@/integrations/supabase/client';
+import { Hotel } from '@/components/hotels/HotelTypes';
 import { FilterState } from '@/components/filters/FilterTypes';
 
-interface HotelServiceResponse {
-  id: string;
-  name: string;
-  location?: string;
-  city?: string;
-  country?: string;
-  price_per_month: number;
-  thumbnail?: string;
-  theme?: string;
-  category?: number;
-  hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
-  hotel_themes?: Array<{ themes?: { name: string } }>;
-  available_months?: string[];
-  features_hotel?: Record<string, boolean> | null;
-  features_room?: Record<string, boolean> | null;
-  meal_plans?: string[];
-  stay_lengths?: number[];
-  atmosphere?: string;
-  property_type?: string;
-  style?: string;
-}
-
-export const fetchHotelsWithFilters = async (filters: FilterState): Promise<HotelServiceResponse[]> => {
-  console.log("🔍 Fetching hotels with filters:", filters);
-  
-  try {
-    let query = supabase
-      .from('hotels')
-      .select(`
-        id,
-        name,
-        city,
-        country,
-        price_per_month,
-        category,
-        property_type,
-        style,
-        atmosphere,
-        available_months,
-        stay_lengths,
-        meal_plans,
-        features_hotel,
-        features_room,
-        status,
-        hotel_images (
-          image_url,
-          is_main
-        ),
-        hotel_themes (
-          themes (
-            name
-          )
-        ),
-        hotel_activities (
-          activities (
-            name
-          )
-        )
-      `)
-      .eq('status', 'approved'); // This is the critical filter - only show approved hotels
-
-    console.log("📊 Base query for approved hotels created");
-
-    // Apply price filter with correct logic
-    if (filters.maxPrice && filters.maxPrice > 0) {
-      console.log("💰 Applying price filter <= ", filters.maxPrice);
-      query = query.lte('price_per_month', filters.maxPrice);
+export const filterHotels = (hotels: Hotel[], filters: FilterState): Hotel[] => {
+  return hotels.filter(hotel => {
+    // Country filter
+    if (filters.country && hotel.country !== filters.country) {
+      return false;
     }
 
-    // Apply country filter
-    if (filters.country && filters.country !== 'all') {
-      console.log("🌍 Applying country filter:", filters.country);
-      query = query.eq('country', filters.country);
+    // Location filter
+    if (filters.location && hotel.city !== filters.location) {
+      return false;
     }
 
-    // Apply month filter - check if month is in available_months array
-    if (filters.month && filters.month !== 'all') {
-      console.log("📅 Applying month filter:", filters.month);
-      query = query.contains('available_months', [filters.month]);
+    // Property type filter
+    if (filters.propertyType && hotel.property_type !== filters.propertyType) {
+      return false;
     }
 
-    // Apply stay length filter - check if the selected length exists in stay_lengths array
-    if (filters.stayLengths) {
-      console.log("⏱️ Applying stay length filter:", filters.stayLengths);
-      // Extract the number from the string like "8 days" -> 8
-      const lengthNumber = parseInt(filters.stayLengths.split(' ')[0]);
-      query = query.contains('stay_lengths', [lengthNumber]);
+    // Property style filter
+    if (filters.propertyStyle && hotel.property_style !== filters.propertyStyle) {
+      return false;
     }
 
-    // Apply property type filter
-    if (filters.propertyType && filters.propertyType !== 'all') {
-      console.log("🏢 Applying property type filter:", filters.propertyType);
-      query = query.eq('property_type', filters.propertyType);
+    // Theme filter
+    if (filters.theme && typeof filters.theme === 'object' && filters.theme.id && hotel.theme_id !== filters.theme.id) {
+      return false;
     }
 
-    // Apply property style filter
-    if (filters.propertyStyle && filters.propertyStyle !== 'all') {
-      console.log("🎨 Applying property style filter:", filters.propertyStyle);
-      query = query.eq('style', filters.propertyStyle);
+    // Price range filter
+    if (filters.priceRange && hotel.price_per_month) {
+      const price = hotel.price_per_month;
+      switch (filters.priceRange) {
+        case 1000:
+          if (price > 1000) return false;
+          break;
+        case 1500:
+          if (price < 1000 || price > 1500) return false;
+          break;
+        case 2000:
+          if (price < 1500 || price > 2000) return false;
+          break;
+        case 999999:
+          if (price <= 2000) return false;
+          break;
+        default:
+          break;
+      }
     }
 
-    // Apply category filter
+    // Max price filter (legacy)
+    if (filters.maxPrice && hotel.price_per_month && hotel.price_per_month > filters.maxPrice) {
+      return false;
+    }
+
+    // Min price filter (legacy)
+    if (filters.minPrice && hotel.price_per_month && hotel.price_per_month < filters.minPrice) {
+      return false;
+    }
+
+    // Stay lengths filter - handle as number, not string
+    if (filters.stayLengths && hotel.min_stay_length) {
+      const filterStayLength = filters.stayLengths;
+      const hotelMinStay = hotel.min_stay_length;
+      
+      if (hotelMinStay > filterStayLength) return false;
+    }
+
+    // Activities filter
+    if (filters.activities && filters.activities.length > 0) {
+      const hotelActivities = hotel.activities ? hotel.activities.split(',') : [];
+      if (!filters.activities.every(activity => hotelActivities.includes(activity))) {
+        return false;
+      }
+    }
+
+    // Stars filter
     if (filters.stars && filters.stars.length > 0) {
-      console.log("⭐ Applying category filter:", filters.stars);
-      const categoryNumber = parseInt(filters.stars[0]);
-      query = query.eq('category', categoryNumber);
+      if (!filters.stars.includes(String(hotel.stars))) {
+        return false;
+      }
     }
 
-    // Apply search term filter if provided
-    if (filters.searchTerm && filters.searchTerm.trim() !== '') {
-      console.log("🔎 Applying search term filter:", filters.searchTerm);
-      const searchTerm = filters.searchTerm.trim().toLowerCase();
-      query = query.or(`name.ilike.%${searchTerm}%,city.ilike.%${searchTerm}%,country.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+    // Month filter
+    if (filters.month && hotel.available_months && !hotel.available_months.includes(filters.month)) {
+      return false;
     }
 
-    console.log("🚀 Executing query...");
-    const { data, error } = await query;
-    
-    if (error) {
-      console.error("❌ Error fetching hotels:", error);
-      throw error;
+    // Day range filter
+    if (filters.dayRange && hotel.available_days && !hotel.available_days.includes(String(filters.dayRange))) {
+      return false;
     }
 
-    console.log(`✅ Successfully fetched ${data?.length || 0} approved hotels from database`);
-    
-    // Log sample data for debugging
-    if (data && data.length > 0) {
-      console.log("📝 Sample hotel data:", {
-        firstHotel: {
-          name: data[0].name,
-          status: data[0].status,
-          city: data[0].city,
-          country: data[0].country
-        },
-        totalCount: data.length
-      });
-    } else {
-      console.warn("⚠️ No hotels returned from query - this might indicate a filtering issue");
+    // Meal plan filter
+    if (filters.mealPlan && hotel.meal_plan !== filters.mealPlan) {
+      return false;
     }
-    
-    // Type-safe conversion to ensure proper typing
-    const typedData: HotelServiceResponse[] = (data || []).map(hotel => ({
-      ...hotel,
-      features_hotel: hotel.features_hotel as Record<string, boolean> | null,
-      features_room: hotel.features_room as Record<string, boolean> | null,
-    }));
-    
-    return typedData;
-    
-  } catch (error) {
-    console.error("❌ Error in fetchHotelsWithFilters:", error);
-    throw error;
-  }
-};
 
-export const convertHotelToUIFormat = (hotel: HotelServiceResponse) => {
-  if (!hotel || !hotel.id || !hotel.name) {
-    console.warn("⚠️ Invalid hotel data:", hotel);
-    return null;
-  }
+    // Room types filter
+    if (filters.roomTypes && filters.roomTypes.length > 0) {
+      const hotelRoomTypes = hotel.room_types ? hotel.room_types.split(',') : [];
+      if (!filters.roomTypes.every(roomType => hotelRoomTypes.includes(roomType))) {
+        return false;
+      }
+    }
 
-  const mainImage = hotel.hotel_images?.find(img => img.is_main)?.image_url || 
-                   hotel.hotel_images?.[0]?.image_url || 
-                   '/placeholder-hotel.jpg';
+    // Hotel services filter
+    if (filters.hotelServices && filters.hotelServices.length > 0) {
+      const hotelServices = hotel.hotel_services ? hotel.hotel_services.split(',') : [];
+      if (!filters.hotelServices.every(service => hotelServices.includes(service))) {
+        return false;
+      }
+    }
 
-  const themes = hotel.hotel_themes?.map(ht => ht.themes?.name).filter(Boolean) || [];
-  const primaryTheme = themes[0] || 'General';
+    // Room services filter
+    if (filters.roomServices && filters.roomServices.length > 0) {
+      const roomServices = hotel.room_services ? hotel.room_services.split(',') : [];
+      if (!filters.roomServices.every(service => roomServices.includes(service))) {
+        return false;
+      }
+    }
 
-  console.log(`🏨 Converting hotel ${hotel.name} to UI format`);
+    // Search term filter
+    if (filters.searchTerm && filters.searchTerm.trim()) {
+      const searchTerm = filters.searchTerm.toLowerCase().trim();
+      const searchableText = `${hotel.name} ${hotel.description || ''} ${hotel.city || ''} ${hotel.country || ''}`.toLowerCase();
+      if (!searchableText.includes(searchTerm)) return false;
+    }
 
-  return {
-    id: hotel.id,
-    name: hotel.name,
-    location: `${hotel.city || 'Unknown'}, ${hotel.country || 'Unknown'}`,
-    city: hotel.city,
-    country: hotel.country,
-    price_per_month: hotel.price_per_month || 0,
-    thumbnail: mainImage,
-    theme: primaryTheme,
-    category: hotel.category || 0,
-    hotel_images: hotel.hotel_images || [],
-    hotel_themes: hotel.hotel_themes || [],
-    available_months: hotel.available_months || [],
-    features_hotel: hotel.features_hotel || {},
-    features_room: hotel.features_room || {},
-    meal_plans: hotel.meal_plans || [],
-    stay_lengths: hotel.stay_lengths || [],
-    atmosphere: hotel.atmosphere,
-    property_type: hotel.property_type,
-    style: hotel.style
-  };
+    return true;
+  });
 };

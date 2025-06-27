@@ -5,6 +5,7 @@ export interface Theme {
   id: string;
   name: string;
   description?: string;
+  level: 1 | 2 | 3; // Added required level property
 }
 
 export interface FilterState {

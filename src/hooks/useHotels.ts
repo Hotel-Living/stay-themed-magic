@@ -55,15 +55,22 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
             // Add location property by combining city and country
             const location = `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
             
-            // Convert available_months from string to array if needed - with safer type checking
+            // Convert available_months from string to array if needed - with explicit type handling
             let availableMonths: string[] = [];
             const availableMonthsField = hotel.available_months;
             
-            if (availableMonthsField) {
+            if (availableMonthsField !== null && availableMonthsField !== undefined) {
               if (Array.isArray(availableMonthsField)) {
-                availableMonths = availableMonthsField.filter((m: any): m is string => typeof m === 'string' && m.trim().length > 0);
-              } else if (typeof availableMonthsField === 'string' && availableMonthsField.trim()) {
-                availableMonths = availableMonthsField.split(',').map((m: string) => m.trim()).filter((m: string) => m.length > 0);
+                availableMonths = availableMonthsField.filter((m: any): m is string => 
+                  typeof m === 'string' && m.trim().length > 0
+                );
+              } else if (typeof availableMonthsField === 'string') {
+                const trimmedField = availableMonthsField.trim();
+                if (trimmedField.length > 0) {
+                  availableMonths = trimmedField.split(',')
+                    .map((m: string) => m.trim())
+                    .filter((m: string) => m.length > 0);
+                }
               }
             }
             

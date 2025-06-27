@@ -1,38 +1,40 @@
 
+import React from "react";
 import { FilterItem } from "./FilterItem";
+import { Slider } from "@/components/ui/slider";
 
 interface PriceRangeFilterENProps {
-  activePrice: number | null;
-  onChange: (value: number | null) => void;
+  activePriceRange: [number, number];
+  onChange: (value: [number, number]) => void;
 }
 
-export function PriceRangeFilterEN({ activePrice, onChange }: PriceRangeFilterENProps) {
-  const priceRanges = [
-    { value: 1000, label: "Up to $1,000", min: 0, max: 1000 },
-    { value: 1500, label: "$1,000 to $1,500", min: 1000, max: 1500 },
-    { value: 2000, label: "$1,500 to $2,000", min: 1500, max: 2000 },
-    { value: 999999, label: "More than $2,000", min: 2000, max: 999999 }
-  ];
-
-  const handlePriceClick = (priceValue: number) => {
-    const newValue = activePrice === priceValue ? null : priceValue;
-    console.log("PriceRangeFilter - Price toggled:", priceValue, "->", newValue);
-    onChange(newValue);
+export function PriceRangeFilterEN({ activePriceRange, onChange }: PriceRangeFilterENProps) {
+  const handleSliderChange = (values: number[]) => {
+    onChange([values[0], values[1]]);
   };
 
   return (
     <FilterItem title="PRICE PER MONTH">
-      {priceRanges.map(range => (
-        <label key={range.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
-          <input 
-            type="checkbox" 
-            checked={activePrice === range.value}
-            onChange={() => handlePriceClick(range.value)}
-            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-          />
-          <span className="text-sm font-bold text-white">{range.label}</span>
-        </label>
-      ))}
+      <div className="px-3 py-4 space-y-4">
+        <div className="flex justify-between text-sm font-bold text-white">
+          <span>€{activePriceRange[0]}</span>
+          <span>€{activePriceRange[1]}</span>
+        </div>
+        
+        <Slider
+          value={activePriceRange}
+          onValueChange={handleSliderChange}
+          max={5000}
+          min={0}
+          step={50}
+          className="w-full"
+        />
+        
+        <div className="flex justify-between text-xs text-gray-300">
+          <span>€0</span>
+          <span>€5,000+</span>
+        </div>
+      </div>
     </FilterItem>
   );
 }

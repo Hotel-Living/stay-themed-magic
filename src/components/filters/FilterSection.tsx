@@ -28,6 +28,9 @@ interface FilterSectionProps {
     priceRange?: string;
   };
   useLargerMobileText?: boolean;
+  textColor?: string;
+  labelTextSize?: string;
+  filterBgColor?: string;
 }
 
 export function FilterSection({
@@ -40,7 +43,10 @@ export function FilterSection({
   useBoldLabels = true,
   usePurpleFilterBackground = true,
   placeholders = {},
-  useLargerMobileText = true
+  useLargerMobileText = true,
+  textColor,
+  labelTextSize,
+  filterBgColor
 }: FilterSectionProps) {
   const [filters, setFilters] = React.useState<FilterState>({
     priceRange: [0, 5000],

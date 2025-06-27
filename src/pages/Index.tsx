@@ -40,9 +40,6 @@ export default function Index() {
     updateFilters(newFilters);
   };
 
-  // Extract theme names for the filter dropdown
-  const themeNames = themes ? themes.map(theme => theme.name) : [];
-
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
       <HotelStarfield />
@@ -50,7 +47,7 @@ export default function Index() {
       
       <main className="flex-1 w-full">
         <HeroSection />
-        <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
+        <FilterSectionWrapper onFilterChange={handleFilterChange} />
       </main>
       
       <Footer />

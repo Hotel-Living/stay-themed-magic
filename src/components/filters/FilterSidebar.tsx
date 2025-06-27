@@ -9,6 +9,7 @@ import { CategoryFilter } from "../search/CategoryFilter";
 import { PropertyStyleFilter } from "../search/PropertyStyleFilter";
 import { ActivityFilter } from "../search/ActivityFilter";
 import { CheckboxFilter } from "../search/CheckboxFilter";
+import { PriceRangeFilter } from "../search/PriceRangeFilter";
 
 interface FilterSidebarProps {
   onFilterChange: (filters: FilterState) => void;
@@ -70,6 +71,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       formWrapperBgColor="bg-white/10"
     >
       <div className="space-y-4">
+        <PriceRangeFilter 
+          activePriceRange={filters.priceRange || [0, 5000]}
+          onChange={(range) => updateFilter('priceRange', range)}
+        />
+        
         <CountryFilter 
           activeCountry={filters.country}
           onChange={handleCountryChange}

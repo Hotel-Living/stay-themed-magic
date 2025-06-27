@@ -8,18 +8,18 @@ interface MonthFilterPTProps {
 
 export function MonthFilterPT({ activeMonth, onChange }: MonthFilterPTProps) {
   const months = [
-    { value: "January", label: "Janeiro" },
-    { value: "February", label: "Fevereiro" },
-    { value: "March", label: "Março" },
-    { value: "April", label: "Abril" },
-    { value: "May", label: "Maio" },
-    { value: "June", label: "Junho" },
-    { value: "July", label: "Julho" },
-    { value: "August", label: "Agosto" },
-    { value: "September", label: "Setembro" },
-    { value: "October", label: "Outubro" },
-    { value: "November", label: "Novembro" },
-    { value: "December", label: "Dezembro" }
+    { value: "01", label: "Janeiro" },
+    { value: "02", label: "Fevereiro" },
+    { value: "03", label: "Março" },
+    { value: "04", label: "Abril" },
+    { value: "05", label: "Maio" },
+    { value: "06", label: "Junho" },
+    { value: "07", label: "Julho" },
+    { value: "08", label: "Agosto" },
+    { value: "09", label: "Setembro" },
+    { value: "10", label: "Outubro" },
+    { value: "11", label: "Novembro" },
+    { value: "12", label: "Dezembro" }
   ];
 
   const handleMonthClick = (monthValue: string) => {

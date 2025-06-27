@@ -1,14 +1,20 @@
 
 import React from "react";
 import { FilterState } from "@/components/filters/FilterTypes";
+import { PriceRangeFilter } from "./PriceRangeFilter";
 import { CountryFilter } from "./CountryFilter";
 import { LocationFilter } from "./LocationFilter";
-import { PropertyTypeFilter } from "./PropertyTypeFilter";
-import { CategoryFilter } from "./CategoryFilter";
-import { PriceRangeFilter } from "./PriceRangeFilter";
-import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { ThemeFilter } from "./ThemeFilter";
 import { ActivityFilter } from "./ActivityFilter";
+import { DayRangeFilter } from "./DayRangeFilter";
+import { MonthFilter } from "./MonthFilter";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { PropertyTypeFilter } from "./PropertyTypeFilter";
+import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { CategoryFilter } from "./CategoryFilter";
+import { RoomTypesFilter } from "./RoomTypesFilter";
+import { HotelServicesFilter } from "./HotelServicesFilter";
+import { RoomServicesFilter } from "./RoomServicesFilter";
 
 interface SecondFilterSidebarProps {
   activeFilters: FilterState;
@@ -36,45 +42,98 @@ export function SecondFilterSidebar({
       </div>
       
       <div className="space-y-3">
-        <CountryFilter 
-          activeCountry={activeFilters.country || null}
-          onChange={(value) => handleFilterChange('country', value)}
-        />
-        
-        <LocationFilter 
-          activeLocation={activeFilters.location || null}
-          onChange={(value) => handleFilterChange('location', value)}
-        />
-        
-        <PropertyTypeFilter 
-          activePropertyType={activeFilters.propertyType || null}
-          onChange={(value) => handleFilterChange('propertyType', value)}
-        />
-        
-        <CategoryFilter 
-          activeCategory={activeFilters.stars?.[0] || null}
-          onChange={(value) => handleFilterChange('stars', value ? [value] : [])}
-        />
-        
+        {/* 1. Precio por mes */}
         <PriceRangeFilter 
           activePrice={typeof activeFilters.priceRange === 'number' ? activeFilters.priceRange : null}
           onChange={(value) => handleFilterChange('priceRange', value)}
         />
         
-        <PropertyStyleFilter 
-          activePropertyStyle={activeFilters.propertyStyle || null}
-          onChange={(value) => handleFilterChange('propertyStyle', value)}
+        {/* 2. País */}
+        <CountryFilter 
+          activeCountry={activeFilters.country || null}
+          onChange={(value) => handleFilterChange('country', value)}
         />
         
+        {/* 3. Ubicación */}
+        <LocationFilter 
+          activeLocation={activeFilters.location || null}
+          onChange={(value) => handleFilterChange('location', value)}
+        />
+        
+        {/* 4. Afinidad */}
         <ThemeFilter 
           activeTheme={activeFilters.theme || null}
           onChange={(value) => handleFilterChange('theme', value)}
         />
         
+        {/* 5. Actividades */}
         <ActivityFilter 
           activeActivities={activeFilters.activities || []}
           onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)}
         />
+        
+        {/* 6. Número de días */}
+        <DayRangeFilter 
+          activeDayRange={activeFilters.dayRange || null}
+          onChange={(value) => handleFilterChange('dayRange', value)}
+        />
+        
+        {/* 7. Mes */}
+        <MonthFilter 
+          activeMonth={activeFilters.month || null}
+          onChange={(value) => handleFilterChange('month', value)}
+        />
+        
+        {/* 8. Plan de comidas */}
+        <MealPlanFilter 
+          activeMealPlan={activeFilters.mealPlan || null}
+          onChange={(value) => handleFilterChange('mealPlan', value)}
+        />
+        
+        {/* 9. Tipo de propiedad */}
+        <PropertyTypeFilter 
+          activePropertyType={activeFilters.propertyType || null}
+          onChange={(value) => handleFilterChange('propertyType', value)}
+        />
+        
+        {/* 10. Estilo de propiedad */}
+        <PropertyStyleFilter 
+          activePropertyStyle={activeFilters.propertyStyle || null}
+          onChange={(value) => handleFilterChange('propertyStyle', value)}
+        />
+        
+        {/* 11. Categoría */}
+        <CategoryFilter 
+          activeCategory={activeFilters.stars?.[0] || null}
+          onChange={(value) => handleFilterChange('stars', value ? [value] : [])}
+        />
+        
+        {/* 12. Tipos de habitación */}
+        <RoomTypesFilter 
+          activeRoomTypes={activeFilters.roomTypes || []}
+          onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)}
+        />
+        
+        {/* 13. Servicios del hotel */}
+        <HotelServicesFilter 
+          activeHotelServices={activeFilters.hotelServices || []}
+          onChange={(value, isChecked) => handleArrayFilterChange('hotelServices', value, isChecked)}
+        />
+        
+        {/* 14. Servicios de la habitación */}
+        <RoomServicesFilter 
+          activeRoomServices={activeFilters.roomServices || []}
+          onChange={(value, isChecked) => handleArrayFilterChange('roomServices', value, isChecked)}
+        />
+      </div>
+      
+      <div className="mt-6 pt-4 border-t border-fuchsia-400/20">
+        <button 
+          onClick={onResetAllFilters}
+          className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white py-2 px-4 rounded transition-colors text-sm font-bold"
+        >
+          Reset All Filters
+        </button>
       </div>
     </div>
   );

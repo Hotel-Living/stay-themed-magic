@@ -1,26 +1,21 @@
-
 import { ReactNode } from "react";
 import { Theme } from "@/utils/themes";
 
 export interface FilterState {
-  country?: string | null;
-  month?: string | null;
-  theme?: Theme | null;
-  priceRange?: number | { min: number; max: number } | null;
-  searchTerm?: string | null;
-  minPrice?: number;
-  maxPrice?: number;
-  stars?: string[];
-  location?: string | null;
-  propertyType?: string | null;
-  propertyStyle?: string | null;
+  country?: string;
+  location?: string;
+  propertyType?: string;
+  propertyStyle?: string;
+  theme?: string;
   activities?: string[];
+  stars?: string[];
+  priceRange?: number | [number, number];
+  month?: string;
+  dayRange?: number;
+  mealPlan?: string;
   roomTypes?: string[];
-  hotelFeatures?: string[];
-  roomFeatures?: string[];
-  mealPlans?: string[];
-  stayLengths?: string | null; // Single string for single-select behavior
-  atmosphere?: string | null;
+  hotelServices?: string[];
+  roomServices?: string[];
 }
 
 export interface FilterSectionProps {

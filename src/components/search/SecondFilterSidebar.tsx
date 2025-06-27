@@ -44,7 +44,7 @@ export function SecondFilterSidebar({
       <div className="space-y-3">
         {/* 1. Precio por mes */}
         <PriceRangeFilter 
-          activePrice={typeof activeFilters.priceRange === 'number' ? activeFilters.priceRange : null}
+          activePriceRange={Array.isArray(activeFilters.priceRange) ? activeFilters.priceRange : [0, 5000]}
           onChange={(value) => handleFilterChange('priceRange', value)}
         />
         

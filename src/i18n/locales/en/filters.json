@@ -11,6 +11,7 @@
     "halfBoard": "Half Board",
     "fullBoard": "Full Board",
     "allInclusive": "All Inclusive",
+    "laundryIncluded": "Laundry Included",
     "roomTypes": "ROOM TYPES",
     "single": "Single",
     "double": "Double",
@@ -30,6 +31,54 @@
     "kitchen": "Kitchen",
     "workspace": "Workspace",
     "tv": "TV",
-    "minibar": "Minibar"
+    "minibar": "Minibar",
+    "location": "Location",
+    "affinities": "Affinities",
+    "activities": "Activities",
+    "duration": "Duration",
+    "propertyType": "Property Type",
+    "propertyStyle": "Property Style",
+    "category": "Category",
+    "roomType": "Room Type",
+    "priceRanges": {
+      "upTo1000": "Up to $1,000",
+      "1000to1500": "$1,000 - $1,500",
+      "1500to2000": "$1,500 - $2,000",
+      "moreThan2000": "More than $2,000"
+    },
+    "propertyTypes": {
+      "hotel": "Hotel",
+      "boutiqueHotel": "Boutique Hotel",
+      "resort": "Resort",
+      "casaRural": "Casa Rural"
+    },
+    "propertyStyles": {
+      "classic": "Classic",
+      "classicElegant": "Classic Elegant",
+      "modern": "Modern",
+      "fusion": "Fusion",
+      "urban": "Urban",
+      "minimalist": "Minimalist",
+      "luxury": "Luxury",
+      "rural": "Rural"
+    },
+    "roomTypeOptions": {
+      "singleRoom": "Single Room",
+      "doubleRoom": "Double Room"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
   }
 }

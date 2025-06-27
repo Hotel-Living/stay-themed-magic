@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SecondFilterSidebar } from "@/components/search/SecondFilterSidebar";
+import { SecondaryFilterPanel } from "@/components/search/SecondaryFilterPanel";
 import { SearchResults } from "@/components/search/SearchResults";
 import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
@@ -61,13 +61,22 @@ export default function Search() {
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-0 py-0">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            {/* Filter Sidebar */}
-            <div className="lg:col-span-1">
+            {/* Filter Sidebar - Contains both filter components vertically stacked */}
+            <div className="lg:col-span-1 space-y-4">
+              {/* Original Filter Sidebar (unchanged) */}
               <SecondFilterSidebar 
                 activeFilters={activeFilters} 
                 handleFilterChange={handleFilterChange} 
                 handleArrayFilterChange={handleArrayFilterChange} 
                 onResetAllFilters={onResetAllFilters} 
+              />
+              
+              {/* New Secondary Filter Panel (added below) */}
+              <SecondaryFilterPanel
+                activeFilters={activeFilters} 
+                handleFilterChange={handleFilterChange} 
+                handleArrayFilterChange={handleArrayFilterChange} 
+                onResetAllFilters={onResetAllFilters}
               />
             </div>
             

@@ -1,10 +1,7 @@
 
 import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
-import { RoomTypesFilterEN } from "./RoomTypesFilter.en";
-import { RoomTypesFilterES } from "./RoomTypesFilter.es";
-import { RoomTypesFilterPT } from "./RoomTypesFilter.pt";
-import { RoomTypesFilterRO } from "./RoomTypesFilter.ro";
+import { FilterItem } from "./FilterItem";
+import { mockRoomTypes } from "@/components/simulation/MockFilterData";
 
 interface RoomTypesFilterProps {
   activeRoomTypes: string[];
@@ -12,13 +9,26 @@ interface RoomTypesFilterProps {
 }
 
 export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <RoomTypesFilterEN activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'es') return <RoomTypesFilterES activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'pt') return <RoomTypesFilterPT activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'ro') return <RoomTypesFilterRO activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <RoomTypesFilterEN activeRoomTypes={activeRoomTypes} onChange={onChange} />;
+  const handleRoomTypeClick = (roomType: string) => {
+    const isCurrentlySelected = activeRoomTypes.includes(roomType);
+    onChange(roomType, !isCurrentlySelected);
+  };
+
+  return (
+    <FilterItem title="ROOM TYPES">
+      <div className="max-h-48 overflow-y-auto">
+        {mockRoomTypes.map(roomType => (
+          <label key={roomType} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+            <input 
+              type="checkbox" 
+              checked={activeRoomTypes.includes(roomType)}
+              onChange={() => handleRoomTypeClick(roomType)}
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+            />
+            <span className="text-sm font-bold text-white">{roomType}</span>
+          </label>
+        ))}
+      </div>
+    </FilterItem>
+  );
 }

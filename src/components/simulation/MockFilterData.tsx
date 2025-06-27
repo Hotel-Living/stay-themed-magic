@@ -1,4 +1,3 @@
-
 // Complete filter data for simulation demo matching Step 2 "Add Property" form structure
 
 export const mockThemes = [
@@ -141,4 +140,9 @@ export const mockPropertyStyles = [
   { style: "Historic", count: 0 },
   { style: "Modern", count: 0 },
   { style: "Traditional", count: 0 }
+];
+
+export const mockRoomTypes = [
+  "Double Room",
+  "Single Room"
 ];

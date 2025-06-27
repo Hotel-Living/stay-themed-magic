@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import OurTeam from "@/pages/OurTeam";
+import SimulationDemo from "@/pages/SimulationDemo";
 
 // Initialize i18n
 import "./i18n/config";
@@ -70,6 +70,7 @@ function App() {
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/simulation-demo" element={<SimulationDemo />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />

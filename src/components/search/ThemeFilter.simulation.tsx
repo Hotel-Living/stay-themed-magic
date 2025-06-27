@@ -11,6 +11,7 @@ interface ThemeFilterSimulationProps {
 
 export function ThemeFilterSimulation({ activeTheme, onChange }: ThemeFilterSimulationProps) {
   const handleThemeClick = (theme: Theme) => {
+    // Allow deselection by clicking the same theme again
     const isCurrentlySelected = activeTheme?.id === theme.id;
     onChange(isCurrentlySelected ? null : theme);
   };
@@ -38,7 +39,12 @@ export function ThemeFilterSimulation({ activeTheme, onChange }: ThemeFilterSimu
                   onChange={() => handleThemeClick(theme)}
                   className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
                 />
-                <span className="text-sm font-bold text-white flex-1">{theme.name}</span>
+                <span 
+                  className="text-sm font-bold text-white flex-1"
+                  onClick={() => handleThemeClick(theme)}
+                >
+                  {theme.name}
+                </span>
               </label>
             ))}
           </div>

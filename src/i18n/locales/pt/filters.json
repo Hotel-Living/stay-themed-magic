@@ -1,22 +1,23 @@
 
 {
   "filters": {
-    "month": "Mês",
-    "country": "País",
-    "affinity": "Afinidade",
-    "pricePerMonth": "Preço por Mês",
+    "month": "MÊS",
+    "country": "PAÍS",
+    "affinity": "AFINIDADES",
+    "pricePerMonth": "PREÇO POR MÊS",
     "resetFilters": "Redefinir Filtros",
     "mealPlan": "PLANO DE REFEIÇÕES",
     "breakfast": "Café da Manhã",
     "halfBoard": "Meia Pensão",
     "fullBoard": "Pensão Completa",
     "allInclusive": "Tudo Incluído",
+    "laundryIncluded": "Lavanderia Incluída",
     "roomTypes": "TIPOS DE QUARTO",
     "single": "Individual",
     "double": "Duplo",
     "suite": "Suíte",
     "apartment": "Apartamento",
-    "hotelFeatures": "RECURSOS DO HOTEL",
+    "hotelFeatures": "SERVIÇOS DO HOTEL",
     "pool": "Piscina",
     "gym": "Academia",
     "spa": "Spa",
@@ -24,12 +25,60 @@
     "bar": "Bar",
     "wifi": "WiFi",
     "parking": "Estacionamento",
-    "roomFeatures": "RECURSOS DO QUARTO",
+    "roomFeatures": "SERVIÇOS DO QUARTO",
     "airConditioning": "Ar Condicionado",
     "balcony": "Varanda",
     "kitchen": "Cozinha",
     "workspace": "Espaço de Trabalho",
     "tv": "TV",
-    "minibar": "Frigobar"
+    "minibar": "Frigobar",
+    "location": "LOCALIZAÇÃO",
+    "affinities": "AFINIDADES",
+    "activities": "ATIVIDADES",
+    "duration": "DURAÇÃO",
+    "propertyType": "TIPOS DE PROPRIEDADE",
+    "propertyStyle": "ESTILOS DE PROPRIEDADE",
+    "category": "CATEGORIA",
+    "roomType": "TIPOS DE QUARTO",
+    "priceRanges": {
+      "upTo1000": "Até $1.000",
+      "1000to1500": "$1.000 - $1.500",
+      "1500to2000": "$1.500 - $2.000",
+      "moreThan2000": "Mais de $2.000"
+    },
+    "propertyTypes": {
+      "hotel": "Hotel",
+      "boutiqueHotel": "Hotel Boutique",
+      "resort": "Resort",
+      "casaRural": "Casa Rural"
+    },
+    "propertyStyles": {
+      "classic": "Clássico",
+      "classicElegant": "Clássico Elegante",
+      "modern": "Moderno",
+      "fusion": "Fusão",
+      "urban": "Urbano",
+      "minimalist": "Minimalista",
+      "luxury": "Luxo",
+      "rural": "Rural"
+    },
+    "roomTypeOptions": {
+      "singleRoom": "Quarto Individual",
+      "doubleRoom": "Quarto Duplo"
+    },
+    "months": {
+      "january": "Janeiro",
+      "february": "Fevereiro",
+      "march": "Março",
+      "april": "Abril",
+      "may": "Maio",
+      "june": "Junho",
+      "july": "Julho",
+      "august": "Agosto",
+      "september": "Setembro",
+      "october": "Outubro",
+      "november": "Novembro",
+      "december": "Dezembro"
+    }
   }
 }

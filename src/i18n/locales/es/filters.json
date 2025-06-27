@@ -1,16 +1,17 @@
 
 {
   "filters": {
-    "month": "Mes",
-    "country": "País",
-    "affinity": "Afinidad",
-    "pricePerMonth": "Precio por Mes",
+    "month": "MES",
+    "country": "PAÍS",
+    "affinity": "AFINIDADES",
+    "pricePerMonth": "PRECIO POR MES",
     "resetFilters": "Restablecer Filtros",
     "mealPlan": "PLAN DE COMIDAS",
     "breakfast": "Desayuno",
     "halfBoard": "Media Pensión",
     "fullBoard": "Pensión Completa",
     "allInclusive": "Todo Incluido",
+    "laundryIncluded": "Lavandería Incluída",
     "roomTypes": "TIPOS DE HABITACIÓN",
     "single": "Individual",
     "double": "Doble",
@@ -30,6 +31,54 @@
     "kitchen": "Cocina",
     "workspace": "Espacio de Trabajo",
     "tv": "TV",
-    "minibar": "Minibar"
+    "minibar": "Minibar",
+    "location": "UBICACIÓN",
+    "affinities": "AFINIDADES",
+    "activities": "ACTIVIDADES",
+    "duration": "DURACIÓN",
+    "propertyType": "TIPOS DE PROPIEDAD",
+    "propertyStyle": "ESTILOS DE PROPIEDAD",
+    "category": "CATEGORÍA",
+    "roomType": "TIPOS DE HABITACIÓN",
+    "priceRanges": {
+      "upTo1000": "Hasta $1.000",
+      "1000to1500": "$1.000 - $1.500",
+      "1500to2000": "$1.500 - $2.000",
+      "moreThan2000": "Más de $2.000"
+    },
+    "propertyTypes": {
+      "hotel": "Hotel",
+      "boutiqueHotel": "Hotel Boutique",
+      "resort": "Resort",
+      "casaRural": "Casa Rural"
+    },
+    "propertyStyles": {
+      "classic": "Clásico",
+      "classicElegant": "Clásico Elegante",
+      "modern": "Moderno",
+      "fusion": "Fusión",
+      "urban": "Urbano",
+      "minimalist": "Minimalista",
+      "luxury": "Lujo",
+      "rural": "Rural"
+    },
+    "roomTypeOptions": {
+      "singleRoom": "Habitación Individual",
+      "doubleRoom": "Habitación Doble"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
   }
 }

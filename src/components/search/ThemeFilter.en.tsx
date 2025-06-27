@@ -9,12 +9,12 @@ interface ThemeFilterENProps {
 
 export function ThemeFilterEN({ activeTheme, onChange }: ThemeFilterENProps) {
   const themes = [
-    { value: { id: "adventure", name: "Adventure" }, label: "Adventure" },
-    { value: { id: "art", name: "Art" }, label: "Art & Culture" },
-    { value: { id: "business", name: "Business" }, label: "Business" },
-    { value: { id: "culinary", name: "Culinary" }, label: "Culinary" },
-    { value: { id: "nature", name: "Nature" }, label: "Nature" },
-    { value: { id: "wellness", name: "Wellness" }, label: "Wellness" }
+    { id: "adventure", name: "Adventure", level: 1 as const },
+    { id: "art", name: "Art & Culture", level: 1 as const },
+    { id: "business", name: "Business", level: 1 as const },
+    { id: "culinary", name: "Culinary", level: 1 as const },
+    { id: "nature", name: "Nature", level: 1 as const },
+    { id: "wellness", name: "Wellness", level: 1 as const }
   ];
 
   const handleThemeClick = (themeValue: Theme) => {
@@ -26,14 +26,14 @@ export function ThemeFilterEN({ activeTheme, onChange }: ThemeFilterENProps) {
   return (
     <FilterItem title="AFFINITY">
       {themes.map(theme => (
-        <label key={theme.value.id} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+        <label key={theme.id} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
             type="checkbox" 
-            checked={activeTheme?.id === theme.value.id}
-            onChange={() => handleThemeClick(theme.value)}
+            checked={activeTheme?.id === theme.id}
+            onChange={() => handleThemeClick(theme)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{theme.label}</span>
+          <span className="text-sm font-bold text-white">{theme.name}</span>
         </label>
       ))}
     </FilterItem>

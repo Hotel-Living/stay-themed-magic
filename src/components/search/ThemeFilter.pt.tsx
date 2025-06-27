@@ -9,12 +9,12 @@ interface ThemeFilterPTProps {
 
 export function ThemeFilterPT({ activeTheme, onChange }: ThemeFilterPTProps) {
   const themes = [
-    { value: { id: "adventure", name: "Adventure" }, label: "Aventura" },
-    { value: { id: "art", name: "Art" }, label: "Arte e Cultura" },
-    { value: { id: "business", name: "Business" }, label: "Negócios" },
-    { value: { id: "culinary", name: "Culinary" }, label: "Culinário" },
-    { value: { id: "nature", name: "Nature" }, label: "Natureza" },
-    { value: { id: "wellness", name: "Wellness" }, label: "Bem-estar" }
+    { id: "adventure", name: "Aventura", level: 1 as const },
+    { id: "art", name: "Arte e Cultura", level: 1 as const },
+    { id: "business", name: "Negócios", level: 1 as const },
+    { id: "culinary", name: "Culinário", level: 1 as const },
+    { id: "nature", name: "Natureza", level: 1 as const },
+    { id: "wellness", name: "Bem-estar", level: 1 as const }
   ];
 
   const handleThemeClick = (themeValue: Theme) => {
@@ -26,14 +26,14 @@ export function ThemeFilterPT({ activeTheme, onChange }: ThemeFilterPTProps) {
   return (
     <FilterItem title="AFINIDADE">
       {themes.map(theme => (
-        <label key={theme.value.id} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+        <label key={theme.id} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
             type="checkbox" 
-            checked={activeTheme?.id === theme.value.id}
-            onChange={() => handleThemeClick(theme.value)}
+            checked={activeTheme?.id === theme.id}
+            onChange={() => handleThemeClick(theme)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{theme.label}</span>
+          <span className="text-sm font-bold text-white">{theme.name}</span>
         </label>
       ))}
     </FilterItem>

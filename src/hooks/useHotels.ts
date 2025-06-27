@@ -67,7 +67,8 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
               } else if (typeof availableMonthsField === 'string') {
                 const trimmedField = availableMonthsField.trim();
                 if (trimmedField.length > 0) {
-                  availableMonths = trimmedField.split(',')
+                  const splitMonths: string[] = trimmedField.split(',');
+                  availableMonths = splitMonths
                     .map((month: string) => month.trim())
                     .filter((month: string) => month.length > 0);
                 }

@@ -55,30 +55,23 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
             // Add location property by combining city and country
             const location = `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
             
-            // Convert available_months from string to array if needed - with explicit type handling
+            // Convert available_months from string to array if needed - with proper type handling
             let availableMonths: string[] = [];
-            const availableMonthsField = hotel.available_months;
             
-            if (availableMonthsField !== null && availableMonthsField !== undefined) {
-              if (Array.isArray(availableMonthsField)) {
-                availableMonths = availableMonthsField.filter((m: unknown): m is string => 
-                  typeof m === 'string' && m.trim().length > 0
+            if (hotel.available_months !== null && hotel.available_months !== undefined) {
+              if (Array.isArray(hotel.available_months)) {
+                // Already an array, filter out invalid entries
+                availableMonths = hotel.available_months.filter((month: any): month is string => 
+                  typeof month === 'string' && month.trim().length > 0
                 );
-              } else if (typeof availableMonthsField === 'string') {
-                const trimmedField = availableMonthsField.trim();
-                if (trimmedField.length > 0) {
-                  // Split and process months with explicit string array typing
-                  const rawMonths = trimmedField.split(',');
-                  const processedMonths: string[] = [];
-                  
-                  for (const month of rawMonths) {
-                    const trimmedMonth = month.trim();
-                    if (trimmedMonth.length > 0) {
-                      processedMonths.push(trimmedMonth);
-                    }
-                  }
-                  
-                  availableMonths = processedMonths;
+              } else if (typeof hotel.available_months === 'string') {
+                // Convert string to array
+                const monthsString = hotel.available_months.trim();
+                if (monthsString.length > 0) {
+                  availableMonths = monthsString
+                    .split(',')
+                    .map(month => month.trim())
+                    .filter(month => month.length > 0);
                 }
               }
             }

@@ -10,7 +10,7 @@ export interface Hotel {
   min_stay_length?: number;
   activities?: string;
   stars?: number;
-  available_months?: string;
+  available_months?: string; // Changed from string to match database format
   available_days?: string;
   meal_plan?: string;
   room_types?: string;

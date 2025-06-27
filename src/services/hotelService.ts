@@ -1,3 +1,4 @@
+import { supabase } from '@/integrations/supabase/client';
 import { Hotel } from '@/components/hotels/HotelTypes';
 import { FilterState } from '@/components/filters/FilterTypes';
 
@@ -133,9 +134,75 @@ export const filterHotels = (hotels: Hotel[], filters: FilterState): Hotel[] => 
 };
 
 export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hotel[]> => {
-  // This would typically fetch from an API
-  // For now, return empty array as placeholder
-  return [];
+  try {
+    console.log("Fetching hotels with filters:", filters);
+    
+    // Start with basic query for approved hotels
+    let query = supabase
+      .from('hotels')
+      .select(`
+        *,
+        hotel_images(id, image_url, is_main),
+        hotel_themes(theme_id, themes(id, name, description)),
+        hotel_activities(activity_id, activities(id, name))
+      `)
+      .eq('status', 'approved');
+
+    // Apply filters to the query
+    if (filters.country) {
+      query = query.eq('country', filters.country);
+    }
+
+    if (filters.location) {
+      query = query.eq('city', filters.location);
+    }
+
+    if (filters.propertyType) {
+      query = query.eq('property_type', filters.propertyType);
+    }
+
+    if (filters.propertyStyle) {
+      query = query.eq('style', filters.propertyStyle);
+    }
+
+    if (filters.priceRange) {
+      switch (filters.priceRange) {
+        case 1000:
+          query = query.lte('price_per_month', 1000);
+          break;
+        case 1500:
+          query = query.gte('price_per_month', 1000).lte('price_per_month', 1500);
+          break;
+        case 2000:
+          query = query.gte('price_per_month', 1500).lte('price_per_month', 2000);
+          break;
+        case 999999:
+          query = query.gt('price_per_month', 2000);
+          break;
+      }
+    }
+
+    if (filters.maxPrice) {
+      query = query.lte('price_per_month', filters.maxPrice);
+    }
+
+    if (filters.minPrice) {
+      query = query.gte('price_per_month', filters.minPrice);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Supabase query error:", error);
+      throw error;
+    }
+
+    console.log(`Fetched ${data?.length || 0} hotels from Supabase`);
+    return data || [];
+  } catch (error) {
+    console.error("Error in fetchHotelsWithFilters:", error);
+    throw error;
+  }
 };
 
 export const convertHotelToUIFormat = (hotel: any): Hotel => {
@@ -150,7 +217,7 @@ export const convertHotelToUIFormat = (hotel: any): Hotel => {
     min_stay_length: hotel.min_stay_length,
     activities: hotel.activities,
     stars: hotel.stars,
-    available_months: hotel.available_months,
+    available_months: Array.isArray(hotel.available_months) ? hotel.available_months.join(',') : (hotel.available_months || ''),
     available_days: hotel.available_days,
     meal_plan: hotel.meal_plan,
     room_types: hotel.room_types,

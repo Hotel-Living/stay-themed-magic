@@ -1,7 +1,5 @@
 
 import { FilterItem } from "./FilterItem";
-import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
-import { generateDynamicPriceRanges } from "@/utils/dynamicPriceRanges";
 
 interface PriceRangeFilterROProps {
   activePrice: number | null;
@@ -9,46 +7,17 @@ interface PriceRangeFilterROProps {
 }
 
 export function PriceRangeFilterRO({ activePrice, onChange }: PriceRangeFilterROProps) {
-  const { priceRange, loading, error } = useDynamicFilterData();
-  
+  const priceRanges = [
+    { value: 1000, label: "Până la $1.000", min: 0, max: 1000 },
+    { value: 1500, label: "$1.000 la $1.500", min: 1000, max: 1500 },
+    { value: 2000, label: "$1.500 la $2.000", min: 1500, max: 2000 },
+    { value: 999999, label: "Mai mult de $2.000", min: 2000, max: 999999 }
+  ];
+
   const handlePriceClick = (priceValue: number) => {
     const newValue = activePrice === priceValue ? null : priceValue;
     console.log("PriceRangeFilter - Price toggled:", priceValue, "->", newValue);
     onChange(newValue);
-  };
-
-  if (loading) {
-    return (
-      <FilterItem title="PREȚ PE LUNĂ">
-        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Se încarcă intervalele de preț...</div>
-      </FilterItem>
-    );
-  }
-
-  if (error || !priceRange) {
-    return (
-      <FilterItem title="PREȚ PE LUNĂ">
-        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Nu sunt date de preț disponibile</div>
-      </FilterItem>
-    );
-  }
-
-  const priceRanges = generateDynamicPriceRanges(
-    priceRange.min, 
-    priceRange.max, 
-    priceRange.avg
-  );
-
-  const formatPriceRange = (range: any) => {
-    if (range.translationKey === 'filters.priceRange.unlimited') {
-      return "Orice preț";
-    } else if (range.translationKey === 'filters.priceRange.underAverage') {
-      return `Până la $${range.max}`;
-    } else if (range.max === 999999) {
-      return `Mai mult de $${range.min}`;
-    } else {
-      return `Până la $${range.max}`;
-    }
   };
 
   return (
@@ -61,7 +30,7 @@ export function PriceRangeFilterRO({ activePrice, onChange }: PriceRangeFilterRO
             onChange={() => handlePriceClick(range.value)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{formatPriceRange(range)}</span>
+          <span className="text-sm font-bold text-white">{range.label}</span>
         </label>
       ))}
     </FilterItem>

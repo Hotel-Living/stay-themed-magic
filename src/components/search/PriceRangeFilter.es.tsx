@@ -1,7 +1,5 @@
 
 import { FilterItem } from "./FilterItem";
-import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
-import { generateDynamicPriceRanges } from "@/utils/dynamicPriceRanges";
 
 interface PriceRangeFilterESProps {
   activePrice: number | null;
@@ -9,46 +7,17 @@ interface PriceRangeFilterESProps {
 }
 
 export function PriceRangeFilterES({ activePrice, onChange }: PriceRangeFilterESProps) {
-  const { priceRange, loading, error } = useDynamicFilterData();
-  
+  const priceRanges = [
+    { value: 1000, label: "Hasta $1.000", min: 0, max: 1000 },
+    { value: 1500, label: "$1.000 a $1.500", min: 1000, max: 1500 },
+    { value: 2000, label: "$1.500 a $2.000", min: 1500, max: 2000 },
+    { value: 999999, label: "Más de $2.000", min: 2000, max: 999999 }
+  ];
+
   const handlePriceClick = (priceValue: number) => {
     const newValue = activePrice === priceValue ? null : priceValue;
     console.log("PriceRangeFilter - Price toggled:", priceValue, "->", newValue);
     onChange(newValue);
-  };
-
-  if (loading) {
-    return (
-      <FilterItem title="PRECIO POR MES">
-        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Cargando rangos de precio...</div>
-      </FilterItem>
-    );
-  }
-
-  if (error || !priceRange) {
-    return (
-      <FilterItem title="PRECIO POR MES">
-        <div className="text-sm text-fuchsia-300/70 px-3 py-2">No hay datos de precio disponibles</div>
-      </FilterItem>
-    );
-  }
-
-  const priceRanges = generateDynamicPriceRanges(
-    priceRange.min, 
-    priceRange.max, 
-    priceRange.avg
-  );
-
-  const formatPriceRange = (range: any) => {
-    if (range.translationKey === 'filters.priceRange.unlimited') {
-      return "Cualquier precio";
-    } else if (range.translationKey === 'filters.priceRange.underAverage') {
-      return `Hasta $${range.max}`;
-    } else if (range.max === 999999) {
-      return `Más de $${range.min}`;
-    } else {
-      return `Hasta $${range.max}`;
-    }
   };
 
   return (
@@ -61,7 +30,7 @@ export function PriceRangeFilterES({ activePrice, onChange }: PriceRangeFilterES
             onChange={() => handlePriceClick(range.value)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{formatPriceRange(range)}</span>
+          <span className="text-sm font-bold text-white">{range.label}</span>
         </label>
       ))}
     </FilterItem>

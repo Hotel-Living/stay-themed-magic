@@ -12,6 +12,7 @@ import { AdminRoute } from "@/components/auth/AdminRoute";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { IntroAnimation, useIntroAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
 
 // Initialize i18n
@@ -58,6 +59,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -65,6 +68,12 @@ function App() {
         <AuthProvider>
           <Router>
             <SEOMetadata />
+            
+            {/* Intro Animation Overlay */}
+            {shouldShowIntro && (
+              <IntroAnimation onComplete={handleIntroComplete} />
+            )}
+            
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />

@@ -43,7 +43,7 @@ export function FilterSection({
   useLargerMobileText = true
 }: FilterSectionProps) {
   const [filters, setFilters] = React.useState<FilterState>({
-    priceRange: [0, 5000], // Fixed: proper tuple type
+    priceRange: [0, 5000],
     country: null,
     category: null,
     month: null,
@@ -51,7 +51,7 @@ export function FilterSection({
     location: null,
     mealPlan: null,
     activities: [],
-    lengthOfStay: null, // Fixed: added missing property
+    lengthOfStay: null,
     hotelServices: []
   });
 
@@ -63,9 +63,8 @@ export function FilterSection({
 
   return (
     <div className="space-y-3">
-      {/* All filter sections with proper collapsible behavior */}
       <PriceRangeFilter 
-        activePriceRange={filters.priceRange || [0, 5000]} // Fixed: proper tuple type
+        activePriceRange={filters.priceRange || [0, 5000]}
         onChange={(range) => handleFilterUpdate({ priceRange: range })}
       />
       
@@ -75,7 +74,7 @@ export function FilterSection({
       />
       
       <CategoryFilter 
-        activeCategory={filters.category} // Fixed: using correct property
+        activeCategory={filters.category}
         onChange={(category) => handleFilterUpdate({ category })}
       />
       
@@ -110,7 +109,7 @@ export function FilterSection({
       />
       
       <LengthOfStayFilter 
-        activeLength={filters.lengthOfStay} // Fixed: using correct property
+        activeLength={filters.lengthOfStay}
         onChange={(lengthOfStay) => handleFilterUpdate({ lengthOfStay })}
       />
       

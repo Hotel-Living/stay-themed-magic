@@ -5,26 +5,26 @@ export interface Theme {
   id: string;
   name: string;
   description?: string;
-  level: 1 | 2 | 3; // Added required level property
+  level: 1 | 2 | 3;
 }
 
 export interface FilterState {
-  country?: string;
-  location?: string;
-  propertyType?: string;
-  propertyStyle?: string;
-  theme?: Theme;
+  country?: string | null;
+  location?: string | null;
+  propertyType?: string | null;
+  propertyStyle?: string | null;
+  theme?: Theme | null;
   activities?: string[];
   stars?: string[];
-  priceRange?: [number, number]; // Changed to tuple type
-  month?: string;
-  dayRange?: number;
-  mealPlan?: string;
+  priceRange?: [number, number];
+  month?: string | null;
+  dayRange?: number | null;
+  mealPlan?: string | null;
   roomTypes?: string[];
   hotelServices?: string[];
   roomServices?: string[];
-  category?: string; // Added missing property
-  lengthOfStay?: number; // Added missing property
+  category?: string | null;
+  lengthOfStay?: number | null;
   // Legacy properties for backward compatibility
   maxPrice?: number;
   minPrice?: number;
@@ -37,7 +37,7 @@ export interface FilterState {
 }
 
 export interface FilterSectionProps {
-  onFilterChange: (filters: FilterState) => void;
+  onFilterChange: (filters: Partial<FilterState>) => void;
   showSearchButton?: boolean;
   verticalLayout?: boolean;
   useCollapsibleThemes?: boolean;
@@ -51,7 +51,6 @@ export interface FilterSectionProps {
     theme?: string;
     priceRange?: string;
   };
-  availableThemes?: string[]; // Added missing property
   useLargerMobileText?: boolean;
   textColor?: string;
   labelTextSize?: string;

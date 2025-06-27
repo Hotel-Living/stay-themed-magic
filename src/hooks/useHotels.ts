@@ -47,14 +47,24 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       try {
         const data = await fetchHotelsWithFilters(filters);
         
-        // Convert API hotel data to UI format
+        // Convert API hotel data to UI format with proper location field
         const validHotels = (data || [])
           .filter(hotel => hotel && typeof hotel === 'object' && hotel.id && hotel.name)
-          .map(hotel => convertHotelToUIFormat(hotel))
+          .map(hotel => {
+            const convertedHotel = convertHotelToUIFormat(hotel);
+            // Add location property by combining city and country
+            const location = `${convertedHotel.city || ''}, ${convertedHotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
+            
+            return {
+              ...convertedHotel,
+              location,
+              price_per_month: convertedHotel.price_per_month || 0,
+            } as HotelCardData;
+          })
           .filter(hotel => hotel !== null);
           
         console.log(`Processed ${validHotels.length} hotels for display`);
-        setHotels(validHotels as HotelCardData[]);
+        setHotels(validHotels);
       } catch (err: any) {
         console.error("Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));

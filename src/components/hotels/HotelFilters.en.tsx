@@ -1,33 +1,113 @@
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { createClient } from '@supabase/supabase-js';
 
-import React from "react";
-import { FilterState } from "@/components/filters/FilterTypes";
-import { FilterSection } from "@/components/filters/FilterSection";
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
-interface HotelFiltersENProps {
-  filters: FilterState;
-  onFiltersChange: (newFilters: Partial<FilterState>) => void;
-}
+const fetchFilterOptions = async () => {
+  const [countries, locations, affinities, activities, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
+    supabase.from('hotels').select('country').neq('country', '').then(res => [...new Set(res.data?.map(h => h.country))].map(c => ({ name: c, id: c })) || []),
+    supabase.from('hotels').select('city').neq('city', '').then(res => [...new Set(res.data?.map(h => h.city))].map(c => ({ name: c, id: c })) || []),
+    supabase.from('hotel_themes').select('themes(name,id)').then(res => res.data?.map(d => d.themes) || []),
+    supabase.from('hotel_activities').select('activities(name,id)').then(res => res.data?.map(d => d.activities) || []),
+    supabase.from('hotels').select('available_months').then(res => [...new Set(res.data?.flatMap(h => h.available_months || []))].map(m => ({ name: m, id: m })) || []),
+    supabase.from('hotels').select('meal_plans').then(res => [...new Set(res.data?.flatMap(h => h.meal_plans || []))].map(p => ({ name: p, id: p })) || []),
+    Promise.resolve([
+      { id: 'hotel', name: 'Hotel' },
+      { id: 'boutique', name: 'Hotel Boutique' },
+      { id: 'resort', name: 'Resort' },
+      { id: 'rural', name: 'Casa Rural' },
+    ]),
+    supabase.from('hotels').select('style').then(res => [...new Set(res.data?.map(h => h.style))].map(s => ({ name: s, id: s })) || []),
+  ]);
 
-export function HotelFiltersEN({ filters, onFiltersChange }: HotelFiltersENProps) {
-  return (
-    <div className="mb-8">
-      <FilterSection 
-        onFilterChange={onFiltersChange}
-        showSearchButton={true}
-        verticalLayout={false}
-        useCollapsibleThemes={true}
-        expandedLayout={true}
-        compactSpacing={false}
-        useBoldLabels={true}
-        usePurpleFilterBackground={true}
-        placeholders={{
-          country: "Country",
-          month: "Month", 
-          theme: "Affinity",
-          priceRange: "Price per Month"
-        }}
-        useLargerMobileText={true}
-      />
+  return {
+    countries,
+    locations,
+    affinities,
+    activities,
+    months,
+    mealPlans,
+    propertyTypes,
+    propertyStyles,
+    categories: [1, 2, 3, 4, 5],
+    roomTypes: ['Single Room', 'Double Room'],
+    days: [
+      { name: '32', id: '32' },
+      { name: '24', id: '24' },
+      { name: '16', id: '16' },
+      { name: '8', id: '8' },
+    ],
+    prices: [
+      { name: 'Under $1,000', id: 'under1000' },
+      { name: '$1,000 – $1,500', id: '1000to1500' },
+      { name: '$1,500 – $2,000', id: '1500to2000' },
+      { name: 'Over $2,000', id: 'over2000' },
+    ]
+  };
+};
+
+const HotelFilters = () => {
+  const { t } = useTranslation();
+  const [filters, setFilters] = useState({});
+  const [options, setOptions] = useState({});
+
+  useEffect(() => {
+    fetchFilterOptions().then(setOptions);
+  }, []);
+
+  const handleToggle = (key, val) => {
+    setFilters(prev => {
+      const current = prev[key] || [];
+      return {
+        ...prev,
+        [key]: current.includes(val) ? current.filter(v => v !== val) : [...current, val]
+      };
+    });
+  };
+
+  const handleReset = () => setFilters({});
+
+  const renderCheckboxes = (label, key, list) => (
+    <div className="mb-4">
+      <div className="font-bold mb-1">{label}</div>
+      <div className="grid gap-1">
+        {list?.map((item, i) => (
+          <label key={i} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              className="w-4 h-4"
+              checked={(filters[key] || []).includes(item.id)}
+              onChange={() => handleToggle(key, item.id)}
+            />
+            <span>{item.name}</span>
+          </label>
+        ))}
+      </div>
     </div>
   );
-}
+
+  return (
+    <aside className="w-72 p-4 border-r overflow-y-auto h-screen bg-white">
+      <button onClick={handleReset} className="mb-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
+      {renderCheckboxes(t('filters.pricePerMonth'), 'price', options.prices)}
+      {renderCheckboxes(t('filters.country'), 'country', options.countries)}
+      {renderCheckboxes(t('filters.location'), 'location', options.locations)}
+      {renderCheckboxes(t('filters.affinities'), 'affinities', options.affinities)}
+      {renderCheckboxes(t('filters.activities'), 'activities', options.activities)}
+      {renderCheckboxes(t('filters.numberOfDays'), 'days', options.days)}
+      {renderCheckboxes(t('filters.month'), 'month', options.months)}
+      {renderCheckboxes(t('filters.mealPlan'), 'mealPlan', options.mealPlans)}
+      {renderCheckboxes(t('filters.propertyType'), 'propertyType', options.propertyTypes)}
+      {renderCheckboxes(t('filters.propertyStyle'), 'propertyStyle', options.propertyStyles)}
+      {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c, name: `${c}★` })))}
+      {renderCheckboxes(t('filters.roomType'), 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
+      <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
+    </aside>
+  );
+};
+
+export default HotelFilters;

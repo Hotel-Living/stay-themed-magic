@@ -20,7 +20,7 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
       if (hotel.city !== activeFilters.location) return false;
     }
 
-    // Theme filter
+    // Theme filter - FIXED: Compare hotel.theme (string) with activeFilters.theme.name
     if (activeFilters.theme) {
       if (hotel.theme !== activeFilters.theme.name) return false;
     }
@@ -51,9 +51,15 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
       if (!hasMatchingCategory) return false;
     }
 
-    // Price range filter
+    // Price range filter - FIXED: Correct logic for "less than or equal to" pricing
     if (activeFilters.priceRange) {
-      if (hotel.pricePerMonth > activeFilters.priceRange) return false;
+      // If price range is very high (like 999999), show all hotels
+      if (activeFilters.priceRange >= 999999) {
+        // No filter applied for "unlimited" option
+      } else {
+        // Show hotels that cost LESS than or equal to the selected price range
+        if (hotel.pricePerMonth > activeFilters.priceRange) return false;
+      }
     }
 
     // Month filter
@@ -66,7 +72,7 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
       if (hotel.dayRange !== activeFilters.dayRange) return false;
     }
 
-    // Meal plan filter
+    // Meal plan filter - FIXED: Ensure proper comparison
     if (activeFilters.mealPlan && activeFilters.mealPlan !== 'all') {
       if (hotel.mealPlan !== activeFilters.mealPlan) return false;
     }

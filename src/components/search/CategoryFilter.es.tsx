@@ -1,6 +1,7 @@
 
+import React from "react";
 import { FilterItem } from "./FilterItem";
-import { Star } from "lucide-react";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
 
 interface CategoryFilterESProps {
   activeCategory: string | null;
@@ -8,41 +9,39 @@ interface CategoryFilterESProps {
 }
 
 export function CategoryFilterES({ activeCategory, onChange }: CategoryFilterESProps) {
-  const categories = [
-    { value: "1", label: "1 Estrella" },
-    { value: "2", label: "2 Estrellas" },
-    { value: "3", label: "3 Estrellas" },
-    { value: "4", label: "4 Estrellas" },
-    { value: "5", label: "5 Estrellas" }
-  ];
+  const { propertyTypes, loading } = useDynamicFilterData();
 
-  const handleCategoryClick = (categoryValue: string) => {
-    // Toggle selection: if already selected, deselect; otherwise select
-    const newValue = activeCategory === categoryValue ? null : categoryValue;
-    console.log("CategoryFilter - Category toggled:", categoryValue, "->", newValue);
-    onChange(newValue);
+  const handleCategoryClick = (category: string) => {
+    const isCurrentlySelected = activeCategory === category;
+    onChange(isCurrentlySelected ? null : category);
   };
 
+  if (loading) {
+    return (
+      <FilterItem title="TIPO DE PROPIEDAD">
+        <div className="text-white text-sm">Cargando tipos de propiedad...</div>
+      </FilterItem>
+    );
+  }
+
   return (
-    <FilterItem title="CATEGORÍA">
-      {categories.map(category => (
-        <label key={category.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
-          <input 
-            type="checkbox" 
-            checked={activeCategory === category.value}
-            onChange={() => handleCategoryClick(category.value)}
-            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-          />
-          <span className="text-sm flex items-center text-white">
-            {category.label}
-            <span className="ml-1 flex">
-              {[...Array(parseInt(category.value))].map((_, i) => (
-                <Star key={i} className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-              ))}
+    <FilterItem title="TIPO DE PROPIEDAD">
+      <div className="max-h-48 overflow-y-auto">
+        {propertyTypes.map(type => (
+          <label key={type.type} className="flex items-center mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+            <input 
+              type="radio" 
+              name="category"
+              checked={activeCategory === type.type}
+              onChange={() => handleCategoryClick(type.type)}
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
+            />
+            <span className="text-sm font-bold text-white">
+              {type.type} ({type.count})
             </span>
-          </span>
-        </label>
-      ))}
+          </label>
+        ))}
+      </div>
     </FilterItem>
   );
 }

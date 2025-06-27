@@ -22,7 +22,21 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'GB': 'Reino Unido',
       'DE': 'Alemania',
       'PT': 'Portugal',
-      'GR': 'Grecia'
+      'GR': 'Grecia',
+      'CA': 'Canadá',
+      'MX': 'México',
+      'AR': 'Argentina',
+      'BR': 'Brasil',
+      'CO': 'Colombia',
+      'RO': 'Rumania',
+      'AU': 'Australia',
+      'NZ': 'Nueva Zelanda',
+      'ZA': 'Sudáfrica',
+      'MA': 'Marruecos',
+      'TH': 'Tailandia',
+      'ID': 'Indonesia',
+      'VN': 'Vietnam',
+      'PH': 'Filipinas'
     };
     return translations[countryCode] || countryCode;
   };
@@ -51,8 +65,8 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
               onChange={() => handleCountryClick(country.code)}
               className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
             />
-            <span className="text-sm flex items-center text-white">
-              {getSpanishCountryName(country.code)}
+            <span className="text-sm flex items-center text-white whitespace-nowrap">
+              {getSpanishCountryName(country.code)} {country.code}
               <span className="ml-2">{country.flag}</span>
             </span>
           </label>

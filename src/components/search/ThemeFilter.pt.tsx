@@ -1,6 +1,7 @@
 
 import { FilterItem } from "./FilterItem";
 import { Theme } from "@/utils/themes";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
 
 interface ThemeFilterPTProps {
   activeTheme: Theme | null;
@@ -8,20 +9,34 @@ interface ThemeFilterPTProps {
 }
 
 export function ThemeFilterPT({ activeTheme, onChange }: ThemeFilterPTProps) {
-  const themes = [
-    { id: "adventure", name: "Aventura", level: 1 as const },
-    { id: "art", name: "Arte e Cultura", level: 1 as const },
-    { id: "business", name: "Negócios", level: 1 as const },
-    { id: "culinary", name: "Culinário", level: 1 as const },
-    { id: "nature", name: "Natureza", level: 1 as const },
-    { id: "wellness", name: "Bem-estar", level: 1 as const }
-  ];
+  const { themes, loading, error } = useDynamicFilterData();
 
-  const handleThemeClick = (themeValue: Theme) => {
+  const handleThemeClick = (themeData: { id: string; name: string; level: number }) => {
+    const themeValue: Theme = { 
+      id: themeData.id, 
+      name: themeData.name, 
+      level: themeData.level as 1 
+    };
     const newValue = activeTheme?.id === themeValue.id ? null : themeValue;
     console.log("ThemeFilter - Theme toggled:", themeValue, "->", newValue);
     onChange(newValue);
   };
+
+  if (loading) {
+    return (
+      <FilterItem title="AFINIDADE">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Carregando temas...</div>
+      </FilterItem>
+    );
+  }
+
+  if (error || themes.length === 0) {
+    return (
+      <FilterItem title="AFINIDADE">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Nenhum tema disponível</div>
+      </FilterItem>
+    );
+  }
 
   return (
     <FilterItem title="AFINIDADE">
@@ -33,7 +48,8 @@ export function ThemeFilterPT({ activeTheme, onChange }: ThemeFilterPTProps) {
             onChange={() => handleThemeClick(theme)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{theme.name}</span>
+          <span className="text-sm font-bold text-white flex-1">{theme.name}</span>
+          <span className="text-xs text-fuchsia-300/70 ml-2">({theme.count})</span>
         </label>
       ))}
     </FilterItem>

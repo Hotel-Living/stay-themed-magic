@@ -1,7 +1,7 @@
 
 import React from "react";
 import { FilterState } from "../FilterTypes";
-import { useFilterData } from "@/hooks/useFilterData";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface CountryOptionsProps {
@@ -9,76 +9,90 @@ interface CountryOptionsProps {
   fontSize: string;
 }
 
+// Country name mappings for different languages
+const countryTranslations: Record<string, Record<string, string>> = {
+  'ES': {
+    'en': 'Spain',
+    'es': 'España',
+    'pt': 'Espanha',
+    'ro': 'Spania'
+  },
+  'FR': {
+    'en': 'France',
+    'es': 'Francia',
+    'pt': 'França',
+    'ro': 'Franța'
+  },
+  'IT': {
+    'en': 'Italy',
+    'es': 'Italia',
+    'pt': 'Itália',
+    'ro': 'Italia'
+  },
+  'US': {
+    'en': 'USA',
+    'es': 'Estados Unidos',
+    'pt': 'Estados Unidos',
+    'ro': 'Statele Unite'
+  },
+  'EG': {
+    'en': 'Egypt',
+    'es': 'Egipto',
+    'pt': 'Egito',
+    'ro': 'Egipt'
+  },
+  'TR': {
+    'en': 'Turkey',
+    'es': 'Turquía',
+    'pt': 'Turquia',
+    'ro': 'Turcia'
+  },
+  'GB': {
+    'en': 'United Kingdom',
+    'es': 'Reino Unido',
+    'pt': 'Reino Unido',
+    'ro': 'Regatul Unit'
+  },
+  'DE': {
+    'en': 'Germany',
+    'es': 'Alemania',
+    'pt': 'Alemanha',
+    'ro': 'Germania'
+  },
+  'PT': {
+    'en': 'Portugal',
+    'es': 'Portugal',
+    'pt': 'Portugal',
+    'ro': 'Portugalia'
+  },
+  'GR': {
+    'en': 'Greece',
+    'es': 'Grecia',
+    'pt': 'Grécia',
+    'ro': 'Grecia'
+  }
+};
+
+const countryFlags: Record<string, string> = {
+  'ES': '🇪🇸',
+  'FR': '🇫🇷',
+  'IT': '🇮🇹',
+  'US': '🇺🇸',
+  'EG': '🇪🇬',
+  'TR': '🇹🇷',
+  'GB': '🇬🇧',
+  'DE': '🇩🇪',
+  'PT': '🇵🇹',
+  'GR': '🇬🇷'
+};
+
 export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }) => {
-  const { t, language } = useTranslation();
-  const { countries, loading, error } = useFilterData();
+  const { language } = useTranslation();
+  const { countries, loading, error } = useDynamicFilterData();
   
   // Get country name in the current language
   const getLocalizedCountryName = (countryCode: string): string => {
-    const translations: Record<string, Record<string, string>> = {
-      'ES': {
-        'en': 'Spain',
-        'es': 'España',
-        'pt': 'Espanha',
-        'ro': 'Spania'
-      },
-      'FR': {
-        'en': 'France',
-        'es': 'Francia',
-        'pt': 'França',
-        'ro': 'Franța'
-      },
-      'IT': {
-        'en': 'Italy',
-        'es': 'Italia',
-        'pt': 'Itália',
-        'ro': 'Italia'
-      },
-      'US': {
-        'en': 'USA',
-        'es': 'Estados Unidos',
-        'pt': 'Estados Unidos',
-        'ro': 'Statele Unite'
-      },
-      'EG': {
-        'en': 'Egypt',
-        'es': 'Egipto',
-        'pt': 'Egito',
-        'ro': 'Egipt'
-      },
-      'TR': {
-        'en': 'Turkey',
-        'es': 'Turquía',
-        'pt': 'Turquia',
-        'ro': 'Turcia'
-      },
-      'GB': {
-        'en': 'United Kingdom',
-        'es': 'Reino Unido',
-        'pt': 'Reino Unido',
-        'ro': 'Regatul Unit'
-      },
-      'DE': {
-        'en': 'Germany',
-        'es': 'Alemania',
-        'pt': 'Alemanha',
-        'ro': 'Germania'
-      },
-      'PT': {
-        'en': 'Portugal',
-        'es': 'Portugal',
-        'pt': 'Portugal',
-        'ro': 'Portugalia'
-      },
-      'GR': {
-        'en': 'Greece',
-        'es': 'Grecia',
-        'pt': 'Grécia',
-        'ro': 'Grecia'
-      }
-    };
-    
-    return translations[countryCode]?.[language] || countryCode;
+    return countryTranslations[countryCode]?.[language] || countryCode;
   };
   
   if (loading) {
@@ -118,7 +132,7 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
           className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54] flex items-center justify-between`} 
         >
           <span>{getLocalizedCountryName(country.code)}</span>
-          <span>{country.flag}</span>
+          <span>{countryFlags[country.code] || '🏳️'}</span>
         </button>
       ))}
     </>

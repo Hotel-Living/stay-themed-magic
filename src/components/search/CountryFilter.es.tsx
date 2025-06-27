@@ -1,5 +1,6 @@
 
 import { FilterItem } from "./FilterItem";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
 
 interface CountryFilterESProps {
   activeCountry: string | null;
@@ -7,14 +8,7 @@ interface CountryFilterESProps {
 }
 
 export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProps) {
-  const countries = [
-    { value: "Austria", label: "Austria" },
-    { value: "Belgium", label: "Bélgica" },
-    { value: "Greece", label: "Grecia" },
-    { value: "Netherlands", label: "Países Bajos" },
-    { value: "Spain", label: "España" },
-    { value: "Thailand", label: "Tailandia" }
-  ];
+  const { countries, loading, error } = useDynamicFilterData();
 
   const handleCountryClick = (countryValue: string) => {
     const newValue = activeCountry === countryValue ? null : countryValue;
@@ -22,17 +16,34 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
     onChange(newValue);
   };
 
+  if (loading) {
+    return (
+      <FilterItem title="PAÍS">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Cargando países...</div>
+      </FilterItem>
+    );
+  }
+
+  if (error || countries.length === 0) {
+    return (
+      <FilterItem title="PAÍS">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">No hay países disponibles</div>
+      </FilterItem>
+    );
+  }
+
   return (
     <FilterItem title="PAÍS">
       {countries.map(country => (
-        <label key={country.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+        <label key={country.code} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
             type="checkbox" 
-            checked={activeCountry === country.value}
-            onChange={() => handleCountryClick(country.value)}
+            checked={activeCountry === country.code}
+            onChange={() => handleCountryClick(country.code)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{country.label}</span>
+          <span className="text-sm font-bold text-white flex-1">{country.name}</span>
+          <span className="text-xs text-fuchsia-300/70 ml-2">({country.count})</span>
         </label>
       ))}
     </FilterItem>

@@ -1,6 +1,5 @@
 
 import { FilterItem } from "./FilterItem";
-import { useFilterData } from "@/hooks/useFilterData";
 
 interface LocationFilterROProps {
   activeLocation: string | null;
@@ -8,36 +7,37 @@ interface LocationFilterROProps {
 }
 
 export function LocationFilterRO({ activeLocation, onChange }: LocationFilterROProps) {
-  const { cities, loading, error } = useFilterData();
+  const locations = [
+    { value: "Amsterdam", label: "Amsterdam" },
+    { value: "Athens", label: "Atena" },
+    { value: "Bangkok", label: "Bangkok" },
+    { value: "Berlin", label: "Berlin" },
+    { value: "Bern", label: "Berna" },
+    { value: "Bitez", label: "Bitez" },
+    { value: "Bruges", label: "Bruges" },
+    { value: "Brussels", label: "Bruxelles" },
+    { value: "Vienna", label: "Viena" }
+  ];
 
-  const handleLocationClick = (city: string) => {
-    // Toggle selection: if already selected, deselect; otherwise select
-    const newValue = activeLocation === city ? null : city;
-    console.log("LocationFilter - Location toggled:", city, "->", newValue);
+  const handleLocationClick = (locationValue: string) => {
+    const newValue = activeLocation === locationValue ? null : locationValue;
+    console.log("LocationFilter - Location toggled:", locationValue, "->", newValue);
     onChange(newValue);
   };
 
   return (
     <FilterItem title="LOCAȚIE">
-      {loading ? (
-        <div className="text-sm text-fuchsia-300/70 italic">Se încarcă orașele...</div>
-      ) : error ? (
-        <div className="text-sm text-fuchsia-300/70 italic">Eroare la încărcarea orașelor</div>
-      ) : cities.length === 0 ? (
-        <div className="text-sm text-fuchsia-300/70 italic">Nu sunt orașe disponibile</div>
-      ) : (
-        cities.map(city => (
-          <label key={city} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
-            <input 
-              type="checkbox" 
-              checked={activeLocation === city}
-              onChange={() => handleLocationClick(city)}
-              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-            />
-            <span className="text-sm text-white">{city}</span>
-          </label>
-        ))
-      )}
+      {locations.map(location => (
+        <label key={location.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+          <input 
+            type="checkbox" 
+            checked={activeLocation === location.value}
+            onChange={() => handleLocationClick(location.value)}
+            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+          />
+          <span className="text-sm font-bold text-white">{location.label}</span>
+        </label>
+      ))}
     </FilterItem>
   );
 }

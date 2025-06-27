@@ -8,7 +8,7 @@ import { PriceRangeFilterRO } from "./PriceRangeFilter.ro";
 
 interface PriceFilterProps {
   activePrice: number | null;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
 }
 
 export function PriceRangeFilter({ activePrice, onChange }: PriceFilterProps) {

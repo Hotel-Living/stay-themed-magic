@@ -14,71 +14,143 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
   const { countries, loading, error } = useFilterData();
   
   // Get country name in the current language
-  const getLocalizedCountryName = (countryCode: string): string => {
+  const getLocalizedCountryName = (countryName: string): string => {
     const translations: Record<string, Record<string, string>> = {
-      'ES': {
+      'United States': {
+        'en': 'United States',
+        'es': 'Estados Unidos',
+        'pt': 'Estados Unidos',
+        'ro': 'Statele Unite'
+      },
+      'Canada': {
+        'en': 'Canada',
+        'es': 'Canadá',
+        'pt': 'Canadá',
+        'ro': 'Canada'
+      },
+      'Mexico': {
+        'en': 'Mexico',
+        'es': 'México',
+        'pt': 'México',
+        'ro': 'Mexic'
+      },
+      'Spain': {
         'en': 'Spain',
         'es': 'España',
         'pt': 'Espanha',
         'ro': 'Spania'
       },
-      'FR': {
+      'France': {
         'en': 'France',
         'es': 'Francia',
         'pt': 'França',
         'ro': 'Franța'
       },
-      'IT': {
+      'Italy': {
         'en': 'Italy',
         'es': 'Italia',
         'pt': 'Itália',
         'ro': 'Italia'
       },
-      'US': {
-        'en': 'USA',
-        'es': 'Estados Unidos',
-        'pt': 'Estados Unidos',
-        'ro': 'Statele Unite'
-      },
-      'EG': {
-        'en': 'Egypt',
-        'es': 'Egipto',
-        'pt': 'Egito',
-        'ro': 'Egipt'
-      },
-      'TR': {
-        'en': 'Turkey',
-        'es': 'Turquía',
-        'pt': 'Turquia',
-        'ro': 'Turcia'
-      },
-      'GB': {
-        'en': 'United Kingdom',
-        'es': 'Reino Unido',
-        'pt': 'Reino Unido',
-        'ro': 'Regatul Unit'
-      },
-      'DE': {
+      'Germany': {
         'en': 'Germany',
         'es': 'Alemania',
         'pt': 'Alemanha',
         'ro': 'Germania'
       },
-      'PT': {
+      'Portugal': {
         'en': 'Portugal',
         'es': 'Portugal',
         'pt': 'Portugal',
         'ro': 'Portugalia'
       },
-      'GR': {
+      'Romania': {
+        'en': 'Romania',
+        'es': 'Rumania',
+        'pt': 'Romênia',
+        'ro': 'România'
+      },
+      'Greece': {
         'en': 'Greece',
         'es': 'Grecia',
         'pt': 'Grécia',
         'ro': 'Grecia'
+      },
+      'Brazil': {
+        'en': 'Brazil',
+        'es': 'Brasil',
+        'pt': 'Brasil',
+        'ro': 'Brazilia'
+      },
+      'Argentina': {
+        'en': 'Argentina',
+        'es': 'Argentina',
+        'pt': 'Argentina',
+        'ro': 'Argentina'
+      },
+      'Colombia': {
+        'en': 'Colombia',
+        'es': 'Colombia',
+        'pt': 'Colômbia',
+        'ro': 'Columbia'
+      },
+      'Australia': {
+        'en': 'Australia',
+        'es': 'Australia',
+        'pt': 'Austrália',
+        'ro': 'Australia'
+      },
+      'New Zealand': {
+        'en': 'New Zealand',
+        'es': 'Nueva Zelanda',
+        'pt': 'Nova Zelândia',
+        'ro': 'Noua Zeelandă'
+      },
+      'South Africa': {
+        'en': 'South Africa',
+        'es': 'Sudáfrica',
+        'pt': 'África do Sul',
+        'ro': 'Africa de Sud'
+      },
+      'Morocco': {
+        'en': 'Morocco',
+        'es': 'Marruecos',
+        'pt': 'Marrocos',
+        'ro': 'Maroc'
+      },
+      'Egypt': {
+        'en': 'Egypt',
+        'es': 'Egipto',
+        'pt': 'Egito',
+        'ro': 'Egipt'
+      },
+      'Thailand': {
+        'en': 'Thailand',
+        'es': 'Tailandia',
+        'pt': 'Tailândia',
+        'ro': 'Thailanda'
+      },
+      'Indonesia': {
+        'en': 'Indonesia',
+        'es': 'Indonesia',
+        'pt': 'Indonésia',
+        'ro': 'Indonezia'
+      },
+      'Vietnam': {
+        'en': 'Vietnam',
+        'es': 'Vietnam',
+        'pt': 'Vietnã',
+        'ro': 'Vietnam'
+      },
+      'Philippines': {
+        'en': 'Philippines',
+        'es': 'Filipinas',
+        'pt': 'Filipinas',
+        'ro': 'Filipine'
       }
     };
     
-    return translations[countryCode]?.[language] || countryCode;
+    return translations[countryName]?.[language] || countryName;
   };
   
   if (loading) {
@@ -117,7 +189,7 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
           }}
           className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54] flex items-center justify-between`} 
         >
-          <span>{getLocalizedCountryName(country.code)}</span>
+          <span>{getLocalizedCountryName(country.name)}</span>
           <span>{country.flag}</span>
         </button>
       ))}

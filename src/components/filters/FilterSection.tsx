@@ -25,7 +25,7 @@ export const FilterSection = ({
   availableThemes = [],
   useLargerMobileText = false,
   textColor = "#3300B0",
-  labelTextSize = "text-sm", // Added default value for labelTextSize
+  labelTextSize = "text-sm",
   filterBgColor = "bg-[#FFF8A9]"
 }: FilterSectionProps) => {
   const navigate = useNavigate();
@@ -49,7 +49,11 @@ export const FilterSection = ({
     
     if (filters.country) params.append("country", filters.country);
     if (filters.month) params.append("month", filters.month);
-    if (filters.theme && filters.theme.id) params.append("theme", filters.theme.id);
+    if (filters.theme && typeof filters.theme === 'object' && filters.theme.id) {
+      params.append("theme", filters.theme.id);
+    } else if (typeof filters.theme === 'string') {
+      params.append("theme", filters.theme);
+    }
     if (typeof filters.priceRange === 'number') params.append("price", filters.priceRange.toString());
     
     console.log("Search filters applied:", filters);

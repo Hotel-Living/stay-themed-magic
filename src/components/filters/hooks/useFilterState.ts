@@ -8,18 +8,16 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
     month: null,
     theme: null,
     priceRange: null,
-    searchTerm: null,
     location: null,
     propertyType: null,
     propertyStyle: null,
     stars: [],
     activities: [],
     roomTypes: [],
-    hotelFeatures: [],
-    roomFeatures: [],
-    mealPlans: [],
-    stayLengths: null, // Single string, not array
-    atmosphere: null
+    hotelServices: [],
+    roomServices: [],
+    mealPlan: null,
+    dayRange: null
   });
   
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -55,18 +53,16 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
       month: null,
       theme: null,
       priceRange: null,
-      searchTerm: null,
       location: null,
       propertyType: null,
       propertyStyle: null,
       stars: [],
       activities: [],
       roomTypes: [],
-      hotelFeatures: [],
-      roomFeatures: [],
-      mealPlans: [],
-      stayLengths: null, // Single string, not array
-      atmosphere: null
+      hotelServices: [],
+      roomServices: [],
+      mealPlan: null,
+      dayRange: null
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
@@ -83,11 +79,10 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
            (filters.stars && filters.stars.length > 0) ||
            (filters.activities && filters.activities.length > 0) ||
            (filters.roomTypes && filters.roomTypes.length > 0) ||
-           (filters.hotelFeatures && filters.hotelFeatures.length > 0) ||
-           (filters.roomFeatures && filters.roomFeatures.length > 0) ||
-           (filters.mealPlans && filters.mealPlans.length > 0) ||
-           filters.stayLengths !== null ||
-           filters.atmosphere !== null;
+           (filters.hotelServices && filters.hotelServices.length > 0) ||
+           (filters.roomServices && filters.roomServices.length > 0) ||
+           filters.mealPlan !== null ||
+           filters.dayRange !== null;
   };
 
   return {

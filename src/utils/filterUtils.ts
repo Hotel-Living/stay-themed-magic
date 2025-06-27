@@ -2,23 +2,20 @@
 import { FilterState } from '@/components/filters/FilterTypes';
 
 export const createDefaultFilters = (): FilterState => ({
-  searchTerm: '',
   theme: null,
   country: null,
   month: null,
-  minPrice: 0,
-  maxPrice: null, // Changed from 10000 to null - no default price limit
+  priceRange: null,
   stars: [],
   location: null,
   propertyType: null,
   propertyStyle: null,
   activities: [],
   roomTypes: [],
-  hotelFeatures: [],
-  roomFeatures: [],
-  mealPlans: [],
-  stayLengths: null, // Single string, not array
-  atmosphere: null
+  hotelServices: [],
+  roomServices: [],
+  mealPlan: null,
+  dayRange: null
 });
 
 export const updateFiltersState = (

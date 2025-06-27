@@ -1,13 +1,18 @@
 
 import { ReactNode } from "react";
-import { Theme } from "@/utils/themes";
+
+export interface Theme {
+  id: string;
+  name: string;
+  description?: string;
+}
 
 export interface FilterState {
   country?: string;
   location?: string;
   propertyType?: string;
   propertyStyle?: string;
-  theme?: string;
+  theme?: Theme | string;
   activities?: string[];
   stars?: string[];
   priceRange?: number | [number, number];
@@ -17,6 +22,15 @@ export interface FilterState {
   roomTypes?: string[];
   hotelServices?: string[];
   roomServices?: string[];
+  // Legacy properties for backward compatibility
+  searchTerm?: string;
+  maxPrice?: number;
+  minPrice?: number;
+  stayLengths?: number;
+  hotelFeatures?: string[];
+  roomFeatures?: string[];
+  mealPlans?: string[];
+  atmosphere?: string;
 }
 
 export interface FilterSectionProps {

@@ -11,7 +11,7 @@ export function PriceRangeFilterRO({ activePrice, onChange }: PriceRangeFilterRO
     { value: 1000, label: "Până la $1,000", maxPrice: 1000 },
     { value: 1500, label: "$1,000 la $1,500", minPrice: 1000, maxPrice: 1500 },
     { value: 2000, label: "$1,500 la $2,000", minPrice: 1500, maxPrice: 2000 },
-    { value: 3000, label: "Mai mult de $2,000", minPrice: 2000 }
+    { value: 2001, label: "Mai mult de $2,000", minPrice: 2000 }
   ];
   
   const handlePriceClick = (priceValue: number) => {

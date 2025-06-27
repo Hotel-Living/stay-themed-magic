@@ -11,7 +11,7 @@ export function PriceRangeFilterES({ activePrice, onChange }: PriceRangeFilterES
     { value: 1000, label: "Hasta $1,000", maxPrice: 1000 },
     { value: 1500, label: "$1,000 a $1,500", minPrice: 1000, maxPrice: 1500 },
     { value: 2000, label: "$1,500 a $2,000", minPrice: 1500, maxPrice: 2000 },
-    { value: 3000, label: "Más de $2,000", minPrice: 2000 }
+    { value: 2001, label: "Más de $2,000", minPrice: 2000 }
   ];
   
   const handlePriceClick = (priceValue: number) => {

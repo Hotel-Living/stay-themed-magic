@@ -68,10 +68,17 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
                 const trimmedField = availableMonthsField.trim();
                 if (trimmedField.length > 0) {
                   // Split and process months with explicit string array typing
-                  const monthsArray: string[] = trimmedField.split(',');
-                  availableMonths = monthsArray
-                    .map((month: string) => month.trim())
-                    .filter((month: string) => month.length > 0);
+                  const rawMonths = trimmedField.split(',');
+                  const processedMonths: string[] = [];
+                  
+                  for (const month of rawMonths) {
+                    const trimmedMonth = month.trim();
+                    if (trimmedMonth.length > 0) {
+                      processedMonths.push(trimmedMonth);
+                    }
+                  }
+                  
+                  availableMonths = processedMonths;
                 }
               }
             }

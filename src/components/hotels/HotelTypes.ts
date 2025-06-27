@@ -15,7 +15,7 @@ export interface Hotel {
   available_days?: string;
   meal_plan?: string;
   meal_plans?: string[];
-  room_types?: string;
+  room_types?: any[]; // Changed from string to any[] to match database Json[]
   hotel_services?: string;
   room_services?: string;
   property_type?: string;

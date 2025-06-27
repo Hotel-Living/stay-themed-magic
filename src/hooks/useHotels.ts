@@ -55,12 +55,15 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
             // Add location property by combining city and country
             const location = `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
             
-            // Convert available_months from string to array if needed
-            const availableMonths = hotel.available_months 
-              ? (typeof hotel.available_months === 'string' 
-                 ? hotel.available_months.split(',').filter(m => m.trim()) 
-                 : hotel.available_months)  
-              : [];
+            // Convert available_months from string to array if needed - with proper type checking
+            let availableMonths: string[] = [];
+            if (hotel.available_months) {
+              if (Array.isArray(hotel.available_months)) {
+                availableMonths = hotel.available_months.filter(m => typeof m === 'string' && m.trim());
+              } else if (typeof hotel.available_months === 'string') {
+                availableMonths = hotel.available_months.split(',').filter(m => m.trim());
+              }
+            }
             
             return {
               id: hotel.id,

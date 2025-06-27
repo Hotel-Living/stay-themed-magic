@@ -15,7 +15,7 @@ export default function Index() {
     country: null,
     month: null,
     theme: null,
-    priceRange: { min: 0, max: 1000 },
+    priceRange: null,
     searchTerm: null,
     minPrice: 0,
     maxPrice: 1000,
@@ -28,7 +28,7 @@ export default function Index() {
     hotelFeatures: [],
     roomFeatures: [],
     mealPlans: [],
-    stayLengths: null, // Single string, not array
+    stayLengths: null,
     atmosphere: null
   });
 

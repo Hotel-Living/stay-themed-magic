@@ -12,10 +12,10 @@ export interface FilterState {
   location?: string;
   propertyType?: string;
   propertyStyle?: string;
-  theme?: Theme | string;
+  theme?: Theme;
   activities?: string[];
   stars?: string[];
-  priceRange?: number | [number, number];
+  priceRange?: number;
   month?: string;
   dayRange?: number;
   mealPlan?: string;
@@ -23,9 +23,9 @@ export interface FilterState {
   hotelServices?: string[];
   roomServices?: string[];
   // Legacy properties for backward compatibility
-  searchTerm?: string;
   maxPrice?: number;
   minPrice?: number;
+  searchTerm?: string;
   stayLengths?: number;
   hotelFeatures?: string[];
   roomFeatures?: string[];

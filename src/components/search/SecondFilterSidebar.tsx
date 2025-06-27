@@ -62,7 +62,7 @@ export function SecondFilterSidebar({
         
         {/* 4. Afinidad */}
         <ThemeFilter 
-          activeTheme={typeof activeFilters.theme === 'string' ? activeFilters.theme : null}
+          activeTheme={activeFilters.theme || null}
           onChange={(value) => handleFilterChange('theme', value)}
         />
         

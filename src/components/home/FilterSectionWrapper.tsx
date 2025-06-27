@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemesWithTranslations } from '@/hooks/useThemesWithTranslations';
@@ -27,7 +26,6 @@ export function FilterSectionWrapper({
     month: null,
     theme: null,
     priceRange: null,
-    searchTerm: null,
     location: null,
     propertyType: null
   });
@@ -44,7 +42,7 @@ export function FilterSectionWrapper({
     const params = new URLSearchParams();
     if (activeFilters.country) params.append("country", activeFilters.country);
     if (activeFilters.month) params.append("month", activeFilters.month);
-    if (activeFilters.theme && activeFilters.theme.id) params.append("theme", activeFilters.theme.id);
+    if (activeFilters.theme?.id) params.append("theme", activeFilters.theme.id);
     if (typeof activeFilters.priceRange === 'number') params.append("price", activeFilters.priceRange.toString());
     if (activeFilters.location) params.append("location", activeFilters.location);
     if (activeFilters.propertyType) params.append("propertyType", activeFilters.propertyType);

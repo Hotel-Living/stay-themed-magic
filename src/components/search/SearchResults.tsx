@@ -71,12 +71,12 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
   console.log("✅ SearchResults - rendering", hotels.length, "hotels");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-2">
       <div className="text-white text-lg font-semibold">
         {hotels.length} hotel{hotels.length !== 1 ? 's' : ''} found
       </div>
-      {/* Grid with exactly 3 columns for 3 hotels per row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Grid with reduced card width and tighter spacing */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {hotels.map((hotel) => {
           // Extract city and country from location if they don't exist separately
           const locationParts = hotel.location?.split(', ') || [];
@@ -98,25 +98,26 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
           console.log("🏨 Rendering hotel card for:", hotel.name);
 
           return (
-            <HotelCard
-              key={hotel.id}
-              id={hotel.id}
-              name={hotel.name}
-              city={city}
-              country={country}
-              stars={hotel.category || 0}
-              pricePerMonth={hotel.price_per_month}
-              themes={themes}
-              image={mainImage}
-              availableMonths={hotel.availableMonths}
-              rates={hotel.rates}
-              hotel_themes={hotel.hotel_themes}
-              hotel_activities={hotel.hotel_activities}
-              meal_plans={hotel.meal_plans}
-              location={hotel.location}
-              thumbnail={hotel.thumbnail}
-              onClick={() => handleHotelClick(hotel.id)}
-            />
+            <div key={hotel.id} className="w-full max-w-[280px] mx-auto">
+              <HotelCard
+                id={hotel.id}
+                name={hotel.name}
+                city={city}
+                country={country}
+                stars={hotel.category || 0}
+                pricePerMonth={hotel.price_per_month}
+                themes={themes}
+                image={mainImage}
+                availableMonths={hotel.availableMonths}
+                rates={hotel.rates}
+                hotel_themes={hotel.hotel_themes}
+                hotel_activities={hotel.hotel_activities}
+                meal_plans={hotel.meal_plans}
+                location={hotel.location}
+                thumbnail={hotel.thumbnail}
+                onClick={() => handleHotelClick(hotel.id)}
+              />
+            </div>
           );
         })}
       </div>

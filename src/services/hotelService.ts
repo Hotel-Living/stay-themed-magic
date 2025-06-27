@@ -40,16 +40,31 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
   }
 
   if (filters.theme) {
-    query = query.contains('hotel_themes.themes.name', filters.theme);
+    // For theme filtering, we need to use a different approach since we're dealing with nested data
+    if (typeof filters.theme === 'object' && filters.theme.name) {
+      // We'll handle theme filtering in post-processing since nested filtering is complex
+      console.log("Theme filter will be applied in post-processing:", filters.theme.name);
+    } else if (typeof filters.theme === 'string') {
+      console.log("Theme filter will be applied in post-processing:", filters.theme);
+    }
   }
 
   if (filters.priceRange) {
-    const [min, max] = filters.priceRange;
-    query = query.gte('price_per_month', min).lte('price_per_month', max);
+    // Handle priceRange properly - it could be a single number or array
+    if (Array.isArray(filters.priceRange)) {
+      const [min, max] = filters.priceRange;
+      query = query.gte('price_per_month', min).lte('price_per_month', max);
+    } else {
+      query = query.lte('price_per_month', filters.priceRange);
+    }
   }
 
   if (filters.stars && filters.stars.length > 0) {
-    query = query.in('category', filters.stars);
+    // Convert string stars to numbers for the category field
+    const starNumbers = filters.stars.map(star => parseInt(star, 10)).filter(num => !isNaN(num));
+    if (starNumbers.length > 0) {
+      query = query.in('category', starNumbers);
+    }
   }
 
   if (filters.propertyType) {
@@ -61,9 +76,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
   }
 
   if (filters.activities && filters.activities.length > 0) {
-    // Filter by hotel activities
-    const activityFilter = filters.activities.join(',');
-    query = query.overlaps('hotel_activities.activities.name', filters.activities);
+    // Filter by hotel activities - this will be handled in post-processing
+    console.log("Activities filter will be applied in post-processing:", filters.activities);
   }
 
   if (filters.roomTypes && filters.roomTypes.length > 0) {
@@ -99,8 +113,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
 
     console.log(`✅ Successfully fetched ${data.length} hotels from database`);
     
-    // Convert the data to match our Hotel interface
-    const convertedHotels = data.map(hotel => {
+    // Convert the data to match our Hotel interface and apply post-processing filters
+    let convertedHotels = data.map(hotel => {
       // Handle available_months conversion safely
       let availableMonths: string[] = [];
       if (hotel.available_months) {
@@ -124,6 +138,22 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
         room_types: hotel.room_types || []
       };
     });
+
+    // Apply post-processing filters
+    if (filters.theme) {
+      const themeName = typeof filters.theme === 'object' ? filters.theme.name : filters.theme;
+      convertedHotels = convertedHotels.filter(hotel => 
+        hotel.hotel_themes?.some(ht => ht.themes?.name === themeName)
+      );
+    }
+
+    if (filters.activities && filters.activities.length > 0) {
+      convertedHotels = convertedHotels.filter(hotel => 
+        hotel.hotel_activities?.some(ha => 
+          filters.activities?.includes(ha.activities?.name || '')
+        )
+      );
+    }
 
     return convertedHotels;
   } catch (error) {

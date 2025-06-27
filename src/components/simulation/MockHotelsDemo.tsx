@@ -1,7 +1,6 @@
 
 import React from "react";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { HotelCard } from "@/components/HotelCard/HotelCard";
 
 interface MockHotelsProps {
   activeFilters: FilterState;
@@ -174,12 +173,40 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsProps) {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredHotels.map(hotel => (
-          <HotelCard
-            key={hotel.id}
-            hotel={hotel}
-            onHotelClick={() => {}}
-            variant="default"
-          />
+          <div key={hotel.id} className="bg-purple-800/30 rounded-lg p-6 space-y-4">
+            <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden">
+              <img 
+                src={hotel.thumbnail} 
+                alt={hotel.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-white">{hotel.name}</h3>
+              <p className="text-fuchsia-300">{hotel.location}</p>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-yellow-400">{'★'.repeat(hotel.category)}</span>
+                <span className="text-white text-sm">({hotel.category} stars)</span>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-2xl font-bold text-white">€{hotel.price_per_month}/month</span>
+                <span className="bg-fuchsia-600 text-white px-3 py-1 rounded-full text-sm">
+                  {hotel.theme}
+                </span>
+              </div>
+              
+              <div className="text-sm text-fuchsia-200">
+                <p><strong>Property:</strong> {hotel.property_type} • {hotel.property_style}</p>
+                <p><strong>Activities:</strong> {hotel.activities.join(', ')}</p>
+                <p><strong>Available:</strong> {hotel.available_months.join(', ')}</p>
+                <p><strong>Stay lengths:</strong> {hotel.stay_lengths.join(', ')} days</p>
+                <p><strong>Meal plans:</strong> {hotel.meal_plans.join(', ')}</p>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
       

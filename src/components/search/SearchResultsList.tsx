@@ -32,7 +32,6 @@ interface Hotel {
     mealPlan: string;
     price: number;
   }>;
-  // Add hotel themes and activities data
   hotel_themes?: Array<{
     themes?: {
       name: string;
@@ -43,7 +42,6 @@ interface Hotel {
       name: string;
     };
   }>;
-  // Add country field
   country?: string;
 }
 
@@ -77,7 +75,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       />
       
       {hasResults && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl">
           {filteredHotels.map((hotel) => (
             <SearchResultCard key={hotel.id} hotel={hotel} />
           ))}

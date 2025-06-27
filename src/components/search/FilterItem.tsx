@@ -20,11 +20,11 @@ export function FilterItem({
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <div className="p-2 bg-[#5d0083] rounded-sm py-0 px-0">
         <CollapsibleTrigger 
-          className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2] px-2 py-1 rounded cursor-pointer hover:bg-[#8a08cc] transition-colors" 
+          className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2] px-3 py-2 rounded cursor-pointer hover:bg-[#8a08cc] transition-colors min-w-0" 
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="text-left text-white text-sm font-semibold">{title}</span>
-          <ChevronRight className={`h-4 w-4 text-white transition-transform ${isOpen ? "transform rotate-90" : ""}`} />
+          <span className="text-left text-white text-sm font-semibold whitespace-nowrap overflow-visible">{title}</span>
+          <ChevronRight className={`h-4 w-4 text-white transition-transform flex-shrink-0 ml-2 ${isOpen ? "transform rotate-90" : ""}`} />
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-1 pl-2 space-y-1">
           {children}

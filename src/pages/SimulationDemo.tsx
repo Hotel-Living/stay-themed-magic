@@ -54,7 +54,7 @@ export default function SimulationDemo() {
             
             {/* Hotels Demo */}
             <div className="lg:col-span-4">
-              <MockHotelsDemo />
+              <MockHotelsDemo activeFilters={activeFilters} />
             </div>
           </div>
         </div>

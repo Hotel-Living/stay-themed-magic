@@ -1,7 +1,7 @@
 
 import React from "react";
 import { FilterState } from "./FilterTypes";
-import FilterContainer from "./FilterContainer";
+import { FilterContainer } from "./FilterContainer";
 
 interface FilterSidebarProps {
   onFilterChange: (filters: FilterState) => void;

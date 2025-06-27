@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterSidebar } from "@/components/filters/FilterSidebar";
+import FilterSidebar from "@/components/filters/FilterSidebar";
 import { SearchResults } from "@/components/search/SearchResults";
 import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";

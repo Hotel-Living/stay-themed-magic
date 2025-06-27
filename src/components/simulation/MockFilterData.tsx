@@ -22,36 +22,42 @@ export const mockThemes = [
     id: "urban-exploration", 
     name: "Urban Exploration", 
     category: "LIFESTYLE",
+    level: 1 as const,
     count: 1 
   },
   { 
     id: "beach-sun", 
     name: "Beach & Sun", 
     category: "NATURE",
+    level: 1 as const,
     count: 1 
   },
   { 
     id: "business-networking", 
     name: "Business & Networking", 
     category: "BUSINESS",
+    level: 1 as const,
     count: 1 
   },
   { 
     id: "cultural-heritage", 
     name: "Cultural Heritage", 
     category: "CULTURE",
+    level: 1 as const,
     count: 1 
   },
   { 
     id: "art-creativity", 
     name: "Art & Creativity", 
     category: "ART",
+    level: 1 as const,
     count: 1 
   },
   { 
     id: "wellness-health", 
     name: "Wellness & Health", 
     category: "HEALTH",
+    level: 1 as const,
     count: 1 
   }
 ];
@@ -81,11 +87,11 @@ export const mockPropertyTypes = [
 
 // Official property styles as defined in the system
 export const mockPropertyStyles = [
-  { id: "Modern", name: "Modern", count: 1 },
+  { id: "Modern", name: "Modern", count: 2 },
   { id: "Classic", name: "Classic", count: 1 },
-  { id: "Luxury", name: "Luxury", count: 1 },
+  { id: "Luxury", name: "Luxury", count: 2 },
   { id: "Budget", name: "Budget", count: 1 },
-  { id: "Boutique", name: "Boutique", count: 0 },
+  { id: "Boutique", name: "Boutique", count: 1 },
   { id: "Historic", name: "Historic", count: 1 },
   { id: "Eco-friendly", name: "Eco-friendly", count: 1 }
 ];
@@ -123,8 +129,8 @@ export const mockMealPlans = [
 ];
 
 export const mockDayRanges = [
-  { id: "32-days", name: "32 days", count: 1 },
-  { id: "24-days", name: "24 days", count: 1 },
-  { id: "16-days", name: "16 days", count: 2 },
-  { id: "8-days", name: "8 days", count: 2 }
+  { id: 32, name: "32 days", count: 2 },
+  { id: 24, name: "24 days", count: 1 },
+  { id: 16, name: "16 days", count: 2 },
+  { id: 8, name: "8 days", count: 1 }
 ];

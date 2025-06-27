@@ -61,15 +61,15 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
             
             if (availableMonthsField !== null && availableMonthsField !== undefined) {
               if (Array.isArray(availableMonthsField)) {
-                availableMonths = availableMonthsField.filter((m: any): m is string => 
+                availableMonths = availableMonthsField.filter((m: unknown): m is string => 
                   typeof m === 'string' && m.trim().length > 0
                 );
               } else if (typeof availableMonthsField === 'string') {
                 const trimmedField = availableMonthsField.trim();
                 if (trimmedField.length > 0) {
                   availableMonths = trimmedField.split(',')
-                    .map((m: string) => m.trim())
-                    .filter((m: string) => m.length > 0);
+                    .map((month: string) => month.trim())
+                    .filter((month: string) => month.length > 0);
                 }
               }
             }

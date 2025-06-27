@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/dynamicPricing";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ComparisonCheckbox } from "@/components/comparison/ComparisonCheckbox";
 import { HotelCardBadges } from "./HotelCard/components/HotelCardBadges";
 import { HotelCardStars } from "./HotelCard/components/HotelCardStars";
 
@@ -48,22 +47,6 @@ export const HotelCard = ({
 }: HotelCardProps) => {
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Prepare hotel data for comparison
-  const hotelForComparison = {
-    id,
-    name,
-    location: location || `${city}, ${country}`,
-    city,
-    country,
-    price_per_month: pricePerMonth,
-    hotel_themes,
-    hotel_activities,
-    meal_plans,
-    available_months: availableMonths,
-    rates,
-    thumbnail: thumbnail || image
-  };
-
   // Get themes from hotel_themes if available, otherwise use themes prop
   const displayThemes = hotel_themes?.map(ht => ht.themes?.name).filter(Boolean) || 
                       themes?.map(t => t.name) || [];
@@ -84,7 +67,7 @@ export const HotelCard = ({
   
   return (
     <Card 
-      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card bg-gradient-to-b from-purple-900/90 to-purple-800/80 backdrop-blur-md border border-purple-600/30 rounded-2xl shadow-2xl"
+      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card bg-gradient-to-b from-purple-900/90 to-purple-800/80 backdrop-blur-md border border-purple-600/30 rounded-2xl shadow-2xl w-[85%]"
       onClick={onClick}
     >
       <div className="aspect-[16/10] overflow-hidden relative">
@@ -101,10 +84,6 @@ export const HotelCard = ({
             </div>
           </div>
         )}
-        {/* Compare checkbox */}
-        <div className="absolute top-3 right-3">
-          <ComparisonCheckbox hotel={hotelForComparison} />
-        </div>
         {/* Favorite button */}
         <div className="absolute bottom-3 right-3">
           <button
@@ -149,22 +128,36 @@ export const HotelCard = ({
           <HotelCardStars stars={stars} />
         </div>
 
-        {/* You'll meet people loving section */}
+        {/* AFFINITIES Section */}
         {displayThemes.length > 0 && (
-          <div className="text-center">
-            <div className="text-gray-300 text-sm mb-1">YOU'LL MEET PEOPLE LOVING</div>
-            <div className="text-white text-sm">
-              {displayThemes.slice(0, 3).join(' – ')}
+          <div className="text-center space-y-2">
+            <div className="text-gray-300 text-sm font-semibold uppercase tracking-wider">AFFINITIES</div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {displayThemes.slice(0, 4).map((theme, index) => (
+                <span 
+                  key={index}
+                  className="bg-gradient-to-r from-purple-600/80 to-fuchsia-600/80 text-white px-3 py-1 rounded-full text-xs font-medium border border-white/20 backdrop-blur-sm"
+                >
+                  {theme}
+                </span>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Join them for section */}
+        {/* ACTIVITIES Section */}
         {displayActivities.length > 0 && (
-          <div className="text-center">
-            <div className="text-gray-300 text-sm mb-1">JOIN THEM FOR</div>
-            <div className="text-white text-sm">
-              {displayActivities.slice(0, 3).join(' – ')}
+          <div className="text-center space-y-2">
+            <div className="text-gray-300 text-sm font-semibold uppercase tracking-wider">ACTIVITIES</div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {displayActivities.slice(0, 4).map((activity, index) => (
+                <span 
+                  key={index}
+                  className="bg-gradient-to-r from-emerald-600/80 to-teal-600/80 text-white px-3 py-1 rounded-full text-xs font-medium border border-white/20 backdrop-blur-sm"
+                >
+                  {activity}
+                </span>
+              ))}
             </div>
           </div>
         )}

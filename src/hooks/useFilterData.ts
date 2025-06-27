@@ -46,7 +46,7 @@ export const useFilterData = (): FilterData => {
           // Combine official base countries with countries from database
           const allCountryNames = [...new Set([...OFFICIAL_BASE_COUNTRIES, ...dbCountries])];
           
-          // Map country names to display format with flags - ensuring no duplicates
+          // Comprehensive country mapping with proper names and codes
           const countryMap: Record<string, { name: string; flag: string; code: string }> = {
             'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
             'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
@@ -73,7 +73,13 @@ export const useFilterData = (): FilterData => {
             // Legacy mappings for existing database countries
             'USA': { name: 'United States', flag: '🇺🇸', code: 'US' },
             'Turkey': { name: 'Turkey', flag: '🇹🇷', code: 'TR' },
-            'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' }
+            'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' },
+            // Additional mappings for common entries
+            'Hungary': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
+            'Iceland': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
+            'HU': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
+            'IC': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
+            'IS': { name: 'Iceland', flag: '🇮🇸', code: 'IS' }
           };
 
           // Create a Set to track unique countries by code to prevent duplicates
@@ -91,14 +97,21 @@ export const useFilterData = (): FilterData => {
                 });
               }
             } else {
-              // For any unmapped countries from database, create basic entry
-              const code = countryName.toUpperCase().substring(0, 2);
-              if (!uniqueCountries.has(code)) {
-                uniqueCountries.set(code, {
-                  code: code,
-                  name: countryName,
-                  flag: '🏳️'
-                });
+              // For any unmapped countries from database, skip invalid entries like "HU HU" or "IC IC"
+              // Only process if it's a proper country name (not a repeated code)
+              if (countryName && countryName.length > 2 && !countryName.includes(' ') && countryName === countryName.toUpperCase()) {
+                // This looks like a country code, skip it or try to map it
+                console.warn(`Skipping invalid country entry: ${countryName}`);
+              } else if (countryName && countryName.length > 2) {
+                // This looks like a proper country name, create basic entry with generic flag
+                const code = countryName.substring(0, 2).toUpperCase();
+                if (!uniqueCountries.has(code)) {
+                  uniqueCountries.set(code, {
+                    code: code,
+                    name: countryName,
+                    flag: '🏳️'
+                  });
+                }
               }
             }
           });

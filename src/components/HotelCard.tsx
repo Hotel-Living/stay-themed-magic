@@ -1,17 +1,13 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, Star } from "lucide-react";
-
 interface Theme {
   id: string;
   name: string;
 }
-
 interface Activity {
   name: string;
 }
-
 interface HotelCardProps {
   id: string;
   name: string;
@@ -38,7 +34,6 @@ interface HotelCardProps {
   thumbnail?: string;
   onClick?: () => void;
 }
-
 export function HotelCard({
   id,
   name,
@@ -53,7 +48,6 @@ export function HotelCard({
   onClick
 }: HotelCardProps) {
   const navigate = useNavigate();
-
   const handleClick = () => {
     if (onClick) {
       onClick();
@@ -63,33 +57,18 @@ export function HotelCard({
   };
 
   // Extract affinities from themes and hotel_themes
-  const affinities = [
-    ...themes.map(theme => theme.name),
-    ...(hotel_themes?.map(ht => ht.themes?.name).filter(Boolean) || [])
-  ].filter((value, index, self) => self.indexOf(value) === index);
+  const affinities = [...themes.map(theme => theme.name), ...(hotel_themes?.map(ht => ht.themes?.name).filter(Boolean) || [])].filter((value, index, self) => self.indexOf(value) === index);
 
   // Extract activities from hotel_activities
-  const activities = (hotel_activities?.map(ha => ha.activities?.name).filter(Boolean) || [])
-    .filter((value, index, self) => self.indexOf(value) === index);
-
+  const activities = (hotel_activities?.map(ha => ha.activities?.name).filter(Boolean) || []).filter((value, index, self) => self.indexOf(value) === index);
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-5 h-5 ${
-          i < rating ? 'text-yellow-400 fill-current' : 'text-white/30'
-        }`}
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, i) => <Star key={i} className={`w-5 h-5 ${i < rating ? 'text-yellow-400 fill-current' : 'text-white/30'}`} />);
   };
-
-  return (
-    <div
-      className="relative cursor-pointer group w-full max-w-[320px] mx-auto"
-      onClick={handleClick}
-    >
+  return <div className="relative cursor-pointer group w-full max-w-[320px] mx-auto" onClick={handleClick}>
       {/* Card with purple gradient background matching the reference */}
-      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between">
+      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between bg-[#7bbed9]/[0.31]">
         
         {/* Header Section */}
         <div className="space-y-4">
@@ -146,25 +125,18 @@ export function HotelCard({
           </div>
 
           {/* AFINIDADES Section */}
-          {affinities.length > 0 && (
-            <div className="space-y-3">
+          {affinities.length > 0 && <div className="space-y-3">
               <div className="text-center">
                 <span className="inline-block px-4 py-1 bg-white/20 rounded-full text-white font-semibold text-sm tracking-wide">
                   AFINIDADES
                 </span>
               </div>
               <div className="flex flex-wrap justify-center gap-2">
-                {affinities.slice(0, 3).map((affinity, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-white text-xs font-medium border border-white/20 hover:bg-white/25 transition-colors"
-                  >
+                {affinities.slice(0, 3).map((affinity, index) => <span key={index} className="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-white text-xs font-medium border border-white/20 hover:bg-white/25 transition-colors">
                     {affinity}
-                  </span>
-                ))}
+                  </span>)}
               </div>
-            </div>
-          )}
+            </div>}
         </div>
 
         {/* Footer Section */}
@@ -183,6 +155,5 @@ export function HotelCard({
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
+  'https://pgdzrvdwgoomjnnegkcn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0'
 );
 
 interface FilterOptions {
@@ -24,7 +24,7 @@ interface FilterOptions {
 }
 
 const fetchFilterOptions = async (): Promise<FilterOptions> => {
-  const [countries, locations, affinities, activities, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
+  const [countries, locations, affinitiesRaw, activitiesRaw, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
     supabase.from('hotels').select('country').neq('country', '').then(res => [...new Set(res.data?.map(h => h.country))].map(c => ({ name: c, id: c })) || []),
     supabase.from('hotels').select('city').neq('city', '').then(res => [...new Set(res.data?.map(h => h.city))].map(c => ({ name: c, id: c })) || []),
     supabase.from('hotel_themes').select('themes(name,id)').then(res => res.data?.map(d => d.themes) || []),
@@ -39,6 +39,10 @@ const fetchFilterOptions = async (): Promise<FilterOptions> => {
     ]),
     supabase.from('hotels').select('style').then(res => [...new Set(res.data?.map(h => h.style))].map(s => ({ name: s, id: s })) || []),
   ]);
+
+  // Flatten the nested arrays and filter out null values
+  const affinities = affinitiesRaw.filter(Boolean).flat();
+  const activities = activitiesRaw.filter(Boolean).flat();
 
   return {
     countries,

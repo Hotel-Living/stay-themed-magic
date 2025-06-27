@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
+  'https://pgdzrvdwgoomjnnegkcn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0'
 );
 
 interface FilterOptions {
@@ -24,7 +24,7 @@ interface FilterOptions {
 }
 
 const fetchFilterOptions = async (): Promise<FilterOptions> => {
-  const [countries, locations, affinities, activities, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
+  const [countries, locations, affinitiesRaw, activitiesRaw, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
     supabase.from('hotels').select('country').neq('country', '').then(res => [...new Set(res.data?.map(h => h.country))].map(c => ({ name: c, id: c })) || []),
     supabase.from('hotels').select('city').neq('city', '').then(res => [...new Set(res.data?.map(h => h.city))].map(c => ({ name: c, id: c })) || []),
     supabase.from('hotel_themes').select('themes(name,id)').then(res => res.data?.map(d => d.themes) || []),
@@ -39,6 +39,10 @@ const fetchFilterOptions = async (): Promise<FilterOptions> => {
     ]),
     supabase.from('hotels').select('style').then(res => [...new Set(res.data?.map(h => h.style))].map(s => ({ name: s, id: s })) || []),
   ]);
+
+  // Flatten the nested arrays and filter out null values
+  const affinities = affinitiesRaw.filter(Boolean).flat();
+  const activities = activitiesRaw.filter(Boolean).flat();
 
   return {
     countries,
@@ -121,20 +125,21 @@ const HotelFilters = () => {
 
   return (
     <aside className="w-72 p-4 border-r overflow-y-auto h-screen bg-white">
-      <button onClick={handleReset} className="mb-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
-      {renderCheckboxes(t('filters.pricePerMonth'), 'price', options.prices)}
-      {renderCheckboxes(t('filters.country'), 'country', options.countries)}
-      {renderCheckboxes(t('filters.location'), 'location', options.locations)}
-      {renderCheckboxes(t('filters.affinities'), 'affinities', options.affinities)}
-      {renderCheckboxes(t('filters.activities'), 'activities', options.activities)}
-      {renderCheckboxes(t('filters.numberOfDays'), 'days', options.days)}
-      {renderCheckboxes(t('filters.month'), 'month', options.months)}
-      {renderCheckboxes(t('filters.mealPlan'), 'mealPlan', options.mealPlans)}
-      {renderCheckboxes(t('filters.propertyType'), 'propertyType', options.propertyTypes)}
-      {renderCheckboxes(t('filters.propertyStyle'), 'propertyStyle', options.propertyStyles)}
-      {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c.toString(), name: `${c}★` })))}
-      {renderCheckboxes(t('filters.roomType'), 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
-      <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
+      <button onClick={handleReset} className="mb-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">Reset Filters</button>
+      <div className="renderCheckboxes">Price per Month</div>
+      {renderCheckboxes('Price per Month', 'price', options.prices)}
+      {renderCheckboxes('Country', 'country', options.countries)}
+      {renderCheckboxes('Location', 'location', options.locations)}
+      {renderCheckboxes('Affinities', 'affinities', options.affinities)}
+      {renderCheckboxes('Activities', 'activities', options.activities)}
+      {renderCheckboxes('Number of Days', 'days', options.days)}
+      {renderCheckboxes('Month', 'month', options.months)}
+      {renderCheckboxes('Meal Plan', 'mealPlan', options.mealPlans)}
+      {renderCheckboxes('Property Type', 'propertyType', options.propertyTypes)}
+      {renderCheckboxes('Property Style', 'propertyStyle', options.propertyStyles)}
+      {renderCheckboxes('Category', 'category', options.categories.map(c => ({ id: c.toString(), name: `${c}★` })))}
+      {renderCheckboxes('Room Type', 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
+      <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">Reset Filters</button>
     </aside>
   );
 };

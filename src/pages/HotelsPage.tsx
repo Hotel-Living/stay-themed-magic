@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -87,10 +88,7 @@ export default function HotelsPage() {
           <div className="w-full max-w-6xl mt-10">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
-                <HotelFilters 
-                  filters={filters}
-                  onFiltersChange={onFiltersChange}
-                />
+                <HotelFilters />
                 
                 <HotelResultsGrid 
                   hotels={hotels}

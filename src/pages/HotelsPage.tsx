@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -13,7 +12,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 
 // Import refactored components
-import { HotelFilters } from "@/components/hotels/HotelFilters";
+import HotelFilters from "@/components/hotels/HotelFilters";
 import { HotelResultsGrid } from "@/components/hotels/HotelResultsGrid";
 import { HotelsMap } from "@/components/hotels/HotelsMap";
 import { PaginationControls } from "@/components/hotels/PaginationControls";

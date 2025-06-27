@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createClient } from '@supabase/supabase-js';
@@ -7,7 +8,22 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-const fetchFilterOptions = async () => {
+interface FilterOptions {
+  countries: Array<{ name: string; id: string }>;
+  locations: Array<{ name: string; id: string }>;
+  affinities: Array<{ name: string; id: string }>;
+  activities: Array<{ name: string; id: string }>;
+  months: Array<{ name: string; id: string }>;
+  mealPlans: Array<{ name: string; id: string }>;
+  propertyTypes: Array<{ name: string; id: string }>;
+  propertyStyles: Array<{ name: string; id: string }>;
+  categories: number[];
+  roomTypes: string[];
+  days: Array<{ name: string; id: string }>;
+  prices: Array<{ name: string; id: string }>;
+}
+
+const fetchFilterOptions = async (): Promise<FilterOptions> => {
   const [countries, locations, affinities, activities, months, mealPlans, propertyTypes, propertyStyles] = await Promise.all([
     supabase.from('hotels').select('country').neq('country', '').then(res => [...new Set(res.data?.map(h => h.country))].map(c => ({ name: c, id: c })) || []),
     supabase.from('hotels').select('city').neq('city', '').then(res => [...new Set(res.data?.map(h => h.city))].map(c => ({ name: c, id: c })) || []),
@@ -52,14 +68,27 @@ const fetchFilterOptions = async () => {
 
 const HotelFilters = () => {
   const { t } = useTranslation();
-  const [filters, setFilters] = useState({});
-  const [options, setOptions] = useState({});
+  const [filters, setFilters] = useState<Record<string, string[]>>({});
+  const [options, setOptions] = useState<FilterOptions>({
+    countries: [],
+    locations: [],
+    affinities: [],
+    activities: [],
+    months: [],
+    mealPlans: [],
+    propertyTypes: [],
+    propertyStyles: [],
+    categories: [],
+    roomTypes: [],
+    days: [],
+    prices: []
+  });
 
   useEffect(() => {
     fetchFilterOptions().then(setOptions);
   }, []);
 
-  const handleToggle = (key, val) => {
+  const handleToggle = (key: string, val: string) => {
     setFilters(prev => {
       const current = prev[key] || [];
       return {
@@ -71,7 +100,7 @@ const HotelFilters = () => {
 
   const handleReset = () => setFilters({});
 
-  const renderCheckboxes = (label, key, list) => (
+  const renderCheckboxes = (label: string, key: string, list: Array<{ name: string; id: string }> | undefined) => (
     <div className="mb-4">
       <div className="font-bold mb-1">{label}</div>
       <div className="grid gap-1">
@@ -103,7 +132,7 @@ const HotelFilters = () => {
       {renderCheckboxes(t('filters.mealPlan'), 'mealPlan', options.mealPlans)}
       {renderCheckboxes(t('filters.propertyType'), 'propertyType', options.propertyTypes)}
       {renderCheckboxes(t('filters.propertyStyle'), 'propertyStyle', options.propertyStyles)}
-      {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c, name: `${c}★` })))}
+      {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c.toString(), name: `${c}★` })))}
       {renderCheckboxes(t('filters.roomType'), 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
       <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
     </aside>

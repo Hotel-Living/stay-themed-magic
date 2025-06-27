@@ -21,7 +21,7 @@ function CollapsibleSection({
 }: CollapsibleSectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return <div className="border-b border-purple-600/30 last:border-b-0">
-      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-3 py-2 flex items-center justify-between text-white transition-colors bg-[#5a028d]">
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full flex items-center justify-between text-white transition-colors bg-[#5a028d] px-0 py-0 my-[7px] text-sm font-normal">
         <span className="font-medium text-sm">{title}</span>
         {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </button>

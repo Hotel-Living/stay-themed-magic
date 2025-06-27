@@ -69,6 +69,8 @@ const HotelFilters = () => {
     });
   };
 
+  const handleReset = () => setFilters({});
+
   const renderCheckboxes = (label, key, list) => (
     <div className="mb-4">
       <div className="font-bold mb-1">{label}</div>
@@ -90,6 +92,7 @@ const HotelFilters = () => {
 
   return (
     <aside className="w-72 p-4 border-r overflow-y-auto h-screen bg-white">
+      <button onClick={handleReset} className="mb-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
       {renderCheckboxes(t('filters.pricePerMonth'), 'price', options.prices)}
       {renderCheckboxes(t('filters.country'), 'country', options.countries)}
       {renderCheckboxes(t('filters.location'), 'location', options.locations)}
@@ -102,6 +105,7 @@ const HotelFilters = () => {
       {renderCheckboxes(t('filters.propertyStyle'), 'propertyStyle', options.propertyStyles)}
       {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c, name: `${c}★` })))}
       {renderCheckboxes(t('filters.roomType'), 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
+      <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
     </aside>
   );
 };

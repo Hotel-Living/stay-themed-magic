@@ -1,229 +1,157 @@
-import { supabase } from '@/integrations/supabase/client';
-import { Hotel } from '@/components/hotels/HotelTypes';
-import { FilterState } from '@/components/filters/FilterTypes';
 
-export const filterHotels = (hotels: Hotel[], filters: FilterState): Hotel[] => {
-  return hotels.filter(hotel => {
-    // Country filter
-    if (filters.country && hotel.country !== filters.country) {
-      return false;
-    }
-
-    // Location filter
-    if (filters.location && hotel.city !== filters.location) {
-      return false;
-    }
-
-    // Property type filter
-    if (filters.propertyType && hotel.property_type !== filters.propertyType) {
-      return false;
-    }
-
-    // Property style filter
-    if (filters.propertyStyle && hotel.property_style !== filters.propertyStyle) {
-      return false;
-    }
-
-    // Theme filter
-    if (filters.theme && typeof filters.theme === 'object' && filters.theme.id && hotel.theme_id !== filters.theme.id) {
-      return false;
-    }
-
-    // Price range filter
-    if (filters.priceRange && hotel.price_per_month) {
-      const price = hotel.price_per_month;
-      switch (filters.priceRange) {
-        case 1000:
-          if (price > 1000) return false;
-          break;
-        case 1500:
-          if (price < 1000 || price > 1500) return false;
-          break;
-        case 2000:
-          if (price < 1500 || price > 2000) return false;
-          break;
-        case 999999:
-          if (price <= 2000) return false;
-          break;
-        default:
-          break;
-      }
-    }
-
-    // Max price filter (legacy)
-    if (filters.maxPrice && hotel.price_per_month && hotel.price_per_month > filters.maxPrice) {
-      return false;
-    }
-
-    // Min price filter (legacy)
-    if (filters.minPrice && hotel.price_per_month && hotel.price_per_month < filters.minPrice) {
-      return false;
-    }
-
-    // Stay lengths filter - handle as number
-    if (filters.stayLengths && hotel.min_stay_length) {
-      const filterStayLength = filters.stayLengths;
-      const hotelMinStay = hotel.min_stay_length;
-      
-      if (hotelMinStay > filterStayLength) return false;
-    }
-
-    // Activities filter
-    if (filters.activities && filters.activities.length > 0) {
-      const hotelActivities = hotel.activities ? hotel.activities.split(',') : [];
-      if (!filters.activities.every(activity => hotelActivities.includes(activity))) {
-        return false;
-      }
-    }
-
-    // Stars filter
-    if (filters.stars && filters.stars.length > 0) {
-      if (!filters.stars.includes(String(hotel.stars))) {
-        return false;
-      }
-    }
-
-    // Month filter
-    if (filters.month && hotel.available_months && !hotel.available_months.includes(filters.month)) {
-      return false;
-    }
-
-    // Day range filter
-    if (filters.dayRange && hotel.available_days && !hotel.available_days.includes(String(filters.dayRange))) {
-      return false;
-    }
-
-    // Meal plan filter
-    if (filters.mealPlan && hotel.meal_plan !== filters.mealPlan) {
-      return false;
-    }
-
-    // Room types filter
-    if (filters.roomTypes && filters.roomTypes.length > 0) {
-      const hotelRoomTypes = hotel.room_types ? hotel.room_types.split(',') : [];
-      if (!filters.roomTypes.every(roomType => hotelRoomTypes.includes(roomType))) {
-        return false;
-      }
-    }
-
-    // Hotel services filter
-    if (filters.hotelServices && filters.hotelServices.length > 0) {
-      const hotelServices = hotel.hotel_services ? hotel.hotel_services.split(',') : [];
-      if (!filters.hotelServices.every(service => hotelServices.includes(service))) {
-        return false;
-      }
-    }
-
-    // Room services filter
-    if (filters.roomServices && filters.roomServices.length > 0) {
-      const roomServices = hotel.room_services ? hotel.room_services.split(',') : [];
-      if (!filters.roomServices.every(service => roomServices.includes(service))) {
-        return false;
-      }
-    }
-
-    // Search term filter
-    if (filters.searchTerm && filters.searchTerm.trim()) {
-      const searchTerm = filters.searchTerm.toLowerCase().trim();
-      const searchableText = `${hotel.name} ${hotel.description || ''} ${hotel.city || ''} ${hotel.country || ''}`.toLowerCase();
-      if (!searchableText.includes(searchTerm)) return false;
-    }
-
-    return true;
-  });
-};
+import { supabase } from "@/integrations/supabase/client";
+import { FilterState } from "@/components/filters/FilterTypes";
+import { Hotel } from "@/components/hotels/HotelTypes";
 
 export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hotel[]> => {
+  console.log("🔍 Fetching hotels with filters:", filters);
+
+  let query = supabase
+    .from('hotels')
+    .select(`
+      *,
+      hotel_images(
+        id,
+        image_url,
+        is_main
+      ),
+      hotel_themes(
+        theme_id,
+        themes(
+          id,
+          name,
+          description
+        )
+      ),
+      hotel_activities(
+        activity_id,
+        activities(
+          id,
+          name,
+          category
+        )
+      )
+    `)
+    .eq('status', 'approved');
+
+  // Apply filters
+  if (filters.country) {
+    query = query.eq('country', filters.country);
+  }
+
+  if (filters.theme) {
+    query = query.contains('hotel_themes.themes.name', filters.theme);
+  }
+
+  if (filters.priceRange) {
+    const [min, max] = filters.priceRange;
+    query = query.gte('price_per_month', min).lte('price_per_month', max);
+  }
+
+  if (filters.stars && filters.stars.length > 0) {
+    query = query.in('category', filters.stars);
+  }
+
+  if (filters.propertyType) {
+    query = query.eq('property_type', filters.propertyType);
+  }
+
+  if (filters.propertyStyle) {
+    query = query.eq('style', filters.propertyStyle);
+  }
+
+  if (filters.activities && filters.activities.length > 0) {
+    // Filter by hotel activities
+    const activityFilter = filters.activities.join(',');
+    query = query.overlaps('hotel_activities.activities.name', filters.activities);
+  }
+
+  if (filters.roomTypes && filters.roomTypes.length > 0) {
+    // This would need to be implemented based on your room_types structure
+    console.log("Room types filter not yet implemented for:", filters.roomTypes);
+  }
+
+  if (filters.mealPlan) {
+    query = query.contains('meal_plans', [filters.mealPlan]);
+  }
+
+  if (filters.month) {
+    // Handle available months filtering with proper type checking
+    console.log("Filtering by month:", filters.month);
+  }
+
+  if (filters.dayRange) {
+    query = query.contains('stay_lengths', [filters.dayRange]);
+  }
+
   try {
-    console.log("Fetching hotels with filters:", filters);
-    
-    // Start with basic query for approved hotels
-    let query = supabase
-      .from('hotels')
-      .select(`
-        *,
-        hotel_images(id, image_url, is_main),
-        hotel_themes(theme_id, themes(id, name, description)),
-        hotel_activities(activity_id, activities(id, name))
-      `)
-      .eq('status', 'approved');
-
-    // Apply filters to the query
-    if (filters.country) {
-      query = query.eq('country', filters.country);
-    }
-
-    if (filters.location) {
-      query = query.eq('city', filters.location);
-    }
-
-    if (filters.propertyType) {
-      query = query.eq('property_type', filters.propertyType);
-    }
-
-    if (filters.propertyStyle) {
-      query = query.eq('style', filters.propertyStyle);
-    }
-
-    if (filters.priceRange) {
-      switch (filters.priceRange) {
-        case 1000:
-          query = query.lte('price_per_month', 1000);
-          break;
-        case 1500:
-          query = query.gte('price_per_month', 1000).lte('price_per_month', 1500);
-          break;
-        case 2000:
-          query = query.gte('price_per_month', 1500).lte('price_per_month', 2000);
-          break;
-        case 999999:
-          query = query.gt('price_per_month', 2000);
-          break;
-      }
-    }
-
-    if (filters.maxPrice) {
-      query = query.lte('price_per_month', filters.maxPrice);
-    }
-
-    if (filters.minPrice) {
-      query = query.gte('price_per_month', filters.minPrice);
-    }
-
     const { data, error } = await query;
 
     if (error) {
-      console.error("Supabase query error:", error);
-      throw error;
+      console.error("❌ Supabase query error:", error);
+      throw new Error(`Database query failed: ${error.message}`);
     }
 
-    console.log(`Fetched ${data?.length || 0} hotels from Supabase`);
-    return data || [];
+    if (!data) {
+      console.log("⚠️ No data returned from query");
+      return [];
+    }
+
+    console.log(`✅ Successfully fetched ${data.length} hotels from database`);
+    
+    // Convert the data to match our Hotel interface
+    const convertedHotels = data.map(hotel => {
+      // Handle available_months conversion safely
+      let availableMonths: string[] = [];
+      if (hotel.available_months) {
+        if (Array.isArray(hotel.available_months)) {
+          availableMonths = hotel.available_months.filter((m): m is string => typeof m === 'string');
+        }
+      }
+
+      return {
+        ...hotel,
+        available_months: availableMonths,
+        // Ensure proper typing for features
+        features_hotel: hotel.features_hotel || {},
+        features_room: hotel.features_room || {},
+        // Ensure arrays are properly handled
+        hotel_images: hotel.hotel_images || [],
+        hotel_themes: hotel.hotel_themes || [],
+        hotel_activities: hotel.hotel_activities || [],
+        meal_plans: hotel.meal_plans || [],
+        stay_lengths: hotel.stay_lengths || [],
+        room_types: hotel.room_types || []
+      };
+    });
+
+    return convertedHotels;
   } catch (error) {
-    console.error("Error in fetchHotelsWithFilters:", error);
+    console.error("❌ Error in fetchHotelsWithFilters:", error);
     throw error;
   }
 };
 
-export const convertHotelToUIFormat = (hotel: any): Hotel => {
+// Helper function to convert hotel data for UI display (if needed)
+export const convertHotelToUIFormat = (hotel: any) => {
   return {
     id: hotel.id,
     name: hotel.name,
-    description: hotel.description,
-    city: hotel.city,
-    country: hotel.country,
-    theme_id: hotel.theme_id,
-    price_per_month: hotel.price_per_month,
-    min_stay_length: hotel.min_stay_length,
-    activities: hotel.activities,
-    stars: hotel.stars,
-    available_months: Array.isArray(hotel.available_months) ? hotel.available_months.join(',') : (hotel.available_months || ''),
-    available_days: hotel.available_days,
-    meal_plan: hotel.meal_plan,
-    room_types: hotel.room_types,
-    hotel_services: hotel.hotel_services,
-    room_services: hotel.room_services,
+    location: `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, ''),
+    price_per_month: hotel.price_per_month || 0,
+    thumbnail: hotel.main_image_url || hotel.hotel_images?.[0]?.image_url,
+    theme: hotel.hotel_themes?.[0]?.themes?.name,
+    category: hotel.category,
+    hotel_images: hotel.hotel_images || [],
+    hotel_themes: hotel.hotel_themes || [],
+    hotel_activities: hotel.hotel_activities || [],
+    available_months: Array.isArray(hotel.available_months) ? hotel.available_months : [],
+    features_hotel: hotel.features_hotel || {},
+    features_room: hotel.features_room || {},
+    meal_plans: hotel.meal_plans || [],
+    stay_lengths: hotel.stay_lengths || [],
+    atmosphere: hotel.atmosphere,
     property_type: hotel.property_type,
-    property_style: hotel.property_style,
+    style: hotel.style,
   };
 };

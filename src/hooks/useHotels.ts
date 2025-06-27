@@ -18,8 +18,8 @@ interface HotelCardData {
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
   available_months?: string[];
-  features_hotel?: Record<string, boolean>;
-  features_room?: Record<string, boolean>;
+  features_hotel?: any;
+  features_room?: any;
   meal_plans?: string[];
   stay_lengths?: number[];
   atmosphere?: string;
@@ -55,13 +55,13 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
             // Add location property by combining city and country
             const location = `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
             
-            // Convert available_months from string to array if needed - with proper type checking
+            // Convert available_months from string to array if needed - with safe type checking
             let availableMonths: string[] = [];
-            if (hotel.available_months) {
+            if (hotel.available_months !== null && hotel.available_months !== undefined) {
               if (Array.isArray(hotel.available_months)) {
-                availableMonths = hotel.available_months.filter(m => typeof m === 'string' && m.trim());
-              } else if (typeof hotel.available_months === 'string') {
-                availableMonths = hotel.available_months.split(',').filter(m => m.trim());
+                availableMonths = hotel.available_months.filter((m): m is string => typeof m === 'string' && m.trim().length > 0);
+              } else if (typeof hotel.available_months === 'string' && hotel.available_months.trim()) {
+                availableMonths = hotel.available_months.split(',').map(m => m.trim()).filter(m => m.length > 0);
               }
             }
             

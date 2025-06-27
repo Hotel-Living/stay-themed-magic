@@ -1,4 +1,5 @@
 
+
 export interface Hotel {
   id: string;
   name: string;
@@ -24,9 +25,10 @@ export interface Hotel {
   main_image_url?: string;
   atmosphere?: string;
   stay_lengths?: number[];
-  features_hotel?: Record<string, boolean>;
-  features_room?: Record<string, boolean>;
+  features_hotel?: any; // Changed to any to match Supabase Json type
+  features_room?: any; // Changed to any to match Supabase Json type
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
   hotel_activities?: Array<{ activities?: { name: string } }>;
 }
+

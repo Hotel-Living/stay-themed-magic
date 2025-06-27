@@ -1,38 +1,49 @@
 
 import { FilterItem } from "./FilterItem";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
 
 interface PropertyTypeFilterROProps {
   activePropertyType: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function PropertyTypeFilterRO({ activePropertyType, onChange }: PropertyTypeFilterROProps) {
-  const propertyTypes = [
-    { value: "Hotel", label: "Hotel" },
-    { value: "Resort", label: "Resort" },
-    { value: "Boutique Hotel", label: "Hotel Boutique" },
-    { value: "Motel", label: "Motel" },
-    { value: "Inn", label: "Hanul" }
-  ];
+  const { propertyTypes, loading, error } = useDynamicFilterData();
 
   const handlePropertyTypeClick = (typeValue: string) => {
-    // Toggle selection: if already selected, deselect; otherwise select
     const newValue = activePropertyType === typeValue ? null : typeValue;
     console.log("PropertyTypeFilter - Type toggled:", typeValue, "->", newValue);
     onChange(newValue);
   };
 
+  if (loading) {
+    return (
+      <FilterItem title="TIPUL PROPRIETĂȚII">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Se încarcă tipurile de proprietăți...</div>
+      </FilterItem>
+    );
+  }
+
+  if (error || propertyTypes.length === 0) {
+    return (
+      <FilterItem title="TIPUL PROPRIETĂȚII">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Nu sunt tipuri de proprietăți disponibile</div>
+      </FilterItem>
+    );
+  }
+
   return (
     <FilterItem title="TIPUL PROPRIETĂȚII">
       {propertyTypes.map(type => (
-        <label key={type.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+        <label key={type.type} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
             type="checkbox" 
-            checked={activePropertyType === type.value}
-            onChange={() => handlePropertyTypeClick(type.value)}
+            checked={activePropertyType === type.type}
+            onChange={() => handlePropertyTypeClick(type.type)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm text-white">{type.label}</span>
+          <span className="text-sm font-bold text-white flex-1">{type.type}</span>
+          <span className="text-xs text-fuchsia-300/70 ml-2">({type.count})</span>
         </label>
       ))}
     </FilterItem>

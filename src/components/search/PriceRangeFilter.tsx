@@ -6,12 +6,12 @@ import { PriceRangeFilterES } from "./PriceRangeFilter.es";
 import { PriceRangeFilterPT } from "./PriceRangeFilter.pt";
 import { PriceRangeFilterRO } from "./PriceRangeFilter.ro";
 
-interface PriceFilterProps {
+interface PriceRangeFilterProps {
   activePrice: number | null;
   onChange: (value: number | null) => void;
 }
 
-export function PriceRangeFilter({ activePrice, onChange }: PriceFilterProps) {
+export function PriceRangeFilter({ activePrice, onChange }: PriceRangeFilterProps) {
   const { language } = useTranslation();
   
   if (language === 'en') return <PriceRangeFilterEN activePrice={activePrice} onChange={onChange} />;

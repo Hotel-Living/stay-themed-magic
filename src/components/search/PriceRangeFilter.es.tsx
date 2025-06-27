@@ -1,5 +1,7 @@
 
 import { FilterItem } from "./FilterItem";
+import { useDynamicFilterData } from "@/hooks/useDynamicFilterData";
+import { generateDynamicPriceRanges } from "@/utils/dynamicPriceRanges";
 
 interface PriceRangeFilterESProps {
   activePrice: number | null;
@@ -7,31 +9,59 @@ interface PriceRangeFilterESProps {
 }
 
 export function PriceRangeFilterES({ activePrice, onChange }: PriceRangeFilterESProps) {
-  const priceRanges = [
-    { value: 1000, label: "Hasta $1,000", maxPrice: 1000 },
-    { value: 1500, label: "$1,000 a $1,500", minPrice: 1000, maxPrice: 1500 },
-    { value: 2000, label: "$1,500 a $2,000", minPrice: 1500, maxPrice: 2000 },
-    { value: 2001, label: "Más de $2,000", minPrice: 2000 }
-  ];
+  const { priceRange, loading, error } = useDynamicFilterData();
   
   const handlePriceClick = (priceValue: number) => {
-    // Toggle selection: if already selected, deselect; otherwise select
     const newValue = activePrice === priceValue ? null : priceValue;
     console.log("PriceRangeFilter - Price toggled:", priceValue, "->", newValue);
     onChange(newValue);
   };
 
+  if (loading) {
+    return (
+      <FilterItem title="PRECIO POR MES">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">Cargando rangos de precio...</div>
+      </FilterItem>
+    );
+  }
+
+  if (error || !priceRange) {
+    return (
+      <FilterItem title="PRECIO POR MES">
+        <div className="text-sm text-fuchsia-300/70 px-3 py-2">No hay datos de precio disponibles</div>
+      </FilterItem>
+    );
+  }
+
+  const priceRanges = generateDynamicPriceRanges(
+    priceRange.min, 
+    priceRange.max, 
+    priceRange.avg
+  );
+
+  const formatPriceRange = (range: any) => {
+    if (range.translationKey === 'filters.priceRange.unlimited') {
+      return "Cualquier precio";
+    } else if (range.translationKey === 'filters.priceRange.underAverage') {
+      return `Hasta $${range.max}`;
+    } else if (range.max === 999999) {
+      return `Más de $${range.min}`;
+    } else {
+      return `Hasta $${range.max}`;
+    }
+  };
+
   return (
     <FilterItem title="PRECIO POR MES">
-      {priceRanges.map(option => (
-        <label key={option.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+      {priceRanges.map(range => (
+        <label key={range.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
             type="checkbox" 
-            checked={activePrice === option.value}
-            onChange={() => handlePriceClick(option.value)}
+            checked={activePrice === range.value}
+            onChange={() => handlePriceClick(range.value)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold text-white">{option.label}</span>
+          <span className="text-sm font-bold text-white">{formatPriceRange(range)}</span>
         </label>
       ))}
     </FilterItem>

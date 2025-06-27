@@ -17,7 +17,7 @@ interface HotelCardData {
   category?: number;
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
-  available_months?: string[]; // Fixed to match expected array format
+  available_months?: string[];
   features_hotel?: Record<string, boolean>;
   features_room?: Record<string, boolean>;
   meal_plans?: string[];
@@ -25,6 +25,7 @@ interface HotelCardData {
   atmosphere?: string;
   property_type?: string;
   style?: string;
+  hotel_activities?: Array<{ activities?: { name: string } }>;
 }
 
 interface UseHotelsProps {
@@ -73,6 +74,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
               category: hotel.category,
               hotel_images: hotel.hotel_images,
               hotel_themes: hotel.hotel_themes,
+              hotel_activities: hotel.hotel_activities,
               available_months: availableMonths,
               features_hotel: hotel.features_hotel,
               features_room: hotel.features_room,

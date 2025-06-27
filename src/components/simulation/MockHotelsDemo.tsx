@@ -8,41 +8,56 @@ interface MockHotelsDemoProps {
 }
 
 export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
-  // SIMPLE PRICE FILTERING ONLY
+  // COMBINED PRICE AND COUNTRY FILTERING
   const filteredHotels = mockHotels.filter(hotel => {
-    // ONLY PRICE FILTER IS ACTIVE
+    let passesFilter = true;
+
+    // PRICE FILTER
     if (activeFilters.priceRange) {
       console.log(`Filtering hotel "${hotel.name}" (${hotel.pricePerMonth}) with price range: ${activeFilters.priceRange}`);
       
       if (activeFilters.priceRange === 1000) {
         // Up to $1,000
-        const matches = hotel.pricePerMonth <= 1000;
-        console.log(`Up to $1,000 filter: ${matches}`);
-        return matches;
+        const priceMatches = hotel.pricePerMonth <= 1000;
+        console.log(`Up to $1,000 filter: ${priceMatches}`);
+        if (!priceMatches) passesFilter = false;
       } else if (activeFilters.priceRange === 1500) {
         // $1,000 to $1,500
-        const matches = hotel.pricePerMonth > 1000 && hotel.pricePerMonth <= 1500;
-        console.log(`$1,000 to $1,500 filter: ${matches}`);
-        return matches;
+        const priceMatches = hotel.pricePerMonth > 1000 && hotel.pricePerMonth <= 1500;
+        console.log(`$1,000 to $1,500 filter: ${priceMatches}`);
+        if (!priceMatches) passesFilter = false;
       } else if (activeFilters.priceRange === 2000) {
         // $1,500 to $2,000
-        const matches = hotel.pricePerMonth > 1500 && hotel.pricePerMonth <= 2000;
-        console.log(`$1,500 to $2,000 filter: ${matches}`);
-        return matches;
+        const priceMatches = hotel.pricePerMonth > 1500 && hotel.pricePerMonth <= 2000;
+        console.log(`$1,500 to $2,000 filter: ${priceMatches}`);
+        if (!priceMatches) passesFilter = false;
       } else if (activeFilters.priceRange === 999999) {
         // More than $2,000
-        const matches = hotel.pricePerMonth > 2000;
-        console.log(`More than $2,000 filter: ${matches}`);
-        return matches;
+        const priceMatches = hotel.pricePerMonth > 2000;
+        console.log(`More than $2,000 filter: ${priceMatches}`);
+        if (!priceMatches) passesFilter = false;
       }
     }
-    
-    // If no price filter is active, show all hotels
-    return true;
+
+    // COUNTRY FILTER
+    if (activeFilters.country) {
+      console.log(`Filtering hotel "${hotel.name}" (${hotel.country}) with country: ${activeFilters.country}`);
+      const countryMatches = hotel.country === activeFilters.country;
+      console.log(`Country filter matches: ${countryMatches}`);
+      if (!countryMatches) passesFilter = false;
+    }
+
+    return passesFilter;
   });
 
   console.log(`Total hotels after filtering: ${filteredHotels.length}`);
-  console.log('Filtered hotels:', filteredHotels.map(h => `${h.name} ($${h.pricePerMonth})`));
+  console.log('Filtered hotels:', filteredHotels.map(h => `${h.name} ($${h.pricePerMonth}, ${h.country})`));
+
+  // Count hotels by country for the summary
+  const countryDistribution = mockHotels.reduce((acc, hotel) => {
+    acc[hotel.country] = (acc[hotel.country] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
   return (
     <div className="space-y-6">
@@ -61,27 +76,48 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
             }
           </p>
         )}
+        {activeFilters.country && (
+          <p className="text-blue-300 mt-2">
+            Active Country Filter: {activeFilters.country}
+          </p>
+        )}
       </div>
 
-      {/* PRICE DISTRIBUTION SUMMARY */}
-      <div className="bg-fuchsia-900/30 rounded-lg p-4 border border-fuchsia-500/30">
-        <h3 className="text-white font-bold mb-3">Hotel Distribution by Price Bracket:</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div className="text-center">
-            <div className="text-green-400 font-bold">Up to $1,000</div>
-            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth <= 1000).length} hotels</div>
+      {/* DISTRIBUTION SUMMARIES */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* PRICE DISTRIBUTION SUMMARY */}
+        <div className="bg-fuchsia-900/30 rounded-lg p-4 border border-fuchsia-500/30">
+          <h3 className="text-white font-bold mb-3">Hotel Distribution by Price Bracket:</h3>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="text-center">
+              <div className="text-green-400 font-bold">Up to $1,000</div>
+              <div className="text-white">{mockHotels.filter(h => h.pricePerMonth <= 1000).length} hotels</div>
+            </div>
+            <div className="text-center">
+              <div className="text-blue-400 font-bold">$1,000 - $1,500</div>
+              <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1000 && h.pricePerMonth <= 1500).length} hotels</div>
+            </div>
+            <div className="text-center">
+              <div className="text-orange-400 font-bold">$1,500 - $2,000</div>
+              <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1500 && h.pricePerMonth <= 2000).length} hotels</div>
+            </div>
+            <div className="text-center">
+              <div className="text-red-400 font-bold">More than $2,000</div>
+              <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 2000).length} hotels</div>
+            </div>
           </div>
-          <div className="text-center">
-            <div className="text-blue-400 font-bold">$1,000 - $1,500</div>
-            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1000 && h.pricePerMonth <= 1500).length} hotels</div>
-          </div>
-          <div className="text-center">
-            <div className="text-orange-400 font-bold">$1,500 - $2,000</div>
-            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1500 && h.pricePerMonth <= 2000).length} hotels</div>
-          </div>
-          <div className="text-center">
-            <div className="text-red-400 font-bold">More than $2,000</div>
-            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 2000).length} hotels</div>
+        </div>
+
+        {/* COUNTRY DISTRIBUTION SUMMARY */}
+        <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
+          <h3 className="text-white font-bold mb-3">Hotel Distribution by Country:</h3>
+          <div className="space-y-2 text-sm">
+            {Object.entries(countryDistribution).map(([country, count]) => (
+              <div key={country} className="flex justify-between items-center">
+                <span className="text-blue-300 font-bold">{country}</span>
+                <span className="text-white">{count} hotels</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -100,7 +136,14 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
             <h3 className="text-lg font-bold text-white mb-2">{hotel.name}</h3>
             
             <div className="space-y-2 text-sm text-gray-300">
-              <p><span className="text-fuchsia-300">Location:</span> {hotel.city}, {hotel.country}</p>
+              <p>
+                <span className="text-blue-300">Location:</span> {hotel.city}, {hotel.country}
+                <span className="ml-2">
+                  {hotel.country === 'Spain' ? '🇪🇸' : 
+                   hotel.country === 'Portugal' ? '🇵🇹' : 
+                   hotel.country === 'Czech Republic' ? '🇨🇿' : '🏳️'}
+                </span>
+              </p>
               <p>
                 <span className="text-fuchsia-300">Price:</span> 
                 <span className={`ml-2 font-bold ${
@@ -121,8 +164,8 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
 
       {filteredHotels.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-400 text-lg">No hotels match the selected price range.</p>
-          <p className="text-gray-500 text-sm mt-2">Try selecting a different price bracket.</p>
+          <p className="text-gray-400 text-lg">No hotels match the selected filters.</p>
+          <p className="text-gray-500 text-sm mt-2">Try adjusting your price range or country selection.</p>
         </div>
       )}
     </div>

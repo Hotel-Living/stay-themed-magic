@@ -24,13 +24,27 @@ export function SecondFilterSidebarSimulation({
     { value: 999999, label: "Más de $2.000", min: 2000, max: 999999 }
   ];
 
+  // FIXED COUNTRIES - MATCHING THE HOTEL DATA
+  const countries = [
+    { value: "Spain", label: "España", flag: "🇪🇸" },
+    { value: "Portugal", label: "Portugal", flag: "🇵🇹" },
+    { value: "Czech Republic", label: "República Checa", flag: "🇨🇿" }
+  ];
+
   const handlePriceClick = (priceValue: number) => {
     const newValue = activeFilters.priceRange === priceValue ? null : priceValue;
     console.log("Price filter clicked:", priceValue, "->", newValue);
     handleFilterChange('priceRange', newValue);
   };
 
-  const hasActiveFilters = activeFilters.priceRange !== null && activeFilters.priceRange !== undefined;
+  const handleCountryClick = (countryValue: string) => {
+    const newValue = activeFilters.country === countryValue ? null : countryValue;
+    console.log("Country filter clicked:", countryValue, "->", newValue);
+    handleFilterChange('country', newValue);
+  };
+
+  const hasActiveFilters = (activeFilters.priceRange !== null && activeFilters.priceRange !== undefined) ||
+                          (activeFilters.country !== null && activeFilters.country !== undefined);
 
   return (
     <div className="bg-fuchsia-950/50 backdrop-blur-md rounded-lg p-4 border border-fuchsia-500/30">
@@ -46,7 +60,7 @@ export function SecondFilterSidebarSimulation({
         )}
       </div>
 
-      {/* PRICE FILTER ONLY */}
+      {/* PRICE FILTER */}
       <FilterItem title="PRECIO POR MES">
         {priceRanges.map(range => (
           <label key={range.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
@@ -61,10 +75,27 @@ export function SecondFilterSidebarSimulation({
         ))}
       </FilterItem>
 
+      {/* COUNTRY FILTER */}
+      <FilterItem title="PAÍS">
+        {countries.map(country => (
+          <label key={country.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+            <input 
+              type="checkbox" 
+              checked={activeFilters.country === country.value}
+              onChange={() => handleCountryClick(country.value)}
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+            />
+            <span className="text-sm font-bold text-white flex-1">{country.label}</span>
+            <span className="text-lg ml-2">{country.flag}</span>
+          </label>
+        ))}
+      </FilterItem>
+
       {/* DEBUG INFO */}
       <div className="mt-6 p-3 bg-gray-800/50 rounded text-xs text-gray-400">
         <div className="font-bold mb-1">DEBUG INFO:</div>
         <div>Active Price: {activeFilters.priceRange || 'None'}</div>
+        <div>Active Country: {activeFilters.country || 'None'}</div>
         <div>Has Filters: {hasActiveFilters ? 'Yes' : 'No'}</div>
       </div>
 
@@ -72,14 +103,13 @@ export function SecondFilterSidebarSimulation({
       <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded">
         <div className="text-yellow-300 text-xs font-bold mb-1">TEMPORARILY DISABLED:</div>
         <div className="text-yellow-200 text-xs">
-          • Country Filter<br/>
           • Affinity Filter<br/>
           • Meal Plan Filter<br/>
           • Stars Filter<br/>
           • Activities Filter
         </div>
         <div className="text-yellow-400 text-xs mt-2 italic">
-          These will be restored one by one after price filter is confirmed working.
+          These will be restored one by one after price and country filters are confirmed working.
         </div>
       </div>
     </div>

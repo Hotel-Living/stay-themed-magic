@@ -23,12 +23,12 @@
   },
   "mainNavigationContent": {
     "faq": "FAQ",
-    "affinityStays": "Șederi prin afinități",
+    "affinityStays": "AFINITĂȚI",
     "hotel": "HOTEL?",
     "videos": "Videoclipuri",
-    "featuredHotels": "Hoteluri recomandate",
-    "hotelDashboard": "Tablou de bord hotel",
-    "adminDashboard": "Tablou de bord admin",
+    "featuredHotels": "RECOMANDATE",
+    "hotelDashboard": "PANEL HOTEL",
+    "adminDashboard": "PANEL ADMINISTRATOR",
     "logout": "Deconectare",
     "myAccount": "CONTUL MEU"
   }

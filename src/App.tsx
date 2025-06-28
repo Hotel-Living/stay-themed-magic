@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -14,6 +13,7 @@ import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
+import IntroTest from "@/pages/IntroTest";
 
 // Initialize i18n
 import "./i18n/config";
@@ -93,6 +93,9 @@ function App() {
               <Route path="/intellectual-property" element={<IntellectualProperty />} />
               <Route path="/our-team" element={<OurTeam />} />
               <Route path="/excel-generator" element={<ExcelGenerator />} />
+              
+              {/* Test Route for Intro Animation */}
+              <Route path="/intro-test" element={<IntroTest />} />
               
               {/* Protected Routes */}
               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

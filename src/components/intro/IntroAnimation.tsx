@@ -7,10 +7,12 @@ interface IntroAnimationProps {
 }
 
 const INTRO_MESSAGES = [
-  "La revolución ha llegado",
-  "Multiplica tu vida", 
-  "Vive en hoteles · Vive con estilo",
-  "Conoce afines · Disfruta tus pasiones"
+  "LA REVOLUCIÓN HA LLEGADO",
+  "MULTIPLICA TU VIDA", 
+  "VIVE EN HOTELES",
+  "VIVE CON ESTILO",
+  "CONOCE AFINES",
+  "DISFRUTA TUS PASIONES"
 ];
 
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
@@ -31,20 +33,20 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
         // First message appears after stars have populated
         setTimeout(() => {
           setMessageVisible(true);
-        }, 800);
-      }, 1000);
+        }, 1000);
+      }, 1500);
 
-      // Cycle through messages with overlapping fade transitions
+      // Cycle through messages with cinematic 3D effect timing
       const messageInterval = setInterval(() => {
         setCurrentMessageIndex(prev => {
           if (prev < INTRO_MESSAGES.length - 1) {
-            // Start fading out current message while preparing next
+            // Start fading out current message
             setMessageVisible(false);
             
-            // Show next message with overlap
+            // Show next message after fade out completes
             setTimeout(() => {
               setMessageVisible(true);
-            }, 400); // Shorter overlap for smoother transition
+            }, 800); // Longer transition for cinematic effect
             
             return prev + 1;
           } else {
@@ -63,12 +65,12 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
                 updateVisitCount();
                 onComplete();
               }, 800);
-            }, 1000);
+            }, 1500);
             
             return prev;
           }
         });
-      }, 1400); // Each message cycle for better pacing over 7 seconds
+      }, 1600); // Each message cycle for 10 seconds total duration
 
       return () => clearInterval(messageInterval);
     };
@@ -90,17 +92,18 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       {showText && (
         <div className="relative z-10 text-center px-8">
           <div 
-            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1000 transform ${
-              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-75 translate-z-[-100px]'
+            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1200 transform ${
+              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-50 translate-z-[-200px]'
             }`}
             style={{
               color: '#FFD700', // Pure yellow color
-              WebkitTextStroke: '2px white', // White outline
-              textStroke: '2px white', // For other browsers
-              textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4), 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white',
+              WebkitTextStroke: '1px white', // Thinner white outline
+              textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4), 1px 1px 0px white, -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white',
               fontFamily: 'system-ui, -apple-system, sans-serif',
               letterSpacing: '0.05em',
-              filter: messageVisible ? 'blur(0px)' : 'blur(4px)'
+              filter: messageVisible ? 'blur(0px)' : 'blur(6px)',
+              perspective: '1000px',
+              transformStyle: 'preserve-3d'
             }}
           >
             {INTRO_MESSAGES[currentMessageIndex]}

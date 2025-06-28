@@ -14,6 +14,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
+import IntroStarTest from "@/pages/IntroStarTest";
 
 // Initialize i18n
 import "./i18n/config";
@@ -94,8 +95,9 @@ function App() {
               <Route path="/our-team" element={<OurTeam />} />
               <Route path="/excel-generator" element={<ExcelGenerator />} />
               
-              {/* Test Route for Intro Animation */}
+              {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />
+              <Route path="/intro-star-test" element={<IntroStarTest />} />
               
               {/* Protected Routes */}
               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

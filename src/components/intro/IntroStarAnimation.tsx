@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
 
-interface IntroAnimationProps {
+interface IntroStarAnimationProps {
   onComplete: () => void;
 }
 
-export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) => {
+export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
@@ -75,13 +75,13 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
   );
 };
 
-export const useIntroAnimation = () => {
+export const useIntroStarAnimation = () => {
   const [shouldShow, setShouldShow] = useState(() => {
-    return !localStorage.getItem('intro-animation-seen');
+    return !localStorage.getItem('intro-star-seen');
   });
 
   const handleComplete = () => {
-    localStorage.setItem('intro-animation-seen', 'true');
+    localStorage.setItem('intro-star-seen', 'true');
     setShouldShow(false);
   };
 

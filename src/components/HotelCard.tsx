@@ -103,60 +103,70 @@ export const HotelCard: React.FC<HotelCardProps> = ({
 
       {/* Card Content */}
       <CardContent className="p-4 flex-1 flex flex-col">
-        {/* Hotel Name - Centered */}
-        <h3 className="text-xl font-bold mb-2 text-center line-clamp-2">
-          {name}
-        </h3>
+        {/* Hotel Name - Fixed height container for uniform alignment */}
+        <div className="h-14 flex items-center justify-center mb-2">
+          <h3 className="text-xl font-bold text-center line-clamp-2 flex items-center">
+            {name}
+          </h3>
+        </div>
 
         {/* Location - Centered */}
         <p className="text-white/80 text-sm mb-3 text-center">
           {city && country ? `${city}, ${country}` : city || country || "Location not specified"}
         </p>
 
-        {/* Stars - Centered */}
+        {/* Stars - Centered and at fixed position */}
         <div className="flex justify-center mb-4">
           <HotelCardStars stars={stars} />
         </div>
 
-        {/* Affinities Section */}
-        {affinities.length > 0 && (
-          <div className="mb-4 text-center">
-            <p className="text-sm text-white/90 mb-2">
-              🟣 <span className="font-medium">Ideal for those who enjoy:</span>
-            </p>
-            <div className="flex flex-wrap justify-center gap-1">
-              {affinities.map((affinity, index) => (
-                <span
-                  key={index}
-                  className="bg-purple-600/50 text-xs px-2 py-1 rounded-full text-white"
-                >
-                  {affinity}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Affinities Section - Reserved space */}
+        <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
+          {affinities.length > 0 ? (
+            <>
+              <p className="text-sm text-white/90 mb-2">
+                🟣 <span className="font-medium">Ideal for those who enjoy:</span>
+              </p>
+              <div className="flex flex-wrap justify-center gap-1">
+                {affinities.map((affinity, index) => (
+                  <span
+                    key={index}
+                    className="bg-purple-600/50 text-xs px-2 py-1 rounded-full text-white"
+                  >
+                    {affinity}
+                  </span>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="h-full"></div>
+          )}
+        </div>
 
-        {/* Activities Section */}
-        {activities.length > 0 && (
-          <div className="mb-4 text-center">
-            <p className="text-sm text-white/90 mb-2">
-              🟠 <span className="font-medium">Experiences you can enjoy:</span>
-            </p>
-            <div className="flex flex-wrap justify-center gap-1">
-              {activities.map((activity, index) => (
-                <span
-                  key={index}
-                  className="bg-orange-600/50 text-xs px-2 py-1 rounded-full text-white"
-                >
-                  {activity}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Activities Section - Reserved space */}
+        <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
+          {activities.length > 0 ? (
+            <>
+              <p className="text-sm text-white/90 mb-2">
+                🟠 <span className="font-medium">You will find:</span>
+              </p>
+              <div className="flex flex-wrap justify-center gap-1">
+                {activities.map((activity, index) => (
+                  <span
+                    key={index}
+                    className="bg-orange-600/50 text-xs px-2 py-1 rounded-full text-white"
+                  >
+                    {activity}
+                  </span>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="h-full"></div>
+          )}
+        </div>
 
-        {/* Price - Centered with Increased Font Size */}
+        {/* Price - Centered with Corrected Font Size */}
         <div className="mt-auto text-center">
           <HotelCardPrice 
             rates={rates} 

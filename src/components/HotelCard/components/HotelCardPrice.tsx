@@ -18,7 +18,7 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
   const displayRates = () => {
     if (!rates) {
       // If no rates defined, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "Price on request";
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)} per month` : "Price on request";
     }
 
     const parsedRates = parseRatesData(rates);
@@ -27,7 +27,7 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
     
     if (availableRates.length === 0) {
       // If no rates defined in the new format, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "Price on request";
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)} per month` : "Price on request";
     }
     
     // Start with the lowest stay length that has a rate
@@ -35,15 +35,15 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
     const lowestRate = parsedRates[lowestStayLength];
     
     if (availableRates.length === 1) {
-      return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
+      return `From ${formatCurrency(lowestRate, currency)} per month`;
     }
     
-    // Show the starting price with shortest duration
-    return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
+    // Show the starting price with monthly format
+    return `From ${formatCurrency(lowestRate, currency)} per month`;
   };
 
   return (
-    <div className="text-2xl font-bold text-white">
+    <div className="text-lg font-bold text-white">
       {displayRates()}
     </div>
   );

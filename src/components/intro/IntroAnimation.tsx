@@ -7,12 +7,12 @@ interface IntroAnimationProps {
 }
 
 const INTRO_MESSAGES = [
-  "La revolución ha llegado",
-  "Multiplica tu vida", 
-  "Vive en hoteles",
-  "Vive con estilo",
-  "Conoce afines",
-  "Disfruta tus pasiones"
+  "LA REVOLUCIÓN HA LLEGADO",
+  "MULTIPLICA TU VIDA", 
+  "VIVE EN HOTELES",
+  "VIVE CON ESTILO",
+  "CONOCE AFINES",
+  "DISFRUTA TUS PASIONES"
 ];
 
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
@@ -21,13 +21,12 @@ const MAX_INTRO_SHOWS = 5;
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [messageVisible, setMessageVisible] = useState(false);
   const [showText, setShowText] = useState(false);
-  const [animationPhase, setAnimationPhase] = useState<'waiting' | 'fadingIn' | 'displaying' | 'fadingOut' | 'complete'>('waiting');
+  const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
 
   useEffect(() => {
     const startAnimation = () => {
-      // Wait for stars to populate, then start showing text
+      // Wait for stars to populate, then start showing all text in background
       setTimeout(() => {
         setShowText(true);
         startMessageSequence(0);
@@ -47,31 +46,29 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
         return;
       }
 
-      // Set current message
+      // Set current message and start approach
       setCurrentMessageIndex(index);
-      setAnimationPhase('fadingIn');
+      setAnimationPhase('approaching');
       
-      // Phase 1: Fade in (2 seconds)
+      // Phase 1: Approaching (2.5 seconds)
       setTimeout(() => {
-        setMessageVisible(true);
-        setAnimationPhase('displaying');
+        setAnimationPhase('glowing');
         
-        // Phase 2: Display (1.5 seconds)
+        // Phase 2: Glowing and readable (2 seconds)
         setTimeout(() => {
-          setAnimationPhase('fadingOut');
+          setAnimationPhase('dissolving');
           
-          // Phase 3: Fade out (2 seconds)
+          // Phase 3: Dissolving into star dust (1.5 seconds)
           setTimeout(() => {
-            setMessageVisible(false);
             setAnimationPhase('waiting');
             
-            // Phase 4: Brief pause before next message (0.5 seconds)
+            // Brief pause before next message (0.5 seconds)
             setTimeout(() => {
               startMessageSequence(index + 1);
             }, 500);
-          }, 2000);
-        }, 1500);
-      }, 2000);
+          }, 1500);
+        }, 2000);
+      }, 2500);
     };
 
     startAnimation();
@@ -84,49 +81,96 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
 
   if (!isVisible) return null;
 
-  // Calculate animation state based on phase
-  const getAnimationState = () => {
-    switch (animationPhase) {
-      case 'fadingIn':
-        return messageVisible;
-      case 'displaying':
-        return true;
-      case 'fadingOut':
-        return false;
-      default:
-        return false;
+  // Get animation styles for each message
+  const getMessageStyles = (messageIndex: number) => {
+    const isCurrent = messageIndex === currentMessageIndex;
+    const isPast = messageIndex < currentMessageIndex;
+    
+    if (!showText) {
+      return {
+        opacity: 0,
+        transform: 'translate3d(0, 0, -2000px) scale(0.1)',
+        filter: 'blur(20px)'
+      };
+    }
+
+    if (isPast) {
+      // Already dissolved messages
+      return {
+        opacity: 0,
+        transform: 'translate3d(0, 0, -1000px) scale(0.3)',
+        filter: 'blur(30px)'
+      };
+    }
+
+    if (isCurrent) {
+      // Current active message
+      switch (animationPhase) {
+        case 'approaching':
+          return {
+            opacity: 0.8,
+            transform: 'translate3d(0, 0, -200px) scale(0.7)',
+            filter: 'blur(4px)',
+            textShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4)'
+          };
+        case 'glowing':
+          return {
+            opacity: 1,
+            transform: 'translate3d(0, 0, 0) scale(1)',
+            filter: 'blur(0px)',
+            textShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.6), 0 0 120px rgba(255, 215, 0, 0.4)'
+          };
+        case 'dissolving':
+          return {
+            opacity: 0,
+            transform: 'translate3d(0, -50px, 100px) scale(1.1)',
+            filter: 'blur(15px)',
+            textShadow: '0 0 60px rgba(255, 215, 0, 0.3), 0 0 120px rgba(255, 255, 255, 0.2)'
+          };
+        default:
+          return {
+            opacity: 0.3,
+            transform: 'translate3d(0, 0, -800px) scale(0.4)',
+            filter: 'blur(8px)'
+          };
+      }
+    } else {
+      // Future messages - floating in background
+      const offset = (messageIndex - currentMessageIndex) * 100;
+      return {
+        opacity: 0.2,
+        transform: `translate3d(${offset * 0.3}px, ${offset * 0.2}px, -${800 + offset * 100}px) scale(0.4)`,
+        filter: 'blur(8px)',
+        textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
+      };
     }
   };
 
-  const animationState = getAnimationState();
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#411052' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#411052' }}>
       <HotelStarfield />
       
-      {showText && (
-        <div className="relative z-10 text-center px-8">
-          <div 
-            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-[2000ms] transform ${
-              animationState ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-80 translate-z-[-400px]'
-            }`}
+      <div className="relative z-10 text-center px-8 w-full h-full flex items-center justify-center">
+        {INTRO_MESSAGES.map((message, index) => (
+          <div
+            key={index}
+            className="absolute font-bold text-4xl md:text-6xl lg:text-7xl whitespace-nowrap"
             style={{
-              color: '#FFD700', // Pure yellow color
-              WebkitTextStroke: '0.5px white', // Thin white outline
-              textShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.6), 0.5px 0.5px 0px white, -0.5px -0.5px 0px white, 0.5px -0.5px 0px white, -0.5px 0.5px 0px white',
+              color: '#FFD700',
+              WebkitTextStroke: '1px white',
               fontFamily: 'system-ui, -apple-system, sans-serif',
               letterSpacing: '0.05em',
-              filter: animationState ? 'blur(0px)' : 'blur(12px)',
               perspective: '1000px',
               transformStyle: 'preserve-3d',
-              transition: 'all 2000ms cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Very smooth easing
-              willChange: 'transform, opacity, filter'
+              transition: 'all 2500ms cubic-bezier(0.23, 1, 0.32, 1)',
+              willChange: 'transform, opacity, filter',
+              ...getMessageStyles(index)
             }}
           >
-            {INTRO_MESSAGES[currentMessageIndex]}
+            {message}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 }

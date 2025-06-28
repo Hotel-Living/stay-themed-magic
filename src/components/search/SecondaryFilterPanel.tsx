@@ -227,7 +227,7 @@ export function SecondaryFilterPanel({
 
       {/* 12. Tipo de habitación */}
       <CollapsibleSection title={t('filters.roomType')}>
-        {roomTypeOptions.map(option => <label key={option.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {roomTypeOptions.map(option => <label key={option.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.roomTypes?.includes(option.key) || false} onChange={e => handleArrayFilterChange('roomTypes', option.key, e.target.checked)} />
             <span>{option.label}</span>
           </label>)}

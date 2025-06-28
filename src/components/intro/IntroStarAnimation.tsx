@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -79,7 +80,6 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
                 WebkitTextStroke: '2.5px rgba(255, 255, 255, 0.6)',
                 fontWeight: '900',
                 letterSpacing: '0.05em',
-                lineHeight: '1.65',
                 filter: 'drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))'
               }}
             >
@@ -162,3 +162,4 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
+

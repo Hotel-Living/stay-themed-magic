@@ -1,13 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Progress } from '@/components/ui/progress';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
-import { Tags, CheckSquare, Square, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Tags, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface Hotel {
   id: string;
@@ -20,503 +19,416 @@ interface Hotel {
 interface Theme {
   id: string;
   name: string;
-  level: number;
-  category?: string;
+  category: string | null;
 }
 
-interface AssignmentProgress {
-  current: number;
+interface AssignmentResult {
   total: number;
-  phase: string;
+  successful: number;
+  failed: number;
+  errors: string[];
 }
 
 export default function FernandoBatchThemeAssignment() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAssigning, setIsAssigning] = useState(false);
-  const [progress, setProgress] = useState<AssignmentProgress | null>(null);
-  const [lastAssignmentResult, setLastAssignmentResult] = useState<{
-    success: boolean;
-    message: string;
-    details?: string;
-  } | null>(null);
-  const [debugLogs, setDebugLogs] = useState<string[]>([]);
-
-  const addDebugLog = (message: string) => {
-    const timestamp = new Date().toISOString();
-    const logEntry = `[${timestamp}] ${message}`;
-    console.log('🎯 Theme Assignment Debug:', logEntry);
-    setDebugLogs(prev => [...prev.slice(-9), logEntry]);
-  };
+  const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
+  const [progress, setProgress] = useState({ current: 0, total: 0 });
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    setIsLoading(true);
-    addDebugLog('Starting data fetch process');
-    
     try {
+      setLoadingData(true);
+      console.log("🔄 Fetching hotels and themes...");
+
       // Fetch hotels
-      addDebugLog('Fetching approved hotels');
       const { data: hotelsData, error: hotelsError } = await supabase
-        .from('hotels')
-        .select('id, name, city, country, status')
-        .eq('status', 'approved')
-        .order('name');
+        .from("hotels")
+        .select("id, name, city, country, status")
+        .order("name");
 
       if (hotelsError) {
-        addDebugLog(`Hotels fetch error: ${hotelsError.message}`);
+        console.error("❌ Error fetching hotels:", hotelsError);
         throw hotelsError;
       }
 
-      addDebugLog(`Successfully fetched ${hotelsData?.length || 0} hotels`);
-      setHotels(hotelsData || []);
-
-      // Fetch all themes (including subcategories and level-3 items)
-      addDebugLog('Fetching all themes from database');
+      // Fetch themes
       const { data: themesData, error: themesError } = await supabase
-        .from('themes')
-        .select('id, name, level, category')
-        .order('level, name');
+        .from("themes")
+        .select("id, name, category")
+        .order("name");
 
       if (themesError) {
-        addDebugLog(`Themes fetch error: ${themesError.message}`);
+        console.error("❌ Error fetching themes:", themesError);
         throw themesError;
       }
 
-      addDebugLog(`Successfully fetched ${themesData?.length || 0} themes (levels 1-3)`);
+      console.log(`✅ Fetched ${hotelsData?.length || 0} hotels and ${themesData?.length || 0} themes`);
+      
+      setHotels(hotelsData || []);
       setThemes(themesData || []);
-
-      toast({
-        title: "Data Loaded Successfully",
-        description: `${hotelsData?.length || 0} hotels and ${themesData?.length || 0} themes loaded`,
-        className: "bg-purple-600 text-white border-purple-700"
-      });
-
-    } catch (error: any) {
-      addDebugLog(`Data fetch failed: ${error.message}`);
-      toast({
-        title: "Failed to Load Data",
-        description: error.message,
-        variant: "destructive",
-        className: "bg-red-600 text-white border-red-700"
+    } catch (error) {
+      console.error("❌ Error in fetchData:", error);
+      toast.error("Failed to load data", {
+        style: {
+          background: "#5f098a",
+          color: "white",
+          border: "1px solid #d946ef"
+        }
       });
     } finally {
-      setIsLoading(false);
+      setLoadingData(false);
     }
   };
 
-  const toggleHotelSelection = (hotelId: string) => {
+  const handleHotelSelection = (hotelId: string, checked: boolean) => {
     setSelectedHotels(prev => 
-      prev.includes(hotelId) 
-        ? prev.filter(id => id !== hotelId)
-        : [...prev, hotelId]
+      checked 
+        ? [...prev, hotelId]
+        : prev.filter(id => id !== hotelId)
     );
   };
 
   const selectAllHotels = () => {
-    if (selectedHotels.length === hotels.length) {
-      setSelectedHotels([]);
-      addDebugLog('Deselected all hotels');
-    } else {
-      setSelectedHotels(hotels.map(h => h.id));
-      addDebugLog(`Selected all ${hotels.length} hotels`);
-    }
+    setSelectedHotels(hotels.map(hotel => hotel.id));
   };
 
-  const validateBeforeAssignment = (): boolean => {
-    addDebugLog('Starting pre-assignment validation');
+  const clearSelection = () => {
+    setSelectedHotels([]);
+  };
+
+  const getRandomThemes = (allThemes: Theme[], count: number): Theme[] => {
+    const shuffled = [...allThemes].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  const assignThemesToHotels = async (): Promise<AssignmentResult> => {
+    const result: AssignmentResult = {
+      total: 0,
+      successful: 0,
+      failed: 0,
+      errors: []
+    };
+
+    console.log(`🎯 Starting theme assignment for ${selectedHotels.length} hotels with ${themes.length} available themes`);
     
-    if (selectedHotels.length === 0) {
-      addDebugLog('Validation failed: No hotels selected');
-      toast({
-        title: "No Hotels Selected",
-        description: "Please select at least one hotel before assigning themes",
-        variant: "destructive",
-        className: "bg-red-600 text-white border-red-700"
-      });
-      return false;
-    }
-
-    if (themes.length < 3) {
-      addDebugLog(`Validation failed: Only ${themes.length} themes available`);
-      toast({
-        title: "Insufficient Themes",
-        description: "Need at least 3 themes to perform random assignment",
-        variant: "destructive",
-        className: "bg-red-600 text-white border-red-700"
-      });
-      return false;
-    }
-
-    // Validate hotel IDs exist
-    const validHotelIds = hotels.map(h => h.id);
-    const invalidSelections = selectedHotels.filter(id => !validHotelIds.includes(id));
-    if (invalidSelections.length > 0) {
-      addDebugLog(`Validation failed: Invalid hotel IDs: ${invalidSelections.join(', ')}`);
-      return false;
-    }
-
-    addDebugLog(`Validation passed: ${selectedHotels.length} hotels, ${themes.length} themes available`);
-    return true;
-  };
-
-  const getRandomThemes = (excludeIds: string[] = []): Theme[] => {
-    const availableThemes = themes.filter(theme => !excludeIds.includes(theme.id));
-    const shuffled = [...availableThemes].sort(() => Math.random() - 0.5);
-    const numThemes = Math.floor(Math.random() * 2) + 2; // 2 or 3 themes
-    return shuffled.slice(0, numThemes);
-  };
-
-  const clearExistingAssignments = async (hotelIds: string[]) => {
-    addDebugLog(`Clearing existing assignments for ${hotelIds.length} hotels`);
-    setProgress({ current: 0, total: hotelIds.length, phase: 'Clearing existing assignments' });
+    setProgress({ current: 0, total: selectedHotels.length });
 
     try {
-      const { error } = await supabase
-        .from('hotel_themes')
+      // First, clear existing assignments for selected hotels
+      console.log("🧹 Clearing existing theme assignments...");
+      const { error: deleteError } = await supabase
+        .from("hotel_themes")
         .delete()
-        .in('hotel_id', hotelIds);
+        .in("hotel_id", selectedHotels);
 
-      if (error) {
-        addDebugLog(`Failed to clear existing assignments: ${error.message}`);
-        throw error;
+      if (deleteError) {
+        console.error("❌ Error clearing existing assignments:", deleteError);
+        result.errors.push(`Failed to clear existing assignments: ${deleteError.message}`);
       }
 
-      addDebugLog('Successfully cleared existing assignments');
-      return true;
-    } catch (error: any) {
-      addDebugLog(`Error clearing assignments: ${error.message}`);
-      throw error;
-    }
-  };
+      // Process hotels in smaller batches
+      const batchSize = 10;
+      const batches = [];
+      
+      for (let i = 0; i < selectedHotels.length; i += batchSize) {
+        batches.push(selectedHotels.slice(i, i + batchSize));
+      }
 
-  const createThemeAssignments = async (assignments: Array<{ hotel_id: string; theme_id: string }>) => {
-    addDebugLog(`Creating ${assignments.length} theme assignments`);
-    setProgress({ current: 0, total: assignments.length, phase: 'Creating theme assignments' });
+      for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
+        const batch = batches[batchIndex];
+        console.log(`📦 Processing batch ${batchIndex + 1}/${batches.length} (${batch.length} hotels)`);
 
-    const BATCH_SIZE = 25; // Reduced from 50 for better reliability
-    let successCount = 0;
-    let failureCount = 0;
-    const errors: string[] = [];
-
-    for (let i = 0; i < assignments.length; i += BATCH_SIZE) {
-      const batch = assignments.slice(i, i + BATCH_SIZE);
-      addDebugLog(`Processing batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batch.length} assignments`);
-
-      try {
-        const { data, error } = await supabase
-          .from('hotel_themes')
-          .insert(batch)
-          .select('id');
-
-        if (error) {
-          addDebugLog(`Batch insert error: ${error.message}`);
-          failureCount += batch.length;
-          errors.push(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${error.message}`);
-        } else {
-          const insertedCount = data?.length || 0;
-          successCount += insertedCount;
-          addDebugLog(`Batch successful: ${insertedCount} assignments created`);
+        // Create assignments for this batch
+        const batchAssignments = [];
+        
+        for (const hotelId of batch) {
+          // Assign 2-3 random themes per hotel
+          const themeCount = Math.floor(Math.random() * 2) + 2; // 2 or 3 themes
+          const selectedThemes = getRandomThemes(themes, themeCount);
+          
+          for (const theme of selectedThemes) {
+            batchAssignments.push({
+              hotel_id: hotelId,
+              theme_id: theme.id
+            });
+          }
+          
+          result.total += selectedThemes.length;
+          setProgress(prev => ({ ...prev, current: prev.current + 1 }));
         }
 
-        setProgress({ 
-          current: Math.min(i + BATCH_SIZE, assignments.length), 
-          total: assignments.length, 
-          phase: 'Creating theme assignments' 
-        });
+        // Insert batch assignments
+        console.log(`💾 Inserting ${batchAssignments.length} theme assignments for batch ${batchIndex + 1}`);
+        
+        const { data: insertData, error: insertError } = await supabase
+          .from("hotel_themes")
+          .insert(batchAssignments)
+          .select();
 
-        // Small delay between batches to prevent rate limiting
-        if (i + BATCH_SIZE < assignments.length) {
+        if (insertError) {
+          console.error(`❌ Error inserting batch ${batchIndex + 1}:`, insertError);
+          result.failed += batchAssignments.length;
+          result.errors.push(`Batch ${batchIndex + 1} failed: ${insertError.message}`);
+        } else {
+          const insertedCount = insertData?.length || 0;
+          console.log(`✅ Successfully inserted ${insertedCount} assignments in batch ${batchIndex + 1}`);
+          result.successful += insertedCount;
+        }
+
+        // Small delay between batches to prevent overwhelming the database
+        if (batchIndex < batches.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 100));
         }
-      } catch (error: any) {
-        addDebugLog(`Batch processing error: ${error.message}`);
-        failureCount += batch.length;
-        errors.push(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${error.message}`);
-      }
-    }
-
-    addDebugLog(`Assignment creation completed: ${successCount} success, ${failureCount} failures`);
-    
-    if (errors.length > 0) {
-      addDebugLog(`Errors encountered: ${errors.join('; ')}`);
-    }
-
-    return { successCount, failureCount, errors };
-  };
-
-  const verifyAssignments = async (hotelIds: string[]): Promise<number> => {
-    addDebugLog('Verifying created assignments');
-    try {
-      const { data, error } = await supabase
-        .from('hotel_themes')
-        .select('id, hotel_id, theme_id')
-        .in('hotel_id', hotelIds);
-
-      if (error) {
-        addDebugLog(`Verification query error: ${error.message}`);
-        throw error;
-      }
-
-      const actualCount = data?.length || 0;
-      addDebugLog(`Verification complete: ${actualCount} assignments found in database`);
-      return actualCount;
-    } catch (error: any) {
-      addDebugLog(`Verification failed: ${error.message}`);
-      return 0;
-    }
-  };
-
-  const assignRandomThemes = async () => {
-    if (!validateBeforeAssignment()) return;
-
-    setIsAssigning(true);
-    setLastAssignmentResult(null);
-    setDebugLogs([]);
-    
-    addDebugLog(`Starting theme assignment for ${selectedHotels.length} hotels`);
-    
-    try {
-      // Step 1: Clear existing assignments
-      await clearExistingAssignments(selectedHotels);
-
-      // Step 2: Generate random assignments
-      addDebugLog('Generating random theme assignments');
-      setProgress({ current: 0, total: selectedHotels.length, phase: 'Generating assignments' });
-      
-      const allAssignments: Array<{ hotel_id: string; theme_id: string }> = [];
-      
-      selectedHotels.forEach((hotelId, index) => {
-        const randomThemes = getRandomThemes();
-        const hotelAssignments = randomThemes.map(theme => ({
-          hotel_id: hotelId,
-          theme_id: theme.id
-        }));
-        
-        allAssignments.push(...hotelAssignments);
-        addDebugLog(`Hotel ${index + 1}: assigned ${randomThemes.length} themes (${randomThemes.map(t => t.name).join(', ')})`);
-      });
-
-      addDebugLog(`Total assignments to create: ${allAssignments.length}`);
-
-      // Step 3: Create assignments in database
-      const { successCount, failureCount, errors } = await createThemeAssignments(allAssignments);
-
-      // Step 4: Verify assignments
-      const verifiedCount = await verifyAssignments(selectedHotels);
-
-      // Step 5: Report results
-      const isSuccess = successCount > 0 && verifiedCount > 0;
-      const resultMessage = isSuccess 
-        ? `Successfully assigned themes to ${selectedHotels.length} hotels`
-        : 'Theme assignment failed';
-      
-      const details = `Created: ${successCount}, Failed: ${failureCount}, Verified: ${verifiedCount}`;
-      
-      addDebugLog(`Final result: ${resultMessage} - ${details}`);
-
-      setLastAssignmentResult({
-        success: isSuccess,
-        message: resultMessage,
-        details: details
-      });
-
-      if (isSuccess) {
-        toast({
-          title: "Theme Assignment Successful",
-          description: `${successCount} theme assignments created and verified`,
-          className: "bg-green-600 text-white border-green-700"
-        });
-      } else {
-        toast({
-          title: "Theme Assignment Issues",
-          description: `${successCount} created, ${failureCount} failed. Check logs for details.`,
-          variant: "destructive",
-          className: "bg-orange-600 text-white border-orange-700"
-        });
-      }
-
-      if (errors.length > 0) {
-        addDebugLog(`Detailed errors: ${errors.join(' | ')}`);
       }
 
     } catch (error: any) {
-      addDebugLog(`Assignment process failed: ${error.message}`);
-      setLastAssignmentResult({
-        success: false,
-        message: 'Assignment process failed',
-        details: error.message
-      });
+      console.error("❌ Unexpected error during assignment:", error);
+      result.errors.push(`Unexpected error: ${error.message}`);
+    }
 
-      toast({
-        title: "Assignment Failed",
-        description: error.message,
-        variant: "destructive",
-        className: "bg-red-600 text-white border-red-700"
+    return result;
+  };
+
+  const handleAssignThemes = async () => {
+    if (selectedHotels.length === 0) {
+      toast.error("Please select at least one hotel", {
+        style: {
+          background: "#5f098a",
+          color: "white",
+          border: "1px solid #d946ef"
+        }
+      });
+      return;
+    }
+
+    if (themes.length === 0) {
+      toast.error("No themes available for assignment", {
+        style: {
+          background: "#5f098a",
+          color: "white",
+          border: "1px solid #d946ef"
+        }
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      console.log("🚀 Starting batch theme assignment process...");
+      const result = await assignThemesToHotels();
+      
+      console.log("📊 Assignment Results:", result);
+
+      if (result.successful > 0) {
+        toast.success(
+          `Successfully assigned themes! Created: ${result.successful}, Failed: ${result.failed}`,
+          {
+            style: {
+              background: "#5f098a",
+              color: "white",
+              border: "1px solid #d946ef"
+            },
+            duration: 5000
+          }
+        );
+      }
+
+      if (result.failed > 0 || result.errors.length > 0) {
+        console.error("⚠️ Assignment completed with errors:", result.errors);
+        toast.error(
+          `Assignment completed with ${result.failed} failures. Check console for details.`,
+          {
+            style: {
+              background: "#dc2626",
+              color: "white",
+              border: "1px solid #ef4444"
+            },
+            duration: 7000
+          }
+        );
+      }
+
+      // Verify the assignments were created
+      const { data: verificationData, error: verificationError } = await supabase
+        .from("hotel_themes")
+        .select("*")
+        .in("hotel_id", selectedHotels);
+
+      if (!verificationError && verificationData) {
+        console.log(`🔍 Verification: Found ${verificationData.length} theme assignments in database`);
+      }
+
+    } catch (error: any) {
+      console.error("💥 Critical error in handleAssignThemes:", error);
+      toast.error(`Assignment failed: ${error.message}`, {
+        style: {
+          background: "#dc2626",
+          color: "white",
+          border: "1px solid #ef4444"
+        }
       });
     } finally {
-      setIsAssigning(false);
-      setProgress(null);
+      setLoading(false);
+      setProgress({ current: 0, total: 0 });
     }
   };
 
-  if (isLoading) {
+  if (loadingData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-800 p-6">
-        <Card className="bg-purple-800 border-purple-600">
-          <CardContent className="flex items-center justify-center p-8">
-            <RefreshCw className="w-8 h-8 animate-spin text-white mr-3" />
-            <span className="text-white text-lg">Loading hotels and themes...</span>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+        <span className="ml-2 text-purple-600">Loading data...</span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-800 p-6">
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader className="bg-gradient-to-r from-purple-700 to-purple-600 text-white">
+    <div className="space-y-6">
+      <Card className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+        <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Tags className="w-5 h-5" />
             Batch Theme Assignment
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6 bg-purple-800">
-          {/* Stats Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-purple-700 p-4 rounded-lg border border-purple-600">
-              <h3 className="text-white font-semibold">Available Hotels</h3>
-              <p className="text-2xl font-bold text-purple-100">{hotels.length}</p>
-            </div>
-            <div className="bg-purple-700 p-4 rounded-lg border border-purple-600">
-              <h3 className="text-white font-semibold">Available Themes</h3>
-              <p className="text-2xl font-bold text-purple-100">{themes.length}</p>
-            </div>
-            <div className="bg-purple-700 p-4 rounded-lg border border-purple-600">
-              <h3 className="text-white font-semibold">Selected Hotels</h3>
-              <p className="text-2xl font-bold text-purple-100">{selectedHotels.length}</p>
+        <CardContent>
+          <p className="text-purple-100">
+            Assign random themes to selected hotels. Each hotel will receive 2-3 randomly selected themes 
+            from the available {themes.length} themes.
+          </p>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+          <div className="text-sm text-purple-600 font-medium">Total Hotels</div>
+          <div className="text-2xl font-bold text-purple-800">{hotels.length}</div>
+        </div>
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+          <div className="text-sm text-purple-600 font-medium">Available Themes</div>
+          <div className="text-2xl font-bold text-purple-800">{themes.length}</div>
+        </div>
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+          <div className="text-sm text-purple-600 font-medium">Selected Hotels</div>
+          <div className="text-2xl font-bold text-purple-800">{selectedHotels.length}</div>
+        </div>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-purple-800">Hotel Selection</CardTitle>
+            <div className="space-x-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={selectAllHotels}
+                className="border-purple-300 text-purple-700 hover:bg-purple-50"
+              >
+                Select All
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={clearSelection}
+                className="border-purple-300 text-purple-700 hover:bg-purple-50"
+              >
+                Clear
+              </Button>
             </div>
           </div>
-
-          {/* Assignment Progress */}
-          {progress && (
-            <div className="mb-6 bg-purple-700 p-4 rounded-lg border border-purple-600">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-medium">{progress.phase}</span>
-                <span className="text-purple-200 text-sm">
-                  {progress.current} / {progress.total}
-                </span>
-              </div>
-              <Progress 
-                value={(progress.current / progress.total) * 100} 
-                className="bg-purple-600"
-              />
+        </CardHeader>
+        <CardContent>
+          <div className="max-h-96 overflow-y-auto">
+            <div className="space-y-2">
+              {hotels.map((hotel) => (
+                <div key={hotel.id} className="flex items-center space-x-3 p-2 hover:bg-purple-50 rounded">
+                  <Checkbox
+                    id={hotel.id}
+                    checked={selectedHotels.includes(hotel.id)}
+                    onCheckedChange={(checked) => handleHotelSelection(hotel.id, !!checked)}
+                  />
+                  <label htmlFor={hotel.id} className="flex-1 cursor-pointer">
+                    <div className="font-medium text-gray-900">{hotel.name}</div>
+                    <div className="text-sm text-gray-500">{hotel.city}, {hotel.country}</div>
+                  </label>
+                  <Badge 
+                    variant={hotel.status === 'approved' ? 'default' : 'secondary'}
+                    className={hotel.status === 'approved' ? 'bg-green-100 text-green-800' : ''}
+                  >
+                    {hotel.status}
+                  </Badge>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
+        </CardContent>
+      </Card>
 
-          {/* Last Assignment Result */}
-          {lastAssignmentResult && (
-            <Alert className={`mb-6 ${lastAssignmentResult.success 
-              ? 'bg-green-600 border-green-500 text-white' 
-              : 'bg-red-600 border-red-500 text-white'
-            }`}>
-              <div className="flex items-center">
-                {lastAssignmentResult.success ? (
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                ) : (
-                  <AlertCircle className="w-4 h-4 mr-2" />
-                )}
-                <AlertDescription className="text-white">
-                  <div className="font-semibold">{lastAssignmentResult.message}</div>
-                  {lastAssignmentResult.details && (
-                    <div className="text-sm opacity-90 mt-1">{lastAssignmentResult.details}</div>
-                  )}
-                </AlertDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-purple-800">Assignment Actions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {loading && progress.total > 0 && (
+              <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-purple-700">Processing Hotels</span>
+                  <span className="text-sm text-purple-600">{progress.current}/{progress.total}</span>
+                </div>
+                <div className="w-full bg-purple-200 rounded-full h-2">
+                  <div 
+                    className="bg-purple-600 h-2 rounded-full transition-all duration-300" 
+                    style={{ width: `${(progress.current / progress.total) * 100}%` }}
+                  ></div>
+                </div>
               </div>
-            </Alert>
-          )}
-
-          {/* Controls */}
-          <div className="flex gap-4 mb-6">
-            <Button
-              onClick={selectAllHotels}
-              variant="outline"
-              className="bg-purple-700 text-white border-purple-600 hover:bg-purple-600"
-              disabled={isAssigning}
-            >
-              {selectedHotels.length === hotels.length ? (
-                <>
-                  <Square className="w-4 h-4 mr-2" />
-                  Deselect All
-                </>
-              ) : (
-                <>
-                  <CheckSquare className="w-4 h-4 mr-2" />
-                  Select All Hotels
-                </>
-              )}
-            </Button>
+            )}
             
             <Button
-              onClick={assignRandomThemes}
-              disabled={selectedHotels.length === 0 || isAssigning}
-              className="bg-purple-600 hover:bg-purple-500 text-white"
+              onClick={handleAssignThemes}
+              disabled={loading || selectedHotels.length === 0}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
             >
-              {isAssigning ? (
+              {loading ? (
                 <>
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
                   Assigning Themes...
                 </>
               ) : (
                 <>
                   <Tags className="w-4 h-4 mr-2" />
-                  Assign Random Themes
+                  Assign Random Themes to Selected Hotels
                 </>
               )}
             </Button>
-          </div>
-
-          {/* Hotels List */}
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            <h3 className="text-white font-semibold mb-3">Select Hotels for Theme Assignment:</h3>
-            {hotels.map((hotel) => (
-              <div
-                key={hotel.id}
-                className="flex items-center space-x-3 p-3 bg-purple-700 rounded-lg border border-purple-600 hover:bg-purple-600 transition-colors"
-              >
-                <Checkbox
-                  checked={selectedHotels.includes(hotel.id)}
-                  onCheckedChange={() => toggleHotelSelection(hotel.id)}
-                  className="border-purple-400 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
-                  disabled={isAssigning}
-                />
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{hotel.name}</h4>
-                  <p className="text-purple-200 text-sm">{hotel.city}, {hotel.country}</p>
+            
+            {selectedHotels.length > 0 && !loading && (
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="flex items-start space-x-2">
+                  <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium">Assignment Preview:</p>
+                    <p>
+                      This will assign 2-3 random themes to each of the {selectedHotels.length} selected hotels,
+                      potentially creating {selectedHotels.length * 2}-{selectedHotels.length * 3} theme assignments total.
+                    </p>
+                    <p className="mt-1 text-blue-600">
+                      Existing theme assignments for selected hotels will be cleared first.
+                    </p>
+                  </div>
                 </div>
               </div>
-            ))}
+            )}
           </div>
-
-          {/* Debug Logs */}
-          {debugLogs.length > 0 && (
-            <div className="mt-6 p-4 bg-purple-900 rounded-lg border border-purple-600">
-              <h4 className="text-white font-semibold mb-2">Debug Information:</h4>
-              <div className="space-y-1 max-h-40 overflow-y-auto">
-                {debugLogs.map((log, index) => (
-                  <div key={index} className="text-purple-200 text-xs font-mono">
-                    {log}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </CardContent>
       </Card>
     </div>

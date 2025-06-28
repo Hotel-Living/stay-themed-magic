@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 
@@ -104,5 +105,14 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
 }
 
 export function useIntroAnimation() {
-  return {};
+  const [shouldShowIntro, setShouldShowIntro] = useState(true);
+
+  const handleIntroComplete = () => {
+    setShouldShowIntro(false);
+  };
+
+  return {
+    shouldShowIntro,
+    handleIntroComplete
+  };
 }

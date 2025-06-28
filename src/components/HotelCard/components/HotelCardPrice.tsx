@@ -42,9 +42,36 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
     return `From ${formatCurrency(lowestRate, currency)} per month`;
   };
 
+  const formatPriceDisplay = () => {
+    const fullPrice = displayRates();
+    
+    if (fullPrice === "Price on request") {
+      return {
+        price: "Price on request",
+        suffix: ""
+      };
+    }
+    
+    // Split the price from "per month"
+    const parts = fullPrice.split(' per month');
+    return {
+      price: parts[0], // e.g., "From €1,320.00"
+      suffix: "per month"
+    };
+  };
+
+  const { price, suffix } = formatPriceDisplay();
+
   return (
-    <div className="text-lg font-bold text-white">
-      {displayRates()}
+    <div className="text-center text-white">
+      <div className="text-lg font-bold">
+        {price}
+      </div>
+      {suffix && (
+        <div className="text-sm text-white/90 mt-1">
+          {suffix}
+        </div>
+      )}
     </div>
   );
 };

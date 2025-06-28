@@ -81,6 +81,15 @@ export const HotelCard: React.FC<HotelCardProps> = ({
     .filter(Boolean)
     .slice(0, 3) || [];
 
+  console.log("🏨 Hotel Card Debug:", {
+    hotelId: id,
+    hotelName: name,
+    affinities,
+    activities,
+    hotel_themes,
+    hotel_activities
+  });
+
   return (
     <Card 
       className="bg-gradient-to-b from-purple-800 to-purple-900 text-white cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col"
@@ -124,7 +133,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
           {affinities.length > 0 ? (
             <>
-              <p className="text-sm text-white/90 mb-2">
+              <p className="text-sm text-white mb-2">
                 🟣 <span className="font-medium">Ideal for those who enjoy:</span>
               </p>
               <div className="flex flex-wrap justify-center gap-1">
@@ -147,7 +156,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
           {activities.length > 0 ? (
             <>
-              <p className="text-sm text-white/90 mb-2">
+              <p className="text-sm text-white mb-2">
                 🟠 <span className="font-medium">You will find:</span>
               </p>
               <div className="flex flex-wrap justify-center gap-1">
@@ -166,7 +175,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
           )}
         </div>
 
-        {/* Price - Centered with Corrected Font Size */}
+        {/* Price - Centered */}
         <div className="mt-auto text-center">
           <HotelCardPrice 
             rates={rates} 

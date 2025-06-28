@@ -1,194 +1,127 @@
 
 import React, { useState, useEffect } from 'react';
-import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface IntroAnimationProps {
   onComplete: () => void;
 }
 
-const INTRO_MESSAGES = [
-  "LA REVOLUCIÓN HA LLEGADO",
-  "MULTIPLICA TU VIDA", 
-  "VIVE EN HOTELES",
-  "VIVE CON ESTILO",
-  "CONOCE AFINES",
-  "DISFRUTA TUS PASIONES"
-];
-
-const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
-const MAX_INTRO_SHOWS = 5;
-
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
+  const { t } = useTranslation();
+  const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [showAllText, setShowAllText] = useState(false);
-  const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
+  const [showStarfield, setShowStarfield] = useState(false);
+  const [showStar, setShowStar] = useState(false);
+
+  const messages = [
+    t('intro.message1'),
+    t('intro.message2'),
+    t('intro.message3'),
+    t('intro.message4'),
+    t('intro.message5'),
+    t('intro.finalMessage')
+  ];
 
   useEffect(() => {
-    const startAnimation = () => {
-      // Wait for stars to populate, then show all text floating in background
-      setTimeout(() => {
-        setShowAllText(true);
-        // Start the sequential animation after all text is visible
-        setTimeout(() => {
-          startMessageSequence(0);
-        }, 500);
-      }, 1000);
-    };
-
-    const startMessageSequence = (index: number) => {
-      if (index >= INTRO_MESSAGES.length) {
-        // All messages completed, start outro
-        setTimeout(() => {
-          setIsVisible(false);
-          setTimeout(() => {
-            updateVisitCount();
-            onComplete();
-          }, 750);
-        }, 500);
-        return;
-      }
-
-      // Set current message and start approach
-      setCurrentMessageIndex(index);
-      setAnimationPhase('approaching');
-      
-      // Phase 1: Approaching (1 seconds)
-      setTimeout(() => {
-        setAnimationPhase('glowing');
+    const timer = setTimeout(() => {
+      if (currentStep < messages.length - 1) {
+        // Start dissolve into stars
+        setShowStarfield(true);
+        setIsVisible(false);
         
-        // Phase 2: Glowing and readable (1 second)
         setTimeout(() => {
-          setAnimationPhase('dissolving');
+          setShowStarfield(false);
+          setCurrentStep(currentStep + 1);
+          setShowStar(true);
           
-          // Phase 3: Dissolving into star dust (1 second)
+          // Star transforms into text
           setTimeout(() => {
-            setAnimationPhase('waiting');
-            
-            // Brief pause before next message (0.25 seconds)
-            setTimeout(() => {
-              startMessageSequence(index + 1);
-            }, 250);
-          }, 1000);
+            setShowStar(false);
+            setIsVisible(true);
+          }, 500);
+        }, 800);
+      } else {
+        setTimeout(() => {
+          onComplete();
         }, 1000);
-      }, 1000);
-    };
-
-    startAnimation();
-  }, [onComplete]);
-
-  const updateVisitCount = () => {
-    const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
-    localStorage.setItem(VISIT_COUNT_KEY, (currentCount + 1).toString());
-  };
-
-  if (!isVisible) return null;
-
-  // Get animation styles for each message
-  const getMessageStyles = (messageIndex: number) => {
-    const isCurrent = messageIndex === currentMessageIndex;
-    const isPast = messageIndex < currentMessageIndex;
-    
-    if (!showAllText) {
-      return {
-        opacity: 0,
-        transform: 'translate3d(0, 0, -3000px) scale(0.1)',
-        filter: 'blur(30px)'
-      };
-    }
-
-    if (isPast) {
-      // Already dissolved messages - completely invisible
-      return {
-        opacity: 0,
-        transform: 'translate3d(0, 0, -2000px) scale(0.2)',
-        filter: 'blur(40px)'
-      };
-    }
-
-    if (isCurrent) {
-      // Current active message
-      switch (animationPhase) {
-        case 'approaching':
-          return {
-            opacity: 0.9,
-            transform: 'translate3d(0, 0, -100px) scale(0.85)',
-            filter: 'blur(2px)',
-            textShadow: '0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.5)'
-          };
-        case 'glowing':
-          return {
-            opacity: 1,
-            transform: 'translate3d(0, 0, 0) scale(1)',
-            filter: 'blur(0px)',
-            textShadow: '0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.8), 0 0 150px rgba(255, 215, 0, 0.6)'
-          };
-        case 'dissolving':
-          return {
-            opacity: 0,
-            transform: 'translate3d(0, -30px, 50px) scale(1.05)',
-            filter: 'blur(20px)',
-            textShadow: '0 0 80px rgba(255, 215, 0, 0.4), 0 0 160px rgba(255, 255, 255, 0.3)'
-          };
-        default:
-          return {
-            opacity: 0.15,
-            transform: 'translate3d(0, 0, -1200px) scale(0.3)',
-            filter: 'blur(12px)'
-          };
       }
-    } else {
-      // Future messages - floating in deep background like distant spacecraft
-      const offset = (messageIndex - Math.max(currentMessageIndex, 0)) * 80;
-      const depth = 1500 + offset * 150;
-      return {
-        opacity: 0.12,
-        transform: `translate3d(${offset * 0.4}px, ${offset * 0.3}px, -${depth}px) scale(0.25)`,
-        filter: 'blur(15px)',
-        textShadow: '0 0 15px rgba(255, 215, 0, 0.4)'
-      };
-    }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [currentStep, messages.length, onComplete]);
+
+  // Generate random stars for starfield effect
+  const generateStars = () => {
+    return Array.from({ length: 20 }, (_, i) => (
+      <div
+        key={i}
+        className="absolute w-1 h-1 bg-yellow-400 rounded-full animate-ping"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 0.5}s`,
+          animationDuration: `${0.5 + Math.random() * 0.5}s`
+        }}
+      />
+    ));
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#411052' }}>
-      <HotelStarfield />
-      
-      <div className="relative z-10 text-center px-8 w-full h-full flex items-center justify-center">
-        {INTRO_MESSAGES.map((message, index) => (
-          <div
-            key={index}
-            className="absolute font-bold text-4xl md:text-6xl lg:text-7xl whitespace-nowrap"
+    <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+      <div className="text-center relative">
+        {/* Starfield dissolve effect */}
+        {showStarfield && (
+          <div className="absolute inset-0 w-96 h-32">
+            {generateStars()}
+          </div>
+        )}
+        
+        {/* Single star that transforms into text */}
+        {showStar && (
+          <div className="flex items-center justify-center h-32">
+            <div className="w-4 h-4 bg-yellow-400 rounded-full animate-pulse transform transition-all duration-500" />
+          </div>
+        )}
+        
+        {/* Text with smooth single approach animation */}
+        {isVisible && !showStar && (
+          <h1 
+            className="text-4xl md:text-6xl font-bold text-yellow-400 animate-fade-in transition-all duration-1000 ease-out"
             style={{
-              color: '#FFD700',
-              WebkitTextStroke: '1px white',
-              fontFamily: 'system-ui, -apple-system, sans-serif',
-              letterSpacing: '0.05em',
-              perspective: '1000px',
-              transformStyle: 'preserve-3d',
-              transition: 'all 1000ms cubic-bezier(0.23, 1, 0.32, 1)',
-              willChange: 'transform, opacity, filter',
-              ...getMessageStyles(index)
+              WebkitTextStroke: '2px white',
+              textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
+              transform: 'translateZ(0) scale(1)',
+              animation: 'smoothApproach 1s ease-out forwards'
             }}
           >
-            {message}
-          </div>
-        ))}
+            {messages[currentStep]}
+          </h1>
+        )}
       </div>
+      
+      <style jsx>{`
+        @keyframes smoothApproach {
+          0% {
+            transform: translateZ(-1000px) scale(0.1);
+            opacity: 0;
+          }
+          100% {
+            transform: translateZ(0) scale(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 }
 
-// Hook to check if intro should be shown
 export function useIntroAnimation() {
-  const [shouldShowIntro, setShouldShowIntro] = useState(false);
-
-  useEffect(() => {
-    const visitCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
-    setShouldShowIntro(visitCount < MAX_INTRO_SHOWS);
-  }, []);
+  const [shouldShowIntro, setShouldShowIntro] = useState(() => {
+    return !localStorage.getItem('intro-seen');
+  });
 
   const handleIntroComplete = () => {
+    localStorage.setItem('intro-seen', 'true');
     setShouldShowIntro(false);
   };
 

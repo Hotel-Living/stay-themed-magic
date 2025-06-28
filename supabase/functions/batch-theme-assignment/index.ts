@@ -8,8 +8,9 @@ const corsHeaders = {
 }
 
 interface ThemeAssignmentRequest {
-  hotelIds: string[];
+  hotelIds?: string[];
   clearExisting: boolean;
+  autoDiscover?: boolean;
 }
 
 serve(async (req) => {
@@ -29,9 +30,50 @@ serve(async (req) => {
       }
     )
 
-    const { hotelIds, clearExisting }: ThemeAssignmentRequest = await req.json()
+    const { hotelIds, clearExisting, autoDiscover }: ThemeAssignmentRequest = await req.json()
     
-    console.log(`Starting batch theme assignment for ${hotelIds.length} hotels`)
+    let targetHotelIds: string[] = [];
+
+    // Auto-discover hotels without themes if requested
+    if (autoDiscover) {
+      console.log('Auto-discovering hotels without themes...');
+      
+      const { data: hotelsWithoutThemes, error: discoverError } = await supabaseClient
+        .from('hotels')
+        .select(`
+          id,
+          name,
+          hotel_themes!left(hotel_id)
+        `)
+        .eq('status', 'approved')
+        .is('hotel_themes.hotel_id', null);
+
+      if (discoverError) {
+        throw new Error(`Failed to discover hotels without themes: ${discoverError.message}`);
+      }
+
+      targetHotelIds = hotelsWithoutThemes?.map(hotel => hotel.id) || [];
+      console.log(`Found ${targetHotelIds.length} hotels without themes`);
+    } else {
+      targetHotelIds = hotelIds || [];
+    }
+
+    if (targetHotelIds.length === 0) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: 'No hotels found that need theme assignment',
+          totalCreated: 0,
+          totalFailed: 0
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200,
+        },
+      )
+    }
+    
+    console.log(`Starting batch theme assignment for ${targetHotelIds.length} hotels`)
 
     // Get all themes first
     const { data: themes, error: themesError } = await supabaseClient
@@ -53,9 +95,9 @@ serve(async (req) => {
     const failureDetails: string[] = []
 
     // Process hotels in batches of 5
-    for (let i = 0; i < hotelIds.length; i += 5) {
-      const batch = hotelIds.slice(i, i + 5)
-      console.log(`Processing batch ${Math.floor(i/5) + 1}: hotels ${i + 1}-${Math.min(i + 5, hotelIds.length)}`)
+    for (let i = 0; i < targetHotelIds.length; i += 5) {
+      const batch = targetHotelIds.slice(i, i + 5)
+      console.log(`Processing batch ${Math.floor(i/5) + 1}: hotels ${i + 1}-${Math.min(i + 5, targetHotelIds.length)}`)
 
       for (const hotelId of batch) {
         try {
@@ -125,6 +167,7 @@ serve(async (req) => {
         message: `Theme assignment completed: ${totalCreated} assignments created${totalFailed > 0 ? `, ${totalFailed} failed` : ''}`,
         totalCreated,
         totalFailed,
+        hotelsProcessed: targetHotelIds.length,
         failureDetails: totalFailed > 0 ? failureDetails.slice(0, 10) : [] // Limit details to first 10 failures
       }),
       {

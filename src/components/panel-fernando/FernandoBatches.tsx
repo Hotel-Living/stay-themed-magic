@@ -1,13 +1,15 @@
+
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, ImageIcon, FileText, Clock, Plus, Camera } from "lucide-react";
+import { Package, ImageIcon, FileText, Clock, Plus, Camera, Tags } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import FernandoBatchImages from "./FernandoBatchImages";
 import FernandoBatchTextCompletion from "./FernandoBatchTextCompletion";
 import FernandoBatchPendingFields from "./FernandoBatchPendingFields";
 import FernandoBatchHotelCreation from "./FernandoBatchHotelCreation";
 import FernandoBatchRoomImages from "./FernandoBatchRoomImages";
+import FernandoBatchThemeAssignment from "./FernandoBatchThemeAssignment";
 
 const batchTabs = [{
   id: "batch-images",
@@ -39,6 +41,12 @@ const batchTabs = [{
   icon: Camera,
   path: "/panel-fernando/batches/batch-room-images",
   description: "Batch room image operations"
+}, {
+  id: "batch-theme-assignment",
+  name: "Batch Theme Assignment",
+  icon: Tags,
+  path: "/panel-fernando/batches/batch-theme-assignment",
+  description: "Assign themes to hotels in batches"
 }];
 
 export default function FernandoBatches() {
@@ -91,6 +99,7 @@ export default function FernandoBatches() {
       <Route path="/batch-pending" element={<FernandoBatchPendingFields />} />
       <Route path="/batch-create-hotels" element={<FernandoBatchHotelCreation />} />
       <Route path="/batch-room-images" element={<FernandoBatchRoomImages />} />
+      <Route path="/batch-theme-assignment" element={<FernandoBatchThemeAssignment />} />
       <Route path="*" element={<Navigate to="/panel-fernando/batches" replace />} />
     </Routes>
   );

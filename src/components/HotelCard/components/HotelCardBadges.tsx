@@ -1,18 +1,17 @@
 
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { FavoriteButton } from "@/components/ui/FavoriteButton";
+import { Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface HotelCardBadgesProps {
   themes: Array<{ id: string; name: string }>;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
+  availableMonths: string[];
 }
 
 export const HotelCardBadges: React.FC<HotelCardBadgesProps> = ({
   themes,
-  isFavorite,
-  onToggleFavorite
+  availableMonths
 }) => {
   return (
     <>
@@ -23,13 +22,6 @@ export const HotelCardBadges: React.FC<HotelCardBadgesProps> = ({
           </Badge>
         </div>
       )}
-      <div className="absolute top-2 right-2 flex items-center gap-2">
-        <FavoriteButton
-          isFavorite={isFavorite}
-          onClick={onToggleFavorite}
-          size="sm"
-        />
-      </div>
     </>
   );
 };

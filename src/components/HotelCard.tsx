@@ -162,6 +162,7 @@ export function HotelCard({
         <HotelCardPrice 
           pricePerMonth={pricePerMonth}
           rates={rates}
+          currency="EUR"
         />
 
         <HotelCardFooter 

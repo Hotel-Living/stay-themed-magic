@@ -4,18 +4,23 @@ import { formatCurrency } from "@/utils/dynamicPricing";
 import { parseRatesData } from "../utils/ratesParser";
 
 interface HotelCardPriceProps {
-  rates: Record<string, number>;
+  rates?: Record<string, number>;
   pricePerMonth?: number;
-  currency: string;
+  currency?: string;
 }
 
 export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
   rates,
   pricePerMonth,
-  currency
+  currency = "EUR"
 }) => {
   // Helper function to display rates in the desired format
   const displayRates = () => {
+    if (!rates) {
+      // If no rates defined, use the old pricePerMonth
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "Price on request";
+    }
+
     const parsedRates = parseRatesData(rates);
     const stayLengths = ["8", "16", "24", "32"];
     const availableRates = stayLengths.filter(length => parsedRates[length]);

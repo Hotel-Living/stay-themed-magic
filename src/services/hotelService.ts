@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 import { FilterState } from '@/components/filters/FilterTypes';
 
@@ -92,10 +93,9 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.contains('available_months', [filters.month]);
     }
 
-    if (filters.themes && filters.themes.length > 0) {
-      filters.themes.forEach(theme => {
-        query = query.like('themes', `%${theme}%`);
-      });
+    if (filters.theme && filters.theme.id) {
+      // Filter by single theme using the theme relationship
+      query = query.eq('hotel_themes.theme_id', filters.theme.id);
     }
 
     if (filters.minPrice) {

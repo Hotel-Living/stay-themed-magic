@@ -243,7 +243,7 @@ export function SecondaryFilterPanel({
 
       {/* 14. Servicios de la Habitación */}
       <CollapsibleSection title={t('filters.roomFeatures')}>
-        {roomFeatures.map(feature => <label key={feature} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {roomFeatures.map(feature => <label key={feature} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.roomFeatures?.includes(feature) || false} onChange={e => handleArrayFilterChange('roomFeatures', feature, e.target.checked)} />
             <span>{feature}</span>
           </label>)}

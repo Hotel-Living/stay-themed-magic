@@ -12,7 +12,6 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
-import { IntroStarAnimation, useIntroStarAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
 import IntroStarTest from "@/pages/IntroStarTest";

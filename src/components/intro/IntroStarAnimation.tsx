@@ -91,12 +91,12 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
 };
 
 export const useIntroStarAnimation = () => {
-  // For testing phase - always show the intro animation
-  const [shouldShow, setShouldShow] = useState(true);
+  const [shouldShow, setShouldShow] = useState(() => {
+    return !localStorage.getItem('intro-star-seen');
+  });
 
   const handleComplete = () => {
-    // During testing phase, don't save to localStorage
-    // localStorage.setItem('intro-star-seen', 'true');
+    localStorage.setItem('intro-star-seen', 'true');
     setShouldShow(false);
   };
 

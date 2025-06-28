@@ -9,7 +9,7 @@ const corsHeaders = {
 
 interface ThemeAssignmentRequest {
   hotelIds?: string[];
-  clearExisting: boolean;
+  clearExisting?: boolean;
   autoDiscover?: boolean;
 }
 
@@ -30,13 +30,21 @@ serve(async (req) => {
       }
     )
 
-    const { hotelIds, clearExisting, autoDiscover }: ThemeAssignmentRequest = await req.json()
+    // Parse request body with proper defaults
+    const requestBody = await req.json().catch(() => ({}))
+    const { 
+      hotelIds = [], 
+      clearExisting = false, 
+      autoDiscover = true 
+    }: ThemeAssignmentRequest = requestBody
     
-    let targetHotelIds: string[] = [];
+    console.log('Request received:', { hotelIds: hotelIds?.length || 0, clearExisting, autoDiscover })
+    
+    let targetHotelIds: string[] = []
 
-    // Auto-discover hotels without themes if requested
-    if (autoDiscover) {
-      console.log('Auto-discovering hotels without themes...');
+    // Auto-discover hotels without themes if requested or no specific hotels provided
+    if (autoDiscover || hotelIds.length === 0) {
+      console.log('Auto-discovering hotels without themes...')
       
       const { data: hotelsWithoutThemes, error: discoverError } = await supabaseClient
         .from('hotels')
@@ -46,16 +54,18 @@ serve(async (req) => {
           hotel_themes!left(hotel_id)
         `)
         .eq('status', 'approved')
-        .is('hotel_themes.hotel_id', null);
+        .is('hotel_themes.hotel_id', null)
 
       if (discoverError) {
-        throw new Error(`Failed to discover hotels without themes: ${discoverError.message}`);
+        console.error('Discovery error:', discoverError)
+        throw new Error(`Failed to discover hotels without themes: ${discoverError.message}`)
       }
 
-      targetHotelIds = hotelsWithoutThemes?.map(hotel => hotel.id) || [];
-      console.log(`Found ${targetHotelIds.length} hotels without themes`);
+      targetHotelIds = hotelsWithoutThemes?.map(hotel => hotel.id) || []
+      console.log(`Found ${targetHotelIds.length} hotels without themes`)
     } else {
-      targetHotelIds = hotelIds || [];
+      targetHotelIds = hotelIds
+      console.log(`Using provided hotel IDs: ${targetHotelIds.length} hotels`)
     }
 
     if (targetHotelIds.length === 0) {
@@ -81,6 +91,7 @@ serve(async (req) => {
       .select('id')
 
     if (themesError) {
+      console.error('Themes error:', themesError)
       throw new Error(`Failed to fetch themes: ${themesError.message}`)
     }
 

@@ -1,292 +1,182 @@
 
-import React, { useState, useEffect } from 'react';
-import { Starfield } from '../Starfield';
+import React, { useEffect, useRef, useState } from 'react';
 
-const LINES = [
-  "LA REVOLUCIÓN HA LLEGADO",
-  "MULTIPLICA TU VIDA", 
-  "VIVE EN HOTELES",
-  "VIVE CON ESTILO",
-  "CONOCE AFINES",
-  "DISFRUTA TUS PASIONES"
-];
-
-interface StarParticle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  vx: number;
-  vy: number;
+interface IntroStarAnimationProps {
+  onComplete?: () => void;
 }
 
-export const IntroStarAnimation = () => {
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [phase, setPhase] = useState<'approaching' | 'exploding' | 'showing' | 'dissolving'>('approaching');
-  const [starPosition, setStarPosition] = useState<{ x: number; y: number }>({ x: -100, y: 50 });
-  const [particles, setParticles] = useState<StarParticle[]>([]);
-  const [isComplete, setIsComplete] = useState(false);
-
-  const isFromLeft = currentLineIndex % 2 === 0;
+export function IntroStarAnimation({ onComplete }: IntroStarAnimationProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (isComplete) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const timer = setTimeout(() => {
-      switch (phase) {
-        case 'approaching':
-          setPhase('exploding');
-          break;
-        case 'exploding':
-          setPhase('showing');
-          break;
-        case 'showing':
-          setPhase('dissolving');
-          break;
-        case 'dissolving':
-          if (currentLineIndex < LINES.length - 1) {
-            setCurrentLineIndex(prev => prev + 1);
-            setPhase('approaching');
-            // Reset star position for next line
-            const nextIsFromLeft = (currentLineIndex + 1) % 2 === 0;
-            setStarPosition({ 
-              x: nextIsFromLeft ? -100 : window.innerWidth + 100, 
-              y: Math.random() * 40 + 30 
-            });
-          } else {
-            setIsComplete(true);
-          }
-          break;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    // Set canvas to full screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Animation state
+    let animationId: number;
+    let startTime: number | null = null;
+    const duration = 4000; // 4 seconds total animation
+
+    // Star properties
+    const stars: Array<{
+      x: number;
+      y: number;
+      size: number;
+      opacity: number;
+      color: string;
+      speed: number;
+    }> = [];
+
+    // Generate stars
+    for (let i = 0; i < 100; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.8 + 0.2,
+        color: `hsl(${Math.random() * 60 + 200}, 80%, 80%)`, // Blue to purple range
+        speed: Math.random() * 2 + 1
+      });
+    }
+
+    function animate(currentTime: number) {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      if (!canvas || !context) return;
+
+      // Clear canvas
+      context.fillStyle = 'rgba(15, 15, 30, 0.1)';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw stars with animation effects
+      stars.forEach((star, index) => {
+        const phase = (index / stars.length) * Math.PI * 2;
+        const wave = Math.sin(elapsed * 0.002 + phase) * 0.5 + 0.5;
+        
+        // Animate star movement
+        star.x += Math.sin(elapsed * 0.001 + phase) * star.speed * 0.5;
+        star.y += Math.cos(elapsed * 0.0008 + phase) * star.speed * 0.3;
+        
+        // Wrap around screen
+        if (star.x < 0) star.x = canvas.width;
+        if (star.x > canvas.width) star.x = 0;
+        if (star.y < 0) star.y = canvas.height;
+        if (star.y > canvas.height) star.y = 0;
+
+        // Draw star with glow effect
+        context.save();
+        context.globalAlpha = star.opacity * wave * (1 - progress * 0.3);
+        context.fillStyle = star.color;
+        context.shadowBlur = star.size * 3;
+        context.shadowColor = star.color;
+        
+        context.beginPath();
+        context.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        context.fill();
+        context.restore();
+      });
+
+      // Add center burst effect
+      if (progress > 0.7) {
+        const burstProgress = (progress - 0.7) / 0.3;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        context.save();
+        context.globalAlpha = (1 - burstProgress) * 0.8;
+        const gradient = context.createRadialGradient(
+          centerX, centerY, 0,
+          centerX, centerY, 200 * burstProgress
+        );
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(200, 150, 255, 0.4)');
+        gradient.addColorStop(1, 'rgba(100, 50, 200, 0)');
+        
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.restore();
       }
-    }, getPhaseTimeout(phase));
 
-    return () => clearTimeout(timer);
-  }, [phase, currentLineIndex, isComplete]);
-
-  // Animate star approach
-  useEffect(() => {
-    if (phase === 'approaching') {
-      const startX = isFromLeft ? -100 : window.innerWidth + 100;
-      const targetX = window.innerWidth / 2;
-      const targetY = window.innerHeight / 2;
-      
-      setStarPosition({ x: startX, y: targetY });
-      
-      const animateApproach = () => {
-        setStarPosition(prev => {
-          const dx = targetX - prev.x;
-          const dy = targetY - prev.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 5) {
-            return { x: targetX, y: targetY };
-          }
-          
-          const speed = 8;
-          return {
-            x: prev.x + (dx / distance) * speed,
-            y: prev.y + (dy / distance) * speed
-          };
-        });
-      };
-
-      const approachInterval = setInterval(animateApproach, 16);
-      return () => clearInterval(approachInterval);
-    }
-  }, [phase, isFromLeft]);
-
-  // Generate explosion particles
-  useEffect(() => {
-    if (phase === 'exploding') {
-      const newParticles: StarParticle[] = [];
-      for (let i = 0; i < 20; i++) {
-        newParticles.push({
-          id: i,
-          x: starPosition.x,
-          y: starPosition.y,
-          size: Math.random() * 4 + 2,
-          opacity: 1,
-          vx: (Math.random() - 0.5) * 10,
-          vy: (Math.random() - 0.5) * 10
-        });
+      if (progress < 1) {
+        animationId = requestAnimationFrame(animate);
+      } else {
+        // Animation complete - fade out
+        setTimeout(() => {
+          setIsVisible(false);
+          setTimeout(() => {
+            onComplete?.();
+          }, 500);
+        }, 500);
       }
-      setParticles(newParticles);
     }
-  }, [phase, starPosition]);
 
-  // Animate particles during dissolving
-  useEffect(() => {
-    if (phase === 'dissolving') {
-      const animateParticles = () => {
-        setParticles(prev => prev.map(particle => ({
-          ...particle,
-          x: particle.x + particle.vx,
-          y: particle.y + particle.vy,
-          opacity: Math.max(0, particle.opacity - 0.02),
-          vx: particle.vx * 0.98,
-          vy: particle.vy * 0.98
-        })));
-      };
+    animationId = requestAnimationFrame(animate);
 
-      const particleInterval = setInterval(animateParticles, 16);
-      return () => clearInterval(particleInterval);
-    }
-  }, [phase]);
+    // Handle window resize
+    const handleResize = () => {
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    };
 
-  const getPhaseTimeout = (currentPhase: string) => {
-    switch (currentPhase) {
-      case 'approaching': return 1500;
-      case 'exploding': return 300;
-      case 'showing': return 2000;
-      case 'dissolving': return 800;
-      default: return 1000;
-    }
-  };
+    window.addEventListener('resize', handleResize);
 
-  if (isComplete) {
-    return null;
-  }
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [onComplete]);
+
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <Starfield />
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+      />
       
       <style>
         {`
-          @keyframes starGlow {
-            0% { 
-              transform: scale(1);
-              filter: brightness(1) drop-shadow(0 0 10px #ffd700);
-            }
-            50% { 
-              transform: scale(1.2);
-              filter: brightness(1.5) drop-shadow(0 0 20px #ffd700);
-            }
-            100% { 
-              transform: scale(1);
-              filter: brightness(1) drop-shadow(0 0 10px #ffd700);
-            }
+          @keyframes starPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
           }
           
-          @keyframes textExplosion {
-            0% {
-              opacity: 0;
-              transform: scale(0.5);
-              filter: brightness(2);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.1);
-              filter: brightness(1.5);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1);
-              filter: brightness(1);
-            }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
           }
           
-          @keyframes textDissolve {
-            0% {
-              opacity: 1;
-              transform: scale(1);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(0.8);
-              filter: blur(2px);
-            }
-          }
-          
-          .star-particle {
-            position: absolute;
-            background: #ffd700;
-            border-radius: 50%;
-            pointer-events: none;
-            filter: drop-shadow(0 0 6px #ffd700);
+          @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
           }
         `}
       </style>
-
-      {/* Approaching Star */}
-      {phase === 'approaching' && (
-        <div
-          className="absolute w-6 h-6 bg-yellow-400 rounded-full pointer-events-none"
-          style={{
-            left: `${starPosition.x}px`,
-            top: `${starPosition.y}px`,
-            transform: 'translate(-50%, -50%)',
-            animation: 'starGlow 0.5s ease-in-out infinite',
-            filter: 'drop-shadow(0 0 15px #ffd700)',
-            zIndex: 60
-          }}
-        />
-      )}
-
-      {/* Explosion Particles */}
-      {phase === 'exploding' && particles.map(particle => (
-        <div
-          key={particle.id}
-          className="star-particle"
-          style={{
-            left: `${particle.x}px`,
-            top: `${particle.y}px`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            opacity: particle.opacity,
-            transform: 'translate(-50%, -50%)',
-            zIndex: 60
-          }}
-        />
-      ))}
-
-      {/* Dissolving Particles */}
-      {phase === 'dissolving' && particles.map(particle => (
-        <div
-          key={particle.id}
-          className="star-particle"
-          style={{
-            left: `${particle.x}px`,
-            top: `${particle.y}px`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            opacity: particle.opacity,
-            transform: 'translate(-50%, -50%)',
-            zIndex: 60
-          }}
-        />
-      ))}
-
-      {/* Text Display */}
-      {(phase === 'exploding' || phase === 'showing' || phase === 'dissolving') && (
-        <div 
-          className="text-center z-50"
-          style={{
-            animation: phase === 'exploding' ? 'textExplosion 0.3s ease-out' :
-                      phase === 'dissolving' ? 'textDissolve 0.8s ease-in' : 'none'
-          }}
-        >
-          <h1 
-            className="text-6xl md:text-8xl font-bold text-yellow-400 leading-tight"
-            style={{
-              textShadow: '3px 3px 0 white, -3px -3px 0 white, 3px -3px 0 white, -3px 3px 0 white, 0 0 20px #ffd700',
-              WebkitTextStroke: '2px white',
-              filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.8))'
-            }}
-          >
-            {LINES[currentLineIndex]}
-          </h1>
-        </div>
-      )}
     </div>
   );
-};
+}
 
-export const useIntroStarAnimation = () => {
-  const [shouldShowIntro, setShouldShowIntro] = useState(true);
+export function useIntroStarAnimation() {
+  const [shouldShowIntro, setShouldShowIntro] = useState(() => {
+    const hasSeenIntro = localStorage.getItem('hasSeenStarIntro');
+    return !hasSeenIntro;
+  });
 
   const handleIntroComplete = () => {
+    localStorage.setItem('hasSeenStarIntro', 'true');
     setShouldShowIntro(false);
   };
 
@@ -294,4 +184,4 @@ export const useIntroStarAnimation = () => {
     shouldShowIntro,
     handleIntroComplete
   };
-};
+}

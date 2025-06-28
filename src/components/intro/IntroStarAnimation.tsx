@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +22,8 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     t('intro.passion')
   ];
 
-  // Helper function to format text for mobile
-  const formatTextForMobile = (text: string) => {
+  // Helper function to format text with line breaks
+  const formatTextWithLineBreaks = (text: string) => {
     if (text === 'La revolución\nha llegado') {
       return 'LA REVOLUCIÓN\nHA LLEGADO';
     }
@@ -75,14 +76,13 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
             }`}
           >
             <h1 
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
+              className="text-lg md:text-2xl lg:text-3xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
               style={{
                 textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
                 WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
               }}
             >
-              <span className="hidden md:block">{message}</span>
-              <span className="block md:hidden">{formatTextForMobile(message)}</span>
+              {formatTextWithLineBreaks(message)}
             </h1>
           </div>
         ))}
@@ -106,3 +106,4 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
+

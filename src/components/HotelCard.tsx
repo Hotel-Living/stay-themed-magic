@@ -163,7 +163,8 @@ export const HotelCard: React.FC<HotelCardProps> = ({
                 {activities.map((activity, index) => (
                   <span
                     key={index}
-                    className="bg-orange-600/60 text-xs px-2 py-1 rounded-full text-white border border-orange-400/30"
+                    className="text-xs px-2 py-1 rounded-full text-white border border-green-400/30"
+                    style={{ backgroundColor: '#026100' }}
                   >
                     {activity}
                   </span>

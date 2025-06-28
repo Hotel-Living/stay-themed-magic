@@ -45,6 +45,14 @@ serve(async (req) => {
       )
     }
 
+    // Get all existing image URLs across all hotels to prevent duplicates
+    const { data: allExistingImages } = await supabase
+      .from('hotel_images')
+      .select('image_url')
+
+    const existingImageUrls = new Set(allExistingImages?.map(img => img.image_url) || [])
+    console.log(`Found ${existingImageUrls.size} existing images across all hotels`)
+
     // Define search queries in order of preference
     const searchQueries = [
       `${city} ${country} hotel`,
@@ -61,17 +69,19 @@ serve(async (req) => {
 
     const imageUrls: string[] = []
     let queryIndex = 0
+    let attempts = 0
+    const maxAttempts = 20 // Prevent infinite loops
 
     // Fetch images from different search queries to ensure variety
-    while (imageUrls.length < 10 && queryIndex < searchQueries.length) {
+    while (imageUrls.length < 10 && queryIndex < searchQueries.length && attempts < maxAttempts) {
       const query = searchQueries[queryIndex]
-      const imagesNeeded = Math.min(3, 10 - imageUrls.length) // Get up to 3 images per query
+      const imagesNeeded = Math.min(5, 10 - imageUrls.length) // Get up to 5 images per query
       
-      console.log(`Searching Unsplash for: "${query}" (need ${imagesNeeded} images)`)
+      console.log(`Searching Unsplash for: "${query}" (need ${imagesNeeded} images, attempt ${attempts + 1})`)
 
       try {
         const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=${imagesNeeded}&orientation=landscape`,
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=30&orientation=landscape`,
           {
             headers: {
               'Authorization': `Client-ID ${unsplashAccessKey}`,
@@ -82,12 +92,16 @@ serve(async (req) => {
         if (response.ok) {
           const data = await response.json()
           const newUrls = data.results
-            .filter((photo: any) => photo.urls?.regular && !imageUrls.includes(photo.urls.regular))
+            .filter((photo: any) => 
+              photo.urls?.regular && 
+              !imageUrls.includes(photo.urls.regular) &&
+              !existingImageUrls.has(photo.urls.regular) // Check against global duplicates
+            )
             .map((photo: any) => photo.urls.regular)
             .slice(0, imagesNeeded)
           
           imageUrls.push(...newUrls)
-          console.log(`Found ${newUrls.length} new images from query: "${query}"`)
+          console.log(`Found ${newUrls.length} new unique images from query: "${query}"`)
         } else {
           console.warn(`Unsplash API error for query "${query}":`, response.status)
         }
@@ -96,13 +110,21 @@ serve(async (req) => {
       }
 
       queryIndex++
+      attempts++
+      
+      // If we've gone through all queries but still need more images, try again with different parameters
+      if (queryIndex >= searchQueries.length && imageUrls.length < 10 && attempts < maxAttempts) {
+        queryIndex = 0
+        // Add some randomization to get different results
+        searchQueries.push(`${city} accommodation`, `${country} travel`, `luxury interior design`)
+      }
     }
 
     if (imageUrls.length === 0) {
-      throw new Error('No images could be fetched from Unsplash')
+      throw new Error('No unique images could be fetched from Unsplash')
     }
 
-    console.log(`Successfully fetched ${imageUrls.length} images for hotel ${hotelId}`)
+    console.log(`Successfully fetched ${imageUrls.length} unique images for hotel ${hotelId}`)
 
     // Insert images into database
     const imageRecords = imageUrls.map((url, index) => ({
@@ -130,7 +152,7 @@ serve(async (req) => {
       console.warn(`Could not update hotel main image: ${updateError.message}`)
     }
 
-    console.log(`Successfully populated ${imageUrls.length} images for hotel ${hotelId}`)
+    console.log(`Successfully populated ${imageUrls.length} unique images for hotel ${hotelId}`)
 
     return new Response(
       JSON.stringify({ 

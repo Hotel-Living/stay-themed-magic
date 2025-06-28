@@ -7,6 +7,8 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
   if (!id) return null;
   
   try {
+    console.log("Fetching hotel detail for ID:", id);
+    
     const { data, error } = await supabase
       .from("hotels")
       .select(`
@@ -32,6 +34,7 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
     }
     
     console.log("Fetched hotel data:", data);
+    console.log("Hotel images count:", data.hotel_images?.length || 0);
     
     // Extract hotel features from features_hotel object - handle null safely
     const hotelFeatures = data.features_hotel && typeof data.features_hotel === 'object'
@@ -82,6 +85,13 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
     const enablePriceIncrease = Boolean(data.enablepriceincrease || data.enable_price_increase || false);
     const priceIncreaseCap = Number(data.priceincreasecap || data.price_increase_cap || 20);
     
+    // Process hotel images with proper validation
+    const processedHotelImages = data.hotel_images && Array.isArray(data.hotel_images)
+      ? data.hotel_images.filter(img => img && img.image_url && img.image_url.trim() !== '')
+      : [];
+    
+    console.log("Processed hotel images:", processedHotelImages.length);
+    
     const result = {
       ...data,
       hotelFeatures,
@@ -99,7 +109,7 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       stay_lengths: data.stay_lengths || [],
       meal_plans: data.meal_plans || [],
       rates: data.rates || {},
-      hotel_images: data.hotel_images || [],
+      hotel_images: processedHotelImages,
       description: data.description || '',
       atmosphere: data.atmosphere || '',
       ideal_guests: data.ideal_guests || '',
@@ -107,6 +117,7 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
     } as HotelDetailProps;
     
     console.log("Successfully processed hotel data for:", data.name);
+    console.log("Final hotel_images count:", result.hotel_images.length);
     
     return result;
   } catch (error) {

@@ -18,6 +18,7 @@ interface HotelImageGalleryProps {
 export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryProps) {
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const [processedImages, setProcessedImages] = useState<HotelImage[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
   
   useEffect(() => {
     if (hotelImages && Array.isArray(hotelImages)) {
@@ -37,10 +38,11 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
       ];
       
       setProcessedImages(sortedImages);
+      console.log(`HotelImageGallery: Processed ${sortedImages.length} images for ${hotelName}`);
     } else {
       setProcessedImages([]);
     }
-  }, [hotelImages, failedImages]);
+  }, [hotelImages, failedImages, hotelName]);
 
   const handleImageError = (imageUrl: string) => {
     console.log("Image failed to load:", imageUrl);
@@ -62,43 +64,57 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 space-y-4">
+      {/* Main Carousel */}
       <div className="relative">
-        <Carousel className="w-full">
+        <Carousel className="w-full" onSelect={(index) => setActiveIndex(index || 0)}>
           <CarouselContent>
             {processedImages.map((image, index) => (
               <CarouselItem key={image.id || index} className="flex justify-center">
                 <div className="p-1 w-full">
-                  <div className="overflow-hidden rounded-xl w-full">
+                  <div className="overflow-hidden rounded-xl w-full relative">
                     <img
                       src={image.image_url}
                       alt={`${hotelName} view ${index + 1}`}
-                      className="h-72 w-full object-cover"
+                      className="h-72 w-full object-cover transition-transform duration-300 hover:scale-105"
                       onError={() => handleImageError(image.image_url)}
                     />
+                    {image.is_main && (
+                      <div className="absolute top-2 left-2 bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">
+                        Main Photo
+                      </div>
+                    )}
                   </div>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-2" />
-          <CarouselNext className="absolute right-2" />
+          {processedImages.length > 1 && (
+            <>
+              <CarouselPrevious className="absolute left-2" />
+              <CarouselNext className="absolute right-2" />
+            </>
+          )}
         </Carousel>
+        
+        {/* Image counter */}
         <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
-          {processedImages.length} photos
+          {activeIndex + 1} / {processedImages.length}
         </div>
       </div>
       
       {/* Thumbnail gallery */}
-      {processedImages.length > 3 && (
-        <div className="mt-4 grid grid-cols-6 gap-2">
-          {processedImages.slice(0, 6).map((image, index) => (
-            <div 
+      {processedImages.length > 1 && (
+        <div className="grid grid-cols-6 gap-2">
+          {processedImages.slice(0, 12).map((image, index) => (
+            <button
               key={`thumb-${image.id || index}`} 
               className={cn(
-                "aspect-square rounded-md overflow-hidden cursor-pointer",
-                index === 0 && "col-span-2 row-span-2"
+                "aspect-square rounded-md overflow-hidden cursor-pointer transition-all duration-200",
+                index === 0 && processedImages.length > 3 && "col-span-2 row-span-2",
+                index === activeIndex ? "ring-2 ring-purple-500 opacity-100" : "opacity-70 hover:opacity-100"
               )}
+              onClick={() => setActiveIndex(index)}
             >
               <img 
                 src={image.image_url}
@@ -106,8 +122,14 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
                 className="h-full w-full object-cover"
                 onError={() => handleImageError(image.image_url)}
               />
-            </div>
+            </button>
           ))}
+          
+          {processedImages.length > 12 && (
+            <div className="aspect-square rounded-md bg-purple-800/50 flex items-center justify-center text-white text-xs font-medium">
+              +{processedImages.length - 12}
+            </div>
+          )}
         </div>
       )}
     </div>

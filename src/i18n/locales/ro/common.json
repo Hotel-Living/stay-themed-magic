@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Se încarcă...",
@@ -16,12 +15,21 @@
     "search": "Caută",
     "filter": "Filtrează",
     "sort": "Sortează",
-    "view": "Vizualizează",
+    "view": "Vezi",
     "add": "Adaugă",
     "remove": "Elimină",
     "update": "Actualizează",
     "create": "Creează",
     "yes": "Da",
     "no": "Nu"
+  },
+  "intro": {
+    "welcome": "REVOLUȚIA\nA ÎNCEPUT",
+    "tagline": "TRĂIEȘTE MAI MULT\nTRĂIEȘTE MAI BINE",
+    "experience": "UITĂ DE GRIJILE\nLOCUINȚEI",
+    "style": "TRĂIEȘTE ÎN HOTELURI\nTOT ANUL",
+    "community": "BUCURĂ-TE DE STILUL\nde VIAȚĂ PE CARE-L MERIȚI",
+    "people": "ÎNCONJOARĂ-TE DE OAMENI\nCA TINE",
+    "passion": "TRANSFORMĂ-ȚI PASIUNILE\nÎN VIAȚA DE ZI CU ZI"
   }
 }

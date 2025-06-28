@@ -31,11 +31,11 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
 
   const createStarburst = (centerX: number, centerY: number) => {
     const particles: StarburstParticle[] = [];
-    const particleCount = 12;
+    const particleCount = 15;
     
     for (let i = 0; i < particleCount; i++) {
       const angle = (i / particleCount) * Math.PI * 2;
-      const speed = 2 + Math.random() * 3;
+      const speed = 3 + Math.random() * 4;
       particles.push({
         id: i,
         x: centerX,
@@ -43,7 +43,7 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         opacity: 1,
-        size: 2 + Math.random() * 2
+        size: 1 + Math.random() * 3
       });
     }
     
@@ -58,13 +58,13 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
           ...particle,
           x: particle.x + particle.vx,
           y: particle.y + particle.vy,
-          opacity: Math.max(0, 1 - frame * 0.05),
-          vx: particle.vx * 0.98,
-          vy: particle.vy * 0.98
+          opacity: Math.max(0, 1 - frame * 0.06),
+          vx: particle.vx * 0.96,
+          vy: particle.vy * 0.96
         }))
       );
       
-      if (frame < 60) {
+      if (frame < 40) {
         requestAnimationFrame(animateStarburst);
       } else {
         setStarburst([]);
@@ -88,8 +88,8 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
       
       setTimeout(() => {
         setCurrentLine(prev => prev + 1);
-      }, 300);
-    }, 1500); // Each line displays for 1.5 seconds
+      }, 200);
+    }, 750); // Each line displays for 0.75 seconds (doubled speed)
 
     return () => clearTimeout(timer);
   }, [currentLine, messages.length, onComplete]);
@@ -121,7 +121,7 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
                 ? '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(147, 51, 234, 0.3)' 
                 : '0 0 10px rgba(255, 255, 255, 0.2)',
               animation: index === currentLine 
-                ? 'smooth-approach 1.5s ease-out' 
+                ? 'smooth-approach-single 0.75s ease-out' 
                 : 'gentle-float 3s ease-in-out infinite'
             }}
           >
@@ -141,23 +141,19 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
             width: particle.size,
             height: particle.size,
             opacity: particle.opacity,
-            boxShadow: `0 0 ${particle.size * 2}px rgba(255, 255, 255, ${particle.opacity})`,
+            boxShadow: `0 0 ${particle.size * 3}px rgba(255, 255, 255, ${particle.opacity})`,
             transform: 'translate(-50%, -50%)'
           }}
         />
       ))}
       
-      <style jsx>{`
-        @keyframes smooth-approach {
+      <style>
+        {`
+        @keyframes smooth-approach-single {
           0% {
             transform: translateZ(-200px) scale(0.5);
             opacity: 0.3;
             filter: blur(2px);
-          }
-          50% {
-            transform: translateZ(-50px) scale(0.8);
-            opacity: 0.7;
-            filter: blur(1px);
           }
           100% {
             transform: translateZ(0) scale(1.1);
@@ -174,7 +170,8 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
             transform: translateY(-10px);
           }
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };

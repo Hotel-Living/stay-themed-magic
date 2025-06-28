@@ -219,7 +219,7 @@ export function SecondaryFilterPanel({
 
       {/* 11. Categoría */}
       <CollapsibleSection title={t('filters.category')}>
-        {[1, 2, 3, 4, 5].map(stars => <label key={stars} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {[1, 2, 3, 4, 5].map(stars => <label key={stars} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.stars?.includes(stars.toString()) || false} onChange={e => handleArrayFilterChange('stars', stars.toString(), e.target.checked)} />
             <span>{'★'.repeat(stars)}</span>
           </label>)}

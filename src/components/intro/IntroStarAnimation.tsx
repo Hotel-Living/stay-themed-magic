@@ -8,7 +8,7 @@ interface IntroStarAnimationProps {
 
 export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState(-1); // Start at -1 for initial delay
+  const [currentStep, setCurrentStep] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
 
   const messages = [
@@ -96,3 +96,4 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
+

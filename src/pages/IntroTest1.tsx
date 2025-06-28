@@ -23,7 +23,7 @@ export default function IntroTest1() {
         <IntroStarAnimation onComplete={handleIntroComplete} />
       ) : (
         <div className="text-center space-y-6">
-          <h1 className="text-white text-2xl font-bold">Intro Animation Test</h1>
+          <h1 className="text-white text-2xl font-bold">Intro Animation Test 1</h1>
           <div className="space-x-4">
             <Button onClick={restartIntro} className="bg-purple-600 hover:bg-purple-700">
               Watch Again

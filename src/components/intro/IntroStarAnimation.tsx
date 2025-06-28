@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -61,15 +62,17 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
-              index === currentStep ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
+              index === currentStep ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
           >
             <h1
-              className="text-lg md:text-2xl lg:text-3xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
+              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-yellow-400 max-w-6xl leading-tight whitespace-pre-line uppercase tracking-wider"
               style={{
-                textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
-                WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
+                textShadow: '3px 3px 0px white, -3px -3px 0px white, 3px -3px 0px white, -3px 3px 0px white, 0px 3px 0px white, 3px 0px 0px white, 0px -3px 0px white, -3px 0px 0px white, 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white',
+                WebkitTextStroke: '1px white',
+                fontWeight: '900',
+                letterSpacing: '0.05em'
               }}
             >
               {formatTextWithLineBreaks(message)}
@@ -96,4 +99,3 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
-

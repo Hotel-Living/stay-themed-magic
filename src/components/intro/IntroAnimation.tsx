@@ -1,214 +1,174 @@
 
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
-interface StarburstStar {
-  id: number;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  opacity: number;
-  size: number;
+interface IntroAnimationProps {
+  onComplete: () => void;
 }
 
-interface TransformingStar {
-  id: number;
-  x: number;
-  y: number;
-  opacity: number;
-  size: number;
-  isTransforming: boolean;
-}
+const INTRO_MESSAGES = [
+  "LA REVOLUCIÓN HA LLEGADO",
+  "MULTIPLICA TU VIDA", 
+  "VIVE EN HOTELES",
+  "VIVE CON ESTILO",
+  "CONOCE AFINES",
+  "DISFRUTA TUS PASIONES"
+];
 
-export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
-  const { t } = useTranslation();
-  const [currentIndex, setCurrentIndex] = useState(-1); // Start with -1 to show first star
-  const [scale, setScale] = useState(0.3);
-  const [starbursts, setStarbursts] = useState<StarburstStar[]>([]);
-  const [transformingStars, setTransformingStars] = useState<TransformingStar[]>([]);
+const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
+const MAX_INTRO_SHOWS = 5;
 
-  const messages = [
-    t('intro.message1', 'Themed hotels for extended stays'),
-    t('intro.message2', 'Where your interests become your home'),
-    t('intro.message3', 'Experience Hotel-Living')
-  ];
+export function IntroAnimation({ onComplete }: IntroAnimationProps) {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
+  const [isVisible, setIsVisible] = useState(true);
+  const [showAllText, setShowAllText] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
 
-  const createStarburst = (lineIndex: number) => {
-    const newStars: StarburstStar[] = [];
-    const starCount = 12;
-    
-    for (let i = 0; i < starCount; i++) {
-      const angle = (i / starCount) * Math.PI * 2;
-      const speed = Math.random() * 3 + 2;
-      newStars.push({
-        id: Date.now() + i,
-        x: 50, // Center of screen
-        y: 50 + (lineIndex - 1) * 8, // Position based on line
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        opacity: 1,
-        size: Math.random() * 3 + 2
-      });
-    }
-    
-    setStarbursts(prev => [...prev, ...newStars]);
-    
-    // Animate starburst stars
-    setTimeout(() => {
-      setStarbursts(prev => prev.filter(star => !newStars.includes(star)));
-    }, 1000);
-  };
-
-  const createTransformingStar = (messageIndex: number) => {
-    const newStar: TransformingStar = {
-      id: Date.now(),
-      x: 50,
-      y: 50 + messageIndex * 8,
-      opacity: 1,
-      size: 8,
-      isTransforming: false
-    };
-    
-    setTransformingStars(prev => [...prev, newStar]);
-    
-    // Start transformation after a brief delay
-    setTimeout(() => {
-      setTransformingStars(prev => 
-        prev.map(star => 
-          star.id === newStar.id 
-            ? { ...star, isTransforming: true }
-            : star
-        )
-      );
-      
-      // Show text after transformation
+  useEffect(() => {
+    const startAnimation = () => {
+      // Wait for stars to populate, then show all text floating in background
       setTimeout(() => {
-        setCurrentIndex(messageIndex);
-        // Remove transforming star
-        setTransformingStars(prev => prev.filter(star => star.id !== newStar.id));
-      }, 500);
-    }, 300);
+        setShowAllText(true);
+        // Start the sequential animation after all text is visible
+        setTimeout(() => {
+          startMessageSequence(0);
+        }, 500);
+      }, 1000);
+    };
+
+    const startMessageSequence = (index: number) => {
+      if (index >= INTRO_MESSAGES.length) {
+        // All messages completed, start outro
+        setTimeout(() => {
+          setIsVisible(false);
+          setTimeout(() => {
+            updateVisitCount();
+            onComplete();
+          }, 750);
+        }, 500);
+        return;
+      }
+
+      // Set current message and start approach
+      setCurrentMessageIndex(index);
+      setAnimationPhase('approaching');
+      
+      // Phase 1: Approaching (1 seconds)
+      setTimeout(() => {
+        setAnimationPhase('glowing');
+        
+        // Phase 2: Glowing and readable (1 second)
+        setTimeout(() => {
+          setAnimationPhase('dissolving');
+          
+          // Phase 3: Dissolving into star dust (1 second)
+          setTimeout(() => {
+            setAnimationPhase('waiting');
+            
+            // Brief pause before next message (0.25 seconds)
+            setTimeout(() => {
+              startMessageSequence(index + 1);
+            }, 250);
+          }, 1000);
+        }, 1000);
+      }, 1000);
+    };
+
+    startAnimation();
+  }, [onComplete]);
+
+  const updateVisitCount = () => {
+    const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+    localStorage.setItem(VISIT_COUNT_KEY, (currentCount + 1).toString());
   };
 
-  useEffect(() => {
-    // Single smooth scaling animation
-    const scaleInterval = setInterval(() => {
-      setScale(prev => {
-        const newScale = prev + 0.02;
-        if (newScale >= 1) {
-          clearInterval(scaleInterval);
-          return 1;
-        }
-        return newScale;
-      });
-    }, 50);
+  if (!isVisible) return null;
 
-    // Create first star immediately
-    setTimeout(() => {
-      createTransformingStar(0);
-    }, 1000);
+  // Get animation styles for each message
+  const getMessageStyles = (messageIndex: number) => {
+    const isCurrent = messageIndex === currentMessageIndex;
+    const isPast = messageIndex < currentMessageIndex;
+    
+    if (!showAllText) {
+      return {
+        opacity: 0,
+        transform: 'translate3d(0, 0, -3000px) scale(0.1)',
+        filter: 'blur(30px)'
+      };
+    }
 
-    // Text progression with star transformations
-    const messageInterval = setInterval(() => {
-      setCurrentIndex(prev => {
-        if (prev < messages.length - 1) {
-          const nextIndex = prev + 1;
-          if (prev >= 0) {
-            createStarburst(prev);
-          }
-          // Create next transforming star
-          if (nextIndex < messages.length) {
-            setTimeout(() => {
-              createTransformingStar(nextIndex);
-            }, 1000);
-          }
-          return prev; // Don't increment yet, wait for star transformation
-        } else {
-          clearInterval(messageInterval);
-          createStarburst(prev);
-          setTimeout(onComplete, 1500);
-          return prev;
-        }
-      });
-    }, 2000);
+    if (isPast) {
+      // Already dissolved messages - completely invisible
+      return {
+        opacity: 0,
+        transform: 'translate3d(0, 0, -2000px) scale(0.2)',
+        filter: 'blur(40px)'
+      };
+    }
 
-    return () => {
-      clearInterval(scaleInterval);
-      clearInterval(messageInterval);
-    };
-  }, [messages.length, onComplete]);
-
-  // Animate existing starburst stars
-  useEffect(() => {
-    if (starbursts.length === 0) return;
-
-    const animationInterval = setInterval(() => {
-      setStarbursts(prev => prev.map(star => ({
-        ...star,
-        x: star.x + star.vx,
-        y: star.y + star.vy,
-        opacity: star.opacity - 0.05,
-        vx: star.vx * 0.98,
-        vy: star.vy * 0.98
-      })).filter(star => star.opacity > 0));
-    }, 50);
-
-    return () => clearInterval(animationInterval);
-  }, [starbursts.length]);
+    if (isCurrent) {
+      // Current active message
+      switch (animationPhase) {
+        case 'approaching':
+          return {
+            opacity: 0.9,
+            transform: 'translate3d(0, 0, -100px) scale(0.85)',
+            filter: 'blur(2px)',
+            textShadow: '0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.5)'
+          };
+        case 'glowing':
+          return {
+            opacity: 1,
+            transform: 'translate3d(0, 0, 0) scale(1)',
+            filter: 'blur(0px)',
+            textShadow: '0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.8), 0 0 150px rgba(255, 215, 0, 0.6)'
+          };
+        case 'dissolving':
+          return {
+            opacity: 0,
+            transform: 'translate3d(0, -30px, 50px) scale(1.05)',
+            filter: 'blur(20px)',
+            textShadow: '0 0 80px rgba(255, 215, 0, 0.4), 0 0 160px rgba(255, 255, 255, 0.3)'
+          };
+        default:
+          return {
+            opacity: 0.15,
+            transform: 'translate3d(0, 0, -1200px) scale(0.3)',
+            filter: 'blur(12px)'
+          };
+      }
+    } else {
+      // Future messages - floating in deep background like distant spacecraft
+      const offset = (messageIndex - Math.max(currentMessageIndex, 0)) * 80;
+      const depth = 1500 + offset * 150;
+      return {
+        opacity: 0.12,
+        transform: `translate3d(${offset * 0.4}px, ${offset * 0.3}px, -${depth}px) scale(0.25)`,
+        filter: 'blur(15px)',
+        textShadow: '0 0 15px rgba(255, 215, 0, 0.4)'
+      };
+    }
+  };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-purple-900 via-purple-800 to-black flex items-center justify-center overflow-hidden">
-      {/* Starburst stars */}
-      {starbursts.map(star => (
-        <div
-          key={star.id}
-          className="absolute bg-white rounded-full animate-pulse"
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            transform: 'translate(-50%, -50%)'
-          }}
-        />
-      ))}
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#411052' }}>
+      <HotelStarfield />
       
-      {/* Transforming stars */}
-      {transformingStars.map(star => (
-        <div
-          key={star.id}
-          className={`absolute bg-white rounded-full transition-all duration-500 ${
-            star.isTransforming ? 'opacity-0 scale-150' : 'animate-pulse'
-          }`}
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            transform: 'translate(-50%, -50%)'
-          }}
-        />
-      ))}
-      
-      <div 
-        className="text-center space-y-6 transition-transform duration-100 ease-out"
-        style={{ transform: `scale(${scale})` }}
-      >
-        {messages.map((message, index) => (
+      <div className="relative z-10 text-center px-8 w-full h-full flex items-center justify-center">
+        {INTRO_MESSAGES.map((message, index) => (
           <div
             key={index}
-            className={`text-4xl md:text-6xl font-bold transition-all duration-1000 ${
-              index <= currentIndex 
-                ? 'opacity-100 text-yellow-400 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]' 
-                : 'opacity-0'
-            } ${
-              index < currentIndex ? 'animate-pulse opacity-0' : ''
-            }`}
+            className="absolute font-bold text-4xl md:text-6xl lg:text-7xl whitespace-nowrap"
             style={{
-              textShadow: '2px 2px 4px rgba(255,255,255,0.3), -1px -1px 2px rgba(255,255,255,0.3)',
-              WebkitTextStroke: '1px white'
+              color: '#FFD700',
+              WebkitTextStroke: '1px white',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              letterSpacing: '0.05em',
+              perspective: '1000px',
+              transformStyle: 'preserve-3d',
+              transition: 'all 1000ms cubic-bezier(0.23, 1, 0.32, 1)',
+              willChange: 'transform, opacity, filter',
+              ...getMessageStyles(index)
             }}
           >
             {message}
@@ -219,14 +179,16 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   );
 }
 
+// Hook to check if intro should be shown
 export function useIntroAnimation() {
-  const [shouldShowIntro, setShouldShowIntro] = useState(() => {
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
-    return !hasSeenIntro;
-  });
+  const [shouldShowIntro, setShouldShowIntro] = useState(false);
+
+  useEffect(() => {
+    const visitCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+    setShouldShowIntro(visitCount < MAX_INTRO_SHOWS);
+  }, []);
 
   const handleIntroComplete = () => {
-    localStorage.setItem('hasSeenIntro', 'true');
     setShouldShowIntro(false);
   };
 

@@ -1,3 +1,3 @@
 
 export { IntroAnimation, useIntroAnimation } from './IntroAnimation';
-export { IntroStarAnimation, useIntroStarAnimation } from './IntroStarAnimation';
+export { IntroAnimation as IntroStarAnimation, useIntroAnimation as useIntroStarAnimation } from './IntroStarAnimation';

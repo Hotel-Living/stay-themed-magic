@@ -24,6 +24,14 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [showAllText, setShowAllText] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
 
+  const handleDoubleClick = () => {
+    setIsVisible(false);
+    // Increment visit count immediately when skipping
+    const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+    localStorage.setItem(VISIT_COUNT_KEY, (currentCount + 1).toString());
+    onComplete();
+  };
+
   useEffect(() => {
     const startAnimation = () => {
       setTimeout(() => {
@@ -136,7 +144,11 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#411052' }}>
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" 
+      style={{ backgroundColor: '#411052' }}
+      onDoubleClick={handleDoubleClick}
+    >
       <HotelStarfield />
 
       <div className="relative z-10 text-center px-8 w-full h-full flex items-center justify-center">

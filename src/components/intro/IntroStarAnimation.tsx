@@ -32,6 +32,14 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     ));
   };
 
+  const handleDoubleClick = () => {
+    setIsVisible(false);
+    // Increment visit count immediately when skipping
+    const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+    localStorage.setItem(VISIT_COUNT_KEY, (currentCount + 1).toString());
+    onComplete();
+  };
+
   useEffect(() => {
     if (currentStep === -1) {
       const timer = setTimeout(() => {
@@ -68,7 +76,10 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      onDoubleClick={handleDoubleClick}
+    >
       <Starfield />
       <div className="relative z-10 text-center px-8">
         {currentStep === -1 && <div />}

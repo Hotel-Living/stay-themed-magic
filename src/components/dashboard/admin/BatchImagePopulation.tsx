@@ -1,193 +1,174 @@
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, Play, Clock, Settings } from "lucide-react";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { RefreshCw, Images, AlertCircle, CheckCircle } from 'lucide-react';
 
-export const BatchImagePopulation = () => {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isSettingUpCron, setIsSettingUpCron] = useState(false);
-  const [lastResult, setLastResult] = useState<any>(null);
+export function BatchImagePopulation() {
+  const [isPopulating, setIsPopulating] = useState(false);
+  const [progress, setProgress] = useState<{
+    processed: number;
+    total: number;
+    current?: string;
+  }>({ processed: 0, total: 0 });
+  const [results, setResults] = useState<any>(null);
   const { toast } = useToast();
 
-  const handleBatchPopulate = async () => {
-    setIsProcessing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('batch-populate-hotel-images');
-      
-      if (error) {
-        throw error;
-      }
+  const handleBatchPopulation = async () => {
+    setIsPopulating(true);
+    setProgress({ processed: 0, total: 0 });
+    setResults(null);
 
-      setLastResult(data);
+    try {
       toast({
-        title: "Batch processing completed",
-        description: `Successfully processed ${data.successCount} hotels, ${data.errorCount} errors`,
+        title: "Starting Batch Image Population",
+        description: "This may take several minutes. Please don't close this page.",
       });
-    } catch (error: any) {
-      console.error('Error in batch populate:', error);
+
+      const { data, error } = await supabase.functions.invoke('batch-populate-all-hotel-images', {
+        body: {}
+      });
+
+      if (error) throw error;
+
+      setResults(data);
+      
       toast({
+        title: "Batch Population Complete",
+        description: `Successfully processed ${data.successCount} hotels. ${data.failureCount} failures.`,
+      });
+
+    } catch (error: any) {
+      console.error('Error in batch population:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to populate hotel images",
         variant: "destructive",
-        title: "Batch processing failed",
-        description: error.message || "Unknown error occurred",
       });
     } finally {
-      setIsProcessing(false);
+      setIsPopulating(false);
     }
   };
 
-  const handleAutoPopulate = async () => {
-    setIsProcessing(true);
+  const handleCleanupDuplicates = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('auto-populate-images');
-      
-      if (error) {
-        throw error;
-      }
-
-      setLastResult(data);
       toast({
-        title: "Auto processing completed",
-        description: data.message || "Processing completed successfully",
+        title: "Cleaning up duplicates",
+        description: "Removing duplicate images across hotels...",
       });
+
+      const { data, error } = await supabase.functions.invoke('cleanup-duplicate-images', {
+        body: {}
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Cleanup Complete",
+        description: `Removed ${data.imagesRemoved || 0} duplicate images.`,
+      });
+
     } catch (error: any) {
-      console.error('Error in auto populate:', error);
+      console.error('Error in cleanup:', error);
       toast({
+        title: "Cleanup Error",
+        description: error.message || "Failed to cleanup duplicates",
         variant: "destructive",
-        title: "Auto processing failed",
-        description: error.message || "Unknown error occurred",
       });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleSetupCron = async () => {
-    setIsSettingUpCron(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('setup-image-population-cron');
-      
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "Cron job configured",
-        description: "Automatic image population will run every 12 hours",
-      });
-    } catch (error: any) {
-      console.error('Error setting up cron:', error);
-      toast({
-        variant: "destructive",
-        title: "Cron setup failed",
-        description: error.message || "Unknown error occurred",
-      });
-    } finally {
-      setIsSettingUpCron(false);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Hotel Image Population</h2>
-        <p className="text-gray-600 mb-6">
-          Manage automatic image population for hotels using the Unsplash API.
-        </p>
-      </div>
+      <Card className="bg-purple-900/20 border-purple-500/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Images className="w-5 h-5" />
+            Hotel Image Management
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Button
+              onClick={handleBatchPopulation}
+              disabled={isPopulating}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              {isPopulating ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Populating Images...
+                </>
+              ) : (
+                <>
+                  <Images className="w-4 h-4 mr-2" />
+                  Populate All Hotel Images
+                </>
+              )}
+            </Button>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
-            <Play className="h-4 w-4" />
-            Batch Processing
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Process all hotels without images immediately (respects rate limits).
-          </p>
-          <Button 
-            onClick={handleBatchPopulate}
-            disabled={isProcessing}
-            className="w-full"
-          >
-            {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Populate Images for All Hotels
-          </Button>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            Rate-Limited Processing
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Process up to 4 hotels (40 API requests) respecting hourly limits.
-          </p>
-          <Button 
-            onClick={handleAutoPopulate}
-            disabled={isProcessing}
-            variant="outline"
-            className="w-full"
-          >
-            {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Run Auto Population
-          </Button>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Cron Job Setup
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Configure automatic processing every 12 hours.
-          </p>
-          <Button 
-            onClick={handleSetupCron}
-            disabled={isSettingUpCron}
-            variant="secondary"
-            className="w-full"
-          >
-            {isSettingUpCron && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Setup Automatic Processing
-          </Button>
-        </div>
-      </div>
-
-      {lastResult && (
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h4 className="font-semibold mb-2">Last Processing Result</h4>
-          <div className="text-sm space-y-1">
-            {lastResult.processedHotels && (
-              <p>Processed Hotels: {lastResult.processedHotels}</p>
-            )}
-            {lastResult.successCount !== undefined && (
-              <p>Successful: {lastResult.successCount}</p>
-            )}
-            {lastResult.errorCount !== undefined && (
-              <p>Errors: {lastResult.errorCount}</p>
-            )}
-            {lastResult.apiUsage && (
-              <p>API Usage: {lastResult.apiUsage.requestsUsed}/{lastResult.apiUsage.maxRequests} requests this hour</p>
-            )}
-            {lastResult.message && (
-              <p className="text-blue-600">{lastResult.message}</p>
-            )}
+            <Button
+              onClick={handleCleanupDuplicates}
+              variant="outline"
+              className="border-purple-500/30 text-purple-200 hover:bg-purple-800/30"
+            >
+              <AlertCircle className="w-4 h-4 mr-2" />
+              Cleanup Duplicates
+            </Button>
           </div>
-        </div>
-      )}
 
-      <div className="bg-blue-50 p-4 rounded-lg">
-        <h4 className="font-semibold mb-2">System Configuration</h4>
-        <ul className="text-sm space-y-1 text-gray-700">
-          <li>• Maximum 40 Unsplash API requests per hour</li>
-          <li>• 10 images per hotel (4 hotels maximum per hour)</li>
-          <li>• Automatic processing every 12 hours</li>
-          <li>• Only processes approved hotels without images</li>
-          <li>• Images are relevant to hotel city/style</li>
-        </ul>
-      </div>
+          {isPopulating && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-purple-200">
+                <span>Processing hotels...</span>
+                <span>{progress.processed}/{progress.total}</span>
+              </div>
+              <Progress 
+                value={progress.total > 0 ? (progress.processed / progress.total) * 100 : 0} 
+                className="bg-purple-800/30"
+              />
+              {progress.current && (
+                <p className="text-sm text-purple-300">
+                  Currently processing: {progress.current}
+                </p>
+              )}
+            </div>
+          )}
+
+          {results && (
+            <div className="bg-purple-800/30 rounded-lg p-4 space-y-3">
+              <h3 className="font-semibold text-white flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                Population Results
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <div className="text-purple-300">Processed</div>
+                  <div className="text-white font-semibold">{results.processed}</div>
+                </div>
+                <div>
+                  <div className="text-purple-300">Successful</div>
+                  <div className="text-green-400 font-semibold">{results.successCount}</div>
+                </div>
+                <div>
+                  <div className="text-purple-300">Failed</div>
+                  <div className="text-red-400 font-semibold">{results.failureCount}</div>
+                </div>
+                <div>
+                  <div className="text-purple-300">Total Images</div>
+                  <div className="text-white font-semibold">{results.finalStats?.totalImages || 0}</div>
+                </div>
+              </div>
+              <div className="text-sm text-purple-200">
+                {results.finalStats?.hotelsWithImages}/{results.finalStats?.totalHotels} hotels now have images
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
-};
+}

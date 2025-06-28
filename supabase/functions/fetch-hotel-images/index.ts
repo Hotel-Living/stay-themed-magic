@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { hotelId, city, country, style, hotelName } = await req.json()
+    const { hotelId, city, country, style, hotelName, forceRefresh = false } = await req.json()
 
     if (!hotelId) {
       throw new Error('Hotel ID is required')
@@ -31,13 +31,13 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Check if hotel already has images
+    // Check if hotel already has images (unless forcing refresh)
     const { data: existingImages } = await supabase
       .from('hotel_images')
       .select('id')
       .eq('hotel_id', hotelId)
 
-    if (existingImages && existingImages.length > 0) {
+    if (!forceRefresh && existingImages && existingImages.length > 0) {
       console.log(`Hotel ${hotelId} already has ${existingImages.length} images, skipping auto-population`)
       return new Response(
         JSON.stringify({ message: 'Hotel already has images', imageCount: existingImages.length }),
@@ -53,35 +53,45 @@ serve(async (req) => {
     const existingImageUrls = new Set(allExistingImages?.map(img => img.image_url) || [])
     console.log(`Found ${existingImageUrls.size} existing images across all hotels`)
 
-    // Define search queries in order of preference
-    const searchQueries = [
-      `${city} ${country} hotel`,
-      `${city} luxury hotel`,
-      `${style} hotel interior`,
-      `boutique hotel ${country}`,
-      `luxury hotel room`,
-      `hotel lobby elegant`,
-      `hotel restaurant`,
-      `hotel spa wellness`,
-      `hotel pool`,
-      `luxury accommodation`
+    // Enhanced search queries with more variety
+    const baseQueries = [
+      `${city} ${country} hotel luxury`,
+      `${city} boutique accommodation`,
+      `${style} hotel ${country}`,
+      `luxury hotel room ${city}`,
+      `hotel interior design ${style}`,
+      `${country} hospitality architecture`,
+      `elegant hotel lobby ${city}`,
+      `premium accommodation ${country}`,
+      `hotel restaurant fine dining`,
+      `spa wellness hotel ${city}`,
+      `hotel pool terrace ${country}`,
+      `boutique hotel bedroom`,
+      `luxury travel ${city}`,
+      `hotel bar lounge ${country}`,
+      `premium hospitality design`
     ]
 
+    // Add randomization for more variety
+    const shuffledQueries = baseQueries.sort(() => Math.random() - 0.5)
+    
     const imageUrls: string[] = []
     let queryIndex = 0
     let attempts = 0
-    const maxAttempts = 20 // Prevent infinite loops
+    const maxAttempts = 25
+    const targetImages = 8
 
-    // Fetch images from different search queries to ensure variety
-    while (imageUrls.length < 10 && queryIndex < searchQueries.length && attempts < maxAttempts) {
-      const query = searchQueries[queryIndex]
-      const imagesNeeded = Math.min(5, 10 - imageUrls.length) // Get up to 5 images per query
+    while (imageUrls.length < targetImages && queryIndex < shuffledQueries.length && attempts < maxAttempts) {
+      const query = shuffledQueries[queryIndex]
+      const imagesNeeded = Math.min(3, targetImages - imageUrls.length)
       
       console.log(`Searching Unsplash for: "${query}" (need ${imagesNeeded} images, attempt ${attempts + 1})`)
 
       try {
+        // Add random page parameter for more variety
+        const page = Math.floor(Math.random() * 3) + 1
         const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=30&orientation=landscape`,
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=30&page=${page}&orientation=landscape&order_by=relevant`,
           {
             headers: {
               'Authorization': `Client-ID ${unsplashAccessKey}`,
@@ -95,13 +105,18 @@ serve(async (req) => {
             .filter((photo: any) => 
               photo.urls?.regular && 
               !imageUrls.includes(photo.urls.regular) &&
-              !existingImageUrls.has(photo.urls.regular) // Check against global duplicates
+              !existingImageUrls.has(photo.urls.regular) &&
+              photo.width >= 800 && // Ensure minimum quality
+              photo.height >= 600
             )
             .map((photo: any) => photo.urls.regular)
             .slice(0, imagesNeeded)
           
           imageUrls.push(...newUrls)
           console.log(`Found ${newUrls.length} new unique images from query: "${query}"`)
+          
+          // Update the global set to prevent immediate reuse
+          newUrls.forEach(url => existingImageUrls.add(url))
         } else {
           console.warn(`Unsplash API error for query "${query}":`, response.status)
         }
@@ -112,11 +127,17 @@ serve(async (req) => {
       queryIndex++
       attempts++
       
-      // If we've gone through all queries but still need more images, try again with different parameters
-      if (queryIndex >= searchQueries.length && imageUrls.length < 10 && attempts < maxAttempts) {
+      // If we've gone through all queries but still need more images, restart with different parameters
+      if (queryIndex >= shuffledQueries.length && imageUrls.length < targetImages && attempts < maxAttempts) {
         queryIndex = 0
-        // Add some randomization to get different results
-        searchQueries.push(`${city} accommodation`, `${country} travel`, `luxury interior design`)
+        // Add more generic queries for variety
+        shuffledQueries.push(
+          `luxury accommodation interior`,
+          `premium hotel design`,
+          `elegant hospitality space`,
+          `modern hotel architecture`,
+          `boutique travel experience`
+        )
       }
     }
 
@@ -125,6 +146,14 @@ serve(async (req) => {
     }
 
     console.log(`Successfully fetched ${imageUrls.length} unique images for hotel ${hotelId}`)
+
+    // If force refresh, remove existing images first
+    if (forceRefresh && existingImages && existingImages.length > 0) {
+      await supabase
+        .from('hotel_images')
+        .delete()
+        .eq('hotel_id', hotelId)
+    }
 
     // Insert images into database
     const imageRecords = imageUrls.map((url, index) => ({
@@ -158,7 +187,8 @@ serve(async (req) => {
       JSON.stringify({ 
         success: true, 
         imageCount: imageUrls.length,
-        images: insertedImages
+        images: insertedImages,
+        refreshed: forceRefresh
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )

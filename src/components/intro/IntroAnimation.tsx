@@ -23,56 +23,55 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [messageVisible, setMessageVisible] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState<'waiting' | 'fadingIn' | 'displaying' | 'fadingOut' | 'complete'>('waiting');
 
   useEffect(() => {
-    // Start the animation sequence
     const startAnimation = () => {
       // Wait for stars to populate, then start showing text
       setTimeout(() => {
         setShowText(true);
-        // First message appears slowly from the background
+        startMessageSequence(0);
+      }, 2000);
+    };
+
+    const startMessageSequence = (index: number) => {
+      if (index >= INTRO_MESSAGES.length) {
+        // All messages completed, start outro
         setTimeout(() => {
-          setMessageVisible(true);
+          setIsVisible(false);
+          setTimeout(() => {
+            updateVisitCount();
+            onComplete();
+          }, 1500);
+        }, 1000);
+        return;
+      }
+
+      // Set current message
+      setCurrentMessageIndex(index);
+      setAnimationPhase('fadingIn');
+      
+      // Phase 1: Fade in (2 seconds)
+      setTimeout(() => {
+        setMessageVisible(true);
+        setAnimationPhase('displaying');
+        
+        // Phase 2: Display (1.5 seconds)
+        setTimeout(() => {
+          setAnimationPhase('fadingOut');
+          
+          // Phase 3: Fade out (2 seconds)
+          setTimeout(() => {
+            setMessageVisible(false);
+            setAnimationPhase('waiting');
+            
+            // Phase 4: Brief pause before next message (0.5 seconds)
+            setTimeout(() => {
+              startMessageSequence(index + 1);
+            }, 500);
+          }, 2000);
         }, 1500);
       }, 2000);
-
-      // Cycle through messages with very slow, cinematic timing
-      const messageInterval = setInterval(() => {
-        setCurrentMessageIndex(prev => {
-          if (prev < INTRO_MESSAGES.length - 1) {
-            // Start dissolving current message very slowly
-            setMessageVisible(false);
-            
-            // Show next message after a gentle transition
-            setTimeout(() => {
-              setMessageVisible(true);
-            }, 1400); // Longer, smoother transition
-            
-            return prev + 1;
-          } else {
-            // All messages shown, start outro
-            clearInterval(messageInterval);
-            
-            // Fade out last message very slowly
-            setMessageVisible(false);
-            
-            // Fade out entire animation
-            setTimeout(() => {
-              setIsVisible(false);
-              
-              // Complete animation and update visit count
-              setTimeout(() => {
-                updateVisitCount();
-                onComplete();
-              }, 1200);
-            }, 2000);
-            
-            return prev;
-          }
-        });
-      }, 3000); // Much slower - each message cycle takes 3 seconds
-
-      return () => clearInterval(messageInterval);
     };
 
     startAnimation();
@@ -85,6 +84,22 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
 
   if (!isVisible) return null;
 
+  // Calculate animation state based on phase
+  const getAnimationState = () => {
+    switch (animationPhase) {
+      case 'fadingIn':
+        return messageVisible;
+      case 'displaying':
+        return true;
+      case 'fadingOut':
+        return false;
+      default:
+        return false;
+    }
+  };
+
+  const animationState = getAnimationState();
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#411052' }}>
       <HotelStarfield />
@@ -92,19 +107,20 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       {showText && (
         <div className="relative z-10 text-center px-8">
           <div 
-            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1800 transform ${
-              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-75 translate-z-[-300px]'
+            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-[2000ms] transform ${
+              animationState ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-80 translate-z-[-400px]'
             }`}
             style={{
               color: '#FFD700', // Pure yellow color
-              WebkitTextStroke: '0.5px white', // Thinner white outline
-              textShadow: '0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.5), 0.5px 0.5px 0px white, -0.5px -0.5px 0px white, 0.5px -0.5px 0px white, -0.5px 0.5px 0px white',
+              WebkitTextStroke: '0.5px white', // Thin white outline
+              textShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.6), 0.5px 0.5px 0px white, -0.5px -0.5px 0px white, 0.5px -0.5px 0px white, -0.5px 0.5px 0px white',
               fontFamily: 'system-ui, -apple-system, sans-serif',
               letterSpacing: '0.05em',
-              filter: messageVisible ? 'blur(0px)' : 'blur(8px)',
+              filter: animationState ? 'blur(0px)' : 'blur(12px)',
               perspective: '1000px',
               transformStyle: 'preserve-3d',
-              transition: 'all 1800ms cubic-bezier(0.23, 1, 0.32, 1)' // Much smoother, slower easing
+              transition: 'all 2000ms cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Very smooth easing
+              willChange: 'transform, opacity, filter'
             }}
           >
             {INTRO_MESSAGES[currentMessageIndex]}

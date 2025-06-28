@@ -32,19 +32,19 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
         setTimeout(() => {
           setMessageVisible(true);
         }, 800);
-      }, 1500);
+      }, 1000);
 
-      // Cycle through messages with slower timing
+      // Cycle through messages with overlapping fade transitions
       const messageInterval = setInterval(() => {
         setCurrentMessageIndex(prev => {
           if (prev < INTRO_MESSAGES.length - 1) {
-            // Fade out current message slower
+            // Start fading out current message while preparing next
             setMessageVisible(false);
             
-            // Show next message after longer fade out
+            // Show next message with overlap
             setTimeout(() => {
               setMessageVisible(true);
-            }, 600);
+            }, 400); // Shorter overlap for smoother transition
             
             return prev + 1;
           } else {
@@ -63,12 +63,12 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
                 updateVisitCount();
                 onComplete();
               }, 800);
-            }, 1200);
+            }, 1000);
             
             return prev;
           }
         });
-      }, 2400); // Each message shows for 2.4 seconds (much slower)
+      }, 1400); // Each message cycle for better pacing over 7 seconds
 
       return () => clearInterval(messageInterval);
     };
@@ -90,13 +90,17 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       {showText && (
         <div className="relative z-10 text-center px-8">
           <div 
-            className={`text-white font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-700 transform ${
-              messageVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1000 transform ${
+              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-75 translate-z-[-100px]'
             }`}
             style={{
-              textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(147, 51, 234, 0.3)',
+              color: '#FFD700', // Pure yellow color
+              WebkitTextStroke: '2px white', // White outline
+              textStroke: '2px white', // For other browsers
+              textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4), 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white',
               fontFamily: 'system-ui, -apple-system, sans-serif',
-              letterSpacing: '0.05em'
+              letterSpacing: '0.05em',
+              filter: messageVisible ? 'blur(0px)' : 'blur(4px)'
             }}
           >
             {INTRO_MESSAGES[currentMessageIndex]}

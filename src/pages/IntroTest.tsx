@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { IntroAnimation } from '@/components/intro';
+import { IntroStarAnimation } from '@/components/intro';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +19,7 @@ export default function IntroTest() {
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center">
       {showIntro ? (
-        <IntroAnimation onComplete={handleIntroComplete} />
+        <IntroStarAnimation onComplete={handleIntroComplete} />
       ) : (
         <div className="text-center space-y-6">
           <h1 className="text-white text-2xl font-bold">Intro Animation Test</h1>

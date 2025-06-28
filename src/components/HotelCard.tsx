@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,7 @@ import { HotelCardFooter } from "./HotelCard/components/HotelCardFooter";
 
 // Multiple fallback images instead of just one
 const FALLBACK_IMAGES = ["https://images.unsplash.com/photo-1566073771259-6a8506099945", "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9", "https://images.unsplash.com/photo-1578944032637-f09897c5233d", "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb", "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4"];
+
 interface HotelCardProps {
   id: string;
   name: string;
@@ -39,6 +41,7 @@ interface HotelCardProps {
   thumbnail?: string;
   onClick?: () => void;
 }
+
 export function HotelCard({
   id,
   name,
@@ -65,12 +68,15 @@ export function HotelCard({
     const index = parseInt(id.slice(-1), 16) % FALLBACK_IMAGES.length;
     return FALLBACK_IMAGES[index];
   };
+  
   const displayImage = image || thumbnail || getFallbackImage();
+  
   const handleImageError = () => {
     console.log(`Image failed to load for hotel ${name}:`, displayImage);
     setImageError(true);
     setIsImageLoading(false);
   };
+  
   const handleImageLoad = () => {
     setIsImageLoading(false);
     setImageError(false);
@@ -81,20 +87,38 @@ export function HotelCard({
     id: ht.themes!.name,
     name: ht.themes!.name
   })) || [];
-  return <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border border-purple-500/30 backdrop-blur-sm" onClick={onClick}>
+
+  // Extract activities
+  const displayActivities = hotel_activities?.filter(ha => ha.activities?.name).map(ha => ({
+    id: ha.activities!.name,
+    name: ha.activities!.name
+  })) || [];
+
+  return (
+    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border border-purple-500/30 backdrop-blur-sm h-full flex flex-col" onClick={onClick}>
       <div className="relative overflow-hidden">
-        {isImageLoading && <div className="absolute inset-0 bg-purple-800/50 animate-pulse flex items-center justify-center">
+        {isImageLoading && (
+          <div className="absolute inset-0 bg-purple-800/50 animate-pulse flex items-center justify-center">
             <div className="text-white text-sm">Loading...</div>
-          </div>}
+          </div>
+        )}
         
-        <img src={displayImage} alt={name} className={`w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`} onError={handleImageError} onLoad={handleImageLoad} />
+        <img 
+          src={displayImage} 
+          alt={name} 
+          className={`w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`} 
+          onError={handleImageError} 
+          onLoad={handleImageLoad} 
+        />
         
-        {imageError && <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-800 flex items-center justify-center">
+        {imageError && (
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-800 flex items-center justify-center">
             <div className="text-center text-white p-4">
               <MapPin className="w-8 h-8 mx-auto mb-2 opacity-60" />
               <div className="text-sm opacity-80">Image unavailable</div>
             </div>
-          </div>}
+          </div>
+        )}
 
         <div className="absolute top-2 right-2">
           <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
@@ -105,30 +129,69 @@ export function HotelCard({
         <HotelCardBadges themes={displayThemes} availableMonths={availableMonths} />
       </div>
 
-      <CardContent className="p-4 space-y-3 bg-[#7908aa]">
-        <div>
-          <h3 className="font-bold text-lg text-white mb-1 line-clamp-2 group-hover:text-purple-200 transition-colors">
+      <CardContent className="p-4 space-y-3 bg-[#7908aa] flex-1 flex flex-col">
+        {/* Centered hotel name */}
+        <div className="text-center">
+          <h3 className="font-bold text-lg text-white mb-2 line-clamp-2 group-hover:text-purple-200 transition-colors">
             {name}
           </h3>
-          <div className="flex items-center text-purple-200 text-sm mb-2">
-            <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
-            <span className="truncate">{city}, {country}</span>
-          </div>
+        </div>
+
+        {/* Centered location */}
+        <div className="flex items-center justify-center text-purple-200 text-sm mb-2">
+          <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+          <span className="truncate">{city}, {country}</span>
+        </div>
+
+        {/* Centered stars */}
+        <div className="flex justify-center mb-3">
           <HotelCardStars stars={stars} />
         </div>
 
-        <div className="flex flex-wrap gap-1">
-          {displayThemes.slice(0, 2).map(theme => <Badge key={theme.id} variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
-              {theme.name}
-            </Badge>)}
-          {displayThemes.length > 2 && <Badge variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
-              +{displayThemes.length - 2}
-            </Badge>}
+        {/* Affinity and Activity tags */}
+        <div className="flex flex-col gap-2 mb-3">
+          {/* Affinity tags */}
+          {displayThemes.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-1">
+              {displayThemes.slice(0, 2).map(theme => (
+                <Badge key={theme.id} variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
+                  {theme.name}
+                </Badge>
+              ))}
+              {displayThemes.length > 2 && (
+                <Badge variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
+                  +{displayThemes.length - 2}
+                </Badge>
+              )}
+            </div>
+          )}
+
+          {/* Activity tags */}
+          {displayActivities.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-1">
+              {displayActivities.slice(0, 2).map(activity => (
+                <Badge key={activity.id} variant="secondary" className="text-xs bg-indigo-600/30 text-indigo-200 border-indigo-500/30">
+                  {activity.name}
+                </Badge>
+              ))}
+              {displayActivities.length > 2 && (
+                <Badge variant="secondary" className="text-xs bg-indigo-600/30 text-indigo-200 border-indigo-500/30">
+                  +{displayActivities.length - 2}
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
 
-        <HotelCardPrice pricePerMonth={pricePerMonth} rates={rates} currency="EUR" />
+        {/* Price moved to bottom */}
+        <div className="mt-auto pt-2">
+          <div className="text-center">
+            <HotelCardPrice pricePerMonth={pricePerMonth} rates={rates} currency="EUR" />
+          </div>
+        </div>
 
         <HotelCardFooter availableMonths={availableMonths} activities={hotel_activities} mealPlans={meal_plans} />
       </CardContent>
-    </Card>;
+    </Card>
+  );
 }

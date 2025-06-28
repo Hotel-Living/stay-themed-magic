@@ -8,9 +8,11 @@ import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
 import { useThemes } from '@/hooks/useThemes';
 import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 
 export default function Index() {
   const { data: themes } = useThemes();
+  const [showIntro, setShowIntro] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -40,8 +42,16 @@ export default function Index() {
     updateFilters(newFilters);
   };
 
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
+
   // Extract theme names for the filter dropdown
   const themeNames = themes ? themes.map(theme => theme.name) : [];
+
+  if (showIntro) {
+    return <IntroStarAnimation onComplete={handleIntroComplete} />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">

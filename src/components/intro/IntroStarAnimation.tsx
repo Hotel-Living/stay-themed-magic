@@ -148,12 +148,9 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
 };
 
 export const useIntroStarAnimation = () => {
-  const [shouldShow, setShouldShow] = useState(() => {
-    return !localStorage.getItem('intro-star-seen');
-  });
+  const [shouldShow, setShouldShow] = useState(true);
 
   const handleComplete = () => {
-    localStorage.setItem('intro-star-seen', 'true');
     setShouldShow(false);
   };
 

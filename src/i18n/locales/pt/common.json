@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Carregando...",
@@ -23,5 +22,14 @@
     "create": "Criar",
     "yes": "Sim",
     "no": "Não"
+  },
+  "intro": {
+    "welcome": "A REVOLUÇÃO\nCHEGOU",
+    "tagline": "VIVA MAIS\nVIVA MELHOR",
+    "experience": "ESQUEÇA AS TAREFAS\ndo LAR",
+    "style": "VIVA EM HOTÉIS\no ANO TODO",
+    "community": "DESFRUTE DO ESTILO\nde VIDA QUE MERECE",
+    "people": "CERQUE-SE DE PESSOAS\nCOMO VOCÊ",
+    "passion": "TRANSFORME SUAS PAIXÕES\nNA SUA VIDA DIÁRIA"
   }
 }

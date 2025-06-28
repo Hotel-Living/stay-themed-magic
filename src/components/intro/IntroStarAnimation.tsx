@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
 
-interface IntroStarAnimationProps {
+interface IntroAnimationProps {
   onComplete: () => void;
 }
 
-export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
+export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
@@ -20,13 +20,7 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     t('intro.passion'),
   ];
 
-  // ✅ Esta función asegura que todo va en MAYÚSCULAS y respeta los \n
-  const formatTextWithLineBreaks = (text: string) => {
-    return text
-      .split('\n')
-      .map(line => line.toUpperCase())
-      .join('\n');
-  };
+  const formatTextWithLineBreaks = (text: string) => text;
 
   useEffect(() => {
     if (currentStep === -1) {
@@ -45,7 +39,7 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     }
 
     const timer = setTimeout(() => {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }, 2500);
 
     return () => clearTimeout(timer);
@@ -81,13 +75,13 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
   );
 };
 
-export const useIntroStarAnimation = () => {
+export const useIntroAnimation = () => {
   const [shouldShow, setShouldShow] = useState(() => {
-    return !localStorage.getItem('intro-star-seen');
+    return !localStorage.getItem('intro-animation-seen');
   });
 
   const handleComplete = () => {
-    localStorage.setItem('intro-star-seen', 'true');
+    localStorage.setItem('intro-animation-seen', 'true');
     setShouldShow(false);
   };
 

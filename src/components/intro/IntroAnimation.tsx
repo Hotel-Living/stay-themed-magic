@@ -62,21 +62,47 @@ export const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) =>
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
-              index === currentStep ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
+              index === currentStep 
+                ? 'opacity-100 scale-100 translate-y-0' 
+                : index < currentStep 
+                  ? 'opacity-0 scale-95 -translate-y-4' 
+                  : 'opacity-0 scale-105 translate-y-4'
             }`}
           >
             <h1 
-              className="text-lg md:text-2xl lg:text-3xl font-bold text-yellow-400 max-w-4xl leading-tight uppercase text-center"
+              className="text-lg md:text-2xl lg:text-3xl font-bold text-yellow-400 max-w-4xl leading-tight uppercase text-center animate-pulse-glow"
               style={{
-                textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
-                WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
+                textShadow: '0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2)',
+                background: 'linear-gradient(45deg, #FFD700, #FFA500, #FFD700)',
+                backgroundSize: '400% 400%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                animation: 'gradient-x 3s ease infinite, pulse-glow 2s infinite alternate',
+                filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))'
               }}
             >
               {formatTextWithLineBreaks(message)}
             </h1>
           </div>
         ))}
+        
+        {/* Dust particle effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-yellow-300 rounded-full opacity-20 animate-floating"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { IntroAnimation } from '@/components/intro';
+import { IntroStarAnimation as IntroAnimation } from '@/components/intro';
+
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 

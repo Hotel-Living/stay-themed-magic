@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +20,17 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     t('intro.community'),
     t('intro.passion')
   ];
+
+  // Helper function to format text for mobile
+  const formatTextForMobile = (text: string) => {
+    if (text === 'La revolución\nha llegado') {
+      return 'LA REVOLUCIÓN\nHA LLEGADO';
+    }
+    if (text === 'Disfruta\ntus pasiones') {
+      return 'DISFRUTA\nTUS PASIONES';
+    }
+    return text;
+  };
 
   useEffect(() => {
     // Initial 1-second delay before starting
@@ -69,7 +81,8 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
                 WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
               }}
             >
-              {message}
+              <span className="hidden md:block">{message}</span>
+              <span className="block md:hidden">{formatTextForMobile(message)}</span>
             </h1>
           </div>
         ))}

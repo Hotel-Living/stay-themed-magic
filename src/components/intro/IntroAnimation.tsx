@@ -7,12 +7,12 @@ interface IntroAnimationProps {
 }
 
 const INTRO_MESSAGES = [
-  "LA REVOLUCIÓN HA LLEGADO",
-  "MULTIPLICA TU VIDA", 
-  "VIVE EN HOTELES",
-  "VIVE CON ESTILO",
-  "CONOCE AFINES",
-  "DISFRUTA TUS PASIONES"
+  "La revolución ha llegado",
+  "Multiplica tu vida", 
+  "Vive en hoteles",
+  "Vive con estilo",
+  "Conoce afines",
+  "Disfruta tus pasiones"
 ];
 
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
@@ -30,30 +30,30 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       // Wait for stars to populate, then start showing text
       setTimeout(() => {
         setShowText(true);
-        // First message appears after stars have populated
+        // First message appears slowly from the background
         setTimeout(() => {
           setMessageVisible(true);
-        }, 1000);
-      }, 1500);
+        }, 1500);
+      }, 2000);
 
-      // Cycle through messages with cinematic 3D effect timing
+      // Cycle through messages with very slow, cinematic timing
       const messageInterval = setInterval(() => {
         setCurrentMessageIndex(prev => {
           if (prev < INTRO_MESSAGES.length - 1) {
-            // Start fading out current message
+            // Start dissolving current message very slowly
             setMessageVisible(false);
             
-            // Show next message after fade out completes
+            // Show next message after a gentle transition
             setTimeout(() => {
               setMessageVisible(true);
-            }, 800); // Longer transition for cinematic effect
+            }, 1400); // Longer, smoother transition
             
             return prev + 1;
           } else {
             // All messages shown, start outro
             clearInterval(messageInterval);
             
-            // Fade out last message
+            // Fade out last message very slowly
             setMessageVisible(false);
             
             // Fade out entire animation
@@ -64,13 +64,13 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               setTimeout(() => {
                 updateVisitCount();
                 onComplete();
-              }, 800);
-            }, 1500);
+              }, 1200);
+            }, 2000);
             
             return prev;
           }
         });
-      }, 1600); // Each message cycle for 10 seconds total duration
+      }, 3000); // Much slower - each message cycle takes 3 seconds
 
       return () => clearInterval(messageInterval);
     };
@@ -92,18 +92,19 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       {showText && (
         <div className="relative z-10 text-center px-8">
           <div 
-            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1200 transform ${
-              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-50 translate-z-[-200px]'
+            className={`font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-1800 transform ${
+              messageVisible ? 'opacity-100 scale-100 translate-z-0' : 'opacity-0 scale-75 translate-z-[-300px]'
             }`}
             style={{
               color: '#FFD700', // Pure yellow color
-              WebkitTextStroke: '1px white', // Thinner white outline
-              textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4), 1px 1px 0px white, -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white',
+              WebkitTextStroke: '0.5px white', // Thinner white outline
+              textShadow: '0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.5), 0.5px 0.5px 0px white, -0.5px -0.5px 0px white, 0.5px -0.5px 0px white, -0.5px 0.5px 0px white',
               fontFamily: 'system-ui, -apple-system, sans-serif',
               letterSpacing: '0.05em',
-              filter: messageVisible ? 'blur(0px)' : 'blur(6px)',
+              filter: messageVisible ? 'blur(0px)' : 'blur(8px)',
               perspective: '1000px',
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
+              transition: 'all 1800ms cubic-bezier(0.23, 1, 0.32, 1)' // Much smoother, slower easing
             }}
           >
             {INTRO_MESSAGES[currentMessageIndex]}

@@ -19,18 +19,21 @@ const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
 const MAX_INTRO_SHOWS = 5;
 
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
-  const [showText, setShowText] = useState(false);
+  const [showAllText, setShowAllText] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
 
   useEffect(() => {
     const startAnimation = () => {
-      // Wait for stars to populate, then start showing all text in background
+      // Wait for stars to populate, then show all text floating in background
       setTimeout(() => {
-        setShowText(true);
-        startMessageSequence(0);
-      }, 2000);
+        setShowAllText(true);
+        // Start the sequential animation after all text is visible
+        setTimeout(() => {
+          startMessageSequence(0);
+        }, 500);
+      }, 1000);
     };
 
     const startMessageSequence = (index: number) => {
@@ -41,8 +44,8 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
           setTimeout(() => {
             updateVisitCount();
             onComplete();
-          }, 1500);
-        }, 1000);
+          }, 750);
+        }, 500);
         return;
       }
 
@@ -50,25 +53,25 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       setCurrentMessageIndex(index);
       setAnimationPhase('approaching');
       
-      // Phase 1: Approaching (2.5 seconds)
+      // Phase 1: Approaching (1 seconds)
       setTimeout(() => {
         setAnimationPhase('glowing');
         
-        // Phase 2: Glowing and readable (2 seconds)
+        // Phase 2: Glowing and readable (1 second)
         setTimeout(() => {
           setAnimationPhase('dissolving');
           
-          // Phase 3: Dissolving into star dust (1.5 seconds)
+          // Phase 3: Dissolving into star dust (1 second)
           setTimeout(() => {
             setAnimationPhase('waiting');
             
-            // Brief pause before next message (0.5 seconds)
+            // Brief pause before next message (0.25 seconds)
             setTimeout(() => {
               startMessageSequence(index + 1);
-            }, 500);
-          }, 1500);
-        }, 2000);
-      }, 2500);
+            }, 250);
+          }, 1000);
+        }, 1000);
+      }, 1000);
     };
 
     startAnimation();
@@ -86,20 +89,20 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     const isCurrent = messageIndex === currentMessageIndex;
     const isPast = messageIndex < currentMessageIndex;
     
-    if (!showText) {
+    if (!showAllText) {
       return {
         opacity: 0,
-        transform: 'translate3d(0, 0, -2000px) scale(0.1)',
-        filter: 'blur(20px)'
+        transform: 'translate3d(0, 0, -3000px) scale(0.1)',
+        filter: 'blur(30px)'
       };
     }
 
     if (isPast) {
-      // Already dissolved messages
+      // Already dissolved messages - completely invisible
       return {
         opacity: 0,
-        transform: 'translate3d(0, 0, -1000px) scale(0.3)',
-        filter: 'blur(30px)'
+        transform: 'translate3d(0, 0, -2000px) scale(0.2)',
+        filter: 'blur(40px)'
       };
     }
 
@@ -108,40 +111,41 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
       switch (animationPhase) {
         case 'approaching':
           return {
-            opacity: 0.8,
-            transform: 'translate3d(0, 0, -200px) scale(0.7)',
-            filter: 'blur(4px)',
-            textShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4)'
+            opacity: 0.9,
+            transform: 'translate3d(0, 0, -100px) scale(0.85)',
+            filter: 'blur(2px)',
+            textShadow: '0 0 30px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.5)'
           };
         case 'glowing':
           return {
             opacity: 1,
             transform: 'translate3d(0, 0, 0) scale(1)',
             filter: 'blur(0px)',
-            textShadow: '0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.6), 0 0 120px rgba(255, 215, 0, 0.4)'
+            textShadow: '0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.8), 0 0 150px rgba(255, 215, 0, 0.6)'
           };
         case 'dissolving':
           return {
             opacity: 0,
-            transform: 'translate3d(0, -50px, 100px) scale(1.1)',
-            filter: 'blur(15px)',
-            textShadow: '0 0 60px rgba(255, 215, 0, 0.3), 0 0 120px rgba(255, 255, 255, 0.2)'
+            transform: 'translate3d(0, -30px, 50px) scale(1.05)',
+            filter: 'blur(20px)',
+            textShadow: '0 0 80px rgba(255, 215, 0, 0.4), 0 0 160px rgba(255, 255, 255, 0.3)'
           };
         default:
           return {
-            opacity: 0.3,
-            transform: 'translate3d(0, 0, -800px) scale(0.4)',
-            filter: 'blur(8px)'
+            opacity: 0.15,
+            transform: 'translate3d(0, 0, -1200px) scale(0.3)',
+            filter: 'blur(12px)'
           };
       }
     } else {
-      // Future messages - floating in background
-      const offset = (messageIndex - currentMessageIndex) * 100;
+      // Future messages - floating in deep background like distant spacecraft
+      const offset = (messageIndex - Math.max(currentMessageIndex, 0)) * 80;
+      const depth = 1500 + offset * 150;
       return {
-        opacity: 0.2,
-        transform: `translate3d(${offset * 0.3}px, ${offset * 0.2}px, -${800 + offset * 100}px) scale(0.4)`,
-        filter: 'blur(8px)',
-        textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
+        opacity: 0.12,
+        transform: `translate3d(${offset * 0.4}px, ${offset * 0.3}px, -${depth}px) scale(0.25)`,
+        filter: 'blur(15px)',
+        textShadow: '0 0 15px rgba(255, 215, 0, 0.4)'
       };
     }
   };
@@ -162,7 +166,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               letterSpacing: '0.05em',
               perspective: '1000px',
               transformStyle: 'preserve-3d',
-              transition: 'all 2500ms cubic-bezier(0.23, 1, 0.32, 1)',
+              transition: 'all 1000ms cubic-bezier(0.23, 1, 0.32, 1)',
               willChange: 'transform, opacity, filter',
               ...getMessageStyles(index)
             }}

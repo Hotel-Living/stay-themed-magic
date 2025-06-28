@@ -71,7 +71,7 @@ export function HotelCard({
       <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between bg-[#061b24]/[0.98]">
         
         {/* Header Section */}
-        <div className="space-y-4">
+        <div className="space-y-4 bg-[#7511ab]">
           {/* Hotel Name and Stars */}
           <div className="space-y-2">
             <div className="flex justify-between items-start">

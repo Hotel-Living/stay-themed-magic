@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +8,7 @@ interface IntroStarAnimationProps {
 
 export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState(-1); // Start at -1 for initial delay
+  const [currentStep, setCurrentStep] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
 
   const messages = [
@@ -18,22 +17,18 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     t('intro.experience'),
     t('intro.style'),
     t('intro.community'),
-    t('intro.passion')
+    t('intro.passion'),
   ];
 
-  // Helper function to format text with line breaks
+  // ✅ Esta función asegura que todo va en MAYÚSCULAS y respeta los \n
   const formatTextWithLineBreaks = (text: string) => {
-    if (text === 'La revolución\nha llegado') {
-      return 'LA REVOLUCIÓN\nHA LLEGADO';
-    }
-    if (text === 'Disfruta\ntus pasiones') {
-      return 'DISFRUTA\nTUS PASIONES';
-    }
-    return text;
+    return text
+      .split('\n')
+      .map(line => line.toUpperCase())
+      .join('\n');
   };
 
   useEffect(() => {
-    // Initial 1-second delay before starting
     if (currentStep === -1) {
       const timer = setTimeout(() => {
         setCurrentStep(0);
@@ -49,7 +44,6 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
       return () => clearTimeout(timer);
     }
 
-    // Each text shows for 2.5 seconds (including fade transitions)
     const timer = setTimeout(() => {
       setCurrentStep(prev => prev + 1);
     }, 2500);
@@ -63,10 +57,7 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <Starfield />
       <div className="relative z-10 text-center px-8">
-        {/* Show nothing during initial delay */}
         {currentStep === -1 && <div />}
-        
-        {/* Show messages with smooth transitions */}
         {messages.map((message, index) => (
           <div
             key={index}
@@ -74,11 +65,11 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
               index === currentStep ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <h1 
+            <h1
               className="text-lg md:text-2xl lg:text-3xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
               style={{
                 textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
-                WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
+                WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)',
               }}
             >
               {formatTextWithLineBreaks(message)}
@@ -102,6 +93,6 @@ export const useIntroStarAnimation = () => {
 
   return {
     shouldShowIntro: shouldShow,
-    handleIntroComplete: handleComplete
+    handleIntroComplete: handleComplete,
   };
 };

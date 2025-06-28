@@ -186,7 +186,7 @@ export function SecondaryFilterPanel({
       {/* 7. Mes */}
       <CollapsibleSection title={t('filters.month')}>
         <div className="grid grid-cols-2 gap-1">
-          {months.map(month => <label key={month} className="flex items-center space-x-2 text-white text-xs cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+          {months.map(month => <label key={month} className="flex items-center space-x-2 text-white text-xs cursor-pointer p-1 rounded bg-purple-700/[0.99]">
               <input type="checkbox" className="w-3 h-3 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.month === month} onChange={e => handleFilterChange('month', e.target.checked ? month : null)} />
               <span>{t(`filters.months.${month}`)}</span>
             </label>)}

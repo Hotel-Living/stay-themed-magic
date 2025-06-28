@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -106,4 +105,3 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
-

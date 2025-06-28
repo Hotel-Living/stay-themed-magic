@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,9 @@ import { useTranslation } from 'react-i18next';
 interface IntroStarAnimationProps {
   onComplete: () => void;
 }
+
+const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
+const MAX_INTRO_SHOWS = 3;
 
 export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
@@ -41,7 +43,12 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     if (currentStep >= messages.length) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-        setTimeout(onComplete, 500);
+        setTimeout(() => {
+          // Increment visit count when animation completes
+          const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+          localStorage.setItem(VISIT_COUNT_KEY, (currentCount + 1).toString());
+          onComplete();
+        }, 500);
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -148,7 +155,13 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
 };
 
 export const useIntroStarAnimation = () => {
-  const [shouldShow, setShouldShow] = useState(true);
+  const [shouldShow, setShouldShow] = useState(false);
+
+  useEffect(() => {
+    // Check if we should show the intro based on visit count
+    const visitCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
+    setShouldShow(visitCount < MAX_INTRO_SHOWS);
+  }, []);
 
   const handleComplete = () => {
     setShouldShow(false);
@@ -159,4 +172,3 @@ export const useIntroStarAnimation = () => {
     handleIntroComplete: handleComplete
   };
 };
-

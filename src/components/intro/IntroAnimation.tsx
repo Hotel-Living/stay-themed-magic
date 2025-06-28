@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
@@ -15,7 +16,7 @@ const INTRO_MESSAGES = [
 ];
 
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
-const MAX_INTRO_SHOWS = 5;
+const MAX_INTRO_SHOWS = 3;
 
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);

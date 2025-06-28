@@ -195,7 +195,7 @@ export function SecondaryFilterPanel({
 
       {/* 8. Plan de comidas */}
       <CollapsibleSection title={t('filters.mealPlan')}>
-        {mealPlanOptions.map(option => <label key={option.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {mealPlanOptions.map(option => <label key={option.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.mealPlans?.includes(option.key) || false} onChange={e => handleArrayFilterChange('mealPlans', option.key, e.target.checked)} />
             <span>{option.label}</span>
           </label>)}

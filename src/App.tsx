@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -62,7 +61,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const { shouldShowIntro, handleIntroComplete } = useIntroStarAnimation();
+  const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -74,7 +73,7 @@ function App() {
             
             {/* Intro Animation Overlay */}
             {shouldShowIntro && (
-              <IntroStarAnimation onComplete={handleIntroComplete} />
+              <IntroAnimation onComplete={handleIntroComplete} />
             )}
             
             <Routes>

@@ -5,7 +5,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export function HeroSection() {
   const isMobile = useIsMobile();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   // Common slogans data to avoid duplication
   const slogans = [
@@ -22,7 +22,7 @@ export function HeroSection() {
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
       </div>
-      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#FFF9B0]`} style={{
+      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : language === 'es' ? "text-base sm:text-lg" : "text-sm sm:text-base"} text-[#FFF9B0]`} style={{
       fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif"
     }}>
         {slogan}
@@ -72,15 +72,27 @@ export function HeroSection() {
             {isMobile ? <div className="py-2.5 pl-0">
                 {slogans.map(renderSlogan)}
               </div> :
-          // For desktop: maintain the two-column grid layout
-          <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
-                <div className="space-y-0.125 py-1.5">
-                  {slogans.slice(0, 2).map(renderSlogan)}
-                </div>
-                <div className="space-y-0.125 py-1.5">
-                  {slogans.slice(2, 4).map(renderSlogan)}
-                </div>
-              </div>}
+          // For desktop: Spanish layout (2x2) vs other languages (2 columns with first 2 and last 2)
+          language === 'es' ? 
+            <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
+              <div className="space-y-0.125 py-1.5">
+                {renderSlogan(slogans[0], 0)}
+                {renderSlogan(slogans[2], 2)}
+              </div>
+              <div className="space-y-0.125 py-1.5">
+                {renderSlogan(slogans[1], 1)}
+                {renderSlogan(slogans[3], 3)}
+              </div>
+            </div>
+          :
+            <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
+              <div className="space-y-0.125 py-1.5">
+                {slogans.slice(0, 2).map(renderSlogan)}
+              </div>
+              <div className="space-y-0.125 py-1.5">
+                {slogans.slice(2, 4).map(renderSlogan)}
+              </div>
+            </div>}
           </div>
         </div>
       </div>

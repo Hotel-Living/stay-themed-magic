@@ -63,7 +63,7 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
             }`}
           >
             <h1 
-              className="text-6xl md:text-9xl lg:text-11xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
               style={{
                 textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
                 WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'

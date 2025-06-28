@@ -113,7 +113,7 @@ export function SecondaryFilterPanel({
     return filteredThemes.map(theme => <div key={theme.id} style={{
       marginLeft: `${level * 16}px`
     }}>
-        <label className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        <label className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
           <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.activities?.includes(theme.id) || false} onChange={e => handleArrayFilterChange('activities', theme.id, e.target.checked)} />
           <span>{theme.name}</span>
         </label>

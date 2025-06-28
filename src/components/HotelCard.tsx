@@ -129,18 +129,18 @@ export const HotelCard: React.FC<HotelCardProps> = ({
           <HotelCardStars stars={stars} />
         </div>
 
-        {/* Affinities Section - Reserved space */}
+        {/* Affinities Section - Block 1 */}
         <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
           {affinities.length > 0 ? (
             <>
-              <p className="text-sm text-white mb-2">
-                🟣 <span className="font-medium">Ideal for those who enjoy:</span>
+              <p className="text-sm text-white mb-2 font-semibold">
+                IDEAL FOR THOSE WHO ENJOY:
               </p>
               <div className="flex flex-wrap justify-center gap-1">
                 {affinities.map((affinity, index) => (
                   <span
                     key={index}
-                    className="bg-purple-600/50 text-xs px-2 py-1 rounded-full text-white"
+                    className="bg-purple-600/60 text-xs px-2 py-1 rounded-full text-white border border-purple-400/30"
                   >
                     {affinity}
                   </span>
@@ -152,18 +152,18 @@ export const HotelCard: React.FC<HotelCardProps> = ({
           )}
         </div>
 
-        {/* Activities Section - Reserved space */}
+        {/* Activities Section - Block 2 */}
         <div className="mb-4 text-center min-h-[60px] flex flex-col justify-center">
           {activities.length > 0 ? (
             <>
-              <p className="text-sm text-white mb-2">
-                🟠 <span className="font-medium">You will find:</span>
+              <p className="text-sm text-white mb-2 font-semibold">
+                EXPERIENCES YOU WILL ENJOY:
               </p>
               <div className="flex flex-wrap justify-center gap-1">
                 {activities.map((activity, index) => (
                   <span
                     key={index}
-                    className="bg-orange-600/50 text-xs px-2 py-1 rounded-full text-white"
+                    className="bg-orange-600/60 text-xs px-2 py-1 rounded-full text-white border border-orange-400/30"
                   >
                     {activity}
                   </span>

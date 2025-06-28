@@ -15,7 +15,10 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
   const messages = [
     t('intro.welcome'),
     t('intro.tagline'),
-    t('intro.experience')
+    t('intro.experience'),
+    t('intro.style'),
+    t('intro.community'),
+    t('intro.passion')
   ];
 
   useEffect(() => {
@@ -49,10 +52,10 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
             }`}
           >
             <h1 
-              className="text-4xl md:text-6xl font-bold text-yellow-400 max-w-4xl leading-tight"
+              className="text-4xl md:text-6xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line"
               style={{
-                textShadow: '0 0 4px rgba(255, 255, 255, 0.3), 0 0 8px rgba(255, 255, 255, 0.15)',
-                WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.4)'
+                textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
+                WebkitTextStroke: '0.25px rgba(255, 255, 255, 0.2)'
               }}
             >
               {message}

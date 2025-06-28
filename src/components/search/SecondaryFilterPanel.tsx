@@ -151,7 +151,7 @@ export function SecondaryFilterPanel({
 
       {/* 2. País */}
       <CollapsibleSection title={t('filters.country')}>
-        {countries.map(country => <label key={country.code} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {countries.map(country => <label key={country.code} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.country === country.code} onChange={e => handleFilterChange('country', e.target.checked ? country.code : null)} />
             <span>{country.name} {country.flag}</span>
           </label>)}

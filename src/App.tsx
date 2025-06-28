@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
+import { IntroStarAnimation, useIntroStarAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
 import IntroStarTest from "@/pages/IntroStarTest";
@@ -60,7 +62,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
+  const { shouldShowIntro, handleIntroComplete } = useIntroStarAnimation();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -72,7 +74,7 @@ function App() {
             
             {/* Intro Animation Overlay */}
             {shouldShowIntro && (
-              <IntroAnimation onComplete={handleIntroComplete} />
+              <IntroStarAnimation onComplete={handleIntroComplete} />
             )}
             
             <Routes>

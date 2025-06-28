@@ -14,7 +14,7 @@ export const HotelCardFooter: React.FC<HotelCardFooterProps> = ({
   activities,
   mealPlans
 }) => {
-  return <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center bg-[#2ae12a]">
+  return <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center bg-[#b32ae1]">
       {availableMonths && availableMonths.length > 0 && <div className="text-xs text-fuchsia-400">{availableMonths.length} months available</div>}
     </div>;
 };

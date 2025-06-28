@@ -1,226 +1,284 @@
 
 import React, { useState, useEffect } from 'react';
-import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { Starfield } from '../Starfield';
 
-interface IntroStarAnimationProps {
-  onComplete: () => void;
+const LINES = [
+  "LA REVOLUCIÓN HA LLEGADO",
+  "MULTIPLICA TU VIDA", 
+  "VIVE EN HOTELES",
+  "VIVE CON ESTILO",
+  "CONOCE AFINES",
+  "DISFRUTA TUS PASIONES"
+];
+
+interface StarParticle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  vx: number;
+  vy: number;
 }
 
-export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
-  const [currentLine, setCurrentLine] = useState(0);
-  const [phase, setPhase] = useState<'approaching' | 'exploding' | 'dissolving' | 'complete'>('approaching');
-  const [direction, setDirection] = useState<'left' | 'right'>('left');
+export const IntroStarAnimation = () => {
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [phase, setPhase] = useState<'approaching' | 'exploding' | 'showing' | 'dissolving'>('approaching');
+  const [starPosition, setStarPosition] = useState<{ x: number; y: number }>({ x: -100, y: 50 });
+  const [particles, setParticles] = useState<StarParticle[]>([]);
+  const [isComplete, setIsComplete] = useState(false);
 
-  const lines = [
-    "LA REVOLUCIÓN HA LLEGADO",
-    "MULTIPLICA TU VIDA",
-    "VIVE EN HOTELES",
-    "VIVE CON ESTILO",
-    "CONOCE AFINES",
-    "DISFRUTA TUS PASIONES"
-  ];
+  const isFromLeft = currentLineIndex % 2 === 0;
 
   useEffect(() => {
-    const sequenceTimer = setTimeout(() => {
-      if (phase === 'approaching') {
-        setPhase('exploding');
-        setTimeout(() => {
+    if (isComplete) return;
+
+    const timer = setTimeout(() => {
+      switch (phase) {
+        case 'approaching':
+          setPhase('exploding');
+          break;
+        case 'exploding':
+          setPhase('showing');
+          break;
+        case 'showing':
           setPhase('dissolving');
-          setTimeout(() => {
-            if (currentLine < lines.length - 1) {
-              setCurrentLine(prev => prev + 1);
-              setDirection(prev => prev === 'left' ? 'right' : 'left');
-              setPhase('approaching');
-            } else {
-              setPhase('complete');
-              setTimeout(() => {
-                onComplete();
-              }, 1000);
-            }
-          }, 1500);
-        }, 1000);
+          break;
+        case 'dissolving':
+          if (currentLineIndex < LINES.length - 1) {
+            setCurrentLineIndex(prev => prev + 1);
+            setPhase('approaching');
+            // Reset star position for next line
+            const nextIsFromLeft = (currentLineIndex + 1) % 2 === 0;
+            setStarPosition({ 
+              x: nextIsFromLeft ? -100 : window.innerWidth + 100, 
+              y: Math.random() * 40 + 30 
+            });
+          } else {
+            setIsComplete(true);
+          }
+          break;
       }
-    }, phase === 'approaching' ? 1500 : 0);
+    }, getPhaseTimeout(phase));
 
-    return () => clearTimeout(sequenceTimer);
-  }, [currentLine, phase, onComplete]);
+    return () => clearTimeout(timer);
+  }, [phase, currentLineIndex, isComplete]);
 
-  if (phase === 'complete' && currentLine >= lines.length - 1) {
+  // Animate star approach
+  useEffect(() => {
+    if (phase === 'approaching') {
+      const startX = isFromLeft ? -100 : window.innerWidth + 100;
+      const targetX = window.innerWidth / 2;
+      const targetY = window.innerHeight / 2;
+      
+      setStarPosition({ x: startX, y: targetY });
+      
+      const animateApproach = () => {
+        setStarPosition(prev => {
+          const dx = targetX - prev.x;
+          const dy = targetY - prev.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 5) {
+            return { x: targetX, y: targetY };
+          }
+          
+          const speed = 8;
+          return {
+            x: prev.x + (dx / distance) * speed,
+            y: prev.y + (dy / distance) * speed
+          };
+        });
+      };
+
+      const approachInterval = setInterval(animateApproach, 16);
+      return () => clearInterval(approachInterval);
+    }
+  }, [phase, isFromLeft]);
+
+  // Generate explosion particles
+  useEffect(() => {
+    if (phase === 'exploding') {
+      const newParticles: StarParticle[] = [];
+      for (let i = 0; i < 20; i++) {
+        newParticles.push({
+          id: i,
+          x: starPosition.x,
+          y: starPosition.y,
+          size: Math.random() * 4 + 2,
+          opacity: 1,
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 0.5) * 10
+        });
+      }
+      setParticles(newParticles);
+    }
+  }, [phase, starPosition]);
+
+  // Animate particles during dissolving
+  useEffect(() => {
+    if (phase === 'dissolving') {
+      const animateParticles = () => {
+        setParticles(prev => prev.map(particle => ({
+          ...particle,
+          x: particle.x + particle.vx,
+          y: particle.y + particle.vy,
+          opacity: Math.max(0, particle.opacity - 0.02),
+          vx: particle.vx * 0.98,
+          vy: particle.vy * 0.98
+        })));
+      };
+
+      const particleInterval = setInterval(animateParticles, 16);
+      return () => clearInterval(particleInterval);
+    }
+  }, [phase]);
+
+  const getPhaseTimeout = (currentPhase: string) => {
+    switch (currentPhase) {
+      case 'approaching': return 1500;
+      case 'exploding': return 300;
+      case 'showing': return 2000;
+      case 'dissolving': return 800;
+      default: return 1000;
+    }
+  };
+
+  if (isComplete) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      <HotelStarfield />
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <Starfield />
       
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full max-w-4xl mx-auto px-4">
-          {/* Approaching Star */}
-          {phase === 'approaching' && (
-            <div
-              className={`absolute top-1/2 transform -translate-y-1/2 star-approaching ${
-                direction === 'left' ? 'star-from-left' : 'star-from-right'
-              }`}
-            >
-              <div className="w-8 h-8 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse" />
-            </div>
-          )}
-
-          {/* Text Line */}
-          {(phase === 'exploding' || phase === 'dissolving') && (
-            <div className="text-center">
-              <h1
-                className={`text-4xl md:text-6xl lg:text-7xl font-bold text-yellow-400 drop-shadow-lg transition-all duration-1000 ${
-                  phase === 'exploding' 
-                    ? 'opacity-100 scale-100 text-explosion' 
-                    : 'opacity-0 scale-110 text-dissolve'
-                }`}
-                style={{
-                  textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4)',
-                  WebkitTextStroke: '1px white'
-                }}
-              >
-                {lines[currentLine]}
-              </h1>
-            </div>
-          )}
-
-          {/* Stardust particles for dissolve effect */}
-          {phase === 'dissolving' && (
-            <div className="absolute inset-0 pointer-events-none">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className={`absolute w-2 h-2 bg-yellow-400 rounded-full stardust-particle stardust-${i}`}
-                  style={{
-                    left: `${20 + Math.random() * 60}%`,
-                    top: `${40 + Math.random() * 20}%`,
-                  }}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
       <style>
         {`
-          .star-approaching {
-            animation: starApproach 1.5s ease-out forwards;
-          }
-          
-          .star-from-left {
-            left: -100px;
-            animation: starApproachLeft 1.5s ease-out forwards;
-          }
-          
-          .star-from-right {
-            right: -100px;
-            animation: starApproachRight 1.5s ease-out forwards;
-          }
-          
-          @keyframes starApproachLeft {
-            0% {
-              left: -100px;
-              transform: translateY(-50%) scale(0.2);
-              opacity: 0.5;
+          @keyframes starGlow {
+            0% { 
+              transform: scale(1);
+              filter: brightness(1) drop-shadow(0 0 10px #ffd700);
             }
-            100% {
-              left: 50%;
-              transform: translateY(-50%) translateX(-50%) scale(1);
-              opacity: 1;
+            50% { 
+              transform: scale(1.2);
+              filter: brightness(1.5) drop-shadow(0 0 20px #ffd700);
+            }
+            100% { 
+              transform: scale(1);
+              filter: brightness(1) drop-shadow(0 0 10px #ffd700);
             }
           }
           
-          @keyframes starApproachRight {
-            0% {
-              right: -100px;
-              transform: translateY(-50%) scale(0.2);
-              opacity: 0.5;
-            }
-            100% {
-              right: 50%;
-              transform: translateY(-50%) translateX(50%) scale(1);
-              opacity: 1;
-            }
-          }
-          
-          .text-explosion {
-            animation: textExplode 1s ease-out forwards;
-          }
-          
-          @keyframes textExplode {
+          @keyframes textExplosion {
             0% {
               opacity: 0;
-              transform: scale(0.1);
-              filter: blur(10px);
+              transform: scale(0.5);
+              filter: brightness(2);
             }
             50% {
               opacity: 1;
               transform: scale(1.1);
-              filter: blur(2px);
+              filter: brightness(1.5);
             }
             100% {
               opacity: 1;
               transform: scale(1);
-              filter: blur(0px);
+              filter: brightness(1);
             }
-          }
-          
-          .text-dissolve {
-            animation: textDissolve 1.5s ease-in forwards;
           }
           
           @keyframes textDissolve {
             0% {
               opacity: 1;
               transform: scale(1);
-              filter: blur(0px);
             }
             100% {
               opacity: 0;
-              transform: scale(1.2);
-              filter: blur(5px);
+              transform: scale(0.8);
+              filter: blur(2px);
             }
           }
           
-          .stardust-particle {
-            animation: stardustFloat 1.5s ease-out forwards;
+          .star-particle {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: drop-shadow(0 0 6px #ffd700);
           }
-          
-          @keyframes stardustFloat {
-            0% {
-              opacity: 1;
-              transform: scale(1) translate(0, 0);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(0.2) translate(var(--random-x, 100px), var(--random-y, -100px));
-            }
-          }
-          
-          .stardust-0 { --random-x: 50px; --random-y: -80px; animation-delay: 0s; }
-          .stardust-1 { --random-x: -30px; --random-y: -60px; animation-delay: 0.1s; }
-          .stardust-2 { --random-x: 80px; --random-y: -90px; animation-delay: 0.2s; }
-          .stardust-3 { --random-x: -60px; --random-y: -40px; animation-delay: 0.1s; }
-          .stardust-4 { --random-x: 40px; --random-y: -100px; animation-delay: 0.3s; }
-          .stardust-5 { --random-x: -80px; --random-y: -70px; animation-delay: 0.15s; }
-          .stardust-6 { --random-x: 90px; --random-y: -50px; animation-delay: 0.25s; }
-          .stardust-7 { --random-x: -40px; --random-y: -90px; animation-delay: 0.05s; }
-          .stardust-8 { --random-x: 70px; --random-y: -60px; animation-delay: 0.2s; }
-          .stardust-9 { --random-x: -70px; --random-y: -80px; animation-delay: 0.1s; }
-          .stardust-10 { --random-x: 60px; --random-y: -40px; animation-delay: 0.3s; }
-          .stardust-11 { --random-x: -50px; --random-y: -100px; animation-delay: 0.05s; }
-          .stardust-12 { --random-x: 30px; --random-y: -70px; animation-delay: 0.25s; }
-          .stardust-13 { --random-x: -90px; --random-y: -50px; animation-delay: 0.15s; }
-          .stardust-14 { --random-x: 100px; --random-y: -90px; animation-delay: 0.1s; }
-          .stardust-15 { --random-x: -20px; --random-y: -60px; animation-delay: 0.2s; }
-          .stardust-16 { --random-x: 80px; --random-y: -30px; animation-delay: 0.05s; }
-          .stardust-17 { --random-x: -60px; --random-y: -100px; animation-delay: 0.3s; }
-          .stardust-18 { --random-x: 50px; --random-y: -80px; animation-delay: 0.15s; }
-          .stardust-19 { --random-x: -80px; --random-y: -40px; animation-delay: 0.25s; }
         `}
       </style>
+
+      {/* Approaching Star */}
+      {phase === 'approaching' && (
+        <div
+          className="absolute w-6 h-6 bg-yellow-400 rounded-full pointer-events-none"
+          style={{
+            left: `${starPosition.x}px`,
+            top: `${starPosition.y}px`,
+            transform: 'translate(-50%, -50%)',
+            animation: 'starGlow 0.5s ease-in-out infinite',
+            filter: 'drop-shadow(0 0 15px #ffd700)',
+            zIndex: 60
+          }}
+        />
+      )}
+
+      {/* Explosion Particles */}
+      {phase === 'exploding' && particles.map(particle => (
+        <div
+          key={particle.id}
+          className="star-particle"
+          style={{
+            left: `${particle.x}px`,
+            top: `${particle.y}px`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            opacity: particle.opacity,
+            transform: 'translate(-50%, -50%)',
+            zIndex: 60
+          }}
+        />
+      ))}
+
+      {/* Dissolving Particles */}
+      {phase === 'dissolving' && particles.map(particle => (
+        <div
+          key={particle.id}
+          className="star-particle"
+          style={{
+            left: `${particle.x}px`,
+            top: `${particle.y}px`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            opacity: particle.opacity,
+            transform: 'translate(-50%, -50%)',
+            zIndex: 60
+          }}
+        />
+      ))}
+
+      {/* Text Display */}
+      {(phase === 'exploding' || phase === 'showing' || phase === 'dissolving') && (
+        <div 
+          className="text-center z-50"
+          style={{
+            animation: phase === 'exploding' ? 'textExplosion 0.3s ease-out' :
+                      phase === 'dissolving' ? 'textDissolve 0.8s ease-in' : 'none'
+          }}
+        >
+          <h1 
+            className="text-6xl md:text-8xl font-bold text-yellow-400 leading-tight"
+            style={{
+              textShadow: '3px 3px 0 white, -3px -3px 0 white, 3px -3px 0 white, -3px 3px 0 white, 0 0 20px #ffd700',
+              WebkitTextStroke: '2px white',
+              filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.8))'
+            }}
+          >
+            {LINES[currentLineIndex]}
+          </h1>
+        </div>
+      )}
     </div>
   );
 };

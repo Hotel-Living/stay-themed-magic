@@ -1,28 +1,30 @@
 
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { MapPin, Star, Calendar, Users, Heart } from "lucide-react";
-import { HotelCardBadges } from "./HotelCard/components/HotelCardBadges";
-import { HotelCardPrice } from "./HotelCard/components/HotelCardPrice";
 import { HotelCardStars } from "./HotelCard/components/HotelCardStars";
-import { HotelCardFooter } from "./HotelCard/components/HotelCardFooter";
+import { HotelCardPrice } from "./HotelCard/components/HotelCardPrice";
+import { Heart } from "lucide-react";
 
-// Multiple fallback images instead of just one
-const FALLBACK_IMAGES = ["https://images.unsplash.com/photo-1566073771259-6a8506099945", "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9", "https://images.unsplash.com/photo-1578944032637-f09897c5233d", "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb", "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4"];
+interface Theme {
+  id: string;
+  name: string;
+}
+
+interface Activity {
+  activities?: {
+    name: string;
+  };
+}
 
 interface HotelCardProps {
   id: string;
   name: string;
-  city: string;
-  country: string;
-  stars: number;
-  pricePerMonth: number;
-  themes?: Array<{
-    id: string;
-    name: string;
-  }>;
+  city?: string;
+  country?: string;
+  stars?: number;
+  pricePerMonth?: number;
+  themes?: Theme[];
   image?: string;
   availableMonths?: string[];
   rates?: Record<string, number>;
@@ -31,167 +33,138 @@ interface HotelCardProps {
       name: string;
     };
   }>;
-  hotel_activities?: Array<{
-    activities?: {
-      name: string;
-    };
-  }>;
+  hotel_activities?: Activity[];
   meal_plans?: string[];
   location?: string;
   thumbnail?: string;
   onClick?: () => void;
 }
 
-export function HotelCard({
+export const HotelCard: React.FC<HotelCardProps> = ({
   id,
   name,
   city,
   country,
-  stars,
+  stars = 0,
   pricePerMonth,
   themes = [],
   image,
-  availableMonths = [],
   rates,
   hotel_themes = [],
   hotel_activities = [],
-  meal_plans = [],
-  location,
-  thumbnail,
   onClick
-}: HotelCardProps) {
-  const [imageError, setImageError] = useState(false);
-  const [isImageLoading, setIsImageLoading] = useState(true);
+}) => {
+  const navigate = useNavigate();
 
-  // Get a deterministic fallback image based on hotel ID
-  const getFallbackImage = () => {
-    const index = parseInt(id.slice(-1), 16) % FALLBACK_IMAGES.length;
-    return FALLBACK_IMAGES[index];
-  };
-  
-  const displayImage = image || thumbnail || getFallbackImage();
-  
-  const handleImageError = () => {
-    console.log(`Image failed to load for hotel ${name}:`, displayImage);
-    setImageError(true);
-    setIsImageLoading(false);
-  };
-  
-  const handleImageLoad = () => {
-    setIsImageLoading(false);
-    setImageError(false);
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate(`/hotel/${id}`);
+    }
   };
 
-  // Extract themes from different formats
-  const displayThemes = themes.length > 0 ? themes : hotel_themes?.filter(ht => ht.themes?.name).map(ht => ({
-    id: ht.themes!.name,
-    name: ht.themes!.name
-  })) || [];
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle favorite functionality here
+  };
 
-  // Extract activities
-  const displayActivities = hotel_activities?.filter(ha => ha.activities?.name).map(ha => ({
-    id: ha.activities!.name,
-    name: ha.activities!.name
-  })) || [];
+  // Get affinities from hotel themes
+  const affinities = hotel_themes
+    ?.map(ht => ht.themes?.name)
+    .filter(Boolean)
+    .slice(0, 3) || [];
+
+  // Get activities from hotel activities
+  const activities = hotel_activities
+    ?.map(ha => ha.activities?.name)
+    .filter(Boolean)
+    .slice(0, 3) || [];
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border border-purple-500/30 backdrop-blur-sm h-full flex flex-col" onClick={onClick}>
-      <div className="relative overflow-hidden">
-        {isImageLoading && (
-          <div className="absolute inset-0 bg-purple-800/50 animate-pulse flex items-center justify-center">
-            <div className="text-white text-sm">Loading...</div>
-          </div>
-        )}
-        
-        <img 
-          src={displayImage} 
-          alt={name} 
-          className={`w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`} 
-          onError={handleImageError} 
-          onLoad={handleImageLoad} 
+    <Card 
+      className="bg-gradient-to-b from-purple-800 to-purple-900 text-white cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col"
+      onClick={handleClick}
+    >
+      {/* Hotel Image */}
+      <div className="relative h-48 overflow-hidden">
+        <img
+          src={image || "/placeholder.svg"}
+          alt={name}
+          className="w-full h-full object-cover"
         />
-        
-        {imageError && (
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-800 flex items-center justify-center">
-            <div className="text-center text-white p-4">
-              <MapPin className="w-8 h-8 mx-auto mb-2 opacity-60" />
-              <div className="text-sm opacity-80">Image unavailable</div>
-            </div>
-          </div>
-        )}
-
-        <div className="absolute top-2 right-2">
-          <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
-            <Heart className="w-4 h-4" />
-          </Button>
-        </div>
-
-        <HotelCardBadges themes={displayThemes} availableMonths={availableMonths} />
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors"
+        >
+          <Heart className="w-5 h-5 text-white" />
+        </button>
       </div>
 
-      <CardContent className="p-4 space-y-3 bg-[#7908aa] flex-1 flex flex-col">
-        {/* Centered hotel name */}
-        <div className="text-center">
-          <h3 className="font-bold text-lg text-white mb-2 line-clamp-2 group-hover:text-purple-200 transition-colors">
-            {name}
-          </h3>
-        </div>
+      {/* Card Content */}
+      <CardContent className="p-4 flex-1 flex flex-col">
+        {/* Hotel Name - Centered */}
+        <h3 className="text-xl font-bold mb-2 text-center line-clamp-2">
+          {name}
+        </h3>
 
-        {/* Centered location */}
-        <div className="flex items-center justify-center text-purple-200 text-sm mb-2">
-          <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
-          <span className="truncate">{city}, {country}</span>
-        </div>
+        {/* Location - Centered */}
+        <p className="text-white/80 text-sm mb-3 text-center">
+          {city && country ? `${city}, ${country}` : city || country || "Location not specified"}
+        </p>
 
-        {/* Centered stars */}
-        <div className="flex justify-center mb-3">
+        {/* Stars - Centered */}
+        <div className="flex justify-center mb-4">
           <HotelCardStars stars={stars} />
         </div>
 
-        {/* Affinity and Activity tags */}
-        <div className="flex flex-col gap-2 mb-3">
-          {/* Affinity tags */}
-          {displayThemes.length > 0 && (
+        {/* Affinities Section */}
+        {affinities.length > 0 && (
+          <div className="mb-4 text-center">
+            <p className="text-sm text-white/90 mb-2">
+              🟣 <span className="font-medium">Ideal for those who enjoy:</span>
+            </p>
             <div className="flex flex-wrap justify-center gap-1">
-              {displayThemes.slice(0, 2).map(theme => (
-                <Badge key={theme.id} variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
-                  {theme.name}
-                </Badge>
+              {affinities.map((affinity, index) => (
+                <span
+                  key={index}
+                  className="bg-purple-600/50 text-xs px-2 py-1 rounded-full text-white"
+                >
+                  {affinity}
+                </span>
               ))}
-              {displayThemes.length > 2 && (
-                <Badge variant="secondary" className="text-xs bg-purple-600/30 text-purple-200 border-purple-500/30">
-                  +{displayThemes.length - 2}
-                </Badge>
-              )}
             </div>
-          )}
-
-          {/* Activity tags */}
-          {displayActivities.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-1">
-              {displayActivities.slice(0, 2).map(activity => (
-                <Badge key={activity.id} variant="secondary" className="text-xs bg-indigo-600/30 text-indigo-200 border-indigo-500/30">
-                  {activity.name}
-                </Badge>
-              ))}
-              {displayActivities.length > 2 && (
-                <Badge variant="secondary" className="text-xs bg-indigo-600/30 text-indigo-200 border-indigo-500/30">
-                  +{displayActivities.length - 2}
-                </Badge>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Price moved to bottom */}
-        <div className="mt-auto pt-2">
-          <div className="text-center">
-            <HotelCardPrice pricePerMonth={pricePerMonth} rates={rates} currency="EUR" />
           </div>
-        </div>
+        )}
 
-        <HotelCardFooter availableMonths={availableMonths} activities={hotel_activities} mealPlans={meal_plans} />
+        {/* Activities Section */}
+        {activities.length > 0 && (
+          <div className="mb-4 text-center">
+            <p className="text-sm text-white/90 mb-2">
+              🟠 <span className="font-medium">Experiences you can enjoy:</span>
+            </p>
+            <div className="flex flex-wrap justify-center gap-1">
+              {activities.map((activity, index) => (
+                <span
+                  key={index}
+                  className="bg-orange-600/50 text-xs px-2 py-1 rounded-full text-white"
+                >
+                  {activity}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Price - Centered with Increased Font Size */}
+        <div className="mt-auto text-center">
+          <HotelCardPrice 
+            rates={rates} 
+            pricePerMonth={pricePerMonth} 
+            currency="EUR"
+          />
+        </div>
       </CardContent>
     </Card>
   );
-}
+};

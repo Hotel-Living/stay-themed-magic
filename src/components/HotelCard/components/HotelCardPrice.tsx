@@ -6,7 +6,7 @@ import { parseRatesData } from "../utils/ratesParser";
 interface HotelCardPriceProps {
   rates?: Record<string, number>;
   pricePerMonth?: number;
-  currency?: string;
+  currency: string;
 }
 
 export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
@@ -43,7 +43,7 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
   };
 
   return (
-    <div className="text-sm font-medium text-white">
+    <div className="text-2xl font-bold text-white">
       {displayRates()}
     </div>
   );

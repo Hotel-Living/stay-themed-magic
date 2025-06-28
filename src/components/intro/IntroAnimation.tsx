@@ -7,10 +7,10 @@ interface IntroAnimationProps {
 }
 
 const INTRO_MESSAGES = [
-  "LA REVOLUCIÓN HA LLEGADO",
-  "MULTIPLICA TU VIDA", 
-  "VIVE EN HOTELES · VIVE CON ESTILO",
-  "CONOCE AFINES · DISFRUTA TUS PASIONES"
+  "La revolución ha llegado",
+  "Multiplica tu vida", 
+  "Vive en hoteles · Vive con estilo",
+  "Conoce afines · Disfruta tus pasiones"
 ];
 
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
@@ -20,26 +20,31 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [messageVisible, setMessageVisible] = useState(false);
+  const [showText, setShowText] = useState(false);
 
   useEffect(() => {
     // Start the animation sequence
     const startAnimation = () => {
-      // First message appears after a brief delay
+      // Wait for stars to populate, then start showing text
       setTimeout(() => {
-        setMessageVisible(true);
-      }, 500);
+        setShowText(true);
+        // First message appears after stars have populated
+        setTimeout(() => {
+          setMessageVisible(true);
+        }, 800);
+      }, 1500);
 
-      // Cycle through messages
+      // Cycle through messages with slower timing
       const messageInterval = setInterval(() => {
         setCurrentMessageIndex(prev => {
           if (prev < INTRO_MESSAGES.length - 1) {
-            // Fade out current message
+            // Fade out current message slower
             setMessageVisible(false);
             
-            // Show next message after fade out
+            // Show next message after longer fade out
             setTimeout(() => {
               setMessageVisible(true);
-            }, 300);
+            }, 600);
             
             return prev + 1;
           } else {
@@ -57,13 +62,13 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
               setTimeout(() => {
                 updateVisitCount();
                 onComplete();
-              }, 500);
-            }, 800);
+              }, 800);
+            }, 1200);
             
             return prev;
           }
         });
-      }, 1200); // Each message shows for 1.2 seconds
+      }, 2400); // Each message shows for 2.4 seconds (much slower)
 
       return () => clearInterval(messageInterval);
     };
@@ -79,23 +84,25 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#411052' }}>
       <HotelStarfield />
       
-      <div className="relative z-10 text-center px-8">
-        <div 
-          className={`text-white font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-300 transform ${
-            messageVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}
-          style={{
-            textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(147, 51, 234, 0.3)',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
-            letterSpacing: '0.05em'
-          }}
-        >
-          {INTRO_MESSAGES[currentMessageIndex]}
+      {showText && (
+        <div className="relative z-10 text-center px-8">
+          <div 
+            className={`text-white font-bold text-4xl md:text-6xl lg:text-7xl transition-all duration-700 transform ${
+              messageVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+            style={{
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(147, 51, 234, 0.3)',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              letterSpacing: '0.05em'
+            }}
+          >
+            {INTRO_MESSAGES[currentMessageIndex]}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

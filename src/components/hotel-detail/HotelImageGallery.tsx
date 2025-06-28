@@ -53,6 +53,12 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
     });
   };
 
+  const handleCarouselSelect = (index: number | undefined) => {
+    if (typeof index === 'number') {
+      setActiveIndex(index);
+    }
+  };
+
   if (!processedImages || processedImages.length === 0) {
     return (
       <div className="mt-4">
@@ -67,7 +73,7 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
     <div className="mt-4 space-y-4">
       {/* Main Carousel */}
       <div className="relative">
-        <Carousel className="w-full" onSelect={(index) => setActiveIndex(index || 0)}>
+        <Carousel className="w-full" onSelect={handleCarouselSelect}>
           <CarouselContent>
             {processedImages.map((image, index) => (
               <CarouselItem key={image.id || index} className="flex justify-center">

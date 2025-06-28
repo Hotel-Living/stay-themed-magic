@@ -12,11 +12,21 @@ interface StarburstStar {
   size: number;
 }
 
+interface TransformingStar {
+  id: number;
+  x: number;
+  y: number;
+  opacity: number;
+  size: number;
+  isTransforming: boolean;
+}
+
 export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   const { t } = useTranslation();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1); // Start with -1 to show first star
   const [scale, setScale] = useState(0.3);
   const [starbursts, setStarbursts] = useState<StarburstStar[]>([]);
+  const [transformingStars, setTransformingStars] = useState<TransformingStar[]>([]);
 
   const messages = [
     t('intro.message1', 'Themed hotels for extended stays'),
@@ -50,6 +60,37 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
     }, 1000);
   };
 
+  const createTransformingStar = (messageIndex: number) => {
+    const newStar: TransformingStar = {
+      id: Date.now(),
+      x: 50,
+      y: 50 + messageIndex * 8,
+      opacity: 1,
+      size: 8,
+      isTransforming: false
+    };
+    
+    setTransformingStars(prev => [...prev, newStar]);
+    
+    // Start transformation after a brief delay
+    setTimeout(() => {
+      setTransformingStars(prev => 
+        prev.map(star => 
+          star.id === newStar.id 
+            ? { ...star, isTransforming: true }
+            : star
+        )
+      );
+      
+      // Show text after transformation
+      setTimeout(() => {
+        setCurrentIndex(messageIndex);
+        // Remove transforming star
+        setTransformingStars(prev => prev.filter(star => star.id !== newStar.id));
+      }, 500);
+    }, 300);
+  };
+
   useEffect(() => {
     // Single smooth scaling animation
     const scaleInterval = setInterval(() => {
@@ -63,14 +104,26 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
       });
     }, 50);
 
-    // Text progression
+    // Create first star immediately
+    setTimeout(() => {
+      createTransformingStar(0);
+    }, 1000);
+
+    // Text progression with star transformations
     const messageInterval = setInterval(() => {
       setCurrentIndex(prev => {
         if (prev < messages.length - 1) {
+          const nextIndex = prev + 1;
           if (prev >= 0) {
             createStarburst(prev);
           }
-          return prev + 1;
+          // Create next transforming star
+          if (nextIndex < messages.length) {
+            setTimeout(() => {
+              createTransformingStar(nextIndex);
+            }, 1000);
+          }
+          return prev; // Don't increment yet, wait for star transformation
         } else {
           clearInterval(messageInterval);
           createStarburst(prev);
@@ -117,6 +170,23 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             width: `${star.size}px`,
             height: `${star.size}px`,
             opacity: star.opacity,
+            transform: 'translate(-50%, -50%)'
+          }}
+        />
+      ))}
+      
+      {/* Transforming stars */}
+      {transformingStars.map(star => (
+        <div
+          key={star.id}
+          className={`absolute bg-white rounded-full transition-all duration-500 ${
+            star.isTransforming ? 'opacity-0 scale-150' : 'animate-pulse'
+          }`}
+          style={{
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
             transform: 'translate(-50%, -50%)'
           }}
         />

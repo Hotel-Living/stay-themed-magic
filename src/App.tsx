@@ -14,6 +14,15 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
+import IntroTest1 from "@/pages/IntroTest1";
+import IntroTest2 from "@/pages/IntroTest2";
+import IntroTest3 from "@/pages/IntroTest3";
+import IntroTest4 from "@/pages/IntroTest4";
+import IntroTest5 from "@/pages/IntroTest5";
+import IntroTest6 from "@/pages/IntroTest6";
+import IntroTest7 from "@/pages/IntroTest7";
+import IntroTest8 from "@/pages/IntroTest8";
+import IntroTest9 from "@/pages/IntroTest9";
 
 // Initialize i18n
 import "./i18n/config";
@@ -96,6 +105,15 @@ function App() {
               
               {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />
+              <Route path="/intro-test1" element={<IntroTest1 />} />
+              <Route path="/intro-test2" element={<IntroTest2 />} />
+              <Route path="/intro-test3" element={<IntroTest3 />} />
+              <Route path="/intro-test4" element={<IntroTest4 />} />
+              <Route path="/intro-test5" element={<IntroTest5 />} />
+              <Route path="/intro-test6" element={<IntroTest6 />} />
+              <Route path="/intro-test7" element={<IntroTest7 />} />
+              <Route path="/intro-test8" element={<IntroTest8 />} />
+              <Route path="/intro-test9" element={<IntroTest9 />} />
               
               {/* Protected Routes */}
               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

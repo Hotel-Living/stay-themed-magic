@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +8,7 @@ interface IntroStarAnimationProps {
 
 export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(-1); // Start at -1 for initial delay
   const [isVisible, setIsVisible] = useState(true);
 
   const messages = [
@@ -22,6 +21,14 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
   ];
 
   useEffect(() => {
+    // Initial 1-second delay before starting
+    if (currentStep === -1) {
+      const timer = setTimeout(() => {
+        setCurrentStep(0);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+
     if (currentStep >= messages.length) {
       const timer = setTimeout(() => {
         setIsVisible(false);
@@ -30,10 +37,10 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
       return () => clearTimeout(timer);
     }
 
-    // Smoother, faster transitions - each text shows for 2 seconds total
+    // Each text shows for 2.5 seconds (including fade transitions)
     const timer = setTimeout(() => {
       setCurrentStep(prev => prev + 1);
-    }, 2000);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [currentStep, messages.length, onComplete]);
@@ -44,18 +51,22 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <Starfield />
       <div className="relative z-10 text-center px-8">
+        {/* Show nothing during initial delay */}
+        {currentStep === -1 && <div />}
+        
+        {/* Show messages with smooth transitions */}
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
               index === currentStep ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <h1 
-              className="text-7xl md:text-11xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
+              className="text-6xl md:text-9xl lg:text-11xl font-bold text-yellow-400 max-w-4xl leading-tight whitespace-pre-line uppercase"
               style={{
                 textShadow: '0 0 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(255, 255, 255, 0.075)',
-                WebkitTextStroke: '0.25px rgba(255, 255, 255, 0.2)'
+                WebkitTextStroke: '0.125px rgba(255, 255, 255, 0.2)'
               }}
             >
               {message}

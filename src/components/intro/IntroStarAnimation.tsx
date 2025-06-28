@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import { useTranslation } from 'react-i18next';
@@ -69,8 +70,8 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
             <h1
               className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-yellow-400 max-w-6xl leading-tight whitespace-pre-line uppercase tracking-wider"
               style={{
-                textShadow: '3px 3px 0px white, -3px -3px 0px white, 3px -3px 0px white, -3px 3px 0px white, 0px 3px 0px white, 3px 0px 0px white, 0px -3px 0px white, -3px 0px 0px white, 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white',
-                WebkitTextStroke: '1px white',
+                textShadow: '1.5px 1.5px 0px white, -1.5px -1.5px 0px white, 1.5px -1.5px 0px white, -1.5px 1.5px 0px white, 0px 1.5px 0px white, 1.5px 0px 0px white, 0px -1.5px 0px white, -1.5px 0px 0px white, 1px 1px 0px white, -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white, 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.2), 0 0 60px rgba(255, 215, 0, 0.1)',
+                WebkitTextStroke: '0.5px white',
                 fontWeight: '900',
                 letterSpacing: '0.05em'
               }}

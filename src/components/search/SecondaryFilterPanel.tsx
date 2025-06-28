@@ -177,7 +177,7 @@ export function SecondaryFilterPanel({
 
       {/* 6. Duración */}
       <CollapsibleSection title={t('filters.duration')}>
-        {durationOptions.map(duration => <label key={duration} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {durationOptions.map(duration => <label key={duration} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-purple-700">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.stayLengths === duration.toString()} onChange={e => handleFilterChange('stayLengths', e.target.checked ? duration.toString() : null)} />
             <span>{duration} days</span>
           </label>)}

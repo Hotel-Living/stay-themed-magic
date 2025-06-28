@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Tags, Hotel, Shuffle } from "lucide-react";
+import { toast } from "sonner";
+import { Tags, Hotel, CheckSquare, Square } from "lucide-react";
 
 interface Hotel {
   id: string;
@@ -17,59 +17,67 @@ interface Hotel {
 interface Theme {
   id: string;
   name: string;
-  category: string;
+  level: number;
+  category?: string;
 }
 
 export default function FernandoBatchThemeAssignment() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [isAssigning, setIsAssigning] = useState(false);
-  const { toast } = useToast();
+  const [loading, setLoading] = useState(true);
+  const [assigning, setAssigning] = useState(false);
 
   useEffect(() => {
-    fetchHotels();
-    fetchThemes();
+    fetchData();
   }, []);
 
-  const fetchHotels = async () => {
+  const fetchData = async () => {
     try {
-      const { data, error } = await supabase
+      setLoading(true);
+      
+      // Fetch all hotels
+      const { data: hotelsData, error: hotelsError } = await supabase
         .from('hotels')
         .select('id, name, city, country')
         .eq('status', 'approved')
         .order('name');
 
-      if (error) throw error;
-      setHotels(data || []);
+      if (hotelsError) throw hotelsError;
+
+      // Fetch ALL themes regardless of level - this includes subcategories and level-3 entries
+      const { data: themesData, error: themesError } = await supabase
+        .from('themes')
+        .select('id, name, level, category')
+        .order('name');
+
+      if (themesError) throw themesError;
+
+      setHotels(hotelsData || []);
+      setThemes(themesData || []);
+      
+      console.log(`📊 Loaded ${hotelsData?.length || 0} hotels and ${themesData?.length || 0} themes (all levels)`);
     } catch (error) {
-      console.error('Error fetching hotels:', error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch hotels",
-        variant: "destructive"
-      });
+      console.error('Error fetching data:', error);
+      toast.error('Failed to load data');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchThemes = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('themes')
-        .select('id, name, category')
-        .eq('level', 1)
-        .order('name');
+  const toggleHotelSelection = (hotelId: string) => {
+    setSelectedHotels(prev => 
+      prev.includes(hotelId) 
+        ? prev.filter(id => id !== hotelId)
+        : [...prev, hotelId]
+    );
+  };
 
-      if (error) throw error;
-      setThemes(data || []);
-    } catch (error) {
-      console.error('Error fetching themes:', error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch themes",
-        variant: "destructive"
-      });
+  const selectAllHotels = () => {
+    if (selectedHotels.length === hotels.length) {
+      setSelectedHotels([]);
+    } else {
+      setSelectedHotels(hotels.map(hotel => hotel.id));
     }
   };
 
@@ -78,34 +86,21 @@ export default function FernandoBatchThemeAssignment() {
     return shuffled.slice(0, count);
   };
 
-  const assignRandomThemesToHotels = async () => {
+  const assignThemesToHotels = async () => {
     if (selectedHotels.length === 0) {
-      toast({
-        title: "No Hotels Selected",
-        description: "Please select at least one hotel",
-        variant: "destructive"
-      });
+      toast.error('Please select at least one hotel');
       return;
     }
 
-    setIsAssigning(true);
+    if (themes.length === 0) {
+      toast.error('No themes available');
+      return;
+    }
+
     try {
-      const assignmentsToCreate = [];
-
-      for (const hotelId of selectedHotels) {
-        // Randomly choose 2 or 3 themes for each hotel
-        const themeCount = Math.random() < 0.5 ? 2 : 3;
-        const randomThemes = getRandomThemes(themes, themeCount);
-
-        for (const theme of randomThemes) {
-          assignmentsToCreate.push({
-            hotel_id: hotelId,
-            theme_id: theme.id
-          });
-        }
-      }
-
-      // First, remove existing assignments for selected hotels
+      setAssigning(true);
+      
+      // Clear existing theme assignments for selected hotels
       const { error: deleteError } = await supabase
         .from('hotel_themes')
         .delete()
@@ -113,156 +108,155 @@ export default function FernandoBatchThemeAssignment() {
 
       if (deleteError) throw deleteError;
 
-      // Then create new assignments
+      // Generate assignments - 2 or 3 random themes per hotel
+      const assignments = [];
+      for (const hotelId of selectedHotels) {
+        const themeCount = Math.random() < 0.5 ? 2 : 3; // Random between 2 and 3
+        const randomThemes = getRandomThemes(themes, themeCount);
+        
+        for (const theme of randomThemes) {
+          assignments.push({
+            hotel_id: hotelId,
+            theme_id: theme.id
+          });
+        }
+      }
+
+      // Insert new assignments
       const { error: insertError } = await supabase
         .from('hotel_themes')
-        .insert(assignmentsToCreate);
+        .insert(assignments);
 
       if (insertError) throw insertError;
 
-      toast({
-        title: "Success",
-        description: `Assigned random themes to ${selectedHotels.length} hotels (${assignmentsToCreate.length} total assignments)`,
-        variant: "success"
-      });
-
-      // Clear selections
+      toast.success(`Successfully assigned themes to ${selectedHotels.length} hotels (${assignments.length} total assignments)`);
       setSelectedHotels([]);
-
+      
     } catch (error) {
       console.error('Error assigning themes:', error);
-      toast({
-        title: "Error",
-        description: "Failed to assign themes to hotels",
-        variant: "destructive"
-      });
+      toast.error('Failed to assign themes');
     } finally {
-      setIsAssigning(false);
+      setAssigning(false);
     }
   };
 
-  const handleHotelSelection = (hotelId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedHotels(prev => [...prev, hotelId]);
-    } else {
-      setSelectedHotels(prev => prev.filter(id => id !== hotelId));
-    }
-  };
-
-  const selectAllHotels = () => {
-    setSelectedHotels(hotels.map(hotel => hotel.id));
-  };
-
-  const clearAllSelections = () => {
-    setSelectedHotels([]);
-  };
-
-  const calculateEstimatedAssignments = () => {
-    return selectedHotels.length * 2.5; // Average of 2-3 themes per hotel
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-white text-lg">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 p-6">
       <div className="space-y-6">
-        <Card className="bg-purple-800/40 border-purple-600/30 backdrop-blur-sm">
-          <CardHeader className="bg-gradient-to-r from-purple-700 to-pink-700 text-white">
-            <CardTitle className="flex items-center gap-2">
+        <Card className="bg-purple-800/50 border-purple-600">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
               <Tags className="w-5 h-5" />
-              Batch Theme Assignment - Randomized Distribution
+              Batch Theme Assignment
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 bg-purple-800/60 text-white">
-            <p className="text-gray-200 mb-4">
-              This tool assigns 2-3 random themes to each selected hotel, creating curated thematic experiences without bulk duplication.
+          <CardContent className="text-white">
+            <p className="mb-4">
+              Assign random themes to selected hotels. Each hotel will receive 2-3 randomly selected themes from the full database of {themes.length} available themes.
             </p>
-            
-            <div className="flex gap-4 mb-6">
-              <Button 
-                onClick={selectAllHotels}
-                variant="outline"
-                className="border-purple-400 text-purple-100 hover:bg-purple-700"
-              >
-                Select All Hotels
-              </Button>
-              <Button 
-                onClick={clearAllSelections}
-                variant="outline"
-                className="border-purple-400 text-purple-100 hover:bg-purple-700"
-              >
-                Clear Selection
-              </Button>
-            </div>
-
-            {selectedHotels.length > 0 && (
-              <div className="mb-6 p-4 bg-purple-900/60 rounded-lg border border-purple-600/30">
-                <h3 className="text-lg font-semibold text-white mb-2">Assignment Summary:</h3>
-                <ul className="text-purple-200 space-y-1">
-                  <li>• {selectedHotels.length} hotels selected</li>
-                  <li>• {themes.length} themes available</li>
-                  <li>• ~{Math.round(calculateEstimatedAssignments())} estimated assignments (2-3 per hotel)</li>
-                </ul>
-                
-                <Button
-                  onClick={assignRandomThemesToHotels}
-                  disabled={isAssigning}
-                  className="mt-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white"
-                >
-                  <Shuffle className="w-4 h-4 mr-2" />
-                  {isAssigning ? 'Assigning Random Themes...' : `Assign Random Themes to ${selectedHotels.length} Hotels`}
-                </Button>
-              </div>
-            )}
           </CardContent>
         </Card>
 
-        <Card className="bg-purple-800/40 border-purple-600/30 backdrop-blur-sm">
-          <CardHeader className="bg-purple-700/60 text-white border-b border-purple-600/30">
-            <CardTitle className="flex items-center gap-2">
-              <Hotel className="w-5 h-5" />
-              Select Hotels ({selectedHotels.length} selected)
-            </CardTitle>
+        <Card className="bg-purple-800/50 border-purple-600">
+          <CardHeader>
+            <CardTitle className="text-white">Available Themes ({themes.length} total)</CardTitle>
           </CardHeader>
-          <CardContent className="p-6 bg-purple-800/60">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-              {hotels.map(hotel => (
+          <CardContent className="text-white">
+            <p className="mb-4">
+              The system will randomly select 2-3 themes from the {themes.length} available themes for each hotel, including all subcategories and detailed affinity items.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {themes.slice(0, 20).map((theme) => (
+                <div key={theme.id} className="bg-purple-700/30 p-2 rounded text-sm">
+                  {theme.name} (L{theme.level})
+                </div>
+              ))}
+              {themes.length > 20 && (
+                <div className="bg-purple-700/30 p-2 rounded text-sm text-center">
+                  +{themes.length - 20} more themes...
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-purple-800/50 border-purple-600">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Hotel className="w-5 h-5" />
+              Select Hotels ({selectedHotels.length}/{hotels.length} selected)
+            </CardTitle>
+            <Button
+              onClick={selectAllHotels}
+              variant="outline"
+              className="bg-purple-700 border-purple-500 text-white hover:bg-purple-600"
+            >
+              {selectedHotels.length === hotels.length ? (
+                <>
+                  <Square className="w-4 h-4 mr-2" />
+                  Deselect All
+                </>
+              ) : (
+                <>
+                  <CheckSquare className="w-4 h-4 mr-2" />
+                  Select All
+                </>
+              )}
+            </Button>
+          </CardHeader>
+          <CardContent className="max-h-96 overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              {hotels.map((hotel) => (
                 <div
                   key={hotel.id}
-                  className="flex items-center space-x-3 p-3 bg-purple-900/40 rounded-lg border border-purple-600/20 hover:bg-purple-900/60 transition-colors"
+                  className="flex items-start space-x-2 p-2 bg-purple-700/30 rounded hover:bg-purple-700/50 cursor-pointer"
+                  onClick={() => toggleHotelSelection(hotel.id)}
                 >
                   <Checkbox
-                    id={hotel.id}
                     checked={selectedHotels.includes(hotel.id)}
-                    onCheckedChange={(checked) => handleHotelSelection(hotel.id, checked as boolean)}
-                    className="border-purple-400 data-[state=checked]:bg-purple-600"
+                    onChange={() => toggleHotelSelection(hotel.id)}
+                    className="mt-1"
                   />
-                  <label htmlFor={hotel.id} className="flex-1 cursor-pointer">
-                    <div className="font-medium text-white">{hotel.name}</div>
-                    <div className="text-sm text-purple-200">{hotel.city}, {hotel.country}</div>
-                  </label>
+                  <div className="text-white">
+                    <div className="font-medium text-sm">{hotel.name}</div>
+                    <div className="text-xs text-white/70">
+                      {hotel.city}, {hotel.country}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-purple-800/40 border-purple-600/30 backdrop-blur-sm">
-          <CardHeader className="bg-purple-700/60 text-white border-b border-purple-600/30">
-            <CardTitle>Available Themes ({themes.length} total)</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6 bg-purple-800/60">
-            <p className="text-purple-200 mb-4">
-              The system will randomly select 2-3 themes from the {themes.length} available themes for each hotel.
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-              {themes.map(theme => (
-                <div
-                  key={theme.id}
-                  className="p-2 bg-purple-900/40 rounded border border-purple-600/20 text-sm text-purple-100"
-                >
-                  {theme.name}
-                </div>
-              ))}
-            </div>
+        <Card className="bg-purple-800/50 border-purple-600">
+          <CardContent className="pt-6">
+            <Button
+              onClick={assignThemesToHotels}
+              disabled={selectedHotels.length === 0 || assigning}
+              className="w-full bg-purple-600 hover:bg-purple-500 text-white"
+            >
+              {assigning ? (
+                'Assigning Themes...'
+              ) : (
+                `Assign Random Themes to ${selectedHotels.length} Selected Hotels`
+              )}
+            </Button>
+            {selectedHotels.length > 0 && (
+              <p className="text-white/70 text-sm mt-2 text-center">
+                Each hotel will receive 2-3 randomly selected themes from the full database
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>

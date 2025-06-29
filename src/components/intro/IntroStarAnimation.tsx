@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface IntroStarAnimationProps {
   onComplete: () => void;
@@ -17,13 +16,12 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
   const [exitingStep, setExitingStep] = useState<number | null>(null);
 
   const messages = [
-    t('intro.welcome'),
-    t('intro.tagline'),
-    t('intro.experience'),
-    t('intro.style'),
-    t('intro.community'),
-    t('intro.people'),
-    t('intro.passion')
+    t('home.heroSection.revolutionHasCome'),
+    t('home.heroSection.slogans.getRidOfChores'),
+    t('home.heroSection.slogans.boostSocialLife'), 
+    t('home.heroSection.slogans.meetLikeMinded'),
+    t('home.heroSection.boostYourLife').toUpperCase(),
+    t('home.heroSection.liveInHotels')
   ];
 
   const formatTextWithLineBreaks = (text: string) => {

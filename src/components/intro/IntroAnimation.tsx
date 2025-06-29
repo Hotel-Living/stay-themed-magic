@@ -1,28 +1,30 @@
 
 import React, { useState, useEffect } from 'react';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface IntroAnimationProps {
   onComplete: () => void;
 }
 
-const INTRO_MESSAGES = [
-  "LA REVOLUCIÓN\nHA LLEGADO",
-  "MULTIPLICA\nTU VIDA", 
-  "VIVE EN\nHOTELES",
-  "VIVE CON\nESTILO",
-  "CONOCE\nAFINES",
-  "DISFRUTA TUS\nPASIONES"
-];
-
 const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
 const MAX_INTRO_SHOWS = 3;
 
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
+  const { t } = useTranslation();
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
   const [showAllText, setShowAllText] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
+
+  const INTRO_MESSAGES = [
+    t('home.heroSection.revolutionHasCome'),
+    t('home.heroSection.slogans.getRidOfChores'),
+    t('home.heroSection.slogans.boostSocialLife'),
+    t('home.heroSection.slogans.meetLikeMinded'),
+    t('home.heroSection.boostYourLife').toUpperCase(),
+    t('home.heroSection.liveInHotels')
+  ];
 
   const handleDoubleClick = () => {
     setIsVisible(false);
@@ -72,7 +74,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     };
 
     startAnimation();
-  }, [onComplete]);
+  }, [onComplete, INTRO_MESSAGES.length]);
 
   const updateVisitCount = () => {
     const currentCount = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0');
@@ -169,7 +171,7 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
             }}
           >
             {message.split('\n').map((line, i) => (
-              <div key={i}>{line}</div>
+              <div key={i}>{line.toUpperCase()}</div>
             ))}
           </div>
         ))}

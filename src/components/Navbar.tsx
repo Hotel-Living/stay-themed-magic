@@ -1,49 +1,37 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/context/AuthContext'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
-import { Logo } from '@/components/Logo'
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/context/AuthContext';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { Logo } from '@/components/Logo';
 
 export function Navbar() {
-  const { t } = useTranslation()
-  const { user } = useAuth()
-  const router = useRouter()
-
-  const isAdmin = user?.role === 'admin'
+  const { t } = useTranslation();
+  const { isAdmin } = useAuth();
 
   return (
-    <header className="w-full bg-purple-900 text-white px-4 py-3 shadow-md">
-      <nav className="max-w-screen-xl mx-auto flex justify-between items-center">
-        <Link href="/" className="text-lg font-bold">
-          <Logo />
-        </Link>
-
-        <div className="hidden md:flex items-center space-x-6">
-          <Link href="/advantages" className="hover:underline">
-            {t('mainNavigationContent.advantages')}
+    <header className="w-full bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <Logo />
+        <nav className="flex space-x-6">
+          <Link to="/faq" className="text-sm font-medium text-gray-700 hover:text-black">
+            {t('mainNavigationContent.faq')}
           </Link>
-          <Link href="/affinities" className="hover:underline">
+          <Link to="/affinities" className="text-sm font-medium text-gray-700 hover:text-black">
             {t('mainNavigationContent.affinities')}
           </Link>
-          <Link href="/hotel-question" className="hover:underline">
-            {t('mainNavigationContent.hotelQuestion')}
+          <Link to="/hotels" className="text-sm font-medium text-gray-700 hover:text-black">
+            {t('mainNavigationContent.hotels')}
           </Link>
           {isAdmin && (
-            <Link href="/admin" className="hover:underline">
+            <Link to="/admin" className="text-sm font-medium text-gray-700 hover:text-black">
               Admin
             </Link>
           )}
-          <LanguageSwitcher />
-        </div>
-
-        {/* Mobile Menu */}
-        <div className="md:hidden flex items-center space-x-3">
-          <LanguageSwitcher />
-        </div>
-      </nav>
+        </nav>
+        <LanguageSwitcher />
+      </div>
     </header>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

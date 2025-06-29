@@ -23,7 +23,6 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   const [isAvailabilityOpen, setIsAvailabilityOpen] = React.useState(false);
   const [isMealPlanOpen, setIsMealPlanOpen] = React.useState(false);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = React.useState(false);
-  const [isValidationOpen, setIsValidationOpen] = React.useState(false);
   const [selectedDay, setSelectedDay] = React.useState(formData?.checkinDay || "monday");
 
   const handleDaySelect = (field: string, value: any) => {
@@ -82,7 +81,6 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       <ValidationMessages
         formData={formData}
-        updateFormData={updateFormData}
       />
     </div>
   );

@@ -92,8 +92,9 @@ export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComple
             } ${exitingStep === index ? 'animate-star-dust-exit' : ''}`}
           >
             <h1
-              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-yellow-400 max-w-6xl leading-tight whitespace-pre-line uppercase tracking-wider"
+              className={`${index === 1 ? 'text-5xl md:text-7xl lg:text-8xl xl:text-9xl' : 'text-4xl md:text-6xl lg:text-7xl xl:text-8xl'} font-bold max-w-6xl leading-tight whitespace-pre-line uppercase tracking-wider`}
               style={{
+                color: index === 1 ? '#FEEB43' : '#FFD700',
                 textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.4), 0 0 120px rgba(255, 215, 0, 0.3), 0 0 150px rgba(255, 215, 0, 0.2)',
                 WebkitTextStroke: '2.5px rgba(255, 255, 255, 0.6)',
                 fontWeight: '900',

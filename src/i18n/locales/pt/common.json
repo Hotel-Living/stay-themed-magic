@@ -1,35 +1,12 @@
+
 {
-  "common": {
-    "loading": "Carregando...",
-    "error": "Erro",
-    "submit": "Enviar",
-    "cancel": "Cancelar",
-    "save": "Salvar",
-    "edit": "Editar",
-    "delete": "Excluir",
-    "confirm": "Confirmar",
-    "back": "Voltar",
-    "next": "Próximo",
-    "previous": "Anterior",
-    "close": "Fechar",
-    "search": "Buscar",
-    "filter": "Filtrar",
-    "sort": "Ordenar",
-    "view": "Visualizar",
-    "add": "Adicionar",
-    "remove": "Remover",
-    "update": "Atualizar",
-    "create": "Criar",
-    "yes": "Sim",
-    "no": "Não"
-  },
   "intro": {
     "welcome": "A REVOLUÇÃO\nCHEGOU",
-    "tagline": "VIVA MAIS\nVIVA MELHOR",
-    "experience": "ESQUEÇA AS TAREFAS\ndo LAR",
-    "style": "VIVA EM HOTÉIS\no ANO TODO",
-    "community": "DESFRUTE DO ESTILO\nde VIDA QUE MERECE",
-    "people": "CERQUE-SE DE PESSOAS\nCOMO VOCÊ",
-    "passion": "TRANSFORME SUAS PAIXÕES\nNA SUA VIDA DIÁRIA"
+    "tagline": "VIVA AO MÁXIMO!",
+    "experience": "ESQUEÇA AS\nTAREFAS DOMÉSTICAS",
+    "style": "VIVA EM HOTÉIS\nO ANO TODO",
+    "community": "DESFRUTE DO ESTILO\nQUE MERECE",
+    "people": "CERQUE-SE DE PESSOAS\nCOM A MESMA ENERGIA",
+    "passion": "FAÇA DE SUAS PAIXÕES\nSUA VIDA DIÁRIA"
   }
 }

@@ -1,4 +1,5 @@
 
+
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -40,7 +41,7 @@ export function HeroSection() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#006EF5] via-[#006EF5] to-purple-600 rounded-lg blur-xl opacity-75"></div>
               {/* Deep purple background */}
               <div className="relative rounded-lg border-2 border-[#D946EF] bg-[#8017B0] backdrop-blur-sm shadow-[0_0_15px_rgba(0,110,245,0.7)] px-[11px] my-0 py-0">
-                <p className={`${isMobile ? "text-lg" : "text-xs sm:text-sm md:text-base"} font-bold max-w-full text-center whitespace-nowrap`} style={{
+                <p className={`${isMobile ? "text-xl" : "text-sm sm:text-base md:text-lg"} font-bold max-w-full text-center whitespace-nowrap`} style={{
                 color: "#FFF9B0"
               }}>{t('home.heroSection.revolutionHasCome')}</p>
               </div>
@@ -99,3 +100,4 @@ export function HeroSection() {
       </div>
     </section>;
 }
+

@@ -48,9 +48,14 @@ export const AdminRoute = ({ children }: AdminRouteProps) => {
     </div>;
   }
 
-  // Redirect to login if not authenticated or not an admin
-  if (!user || !isAdmin) {
+  // Redirect to login if not authenticated
+  if (!user) {
     return <Navigate to="/login" />;
+  }
+
+  // Redirect to user dashboard if not an admin (but don't prevent hotel owners from accessing hotel dashboard)
+  if (!isAdmin) {
+    return <Navigate to="/user-dashboard" />;
   }
 
   return children;

@@ -9,52 +9,59 @@ import { CategoryFilterES } from './CategoryFilter.es';
 import { CategoryFilterPT } from './CategoryFilter.pt';
 import { CategoryFilterRO } from './CategoryFilter.ro';
 import { useTranslation } from '@/hooks/useTranslation';
+import { FilterState } from '@/components/filters/FilterTypes';
 
 interface SecondaryFilterPanelProps {
-  activeLength: string | null;
-  onLengthChange: (value: string | null) => void;
-  activeCategory: string | null;
-  onCategoryChange: (value: string | null) => void;
+  activeFilters: FilterState;
+  handleFilterChange: (key: keyof FilterState, value: any) => void;
+  handleArrayFilterChange: (key: keyof FilterState, value: string, isSelected: boolean) => void;
+  onResetAllFilters: () => void;
 }
 
-const durationOptions = [29, 22, 15, 8];
-
 export function SecondaryFilterPanel({
-  activeLength,
-  onLengthChange,
-  activeCategory,
-  onCategoryChange
+  activeFilters,
+  handleFilterChange,
+  handleArrayFilterChange,
+  onResetAllFilters
 }: SecondaryFilterPanelProps) {
   const { language } = useTranslation();
+
+  const handleLengthChange = (value: string | null) => {
+    handleFilterChange('stayLengths', value);
+  };
+
+  const handleCategoryChange = (value: string | null) => {
+    handleFilterChange('atmosphere', value);
+  };
 
   const renderLengthOfStayFilter = () => {
     switch (language) {
       case 'es':
         return (
           <LengthOfStayFilterES
-            activeLength={activeLength}
-            onChange={onLengthChange}
+            activeLength={activeFilters.stayLengths}
+            onChange={handleLengthChange}
           />
         );
       case 'pt':
         return (
           <LengthOfStayFilterPT
-            activeLength={activeLength}
-            onChange={onLengthChange}
+            activeLength={activeFilters.stayLengths}
+            onChange={handleLengthChange}
           />
         );
       case 'ro':
         return (
           <LengthOfStayFilterRO
-            activeLength={activeLength}
-            onChange={onLengthChange}
+            activeLength={activeFilters.stayLengths}
+            onChange={handleLengthChange}
           />
         );
       default:
         return (
           <LengthOfStayFilterEN
-            activeLength={activeLength}
-            onChange={onLengthChange}
+            activeLength={activeFilters.stayLengths}
+            onChange={handleLengthChange}
           />
         );
     }
@@ -65,29 +72,29 @@ export function SecondaryFilterPanel({
       case 'es':
         return (
           <CategoryFilterES
-            activeCategory={activeCategory}
-            onChange={onCategoryChange}
+            activeCategory={activeFilters.atmosphere}
+            onChange={handleCategoryChange}
           />
         );
       case 'pt':
         return (
           <CategoryFilterPT
-            activeCategory={activeCategory}
-            onChange={onCategoryChange}
+            activeCategory={activeFilters.atmosphere}
+            onChange={handleCategoryChange}
           />
         );
       case 'ro':
         return (
           <CategoryFilterRO
-            activeCategory={activeCategory}
-            onChange={onCategoryChange}
+            activeCategory={activeFilters.atmosphere}
+            onChange={handleCategoryChange}
           />
         );
       default:
         return (
           <CategoryFilterEN
-            activeCategory={activeCategory}
-            onChange={onCategoryChange}
+            activeCategory={activeFilters.atmosphere}
+            onChange={handleCategoryChange}
           />
         );
     }

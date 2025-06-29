@@ -13,7 +13,7 @@
     "admin": "Administrador",
     "language": "Idioma",
     "help": "Ayuda",
-    "faq": "Preguntas frecuentes",
+    "faq": "Ventajas",
     "contact": "Contacto",
     "videos": "Videos",
     "featuredHotels": "Hoteles destacados",
@@ -22,8 +22,8 @@
     "aboutUs": "Sobre nosotros"
   },
   "mainNavigationContent": {
-    "faq": "FAQ",
-    "affinityStays": "AFINIDADES",
+    "faq": "VENTAJAS",
+    "affinityStays": "¿AFINIDADES?",
     "hotel": "¿HOTEL?",
     "videos": "Videos",
     "featuredHotels": "DESTACADOS",

@@ -13,7 +13,7 @@
     "admin": "Administrator",
     "language": "Limbă",
     "help": "Ajutor",
-    "faq": "Întrebări frecvente",
+    "faq": "Avantaje",
     "contact": "Contact",
     "videos": "Videoclipuri",
     "featuredHotels": "Hoteluri recomandate",
@@ -22,8 +22,8 @@
     "aboutUs": "Despre noi"
   },
   "mainNavigationContent": {
-    "faq": "FAQ",
-    "affinityStays": "AFINITĂȚI",
+    "faq": "AVANTAJE",
+    "affinityStays": "AFINITĂȚI?",
     "hotel": "HOTEL?",
     "videos": "Videoclipuri",
     "featuredHotels": "RECOMANDATE",

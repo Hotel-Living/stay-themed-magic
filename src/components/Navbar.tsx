@@ -18,8 +18,11 @@ export function Navbar() {
   const isLoggedIn = !!user && !!session;
 
   const getDisplayName = () => {
-    if (profile?.full_name) {
-      return profile.full_name;
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name} ${profile.last_name}`;
+    }
+    if (profile?.first_name) {
+      return profile.first_name;
     }
     if (user?.email) {
       return user.email.split('@')[0];

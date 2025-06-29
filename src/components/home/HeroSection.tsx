@@ -1,5 +1,3 @@
-
-
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -55,9 +53,9 @@ export function HeroSection() {
             {t('home.heroSection.liveInHotels')}
           </h1>
 
-          {/* Boost Your Life! with blue glow effect only - updated to #006EF5 */}
-          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
+          {/* Boost Your Life! with 15% size increase and #FEEB43 color */}
+          <h2 className={`${isMobile ? "text-[2.3rem]" : "text-[1.84rem] sm:text-[2.3rem] md:text-[3rem] lg:text-[3.8rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FEEB43] via-[#FEEB43] to-[#FEEB43] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(254, 235, 67, 0.8)) drop-shadow(0 0 20px rgba(254, 235, 67, 0.6)) drop-shadow(0 0 30px rgba(254, 235, 67, 0.4))'
           }}>
             {t('home.heroSection.boostYourLife')}
           </h2>
@@ -100,4 +98,3 @@ export function HeroSection() {
       </div>
     </section>;
 }
-

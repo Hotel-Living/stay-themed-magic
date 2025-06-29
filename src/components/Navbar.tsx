@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -12,9 +13,27 @@ import { User, LogOut } from "lucide-react";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, session } = useAuth();
+  const { user, session, profile, signOut } = useAuth();
   const { t } = useTranslation();
   const isLoggedIn = !!user && !!session;
+
+  const getDisplayName = () => {
+    if (profile?.full_name) {
+      return profile.full_name;
+    }
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'User';
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   return (
     <header className="shadow-md" style={{ backgroundColor: "#996515" }}>

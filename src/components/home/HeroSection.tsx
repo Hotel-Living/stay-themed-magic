@@ -1,4 +1,3 @@
-
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -30,7 +29,7 @@ export function HeroSection() {
       </p>
     </div>;
 
-  return <section className="py-0 px-4 overflow-hidden pt-2 w-full">
+  return <section className="py-0 px-4 overflow-hidden pt-3 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
           {/* New 1950s style neon sign slogan - with adjusted spacing: 50% bigger above, 50% smaller below */}

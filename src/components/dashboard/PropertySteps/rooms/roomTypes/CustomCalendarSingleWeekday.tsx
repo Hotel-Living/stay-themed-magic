@@ -17,6 +17,7 @@ interface CustomCalendarSingleWeekdayProps {
   selected: string[];
   preferredWeekday: string;
   onSelectDate: (d: Date) => void;
+  excludedDates?: string[];
 }
 
 export default function CustomCalendarSingleWeekday({
@@ -25,6 +26,7 @@ export default function CustomCalendarSingleWeekday({
   selected,
   preferredWeekday,
   onSelectDate,
+  excludedDates = [],
 }: CustomCalendarSingleWeekdayProps) {
   const availableDates = getAvailableDatesForMonth(month, preferredDayNum);
   const selectedDatesInMonth = getSelectedDatesInMonth(selected, month, preferredDayNum);
@@ -33,7 +35,14 @@ export default function CustomCalendarSingleWeekday({
     (key) => weekdayMap[key] === preferredDayNum
   ) || preferredWeekday;
 
+  const isDateExcluded = (date: Date): boolean => {
+    const dateString = date.toISOString().split('T')[0];
+    return excludedDates.includes(dateString);
+  };
+
   const handleDateClick = (date: Date) => {
+    if (isDateExcluded(date)) return;
+    
     if (isDateSelected(date, selected)) {
       onSelectDate(date);
     } else if (selectedDatesInMonth.length < 2) {
@@ -47,7 +56,8 @@ export default function CustomCalendarSingleWeekday({
       <div className="flex flex-col gap-2">
         {availableDates.map((date) => {
           const dateSelected = isDateSelected(date, selected);
-          const canSelect = dateSelected || selectedDatesInMonth.length < 2;
+          const isExcluded = isDateExcluded(date);
+          const canSelect = !isExcluded && (dateSelected || selectedDatesInMonth.length < 2);
           const isCheckout = dateSelected && isCheckoutOnlyDate(date, selected);
           
           return (
@@ -57,6 +67,7 @@ export default function CustomCalendarSingleWeekday({
               isSelected={dateSelected}
               canSelect={canSelect}
               isCheckout={isCheckout}
+              isExcluded={isExcluded}
               onClick={() => handleDateClick(date)}
             />
           );

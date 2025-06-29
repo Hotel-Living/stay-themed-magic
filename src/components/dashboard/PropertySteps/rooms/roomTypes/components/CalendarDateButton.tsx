@@ -1,42 +1,64 @@
 
 import React from "react";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
 interface CalendarDateButtonProps {
   date: Date;
   isSelected: boolean;
   canSelect: boolean;
-  isCheckout: boolean;
+  isCheckout?: boolean;
+  isExcluded?: boolean;
   onClick: () => void;
 }
 
-export function CalendarDateButton({ 
-  date, 
-  isSelected, 
-  canSelect, 
-  isCheckout,
-  onClick 
+export function CalendarDateButton({
+  date,
+  isSelected,
+  canSelect,
+  isCheckout = false,
+  isExcluded = false,
+  onClick
 }: CalendarDateButtonProps) {
+  const getButtonVariant = () => {
+    if (isExcluded) return "secondary";
+    if (isSelected) return "default";
+    return "outline";
+  };
+
+  const getButtonClassName = () => {
+    let className = "w-full justify-start text-left h-auto p-3 ";
+    
+    if (isExcluded) {
+      className += "opacity-50 cursor-not-allowed bg-gray-600 text-gray-400";
+    } else if (isSelected) {
+      className += isCheckout 
+        ? "bg-red-600 hover:bg-red-700 text-white" 
+        : "bg-green-600 hover:bg-green-700 text-white";
+    } else if (canSelect) {
+      className += "hover:bg-purple-600/50";
+    } else {
+      className += "opacity-50 cursor-not-allowed";
+    }
+    
+    return className;
+  };
+
+  const getDisplayText = () => {
+    const dateStr = format(date, "EEE, MMM d, yyyy");
+    if (isExcluded) return `${dateStr} (No disponible)`;
+    if (isCheckout) return `${dateStr} (Solo check-out)`;
+    return dateStr;
+  };
+
   return (
-    <button
-      type="button"
-      className={`w-full px-3 py-2 rounded-md text-sm transition
-        ${
-          isSelected
-            ? isCheckout
-              ? "bg-fuchsia-800 text-white hover:bg-fuchsia-900"
-              : "bg-fuchsia-600 text-white hover:bg-fuchsia-700"
-            : canSelect
-              ? "bg-fuchsia-900/20 text-white hover:bg-fuchsia-700/70"
-              : "bg-gray-400/30 text-white cursor-not-allowed opacity-50"
-        }`}
-      onClick={canSelect ? onClick : undefined}
-      disabled={!canSelect}
+    <Button
+      variant={getButtonVariant()}
+      className={getButtonClassName()}
+      onClick={onClick}
+      disabled={isExcluded || (!isSelected && !canSelect)}
     >
-      {format(date, "EEE, MMM d, yyyy")}
-      {isCheckout && (
-        <span className="ml-2 text-xs font-medium">(Check-out only)</span>
-      )}
-    </button>
+      {getDisplayText()}
+    </Button>
   );
 }

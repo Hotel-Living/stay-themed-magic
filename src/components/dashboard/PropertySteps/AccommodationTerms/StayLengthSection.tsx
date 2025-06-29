@@ -27,9 +27,9 @@ const StayLengthSection: React.FC<StayLengthSectionProps> = ({
   
   const stayOptions = [
     { days: 8, label: "8 days" },
-    { days: 16, label: "16 days" },
-    { days: 24, label: "24 days" },
-    { days: 32, label: "32 days" }
+    { days: 15, label: "15 days" },
+    { days: 22, label: "22 days" },
+    { days: 29, label: "29 days" }
   ];
 
   const handleLengthToggle = (days: number) => {

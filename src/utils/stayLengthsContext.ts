@@ -26,5 +26,5 @@ export const getSelectedStayLengths = (): number[] => {
   }
   
   // Return default values if nothing is saved or there's an error
-  return [8, 16, 24, 32];
+  return [8, 15, 22, 29];
 };

@@ -9,9 +9,9 @@ interface LengthOfStayFilterENProps {
 export function LengthOfStayFilterEN({ activeLength, onChange }: LengthOfStayFilterENProps) {
   const lengthOfStayOptions = [
     { value: "8 days", label: "8 days" },
-    { value: "16 days", label: "16 days" },
-    { value: "24 days", label: "24 days" },
-    { value: "32 days", label: "32 days" }
+    { value: "15 days", label: "15 days" },
+    { value: "22 days", label: "22 days" },
+    { value: "29 days", label: "29 days" }
   ];
 
   const handleLengthClick = (lengthValue: string) => {

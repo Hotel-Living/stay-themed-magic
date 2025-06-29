@@ -9,9 +9,9 @@ interface LengthOfStayFilterROProps {
 export function LengthOfStayFilterRO({ activeLength, onChange }: LengthOfStayFilterROProps) {
   const lengthOfStayOptions = [
     { value: "8 days", label: "8 zile" },
-    { value: "16 days", label: "16 zile" },
-    { value: "24 days", label: "24 zile" },
-    { value: "32 days", label: "32 zile" }
+    { value: "15 days", label: "15 zile" },
+    { value: "22 days", label: "22 zile" },
+    { value: "29 days", label: "29 zile" }
   ];
 
   const handleLengthClick = (lengthValue: string) => {

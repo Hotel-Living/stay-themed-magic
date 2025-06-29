@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -28,14 +27,14 @@ export default function LengthOfStaySection({
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(initialStayLengths);
   const [stayLengthsValid, setStayLengthsValid] = useState(initialStayLengths.length > 0);
 
-  // Updated stay lengths to 8, 16, 24, 32 days
-  const stayLengths = [8, 16, 24, 32];
+  // Updated stay lengths to 8, 15, 22, 29 days
+  const stayLengths = [8, 15, 22, 29];
 
   const durations = [
     { value: 8 },
-    { value: 16 },
-    { value: 24 },
-    { value: 32 }
+    { value: 15 },
+    { value: 22 },
+    { value: 29 }
   ];
 
   // Load initial data from form or context
@@ -136,4 +135,3 @@ export default function LengthOfStaySection({
     </Collapsible>
   );
 }
-

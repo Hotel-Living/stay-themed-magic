@@ -51,22 +51,26 @@ export function FilterSidebar({
     handleFilterChange('propertyStyle', value);
   };
 
-  const handlePriceRangeChange = (value: number | { min: number; max: number } | null) => {
+  const handlePriceRangeChange = (value: number | null) => {
     handleFilterChange('priceRange', value);
   };
 
   return (
     <div className="space-y-2">
-      {/* Length of Stay Filter */}
-      <LengthOfStayFilter
-        activeLength={activeFilters.stayLengths}
-        onChange={handleLengthChange}
-      />
+      {/* Reset All Filters Button - Top */}
+      <div className="pb-2">
+        <button
+          onClick={onResetAllFilters}
+          className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
+        >
+          Reset All Filters
+        </button>
+      </div>
 
-      {/* Category/Atmosphere Filter */}
-      <CategoryFilter
-        activeCategory={activeFilters.atmosphere}
-        onChange={handleCategoryChange}
+      {/* Price Range Filter */}
+      <PriceRangeFilter
+        activePrice={activeFilters.priceRange as number | null}
+        onChange={handlePriceRangeChange}
       />
 
       {/* Country Filter */}
@@ -81,16 +85,36 @@ export function FilterSidebar({
         onChange={handleLocationChange}
       />
 
+      {/* Category/Atmosphere Filter */}
+      <CategoryFilter
+        activeCategory={activeFilters.atmosphere}
+        onChange={handleCategoryChange}
+      />
+
+      {/* Activities Filter */}
+      <ActivityFilter
+        activeActivities={activeFilters.activities || []}
+        onChange={handleArrayFilterChange.bind(null, 'activities')}
+      />
+
+      {/* Length of Stay Filter */}
+      <LengthOfStayFilter
+        activeLength={activeFilters.stayLengths}
+        onChange={handleLengthChange}
+      />
+
       {/* Month Filter */}
       <MonthFilter
         activeMonth={activeFilters.month}
         onChange={handleMonthChange}
       />
 
-      {/* Price Range Filter */}
-      <PriceRangeFilter
-        activePriceRange={activeFilters.priceRange}
-        onChange={handlePriceRangeChange}
+      {/* Meal Plans Filter */}
+      <CheckboxFilter
+        title="MEAL PLANS"
+        options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
+        selectedOptions={activeFilters.mealPlans || []}
+        onChange={handleArrayFilterChange.bind(null, 'mealPlans')}
       />
 
       {/* Property Type Filter */}
@@ -121,26 +145,12 @@ export function FilterSidebar({
         onChange={handleArrayFilterChange.bind(null, 'stars')}
       />
 
-      {/* Activities Filter */}
-      <ActivityFilter
-        activeActivities={activeFilters.activities || []}
-        onChange={handleArrayFilterChange.bind(null, 'activities')}
-      />
-
       {/* Room Types Filter */}
       <CheckboxFilter
         title="ROOM TYPES"
         options={['Single', 'Double', 'Suite', 'Family', 'Deluxe']}
         selectedOptions={activeFilters.roomTypes || []}
         onChange={handleArrayFilterChange.bind(null, 'roomTypes')}
-      />
-
-      {/* Hotel Features Filter */}
-      <CheckboxFilter
-        title="HOTEL FEATURES"
-        options={['Pool', 'Spa', 'Gym', 'Restaurant', 'Bar', 'WiFi', 'Parking']}
-        selectedOptions={activeFilters.hotelFeatures || []}
-        onChange={handleArrayFilterChange.bind(null, 'hotelFeatures')}
       />
 
       {/* Room Features Filter */}
@@ -151,15 +161,15 @@ export function FilterSidebar({
         onChange={handleArrayFilterChange.bind(null, 'roomFeatures')}
       />
 
-      {/* Meal Plans Filter */}
+      {/* Hotel Features Filter */}
       <CheckboxFilter
-        title="MEAL PLANS"
-        options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
-        selectedOptions={activeFilters.mealPlans || []}
-        onChange={handleArrayFilterChange.bind(null, 'mealPlans')}
+        title="HOTEL FEATURES"
+        options={['Pool', 'Spa', 'Gym', 'Restaurant', 'Bar', 'WiFi', 'Parking']}
+        selectedOptions={activeFilters.hotelFeatures || []}
+        onChange={handleArrayFilterChange.bind(null, 'hotelFeatures')}
       />
 
-      {/* Reset All Filters Button */}
+      {/* Reset All Filters Button - Bottom */}
       <div className="pt-4">
         <button
           onClick={onResetAllFilters}

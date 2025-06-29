@@ -1,5 +1,6 @@
 
 
+
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -55,9 +56,9 @@ export function HeroSection() {
             {t('home.heroSection.liveInHotels')}
           </h1>
 
-          {/* Boost Your Life! with 30% reduced size and #FFF3AD color */}
-          <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFF3AD] via-[#FFF3AD] to-[#FFF3AD] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(255, 243, 173, 0.8)) drop-shadow(0 0 20px rgba(255, 243, 173, 0.6)) drop-shadow(0 0 30px rgba(255, 243, 173, 0.4))'
+          {/* Boost Your Life! with 30% reduced size and updated color to #FFF7BD */}
+          <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFF7BD] via-[#FFF7BD] to-[#FFF7BD] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(255, 247, 189, 0.8)) drop-shadow(0 0 20px rgba(255, 247, 189, 0.6)) drop-shadow(0 0 30px rgba(255, 247, 189, 0.4))'
           }}>
             {t('home.heroSection.boostYourLife')}
           </h2>
@@ -100,4 +101,5 @@ export function HeroSection() {
       </div>
     </section>;
 }
+
 

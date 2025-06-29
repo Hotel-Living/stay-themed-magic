@@ -1,3 +1,4 @@
+
 import React from "react";
 import StayLengthSection from "./StayLengthSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
@@ -9,11 +10,13 @@ import ValidationMessages from "./ValidationMessages";
 interface AccommodationTermsStepProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   formData,
-  updateFormData
+  updateFormData,
+  onValidationChange
 }) => {
   const [isStayLengthOpen, setIsStayLengthOpen] = React.useState(false);
   const [isWeekdayOpen, setIsWeekdayOpen] = React.useState(false);
@@ -37,6 +40,14 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         onToggle={setIsStayLengthOpen}
         formData={formData}
         updateFormData={updateFormData}
+        selectedLengths={formData?.stayLengths || []}
+        onLengthToggle={(length) => {
+          const currentLengths = formData?.stayLengths || [];
+          const newLengths = currentLengths.includes(length)
+            ? currentLengths.filter((l: number) => l !== length)
+            : [...currentLengths, length];
+          updateFormData('stayLengths', newLengths);
+        }}
       />
 
       <PreferredWeekdaySection
@@ -70,8 +81,6 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       />
 
       <ValidationMessages
-        isOpen={isValidationOpen}
-        onToggle={setIsValidationOpen}
         formData={formData}
         updateFormData={updateFormData}
       />

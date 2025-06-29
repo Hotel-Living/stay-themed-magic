@@ -1,4 +1,5 @@
 
+
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -22,8 +23,9 @@ export function HeroSection() {
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
       </div>
-      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-base sm:text-lg" : "text-sm sm:text-base"} text-[#FFF9B0]`} style={{
-      fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif"
+      <p className={`text-left font-bold ${isMobile ? "text-xl whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-lg sm:text-xl" : "text-base sm:text-lg"}`} style={{
+      fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif",
+      color: "#FEEB43"
     }}>
         {slogan}
       </p>
@@ -98,3 +100,4 @@ export function HeroSection() {
       </div>
     </section>;
 }
+

@@ -56,9 +56,9 @@ export function HeroSection() {
             {t('home.heroSection.liveInHotels')}
           </h1>
 
-          {/* Boost Your Life! with 30% reduced size and #FEF38F color */}
-          <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FEF38F] via-[#FEF38F] to-[#FEF38F] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(254, 243, 143, 0.8)) drop-shadow(0 0 20px rgba(254, 243, 143, 0.6)) drop-shadow(0 0 30px rgba(254, 243, 143, 0.4))'
+          {/* Boost Your Life! with 30% reduced size and #FFEB7A color */}
+          <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFEB7A] via-[#FFEB7A] to-[#FFEB7A] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(255, 235, 122, 0.8)) drop-shadow(0 0 20px rgba(255, 235, 122, 0.6)) drop-shadow(0 0 30px rgba(255, 235, 122, 0.4))'
           }}>
             {t('home.heroSection.boostYourLife')}
           </h2>

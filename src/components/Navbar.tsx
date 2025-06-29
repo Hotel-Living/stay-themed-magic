@@ -1,39 +1,17 @@
 import { Link } from "react-router-dom";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
-import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, profile, signOut, session } = useAuth();
-  const { toast: useToastRef } = useToast();
+  const { user, session } = useAuth();
   const { t } = useTranslation();
   const isLoggedIn = !!user && !!session;
-  const isHotelOwner = profile?.is_hotel_owner === true;
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  const handleLogout = async () => {
-    try {
-      if (isMenuOpen) setIsMenuOpen(false);
-      if (!session) {
-        toast.error("No session found. Please refresh the page and try again.");
-        return;
-      }
-      await signOut();
-      setTimeout(() => {
-        if (window.location.pathname !== '/login') {
-          window.location.href = "/login";
-        }
-      }, 500);
-    } catch (error) {
-      toast.error("Could not complete logout. Please try again.");
-    }
-  };
 
   return (
     <header className="shadow-md" style={{ backgroundColor: "#996515" }}>
@@ -52,27 +30,7 @@ export function Navbar() {
           <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             {t('mainNavigationContent.hotel')}
           </Link>
-
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
-              <User className="w-3 h-3" />
-              My Account
-            </Link>
-          )}
-
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
-
-          {isLoggedIn && (
-            <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.adminDashboard')}
-            </Link>
-          )}
-
-          {!isLoggedIn && !isDevelopment && (
+          {!isLoggedIn && (
             <>
               <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
                 {t('navigation.signup')}
@@ -83,12 +41,6 @@ export function Navbar() {
             </>
           )}
 
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.logout')}
-            </button>
-          )}
-
           <div className="border-l border-white/20 pl-4 ml-2">
             <LanguageSwitcher />
           </div>
@@ -96,19 +48,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
           <LanguageSwitcher />
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+          <button className="flex items-center ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
             {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
           </button>
         </div>
       </div>
 
-      <div
-        className={cn(
-          "fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
-          isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-        )}
-        style={{ backgroundColor: "#996515" }}
-      >
+      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ backgroundColor: "#996515" }}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.faq')}
@@ -119,21 +65,7 @@ export function Navbar() {
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel')}
           </Link>
-
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
-              <User className="w-4 h-4" />
-              My Account
-            </Link>
-          )}
-
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-              {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
-
-          {!isLoggedIn && !isDevelopment && (
+          {!isLoggedIn && (
             <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
                 {t('navigation.signup')}
@@ -142,12 +74,6 @@ export function Navbar() {
                 {t('navigation.login')}
               </Link>
             </>
-          )}
-
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-              {t('mainNavigationContent.logout')}
-            </button>
           )}
         </nav>
       </div>

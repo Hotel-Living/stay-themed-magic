@@ -1,3 +1,4 @@
+
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -21,9 +22,9 @@ export function HeroSection() {
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
       </div>
-      <p className={`text-left font-bold ${isMobile ? "text-xl whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-lg sm:text-xl" : "text-base sm:text-lg"}`} style={{
+      <p className={`text-left font-bold ${isMobile ? "text-base whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-sm sm:text-base" : "text-xs sm:text-sm"}`} style={{
       fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif",
-      color: "#FEEB43"
+      color: "#FEF38F"
     }}>
         {slogan}
       </p>
@@ -53,9 +54,9 @@ export function HeroSection() {
             {t('home.heroSection.liveInHotels')}
           </h1>
 
-          {/* Boost Your Life! with 15% size increase and #FEEB43 color */}
-          <h2 className={`${isMobile ? "text-[2.3rem]" : "text-[1.84rem] sm:text-[2.3rem] md:text-[3rem] lg:text-[3.8rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FEEB43] via-[#FEEB43] to-[#FEEB43] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(254, 235, 67, 0.8)) drop-shadow(0 0 20px rgba(254, 235, 67, 0.6)) drop-shadow(0 0 30px rgba(254, 235, 67, 0.4))'
+          {/* Boost Your Life! with 30% reduced size and #FEF38F color */}
+          <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FEF38F] via-[#FEF38F] to-[#FEF38F] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(254, 243, 143, 0.8)) drop-shadow(0 0 20px rgba(254, 243, 143, 0.6)) drop-shadow(0 0 30px rgba(254, 243, 143, 0.4))'
           }}>
             {t('home.heroSection.boostYourLife')}
           </h2>

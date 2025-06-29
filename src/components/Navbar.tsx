@@ -8,8 +8,8 @@ import { useIsAdmin } from '@/hooks/useIsAdmin';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Logo } from '@/components/Logo';
 import { useTranslation } from '@/hooks/useTranslation';
-import { MainNavigation } from '@/components/navigation/MainNavigation';
-import { MobileNavigation } from '@/components/navigation/MobileNavigation';
+import MainNavigation from '@/components/navigation/MainNavigation';
+import MobileNavigation from '@/components/navigation/MobileNavigation';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -109,5 +109,3 @@ export function Navbar() {
     </nav>
   );
 }
-
-export { Navbar };

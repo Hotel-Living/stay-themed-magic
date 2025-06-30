@@ -32,6 +32,12 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     }
   };
 
+  const handleValidationChange = (isValid: boolean) => {
+    if (onValidationChange) {
+      onValidationChange(isValid);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <StayLengthSection
@@ -79,9 +85,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         updateFormData={updateFormData}
       />
 
-      <ValidationMessages
-        formData={formData}
-      />
+      <ValidationMessages formData={formData} />
     </div>
   );
 };

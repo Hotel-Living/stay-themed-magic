@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { ChevronRight } from "lucide-react";
-import { format, addMonths, startOfMonth } from "date-fns";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import CustomCalendarSingleWeekday from "../rooms/roomTypes/CustomCalendarSingleWeekday";
-import { weekdayMap } from "../rooms/roomTypes/availabilityDateUtils";
+import { format, addMonths, startOfMonth, getDay } from "date-fns";
+import { es } from "date-fns/locale";
+import { weekdayMap, getAvailableDatesForMonth } from "../rooms/roomTypes/availabilityDateUtils";
 
 interface AvailabilitySectionProps {
   isOpen: boolean;
@@ -22,9 +16,16 @@ interface AvailabilitySectionProps {
 interface AvailabilityPackage {
   id: string;
   rooms: number;
-  checkinDate: string;
-  checkoutDate: string;
-  dates: string[];
+  checkIn: string;
+  checkOut: string;
+  selectedDates: string[];
+}
+
+interface MonthData {
+  name: string;
+  month: Date;
+  isOpen: boolean;
+  availableDates: Date[];
 }
 
 const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
@@ -33,281 +34,281 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   formData,
   updateFormData
 }) => {
-  const [selectedIndividualDates, setSelectedIndividualDates] = useState<string[]>(
-    formData?.selectedDates || []
-  );
-  const [availabilityPackages, setAvailabilityPackages] = useState<AvailabilityPackage[]>(
-    formData?.availabilityPackages || []
-  );
-  const [showPackageForm, setShowPackageForm] = useState(false);
-  const [newPackageRooms, setNewPackageRooms] = useState<number>(1);
-  const [packageDates, setPackageDates] = useState<string[]>([]);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  const preferredWeekday = formData?.checkinDay || "monday";
-  const preferredDayNum = weekdayMap[preferredWeekday] || 1;
-
-  // Get all dates that are already used (individual + packages)
-  const getUsedDates = () => {
-    const usedDates = [...selectedIndividualDates];
-    availabilityPackages.forEach(pkg => {
-      usedDates.push(...pkg.dates);
-    });
-    return usedDates;
-  };
-
-  const handleIndividualDateSelect = (date: Date) => {
-    const dateString = date.toISOString().split('T')[0];
-    const newDates = selectedIndividualDates.includes(dateString)
-      ? selectedIndividualDates.filter(d => d !== dateString)
-      : [...selectedIndividualDates, dateString];
+  const [showCreatePackage, setShowCreatePackage] = useState(false);
+  const [newPackageRooms, setNewPackageRooms] = useState("");
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
+  const [monthsState, setMonthsState] = useState<MonthData[]>(() => {
+    const months: MonthData[] = [];
+    const today = new Date();
     
-    setSelectedIndividualDates(newDates);
-    updateFormData('selectedDates', newDates);
-  };
-
-  const handlePackageDateSelect = (date: Date) => {
-    const dateString = date.toISOString().split('T')[0];
-    
-    if (packageDates.length === 0) {
-      // First date - check-in
-      setPackageDates([dateString]);
-    } else if (packageDates.length === 1) {
-      // Second date - check-out
-      const checkinDate = new Date(packageDates[0]);
-      const checkoutDate = date;
+    for (let i = 0; i < 12; i++) {
+      const monthDate = addMonths(startOfMonth(today), i);
+      const preferredDayNum = formData?.checkinDay ? weekdayMap[formData.checkinDay] || 1 : 1;
+      const availableDates = getAvailableDatesForMonth(monthDate, preferredDayNum);
       
-      if (checkoutDate > checkinDate) {
-        // Generate all dates between check-in and check-out
-        const allDates = [];
-        const currentDate = new Date(checkinDate);
-        
-        while (currentDate <= checkoutDate) {
-          allDates.push(currentDate.toISOString().split('T')[0]);
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-        
-        setPackageDates(allDates);
+      months.push({
+        name: format(monthDate, "MMMM yyyy", { locale: es }),
+        month: monthDate,
+        isOpen: false,
+        availableDates
+      });
+    }
+    
+    return months;
+  });
+
+  const existingPackages: AvailabilityPackage[] = formData?.availabilityPackages || [];
+
+  const toggleMonth = (index: number) => {
+    setMonthsState(prev => prev.map((month, i) => 
+      i === index ? { ...month, isOpen: !month.isOpen } : month
+    ));
+  };
+
+  const toggleDateSelection = (dateStr: string) => {
+    setSelectedDates(prev => {
+      if (prev.includes(dateStr)) {
+        return prev.filter(d => d !== dateStr);
+      } else {
+        return [...prev, dateStr];
       }
-    } else {
-      // Reset and start over
-      setPackageDates([dateString]);
-    }
+    });
   };
 
-  const createAvailabilityPackage = () => {
-    if (packageDates.length >= 2 && newPackageRooms > 0) {
-      const newPackage: AvailabilityPackage = {
-        id: `package-${Date.now()}`,
-        rooms: newPackageRooms,
-        checkinDate: packageDates[0],
-        checkoutDate: packageDates[packageDates.length - 1],
-        dates: packageDates
-      };
-      
-      const updatedPackages = [...availabilityPackages, newPackage];
-      setAvailabilityPackages(updatedPackages);
-      updateFormData('availabilityPackages', updatedPackages);
-      
-      // Reset form
-      setPackageDates([]);
-      setNewPackageRooms(1);
-      setShowPackageForm(false);
-    }
+  const createPackage = () => {
+    if (!newPackageRooms || selectedDates.length < 2) return;
+
+    const sortedDates = [...selectedDates].sort();
+    const newPackage: AvailabilityPackage = {
+      id: Date.now().toString(),
+      rooms: parseInt(newPackageRooms),
+      checkIn: sortedDates[0],
+      checkOut: sortedDates[sortedDates.length - 1],
+      selectedDates: sortedDates
+    };
+
+    const updatedPackages = [...existingPackages, newPackage];
+    updateFormData('availabilityPackages', updatedPackages);
+    
+    // Reset form
+    setNewPackageRooms("");
+    setSelectedDates([]);
+    setShowCreatePackage(false);
   };
 
-  const removePackage = (packageId: string) => {
-    const updatedPackages = availabilityPackages.filter(pkg => pkg.id !== packageId);
-    setAvailabilityPackages(updatedPackages);
+  const deletePackage = (packageId: string) => {
+    const updatedPackages = existingPackages.filter(pkg => pkg.id !== packageId);
     updateFormData('availabilityPackages', updatedPackages);
   };
 
-  // Generate 12 months starting from current month
-  const months = Array.from({ length: 12 }, (_, i) => 
-    addMonths(startOfMonth(new Date()), i)
-  );
+  const isDateUsed = (dateStr: string) => {
+    return existingPackages.some(pkg => pkg.selectedDates.includes(dateStr));
+  };
+
+  const leftColumnMonths = monthsState.slice(0, 6);
+  const rightColumnMonths = monthsState.slice(6, 12);
 
   return (
-    <Collapsible open={isOpen} onOpenChange={onToggle} className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10">
-      <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
-        <label className="block text-lg font-medium uppercase">
-          Paquetes de Disponibilidad
-        </label>
-        <ChevronRight className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
-      </CollapsibleTrigger>
-      
-      <CollapsibleContent className="p-4 space-y-6">
-        {/* Individual Date Selection */}
-        <div className="space-y-4">
-          <h3 className="text-md font-medium">Fechas Individuales Disponibles</h3>
-          <p className="text-sm text-gray-400">
-            Selecciona fechas específicas donde los huéspedes pueden hacer check-in los {preferredWeekday}s.
-          </p>
-          
-          <div className="space-y-4">
-            {months.map((month) => (
-              <div key={month.toISOString()} className="border rounded-lg p-4 bg-fuchsia-950/20">
-                <CustomCalendarSingleWeekday
-                  month={month}
-                  preferredDayNum={preferredDayNum}
-                  selected={selectedIndividualDates}
-                  preferredWeekday={preferredWeekday}
-                  onSelectDate={handleIndividualDateSelect}
-                  excludedDates={getUsedDates().filter(date => !selectedIndividualDates.includes(date))}
-                />
-              </div>
-            ))}
-          </div>
+    <div className="border border-white/20 rounded-lg p-4 bg-white/5">
+      <button
+        onClick={() => onToggle(!isOpen)}
+        className="w-full flex items-center justify-between text-white font-semibold text-lg"
+      >
+        <span>PAQUETES DE DISPONIBILIDAD</span>
+        {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+      </button>
 
-          {selectedIndividualDates.length > 0 && (
-            <div className="bg-green-900/20 border border-green-800/30 rounded-lg p-4">
-              <h4 className="font-medium text-green-200 mb-2">Fechas Seleccionadas:</h4>
-              <div className="flex flex-wrap gap-2">
-                {selectedIndividualDates.map(date => (
-                  <span key={date} className="bg-green-800/40 text-green-200 px-2 py-1 rounded text-sm">
-                    {format(new Date(date), 'MMM d, yyyy')}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Availability Packages */}
-        <div className="space-y-4 border-t border-fuchsia-800/20 pt-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="text-md font-medium">Paquetes de Disponibilidad</h3>
-              <p className="text-sm text-gray-400">
-                Crea paquetes con un número específico de habitaciones para períodos determinados.
-              </p>
-            </div>
-            {availabilityPackages.length < 10 && !showPackageForm && (
-              <Button
-                onClick={() => setShowPackageForm(true)}
-                className="bg-fuchsia-600 hover:bg-fuchsia-700"
-                size="sm"
-              >
-                Crear Paquete
-              </Button>
-            )}
-          </div>
-
+      {isOpen && (
+        <div className="mt-4 space-y-4">
           {/* Existing Packages */}
-          {availabilityPackages.length > 0 && (
-            <div className="space-y-3">
-              {availabilityPackages.map((pkg, index) => (
-                <div key={pkg.id} className="bg-blue-900/20 border border-blue-800/30 rounded-lg p-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-medium text-blue-200">Paquete {index + 1}</h4>
-                      <p className="text-sm text-blue-300">
-                        {pkg.rooms} habitaciones disponibles
-                      </p>
-                      <p className="text-sm text-blue-300">
-                        Desde {format(new Date(pkg.checkinDate), 'MMM d, yyyy')} hasta {format(new Date(pkg.checkoutDate), 'MMM d, yyyy')}
-                      </p>
-                      <p className="text-xs text-blue-400 mt-1">
-                        Estas habitaciones pueden usarse como dobles o individuales
-                      </p>
-                    </div>
-                    <Button
-                      onClick={() => removePackage(pkg.id)}
-                      variant="destructive"
-                      size="sm"
-                    >
-                      Eliminar
-                    </Button>
+          {existingPackages.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-white font-medium">Paquetes Creados:</h4>
+              {existingPackages.map((pkg) => (
+                <div key={pkg.id} className="bg-white/10 p-3 rounded flex items-center justify-between">
+                  <div className="text-white text-sm">
+                    <div>{pkg.rooms} habitaciones</div>
+                    <div>Del {format(new Date(pkg.checkIn), "d MMM", { locale: es })} al {format(new Date(pkg.checkOut), "d MMM", { locale: es })}</div>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deletePackage(pkg.id)}
+                    className="text-red-400 hover:text-red-300"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Package Creation Form */}
-          {showPackageForm && (
-            <div className="bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-4 space-y-4">
-              <h4 className="font-medium">Crear Nuevo Paquete</h4>
-              
+          {/* Create New Package Button */}
+          {!showCreatePackage && (
+            <Button
+              onClick={() => setShowCreatePackage(true)}
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Crear Nuevo Paquete
+            </Button>
+          )}
+
+          {/* Create Package Form */}
+          {showCreatePackage && (
+            <div className="space-y-4 bg-white/5 p-4 rounded-lg">
               <div>
-                <Label htmlFor="package-rooms">Número de Habitaciones</Label>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Número de habitaciones disponibles
+                </label>
                 <Input
-                  id="package-rooms"
                   type="number"
-                  min="1"
                   value={newPackageRooms}
-                  onChange={(e) => setNewPackageRooms(parseInt(e.target.value) || 1)}
-                  className="bg-fuchsia-950/50"
+                  onChange={(e) => setNewPackageRooms(e.target.value)}
+                  className="bg-white/10 border-white/20 text-white"
+                  placeholder="Ej: 5"
                 />
-                <p className="text-xs text-gray-400 mt-1">
-                  Estas habitaciones pueden usarse como dobles o individuales
+                <p className="text-white/70 text-xs mt-1">
+                  Estas habitaciones pueden utilizarse como dobles o individuales
                 </p>
               </div>
 
               <div>
-                <Label>Seleccionar Período</Label>
-                <p className="text-sm text-gray-400 mb-3">
-                  Selecciona fecha de check-in y check-out para este paquete.
+                <h4 className="text-white font-medium mb-2">SELECCIÓN DE FECHAS</h4>
+                <p className="text-white/70 text-sm mb-4">
+                  Seleccione las fechas de check-in y check-out de este paquete
                 </p>
-                
-                <div className="space-y-4">
-                  {months.map((month) => (
-                    <div key={month.toISOString()} className="border rounded-lg p-4 bg-fuchsia-950/20">
-                      <CustomCalendarSingleWeekday
-                        month={month}
-                        preferredDayNum={preferredDayNum}
-                        selected={packageDates}
-                        preferredWeekday={preferredWeekday}
-                        onSelectDate={handlePackageDateSelect}
-                        excludedDates={getUsedDates()}
-                      />
-                    </div>
-                  ))}
-                </div>
 
-                {packageDates.length > 0 && (
-                  <div className="bg-purple-900/20 border border-purple-800/30 rounded-lg p-3 mt-3">
-                    <p className="text-sm">
-                      {packageDates.length === 1 ? (
-                        `Check-in: ${format(new Date(packageDates[0]), 'MMM d, yyyy')} - Selecciona fecha de check-out`
-                      ) : (
-                        `Período: ${format(new Date(packageDates[0]), 'MMM d, yyyy')} - ${format(new Date(packageDates[packageDates.length - 1]), 'MMM d, yyyy')}`
-                      )}
-                    </p>
+                {/* Two Column Calendar */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Left Column */}
+                  <div className="space-y-2">
+                    {leftColumnMonths.map((monthData, index) => (
+                      <div key={index} className="bg-white/5 rounded-lg">
+                        <button
+                          onClick={() => toggleMonth(index)}
+                          className="w-full p-3 text-left text-white font-medium flex items-center justify-between hover:bg-white/10 rounded-lg"
+                        >
+                          {monthData.name}
+                          {monthData.isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        </button>
+                        
+                        {monthData.isOpen && (
+                          <div className="p-3 space-y-2">
+                            {monthData.availableDates.map((date) => {
+                              const dateStr = format(date, "yyyy-MM-dd");
+                              const isUsed = isDateUsed(dateStr);
+                              const isSelected = selectedDates.includes(dateStr);
+                              
+                              return (
+                                <button
+                                  key={dateStr}
+                                  onClick={() => !isUsed && toggleDateSelection(dateStr)}
+                                  disabled={isUsed}
+                                  className={`w-full p-2 text-left rounded text-sm ${
+                                    isUsed 
+                                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed' 
+                                      : isSelected
+                                        ? 'bg-green-600 text-white'
+                                        : 'bg-white/10 text-white hover:bg-white/20'
+                                  }`}
+                                >
+                                  {format(date, "EEE d", { locale: es })}
+                                  {isUsed && " (Ocupado)"}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                )}
+
+                  {/* Right Column */}
+                  <div className="space-y-2">
+                    {rightColumnMonths.map((monthData, index) => (
+                      <div key={index + 6} className="bg-white/5 rounded-lg">
+                        <button
+                          onClick={() => toggleMonth(index + 6)}
+                          className="w-full p-3 text-left text-white font-medium flex items-center justify-between hover:bg-white/10 rounded-lg"
+                        >
+                          {monthData.name}
+                          {monthData.isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        </button>
+                        
+                        {monthData.isOpen && (
+                          <div className="p-3 space-y-2">
+                            {monthData.availableDates.map((date) => {
+                              const dateStr = format(date, "yyyy-MM-dd");
+                              const isUsed = isDateUsed(dateStr);
+                              const isSelected = selectedDates.includes(dateStr);
+                              
+                              return (
+                                <button
+                                  key={dateStr}
+                                  onClick={() => !isUsed && toggleDateSelection(dateStr)}
+                                  disabled={isUsed}
+                                  className={`w-full p-2 text-left rounded text-sm ${
+                                    isUsed 
+                                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed' 
+                                      : isSelected
+                                        ? 'bg-green-600 text-white'
+                                        : 'bg-white/10 text-white hover:bg-white/20'
+                                  }`}
+                                >
+                                  {format(date, "EEE d", { locale: es })}
+                                  {isUsed && " (Ocupado)"}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
+              {/* Selected Dates Summary */}
+              {selectedDates.length > 0 && (
+                <div className="bg-white/10 p-3 rounded">
+                  <h5 className="text-white font-medium mb-2">Fechas Seleccionadas:</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedDates.sort().map(dateStr => (
+                      <span key={dateStr} className="bg-green-600 text-white px-2 py-1 rounded text-sm">
+                        {format(new Date(dateStr), "d MMM", { locale: es })}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
               <div className="flex gap-2">
                 <Button
-                  onClick={createAvailabilityPackage}
-                  disabled={packageDates.length < 2 || newPackageRooms < 1}
-                  className="bg-green-600 hover:bg-green-700"
+                  onClick={createPackage}
+                  disabled={!newPackageRooms || selectedDates.length < 2}
+                  className="bg-green-600 hover:bg-green-700 text-white"
                 >
                   Crear Paquete
                 </Button>
                 <Button
                   onClick={() => {
-                    setShowPackageForm(false);
-                    setPackageDates([]);
-                    setNewPackageRooms(1);
+                    setShowCreatePackage(false);
+                    setNewPackageRooms("");
+                    setSelectedDates([]);
                   }}
                   variant="outline"
+                  className="border-white/20 text-white hover:bg-white/10"
                 >
                   Cancelar
                 </Button>
               </div>
             </div>
           )}
-
-          {availabilityPackages.length >= 10 && (
-            <p className="text-sm text-yellow-400">
-              Máximo de 10 paquetes alcanzado.
-            </p>
-          )}
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+    </div>
   );
 };
 

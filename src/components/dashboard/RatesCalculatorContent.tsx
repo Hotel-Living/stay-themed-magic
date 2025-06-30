@@ -174,7 +174,7 @@ export const RatesCalculatorContent: React.FC = () => {
                       </TabsContent>
                       <TabsContent value="5-star">
                         {profitsSubTab === "5-star" && <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
-                            <img src="/lovable-uploads/e36c9773-e800-452c-bd1e-a77067fc493c.png" alt="5 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" />
+                            <img alt="5 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/a598362f-44ea-405f-97dd-02d76b1b6cda.png" />
                           </div>}
                       </TabsContent>
                     </Tabs>

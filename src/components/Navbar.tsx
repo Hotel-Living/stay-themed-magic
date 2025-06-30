@@ -98,6 +98,8 @@ export function Navbar() {
               </Link>
             </div>
           )}
+          
+          <LanguageSwitcher />
         </div>
 
         <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">

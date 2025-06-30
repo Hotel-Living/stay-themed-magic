@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -39,7 +40,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     selectedMealPlans: formData.mealPlans || [],
     roomTypes: formData.roomTypes || [],
     onValidationChange
-  }); // ← cierre correctamente añadido aquí
+  });
 
   // Update validation when form data changes
   useEffect(() => {

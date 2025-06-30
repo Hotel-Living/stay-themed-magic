@@ -12,7 +12,7 @@ import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 
 export default function Index() {
   const { data: themes } = useThemes();
-  const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
+  const [showIntro, setShowIntro] = useState(false); // Disabled intro video
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,

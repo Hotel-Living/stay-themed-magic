@@ -3,12 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/useTranslation';
-import { StayLengthSection } from './StayLengthSection';
-import { PreferredWeekdaySection } from './PreferredWeekdaySection';
-import { RoomsRatesSection } from './RoomRates/RoomsRatesSection';
-import { AvailabilitySection } from './sections/AvailabilitySection';
-import { ValidationMessages } from './ValidationMessages';
-import { useAccommodationTerms } from './hooks/useAccommodationTerms';
+import StayLengthSection from './StayLengthSection';
+import PreferredWeekdaySection from './PreferredWeekdaySection';
+import ValidationMessages from './ValidationMessages';
 import { useValidationState } from './hooks/useValidationState';
 import { useSectionsState } from './hooks/useSectionsState';
 
@@ -27,29 +24,23 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   const [showValidation, setShowValidation] = useState(false);
   
   // Section visibility states
-  const {
-    isStayLengthOpen,
-    setIsStayLengthOpen,
-    isWeekdayOpen,
-    setIsWeekdayOpen,
-    isRatesOpen,
-    setIsRatesOpen,
-    isAvailabilityOpen,
-    setIsAvailabilityOpen
-  } = useSectionsState();
+  const { sectionsState, toggleSection } = useSectionsState();
 
   // Validation state
-  const { validationErrors, updateValidationErrors } = useValidationState();
-
-  // Main accommodation terms logic
-  const {
-    stayLengthOptions,
-    weekdayOptions,
-    handleStayLengthChange,
-    handleWeekdayChange,
-    handleRatesChange,
-    handleAvailabilityChange
-  } = useAccommodationTerms(formData, updateFormData);
+  const { 
+    error, 
+    setError, 
+    showValidationErrors, 
+    setShowValidationErrors, 
+    hasInteracted, 
+    setHasInteracted, 
+    isValid 
+  } = useValidationState({
+    selectedStayLengths: formData.stayLengths || [],
+    selectedMealPlans: formData.mealPlans || [],
+    roomTypes: formData.roomTypes || [],
+    onValidationChange
+  });
 
   // Update validation when form data changes
   useEffect(() => {
@@ -63,9 +54,16 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       errors.push(t('dashboard.validation.weekdayRequired'));
     }
     
-    updateValidationErrors(errors);
     onValidationChange(errors.length === 0);
-  }, [formData.stayLength, formData.preferredWeekday, t, updateValidationErrors, onValidationChange]);
+  }, [formData.stayLength, formData.preferredWeekday, t, onValidationChange]);
+
+  const handleStayLengthToggle = (field: string, value: any) => {
+    updateFormData(field, value);
+  };
+
+  const handleWeekdaySelect = (field: string, value: any) => {
+    updateFormData(field, value);
+  };
 
   return (
     <div className="space-y-6">
@@ -80,37 +78,20 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Stay Length Section */}
       <StayLengthSection
-        isOpen={isStayLengthOpen}
-        onToggle={setIsStayLengthOpen}
+        isOpen={sectionsState.stayLength}
+        onToggle={(isOpen) => toggleSection('stayLength')}
+        selectedLengths={formData.stayLengths || []}
+        onLengthToggle={handleStayLengthToggle}
         formData={formData}
         updateFormData={updateFormData}
-        stayLengthOptions={stayLengthOptions}
-        onStayLengthChange={handleStayLengthChange}
       />
 
       {/* Preferred Weekday Section */}
       <PreferredWeekdaySection
-        isOpen={isWeekdayOpen}
-        onToggle={setIsWeekdayOpen}
-        formData={formData}
-        updateFormData={updateFormData}
-        weekdayOptions={weekdayOptions}
-        onWeekdayChange={handleWeekdayChange}
-      />
-
-      {/* Rooms & Rates Section */}
-      <RoomsRatesSection
-        isOpen={isRatesOpen}
-        onToggle={setIsRatesOpen}
-        formData={formData}
-        updateFormData={updateFormData}
-        onRatesChange={handleRatesChange}
-      />
-
-      {/* Availability Section */}
-      <AvailabilitySection
-        isOpen={isAvailabilityOpen}
-        onToggle={setIsAvailabilityOpen}
+        isOpen={sectionsState.weekday}
+        onToggle={(isOpen) => toggleSection('weekday')}
+        selectedDay={formData.preferredWeekday || 'monday'}
+        onDaySelect={handleWeekdaySelect}
         formData={formData}
         updateFormData={updateFormData}
       />
@@ -118,8 +99,10 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       {/* Validation Messages */}
       {showValidation && (
         <ValidationMessages 
-          errors={validationErrors}
-          onDismiss={() => setShowValidation(false)}
+          formData={formData}
+          error={error}
+          showErrors={showValidationErrors}
+          isValid={isValid}
         />
       )}
 

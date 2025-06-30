@@ -24,6 +24,7 @@ export function StayRatesTableSection({
   handleRateChange
 }: StayRatesTableSectionProps) {
   // Don't render the table if there are no valid inputs
+  // Updated validation to accept single entries for the simplified model
   if (
     !roomTypes || roomTypes.length === 0 ||
     !stayOptions || stayOptions.length === 0 ||

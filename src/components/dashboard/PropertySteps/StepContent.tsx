@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepOne from "./StepOne";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
@@ -42,7 +41,6 @@ const StepContent: React.FC<StepContentProps> = ({
         <AccommodationTermsStep
           formData={formData}
           updateFormData={updateFormData}
-          onValidationChange={onValidationChange}
         />
       );
     case 4:

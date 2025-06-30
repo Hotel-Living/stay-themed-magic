@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -8,9 +7,10 @@ import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
 import { useTranslation } from "@/hooks/useTranslation";
-
 export const RatesCalculatorContent: React.FC = () => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
   const [costsSubTab, setCostsSubTab] = useState<string>("");
@@ -164,7 +164,7 @@ export const RatesCalculatorContent: React.FC = () => {
                       </TabsList>
                       <TabsContent value="3-star">
                         {profitsSubTab === "3-star" && <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm font-extrabold">
-                            <img src="/lovable-uploads/d102e7a1-55cd-400e-8ce4-ff11ad9b8a7a.png" alt="3 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" />
+                            <img alt="3 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/744e26dd-bd62-427b-a55c-430e16689d35.png" />
                           </div>}
                       </TabsContent>
                       <TabsContent value="4-star">
@@ -183,8 +183,7 @@ export const RatesCalculatorContent: React.FC = () => {
             </TabsContent>}
 
           {/* BUILD YOUR OWN MODEL & RATES Section */}
-          {mainTab === "model-rates-calculator" && (
-            <TabsContent value="model-rates-calculator">
+          {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
               <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
                 <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
                 <div className="text-[15px] leading-relaxed font-medium">
@@ -195,8 +194,7 @@ export const RatesCalculatorContent: React.FC = () => {
                 </div>
               </div>
               <ModelRatesTabs />
-            </TabsContent>
-          )}
+            </TabsContent>}
         </Tabs>}
     </div>;
 };

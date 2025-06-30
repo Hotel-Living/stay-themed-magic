@@ -194,19 +194,19 @@ ________________________________________
             {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/2c092c0b-89e5-4084-bd48-0f1812b4e769.png" />
             </div>
             
             {/* 4-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/2ad56007-753a-4456-9e4e-a93a7c4f8208.png" />
             </div>
             
             {/* 5-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" alt="5-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img alt="5-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/8af3eedd-b367-448b-b905-808ddee5e6d1.png" />
             </div>
           </div>}
         

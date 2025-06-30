@@ -2,7 +2,6 @@
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface PreferredWeekdaySectionProps {
   isOpen: boolean;
@@ -11,6 +10,7 @@ interface PreferredWeekdaySectionProps {
   onDaySelect: (field: string, value: any) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  hasPackages?: boolean;
 }
 
 const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
@@ -19,10 +19,9 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
   selectedDay,
   onDaySelect,
   formData,
-  updateFormData
+  updateFormData,
+  hasPackages = false
 }) => {
-  const { t } = useTranslation();
-  
   const weekdays = [
     { value: "monday", label: "Monday" },
     { value: "tuesday", label: "Tuesday" },
@@ -40,18 +39,15 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
     }
   };
 
-  // Check if packages exist to show warning
-  const hasPackages = formData?.availabilityPackages && formData.availabilityPackages.length > 0;
-
   return (
     <Accordion type="single" collapsible value={isOpen ? "weekday" : ""} onValueChange={(value) => onToggle(!!value)}>
       <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
         <AccordionTrigger className="px-4 py-3">
-          <h3 className="text-lg capitalize">3.2— CHECK-IN DAY / CHECK-OUT</h3>
+          <h3 className="text-lg capitalize">3.4— CHECK-IN DAY / CHECK-OUT</h3>
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
           <div className="space-y-4">
-            <p className="text-gray-300">Select the day when guests check-in and check-out:</p>
+            <p className="text-gray-300">Select the weekday when all stays will begin and end:</p>
             
             <div className="grid grid-cols-2 md:grid-cols-7 gap-2">
               {weekdays.map((day) => (
@@ -72,7 +68,9 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
               <p className="text-yellow-200 text-sm flex items-start gap-2">
                 <span className="text-yellow-400 font-bold">⚠️</span>
                 <span>
-                  This selection is definitive. The check-in/check-out day cannot be changed once any availability packages have been created.
+                  This selection is definitive for future packages.
+                  Once availability packages exist, this day cannot be changed.
+                  Existing packages and bookings remain unchanged and valid.
                 </span>
               </p>
             </div>

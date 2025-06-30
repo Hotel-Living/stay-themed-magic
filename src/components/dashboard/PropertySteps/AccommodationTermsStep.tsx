@@ -143,16 +143,6 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">3.3— {t('dashboard.availabilityDates')}</h3>
         
-        <AvailabilitySection 
-          isOpen={availabilityOpen}
-          onToggle={setAvailabilityOpen}
-          formData={formData} 
-          updateFormData={updateFormData} 
-          onValidationChange={setAvailabilityValid} 
-        />
-        {showErrors && (!formData.available_months || formData.available_months.length === 0) && (
-          <p className="text-red-400 text-sm mt-2">Por favor seleccione al menos un mes</p>
-        )}
       </Card>
 
       {/* Meal Plans Section */}

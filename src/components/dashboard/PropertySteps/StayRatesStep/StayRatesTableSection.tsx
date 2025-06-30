@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Info } from "lucide-react";
 
@@ -22,7 +23,7 @@ export function StayRatesTableSection({
   mealOptions,
   handleRateChange
 }: StayRatesTableSectionProps) {
-  // Permitir aunque solo haya una entrada en cada categoría
+  // Allow single entries in each category
   const hasValidInput =
     Array.isArray(roomTypes) && roomTypes.length > 0 &&
     Array.isArray(stayOptions) && stayOptions.length > 0 &&
@@ -75,3 +76,27 @@ export function StayRatesTableSection({
                     const rateKey = `${roomType}-${stayOption}-${mealOption}`;
                     return (
                       <tr key={rateKey} className={idx % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
+                        <td className="p-2 text-sm">{roomType}</td>
+                        <td className="p-2 text-sm">{stayOption}</td>
+                        <td className="p-2 text-sm">{mealOption}</td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            value={rates[rateKey] || ''}
+                            onChange={(e) => handleRateChange(roomType, stayOption, mealOption, e.target.value)}
+                            className="w-full px-2 py-1 rounded border border-fuchsia-800/30 bg-fuchsia-950/20 text-white placeholder-gray-400"
+                            placeholder="0"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

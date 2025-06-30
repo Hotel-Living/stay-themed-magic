@@ -1,122 +1,144 @@
-import React, { useState } from "react";
+import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { format, addMonths, startOfMonth, eachWeekOfInterval, startOfWeek, endOfWeek, isSameMonth } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface AvailabilitySectionProps {
   isOpen: boolean;
   onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
-  selectedDay?: string;
 }
 
 const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   isOpen,
   onToggle,
   formData,
-  updateFormData,
-  selectedDay = "monday"
+  updateFormData
 }) => {
-  const [isCreatingPackage, setIsCreatingPackage] = useState(false);
-  const [packageRooms, setPackageRooms] = useState("");
-  const [selectedDates, setSelectedDates] = useState<string[]>([]);
-  const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
+  const months = [
+    { value: "january", label: "Enero" },
+    { value: "february", label: "Febrero" }, 
+    { value: "march", label: "Marzo" },
+    { value: "april", label: "Abril" },
+    { value: "may", label: "Mayo" },
+    { value: "june", label: "Junio" },
+    { value: "july", label: "Julio" },
+    { value: "august", label: "Agosto" },
+    { value: "september", label: "Septiembre" },
+    { value: "october", label: "Octubre" },
+    { value: "november", label: "Noviembre" },
+    { value: "december", label: "Diciembre" }
+  ];
 
-  const weekdayMap: Record<string, number> = {
-    "sunday": 0, "monday": 1, "tuesday": 2, "wednesday": 3,
-    "thursday": 4, "friday": 5, "saturday": 6
-  };
+  const leftColumnMonths = months.slice(0, 6);
+  const rightColumnMonths = months.slice(6, 12);
 
-  const getWeekdayNumber = (day: string): number => {
-    return weekdayMap[day.toLowerCase()] || 1;
-  };
+  const [expandedMonths, setExpandedMonths] = React.useState<string[]>([]);
+  const [selectedDates, setSelectedDates] = React.useState<{[key: string]: number}>({});
 
-  const getAvailableDatesForMonth = (month: Date, weekdayNum: number): Date[] => {
-    const dates: Date[] = [];
-    const weeks = eachWeekOfInterval({
-      start: startOfMonth(month),
-      end: new Date(month.getFullYear(), month.getMonth() + 1, 0)
-    }, { weekStartsOn: 1 });
-
-    weeks.forEach(week => {
-      const weekStart = startOfWeek(week, { weekStartsOn: 1 });
-      const targetDate = new Date(weekStart);
-      targetDate.setDate(targetDate.getDate() + (weekdayNum === 0 ? 6 : weekdayNum - 1));
-      
-      if (isSameMonth(targetDate, month)) {
-        dates.push(targetDate);
-      }
-    });
-
-    return dates;
-  };
-
-  const toggleMonth = (monthKey: string) => {
-    setExpandedMonths(prev => ({
-      ...prev,
-      [monthKey]: !prev[monthKey]
-    }));
-  };
-
-  const toggleDateSelection = (dateStr: string) => {
-    setSelectedDates(prev => 
-      prev.includes(dateStr) 
-        ? prev.filter(d => d !== dateStr)
-        : [...prev, dateStr]
+  const toggleMonth = (month: string) => {
+    setExpandedMonths(prev => 
+      prev.includes(month) 
+        ? prev.filter(m => m !== month)
+        : [...prev, month]
     );
   };
 
-  const createPackage = () => {
-    if (!packageRooms || selectedDates.length === 0) return;
-
-    const newPackage = {
-      id: Date.now().toString(),
-      rooms: parseInt(packageRooms),
-      dates: [...selectedDates],
-      weekday: selectedDay,
-      createdAt: new Date().toISOString()
-    };
-
-    const existingPackages = formData?.availabilityPackages || [];
-    const updatedPackages = [...existingPackages, newPackage];
-
-    if (updateFormData) {
-      updateFormData('availabilityPackages', updatedPackages);
-    }
-
-    // Reset form
-    setPackageRooms("");
-    setSelectedDates([]);
-    setIsCreatingPackage(false);
+  const handleDateSelection = (dateKey: string, rooms: number) => {
+    setSelectedDates(prev => ({
+      ...prev,
+      [dateKey]: rooms
+    }));
   };
 
-  const existingPackages = formData?.availabilityPackages || [];
-  const usedDates = existingPackages.flatMap((pkg: any) => pkg.dates || []);
-  const currentDate = new Date();
-  const weekdayNum = getWeekdayNumber(selectedDay);
+  const handlePackageCreate = () => {
+    const packages = Object.entries(selectedDates).map(([dateKey, rooms]) => ({
+      date: dateKey,
+      rooms: rooms,
+      checkinDay: formData?.checkinDay || 'monday'
+    }));
+    
+    if (updateFormData) {
+      updateFormData('availabilityPackages', packages);
+    }
+  };
 
-  // Generate 12 months starting from current month
-  const months = Array.from({ length: 12 }, (_, i) => {
-    const month = addMonths(startOfMonth(currentDate), i);
-    const monthKey = format(month, 'yyyy-MM');
-    const monthName = format(month, 'MMMM yyyy');
-    const availableDates = getAvailableDatesForMonth(month, weekdayNum)
-      .filter(date => !usedDates.includes(format(date, 'yyyy-MM-dd')));
+  // Get selected weekday from formData
+  const selectedWeekday = formData?.checkinDay || 'monday';
+  
+  // Generate dates for each month that match the selected weekday
+  const generateDatesForMonth = (monthIndex: number) => {
+    const year = new Date().getFullYear();
+    const dates = [];
+    const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const targetDayIndex = daysOfWeek.indexOf(selectedWeekday.toLowerCase());
+    
+    for (let day = 1; day <= 31; day++) {
+      const date = new Date(year, monthIndex, day);
+      if (date.getMonth() !== monthIndex) break;
+      if (date.getDay() === targetDayIndex) {
+        dates.push({
+          day: day,
+          weekday: selectedWeekday,
+          dateKey: `${year}-${monthIndex + 1}-${day}`
+        });
+      }
+    }
+    return dates;
+  };
 
-    return {
-      month,
-      monthKey,
-      monthName,
-      availableDates
-    };
-  });
+  const renderMonthColumn = (monthsArray: typeof months) => (
+    <div className="space-y-3">
+      {monthsArray.map((month, index) => {
+        const monthIndex = months.indexOf(month);
+        const monthDates = generateDatesForMonth(monthIndex);
+        const isExpanded = expandedMonths.includes(month.value);
+        
+        return (
+          <div key={month.value} className="border rounded-lg overflow-hidden bg-fuchsia-950/30">
+            <button
+              onClick={() => toggleMonth(month.value)}
+              className="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-fuchsia-900/20"
+            >
+              <span className="font-medium text-white">{month.label}</span>
+              <span className="text-fuchsia-300">{isExpanded ? '−' : '+'}</span>
+            </button>
+            
+            {isExpanded && (
+              <div className="p-4 space-y-2 border-t border-fuchsia-800/30">
+                {monthDates.length > 0 ? (
+                  monthDates.map((date) => (
+                    <div key={date.dateKey} className="flex items-center justify-between p-2 bg-fuchsia-900/20 rounded">
+                      <span className="text-white capitalize">
+                        {date.weekday} {date.day}
+                      </span>
+                      <Select onValueChange={(value) => handleDateSelection(date.dateKey, parseInt(value))}>
+                        <SelectTrigger className="w-20">
+                          <SelectValue placeholder="0" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[1,2,3,4,5,6,7,8,9,10].map(num => (
+                            <SelectItem key={num} value={num.toString()}>
+                              {num}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-sm">No {selectedWeekday}s in this month</p>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 
-  // Split months into two columns
-  const leftColumnMonths = months.slice(0, 6);
-  const rightColumnMonths = months.slice(6, 12);
+  const hasSelectedDates = Object.keys(selectedDates).length > 0;
 
   return (
     <Accordion type="single" collapsible value={isOpen ? "availability" : ""} onValueChange={(value) => onToggle(!!value)}>
@@ -126,164 +148,24 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
           <div className="space-y-6">
-            {/* Existing packages list */}
-            {existingPackages.length > 0 && (
-              <div>
-                <h4 className="font-medium text-white mb-3">Existing Packages ({existingPackages.length}/10)</h4>
-                <div className="space-y-2">
-                  {existingPackages.map((pkg: any) => (
-                    <div key={pkg.id} className="bg-fuchsia-950/30 p-3 rounded-lg">
-                      <p className="text-white">
-                        {pkg.rooms} rooms • {pkg.dates?.length || 0} dates • {pkg.weekday}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <p className="text-gray-300">
+              Create availability packages by selecting dates and room quantities. 
+              Only {selectedWeekday}s are shown based on your check-in day selection.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {renderMonthColumn(leftColumnMonths)}
+              {renderMonthColumn(rightColumnMonths)}
+            </div>
 
-            {/* Create new package button */}
-            {!isCreatingPackage && existingPackages.length < 10 && (
-              <Button 
-                onClick={() => setIsCreatingPackage(true)}
-                className="w-full"
-              >
-                Create New Package
-              </Button>
-            )}
-
-            {/* Package creation form */}
-            {isCreatingPackage && (
-              <div className="space-y-4 border border-fuchsia-800/30 p-4 rounded-lg">
-                <div>
-                  <Label htmlFor="package-rooms" className="text-white">Number of available rooms</Label>
-                  <Input
-                    id="package-rooms"
-                    type="number"
-                    value={packageRooms}
-                    onChange={(e) => setPackageRooms(e.target.value)}
-                    className="bg-fuchsia-950/50 border-fuchsia-800/30 text-white mt-2"
-                    min="1"
-                  />
-                  <p className="text-sm text-gray-400 mt-1">These rooms can be used as double or single rooms</p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-white mb-3">SELECCIÓN DE FECHAS</h4>
-                  <p className="text-sm text-gray-300 mb-4">Seleccione las fechas de check-in y check-out de este paquete.</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Left column - First 6 months */}
-                    <div className="space-y-2">
-                      {leftColumnMonths.map(({ month, monthKey, monthName, availableDates }) => (
-                        <div key={monthKey} className="border border-fuchsia-800/30 rounded-lg overflow-hidden">
-                          <button
-                            onClick={() => toggleMonth(monthKey)}
-                            className="w-full px-3 py-2 text-left bg-fuchsia-950/30 hover:bg-fuchsia-950/50 text-white font-medium"
-                          >
-                            {monthName} ({availableDates.length} available)
-                          </button>
-                          
-                          {expandedMonths[monthKey] && (
-                            <div className="p-3 space-y-2">
-                              {availableDates.length > 0 ? (
-                                availableDates.map(date => {
-                                  const dateStr = format(date, 'yyyy-MM-dd');
-                                  const dayName = format(date, 'EEEE');
-                                  const dayNumber = format(date, 'd');
-                                  
-                                  return (
-                                    <label
-                                      key={dateStr}
-                                      className="flex items-center space-x-2 cursor-pointer hover:bg-fuchsia-950/30 p-1 rounded"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        checked={selectedDates.includes(dateStr)}
-                                        onChange={() => toggleDateSelection(dateStr)}
-                                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50"
-                                      />
-                                      <span className="text-white text-sm">
-                                        {dayName} {dayNumber}
-                                      </span>
-                                    </label>
-                                  );
-                                })
-                              ) : (
-                                <p className="text-gray-400 text-sm">No available dates</p>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Right column - Last 6 months */}
-                    <div className="space-y-2">
-                      {rightColumnMonths.map(({ month, monthKey, monthName, availableDates }) => (
-                        <div key={monthKey} className="border border-fuchsia-800/30 rounded-lg overflow-hidden">
-                          <button
-                            onClick={() => toggleMonth(monthKey)}
-                            className="w-full px-3 py-2 text-left bg-fuchsia-950/30 hover:bg-fuchsia-950/50 text-white font-medium"
-                          >
-                            {monthName} ({availableDates.length} available)
-                          </button>
-                          
-                          {expandedMonths[monthKey] && (
-                            <div className="p-3 space-y-2">
-                              {availableDates.length > 0 ? (
-                                availableDates.map(date => {
-                                  const dateStr = format(date, 'yyyy-MM-dd');
-                                  const dayName = format(date, 'EEEE');
-                                  const dayNumber = format(date, 'd');
-                                  
-                                  return (
-                                    <label
-                                      key={dateStr}
-                                      className="flex items-center space-x-2 cursor-pointer hover:bg-fuchsia-950/30 p-1 rounded"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        checked={selectedDates.includes(dateStr)}
-                                        onChange={() => toggleDateSelection(dateStr)}
-                                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50"
-                                      />
-                                      <span className="text-white text-sm">
-                                        {dayName} {dayNumber}
-                                      </span>
-                                    </label>
-                                  );
-                                })
-                              ) : (
-                                <p className="text-gray-400 text-sm">No available dates</p>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={createPackage}
-                    disabled={!packageRooms || selectedDates.length === 0}
-                    className="flex-1"
-                  >
-                    Create Package
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      setIsCreatingPackage(false);
-                      setPackageRooms("");
-                      setSelectedDates([]);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
+            {hasSelectedDates && (
+              <div className="mt-6 pt-4 border-t border-fuchsia-800/30">
+                <Button 
+                  onClick={handlePackageCreate}
+                  className="w-full bg-fuchsia-600 hover:bg-fuchsia-700"
+                >
+                  Create Availability Packages
+                </Button>
               </div>
             )}
           </div>

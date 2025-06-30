@@ -7,19 +7,22 @@ interface AccommodationValidationProps {
   hasInteracted: boolean;
   showValidationErrors: boolean;
   isValid: boolean;
+  formData: any;
 }
 
 export const AccommodationValidation = ({
   error,
   hasInteracted,
   showValidationErrors,
-  isValid
+  isValid,
+  formData
 }: AccommodationValidationProps) => {
   return (
     <ValidationMessages 
       error={error}
       showErrors={hasInteracted && showValidationErrors}
       isValid={isValid}
+      formData={formData}
     />
   );
 };

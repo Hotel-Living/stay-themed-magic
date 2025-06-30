@@ -15,7 +15,7 @@ interface AccommodationTermsStepProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
+const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   formData,
   updateFormData,
   onValidationChange
@@ -119,3 +119,5 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     </div>
   );
 };
+
+export default AccommodationTermsStep;

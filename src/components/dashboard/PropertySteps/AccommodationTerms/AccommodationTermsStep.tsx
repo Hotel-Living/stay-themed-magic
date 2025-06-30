@@ -1,4 +1,3 @@
-
 import React from "react";
 import RoomTypesSection from "./RoomTypesSection";
 import MealPlanSection from "./MealPlanSection";
@@ -10,13 +9,11 @@ import ValidationMessages from "./ValidationMessages";
 interface AccommodationTermsStepProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
-  onValidationChange?: (isValid: boolean) => void;
 }
 
 const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   formData,
-  updateFormData,
-  onValidationChange
+  updateFormData
 }) => {
   const [isRoomTypesOpen, setIsRoomTypesOpen] = React.useState(false);
   const [isMealPlanOpen, setIsMealPlanOpen] = React.useState(false);
@@ -29,12 +26,6 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     setSelectedDay(value);
     if (updateFormData) {
       updateFormData(field, value);
-    }
-  };
-
-  const handleValidationChange = (isValid: boolean) => {
-    if (onValidationChange) {
-      onValidationChange(isValid);
     }
   };
 

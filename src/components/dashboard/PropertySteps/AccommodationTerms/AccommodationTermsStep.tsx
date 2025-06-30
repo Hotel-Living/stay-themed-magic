@@ -69,6 +69,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         onToggle={setIsAvailabilityOpen}
         formData={formData}
         updateFormData={updateFormData}
+        selectedDay={selectedDay}
       />
 
       <MealPlanSection

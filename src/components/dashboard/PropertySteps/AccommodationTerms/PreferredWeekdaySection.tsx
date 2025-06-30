@@ -40,6 +40,9 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
     }
   };
 
+  // Check if packages exist to show warning
+  const hasPackages = formData?.availabilityPackages && formData.availabilityPackages.length > 0;
+
   return (
     <Accordion type="single" collapsible value={isOpen ? "weekday" : ""} onValueChange={(value) => onToggle(!!value)}>
       <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
@@ -57,10 +60,21 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
                   variant={selectedDay === day.value ? "default" : "outline"}
                   onClick={() => handleDaySelect(day.value)}
                   className="h-12"
+                  disabled={hasPackages}
                 >
                   {day.label}
                 </Button>
               ))}
+            </div>
+
+            {/* Warning notice */}
+            <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-600/30 rounded-lg">
+              <p className="text-yellow-200 text-sm flex items-start gap-2">
+                <span className="text-yellow-400 font-bold">⚠️</span>
+                <span>
+                  This selection is definitive. The check-in/check-out day cannot be changed once any availability packages have been created.
+                </span>
+              </p>
             </div>
           </div>
         </AccordionContent>

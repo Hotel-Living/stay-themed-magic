@@ -3,6 +3,8 @@ import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { ImagePlus, Trash } from "lucide-react";
 
 interface RoomTypesSectionProps {
   isOpen: boolean;
@@ -17,9 +19,49 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
   formData,
   updateFormData
 }) => {
+  const [roomImagePreviews, setRoomImagePreviews] = React.useState<string[]>(
+    formData?.roomImages || []
+  );
+
   const handleDescriptionChange = (value: string) => {
     if (updateFormData) {
       updateFormData('roomDescription', value);
+    }
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const files = Array.from(event.target.files);
+      const newPreviews: string[] = [];
+      
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            const newPreview = e.target.result as string;
+            newPreviews.push(newPreview);
+            
+            if (newPreviews.length === files.length) {
+              const updatedPreviews = [...roomImagePreviews, ...newPreviews];
+              setRoomImagePreviews(updatedPreviews);
+              
+              if (updateFormData) {
+                updateFormData('roomImages', updatedPreviews);
+              }
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeImage = (index: number) => {
+    const updatedPreviews = roomImagePreviews.filter((_, i) => i !== index);
+    setRoomImagePreviews(updatedPreviews);
+    
+    if (updateFormData) {
+      updateFormData('roomImages', updatedPreviews);
     }
   };
 
@@ -47,9 +89,56 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
               
               <div>
                 <Label className="text-white">Room Photo(s)</Label>
-                <div className="mt-2 p-4 border-2 border-dashed border-fuchsia-800/30 rounded-lg">
-                  <p className="text-center text-gray-400">Upload room images here</p>
-                  <p className="text-center text-sm text-gray-500 mt-1">This room can be used as double or individual</p>
+                <div className="mt-2">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Button 
+                      type="button" 
+                      className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2"
+                      onClick={() => document.getElementById('room-images-upload')?.click()}
+                    >
+                      <ImagePlus size={16} />
+                      Upload Images
+                    </Button>
+                    <input 
+                      id="room-images-upload" 
+                      type="file" 
+                      accept="image/*" 
+                      multiple 
+                      className="hidden" 
+                      onChange={handleImageUpload} 
+                    />
+                    <span className="text-xs text-gray-300">
+                      {roomImagePreviews.length} {roomImagePreviews.length === 1 ? 'image' : 'images'} selected
+                    </span>
+                  </div>
+                  
+                  {roomImagePreviews.length > 0 ? (
+                    <div className="grid grid-cols-3 gap-2">
+                      {roomImagePreviews.map((preview, index) => (
+                        <div key={index} className="relative group">
+                          <img 
+                            src={preview} 
+                            alt={`Room preview ${index + 1}`} 
+                            className="h-20 w-full object-cover rounded-md" 
+                          />
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="destructive"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => removeImage(index)}
+                          >
+                            <Trash size={12} />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-4 border-2 border-dashed border-fuchsia-800/30 rounded-lg">
+                      <p className="text-center text-gray-400">Upload room images here</p>
+                      <p className="text-center text-sm text-gray-500 mt-1">This room can be used as double or individual</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -61,6 +61,7 @@ import esIntellectualProperty from './locales/es/intellectualProperty.json';
 import esOurValues from './locales/es/ourValues.json';
 import esPrivacy from './locales/es/privacy.json';
 import esFooter from './locales/es/footer.json';
+import esHotels from './locales/es/hotels.json';
 import esDashboardGeneral from './locales/es/dashboard/general.json';
 import esDashboardCommon from './locales/es/dashboard/common.json';
 import esAdvertising from './locales/es/dashboard/advertising.json';
@@ -171,6 +172,7 @@ const resources = {
       ...esBooking,
       ...esFooter,
       ...esHome,
+      ...esHotels,
       ...esAffinity,
       ...esFilters,
       ...esContact,

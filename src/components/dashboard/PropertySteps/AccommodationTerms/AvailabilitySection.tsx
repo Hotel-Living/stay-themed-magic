@@ -1,5 +1,14 @@
 
-import React, { useState, useMemo, useEffect } from "react";
+  // Validation logic – auto-checks every time packages are updated
+  useEffect(() => {
+    const isValid = existingPackages.length > 0 && 
+      existingPackages.every((pkg: any) => 
+        pkg.numberOfRooms > 0 &&
+        pkg.startDate &&
+        pkg.endDate
+      );
+    onValidationChange?.(isValid);
+  }, [existingPackages, onValidationChange]);
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,6 +116,7 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
 
     setIsAddingPackage(false);
     setPackageStep(1);
+  onValidationChange?.(true);
   };
 
   const handleDeletePackage = (packageId: string) => {

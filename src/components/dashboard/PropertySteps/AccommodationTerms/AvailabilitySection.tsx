@@ -13,6 +13,7 @@ interface AvailabilitySectionProps {
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
   selectedDay?: string;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({

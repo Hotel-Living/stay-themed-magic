@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,8 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   onToggle,
   formData,
   updateFormData,
-  selectedDay = "monday"
+  selectedDay = "monday",
+  onValidationChange
 }) => {
   const [isAddingPackage, setIsAddingPackage] = useState(false);
   const [packageStep, setPackageStep] = useState(1);
@@ -33,6 +34,19 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   });
 
   const existingPackages = formData?.availabilityPackages || [];
+
+  // Validation logic
+  useEffect(() => {
+    if (onValidationChange) {
+      const isValid = existingPackages.length > 0 && 
+        existingPackages.every((pkg: any) => 
+          pkg.numberOfRooms > 0 && 
+          pkg.startDate && 
+          pkg.endDate
+        );
+      onValidationChange(isValid);
+    }
+  }, [existingPackages, onValidationChange]);
 
   // Convert selectedDay to weekday number (0 = Sunday, 1 = Monday, etc.)
   const weekdayMap: Record<string, number> = {

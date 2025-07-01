@@ -80,6 +80,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         formData={formData}
         updateFormData={updateFormData}
         selectedDay={selectedDay}
+        onValidationChange={handleValidationChange}
       />
 
       <ValidationMessages formData={formData} />

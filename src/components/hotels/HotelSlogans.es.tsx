@@ -25,6 +25,14 @@ export function HotelSlogansES() {
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4 whitespace-pre-line">{t('hotels.slogans.slogan11')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('hotels.slogans.slogan12')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('hotels.slogans.slogan13')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('hotels.slogans.slogan14')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('hotels.slogans.slogan15')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('hotels.slogans.slogan16')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4 whitespace-pre-line">{t('hotels.slogans.slogan17')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('hotels.slogans.slogan18')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('hotels.slogans.slogan19')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('hotels.slogans.slogan20')}</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('hotels.slogans.slogan21')}</p>
         </div>
       </div>
     </>;

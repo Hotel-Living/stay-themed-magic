@@ -12,7 +12,6 @@ export function HotelSlogansPT() {
         </h1>
         
         <div className="space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl mx-8 px-6 py-[13px] my-[17px]">
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl px-4">{t('hotels.slogans.slogan1')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('hotels.slogans.slogan2')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-4">{t('hotels.slogans.slogan3')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] px-4">{t('hotels.slogans.slogan4')}</p>

@@ -11,6 +11,7 @@ interface PreferredWeekdaySectionProps {
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
   hasPackages?: boolean;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
@@ -20,7 +21,8 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
   onDaySelect,
   formData,
   updateFormData,
-  hasPackages = false
+  hasPackages = false,
+  onValidationChange
 }) => {
   const weekdays = [
     { value: "monday", label: "Monday" },
@@ -38,6 +40,12 @@ const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
       updateFormData('checkinDay', dayValue);
     }
   };
+
+  // Validation logic: Valid if weekday selected
+  React.useEffect(() => {
+    const isValid = !!selectedDay;
+    onValidationChange?.(isValid);
+  }, [selectedDay, onValidationChange]);
 
   return (
     <Accordion type="single" collapsible value={isOpen ? "weekday" : ""} onValueChange={(value) => onToggle(!!value)}>

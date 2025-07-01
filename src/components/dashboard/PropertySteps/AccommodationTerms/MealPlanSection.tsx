@@ -10,13 +10,15 @@ interface MealPlanSectionProps {
   onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const MealPlanSection: React.FC<MealPlanSectionProps> = ({
   isOpen,
   onToggle,
   formData,
-  updateFormData
+  updateFormData,
+  onValidationChange
 }) => {
   const mealPlans = [
     { value: "no-meals", label: "No meals" },
@@ -57,6 +59,12 @@ const MealPlanSection: React.FC<MealPlanSectionProps> = ({
   const selectedMealPlan = formData?.selectedMealPlan || '';
   const laundryIncluded = formData?.laundryIncluded;
   const isLaundryDisabled = laundryIncluded === true;
+
+  // Validation logic: Valid if meal plan selected and laundry options set
+  React.useEffect(() => {
+    const isValid = !!(selectedMealPlan && laundryIncluded !== undefined);
+    onValidationChange?.(isValid);
+  }, [selectedMealPlan, laundryIncluded, onValidationChange]);
 
   return (
     <Accordion type="single" collapsible value={isOpen ? "meal-plans" : ""} onValueChange={(value) => onToggle(!!value)}>

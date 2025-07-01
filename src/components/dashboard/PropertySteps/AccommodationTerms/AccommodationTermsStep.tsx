@@ -25,6 +25,13 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   const [isAvailabilityOpen, setIsAvailabilityOpen] = React.useState(false);
   const [selectedDay, setSelectedDay] = React.useState(formData?.checkinDay || "monday");
 
+  // Validation states for all sections
+  const [roomTypesValid, setRoomTypesValid] = React.useState(false);
+  const [mealPlanValid, setMealPlanValid] = React.useState(false);
+  const [stayDurationValid, setStayDurationValid] = React.useState(false);
+  const [weekdayValid, setWeekdayValid] = React.useState(false);
+  const [availabilityValid, setAvailabilityValid] = React.useState(false);
+
   const handleDaySelect = (field: string, value: any) => {
     setSelectedDay(value);
     if (updateFormData) {
@@ -32,11 +39,11 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     }
   };
 
-  const handleValidationChange = (isValid: boolean) => {
-    if (onValidationChange) {
-      onValidationChange(isValid);
-    }
-  };
+  // Aggregate validation states and report to parent
+  React.useEffect(() => {
+    const overallValid = roomTypesValid && mealPlanValid && stayDurationValid && weekdayValid && availabilityValid;
+    onValidationChange?.(overallValid);
+  }, [roomTypesValid, mealPlanValid, stayDurationValid, weekdayValid, availabilityValid, onValidationChange]);
 
   // Check if packages exist to disable weekday changes
   const hasPackages = formData?.availabilityPackages && formData.availabilityPackages.length > 0;
@@ -48,6 +55,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         onToggle={setIsRoomTypesOpen}
         formData={formData}
         updateFormData={updateFormData}
+        onValidationChange={setRoomTypesValid}
       />
 
       <MealPlanSection
@@ -55,6 +63,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         onToggle={setIsMealPlanOpen}
         formData={formData}
         updateFormData={updateFormData}
+        onValidationChange={setMealPlanValid}
       />
 
       <StayDurationSection
@@ -62,6 +71,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         onToggle={setIsStayDurationOpen}
         formData={formData}
         updateFormData={updateFormData}
+        onValidationChange={setStayDurationValid}
       />
 
       <PreferredWeekdaySection
@@ -72,6 +82,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         formData={formData}
         updateFormData={updateFormData}
         hasPackages={hasPackages}
+        onValidationChange={setWeekdayValid}
       />
 
       <AvailabilitySection
@@ -80,7 +91,7 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         formData={formData}
         updateFormData={updateFormData}
         selectedDay={selectedDay}
-        onValidationChange={handleValidationChange}
+        onValidationChange={setAvailabilityValid}
       />
 
       <ValidationMessages formData={formData} />

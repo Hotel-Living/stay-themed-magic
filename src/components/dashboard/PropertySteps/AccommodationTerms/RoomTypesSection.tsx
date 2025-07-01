@@ -11,17 +11,25 @@ interface RoomTypesSectionProps {
   onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
   isOpen,
   onToggle,
   formData,
-  updateFormData
+  updateFormData,
+  onValidationChange
 }) => {
   const [roomImagePreviews, setRoomImagePreviews] = React.useState<string[]>(
     formData?.roomImages || []
   );
+
+  // Validation logic: Valid if room description exists and at least one room image
+  React.useEffect(() => {
+    const isValid = !!(formData?.roomDescription && roomImagePreviews.length > 0);
+    onValidationChange?.(isValid);
+  }, [formData?.roomDescription, roomImagePreviews.length, onValidationChange]);
 
   const handleDescriptionChange = (value: string) => {
     if (updateFormData) {

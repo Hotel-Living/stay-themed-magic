@@ -8,13 +8,15 @@ interface StayDurationSectionProps {
   onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const StayDurationSection: React.FC<StayDurationSectionProps> = ({
   isOpen,
   onToggle,
   formData,
-  updateFormData
+  updateFormData,
+  onValidationChange
 }) => {
   const durationOptions = [
     { nights: 8, label: "8 nights" },
@@ -30,6 +32,12 @@ const StayDurationSection: React.FC<StayDurationSectionProps> = ({
   };
 
   const selectedDuration = formData?.selectedStayDuration;
+
+  // Validation logic: Valid if duration selected
+  React.useEffect(() => {
+    const isValid = !!selectedDuration;
+    onValidationChange?.(isValid);
+  }, [selectedDuration, onValidationChange]);
 
   return (
     <Accordion type="single" collapsible value={isOpen ? "stay-duration" : ""} onValueChange={(value) => onToggle(!!value)}>

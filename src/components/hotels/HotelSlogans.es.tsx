@@ -1,5 +1,5 @@
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelSlogansES() {
   const { t } = useTranslation();

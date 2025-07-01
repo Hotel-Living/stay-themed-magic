@@ -194,7 +194,7 @@ ________________________________________
             {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/19b1348e-95c1-47b0-994b-f51b541b3b66.png" />
             </div>
             
             {/* 4-STAR Hotel Table */}

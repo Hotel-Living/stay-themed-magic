@@ -21,6 +21,7 @@ import enCustomerService from './locales/en/customerService.json';
 import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enOurValues from './locales/en/ourValues.json';
 import enPrivacy from './locales/en/privacy.json';
+import enHotels from './locales/en/hotels.json';
 import enDashboardGeneral from './locales/en/dashboard/general.json';
 import enDashboardWelcome from './locales/en/dashboard/welcome.json';
 import enDashboardStats from './locales/en/dashboard/stats.json';
@@ -84,6 +85,7 @@ import ptIntellectualProperty from './locales/pt/intellectualProperty.json';
 import ptOurValues from './locales/pt/ourValues.json';
 import ptPrivacy from './locales/pt/privacy.json';
 import ptFooter from './locales/pt/footer.json';
+import ptHotels from './locales/pt/hotels.json';
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
@@ -106,6 +108,7 @@ import roIntellectualProperty from './locales/ro/intellectualProperty.json';
 import roOurValues from './locales/ro/ourValues.json';
 import roPrivacy from './locales/ro/privacy.json';
 import roFooter from './locales/ro/footer.json';
+import roHotels from './locales/ro/hotels.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 
@@ -119,6 +122,7 @@ const resources = {
       ...enBooking,
       ...enFooter,
       ...enHome,
+      ...enHotels,
       ...enAffinity,
       ...enFilters,
       ...enContact,
@@ -201,6 +205,7 @@ const resources = {
       ...ptBooking,
       ...ptFooter,
       ...ptHome,
+      ...ptHotels,
       ...ptAffinity,
       ...ptFilters,
       ...ptContact,
@@ -229,6 +234,7 @@ const resources = {
       ...roBooking,
       ...roFooter,
       ...roHome,
+      ...roHotels,
       ...roAffinity,
       ...roFilters,
       ...roContact,

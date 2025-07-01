@@ -2,15 +2,28 @@
 {
   "hotels": {
     "slogans": {
-      "mainTitle": "LEAVE US YOUR EMPTY ROOMS, WE WILL TURN THEM INTO GOLD",
-      "alwaysFull": "Your hotel, always full. All year round",
-      "fullOccupancy": "100% occupancy, every day",
-      "multiplyProfits": "Multiply your profits spectacularly",
-      "longerStays": "Longer and more profitable stays",
-      "fixedDay": "A single fixed day for check-ins and check-outs",
-      "recoverClients": "Rental apartments? Let's recover our own clients",
-      "reducedCosts": "Great reduction in operational costs",
-      "staffStability": "Staff stability throughout the year"
+      "mainTitle": "WE FILL YOUR EMPTY ROOMS",
+      "slogan1": "We fill your empty rooms",
+      "slogan2": "We end your low and medium seasons",
+      "slogan3": "We radically multiply your profits",
+      "slogan4": "We activate 100% of your hotel's profitability",
+      "slogan5": "We recover your former Airbnb clients",
+      "slogan6": "We reduce your operational costs",
+      "slogan7": "We completely simplify your daily management",
+      "slogan8": "We bring you longer and more profitable stays",
+      "slogan9": "We give you absolute staff stability",
+      "slogan10": "We fill your hotel with life, we fill it with attractiveness",
+      "slogan11": "We unify entries and exits on a single weekly day",
+      "slogan12": "We advance you 7.5% of the total of each reservation — net profit, non-refundable",
+      "slogan13": "No subscriptions. No memberships.",
+      "slogan14": "No monthly fees. No contracts.",
+      "slogan15": "No upfront costs. No adaptations.",
+      "slogan16": "No changes to your system.",
+      "slogan17": "We just bring you clients.",
+      "slogan18": "And if you wish, your favorite clients:\n  the ones you choose, perfect for your hotel.",
+      "slogan19": "You decide the theme or themes. You choose your guests.",
+      "slogan20": "And we bring them to you.",
+      "slogan21": "We connect your hotel with a new era.\n\nProfitability, stability and meaning."
     },
     "features": {
       "whyJoin": "Why join Hotel-Living?",

@@ -1,14 +1,5 @@
 
-  // Validation logic – auto-checks every time packages are updated
-  useEffect(() => {
-    const isValid = existingPackages.length > 0 && 
-      existingPackages.every((pkg: any) => 
-        pkg.numberOfRooms > 0 &&
-        pkg.startDate &&
-        pkg.endDate
-      );
-    onValidationChange?.(isValid);
-  }, [existingPackages, onValidationChange]);
+import React, { useState, useMemo, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,6 +83,8 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   const handleAddPackage = () => {
     setIsAddingPackage(true);
     setPackageStep(1);
+
+  onValidationChange?.(true); // Manual validation trigger after saving a new package
     setNewPackage({
       numberOfRooms: 1,
       startDate: null,
@@ -116,7 +109,8 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
 
     setIsAddingPackage(false);
     setPackageStep(1);
-  onValidationChange?.(true);
+
+  onValidationChange?.(true); // Manual validation trigger after saving a new package
   };
 
   const handleDeletePackage = (packageId: string) => {

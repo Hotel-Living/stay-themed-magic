@@ -23,13 +23,12 @@ export function StayRatesTableSection({
   mealOptions,
   handleRateChange
 }: StayRatesTableSectionProps) {
-  // Allow single entries in each category
-  const hasValidInput =
-    Array.isArray(roomTypes) && roomTypes.length > 0 &&
-    Array.isArray(stayOptions) && stayOptions.length > 0 &&
-    Array.isArray(mealOptions) && mealOptions.length > 0;
-
-  if (!hasValidInput) {
+  // Don't render the table if there are no valid inputs
+  if (
+    !roomTypes || roomTypes.length === 0 ||
+    !stayOptions || stayOptions.length === 0 ||
+    !mealOptions || mealOptions.length === 0
+  ) {
     return (
       <div className="bg-fuchsia-950/30 p-4 rounded-lg border border-fuchsia-800/30">
         <p className="text-yellow-300">
@@ -76,17 +75,20 @@ export function StayRatesTableSection({
                     const rateKey = `${roomType}-${stayOption}-${mealOption}`;
                     return (
                       <tr key={rateKey} className={idx % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
-                        <td className="p-2 text-sm">{roomType}</td>
-                        <td className="p-2 text-sm">{stayOption}</td>
-                        <td className="p-2 text-sm">{mealOption}</td>
+                        <td className="p-2 text-xs">{roomType}</td>
+                        <td className="p-2 text-xs">{stayOption}</td>
+                        <td className="p-2 text-xs">{mealOption}</td>
                         <td className="p-2">
-                          <input
-                            type="number"
-                            value={rates[rateKey] || ''}
-                            onChange={(e) => handleRateChange(roomType, stayOption, mealOption, e.target.value)}
-                            className="w-full px-2 py-1 rounded border border-fuchsia-800/30 bg-fuchsia-950/20 text-white placeholder-gray-400"
-                            placeholder="0"
-                          />
+                          <div className="relative">
+                            <input
+                              type="number"
+                              className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 text-xs text-white font-bold"
+                              placeholder="0.00"
+                              required
+                              value={rates[rateKey] || ""}
+                              onChange={e => handleRateChange(roomType, stayOption, mealOption, e.target.value)}
+                            />
+                          </div>
                         </td>
                       </tr>
                     );
@@ -96,6 +98,7 @@ export function StayRatesTableSection({
             </tbody>
           </table>
         </div>
+        {!ratesFilled && <p className="text-red-400 text-xs mt-1">Por favor ingrese al menos una tarifa</p>}
       </div>
     </div>
   );

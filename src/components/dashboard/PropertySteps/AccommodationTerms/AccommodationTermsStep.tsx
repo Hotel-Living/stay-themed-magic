@@ -1,18 +1,16 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/hooks/useTranslation';
-import StayLengthSection from './StayLengthSection';
-import PreferredWeekdaySection from './PreferredWeekdaySection';
-import ValidationMessages from './ValidationMessages';
-import { useValidationState } from './hooks/useValidationState';
-import { useSectionsState } from './hooks/useSectionsState';
+import React from "react";
+import RoomTypesSection from "./RoomTypesSection";
+import MealPlanSection from "./MealPlanSection";
+import StayDurationSection from "./StayDurationSection";
+import PreferredWeekdaySection from "./PreferredWeekdaySection";
+import AvailabilitySection from "./AvailabilitySection";
+import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
-  onValidationChange: (isValid: boolean) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
@@ -20,102 +18,71 @@ const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   updateFormData,
   onValidationChange
 }) => {
-  const { t } = useTranslation();
-  const [showValidation, setShowValidation] = useState(false);
-  
-  // Section visibility states
-  const { sectionsState, toggleSection } = useSectionsState();
+  const [isRoomTypesOpen, setIsRoomTypesOpen] = React.useState(false);
+  const [isMealPlanOpen, setIsMealPlanOpen] = React.useState(false);
+  const [isStayDurationOpen, setIsStayDurationOpen] = React.useState(false);
+  const [isWeekdayOpen, setIsWeekdayOpen] = React.useState(false);
+  const [isAvailabilityOpen, setIsAvailabilityOpen] = React.useState(false);
+  const [selectedDay, setSelectedDay] = React.useState(formData?.checkinDay || "monday");
 
-  // Validation state
-  const { 
-    error, 
-    setError, 
-    showValidationErrors, 
-    setShowValidationErrors, 
-    hasInteracted, 
-    setHasInteracted, 
-    isValid 
-  } = useValidationState({
-    selectedStayLengths: formData.stayLengths || [],
-    selectedMealPlans: formData.mealPlans || [],
-    roomTypes: formData.roomTypes || [],
-    onValidationChange
-  });
-
-  // Update validation when form data changes
-  useEffect(() => {
-    const errors = [];
-    
-    if (!formData.stayLength || formData.stayLength.length === 0) {
-      errors.push(t('dashboard.validation.stayLengthRequired'));
+  const handleDaySelect = (field: string, value: any) => {
+    setSelectedDay(value);
+    if (updateFormData) {
+      updateFormData(field, value);
     }
-    
-    if (!formData.preferredWeekday) {
-      errors.push(t('dashboard.validation.weekdayRequired'));
-    }
-    
-    onValidationChange(errors.length === 0);
-  }, [formData.stayLength, formData.preferredWeekday, t, onValidationChange]);
-
-  const handleStayLengthToggle = (field: string, value: any) => {
-    updateFormData(field, value);
   };
 
-  const handleWeekdaySelect = (field: string, value: any) => {
-    updateFormData(field, value);
+  const handleValidationChange = (isValid: boolean) => {
+    if (onValidationChange) {
+      onValidationChange(isValid);
+    }
   };
+
+  // Check if packages exist to disable weekday changes
+  const hasPackages = formData?.availabilityPackages && formData.availabilityPackages.length > 0;
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-white mb-4">
-          {t('dashboard.steps.accommodationTerms')}
-        </h2>
-        <p className="text-white/80">
-          {t('dashboard.accommodationTerms.description')}
-        </p>
-      </div>
-
-      {/* Stay Length Section */}
-      <StayLengthSection
-        isOpen={sectionsState.stayLength}
-        onToggle={() => toggleSection('stayLength')}
-        selectedLengths={formData.stayLengths || []}
-        onLengthToggle={handleStayLengthToggle}
+      <RoomTypesSection
+        isOpen={isRoomTypesOpen}
+        onToggle={setIsRoomTypesOpen}
         formData={formData}
         updateFormData={updateFormData}
       />
 
-      {/* Preferred Weekday Section */}
+      <MealPlanSection
+        isOpen={isMealPlanOpen}
+        onToggle={setIsMealPlanOpen}
+        formData={formData}
+        updateFormData={updateFormData}
+      />
+
+      <StayDurationSection
+        isOpen={isStayDurationOpen}
+        onToggle={setIsStayDurationOpen}
+        formData={formData}
+        updateFormData={updateFormData}
+      />
+
       <PreferredWeekdaySection
-        isOpen={sectionsState.weekday}
-        onToggle={() => toggleSection('weekday')}
-        selectedDay={formData.preferredWeekday || 'monday'}
-        onDaySelect={handleWeekdaySelect}
+        isOpen={isWeekdayOpen}
+        onToggle={setIsWeekdayOpen}
+        selectedDay={selectedDay}
+        onDaySelect={handleDaySelect}
         formData={formData}
         updateFormData={updateFormData}
+        hasPackages={hasPackages}
       />
 
-      {/* Validation Messages */}
-      {showValidation && (
-        <ValidationMessages 
-          formData={formData}
-          error={error}
-          showErrors={showValidationErrors}
-          isValid={isValid}
-        />
-      )}
+      <AvailabilitySection
+        isOpen={isAvailabilityOpen}
+        onToggle={setIsAvailabilityOpen}
+        formData={formData}
+        updateFormData={updateFormData}
+        selectedDay={selectedDay}
+      />
 
-      {/* Show Validation Button */}
-      <div className="flex justify-center">
-        <Button
-          onClick={() => setShowValidation(true)}
-          variant="outline"
-          className="text-white border-white hover:bg-white hover:text-purple-900"
-        >
-          {t('dashboard.validation.checkValidation')}
-        </Button>
-      </div>
+      <ValidationMessages formData={formData} />
     </div>
   );
 };

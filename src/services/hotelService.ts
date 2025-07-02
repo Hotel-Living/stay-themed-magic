@@ -77,43 +77,46 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       .eq('status', 'approved');
 
     if (filters.country) {
-      // Map country codes to full country names that are stored in the database
-      const countryCodeToName: Record<string, string> = {
-        'US': 'United States',
-        'CA': 'Canada',
-        'MX': 'Mexico',
-        'AR': 'Argentina',
-        'BR': 'Brazil',
-        'CO': 'Colombia',
-        'ES': 'Spain',
-        'PT': 'Portugal',
-        'RO': 'Romania',
-        'IT': 'Italy',
-        'FR': 'France',
-        'DE': 'Germany',
-        'GR': 'Greece',
-        'AU': 'Australia',
-        'NZ': 'New Zealand',
-        'ZA': 'South Africa',
-        'MA': 'Morocco',
-        'EG': 'Egypt',
-        'TH': 'Thailand',
-        'ID': 'Indonesia',
-        'VN': 'Vietnam',
-        'PH': 'Philippines',
-        'TR': 'Turkey',
-        'GB': 'United Kingdom',
-        'CH': 'Switzerland',
-        'HU': 'Hungary',
-        'BE': 'Belgium',
-        'LU': 'Luxembourg',
-        'NO': 'Norway'
+      // Map country codes to actual values stored in the database
+      // Some hotels have full country names, others have lowercase codes
+      const countryCodeToValues: Record<string, string[]> = {
+        'US': ['United States', 'USA', 'us'],
+        'CA': ['Canada', 'ca'],
+        'MX': ['Mexico', 'mx'],
+        'AR': ['Argentina', 'ar'],
+        'BR': ['Brazil', 'br'],
+        'CO': ['Colombia', 'co'],
+        'ES': ['Spain', 'España', 'es'], // Handle Spanish hotels stored as lowercase 'es'
+        'PT': ['Portugal', 'pt'],
+        'RO': ['Romania', 'ro'],
+        'IT': ['Italy', 'it'],
+        'FR': ['France', 'fr'],
+        'DE': ['Germany', 'de'],
+        'GR': ['Greece', 'gr'],
+        'AU': ['Australia', 'au'],
+        'NZ': ['New Zealand', 'nz'],
+        'ZA': ['South Africa', 'za'],
+        'MA': ['Morocco', 'ma'],
+        'EG': ['Egypt', 'eg'],
+        'TH': ['Thailand', 'th'],
+        'ID': ['Indonesia', 'id'],
+        'VN': ['Vietnam', 'vn'],
+        'PH': ['Philippines', 'ph'],
+        'TR': ['Turkey', 'tr'],
+        'GB': ['United Kingdom', 'gb'],
+        'CH': ['Switzerland', 'ch'],
+        'HU': ['Hungary', 'hu'],
+        'BE': ['Belgium', 'be'],
+        'LU': ['Luxembourg', 'lu'],
+        'NO': ['Norway', 'no']
       };
       
-      // Use the mapped country name or the original value if no mapping exists
-      const countryName = countryCodeToName[filters.country] || filters.country;
-      console.log(`🌍 Country filter: ${filters.country} -> ${countryName}`);
-      query = query.eq('country', countryName);
+      // Get possible values for this country code
+      const possibleValues = countryCodeToValues[filters.country] || [filters.country];
+      console.log(`🌍 Country filter: ${filters.country} -> checking values:`, possibleValues);
+      
+      // Use OR condition to match any of the possible values
+      query = query.or(possibleValues.map(value => `country.eq.${value}`).join(','));
     }
 
     if (filters.month) {

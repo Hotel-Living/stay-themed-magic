@@ -27,6 +27,19 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   const themes = hotel?.themes || hotel?.hotel_themes?.map(ht => ht.themes).filter(Boolean) || [];
   const activities = hotel?.activities || [];
 
+  // Convert old night values to day values for consistency with UI
+  const convertNightsToDays = (nightValues: number[]) => {
+    const nightToDayMap: Record<number, number> = {
+      8: 8,   // 8 nights -> 8 days (special case)
+      16: 15, // 16 nights -> 15 days  
+      24: 22, // 24 nights -> 22 days
+      32: 29  // 32 nights -> 29 days
+    };
+    return nightValues.map(night => nightToDayMap[night] || night);
+  };
+  
+  const convertedStayLengths = convertNightsToDays(hotel.stay_lengths || []);
+
   // Create highlights from the available hotel data
   const highlights = [
     hotel?.ideal_guests && { question: "Ideal for:", answer: hotel.ideal_guests },
@@ -99,7 +112,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             )}
             
             <HotelThemesAndActivities 
-              stayLengths={hotel.stay_lengths || []}
+              stayLengths={convertedStayLengths}
               hotelThemes={themes}
               hotelActivities={activities}
             />
@@ -118,7 +131,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                 hotelId={hotel.id}
                 hotelName={hotel.name}
                 pricePerMonth={hotel.price_per_month}
-                availableStayLengths={hotel.stay_lengths}
+                availableStayLengths={convertedStayLengths}
                 availableMonths={hotel.available_months}
                 preferredWeekday={hotel.check_in_weekday}
                 roomTypes={hotel.room_types}

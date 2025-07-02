@@ -103,8 +103,8 @@ export function GeneralInformationStep1({
             <option value="Hotel">Hotel</option>
             <option value="Resort">Resort</option>
             <option value="Boutique Hotel">Boutique Hotel</option>
-            <option value="Hostel">Hostel</option>
-            <option value="Apartment">Apartment</option>
+            <option value="Country House">Country House</option>
+            <option value="Roadside Motel">Roadside Motel</option>
           </select>
         </div>
 

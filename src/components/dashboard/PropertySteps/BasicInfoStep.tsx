@@ -109,10 +109,11 @@ export default function BasicInfoStep({
           onChange={(e) => updateFormData('propertyType', e.target.value)}
         >
           <option value="">Select property type</option>
-          <option value="hotel">Hotel</option>
-          <option value="boutique">Hotel Boutique</option>
-          <option value="resort">Resort</option>
-          <option value="other">Other (Add New)</option>
+          <option value="Hotel">Hotel</option>
+          <option value="Resort">Resort</option>
+          <option value="Boutique Hotel">Boutique Hotel</option>
+          <option value="Country House">Country House</option>
+          <option value="Roadside Motel">Roadside Motel</option>
         </select>
       </div>
       

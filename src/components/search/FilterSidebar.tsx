@@ -137,18 +137,10 @@ export function FilterSidebar({
         }}
       />
 
-      {/* Stars Filter */}
-      <CheckboxFilter
-        title="STARS"
-        options={['5 stars', '4 stars', '3 stars', '2 stars', '1 star']}
-        selectedOptions={activeFilters.stars || []}
-        onChange={handleArrayFilterChange.bind(null, 'stars')}
-      />
-
       {/* Room Types Filter */}
       <CheckboxFilter
         title="ROOM TYPES"
-        options={['Single', 'Double', 'Suite', 'Family', 'Deluxe']}
+        options={['Single', 'Double']}
         selectedOptions={activeFilters.roomTypes || []}
         onChange={handleArrayFilterChange.bind(null, 'roomTypes')}
       />

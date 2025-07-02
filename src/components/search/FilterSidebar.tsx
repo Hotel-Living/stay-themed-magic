@@ -63,7 +63,7 @@ export function FilterSidebar({
   };
 
   return (
-    <div className="w-72 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
+    <div className="w-fit min-w-[240px] max-w-[320px] bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
       {/* PRICE PER MONTH */}
       <PriceRangeFilter
         activePrice={getPriceValue()}

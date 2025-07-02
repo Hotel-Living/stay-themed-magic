@@ -1,19 +1,14 @@
 
 import React from "react";
-import { PriceFilter } from "./PriceFilter";
 import { CountryFilter } from "./CountryFilter";
 import { LocationFilter } from "./LocationFilter";
 import { ThemeFilter } from "./ThemeFilter";
 import { ActivityFilter } from "./ActivityFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
-import { MealPlanFilter } from "./MealPlanFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
-import { RoomTypesFilter } from "./RoomTypesFilter";
-import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
-import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 
@@ -34,14 +29,14 @@ export function FilterSidebar({
     handleFilterChange('theme', theme);
   };
 
+  const handleActivityChange = (value: string, isSelected: boolean) => {
+    handleArrayFilterChange('activities', value, isSelected);
+  };
+
   return (
     <div className="w-80 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
-      {/* PRICE PER MONTH */}
-      <PriceFilter
-        activePriceRange={activeFilters.priceRange}
-        onChange={(value) => handleFilterChange('priceRange', value)}
-      />
-
+      {/* PRICE PER MONTH - TODO: Create PriceFilter component */}
+      
       {/* COUNTRY */}
       <CountryFilter
         activeCountry={activeFilters.country}
@@ -63,7 +58,7 @@ export function FilterSidebar({
       {/* ACTIVITIES */}
       <ActivityFilter
         activeActivities={activeFilters.activities || []}
-        onChange={handleArrayFilterChange}
+        onChange={handleActivityChange}
       />
 
       {/* STAY LENGTH */}
@@ -72,11 +67,7 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('stayLengths', value)}
       />
 
-      {/* MEAL PLAN */}
-      <MealPlanFilter
-        activeMealPlan={activeFilters.mealPlan}
-        onChange={(value) => handleFilterChange('mealPlan', value)}
-      />
+      {/* MEAL PLAN - TODO: Create MealPlanFilter component */}
 
       {/* CATEGORY */}
       <CategoryFilter
@@ -102,23 +93,11 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('propertyStyle', value)}
       />
 
-      {/* ROOM TYPES */}
-      <RoomTypesFilter
-        activeRoomTypes={activeFilters.roomTypes || []}
-        onChange={handleArrayFilterChange}
-      />
+      {/* ROOM TYPES - TODO: Create RoomTypesFilter component */}
 
-      {/* HOTEL FEATURES */}
-      <HotelFeaturesFilter
-        activeHotelFeatures={activeFilters.hotelFeatures || []}
-        onChange={handleArrayFilterChange}
-      />
+      {/* HOTEL FEATURES - TODO: Create HotelFeaturesFilter component */}
 
-      {/* ROOM FEATURES */}
-      <RoomFeaturesFilter
-        activeRoomFeatures={activeFilters.roomFeatures || []}
-        onChange={handleArrayFilterChange}
-      />
+      {/* ROOM FEATURES - TODO: Create RoomFeaturesFilter component */}
     </div>
   );
 }

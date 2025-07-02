@@ -98,6 +98,12 @@
       "scienceAndTechnology": "Ciencia y Tecnología",
       "socialImpact": "Impacto Social",
       "sports": "Deportes"
+    },
+    "priceRanges": {
+      "upTo1000": "Hasta $1.000",
+      "1000to1500": "$1.000 - $1.500",
+      "1500to2000": "$1.500 - $2.000",
+      "moreThan2000": "Más de $2.000"
     }
   }
 }

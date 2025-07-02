@@ -40,12 +40,6 @@
     "propertyStyle": "ESTILOS DE PROPRIEDADE",
     "category": "CATEGORIA",
     "roomType": "TIPOS DE QUARTO",
-    "priceRanges": {
-      "upTo1000": "Até $1.000",
-      "1000to1500": "$1.000 - $1.500",
-      "1500to2000": "$1.500 - $2.000",
-      "moreThan2000": "Mais de $2.000"
-    },
     "propertyTypes": {
       "hotel": "Hotel",
       "boutiqueHotel": "Hotel Boutique",
@@ -98,6 +92,12 @@
       "scienceAndTechnology": "Ciência e Tecnologia",
       "socialImpact": "Impacto Social",
       "sports": "Esportes"
+    },
+    "priceRanges": {
+      "upTo1000": "Até $1.000",
+      "1000to1500": "$1.000 - $1.500",
+      "1500to2000": "$1.500 - $2.000",
+      "moreThan2000": "Mais de $2.000"
     }
   }
 }

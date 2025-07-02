@@ -60,8 +60,33 @@ export default function Search() {
     }
     if (price) {
       const priceNum = parseInt(price);
-      urlFilters.maxPrice = priceNum;
-      console.log(`✅ Max price filter will be applied: ${priceNum}`);
+      
+      // Set proper min/max price based on the price range value
+      let minPrice = 0;
+      let maxPrice = priceNum;
+      
+      if (priceNum === 1000) {
+        // "Up to $1,000"
+        minPrice = 0;
+        maxPrice = 1000;
+      } else if (priceNum === 1500) {
+        // "$1,000 - $1,500"
+        minPrice = 1000;
+        maxPrice = 1500;
+      } else if (priceNum === 2000) {
+        // "$1,500 - $2,000"
+        minPrice = 1500;
+        maxPrice = 2000;
+      } else if (priceNum === 3000) {
+        // "More than $2,000"
+        minPrice = 2000;
+        maxPrice = 999999;
+      }
+      
+      urlFilters.minPrice = minPrice;
+      urlFilters.maxPrice = maxPrice;
+      urlFilters.priceRange = priceNum; // For UI display
+      console.log(`✅ Price range filter will be applied: ${minPrice} - ${maxPrice}`);
     }
     if (location) {
       urlFilters.location = location;

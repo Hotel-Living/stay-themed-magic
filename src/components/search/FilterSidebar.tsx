@@ -112,7 +112,7 @@ export function FilterSidebar({
       {/* Meal Plans Filter */}
       <CheckboxFilter
         title="MEAL PLANS"
-        options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive', 'Laundry included', 'External laundry service']}
+        options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive', 'Laundry included', 'External laundry service', 'No meals']}
         selectedOptions={activeFilters.mealPlans || []}
         onChange={handleArrayFilterChange.bind(null, 'mealPlans')}
       />

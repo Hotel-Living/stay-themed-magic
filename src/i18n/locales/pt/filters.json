@@ -42,9 +42,10 @@
     "roomType": "TIPOS DE QUARTO",
     "propertyTypes": {
       "hotel": "Hotel",
-      "boutiqueHotel": "Hotel Boutique",
       "resort": "Resort",
-      "casaRural": "Casa Rural"
+      "boutiqueHotel": "Hotel Boutique",
+      "countryHouse": "Casa de Campo",
+      "roadsideMotel": "Motel de estrada"
     },
     "propertyStyles": {
       "classic": "Clássico",
@@ -98,6 +99,18 @@
       "1000to1500": "$1.000 - $1.500",
       "1500to2000": "$1.500 - $2.000",
       "moreThan2000": "Mais de $2.000"
+    },
+    "countries": {
+      "spain": "Espanha",
+      "france": "França",
+      "italy": "Itália",
+      "usa": "Estados Unidos",
+      "egypt": "Egito",
+      "turkey": "Turquia",
+      "unitedKingdom": "Reino Unido",
+      "germany": "Alemanha",
+      "portugal": "Portugal",
+      "greece": "Grécia"
     }
   }
 }

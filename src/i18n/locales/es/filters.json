@@ -48,9 +48,10 @@
     },
     "propertyTypes": {
       "hotel": "Hotel",
-      "boutiqueHotel": "Hotel Boutique",
       "resort": "Resort",
-      "casaRural": "Casa Rural"
+      "boutiqueHotel": "Hotel Boutique",
+      "countryHouse": "Casa Rural",
+      "roadsideMotel": "Hotel de carretera"
     },
     "propertyStyles": {
       "classic": "Clásico",
@@ -104,6 +105,18 @@
       "1000to1500": "$1.000 - $1.500",
       "1500to2000": "$1.500 - $2.000",
       "moreThan2000": "Más de $2.000"
+    },
+    "countries": {
+      "spain": "España",
+      "france": "Francia",
+      "italy": "Italia",
+      "usa": "Estados Unidos",
+      "egypt": "Egipto",
+      "turkey": "Turquía",
+      "unitedKingdom": "Reino Unido",
+      "germany": "Alemania",
+      "portugal": "Portugal",
+      "greece": "Grecia"
     }
   }
 }

@@ -67,13 +67,14 @@ export const propertyTypes = [
 
 // Property styles
 export const propertyStyles = [
-  "Modern", 
-  "Classic", 
-  "Luxury", 
-  "Budget", 
-  "Boutique", 
-  "Historic", 
-  "Eco-friendly"
+  "classic",
+  "classicElegant", 
+  "modern",
+  "fusion",
+  "urban",
+  "rural",
+  "minimalist",
+  "luxury"
 ];
 
 // Location types

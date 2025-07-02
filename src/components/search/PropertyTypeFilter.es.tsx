@@ -1,5 +1,6 @@
 
 import { FilterItem } from "./FilterItem";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyTypeFilterESProps {
   activePropertyType: string | null;
@@ -7,12 +8,14 @@ interface PropertyTypeFilterESProps {
 }
 
 export function PropertyTypeFilterES({ activePropertyType, onChange }: PropertyTypeFilterESProps) {
+  const { t } = useTranslation();
+  
   const propertyTypes = [
-    { value: "Hotel", label: "Hotel" },
-    { value: "Resort", label: "Resort" },
-    { value: "Boutique Hotel", label: "Hotel Boutique" },
-    { value: "Country House", label: "Casa Rural" },
-    { value: "Roadside Motel", label: "Hotel de carretera" }
+    { value: "hotel", label: t("filters.propertyTypes.hotel") },
+    { value: "resort", label: t("filters.propertyTypes.resort") },
+    { value: "boutiqueHotel", label: t("filters.propertyTypes.boutiqueHotel") },
+    { value: "countryHouse", label: t("filters.propertyTypes.countryHouse") },
+    { value: "roadsideMotel", label: t("filters.propertyTypes.roadsideMotel") }
   ];
 
   const handlePropertyTypeClick = (typeValue: string) => {
@@ -23,7 +26,7 @@ export function PropertyTypeFilterES({ activePropertyType, onChange }: PropertyT
   };
 
   return (
-    <FilterItem title="TIPO DE PROPIEDAD">
+    <FilterItem title={t("filters.propertyType")}>
       {propertyTypes.map(type => (
         <label key={type.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

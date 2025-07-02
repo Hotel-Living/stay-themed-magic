@@ -1,5 +1,6 @@
 
 import { FilterItem } from "./FilterItem";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyStyleFilterROProps {
   activePropertyStyle: string | null;
@@ -7,14 +8,17 @@ interface PropertyStyleFilterROProps {
 }
 
 export function PropertyStyleFilterRO({ activePropertyStyle, onChange }: PropertyStyleFilterROProps) {
+  const { t } = useTranslation();
+  
   const propertyStyles = [
-    { value: "Classic", label: "Clasic" },
-    { value: "Classic Elegant", label: "Clasic Elegant" },
-    { value: "Modern", label: "Modern" },
-    { value: "Fusion", label: "Fuziune" },
-    { value: "Urban", label: "Urban" },
-    { value: "Minimalist", label: "Minimalist" },
-    { value: "Luxury", label: "Lux" }
+    { value: "classic", label: t("filters.propertyStyles.classic") },
+    { value: "classicElegant", label: t("filters.propertyStyles.classicElegant") },
+    { value: "modern", label: t("filters.propertyStyles.modern") },
+    { value: "fusion", label: t("filters.propertyStyles.fusion") },
+    { value: "urban", label: t("filters.propertyStyles.urban") },
+    { value: "rural", label: t("filters.propertyStyles.rural") },
+    { value: "minimalist", label: t("filters.propertyStyles.minimalist") },
+    { value: "luxury", label: t("filters.propertyStyles.luxury") }
   ];
 
   const handlePropertyStyleClick = (styleValue: string) => {
@@ -25,7 +29,7 @@ export function PropertyStyleFilterRO({ activePropertyStyle, onChange }: Propert
   };
 
   return (
-    <FilterItem title="STILUL PROPRIETĂȚII">
+    <FilterItem title={t("filters.propertyStyle")}>
       {propertyStyles.map(style => (
         <label key={style.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

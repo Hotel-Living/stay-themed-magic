@@ -48,9 +48,10 @@
     },
     "propertyTypes": {
       "hotel": "Hotel",
-      "boutiqueHotel": "Hotel Boutique",
       "resort": "Resort",
-      "casaRural": "Casa Rurală"
+      "boutiqueHotel": "Hotel Boutique",
+      "countryHouse": "Pensiune Rurală",
+      "roadsideMotel": "Motel rutier"
     },
     "propertyStyles": {
       "classic": "Clasic",
@@ -98,6 +99,18 @@
       "scienceAndTechnology": "Știință și Tehnologie",
       "socialImpact": "Impact Social",
       "sports": "Sport"
+    },
+    "countries": {
+      "spain": "Spania",
+      "france": "Franța",
+      "italy": "Italia",
+      "usa": "Statele Unite",
+      "egypt": "Egipt",
+      "turkey": "Turcia",
+      "unitedKingdom": "Regatul Unit",
+      "germany": "Germania",
+      "portugal": "Portugalia",
+      "greece": "Grecia"
     }
   }
 }

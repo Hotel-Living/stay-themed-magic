@@ -238,7 +238,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       if (filters.mealPlans.includes('No meals')) {
         if (filters.mealPlans.length === 1) {
           // Only "No meals" selected - show hotels with empty or null meal_plans
-          query = query.or('meal_plans.is.null,meal_plans.eq.{}');
+          query = query.or('meal_plans.is.null,meal_plans.eq.{},meal_plans.eq.[]');
           console.log(`✅ "No meals" filter applied - showing hotels with no meal plans`);
         } else {
           // "No meals" + other options - show hotels with no meals OR hotels with selected meal plans

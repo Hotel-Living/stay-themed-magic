@@ -66,7 +66,11 @@
       "internetIncluded": "Internet Included",
       "wifiIncluded": "Wi-Fi Included",
       "cabletvIncluded": "Cable TV Included",
-      "phoneIncluded": "Phone Included"
+      "phoneIncluded": "Phone Included",
+      "doubleRoomsCanBeSingle": "Double rooms that can also be used as single rooms",
+      "roomPhotos": "Room Photos",
+      "roomDescription": "Room Description",
+      "roomDescriptionPlaceholder": "Describe the room features, amenities, and what guests can expect"
     }
   }
 }

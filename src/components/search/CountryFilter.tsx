@@ -8,7 +8,7 @@ import { CountryFilterRO } from "./CountryFilter.ro";
 
 interface CountryFilterProps {
   activeCountry: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function CountryFilter({ activeCountry, onChange }: CountryFilterProps) {

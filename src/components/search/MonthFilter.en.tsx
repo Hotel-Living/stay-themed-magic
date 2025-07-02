@@ -3,7 +3,7 @@ import { FilterItem } from "./FilterItem";
 
 interface MonthFilterENProps {
   activeMonth: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function MonthFilterEN({ activeMonth, onChange }: MonthFilterENProps) {

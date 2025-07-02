@@ -8,7 +8,7 @@ import { CategoryFilterRO } from "./CategoryFilter.ro";
 
 interface CategoryFilterProps {
   activeCategory: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function CategoryFilter({ activeCategory, onChange }: CategoryFilterProps) {

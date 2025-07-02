@@ -79,6 +79,25 @@
       "october": "Octombrie",
       "november": "Noiembrie",
       "december": "Decembrie"
+    },
+    "affinities": {
+      "art": "Artă",
+      "business": "Afaceri",
+      "culture": "Cultură",
+      "education": "Educație",
+      "entertainment": "Divertisment",
+      "foodAndDrinks": "Mâncare și Băuturi",
+      "healthAndWellness": "Sănătate și Bunăstare",
+      "history": "Istorie",
+      "hobbies": "Hobby-uri",
+      "languages": "Limbi",
+      "lifestyle": "Stil de Viață",
+      "nature": "Natură",
+      "personalDevelopment": "Dezvoltare Personală",
+      "relationships": "Relații",
+      "scienceAndTechnology": "Știință și Tehnologie",
+      "socialImpact": "Impact Social",
+      "sports": "Sport"
     }
   }
 }

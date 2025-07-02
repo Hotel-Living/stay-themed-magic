@@ -79,6 +79,25 @@
       "october": "Outubro",
       "november": "Novembro",
       "december": "Dezembro"
+    },
+    "affinities": {
+      "art": "Arte",
+      "business": "Negócios",
+      "culture": "Cultura",
+      "education": "Educação",
+      "entertainment": "Entretenimento",
+      "foodAndDrinks": "Comida e Bebidas",
+      "healthAndWellness": "Saúde e Bem-estar",
+      "history": "História",
+      "hobbies": "Hobbies",
+      "languages": "Idiomas",
+      "lifestyle": "Estilo de Vida",
+      "nature": "Natureza",
+      "personalDevelopment": "Desenvolvimento Pessoal",
+      "relationships": "Relacionamentos",
+      "scienceAndTechnology": "Ciência e Tecnologia",
+      "socialImpact": "Impacto Social",
+      "sports": "Esportes"
     }
   }
 }

@@ -35,6 +35,7 @@
     "location": "UBICACIÓN",
     "affinities": "AFINIDADES",
     "activities": "ACTIVIDADES",
+    "activities": "ACTIVIDADES",
     "duration": "DURACIÓN",
     "propertyType": "TIPOS DE PROPIEDAD",
     "propertyStyle": "ESTILOS DE PROPIEDAD",
@@ -79,6 +80,25 @@
       "october": "October",
       "november": "November",
       "december": "December"
+    },
+    "affinities": {
+      "art": "Art",
+      "business": "Business",
+      "culture": "Culture",
+      "education": "Education",
+      "entertainment": "Entertainment",
+      "foodAndDrinks": "Food and Drinks",
+      "healthAndWellness": "Health and Wellness",
+      "history": "History",
+      "hobbies": "Hobbies",
+      "languages": "Languages",
+      "lifestyle": "Lifestyle",
+      "nature": "Nature",
+      "personalDevelopment": "Personal Development",
+      "relationships": "Relationships",
+      "scienceAndTechnology": "Science and Technology",
+      "socialImpact": "Social Impact",
+      "sports": "Sports"
     }
   }
 }

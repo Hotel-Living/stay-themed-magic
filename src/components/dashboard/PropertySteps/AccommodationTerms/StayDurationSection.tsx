@@ -27,17 +27,24 @@ const StayDurationSection: React.FC<StayDurationSectionProps> = ({
 
   const handleDurationSelect = (nights: number) => {
     if (updateFormData) {
-      updateFormData('selectedStayDuration', nights);
+      const currentDurations = formData?.selectedStayDurations || [];
+      if (currentDurations.includes(nights)) {
+        // Remove if already selected
+        updateFormData('selectedStayDurations', currentDurations.filter((d: number) => d !== nights));
+      } else {
+        // Add if not selected
+        updateFormData('selectedStayDurations', [...currentDurations, nights]);
+      }
     }
   };
 
-  const selectedDuration = formData?.selectedStayDuration;
+  const selectedDurations = formData?.selectedStayDurations || [];
 
-  // Validation logic: Valid if duration selected
+  // Validation logic: Valid if at least one duration selected
   React.useEffect(() => {
-    const isValid = !!selectedDuration;
+    const isValid = selectedDurations.length > 0;
     onValidationChange?.(isValid);
-  }, [selectedDuration, onValidationChange]);
+  }, [selectedDurations, onValidationChange]);
 
   return (
     <Accordion type="single" collapsible value={isOpen ? "stay-duration" : ""} onValueChange={(value) => onToggle(!!value)}>
@@ -53,7 +60,7 @@ const StayDurationSection: React.FC<StayDurationSectionProps> = ({
               {durationOptions.map((option) => (
                 <Button
                   key={option.nights}
-                  variant={selectedDuration === option.nights ? "default" : "outline"}
+                  variant={selectedDurations.includes(option.nights) ? "default" : "outline"}
                   onClick={() => handleDurationSelect(option.nights)}
                   className="h-12"
                 >

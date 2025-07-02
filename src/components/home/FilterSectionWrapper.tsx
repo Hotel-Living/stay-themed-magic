@@ -61,31 +61,37 @@ export function FilterSectionWrapper({
     console.log('📋 Current active filters:', activeFilters);
     
     const params = new URLSearchParams();
+    let hasFilters = false;
     
     if (activeFilters.country) {
       params.append("country", activeFilters.country);
       console.log(`🌍 Adding country to URL: ${activeFilters.country}`);
+      hasFilters = true;
     }
     
     if (activeFilters.month) {
       params.append("month", activeFilters.month);
       console.log(`🗓️ Adding month to URL: ${activeFilters.month}`);
+      hasFilters = true;
     }
     
     if (activeFilters.theme && activeFilters.theme.id) {
       params.append("theme", activeFilters.theme.id);
       console.log(`🎯 Adding theme to URL: ${activeFilters.theme.name} (ID: ${activeFilters.theme.id})`);
+      hasFilters = true;
     }
     
     if (activeFilters.priceRange) {
       if (typeof activeFilters.priceRange === 'number') {
         params.append("price", activeFilters.priceRange.toString());
         console.log(`💰 Adding price to URL: ${activeFilters.priceRange}`);
+        hasFilters = true;
       } else if (activeFilters.priceRange && typeof activeFilters.priceRange === 'object' && 'max' in activeFilters.priceRange) {
         const maxPrice = activeFilters.priceRange.max?.toString() || '';
         if (maxPrice) {
           params.append("price", maxPrice);
           console.log(`💰 Adding max price to URL: ${maxPrice}`);
+          hasFilters = true;
         }
       }
     }
@@ -93,16 +99,20 @@ export function FilterSectionWrapper({
     if (activeFilters.location) {
       params.append("location", activeFilters.location);
       console.log(`📍 Adding location to URL: ${activeFilters.location}`);
+      hasFilters = true;
     }
     
     if (activeFilters.propertyType) {
       params.append("propertyType", activeFilters.propertyType);
       console.log(`🏨 Adding property type to URL: ${activeFilters.propertyType}`);
+      hasFilters = true;
     }
     
-    const finalUrl = `/search?${params.toString()}`;
+    // If no filters are selected, navigate to search page without parameters to show all hotels
+    const finalUrl = hasFilters ? `/search?${params.toString()}` : '/search';
     console.log(`🔗 Navigating to: ${finalUrl}`);
     console.log("Search with filters:", activeFilters);
+    console.log("Has filters:", hasFilters);
     
     navigate(finalUrl);
   };

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, Plus } from "lucide-react";
-import { format, addMonths, startOfMonth, eachDayOfInterval, endOfMonth, getDay } from "date-fns";
+import { format, addMonths, startOfMonth, eachDayOfInterval, endOfMonth, getDay, isAfter, startOfToday } from "date-fns";
 
 interface AvailabilitySectionProps {
   isOpen: boolean;
@@ -61,10 +61,10 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
 
   const selectedWeekdayNumber = weekdayMap[selectedDay.toLowerCase()] || 1;
 
-  // Generate 12 months starting from next month
+  // Generate 12 months starting from current month
   const months = useMemo(() => {
     const currentDate = new Date();
-    const startMonth = addMonths(startOfMonth(currentDate), 1);
+    const startMonth = startOfMonth(currentDate);
     
     return Array.from({ length: 12 }, (_, i) => {
       return addMonths(startMonth, i);
@@ -76,8 +76,13 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
     const start = startOfMonth(month);
     const end = endOfMonth(month);
     const allDays = eachDayOfInterval({ start, end });
+    const today = startOfToday();
     
-    return allDays.filter(day => getDay(day) === selectedWeekdayNumber);
+    // Filter for correct weekday and future dates only
+    return allDays.filter(day => 
+      getDay(day) === selectedWeekdayNumber && 
+      isAfter(day, today)
+    );
   };
 
   const handleAddPackage = () => {

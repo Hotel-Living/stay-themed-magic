@@ -147,8 +147,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`🌍 Country filter: ${filters.country} -> checking values:`, possibleValues);
       console.log(`🔍 Query will search for hotels where country matches any of:`, possibleValues);
       
-      // Use OR condition to match any of the possible values
-      query = query.or(possibleValues.map(value => `country.eq.${value}`).join(','));
+      // Use IN condition to match any of the possible values - more reliable than OR
+      query = query.in('country', possibleValues);
       
       // Add verification log for the user to see results
       console.log(`📊 Running country filter verification for: ${filters.country}`);

@@ -133,6 +133,28 @@
       "tip5List": ["Destul de lungi pentru a crea venituri semnificative pe oaspete.", "Destul de scurte pentru a menține rotația dinamică și a preveni stagnarea operațională.", "Permite ajustarea ușoară a prețurilor pe baza cererii și sezonalității."]
     },
     "fourStarContent": {
+      "title": "⭐⭐⭐⭐ SFATURI STRATEGICE PENTRU HOTELURI 4 STELE",
+      "description": "Hotelurile 4 stele au o poziție unică, echilibrând confortul, reputația și prețurile atractive pentru a apela la un segment de audiență larg, dar ușor mai selectiv.\nPentru a maximiza succesul, trebuie să combine cel mai bun din accesibilitate, serviciu și experiențe tematice curate.",
+      "tip1Title": "1️⃣ EVIDENȚIAȚI VALOAREA ADĂUGATĂ ȘI SERVICIILE",
+      "tip1Content": "Oaspeții se așteaptă la amenități îmbunătățite, medii elegante și ospitalitate profesională.",
+      "tip1List": ["Comunicați orice caracteristici diferențiatoare (wellness, acces spa, sală de sport modernă, vederi de pe acoperiș, cină gourmet, etc.).", "Subliniați serviciile care depășesc standardele de 3 stele, dar nu concurează direct pe preț cu luxul de 5 stele.", "Oferiți pachete, bundle-uri sau beneficii care rezonează cu profesioniștii de nivel mediu-înalt, familiile și cuplurile."],
+      "tip2Title": "2️⃣ CREAȚI EXPERIENȚE TEMATICE CURATE",
+      "tip2Content": "Sejururile tematice sunt deosebit de eficiente la nivelul de 4 stele. Considerați:",
+      "tip2List": ["Retrageri de wellness și detoxifiere", "Evenimente de artă, muzică sau gastronomie", "Excursii active (ciclism, drumeții, surf, etc.)", "Programare sezonieră, culturală sau de familie"],
+      "tip2Footer": "Promovați experiența tematică clar, astfel încât oaspeții să poată identifica ce face proprietatea dumneavoastră specială pe tot parcursul anului.",
+      "tip3Title": "3️⃣ CONCENTRAȚI-VĂ PE \"LUXUL INTELIGENT\" ÎN LOC DE EXTRAVAGENȚĂ",
+      "tip3Content": "Oaspeții de 4 stele caută luxul în modalități inteligente și accesibile:",
+      "tip3List": ["Proiectați spații atent gândite fără exces exagerat.", "Oferiți upgrade-uri care adaugă confort autentic (paturi de înaltă calitate, insonorizare, perdele blackout, tehnologie îmbunătățită, etc.).", "Atingerile eco-friendly, centrate pe oaspeți și axate pe wellness vor fi apreciate."],
+      "tip4Title": "4️⃣ ȚINȚIȚI OASPEȚII REPETAȚI ȘI CONSTRUIREA LOIALITĂȚII",
+      "tip4Content": "Mulți oaspeți de 4 stele călătoresc în mod repetat pentru afaceri, agrement sau sejururi hibride muncă/joacă.",
+      "tip4List": ["Promovați incentive de loialitate sau beneficii de membru pentru oaspeții care stau lunar sau sezonier.", "Creați programe simple de recompense (reduceri, upgrade-uri cadou, reguli flexibile de rezervare)."],
+      "tip4Footer": "Încurajarea vizitelor de întoarcere asigură stabilitatea pe termen lung pentru modelul dumneavoastră de trai.",
+      "tip5Title": "5️⃣ DURATE DE SEJUR FLEXIBILE CU PREȚURI PERSONALIZATE",
+      "tip5Content": "Hotelurile de 4 stele ar trebui să folosească oferte flexibile:",
+      "tip5List": ["Sejur minim (8, 16 sau 24 de nopți)", "Pachete modulare săptămânale sau bi-săptămânale", "Tarife ajustate pentru oaspeți pe termen lung"],
+      "tip5Footer": "Strategia de prețuri ar trebui să comunice economii și valoare unică pe măsură ce oaspeții iau în considerare creșterea duratei sejurului lor."
+    },
+    "fiveStarContent": {
       "title": "⭐⭐⭐⭐ STRATEGII PENTRU HOTELURI 4 STELE",
       "description": "Hotelurile 4 stele au o poziție unică, echilibrând confortul, reputația și prețurile atractive pentru a atrage un segment de audiență larg, dar puțin mai selectiv.\nPentru a maximiza succesul, trebuie să combine ce e mai bun din accesibilitate, serviciu și experiențe tematice curate.",
       "tip1Title": "1️⃣ EVIDENȚIAȚI VALOAREA ADĂUGATĂ ȘI SERVICIILE",

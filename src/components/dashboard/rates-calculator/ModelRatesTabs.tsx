@@ -132,79 +132,72 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐⭐ STRATEGIC TIPS FOR 3-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">{t('dashboard.ratesCalculator.threeStarContent.title')}</span>
             <span className="block mb-4">
-              3-star hotels will naturally capture the largest share of the total customer base.
-              <br />
-              Thanks to their ability to offer the most affordable rates while still delivering comfort and safety, they are perfectly positioned to attract large volumes of guests. They must fully take advantage of this structural advantage by designing models that ensure constant, high occupancy.
+              {t('dashboard.ratesCalculator.threeStarContent.description')}
             </span>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">1️⃣ POSITION YOURSELF AS THE AFFORDABLE ALTERNATIVE FOR LONG STAYS</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.threeStarContent.tip1Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              3-star hotels have a natural advantage in offering very competitive rates for guests who are price-sensitive but still seek comfort, safety, and convenience. This makes them highly attractive for:
+              {t('dashboard.ratesCalculator.threeStarContent.tip1Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Digital nomads</li>
-                <li>Young professionals</li>
-                <li>Remote workers</li>
-                <li>Students and trainees</li>
-                <li>Budget-conscious retirees</li>
+                {(t('dashboard.ratesCalculator.threeStarContent.tip1List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                A clear, stable pricing model focused on affordability will help maintain high occupancy levels.
+                {t('dashboard.ratesCalculator.threeStarContent.tip1Footer')}
               </div>
             </div>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">2️⃣ USE TARGETED AFFINITY THEMES TO ATTRACT NICHE AUDIENCES</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.threeStarContent.tip2Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              While luxury may not be the core selling point, 3-star hotels can strongly benefit from thematic specialization:
+              {t('dashboard.ratesCalculator.threeStarContent.tip2Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Language learning stays</li>
-                <li>Career development programs</li>
-                <li>Yoga, wellness, or light fitness groups</li>
-                <li>Culinary introductions or workshops</li>
-                <li>Hobby-based communities (photography, writing, gaming, etc.)</li>
+                {(t('dashboard.ratesCalculator.threeStarContent.tip2List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                Thematic options are unlimited: any type of legal activity, interest, or experience the hotel can imagine may be developed as a valid affinity. The more original and well-defined the theme, the easier it will be to reach specific guest segments.
+                {t('dashboard.ratesCalculator.threeStarContent.tip2Footer')}
               </div>
             </div>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">3️⃣ SIMPLIFY SERVICES WHILE OFFERING CLEAN, PREDICTABLE COMFORT</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.threeStarContent.tip3Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              Guests at this level value predictable quality: clean rooms, strong Wi-Fi, reliable breakfast options, and friendly service.
+              {t('dashboard.ratesCalculator.threeStarContent.tip3Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Avoid overcomplicating services that increase operational costs.</li>
-                <li>Instead, focus on consistent, solid delivery of essential services.</li>
-                <li>Small personalized touches in the thematic experience can add perceived value without significant investment.</li>
+                {(t('dashboard.ratesCalculator.threeStarContent.tip3List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">4️⃣ LEVERAGE GROUP STAYS AND CORPORATE SEGMENTS</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.threeStarContent.tip4Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              3-star hotels are well positioned to attract:
+              {t('dashboard.ratesCalculator.threeStarContent.tip4Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Corporate training programs</li>
-                <li>Team-building retreats</li>
-                <li>Small academic groups</li>
-                <li>NGO or association events</li>
+                {(t('dashboard.ratesCalculator.threeStarContent.tip4List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                By offering 8- to 16-day packages, these groups can fill blocks of rooms while benefiting from attractive pricing structures.
+                {t('dashboard.ratesCalculator.threeStarContent.tip4Footer')}
               </div>
             </div>
           </div>
           <div>
-            <span className="font-bold text-base">5️⃣ MAXIMIZE MID-LENGTH STAYS</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.threeStarContent.tip5Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              3-star properties may find an ideal balance in promoting stays of 8, 16 or 24 days:
+              {t('dashboard.ratesCalculator.threeStarContent.tip5Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Long enough to create meaningful revenue per guest.</li>
-                <li>Short enough to maintain dynamic rotation and prevent operational stagnation.</li>
-                <li>Allows easy adjustment of pricing based on demand and seasonality.</li>
+                {(t('dashboard.ratesCalculator.threeStarContent.tip5List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -217,35 +210,33 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐⭐⭐ STRATEGIC TIPS FOR 4-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">{t('dashboard.ratesCalculator.fourStarContent.title')}</span>
             <span className="block mb-4">
-              4-star hotels have a unique position, balancing comfort, reputation, and attractive pricing to appeal to a wide but slightly more selective audience segment.<br />
-              To maximize success, they must blend the best of affordability, service, and curated thematic experiences.
+              {t('dashboard.ratesCalculator.fourStarContent.description')}
             </span>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">1️⃣ HIGHLIGHT ADDED VALUE AND SERVICES</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.fourStarContent.tip1Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              Guests expect enhanced amenities, stylish surroundings, and professional hospitality.
+              {t('dashboard.ratesCalculator.fourStarContent.tip1Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Communicate any differentiating features (wellness, spa access, modern gym, rooftop views, gourmet dining, etc.).</li>
-                <li>Emphasize services that surpass 3-star standards but don't compete directly on price with 5-star luxury.</li>
-                <li>Offer bundles, packages, or perks that resonate with mid- to high-level professionals, families, and couples.</li>
+                {(t('dashboard.ratesCalculator.fourStarContent.tip1List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">2️⃣ CREATE CURATED THEMATIC EXPERIENCES</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.fourStarContent.tip2Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              Thematic stays are particularly effective at the 4-star level. Consider:
+              {t('dashboard.ratesCalculator.fourStarContent.tip2Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Wellness and detox retreats</li>
-                <li>Arts, music, or gastronomy events</li>
-                <li>Active excursions (biking, hiking, surfing, etc.)</li>
-                <li>Seasonal, cultural, or family programming</li>
+                {(t('dashboard.ratesCalculator.fourStarContent.tip2List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                Advertise the thematic experience clearly, so guests can identify what makes your property special year-round.
+                {t('dashboard.ratesCalculator.fourStarContent.tip2Footer')}
               </div>
             </div>
           </div>
@@ -261,29 +252,30 @@ export const ModelRatesTabs: React.FC = () => {
             </div>
           </div>
           <div className="mb-4">
-            <span className="font-bold text-base">4️⃣ TARGET REPEAT GUESTS AND LOYALTY BUILDING</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.fourStarContent.tip4Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              Many 4-star guests travel repeatedly for business, leisure, or hybrid work/play stays.
+              {t('dashboard.ratesCalculator.fourStarContent.tip4Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Promote loyalty incentives or membership benefits for guests who stay monthly or seasonally.</li>
-                <li>Create simple reward programs (discounts, gift upgrades, flexible booking rules).</li>
+                {(t('dashboard.ratesCalculator.fourStarContent.tip4List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                Encouraging return visits ensures long-term stability for your living model.
+                {t('dashboard.ratesCalculator.fourStarContent.tip4Footer')}
               </div>
             </div>
           </div>
           <div>
-            <span className="font-bold text-base">5️⃣ FLEXIBLE STAY LENGTHS WITH TAILORED PRICING</span>
+            <span className="font-bold text-base">{t('dashboard.ratesCalculator.fourStarContent.tip5Title')}</span>
             <div className="text-white/90 text-[16px] ml-2 mt-2">
-              4-star hotels should use flexible offers:
+              {t('dashboard.ratesCalculator.fourStarContent.tip5Content')}
               <ul className="list-disc pl-6 mt-2">
-                <li>Minimum stay (8, 16, or 24 nights)</li>
-                <li>Modular weekly or biweekly bundles</li>
-                <li>Adjusted rates for long-term guests</li>
+                {(t('dashboard.ratesCalculator.fourStarContent.tip5List', { returnObjects: true }) as string[]).map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
               <div className="mt-2">
-                Pricing strategy should communicate savings and unique value as guests consider increasing their length of stay.
+                {t('dashboard.ratesCalculator.fourStarContent.tip5Footer')}
               </div>
             </div>
           </div>
@@ -296,11 +288,9 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐⭐⭐⭐ STRATEGIC TIPS FOR 5-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">{t('dashboard.ratesCalculator.fiveStarContent.title')}</span>
             <span className="block mb-4">
-              5-star hotels can attract high-net-worth individuals looking for premium living experiences inside a fully serviced environment.
-              <br />
-              Their focus is not primarily on volume or specialization, but on offering superior lifestyle, comfort, privacy, and exclusivity. Hotel-Living provides them with a new opportunity to convert luxury hotel rooms into highly desirable extended-stay residences.
+              {t('dashboard.ratesCalculator.fiveStarContent.description')}
             </span>
           </div>
           <div className="mb-4">

@@ -1,16 +1,18 @@
 
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import { RatesCalculatorCard } from "./components/RatesCalculatorCard";
 import { RatesCalculatorHeader } from "./components/RatesCalculatorHeader";
-import { RATES_CALCULATOR_CONFIG } from "./constants/calculatorConstants";
 
 export const RatesCalculatorTab: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
-    <div className={RATES_CALCULATOR_CONFIG.cardSpacing}>
+    <div className="space-y-4">
       <RatesCalculatorCard>
         <RatesCalculatorHeader
-          title={RATES_CALCULATOR_CONFIG.defaultTitle}
-          description={RATES_CALCULATOR_CONFIG.defaultDescription}
+          title={t('dashboard.ratesCalculator.buildYourModel.title')}
+          description={t('dashboard.ratesCalculator.buildYourModel.description')}
         />
       </RatesCalculatorCard>
     </div>

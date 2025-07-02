@@ -3,7 +3,7 @@
   "dashboard": {
     "importantNotice": {
       "title": "IMPORTANTE",
-      "description": "Todos os campos marcados como obrigatórios devem ser preenchidos antes de continuar. Se você adicionar novos elementos, a publicação de sua propriedade exigirá aprovação do administrador antes de ser publicada."
+      "description": "Todos os campos obrigatórios devem ser preenchidos antes de continuar. Se você adicionar novos elementos, a publicação de sua propriedade exigirá aprovação do administrador antes de ser publicada."
     },
     "navigation": {
       "previous": "Anterior",
@@ -11,12 +11,33 @@
       "submit": "Enviar"
     },
     "hotelProfile": "Perfil do Hotel",
-    "accommodationTerms": "Termos de Hospedagem",
+    "accommodationTerms": "Termos de Acomodação",
     "standardEconomicModel": "Modelo Econômico Padrão",
     "costsAndProfits": "Custos e Lucros",
-    "buildOwnModel": "Crie seu Próprio Modelo",
+    "buildOwnModel": "Crie Seu Próprio Modelo",
     "costsDisclaimer": "Aviso: Valores Estimados",
     "costs": "Custos",
     "profits": "Lucros"
+  },
+  "ratesCalculator": {
+    "utilities": "SERVIÇOS PÚBLICOS",
+    "cleaning": "LIMPEZA",
+    "meals": "REFEIÇÕES", 
+    "totalCost": "CUSTO TOTAL",
+    "disclaimer": "Estas cifras representam um exemplo de custos incrementais médios por quarto adicional ocupado em hotéis de 3, 4 e 5 estrelas em mercados ocidentais. Os custos reais podem variar e devem ser ajustados com base na categoria, nível de serviço, posicionamento e modelo operacional de cada hotel.",
+    "strategicContent": {
+      "title": "POSICIONAMENTO ESTRATÉGICO PARA PARCEIROS HOTELEIROS",
+      "description": "Os hóspedes do Hotel-Living não são turistas transitórios. São residentes que buscam consistência, saúde e conforto em suas vidas diárias. Nosso modelo de refeições reflete essa realidade com culinária simples, nutritiva e caseira que se torna uma parte confiável de sua rotina.",
+      "benefits": {
+        "predictability": "PREVISIBILIDADE",
+        "responsibility": "RESPONSABILIDADE", 
+        "efficiency": "EFICIÊNCIA"
+      },
+      "guestDescription": "Esta abordagem cria um modelo de receita sustentável para parceiros hoteleiros enquanto oferece valor genuíno a hóspedes de longa estadia que escolhem o Hotel-Living por razões de estilo de vida, não apenas acomodação."
+    },
+    "buildYourModel": {
+      "title": "Construtor de Modelo Econômico Personalizado",
+      "description": "Crie um modelo econômico personalizado baseado nas características específicas do seu hotel e posicionamento no mercado. Esta ferramenta ajuda você a calcular estratégias de preços ideais para hóspedes de longa estadia do Hotel-Living."
+    }
   }
 }

@@ -84,6 +84,20 @@
     "cleaning": "CLEANING",
     "meals": "MEALS", 
     "totalCost": "TOTAL COST",
-    "disclaimer": "These figures represent an example of average incremental costs per additional occupied room in 3, 4, and 5-star hotels in Western markets. Actual costs may vary and should be adjusted based on the category, service level, positioning, and operational model of each hotel."
+    "disclaimer": "These figures represent an example of average incremental costs per additional occupied room in 3, 4, and 5-star hotels in Western markets. Actual costs may vary and should be adjusted based on the category, service level, positioning, and operational model of each hotel.",
+    "strategicContent": {
+      "title": "STRATEGIC POSITIONING FOR HOTEL PARTNERS",
+      "description": "Hotel-Living guests are not transient tourists. They are residents seeking consistency, health, and comfort in their daily lives. Our meals model reflects this reality with simple, nutritious, home-style cooking that becomes a reliable part of their routine.",
+      "benefits": {
+        "predictability": "PREDICTABILITY",
+        "responsibility": "RESPONSIBILITY", 
+        "efficiency": "EFFICIENCY"
+      },
+      "guestDescription": "This approach creates a sustainable revenue model for hotel partners while delivering genuine value to long-term guests who choose Hotel-Living for lifestyle reasons, not just accommodation."
+    },
+    "buildYourModel": {
+      "title": "Custom Economic Model Builder",
+      "description": "Create a personalized economic model based on your hotel's specific characteristics and market positioning. This tool helps you calculate optimal pricing strategies for long-term Hotel-Living guests."
+    }
   }
 }

@@ -3,27 +3,41 @@
   "dashboard": {
     "importantNotice": {
       "title": "IMPORTANT",
-      "description": "Toate câmpurile obligatorii trebuie completate"
+      "description": "Toate câmpurile obligatorii trebuie completate înainte de a continua. Dacă adăugați elemente noi, publicarea proprietății dvs. va necesita aprobarea administratorului înainte de a fi publicată."
     },
     "navigation": {
       "previous": "Înapoi",
       "next": "Următorul",
       "submit": "Trimite"
     },
-    "hotelProfile": "Profil hotel",
-    "accommodationTerms": "Termeni de cazare",
-    "standardEconomicModel": "Model economic standard",
-    "costsAndProfits": "Costuri și profituri",
-    "buildOwnModel": "Construiește propriul model",
-    "costsDisclaimer": "Notă: Valori estimate",
+    "hotelProfile": "Profilul Hotelului",
+    "accommodationTerms": "Termenii de Cazare",
+    "standardEconomicModel": "Modelul Economic Standard",
+    "costsAndProfits": "Costuri și Profituri",
+    "buildOwnModel": "Construiește-ți Propriul Model",
+    "costsDisclaimer": "Avertisment: Valori Estimate",
     "costs": "Costuri",
     "profits": "Profituri"
   },
   "ratesCalculator": {
     "utilities": "UTILITĂȚI",
     "cleaning": "CURĂȚENIE",
-    "meals": "MESE",
-    "totalCost": "COST TOTAL",
-    "disclaimer": "Aceste cifre reprezintă un exemplu al costurilor incrementale medii pe cameră ocupată suplimentar în hoteluri de 3, 4 și 5 stele din piețele occidentale. Costurile reale pot varia și ar trebui ajustate pe baza categoriei, nivelului de serviciu, poziționării și modelului operațional al fiecărui hotel."
+    "meals": "MESE", 
+    "totalCost": "COSTUL TOTAL",
+    "disclaimer": "Aceste cifre reprezintă un exemplu de costuri incrementale medii per cameră suplimentară ocupată în hoteluri de 3, 4 și 5 stele în piețele occidentale. Costurile reale pot varia și trebuie ajustate în funcție de categoria, nivelul de serviciu, poziționarea și modelul operațional al fiecărui hotel.",
+    "strategicContent": {
+      "title": "POZIȚIONAREA STRATEGICĂ PENTRU PARTENERII HOTELIERI",
+      "description": "Oaspeții Hotel-Living nu sunt turiști tranzitorii. Sunt rezidenți care caută consistență, sănătate și confort în viața lor zilnică. Modelul nostru de mese reflectă această realitate cu gătit simplu, nutritiv și casnic care devine o parte de încredere a rutinei lor.",
+      "benefits": {
+        "predictability": "PREDICTIBILITATE",
+        "responsibility": "RESPONSABILITATE", 
+        "efficiency": "EFICIENȚĂ"
+      },
+      "guestDescription": "Această abordare creează un model de venituri sustenabil pentru partenerii hotelieri, oferind în același timp valoare genuină oaspeților pe termen lung care aleg Hotel-Living din motive de stil de viață, nu doar pentru cazare."
+    },
+    "buildYourModel": {
+      "title": "Constructor de Model Economic Personalizat",
+      "description": "Creează un model economic personalizat bazat pe caracteristicile specifice ale hotelului tău și poziționarea pe piață. Acest instrument te ajută să calculezi strategii de prețuri optime pentru oaspeții pe termen lung ai Hotel-Living."
+    }
   }
 }

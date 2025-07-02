@@ -1,3 +1,4 @@
+
 {
   "dashboard": {
     "importantNotice": {
@@ -17,5 +18,26 @@
     "costsDisclaimer": "Aviso: Valores Estimados",
     "costs": "Costes",
     "profits": "Beneficios"
+  },
+  "ratesCalculator": {
+    "utilities": "SERVICIOS PÚBLICOS",
+    "cleaning": "LIMPIEZA",
+    "meals": "COMIDAS", 
+    "totalCost": "COSTE TOTAL",
+    "disclaimer": "Estas cifras representan un ejemplo de costes incrementales promedio por habitación adicional ocupada en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse según la categoría, nivel de servicio, posicionamiento y modelo operativo de cada hotel.",
+    "strategicContent": {
+      "title": "POSICIONAMIENTO ESTRATÉGICO PARA SOCIOS HOTELEROS",
+      "description": "Los huéspedes de Hotel-Living no son turistas transitorios. Son residentes que buscan consistencia, salud y comodidad en sus vidas diarias. Nuestro modelo de comidas refleja esta realidad con cocina simple, nutritiva y casera que se convierte en una parte confiable de su rutina.",
+      "benefits": {
+        "predictability": "PREDICTABILIDAD",
+        "responsibility": "RESPONSABILIDAD", 
+        "efficiency": "EFICIENCIA"
+      },
+      "guestDescription": "Este enfoque crea un modelo de ingresos sostenible para los socios hoteleros mientras ofrece valor genuino a huéspedes de larga estancia que eligen Hotel-Living por razones de estilo de vida, no solo alojamiento."
+    },
+    "buildYourModel": {
+      "title": "Constructor de Modelo Económico Personalizado",
+      "description": "Cree un modelo económico personalizado basado en las características específicas de su hotel y posicionamiento en el mercado. Esta herramienta le ayuda a calcular estrategias de precios óptimas para huéspedes de larga estancia de Hotel-Living."
+    }
   }
 }

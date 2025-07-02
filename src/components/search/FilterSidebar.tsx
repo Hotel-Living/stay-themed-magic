@@ -120,7 +120,7 @@ export function FilterSidebar({
       {/* Property Type Filter */}
       <CheckboxFilter
         title="PROPERTY TYPE"
-        options={['Hotel', 'Resort', 'Boutique', 'Apartment', 'Villa']}
+        options={['Hotel', 'Resort', 'Boutique Hotel', 'Country House', 'Roadside Motel']}
         selectedOptions={activeFilters.propertyType ? [activeFilters.propertyType] : []}
         onChange={(value, isChecked) => {
           handlePropertyTypeChange(isChecked ? value : null);

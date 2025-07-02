@@ -11,8 +11,8 @@ export function PropertyTypeFilterEN({ activePropertyType, onChange }: PropertyT
     { value: "Hotel", label: "Hotel" },
     { value: "Resort", label: "Resort" },
     { value: "Boutique Hotel", label: "Boutique Hotel" },
-    { value: "Motel", label: "Motel" },
-    { value: "Inn", label: "Inn" }
+    { value: "Country House", label: "Country House" },
+    { value: "Roadside Motel", label: "Roadside Motel" }
   ];
 
   const handlePropertyTypeClick = (typeValue: string) => {

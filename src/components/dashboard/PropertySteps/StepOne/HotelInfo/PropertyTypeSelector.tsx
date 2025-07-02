@@ -35,8 +35,8 @@ const PropertyTypeSelector: React.FC<PropertyTypeSelectorProps> = ({
           <SelectItem value="Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel</SelectItem>
           <SelectItem value="Resort" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Resort</SelectItem>
           <SelectItem value="Boutique Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel Boutique</SelectItem>
-          <SelectItem value="Motel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Motel</SelectItem>
-          <SelectItem value="Inn" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Posada</SelectItem>
+          <SelectItem value="Country House" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Casa Rural</SelectItem>
+          <SelectItem value="Roadside Motel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel de carretera</SelectItem>
         </SelectContent>
       </Select>
       {hasError && (

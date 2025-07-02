@@ -11,8 +11,8 @@ export function PropertyTypeFilterRO({ activePropertyType, onChange }: PropertyT
     { value: "Hotel", label: "Hotel" },
     { value: "Resort", label: "Resort" },
     { value: "Boutique Hotel", label: "Hotel Boutique" },
-    { value: "Motel", label: "Motel" },
-    { value: "Inn", label: "Hanul" }
+    { value: "Country House", label: "Pensiune Rurală" },
+    { value: "Roadside Motel", label: "Motel rutier" }
   ];
 
   const handlePropertyTypeClick = (typeValue: string) => {

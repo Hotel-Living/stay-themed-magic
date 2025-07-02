@@ -59,12 +59,10 @@ export const stayLengths = [
 // Property types
 export const propertyTypes = [
   "Hotel", 
-  "Boutique Hotel", 
   "Resort", 
-  "Villa", 
-  "Apartment", 
-  "Guesthouse", 
-  "Hostel"
+  "Boutique Hotel", 
+  "Country House", 
+  "Roadside Motel"
 ];
 
 // Property styles

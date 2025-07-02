@@ -6,7 +6,7 @@ export const DisclaimerText: React.FC = () => {
   const { t } = useTranslation();
   
   return (
-    <p className="font-bold">
+    <p className="text-xs text-white/60 italic mb-4">
       {t('dashboard.ratesCalculator.disclaimer')}
     </p>
   );

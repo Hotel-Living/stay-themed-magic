@@ -1,15 +1,21 @@
 
-import React from 'react';
-import { LengthOfStayFilter } from './LengthOfStayFilter';
-import { CategoryFilter } from './CategoryFilter';
-import { CountryFilter } from './CountryFilter';
-import { LocationFilter } from './LocationFilter';
-import { MonthFilter } from './MonthFilter';
-import { ActivityFilter } from './ActivityFilter';
-import { PriceRangeFilter } from './PriceRangeFilter';
-import { CheckboxFilter } from './CheckboxFilter';
-import { FilterState } from '@/components/filters/FilterTypes';
-import { useTranslation } from '@/hooks/useTranslation';
+import React from "react";
+import { PriceFilter } from "./PriceFilter";
+import { CountryFilter } from "./CountryFilter";
+import { LocationFilter } from "./LocationFilter";
+import { ThemeFilter } from "./ThemeFilter";
+import { ActivityFilter } from "./ActivityFilter";
+import { LengthOfStayFilter } from "./LengthOfStayFilter";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { CategoryFilter } from "./CategoryFilter";
+import { MonthFilter } from "./MonthFilter";
+import { PropertyTypeFilter } from "./PropertyTypeFilter";
+import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { RoomTypesFilter } from "./RoomTypesFilter";
+import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
+import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
+import { FilterState } from "@/components/filters/FilterTypes";
+import { Theme } from "@/utils/themes";
 
 interface FilterSidebarProps {
   activeFilters: FilterState;
@@ -24,213 +30,95 @@ export function FilterSidebar({
   handleArrayFilterChange,
   onResetAllFilters
 }: FilterSidebarProps) {
-  const { t } = useTranslation();
-
-  const handleLengthChange = (value: string | null) => {
-    handleFilterChange('stayLengths', value);
+  const handleThemeChange = (theme: Theme | null) => {
+    handleFilterChange('theme', theme);
   };
-
-  const handleCategoryChange = (value: string | null) => {
-    handleFilterChange('atmosphere', value);
-  };
-
-  const handleCountryChange = (value: string | null) => {
-    handleFilterChange('country', value);
-  };
-
-  const handleLocationChange = (value: string | null) => {
-    handleFilterChange('location', value);
-  };
-
-  const handleMonthChange = (value: string | null) => {
-    handleFilterChange('month', value);
-  };
-
-  const handlePropertyTypeChange = (value: string | null) => {
-    handleFilterChange('propertyType', value);
-  };
-
-  const handlePropertyStyleChange = (value: string | null) => {
-    handleFilterChange('propertyStyle', value);
-  };
-
-  const handlePriceRangeChange = (value: number | null) => {
-    handleFilterChange('priceRange', value);
-  };
-
-  // Property Type options with database values and display labels
-  const propertyTypeOptions = [
-    { value: 'hotel', label: t('filters.propertyTypes.hotel') },
-    { value: 'resort', label: t('filters.propertyTypes.resort') },
-    { value: 'boutiqueHotel', label: t('filters.propertyTypes.boutiqueHotel') },
-    { value: 'countryHouse', label: t('filters.propertyTypes.countryHouse') },
-    { value: 'roadsideMotel', label: t('filters.propertyTypes.roadsideMotel') }
-  ];
-
-  // Property Style options with database values and display labels
-  const propertyStyleOptions = [
-    { value: 'classic', label: t('filters.propertyStyles.classic') },
-    { value: 'classicElegant', label: t('filters.propertyStyles.classicElegant') },
-    { value: 'modern', label: t('filters.propertyStyles.modern') },
-    { value: 'fusion', label: t('filters.propertyStyles.fusion') },
-    { value: 'urban', label: t('filters.propertyStyles.urban') },
-    { value: 'rural', label: t('filters.propertyStyles.rural') },
-    { value: 'minimalist', label: t('filters.propertyStyles.minimalist') },
-    { value: 'luxury', label: t('filters.propertyStyles.luxury') }
-  ];
-
-  // Meal Plans options with database values and display labels
-  const mealPlanOptions = [
-    { value: 'breakfast', label: t('filters.breakfast') },
-    { value: 'halfBoard', label: t('filters.halfBoard') },
-    { value: 'fullBoard', label: t('filters.fullBoard') },
-    { value: 'allInclusive', label: t('filters.allInclusive') },
-    { value: 'laundryIncluded', label: t('filters.laundryIncluded') }
-  ];
-
-  // Room Types options with database values and display labels
-  const roomTypeOptions = [
-    { value: 'singleRoom', label: t('filters.roomTypeOptions.singleRoom') },
-    { value: 'doubleRoom', label: t('filters.roomTypeOptions.doubleRoom') }
-  ];
-
-  // Room Features options with database values and display labels
-  const roomFeatureOptions = [
-    { value: 'airConditioning', label: t('filters.airConditioning') },
-    { value: 'balcony', label: t('filters.balcony') },
-    { value: 'kitchen', label: t('filters.kitchen') },
-    { value: 'tv', label: t('filters.tv') },
-    { value: 'minibar', label: t('filters.minibar') }
-  ];
-
-  // Hotel Features options with database values and display labels
-  const hotelFeatureOptions = [
-    { value: 'pool', label: t('filters.pool') },
-    { value: 'spa', label: t('filters.spa') },
-    { value: 'gym', label: t('filters.gym') },
-    { value: 'restaurant', label: t('filters.restaurant') },
-    { value: 'bar', label: t('filters.bar') },
-    { value: 'wifi', label: t('filters.wifi') },
-    { value: 'parking', label: t('filters.parking') }
-  ];
 
   return (
-    <div className="space-y-2">
-      {/* Reset All Filters Button - Top */}
-      <div className="pb-2">
-        <button
-          onClick={onResetAllFilters}
-          className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
-        >
-          {t('filters.resetFilters')}
-        </button>
-      </div>
-
-      {/* Price Range Filter */}
-      <PriceRangeFilter
-        activePrice={activeFilters.priceRange as number | null}
-        onChange={handlePriceRangeChange}
+    <div className="w-80 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
+      {/* PRICE PER MONTH */}
+      <PriceFilter
+        activePriceRange={activeFilters.priceRange}
+        onChange={(value) => handleFilterChange('priceRange', value)}
       />
 
-      {/* Country Filter */}
+      {/* COUNTRY */}
       <CountryFilter
         activeCountry={activeFilters.country}
-        onChange={handleCountryChange}
+        onChange={(value) => handleFilterChange('country', value)}
       />
 
-      {/* Location Filter */}
+      {/* LOCATION */}
       <LocationFilter
         activeLocation={activeFilters.location}
-        onChange={handleLocationChange}
+        onChange={(value) => handleFilterChange('location', value)}
       />
 
-      {/* Category/Atmosphere Filter */}
-      <CategoryFilter
-        activeCategory={activeFilters.atmosphere}
-        onChange={handleCategoryChange}
+      {/* AFFINITIES */}
+      <ThemeFilter
+        activeTheme={activeFilters.theme}
+        onChange={handleThemeChange}
       />
 
-      {/* Activities Filter */}
+      {/* ACTIVITIES */}
       <ActivityFilter
         activeActivities={activeFilters.activities || []}
-        onChange={handleArrayFilterChange.bind(null, 'activities')}
+        onChange={handleArrayFilterChange}
       />
 
-      {/* Length of Stay Filter */}
+      {/* STAY LENGTH */}
       <LengthOfStayFilter
         activeLength={activeFilters.stayLengths}
-        onChange={handleLengthChange}
+        onChange={(value) => handleFilterChange('stayLengths', value)}
       />
 
-      {/* Month Filter */}
+      {/* MEAL PLAN */}
+      <MealPlanFilter
+        activeMealPlan={activeFilters.mealPlan}
+        onChange={(value) => handleFilterChange('mealPlan', value)}
+      />
+
+      {/* CATEGORY */}
+      <CategoryFilter
+        activeCategory={activeFilters.atmosphere}
+        onChange={(value) => handleFilterChange('atmosphere', value)}
+      />
+
+      {/* MONTH */}
       <MonthFilter
         activeMonth={activeFilters.month}
-        onChange={handleMonthChange}
+        onChange={(value) => handleFilterChange('month', value)}
       />
 
-      {/* Meal Plans Filter */}
-      <CheckboxFilter
-        title={t('filters.mealPlan')}
-        options={mealPlanOptions}
-        selectedOptions={activeFilters.mealPlans || []}
-        onChange={handleArrayFilterChange.bind(null, 'mealPlans')}
+      {/* PROPERTY TYPE */}
+      <PropertyTypeFilter
+        activePropertyType={activeFilters.propertyType}
+        onChange={(value) => handleFilterChange('propertyType', value)}
       />
 
-      {/* Property Type Filter */}
-      <CheckboxFilter
-        title={t('filters.propertyType')}
-        options={propertyTypeOptions.map(option => option.label)}
-        selectedOptions={activeFilters.propertyType ? [propertyTypeOptions.find(opt => opt.value === activeFilters.propertyType)?.label || ''] : []}
-        onChange={(value, isChecked) => {
-          const selectedOption = propertyTypeOptions.find(opt => opt.label === value);
-          handlePropertyTypeChange(isChecked && selectedOption ? selectedOption.value : null);
-        }}
+      {/* PROPERTY STYLE */}
+      <PropertyStyleFilter
+        activePropertyStyle={activeFilters.propertyStyle}
+        onChange={(value) => handleFilterChange('propertyStyle', value)}
       />
 
-      {/* Property Style Filter */}
-      <CheckboxFilter
-        title={t('filters.propertyStyle')}
-        options={propertyStyleOptions.map(option => option.label)}
-        selectedOptions={activeFilters.propertyStyle ? [propertyStyleOptions.find(opt => opt.value === activeFilters.propertyStyle)?.label || ''] : []}
-        onChange={(value, isChecked) => {
-          const selectedOption = propertyStyleOptions.find(opt => opt.label === value);
-          handlePropertyStyleChange(isChecked && selectedOption ? selectedOption.value : null);
-        }}
+      {/* ROOM TYPES */}
+      <RoomTypesFilter
+        activeRoomTypes={activeFilters.roomTypes || []}
+        onChange={handleArrayFilterChange}
       />
 
-      {/* Room Types Filter */}
-      <CheckboxFilter
-        title={t('filters.roomTypes')}
-        options={roomTypeOptions}
-        selectedOptions={activeFilters.roomTypes || []}
-        onChange={handleArrayFilterChange.bind(null, 'roomTypes')}
+      {/* HOTEL FEATURES */}
+      <HotelFeaturesFilter
+        activeHotelFeatures={activeFilters.hotelFeatures || []}
+        onChange={handleArrayFilterChange}
       />
 
-      {/* Room Features Filter */}
-      <CheckboxFilter
-        title={t('filters.roomFeatures')}
-        options={roomFeatureOptions}
-        selectedOptions={activeFilters.roomFeatures || []}
-        onChange={handleArrayFilterChange.bind(null, 'roomFeatures')}
+      {/* ROOM FEATURES */}
+      <RoomFeaturesFilter
+        activeRoomFeatures={activeFilters.roomFeatures || []}
+        onChange={handleArrayFilterChange}
       />
-
-      {/* Hotel Features Filter */}
-      <CheckboxFilter
-        title={t('filters.hotelFeatures')}
-        options={hotelFeatureOptions}
-        selectedOptions={activeFilters.hotelFeatures || []}
-        onChange={handleArrayFilterChange.bind(null, 'hotelFeatures')}
-      />
-
-      {/* Reset All Filters Button - Bottom */}
-      <div className="pt-4">
-        <button
-          onClick={onResetAllFilters}
-          className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
-        >
-          {t('filters.resetFilters')}
-        </button>
-      </div>
     </div>
   );
 }

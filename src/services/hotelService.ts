@@ -119,6 +119,13 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Country filter applied successfully for: ${filters.country}`);
     }
 
+    // LOCATION/CITY FILTER - Filter by exact city match
+    if (filters.location) {
+      console.log(`🏙️ LOCATION FILTER DEBUG: ${filters.location}`);
+      query = query.eq('city', filters.location);
+      console.log(`✅ Location filter applied successfully for city: ${filters.location}`);
+    }
+
     if (filters.month) {
       console.log(`🗓️ MONTH FILTER DEBUG: ${filters.month}`);
       

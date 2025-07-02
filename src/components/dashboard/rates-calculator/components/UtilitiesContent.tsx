@@ -7,35 +7,34 @@ export const UtilitiesContent: React.FC = () => {
   
   return (
     <div className="space-y-4 text-white/90">
-      <h3 className="text-lg font-bold text-center mb-6" dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.utilitiesContent.title') }} />
+      <h3 className="text-lg font-bold text-center mb-6" dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.utilitiesTitle') }} />
       
       <div className="space-y-4">
         <div>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.hotelLivingGuests')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.respectfulResidents')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesGuestsNotTransients')}</p>
+          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription1')}</p>
         </div>
         
         <div>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.smarterGuests')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.consciousUse')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.temporaryTenants')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesSmartGuestsTitle')}</p>
+          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription2')}</p>
+          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription3')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.utilityConsumption')}</p>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.energyEfficiency')}</p>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.feelingAtHome')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesLowerConsumption')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesEnergyEfficiency')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesConservativeHabits')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.sharedResponsibility')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.accessibleRates')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.balanceAndCare')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesSharedResponsibility')}</p>
+          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesResponsibilityDescription')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesContent.optimizedOperations')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesContent.lowerTurnover')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesOptimizedOperations')}</p>
+          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesOptimizedDescription')}</p>
         </div>
       </div>
     </div>

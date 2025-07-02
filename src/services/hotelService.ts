@@ -192,6 +192,102 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
+    // CATEGORY/ATMOSPHERE FILTER - Filter by hotel star rating
+    if (filters.atmosphere) {
+      console.log(`⭐ CATEGORY FILTER DEBUG: ${filters.atmosphere}`);
+      
+      // Map the filter value to the database category field
+      const categoryValue = parseInt(filters.atmosphere);
+      if (!isNaN(categoryValue)) {
+        console.log(`   - Filtering hotels with category = ${categoryValue}`);
+        query = query.eq('category', categoryValue);
+        console.log(`✅ Category filter applied successfully: ${categoryValue} stars`);
+      } else {
+        console.warn(`⚠️ Invalid category value: ${filters.atmosphere}`);
+      }
+    }
+
+    // ACTIVITIES FILTER - Filter by hotel activities using many-to-many relationship
+    if (filters.activities && filters.activities.length > 0) {
+      console.log(`🎨 ACTIVITIES FILTER DEBUG:`, filters.activities);
+      
+      // Get hotel IDs that have ANY of the selected activities
+      const { data: hotelActivities, error: activitiesError } = await supabase
+        .from('hotel_activities')
+        .select('hotel_id, activities(name)')
+        .in('activities.name', filters.activities);
+      
+      if (activitiesError) {
+        console.error('Activities filter error:', activitiesError);
+      } else if (hotelActivities && hotelActivities.length > 0) {
+        const hotelIds = [...new Set(hotelActivities.map(ha => ha.hotel_id))];
+        console.log(`   - Found ${hotelIds.length} hotels with selected activities`);
+        query = query.in('id', hotelIds);
+        console.log(`✅ Activities filter applied successfully`);
+      } else {
+        console.log(`   - No hotels found with selected activities`);
+        query = query.eq('id', '00000000-0000-0000-0000-000000000000');
+      }
+    }
+
+    // MEAL PLANS FILTER
+    if (filters.mealPlans && filters.mealPlans.length > 0) {
+      console.log(`🍽️ MEAL PLANS FILTER DEBUG:`, filters.mealPlans);
+      filters.mealPlans.forEach(plan => {
+        query = query.contains('meal_plans', [plan]);
+      });
+      console.log(`✅ Meal plans filter applied successfully`);
+    }
+
+    // PROPERTY TYPE FILTER
+    if (filters.propertyType) {
+      console.log(`🏨 PROPERTY TYPE FILTER DEBUG: ${filters.propertyType}`);
+      query = query.eq('property_type', filters.propertyType);
+      console.log(`✅ Property type filter applied successfully`);
+    }
+
+    // PROPERTY STYLE FILTER
+    if (filters.propertyStyle) {
+      console.log(`🎭 PROPERTY STYLE FILTER DEBUG: ${filters.propertyStyle}`);
+      query = query.eq('style', filters.propertyStyle);
+      console.log(`✅ Property style filter applied successfully`);
+    }
+
+    // ROOM TYPES FILTER
+    if (filters.roomTypes && filters.roomTypes.length > 0) {
+      console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
+      
+      // Check if any room type in room_types array matches selected options
+      const roomTypeConditions = filters.roomTypes.map(roomType => 
+        `room_types.cs.[{"name":"${roomType}"}]`
+      ).join(',');
+      
+      if (roomTypeConditions) {
+        query = query.or(roomTypeConditions);
+        console.log(`✅ Room types filter applied successfully`);
+      }
+    }
+
+    // ROOM FEATURES FILTER
+    if (filters.roomFeatures && filters.roomFeatures.length > 0) {
+      console.log(`🛋️ ROOM FEATURES FILTER DEBUG:`, filters.roomFeatures);
+      
+      filters.roomFeatures.forEach(feature => {
+        query = query.contains('features_room', { [feature]: true });
+      });
+      console.log(`✅ Room features filter applied successfully`);
+    }
+
+    // HOTEL FEATURES FILTER
+    if (filters.hotelFeatures && filters.hotelFeatures.length > 0) {
+      console.log(`🏩 HOTEL FEATURES FILTER DEBUG:`, filters.hotelFeatures);
+      
+      filters.hotelFeatures.forEach(feature => {
+        query = query.contains('features_hotel', { [feature]: true });
+      });
+      console.log(`✅ Hotel features filter applied successfully`);
+    }
+
     const { data: hotels, error } = await query;
 
     if (error) {

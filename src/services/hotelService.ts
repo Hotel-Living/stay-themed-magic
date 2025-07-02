@@ -79,8 +79,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     if (filters.country) {
       // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values
       const countryCodeToValues: Record<string, string[]> = {
-        'DE': ['Germany', 'Alemania', 'de', 'DE'],
-        'AR': ['Argentina', 'ar', 'AR'],
+        'DE': ['Germany', 'Alemania', 'Deutschland', 'de', 'DE'],
+        'AR': ['Argentina', 'Argentina', 'ar', 'AR'],
         'AU': ['Australia', 'au', 'AU'],
         'AT': ['Austria', 'at', 'AT'],
         'BE': ['Belgium', 'Bélgica', 'be', 'BE'],
@@ -141,11 +141,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         'SK': ['Slovakia', 'Eslovaquia', 'sk', 'SK']
       };
       
-      // Get possible values for this country code
+      // Get possible values for this country code or use the value as-is
       const possibleValues = countryCodeToValues[filters.country] || [filters.country];
       
       console.log(`🔍 COUNTRY FILTER DEBUG:`);
-      console.log(`   - Selected country code: ${filters.country}`);
+      console.log(`   - Selected country filter: ${filters.country}`);
       console.log(`   - Possible database values:`, possibleValues);
       console.log(`   - Filter being applied: country IN (${possibleValues.join(', ')})`);
       

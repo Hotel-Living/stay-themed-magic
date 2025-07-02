@@ -72,7 +72,10 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
   }, [filters]);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
-    setFilters(prevFilters => updateFiltersState(prevFilters, newFilters));
+    console.log('🔄 useHotels: Updating filters with:', newFilters);
+    const updatedFilters = updateFiltersState(filters, newFilters);
+    console.log('📋 useHotels: Final filter state:', updatedFilters);
+    setFilters(updatedFilters);
   };
 
   return {

@@ -33,11 +33,14 @@ export function FilterSectionWrapper({
   });
 
   const handleFilterChange = (newFilters: FilterState) => {
-    setActiveFilters(prev => ({
-      ...prev,
+    console.log('🔄 FilterSectionWrapper: Filter change received', newFilters);
+    const updatedFilters = {
+      ...activeFilters,
       ...newFilters
-    }));
-    onFilterChange(newFilters);
+    };
+    console.log('📝 FilterSectionWrapper: Updated active filters', updatedFilters);
+    setActiveFilters(updatedFilters);
+    onFilterChange(updatedFilters);
   };
 
   const handleSearch = () => {

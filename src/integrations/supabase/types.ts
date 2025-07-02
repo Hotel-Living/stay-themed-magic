@@ -1263,6 +1263,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_dual_roles_to_user: {
+        Args: { user_email: string }
+        Returns: undefined
+      }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>
         Returns: {

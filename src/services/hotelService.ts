@@ -77,7 +77,43 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       .eq('status', 'approved');
 
     if (filters.country) {
-      query = query.eq('country', filters.country);
+      // Map country codes to full country names that are stored in the database
+      const countryCodeToName: Record<string, string> = {
+        'US': 'United States',
+        'CA': 'Canada',
+        'MX': 'Mexico',
+        'AR': 'Argentina',
+        'BR': 'Brazil',
+        'CO': 'Colombia',
+        'ES': 'Spain',
+        'PT': 'Portugal',
+        'RO': 'Romania',
+        'IT': 'Italy',
+        'FR': 'France',
+        'DE': 'Germany',
+        'GR': 'Greece',
+        'AU': 'Australia',
+        'NZ': 'New Zealand',
+        'ZA': 'South Africa',
+        'MA': 'Morocco',
+        'EG': 'Egypt',
+        'TH': 'Thailand',
+        'ID': 'Indonesia',
+        'VN': 'Vietnam',
+        'PH': 'Philippines',
+        'TR': 'Turkey',
+        'GB': 'United Kingdom',
+        'CH': 'Switzerland',
+        'HU': 'Hungary',
+        'BE': 'Belgium',
+        'LU': 'Luxembourg',
+        'NO': 'Norway'
+      };
+      
+      // Use the mapped country name or the original value if no mapping exists
+      const countryName = countryCodeToName[filters.country] || filters.country;
+      console.log(`🌍 Country filter: ${filters.country} -> ${countryName}`);
+      query = query.eq('country', countryName);
     }
 
     if (filters.month) {

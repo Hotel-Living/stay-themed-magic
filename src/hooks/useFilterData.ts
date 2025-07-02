@@ -9,12 +9,14 @@ interface FilterData {
   error: string | null;
 }
 
-// Official base countries that must always appear
+// Official base countries - Complete list of 47 countries
 const OFFICIAL_BASE_COUNTRIES = [
-  'United States', 'Canada', 'Mexico', 'Argentina', 'Brazil', 'Colombia',
-  'Spain', 'Portugal', 'Romania', 'Italy', 'France', 'Germany', 'Greece',
-  'Australia', 'New Zealand', 'South Africa', 'Morocco', 'Egypt',
-  'Thailand', 'Indonesia', 'Vietnam', 'Philippines'
+  'Argentina', 'Germany', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Colombia', 
+  'Costa Rica', 'Croatia', 'Denmark', 'Egypt', 'Spain', 'United States', 'Estonia', 'Philippines', 
+  'Finland', 'France', 'Greece', 'Hungary', 'Indonesia', 'Ireland', 'Iceland', 'Italy', 'Japan', 
+  'Luxembourg', 'Malaysia', 'Malta', 'Morocco', 'Mexico', 'Norway', 'New Zealand', 'Netherlands', 
+  'Poland', 'Portugal', 'United Kingdom', 'Czech Republic', 'Romania', 'Sri Lanka', 'South Africa', 
+  'Sweden', 'Switzerland', 'Thailand', 'Turkey', 'Uruguay', 'Vietnam', 'South Korea'
 ];
 
 export const useFilterData = (): FilterData => {
@@ -46,34 +48,61 @@ export const useFilterData = (): FilterData => {
           // Combine official base countries with countries from database
           const allCountryNames = [...new Set([...OFFICIAL_BASE_COUNTRIES, ...dbCountries])];
           
-          // Map country names to display format with flags
+          // Map country names to display format with flags - Complete 47 countries
           const countryMap: Record<string, { name: string; flag: string; code: string }> = {
-            'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
-            'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
-            'Mexico': { name: 'Mexico', flag: '🇲🇽', code: 'MX' },
             'Argentina': { name: 'Argentina', flag: '🇦🇷', code: 'AR' },
-            'Brazil': { name: 'Brazil', flag: '🇧🇷', code: 'BR' },
-            'Colombia': { name: 'Colombia', flag: '🇨🇴', code: 'CO' },
-            'Spain': { name: 'Spain', flag: '🇪🇸', code: 'ES' },
-            'Portugal': { name: 'Portugal', flag: '🇵🇹', code: 'PT' },
-            'Romania': { name: 'Romania', flag: '🇷🇴', code: 'RO' },
-            'Italy': { name: 'Italy', flag: '🇮🇹', code: 'IT' },
-            'France': { name: 'France', flag: '🇫🇷', code: 'FR' },
             'Germany': { name: 'Germany', flag: '🇩🇪', code: 'DE' },
-            'Greece': { name: 'Greece', flag: '🇬🇷', code: 'GR' },
             'Australia': { name: 'Australia', flag: '🇦🇺', code: 'AU' },
-            'New Zealand': { name: 'New Zealand', flag: '🇳🇿', code: 'NZ' },
-            'South Africa': { name: 'South Africa', flag: '🇿🇦', code: 'ZA' },
-            'Morocco': { name: 'Morocco', flag: '🇲🇦', code: 'MA' },
+            'Austria': { name: 'Austria', flag: '🇦🇹', code: 'AT' },
+            'Belgium': { name: 'Belgium', flag: '🇧🇪', code: 'BE' },
+            'Brazil': { name: 'Brazil', flag: '🇧🇷', code: 'BR' },
+            'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
+            'Colombia': { name: 'Colombia', flag: '🇨🇴', code: 'CO' },
+            'Costa Rica': { name: 'Costa Rica', flag: '🇨🇷', code: 'CR' },
+            'Croatia': { name: 'Croatia', flag: '🇭🇷', code: 'HR' },
+            'Denmark': { name: 'Denmark', flag: '🇩🇰', code: 'DK' },
             'Egypt': { name: 'Egypt', flag: '🇪🇬', code: 'EG' },
-            'Thailand': { name: 'Thailand', flag: '🇹🇭', code: 'TH' },
-            'Indonesia': { name: 'Indonesia', flag: '🇮🇩', code: 'ID' },
-            'Vietnam': { name: 'Vietnam', flag: '🇻🇳', code: 'VN' },
+            'Spain': { name: 'Spain', flag: '🇪🇸', code: 'ES' },
+            'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
+            'Estonia': { name: 'Estonia', flag: '🇪🇪', code: 'EE' },
             'Philippines': { name: 'Philippines', flag: '🇵🇭', code: 'PH' },
-            // Legacy mappings for existing database countries
-            'USA': { name: 'United States', flag: '🇺🇸', code: 'US' },
+            'Finland': { name: 'Finland', flag: '🇫🇮', code: 'FI' },
+            'France': { name: 'France', flag: '🇫🇷', code: 'FR' },
+            'Greece': { name: 'Greece', flag: '🇬🇷', code: 'GR' },
+            'Hungary': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
+            'Indonesia': { name: 'Indonesia', flag: '🇮🇩', code: 'ID' },
+            'Ireland': { name: 'Ireland', flag: '🇮🇪', code: 'IE' },
+            'Iceland': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
+            'Italy': { name: 'Italy', flag: '🇮🇹', code: 'IT' },
+            'Japan': { name: 'Japan', flag: '🇯🇵', code: 'JP' },
+            'Luxembourg': { name: 'Luxembourg', flag: '🇱🇺', code: 'LU' },
+            'Malaysia': { name: 'Malaysia', flag: '🇲🇾', code: 'MY' },
+            'Malta': { name: 'Malta', flag: '🇲🇹', code: 'MT' },
+            'Morocco': { name: 'Morocco', flag: '🇲🇦', code: 'MA' },
+            'Mexico': { name: 'Mexico', flag: '🇲🇽', code: 'MX' },
+            'Norway': { name: 'Norway', flag: '🇳🇴', code: 'NO' },
+            'New Zealand': { name: 'New Zealand', flag: '🇳🇿', code: 'NZ' },
+            'Netherlands': { name: 'Netherlands', flag: '🇳🇱', code: 'NL' },
+            'Poland': { name: 'Poland', flag: '🇵🇱', code: 'PL' },
+            'Portugal': { name: 'Portugal', flag: '🇵🇹', code: 'PT' },
+            'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' },
+            'Czech Republic': { name: 'Czech Republic', flag: '🇨🇿', code: 'CZ' },
+            'Romania': { name: 'Romania', flag: '🇷🇴', code: 'RO' },
+            'Sri Lanka': { name: 'Sri Lanka', flag: '🇱🇰', code: 'LK' },
+            'South Africa': { name: 'South Africa', flag: '🇿🇦', code: 'ZA' },
+            'Sweden': { name: 'Sweden', flag: '🇸🇪', code: 'SE' },
+            'Switzerland': { name: 'Switzerland', flag: '🇨🇭', code: 'CH' },
+            'Thailand': { name: 'Thailand', flag: '🇹🇭', code: 'TH' },
             'Turkey': { name: 'Turkey', flag: '🇹🇷', code: 'TR' },
-            'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' }
+            'Uruguay': { name: 'Uruguay', flag: '🇺🇾', code: 'UY' },
+            'Vietnam': { name: 'Vietnam', flag: '🇻🇳', code: 'VN' },
+            'South Korea': { name: 'South Korea', flag: '🇰🇷', code: 'KR' },
+            // Legacy mappings for existing database countries that use codes or alternative names
+            'es': { name: 'Spain', flag: '🇪🇸', code: 'ES' },
+            'FR': { name: 'France', flag: '🇫🇷', code: 'FR' },
+            'GR': { name: 'Greece', flag: '🇬🇷', code: 'GR' },
+            'PT': { name: 'Portugal', flag: '🇵🇹', code: 'PT' },
+            'TR': { name: 'Turkey', flag: '🇹🇷', code: 'TR' }
           };
 
           const countryList = allCountryNames.map(countryName => {

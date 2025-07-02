@@ -78,42 +78,61 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (filters.country) {
       // Map country codes to actual values stored in the database
-      // Some hotels have full country names, others have lowercase codes
+      // Complete list of 47 countries with all possible database formats
       const countryCodeToValues: Record<string, string[]> = {
-        'US': ['United States', 'USA', 'us'],
-        'CA': ['Canada', 'ca'],
-        'MX': ['Mexico', 'mx'],
         'AR': ['Argentina', 'ar'],
-        'BR': ['Brazil', 'br'],
-        'CO': ['Colombia', 'co'],
-        'ES': ['Spain', 'España', 'es'], // Handle Spanish hotels stored as lowercase 'es'
-        'PT': ['Portugal', 'pt'],
-        'RO': ['Romania', 'ro'],
-        'IT': ['Italy', 'it'],
-        'FR': ['France', 'fr'],
-        'DE': ['Germany', 'de'],
-        'GR': ['Greece', 'gr'],
+        'DE': ['Germany', 'Alemania', 'de'],
         'AU': ['Australia', 'au'],
-        'NZ': ['New Zealand', 'nz'],
-        'ZA': ['South Africa', 'za'],
-        'MA': ['Morocco', 'ma'],
-        'EG': ['Egypt', 'eg'],
-        'TH': ['Thailand', 'th'],
+        'AT': ['Austria', 'at'],
+        'BE': ['Belgium', 'Bélgica', 'be'],
+        'BR': ['Brazil', 'Brasil', 'br'],
+        'CA': ['Canada', 'Canadá', 'ca'],
+        'CO': ['Colombia', 'co'],
+        'CR': ['Costa Rica', 'cr'],
+        'HR': ['Croatia', 'Croacia', 'hr'],
+        'DK': ['Denmark', 'Dinamarca', 'dk'],
+        'EG': ['Egypt', 'Egipto', 'eg'],
+        'ES': ['Spain', 'España', 'es'],
+        'US': ['United States', 'Estados Unidos', 'USA', 'us'],
+        'EE': ['Estonia', 'ee'],
+        'PH': ['Philippines', 'Filipinas', 'ph'],
+        'FI': ['Finland', 'Finlandia', 'fi'],
+        'FR': ['France', 'Francia', 'FR', 'fr'],
+        'GR': ['Greece', 'Grecia', 'GR', 'gr'],
+        'HU': ['Hungary', 'Hungría', 'hu'],
         'ID': ['Indonesia', 'id'],
+        'IE': ['Ireland', 'Irlanda', 'ie'],
+        'IS': ['Iceland', 'Islandia', 'is'],
+        'IT': ['Italy', 'Italia', 'it'],
+        'JP': ['Japan', 'Japón', 'jp'],
+        'LU': ['Luxembourg', 'Luxemburgo', 'lu'],
+        'MY': ['Malaysia', 'my'],
+        'MT': ['Malta', 'mt'],
+        'MA': ['Morocco', 'Marruecos', 'ma'],
+        'MX': ['Mexico', 'México', 'mx'],
+        'NO': ['Norway', 'Noruega', 'no'],
+        'NZ': ['New Zealand', 'Nueva Zelanda', 'nz'],
+        'NL': ['Netherlands', 'Países Bajos', 'nl'],
+        'PL': ['Poland', 'Polonia', 'pl'],
+        'PT': ['Portugal', 'PT', 'pt'],
+        'GB': ['United Kingdom', 'Reino Unido', 'gb'],
+        'CZ': ['Czech Republic', 'República Checa', 'cz'],
+        'RO': ['Romania', 'Rumanía', 'ro'],
+        'LK': ['Sri Lanka', 'lk'],
+        'ZA': ['South Africa', 'Sudáfrica', 'za'],
+        'SE': ['Sweden', 'Suecia', 'se'],
+        'CH': ['Switzerland', 'Suiza', 'ch'],
+        'TH': ['Thailand', 'Tailandia', 'th'],
+        'TR': ['Turkey', 'Turquía', 'TR', 'tr'],
+        'UY': ['Uruguay', 'uy'],
         'VN': ['Vietnam', 'vn'],
-        'PH': ['Philippines', 'ph'],
-        'TR': ['Turkey', 'tr'],
-        'GB': ['United Kingdom', 'gb'],
-        'CH': ['Switzerland', 'ch'],
-        'HU': ['Hungary', 'hu'],
-        'BE': ['Belgium', 'be'],
-        'LU': ['Luxembourg', 'lu'],
-        'NO': ['Norway', 'no']
+        'KR': ['South Korea', 'Corea del Sur', 'kr']
       };
       
       // Get possible values for this country code
       const possibleValues = countryCodeToValues[filters.country] || [filters.country];
       console.log(`🌍 Country filter: ${filters.country} -> checking values:`, possibleValues);
+      console.log(`🔍 Query will search for hotels where country matches any of:`, possibleValues);
       
       // Use OR condition to match any of the possible values
       query = query.or(possibleValues.map(value => `country.eq.${value}`).join(','));

@@ -10,6 +10,10 @@ import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { RoomTypesFilter } from "./RoomTypesFilter";
+import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
+import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 
@@ -32,6 +36,22 @@ export function FilterSidebar({
 
   const handleActivityChange = (value: string, isChecked: boolean) => {
     handleArrayFilterChange('activities', value, isChecked);
+  };
+
+  const handleMealPlanChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('mealPlans', value, isChecked);
+  };
+
+  const handleRoomTypesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('roomTypes', value, isChecked);
+  };
+
+  const handleHotelFeaturesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('hotelFeatures', value, isChecked);
+  };
+
+  const handleRoomFeaturesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('roomFeatures', value, isChecked);
   };
 
   // Helper function to get price value as number for PriceRangeFilter
@@ -80,7 +100,11 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('stayLengths', value)}
       />
 
-      {/* MEAL PLAN - TODO: Create MealPlanFilter component */}
+      {/* MEAL PLAN */}
+      <MealPlanFilter
+        activeMealPlans={activeFilters.mealPlans || []}
+        onChange={handleMealPlanChange}
+      />
 
       {/* CATEGORY */}
       <CategoryFilter
@@ -106,11 +130,23 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('propertyStyle', value)}
       />
 
-      {/* ROOM TYPES - TODO: Create RoomTypesFilter component */}
+      {/* ROOM TYPES */}
+      <RoomTypesFilter
+        activeRoomTypes={activeFilters.roomTypes || []}
+        onChange={handleRoomTypesChange}
+      />
 
-      {/* HOTEL FEATURES - TODO: Create HotelFeaturesFilter component */}
+      {/* HOTEL FEATURES */}
+      <HotelFeaturesFilter
+        activeHotelFeatures={activeFilters.hotelFeatures || []}
+        onChange={handleHotelFeaturesChange}
+      />
 
-      {/* ROOM FEATURES - TODO: Create RoomFeaturesFilter component */}
+      {/* ROOM FEATURES */}
+      <RoomFeaturesFilter
+        activeRoomFeatures={activeFilters.roomFeatures || []}
+        onChange={handleRoomFeaturesChange}
+      />
     </div>
   );
 }

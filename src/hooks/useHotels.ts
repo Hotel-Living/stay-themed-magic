@@ -73,8 +73,24 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     console.log('🔄 useHotels: Updating filters with:', newFilters);
+    console.log('🔄 useHotels: Current filters:', filters);
     const updatedFilters = updateFiltersState(filters, newFilters);
-    console.log('📋 useHotels: Final filter state:', updatedFilters);
+    console.log('📋 useHotels: Final filter state will be:', updatedFilters);
+    
+    // Log specific filter values for debugging
+    if (updatedFilters.country) {
+      console.log(`🌍 useHotels: Country filter set to: ${updatedFilters.country}`);
+    }
+    if (updatedFilters.month) {
+      console.log(`🗓️ useHotels: Month filter set to: ${updatedFilters.month}`);
+    }
+    if (updatedFilters.theme) {
+      console.log(`🎯 useHotels: Theme filter set to: ${updatedFilters.theme.name} (ID: ${updatedFilters.theme.id})`);
+    }
+    if (updatedFilters.maxPrice) {
+      console.log(`💰 useHotels: Max price filter set to: ${updatedFilters.maxPrice}`);
+    }
+    
     setFilters(updatedFilters);
   };
 

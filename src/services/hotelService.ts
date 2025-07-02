@@ -47,6 +47,33 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
     console.log('🔍 Applying filters:', filters);
 
+    // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values found via query
+    const countryCodeToValues: Record<string, string[]> = {
+      'AT': ['Austria'],
+      'BE': ['Belgium'],  
+      'CA': ['Canada'],
+      'DK': ['Denmark'],
+      'FI': ['Finland'],
+      'FR': ['France', 'FR'],
+      'DE': ['Germany'],
+      'GR': ['Greece', 'GR'],
+      'HU': ['Hungary'],
+      'IS': ['Iceland'],
+      'IE': ['Ireland'],
+      'LU': ['Luxembourg'],
+      'NL': ['Netherlands'],
+      'NO': ['Norway'],
+      'PL': ['Poland'],
+      'PT': ['Portugal', 'PT'],
+      'RO': ['Romania'],
+      'ES': ['Spain', 'es'],
+      'SE': ['Sweden'],
+      'CH': ['Switzerland'],
+      'TH': ['Thailand'],
+      'TR': ['Turkey', 'TR'],
+      'GB': ['United Kingdom']
+    };
+
     let query = supabase
       .from('hotels')
       .select(`
@@ -77,69 +104,6 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       .eq('status', 'approved');
 
     if (filters.country) {
-      // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values
-      const countryCodeToValues: Record<string, string[]> = {
-        'DE': ['Germany', 'Alemania', 'Deutschland', 'de', 'DE'],
-        'AR': ['Argentina', 'Argentina', 'ar', 'AR'],
-        'AU': ['Australia', 'au', 'AU'],
-        'AT': ['Austria', 'at', 'AT'],
-        'BE': ['Belgium', 'Bélgica', 'be', 'BE'],
-        'BR': ['Brazil', 'Brasil', 'br', 'BR'],
-        'BG': ['Bulgaria', 'bg', 'BG'],
-        'CA': ['Canada', 'Canadá', 'ca', 'CA'],
-        'CO': ['Colombia', 'co', 'CO'],
-        'CR': ['Costa Rica', 'cr', 'CR'],
-        'HR': ['Croatia', 'Croacia', 'hr', 'HR'],
-        'DK': ['Denmark', 'Dinamarca', 'dk', 'DK'],
-        'EG': ['Egypt', 'Egipto', 'eg', 'EG'],
-        'AE': ['United Arab Emirates', 'Emiratos Árabes Unidos', 'ae', 'AE'],
-        'ES': ['Spain', 'España', 'es', 'ES'],
-        'US': ['United States', 'Estados Unidos', 'USA', 'us', 'US'],
-        'EE': ['Estonia', 'ee', 'EE'],
-        'PH': ['Philippines', 'Filipinas', 'ph', 'PH'],
-        'FI': ['Finland', 'Finlandia', 'fi', 'FI'],
-        'FR': ['France', 'Francia', 'FR', 'fr'],
-        'GE': ['Georgia', 'ge', 'GE'],
-        'GR': ['Greece', 'Grecia', 'GR', 'gr'],
-        'HU': ['Hungary', 'Hungría', 'hu', 'HU'],
-        'ID': ['Indonesia', 'id', 'ID'],
-        'IE': ['Ireland', 'Irlanda', 'ie', 'IE'],
-        'IS': ['Iceland', 'Islandia', 'is', 'IS'],
-        'IT': ['Italy', 'Italia', 'it', 'IT'],
-        'JP': ['Japan', 'Japón', 'jp', 'JP'],
-        'KZ': ['Kazakhstan', 'Kazajistán', 'kz', 'KZ'],
-        'LV': ['Latvia', 'Letonia', 'lv', 'LV'],
-        'LT': ['Lithuania', 'Lituania', 'lt', 'LT'],
-        'LU': ['Luxembourg', 'Luxemburgo', 'lu', 'LU'],
-        'MY': ['Malaysia', 'Malasia', 'my', 'MY'],
-        'MT': ['Malta', 'mt', 'MT'],
-        'MA': ['Morocco', 'Marruecos', 'ma', 'MA'],
-        'MX': ['Mexico', 'México', 'mx', 'MX'],
-        'NO': ['Norway', 'Noruega', 'no', 'NO'],
-        'NZ': ['New Zealand', 'Nueva Zelanda', 'nz', 'NZ'],
-        'NL': ['Netherlands', 'Países Bajos', 'nl', 'NL'],
-        'PA': ['Panama', 'Panamá', 'pa', 'PA'],
-        'PY': ['Paraguay', 'py', 'PY'],
-        'PE': ['Peru', 'Perú', 'pe', 'PE'],
-        'PL': ['Poland', 'Polonia', 'pl', 'PL'],
-        'PT': ['Portugal', 'PT', 'pt'],
-        'GB': ['United Kingdom', 'Reino Unido', 'gb', 'GB'],
-        'CZ': ['Czech Republic', 'República Checa', 'cz', 'CZ'],
-        'DO': ['Dominican Republic', 'República Dominicana', 'do', 'DO'],
-        'RO': ['Romania', 'Rumanía', 'ro', 'RO'],
-        'SG': ['Singapore', 'Singapur', 'sg', 'SG'],
-        'LK': ['Sri Lanka', 'lk', 'LK'],
-        'SE': ['Sweden', 'Suecia', 'se', 'SE'],
-        'CH': ['Switzerland', 'Suiza', 'ch', 'CH'],
-        'TW': ['Taiwan', 'Taiwán', 'tw', 'TW'],
-        'TH': ['Thailand', 'Tailandia', 'th', 'TH'],
-        'TR': ['Turkey', 'Turquía', 'TR', 'tr'],
-        'UY': ['Uruguay', 'uy', 'UY'],
-        'VN': ['Vietnam', 'vn', 'VN'],
-        'KR': ['South Korea', 'Corea del Sur', 'kr', 'KR'],
-        'EC': ['Ecuador', 'ec', 'EC'],
-        'SK': ['Slovakia', 'Eslovaquia', 'sk', 'SK']
-      };
       
       // Get possible values for this country code or use the value as-is
       const possibleValues = countryCodeToValues[filters.country] || [filters.country];
@@ -161,10 +125,28 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Month filter applied successfully for: ${filters.month}`);
     }
 
+    // THEME FILTER - Must be handled differently due to many-to-many relationship
     if (filters.theme && filters.theme.id) {
       console.log(`🎯 THEME FILTER DEBUG: ${filters.theme.name} (ID: ${filters.theme.id})`);
-      // Filter by single theme using the theme relationship
-      query = query.eq('hotel_themes.theme_id', filters.theme.id);
+      
+      // First get hotel IDs that have this theme
+      const { data: hotelThemes, error: themeError } = await supabase
+        .from('hotel_themes')
+        .select('hotel_id')
+        .eq('theme_id', filters.theme.id);
+      
+      if (themeError) {
+        console.error('Theme filter error:', themeError);
+      } else if (hotelThemes && hotelThemes.length > 0) {
+        const hotelIds = hotelThemes.map(ht => ht.hotel_id);
+        console.log(`   - Found ${hotelIds.length} hotels with this theme`);
+        query = query.in('id', hotelIds);
+      } else {
+        // No hotels found with this theme, return empty results
+        console.log(`   - No hotels found with theme: ${filters.theme.name}`);
+        query = query.eq('id', '00000000-0000-0000-0000-000000000000'); // Non-existent ID
+      }
+      
       console.log(`✅ Theme filter applied successfully for: ${filters.theme.name}`);
     }
 
@@ -189,13 +171,34 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     console.log(`📊 Database returned ${hotels?.length || 0} hotels`);
     
+    // VALIDATION: Log unique countries in results to verify filtering worked
     if (hotels && hotels.length > 0) {
+      const uniqueCountries = [...new Set(hotels.map(h => h.country))];
+      console.log('🌍 Countries in results:', uniqueCountries);
+      
+      if (filters.country && uniqueCountries.length > 0) {
+        const expectedValues = countryCodeToValues[filters.country] || [filters.country];
+        const matchingCountries = uniqueCountries.filter(country => 
+          expectedValues.includes(country)
+        );
+        console.log(`✅ Filter validation - Expected: ${expectedValues.join(', ')}, Found: ${matchingCountries.join(', ')}`);
+        
+        if (matchingCountries.length === 0 && uniqueCountries.length > 0) {
+          console.warn('⚠️ FILTER MISMATCH: No results match the country filter!');
+          console.warn(`   Expected one of: ${expectedValues.join(', ')}`);
+          console.warn(`   But got countries: ${uniqueCountries.join(', ')}`);
+        }
+      }
+      
       console.log('🏨 Sample hotel data structure:', {
         id: hotels[0].id,
         name: hotels[0].name,
+        country: hotels[0].country,
         hotel_themes: hotels[0].hotel_themes,
         hotel_activities: hotels[0].hotel_activities
       });
+    } else if (Object.keys(filters).some(key => filters[key as keyof FilterState] !== null && filters[key as keyof FilterState] !== undefined)) {
+      console.log('ℹ️ No hotels found matching the applied filters - this is expected if no hotels match the criteria');
     }
 
     return hotels || [];

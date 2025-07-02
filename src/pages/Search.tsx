@@ -76,9 +76,10 @@ export default function Search() {
       console.log("🔗 Applying URL filters:", urlFilters);
       const initialFilters = { ...createDefaultFilters(), ...urlFilters };
       console.log("🎯 Final filters being set:", initialFilters);
+      
+      // CRITICAL FIX: Update both state and useHotels in proper sequence
       setActiveFilters(initialFilters);
-      // Also update the useHotels hook
-      updateFilters(initialFilters);
+      updateFilters(urlFilters); // Pass only the URL filters to avoid override
     } else {
       console.log("⚠️ No URL filters found - using default filters");
     }

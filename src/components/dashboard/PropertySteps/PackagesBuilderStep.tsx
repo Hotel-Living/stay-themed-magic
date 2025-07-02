@@ -110,7 +110,7 @@ export default function PackagesBuilderStep({
                 </tr>
               </thead>
               <tbody>
-                {selectedDurations.map((duration: number) => (
+                {selectedDurations.sort((a: number, b: number) => a - b).map((duration: number) => (
                   <tr key={duration} className="border-b border-border/50">
                     <td className="py-3 px-4 font-medium">{duration} nights</td>
                     <td className="py-3 px-4">

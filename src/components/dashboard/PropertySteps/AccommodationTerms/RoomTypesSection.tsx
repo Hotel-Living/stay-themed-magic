@@ -29,14 +29,16 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
   // Validation logic: Valid if description is provided
   React.useEffect(() => {
     const isValid = roomDescription.trim().length > 0;
-    onValidationChange?.(isValid);
+    if (onValidationChange) {
+      onValidationChange(isValid);
+    }
     
     // Update form data
     if (updateFormData) {
       updateFormData('room_description', roomDescription);
       updateFormData('room_images', roomImages);
     }
-  }, [roomDescription, roomImages, onValidationChange, updateFormData]);
+  }, [roomDescription, roomImages]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);

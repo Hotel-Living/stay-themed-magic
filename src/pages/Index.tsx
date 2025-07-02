@@ -34,12 +34,14 @@ export default function Index() {
     atmosphere: null
   });
 
-  // Initialize useHotels hook to prepare for filtering
-  const { updateFilters } = useHotels({ initialFilters: filters });
+  // Don't initialize useHotels hook here since we're just navigating to search
+  // const { updateFilters } = useHotels({ initialFilters: filters });
 
   const handleFilterChange = (newFilters: FilterState) => {
+    console.log("🔄 Index page filter change:", newFilters);
     setFilters(newFilters);
-    updateFilters(newFilters);
+    // Note: We don't need to update any hotel results here since the Index page doesn't show results
+    // The FilterSectionWrapper handles navigation to /search with proper parameters
   };
 
   const handleIntroComplete = () => {

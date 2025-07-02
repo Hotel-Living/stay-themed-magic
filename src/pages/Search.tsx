@@ -11,6 +11,7 @@ import { createDefaultFilters } from "@/utils/filterUtils";
 
 export default function Search() {
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
+  
   const {
     hotels,
     loading,
@@ -19,6 +20,39 @@ export default function Search() {
   } = useHotels({
     initialFilters: activeFilters
   });
+  
+  // Parse URL parameters on component mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlFilters: Partial<FilterState> = {};
+    
+    // Extract filters from URL
+    const country = urlParams.get('country');
+    const month = urlParams.get('month');
+    const theme = urlParams.get('theme');
+    const price = urlParams.get('price');
+    const location = urlParams.get('location');
+    const propertyType = urlParams.get('propertyType');
+    
+    if (country) urlFilters.country = country;
+    if (month) urlFilters.month = month;
+    if (theme) urlFilters.theme = { id: theme, name: theme, level: 1 };
+    if (price) {
+      const priceNum = parseInt(price);
+      urlFilters.maxPrice = priceNum;
+    }
+    if (location) urlFilters.location = location;
+    if (propertyType) urlFilters.propertyType = propertyType;
+    
+    // Update filters if we have any from URL
+    if (Object.keys(urlFilters).length > 0) {
+      console.log("🔗 Applying URL filters:", urlFilters);
+      const initialFilters = { ...createDefaultFilters(), ...urlFilters };
+      setActiveFilters(initialFilters);
+      // Also update the useHotels hook
+      updateFilters(initialFilters);
+    }
+  }, []); // Empty dependency array to run only once on mount
 
   const handleFilterChange = (key: keyof FilterState, value: any) => {
     const newFilters = {

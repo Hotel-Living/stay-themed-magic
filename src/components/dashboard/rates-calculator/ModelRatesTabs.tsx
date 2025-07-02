@@ -61,66 +61,66 @@ export const ModelRatesTabs: React.FC = () => {
       }}>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              1️⃣ DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
+              {t('dashboard.ratesCalculator.readThisContent.question1')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Most hotels have certain periods during the year when demand drops significantly, leading to partial or full closures. By adopting a flexible living model, you can keep rooms filled during these low seasons, stabilizing income and improving operational efficiency year-round.
+              {t('dashboard.ratesCalculator.readThisContent.answer1')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              2️⃣ NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
+              {t('dashboard.ratesCalculator.readThisContent.question2')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business's unique seasonality and potential.
+              {t('dashboard.ratesCalculator.readThisContent.answer2')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              3️⃣ BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
+              {t('dashboard.ratesCalculator.readThisContent.question3')}
             </div>
             <div className="text-white/80 text-[15px]">
-              The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that "living" guests fill gaps left by transient guests without undermining your regular pricing.
+              {t('dashboard.ratesCalculator.readThisContent.answer3')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              4️⃣ USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
+              {t('dashboard.ratesCalculator.readThisContent.question4')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see "Themes" section).
+              {t('dashboard.ratesCalculator.readThisContent.answer4')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2 bg-[#5d14ac]">
-              5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
+              {t('dashboard.ratesCalculator.readThisContent.question5')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., "9 nights per month club"—to optimize for higher volume and guest experience.
+              {t('dashboard.ratesCalculator.readThisContent.answer5')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              6️⃣ LEVERAGE BOUTIQUE CONCEPTS FOR SMALL HIGH-END HOTELS
+              {t('dashboard.ratesCalculator.readThisContent.question6')}
             </div>
             <div className="text-white/80 text-[15px]">
-              If you manage a boutique or luxury hotel, design tailored experiences (wellness, culture, business retreats) with premium rates. These can be highly attractive to remote professionals or guests seeking exclusivity and added value.
+              {t('dashboard.ratesCalculator.readThisContent.answer6')}
             </div>
           </div>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
-              7️⃣ APPLY VOLUME LOGIC FOR LARGER HOTELS
+              {t('dashboard.ratesCalculator.readThisContent.question7')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Larger properties can tap into "living at scale" logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
+              {t('dashboard.ratesCalculator.readThisContent.answer7')}
             </div>
           </div>
           <div>
             <div className="font-bold text-white text-base mb-2">
-              8️⃣ UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
+              {t('dashboard.ratesCalculator.readThisContent.question8')}
             </div>
             <div className="text-white/80 text-[15px]">
-              Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests "home" status. This increases loyalty and can transform your hotel's business model in a predictable, positive way.
+              {t('dashboard.ratesCalculator.readThisContent.answer8')}
             </div>
           </div>
         </div>

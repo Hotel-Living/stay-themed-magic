@@ -1,4 +1,3 @@
-
 {
   "filters": {
     "pricePerMonth": "PRECIO POR MES",
@@ -50,7 +49,7 @@
       "resort": "Resort",
       "boutiqueHotel": "Hotel Boutique",
       "countryHouse": "Casa Rural",
-      "roadsideMotel": "Hotel de carretera"
+      "roadsideMotel": "Hostal"
     },
     "propertyStyles": {
       "classic": "Clásico",

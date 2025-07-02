@@ -4,7 +4,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyStyleFilterENProps {
   activePropertyStyle: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function PropertyStyleFilterEN({ activePropertyStyle, onChange }: PropertyStyleFilterENProps) {

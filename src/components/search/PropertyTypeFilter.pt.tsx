@@ -4,7 +4,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyTypeFilterPTProps {
   activePropertyType: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function PropertyTypeFilterPT({ activePropertyType, onChange }: PropertyTypeFilterPTProps) {

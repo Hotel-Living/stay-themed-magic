@@ -124,33 +124,42 @@ export default function Search() {
     };
     
     // Special handling for price range - convert to minPrice/maxPrice
-    if (key === 'priceRange' && typeof value === 'number') {
-      let minPrice = 0;
-      let maxPrice = value;
-      
-      if (value === 1000) {
-        // "Up to $1,000"
-        minPrice = 0;
-        maxPrice = 1000;
-      } else if (value === 1500) {
-        // "$1,000 - $1,500"
-        minPrice = 1000;
-        maxPrice = 1500;
-      } else if (value === 2000) {
-        // "$1,500 - $2,000"
-        minPrice = 1500;
-        maxPrice = 2000;
-      } else if (value === 3000) {
-        // "More than $2,000"
-        minPrice = 2000;
-        maxPrice = 999999;
+    if (key === 'priceRange') {
+      if (typeof value === 'number') {
+        let minPrice = 0;
+        let maxPrice = value;
+        
+        if (value === 1000) {
+          // "Up to $1,000"
+          minPrice = 0;
+          maxPrice = 1000;
+        } else if (value === 1500) {
+          // "$1,000 - $1,500"
+          minPrice = 1000;
+          maxPrice = 1500;
+        } else if (value === 2000) {
+          // "$1,500 - $2,000"
+          minPrice = 1500;
+          maxPrice = 2000;
+        } else if (value === 3000) {
+          // "More than $2,000"
+          minPrice = 2000;
+          maxPrice = 999999;
+        }
+        
+        // Set both minPrice and maxPrice for proper filtering
+        newFilters.minPrice = minPrice;
+        newFilters.maxPrice = maxPrice;
+        
+        console.log(`💰 Price range selected on Search page: ${minPrice} - ${maxPrice}`);
+      } else if (value === null) {
+        // Clear price filters when deselected
+        newFilters.minPrice = undefined;
+        newFilters.maxPrice = undefined;
+        newFilters.priceRange = null;
+        
+        console.log(`💰 Price range deselected - clearing price filters`);
       }
-      
-      // Set both minPrice and maxPrice for proper filtering
-      newFilters.minPrice = minPrice;
-      newFilters.maxPrice = maxPrice;
-      
-      console.log(`💰 Price range selected on Search page: ${minPrice} - ${maxPrice}`);
     }
     
     setActiveFilters(newFilters);

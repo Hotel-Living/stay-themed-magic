@@ -121,9 +121,16 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (filters.month) {
       console.log(`🗓️ MONTH FILTER DEBUG: ${filters.month}`);
-      console.log(`🗓️ DATABASE QUERY: Filtering hotels with available_months containing '${filters.month}'`);
-      query = query.contains('available_months', [filters.month]);
-      console.log(`✅ Month filter applied successfully for: ${filters.month}`);
+      
+      // Handle both lowercase and capitalized month values (e.g., "january" and "January")
+      const capitalizedMonth = filters.month.charAt(0).toUpperCase() + filters.month.slice(1);
+      
+      console.log(`🗓️ DATABASE QUERY: Filtering hotels with available_months containing '${filters.month}' OR '${capitalizedMonth}'`);
+      
+      // Use OR condition to match either lowercase or capitalized month
+      query = query.or(`available_months.cs.{${filters.month}},available_months.cs.{${capitalizedMonth}}`);
+      
+      console.log(`✅ Month filter applied successfully for: ${filters.month} (checking both cases)`);
     }
 
     // THEME FILTER - Must be handled differently due to many-to-many relationship

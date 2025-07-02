@@ -54,7 +54,7 @@ const StayDurationSection: React.FC<StayDurationSectionProps> = ({
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
           <div className="space-y-4">
-            <p className="text-gray-300">Choose one fixed duration for all availability packages:</p>
+            <p className="text-gray-300">Select one or more stay durations for your availability packages:</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {durationOptions.map((option) => (

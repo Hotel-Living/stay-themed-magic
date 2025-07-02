@@ -170,6 +170,28 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Max price filter applied successfully: <= ${filters.maxPrice}`);
     }
 
+    // STAY LENGTH FILTER - Convert day values to night values for database comparison
+    if (filters.stayLengths) {
+      console.log(`⏱️ STAY LENGTH FILTER DEBUG: ${filters.stayLengths}`);
+      
+      // Map user-facing day values to database night values
+      const dayToNightMap: Record<string, number> = {
+        '8 days': 8,    // 8 days = 8 nights (special case)
+        '15 days': 16,  // 15 days = 16 nights (old values)  
+        '22 days': 24,  // 22 days = 24 nights (old values)
+        '29 days': 32   // 29 days = 32 nights (old values)
+      };
+      
+      const nightValue = dayToNightMap[filters.stayLengths];
+      if (nightValue) {
+        console.log(`   - Converting "${filters.stayLengths}" to ${nightValue} nights for database query`);
+        query = query.contains('stay_lengths', [nightValue]);
+        console.log(`✅ Stay length filter applied successfully: ${filters.stayLengths} -> ${nightValue} nights`);
+      } else {
+        console.warn(`⚠️ Unknown stay length value: ${filters.stayLengths}`);
+      }
+    }
+
     const { data: hotels, error } = await query;
 
     if (error) {

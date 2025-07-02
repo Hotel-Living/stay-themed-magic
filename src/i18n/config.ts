@@ -65,6 +65,7 @@ import esFooter from './locales/es/footer.json';
 import esHotels from './locales/es/hotels.json';
 import esDashboardGeneral from './locales/es/dashboard/general.json';
 import esDashboardCommon from './locales/es/dashboard/common.json';
+import esDashboardAccommodation from './locales/es/dashboard/accommodation.json';
 import esAdvertising from './locales/es/dashboard/advertising.json';
 
 // Portuguese translations
@@ -88,6 +89,7 @@ import ptFooter from './locales/pt/footer.json';
 import ptHotels from './locales/pt/hotels.json';
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
+import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 
 // Romanian translations
@@ -111,6 +113,7 @@ import roFooter from './locales/ro/footer.json';
 import roHotels from './locales/ro/hotels.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
+import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
 
 const resources = {
   en: {
@@ -137,7 +140,6 @@ const resources = {
         ...enDashboardGeneral.dashboard,
         ...enDashboardWelcome.dashboard.welcome,
         ...enDashboardStats.dashboard.stats,
-        ...enDashboardAccommodation.dashboard.accommodation,
         ...enDashboardLocation.dashboard.location,
         ...enDashboardPricing.dashboard.pricing,
         ...enDashboardImages.dashboard.images,
@@ -151,6 +153,9 @@ const resources = {
         ...enDashboardPropertySteps.dashboard,
         ...enDashboardPropertyForm.dashboard,
         ...enDashboardCommon.dashboard,
+        accommodation: {
+          ...enDashboardAccommodation.dashboard.accommodation,
+        },
         ratesCalculator: {
           ...enRatesCalculator.ratesCalculator,
         },
@@ -190,6 +195,9 @@ const resources = {
       dashboard: {
         ...esDashboardGeneral.dashboard,
         ...esDashboardCommon.dashboard,
+        accommodation: {
+          ...esDashboardAccommodation.dashboard,
+        },
       },
       advertising: {
         ...esAdvertising.advertising,
@@ -219,6 +227,9 @@ const resources = {
       dashboard: {
         ...ptDashboardGeneral.dashboard,
         ...ptDashboardCommon.dashboard,
+        accommodation: {
+          ...ptDashboardAccommodation.dashboard,
+        },
       },
       advertising: {
         ...ptAdvertising.advertising,
@@ -248,6 +259,9 @@ const resources = {
       dashboard: {
         ...roDashboardGeneral.dashboard,
         ...roDashboardCommon.dashboard,
+        accommodation: {
+          ...roDashboardAccommodation.dashboard,
+        },
       },
     },
   },

@@ -26,6 +26,10 @@
     "thursday": "Jueves",
     "friday": "Viernes",
     "saturday": "Sábado",
-    "sunday": "Domingo"
+    "sunday": "Domingo",
+    "doubleRoomsCanBeSingle": "Habitaciones dobles que también se pueden usar como individuales",
+    "roomPhotos": "Fotos de la habitación",
+    "roomDescription": "Descripción de la habitación",
+    "roomDescriptionPlaceholder": "Describe las características de la habitación, amenities y lo que los huéspedes pueden esperar"
   }
 }

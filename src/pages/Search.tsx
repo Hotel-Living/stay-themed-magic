@@ -11,6 +11,7 @@ import { createDefaultFilters } from "@/utils/filterUtils";
 
 export default function Search() {
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
   
   const {
     hotels,
@@ -18,7 +19,7 @@ export default function Search() {
     error,
     updateFilters
   } = useHotels({
-    initialFilters: activeFilters
+    initialFilters: filtersInitialized ? activeFilters : undefined
   });
   
   // Parse URL parameters on component mount
@@ -77,11 +78,13 @@ export default function Search() {
       const initialFilters = { ...createDefaultFilters(), ...urlFilters };
       console.log("🎯 Final filters being set:", initialFilters);
       
-      // CRITICAL FIX: Update both state and useHotels in proper sequence
+      // CRITICAL FIX: Set filters first, then mark as initialized to prevent race condition
       setActiveFilters(initialFilters);
+      setFiltersInitialized(true);
       updateFilters(urlFilters); // Pass only the URL filters to avoid override
     } else {
       console.log("⚠️ No URL filters found - using default filters");
+      setFiltersInitialized(true);
     }
   }, []); // Empty dependency array to run only once on mount
 

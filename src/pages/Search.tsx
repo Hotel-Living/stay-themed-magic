@@ -114,10 +114,41 @@ export default function Search() {
   }, []); // Empty dependency array to run only once on mount
 
   const handleFilterChange = (key: keyof FilterState, value: any) => {
-    const newFilters = {
+    let newFilters = {
       ...activeFilters,
       [key]: value
     };
+    
+    // Special handling for price range - convert to minPrice/maxPrice
+    if (key === 'priceRange' && typeof value === 'number') {
+      let minPrice = 0;
+      let maxPrice = value;
+      
+      if (value === 1000) {
+        // "Up to $1,000"
+        minPrice = 0;
+        maxPrice = 1000;
+      } else if (value === 1500) {
+        // "$1,000 - $1,500"
+        minPrice = 1000;
+        maxPrice = 1500;
+      } else if (value === 2000) {
+        // "$1,500 - $2,000"
+        minPrice = 1500;
+        maxPrice = 2000;
+      } else if (value === 3000) {
+        // "More than $2,000"
+        minPrice = 2000;
+        maxPrice = 999999;
+      }
+      
+      // Set both minPrice and maxPrice for proper filtering
+      newFilters.minPrice = minPrice;
+      newFilters.maxPrice = maxPrice;
+      
+      console.log(`💰 Price range selected on Search page: ${minPrice} - ${maxPrice}`);
+    }
+    
     setActiveFilters(newFilters);
     updateFilters(newFilters);
   };

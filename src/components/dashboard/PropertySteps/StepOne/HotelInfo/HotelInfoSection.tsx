@@ -100,10 +100,11 @@ export default function HotelInfoSection({
           >
             <option value="">{t('dashboard.selectPropertyStyle')}</option>
             <option value="classic">{t('dashboard.propertyStyles.classic')}</option>
-            <option value="classic-elegant">{t('dashboard.propertyStyles.classicElegant')}</option>
+            <option value="classicElegant">{t('dashboard.propertyStyles.classicElegant')}</option>
             <option value="modern">{t('dashboard.propertyStyles.modern')}</option>
             <option value="fusion">{t('dashboard.propertyStyles.fusion')}</option>
             <option value="urban">{t('dashboard.propertyStyles.urban')}</option>
+            <option value="rural">{t('dashboard.propertyStyles.rural')}</option>
             <option value="minimalist">{t('dashboard.propertyStyles.minimalist')}</option>
             <option value="luxury">{t('dashboard.propertyStyles.luxury')}</option>
           </select>

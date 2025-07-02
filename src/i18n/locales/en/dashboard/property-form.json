@@ -29,6 +29,18 @@
         "submitFailed": "Failed to submit property information",
         "loadFailed": "Failed to load property data",
         "saveFailed": "Failed to save changes"
+      },
+      "selectPropertyStyle": "Select Property Style",
+      "styleOfProperty": "STYLE OF PROPERTY",
+      "propertyStyles": {
+        "classic": "Classic",
+        "classicElegant": "Classic Elegant",
+        "modern": "Modern",
+        "fusion": "Fusion",
+        "urban": "Urban",
+        "rural": "Rural",
+        "minimalist": "Minimalist",
+        "luxury": "Luxury"
       }
     }
   }

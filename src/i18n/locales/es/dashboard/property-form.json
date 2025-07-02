@@ -32,10 +32,11 @@
     "defineRoomTypesStayDurations": "Por favor, defina los tipos de habitación, duraciones de estancia y regímenes de comidas en el Paso 3 antes de establecer precios.",
     "propertyStyles": {
       "classic": "Clásico",
-      "classicElegant": "Clásico elegante",
+      "classicElegant": "Clásico Elegante",
       "modern": "Moderno",
       "fusion": "Fusión",
       "urban": "Urbano",
+      "rural": "Rural",
       "minimalist": "Minimalista",
       "luxury": "Lujo"
     }

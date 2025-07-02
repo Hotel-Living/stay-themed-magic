@@ -32,10 +32,11 @@
     "defineRoomTypesStayDurations": "Por favor, defina os tipos de quarto, durações de estadia e regimes de refeições na Etapa 3 antes de estabelecer preços.",
     "propertyStyles": {
       "classic": "Clássico",
-      "classicElegant": "Clássico elegante",
+      "classicElegant": "Clássico Elegante",
       "modern": "Moderno",
       "fusion": "Fusão",
       "urban": "Urbano",
+      "rural": "Rural",
       "minimalist": "Minimalista",
       "luxury": "Luxo"
     }

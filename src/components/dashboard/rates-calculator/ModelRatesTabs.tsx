@@ -380,13 +380,13 @@ export const ModelRatesTabs: React.FC = () => {
       }}>
           <div>
             <p className="mb-3">
-              Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
+              {t('dashboard.ratesCalculator.downloadContent.description')}
             </p>
             <a href="#" className="inline-block px-5 py-2 font-semibold bg-fuchsia-600 hover:bg-fuchsia-700 transition rounded text-white shadow" target="_blank" rel="noopener noreferrer" tabIndex={0}>
-              Download Excel Calculator
+              {t('dashboard.ratesCalculator.downloadContent.buttonText')}
             </a>
             <p className="mt-2 text-xs text-fuchsia-200 opacity-80">
-              Contact us if you need a different format or support customizing your template.
+              {t('dashboard.ratesCalculator.downloadContent.supportText')}
             </p>
           </div>
         </div>

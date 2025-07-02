@@ -32,11 +32,11 @@ export function PasswordField({
   
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium text-white">
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
         {label}
       </label>
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
           <Lock className="h-5 w-5" />
         </div>
         <input
@@ -47,12 +47,12 @@ export function PasswordField({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
-          className={`w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors ${inputClassName}`}
+          className={`w-full rounded-lg py-2 pl-10 pr-12 text-foreground placeholder-muted-foreground bg-background border border-input focus:border-ring focus:ring-0 transition-colors ${inputClassName}`}
         />
         <button
           type="button"
           onClick={toggleShowPassword}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-white hover:text-white/80"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground"
         >
           {showPassword ? (
             <EyeOff className="h-5 w-5" />

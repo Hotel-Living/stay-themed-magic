@@ -8,7 +8,7 @@ export function SubmitButton({
   loadingText,
   text
 }: SubmitButtonProps) {
-  return <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-70 mt-3 bg-[#5d0083] text-base">
+  return <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg bg-primary text-primary-foreground font-medium transition-colors disabled:opacity-70 mt-3 text-base hover:bg-primary/90">
       {isLoading ? loadingText : text}
     </button>;
 }

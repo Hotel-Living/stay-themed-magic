@@ -5,8 +5,11 @@ import { PropertyFormData } from "../usePropertyFormData";
 export const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
   console.log("Creating new hotel with data:", formData);
   
+  // Since this function is only called from authenticated hotel dashboard pages,
+  // userId should always be available. If not, it's a development error.
   if (!userId) {
-    throw new Error("User must be authenticated to create a hotel");
+    console.error("createNewHotel called without userId - this should not happen in production");
+    throw new Error("Authentication required");
   }
 
   // Convert the stay lengths from an array of numbers to a PostgreSQL array

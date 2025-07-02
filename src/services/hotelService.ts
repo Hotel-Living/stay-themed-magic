@@ -78,26 +78,29 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (filters.country) {
       // Map country codes to actual values stored in the database
-      // Complete list of 47 countries with all possible database formats
+      // Complete list of 60 countries with all possible database formats
       const countryCodeToValues: Record<string, string[]> = {
-        'AR': ['Argentina', 'ar'],
         'DE': ['Germany', 'Alemania', 'de'],
+        'AR': ['Argentina', 'ar'],
         'AU': ['Australia', 'au'],
         'AT': ['Austria', 'at'],
         'BE': ['Belgium', 'Bélgica', 'be'],
         'BR': ['Brazil', 'Brasil', 'br'],
+        'BG': ['Bulgaria', 'bg'],
         'CA': ['Canada', 'Canadá', 'ca'],
         'CO': ['Colombia', 'co'],
         'CR': ['Costa Rica', 'cr'],
         'HR': ['Croatia', 'Croacia', 'hr'],
         'DK': ['Denmark', 'Dinamarca', 'dk'],
         'EG': ['Egypt', 'Egipto', 'eg'],
+        'AE': ['United Arab Emirates', 'Emiratos Árabes Unidos', 'ae'],
         'ES': ['Spain', 'España', 'es'],
         'US': ['United States', 'Estados Unidos', 'USA', 'us'],
         'EE': ['Estonia', 'ee'],
         'PH': ['Philippines', 'Filipinas', 'ph'],
         'FI': ['Finland', 'Finlandia', 'fi'],
         'FR': ['France', 'Francia', 'FR', 'fr'],
+        'GE': ['Georgia', 'ge'],
         'GR': ['Greece', 'Grecia', 'GR', 'gr'],
         'HU': ['Hungary', 'Hungría', 'hu'],
         'ID': ['Indonesia', 'id'],
@@ -105,28 +108,38 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         'IS': ['Iceland', 'Islandia', 'is'],
         'IT': ['Italy', 'Italia', 'it'],
         'JP': ['Japan', 'Japón', 'jp'],
+        'KZ': ['Kazakhstan', 'Kazajistán', 'kz'],
+        'LV': ['Latvia', 'Letonia', 'lv'],
+        'LT': ['Lithuania', 'Lituania', 'lt'],
         'LU': ['Luxembourg', 'Luxemburgo', 'lu'],
-        'MY': ['Malaysia', 'my'],
+        'MY': ['Malaysia', 'Malasia', 'my'],
         'MT': ['Malta', 'mt'],
         'MA': ['Morocco', 'Marruecos', 'ma'],
         'MX': ['Mexico', 'México', 'mx'],
         'NO': ['Norway', 'Noruega', 'no'],
         'NZ': ['New Zealand', 'Nueva Zelanda', 'nz'],
         'NL': ['Netherlands', 'Países Bajos', 'nl'],
+        'PA': ['Panama', 'Panamá', 'pa'],
+        'PY': ['Paraguay', 'py'],
+        'PE': ['Peru', 'Perú', 'pe'],
         'PL': ['Poland', 'Polonia', 'pl'],
         'PT': ['Portugal', 'PT', 'pt'],
         'GB': ['United Kingdom', 'Reino Unido', 'gb'],
         'CZ': ['Czech Republic', 'República Checa', 'cz'],
+        'DO': ['Dominican Republic', 'República Dominicana', 'do'],
         'RO': ['Romania', 'Rumanía', 'ro'],
+        'SG': ['Singapore', 'Singapur', 'sg'],
         'LK': ['Sri Lanka', 'lk'],
-        'ZA': ['South Africa', 'Sudáfrica', 'za'],
         'SE': ['Sweden', 'Suecia', 'se'],
         'CH': ['Switzerland', 'Suiza', 'ch'],
+        'TW': ['Taiwan', 'Taiwán', 'tw'],
         'TH': ['Thailand', 'Tailandia', 'th'],
         'TR': ['Turkey', 'Turquía', 'TR', 'tr'],
         'UY': ['Uruguay', 'uy'],
         'VN': ['Vietnam', 'vn'],
-        'KR': ['South Korea', 'Corea del Sur', 'kr']
+        'KR': ['South Korea', 'Corea del Sur', 'kr'],
+        'EC': ['Ecuador', 'ec'],
+        'SK': ['Slovakia', 'Eslovaquia', 'sk']
       };
       
       // Get possible values for this country code
@@ -136,6 +149,9 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       
       // Use OR condition to match any of the possible values
       query = query.or(possibleValues.map(value => `country.eq.${value}`).join(','));
+      
+      // Add verification log for the user to see results
+      console.log(`📊 Running country filter verification for: ${filters.country}`);
     }
 
     if (filters.month) {

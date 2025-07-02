@@ -10,27 +10,30 @@ interface CountryFilterESProps {
 export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProps) {
   const { countries, loading, error } = useFilterData();
   
-  // Spanish translations for all 47 countries
+  // Spanish translations for all 60 countries
   const getSpanishCountryName = (countryCode: string): string => {
     const translations: Record<string, string> = {
-      'AR': 'Argentina',
       'DE': 'Alemania',
+      'AR': 'Argentina',
       'AU': 'Australia',
       'AT': 'Austria',
       'BE': 'Bélgica',
       'BR': 'Brasil',
+      'BG': 'Bulgaria',
       'CA': 'Canadá',
       'CO': 'Colombia',
       'CR': 'Costa Rica',
       'HR': 'Croacia',
       'DK': 'Dinamarca',
       'EG': 'Egipto',
+      'AE': 'Emiratos Árabes Unidos',
       'ES': 'España',
       'US': 'Estados Unidos',
       'EE': 'Estonia',
       'PH': 'Filipinas',
       'FI': 'Finlandia',
       'FR': 'Francia',
+      'GE': 'Georgia',
       'GR': 'Grecia',
       'HU': 'Hungría',
       'ID': 'Indonesia',
@@ -38,6 +41,9 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'IS': 'Islandia',
       'IT': 'Italia',
       'JP': 'Japón',
+      'KZ': 'Kazajistán',
+      'LV': 'Letonia',
+      'LT': 'Lituania',
       'LU': 'Luxemburgo',
       'MY': 'Malasia',
       'MT': 'Malta',
@@ -46,20 +52,27 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'NO': 'Noruega',
       'NZ': 'Nueva Zelanda',
       'NL': 'Países Bajos',
+      'PA': 'Panamá',
+      'PY': 'Paraguay',
+      'PE': 'Perú',
       'PL': 'Polonia',
       'PT': 'Portugal',
       'GB': 'Reino Unido',
       'CZ': 'República Checa',
+      'DO': 'República Dominicana',
       'RO': 'Rumanía',
+      'SG': 'Singapur',
       'LK': 'Sri Lanka',
-      'ZA': 'Sudáfrica',
       'SE': 'Suecia',
       'CH': 'Suiza',
+      'TW': 'Taiwán',
       'TH': 'Tailandia',
       'TR': 'Turquía',
       'UY': 'Uruguay',
       'VN': 'Vietnam',
-      'KR': 'Corea del Sur'
+      'KR': 'Corea del Sur',
+      'EC': 'Ecuador',
+      'SK': 'Eslovaquia'
     };
     return translations[countryCode] || countryCode;
   };

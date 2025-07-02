@@ -41,22 +41,54 @@ export function FilterSectionWrapper({
   };
 
   const handleSearch = () => {
+    console.log('🚀 SEARCH INITIATED FROM INDEX PAGE');
+    console.log('📋 Current active filters:', activeFilters);
+    
     const params = new URLSearchParams();
-    if (activeFilters.country) params.append("country", activeFilters.country);
-    if (activeFilters.month) params.append("month", activeFilters.month);
-    if (activeFilters.theme && activeFilters.theme.id) params.append("theme", activeFilters.theme.id);
+    
+    if (activeFilters.country) {
+      params.append("country", activeFilters.country);
+      console.log(`🌍 Adding country to URL: ${activeFilters.country}`);
+    }
+    
+    if (activeFilters.month) {
+      params.append("month", activeFilters.month);
+      console.log(`🗓️ Adding month to URL: ${activeFilters.month}`);
+    }
+    
+    if (activeFilters.theme && activeFilters.theme.id) {
+      params.append("theme", activeFilters.theme.id);
+      console.log(`🎯 Adding theme to URL: ${activeFilters.theme.name} (ID: ${activeFilters.theme.id})`);
+    }
+    
     if (activeFilters.priceRange) {
       if (typeof activeFilters.priceRange === 'number') {
         params.append("price", activeFilters.priceRange.toString());
+        console.log(`💰 Adding price to URL: ${activeFilters.priceRange}`);
       } else if (activeFilters.priceRange && typeof activeFilters.priceRange === 'object' && 'max' in activeFilters.priceRange) {
-        params.append("price", activeFilters.priceRange.max?.toString() || '');
+        const maxPrice = activeFilters.priceRange.max?.toString() || '';
+        if (maxPrice) {
+          params.append("price", maxPrice);
+          console.log(`💰 Adding max price to URL: ${maxPrice}`);
+        }
       }
     }
-    if (activeFilters.location) params.append("location", activeFilters.location);
-    if (activeFilters.propertyType) params.append("propertyType", activeFilters.propertyType);
     
+    if (activeFilters.location) {
+      params.append("location", activeFilters.location);
+      console.log(`📍 Adding location to URL: ${activeFilters.location}`);
+    }
+    
+    if (activeFilters.propertyType) {
+      params.append("propertyType", activeFilters.propertyType);
+      console.log(`🏨 Adding property type to URL: ${activeFilters.propertyType}`);
+    }
+    
+    const finalUrl = `/search?${params.toString()}`;
+    console.log(`🔗 Navigating to: ${finalUrl}`);
     console.log("Search with filters:", activeFilters);
-    navigate(`/search?${params.toString()}`);
+    
+    navigate(finalUrl);
   };
 
   const getPlaceholders = () => {

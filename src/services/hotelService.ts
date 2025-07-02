@@ -77,98 +77,107 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       .eq('status', 'approved');
 
     if (filters.country) {
-      // Map country codes to actual values stored in the database
-      // Complete list of 60 countries with all possible database formats
+      // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values
       const countryCodeToValues: Record<string, string[]> = {
-        'DE': ['Germany', 'Alemania', 'de'],
-        'AR': ['Argentina', 'ar'],
-        'AU': ['Australia', 'au'],
-        'AT': ['Austria', 'at'],
-        'BE': ['Belgium', 'Bélgica', 'be'],
-        'BR': ['Brazil', 'Brasil', 'br'],
-        'BG': ['Bulgaria', 'bg'],
-        'CA': ['Canada', 'Canadá', 'ca'],
-        'CO': ['Colombia', 'co'],
-        'CR': ['Costa Rica', 'cr'],
-        'HR': ['Croatia', 'Croacia', 'hr'],
-        'DK': ['Denmark', 'Dinamarca', 'dk'],
-        'EG': ['Egypt', 'Egipto', 'eg'],
-        'AE': ['United Arab Emirates', 'Emiratos Árabes Unidos', 'ae'],
-        'ES': ['Spain', 'España', 'es'],
-        'US': ['United States', 'Estados Unidos', 'USA', 'us'],
-        'EE': ['Estonia', 'ee'],
-        'PH': ['Philippines', 'Filipinas', 'ph'],
-        'FI': ['Finland', 'Finlandia', 'fi'],
+        'DE': ['Germany', 'Alemania', 'de', 'DE'],
+        'AR': ['Argentina', 'ar', 'AR'],
+        'AU': ['Australia', 'au', 'AU'],
+        'AT': ['Austria', 'at', 'AT'],
+        'BE': ['Belgium', 'Bélgica', 'be', 'BE'],
+        'BR': ['Brazil', 'Brasil', 'br', 'BR'],
+        'BG': ['Bulgaria', 'bg', 'BG'],
+        'CA': ['Canada', 'Canadá', 'ca', 'CA'],
+        'CO': ['Colombia', 'co', 'CO'],
+        'CR': ['Costa Rica', 'cr', 'CR'],
+        'HR': ['Croatia', 'Croacia', 'hr', 'HR'],
+        'DK': ['Denmark', 'Dinamarca', 'dk', 'DK'],
+        'EG': ['Egypt', 'Egipto', 'eg', 'EG'],
+        'AE': ['United Arab Emirates', 'Emiratos Árabes Unidos', 'ae', 'AE'],
+        'ES': ['Spain', 'España', 'es', 'ES'],
+        'US': ['United States', 'Estados Unidos', 'USA', 'us', 'US'],
+        'EE': ['Estonia', 'ee', 'EE'],
+        'PH': ['Philippines', 'Filipinas', 'ph', 'PH'],
+        'FI': ['Finland', 'Finlandia', 'fi', 'FI'],
         'FR': ['France', 'Francia', 'FR', 'fr'],
-        'GE': ['Georgia', 'ge'],
+        'GE': ['Georgia', 'ge', 'GE'],
         'GR': ['Greece', 'Grecia', 'GR', 'gr'],
-        'HU': ['Hungary', 'Hungría', 'hu'],
-        'ID': ['Indonesia', 'id'],
-        'IE': ['Ireland', 'Irlanda', 'ie'],
-        'IS': ['Iceland', 'Islandia', 'is'],
-        'IT': ['Italy', 'Italia', 'it'],
-        'JP': ['Japan', 'Japón', 'jp'],
-        'KZ': ['Kazakhstan', 'Kazajistán', 'kz'],
-        'LV': ['Latvia', 'Letonia', 'lv'],
-        'LT': ['Lithuania', 'Lituania', 'lt'],
-        'LU': ['Luxembourg', 'Luxemburgo', 'lu'],
-        'MY': ['Malaysia', 'Malasia', 'my'],
-        'MT': ['Malta', 'mt'],
-        'MA': ['Morocco', 'Marruecos', 'ma'],
-        'MX': ['Mexico', 'México', 'mx'],
-        'NO': ['Norway', 'Noruega', 'no'],
-        'NZ': ['New Zealand', 'Nueva Zelanda', 'nz'],
-        'NL': ['Netherlands', 'Países Bajos', 'nl'],
-        'PA': ['Panama', 'Panamá', 'pa'],
-        'PY': ['Paraguay', 'py'],
-        'PE': ['Peru', 'Perú', 'pe'],
-        'PL': ['Poland', 'Polonia', 'pl'],
+        'HU': ['Hungary', 'Hungría', 'hu', 'HU'],
+        'ID': ['Indonesia', 'id', 'ID'],
+        'IE': ['Ireland', 'Irlanda', 'ie', 'IE'],
+        'IS': ['Iceland', 'Islandia', 'is', 'IS'],
+        'IT': ['Italy', 'Italia', 'it', 'IT'],
+        'JP': ['Japan', 'Japón', 'jp', 'JP'],
+        'KZ': ['Kazakhstan', 'Kazajistán', 'kz', 'KZ'],
+        'LV': ['Latvia', 'Letonia', 'lv', 'LV'],
+        'LT': ['Lithuania', 'Lituania', 'lt', 'LT'],
+        'LU': ['Luxembourg', 'Luxemburgo', 'lu', 'LU'],
+        'MY': ['Malaysia', 'Malasia', 'my', 'MY'],
+        'MT': ['Malta', 'mt', 'MT'],
+        'MA': ['Morocco', 'Marruecos', 'ma', 'MA'],
+        'MX': ['Mexico', 'México', 'mx', 'MX'],
+        'NO': ['Norway', 'Noruega', 'no', 'NO'],
+        'NZ': ['New Zealand', 'Nueva Zelanda', 'nz', 'NZ'],
+        'NL': ['Netherlands', 'Países Bajos', 'nl', 'NL'],
+        'PA': ['Panama', 'Panamá', 'pa', 'PA'],
+        'PY': ['Paraguay', 'py', 'PY'],
+        'PE': ['Peru', 'Perú', 'pe', 'PE'],
+        'PL': ['Poland', 'Polonia', 'pl', 'PL'],
         'PT': ['Portugal', 'PT', 'pt'],
-        'GB': ['United Kingdom', 'Reino Unido', 'gb'],
-        'CZ': ['Czech Republic', 'República Checa', 'cz'],
-        'DO': ['Dominican Republic', 'República Dominicana', 'do'],
-        'RO': ['Romania', 'Rumanía', 'ro'],
-        'SG': ['Singapore', 'Singapur', 'sg'],
-        'LK': ['Sri Lanka', 'lk'],
-        'SE': ['Sweden', 'Suecia', 'se'],
-        'CH': ['Switzerland', 'Suiza', 'ch'],
-        'TW': ['Taiwan', 'Taiwán', 'tw'],
-        'TH': ['Thailand', 'Tailandia', 'th'],
+        'GB': ['United Kingdom', 'Reino Unido', 'gb', 'GB'],
+        'CZ': ['Czech Republic', 'República Checa', 'cz', 'CZ'],
+        'DO': ['Dominican Republic', 'República Dominicana', 'do', 'DO'],
+        'RO': ['Romania', 'Rumanía', 'ro', 'RO'],
+        'SG': ['Singapore', 'Singapur', 'sg', 'SG'],
+        'LK': ['Sri Lanka', 'lk', 'LK'],
+        'SE': ['Sweden', 'Suecia', 'se', 'SE'],
+        'CH': ['Switzerland', 'Suiza', 'ch', 'CH'],
+        'TW': ['Taiwan', 'Taiwán', 'tw', 'TW'],
+        'TH': ['Thailand', 'Tailandia', 'th', 'TH'],
         'TR': ['Turkey', 'Turquía', 'TR', 'tr'],
-        'UY': ['Uruguay', 'uy'],
-        'VN': ['Vietnam', 'vn'],
-        'KR': ['South Korea', 'Corea del Sur', 'kr'],
-        'EC': ['Ecuador', 'ec'],
-        'SK': ['Slovakia', 'Eslovaquia', 'sk']
+        'UY': ['Uruguay', 'uy', 'UY'],
+        'VN': ['Vietnam', 'vn', 'VN'],
+        'KR': ['South Korea', 'Corea del Sur', 'kr', 'KR'],
+        'EC': ['Ecuador', 'ec', 'EC'],
+        'SK': ['Slovakia', 'Eslovaquia', 'sk', 'SK']
       };
       
       // Get possible values for this country code
       const possibleValues = countryCodeToValues[filters.country] || [filters.country];
-      console.log(`🌍 Country filter: ${filters.country} -> checking values:`, possibleValues);
-      console.log(`🔍 Query will search for hotels where country matches any of:`, possibleValues);
       
-      // Use IN condition to match any of the possible values - more reliable than OR
+      console.log(`🔍 COUNTRY FILTER DEBUG:`);
+      console.log(`   - Selected country code: ${filters.country}`);
+      console.log(`   - Possible database values:`, possibleValues);
+      console.log(`   - Filter being applied: country IN (${possibleValues.join(', ')})`);
+      
+      // Use IN condition to match any of the possible values
       query = query.in('country', possibleValues);
       
-      // Add verification log for the user to see results
-      console.log(`📊 Running country filter verification for: ${filters.country}`);
+      console.log(`✅ Country filter applied successfully for: ${filters.country}`);
     }
 
     if (filters.month) {
+      console.log(`🗓️ MONTH FILTER DEBUG: ${filters.month}`);
       query = query.contains('available_months', [filters.month]);
+      console.log(`✅ Month filter applied successfully for: ${filters.month}`);
     }
 
     if (filters.theme && filters.theme.id) {
+      console.log(`🎯 THEME FILTER DEBUG: ${filters.theme.name} (ID: ${filters.theme.id})`);
       // Filter by single theme using the theme relationship
       query = query.eq('hotel_themes.theme_id', filters.theme.id);
+      console.log(`✅ Theme filter applied successfully for: ${filters.theme.name}`);
     }
 
-    if (filters.minPrice) {
+    if (filters.minPrice && filters.minPrice > 0) {
+      console.log(`💰 MIN PRICE FILTER DEBUG: >= ${filters.minPrice}`);
       query = query.gte('price_per_month', filters.minPrice);
+      console.log(`✅ Min price filter applied successfully: >= ${filters.minPrice}`);
     }
 
-    if (filters.maxPrice) {
+    if (filters.maxPrice && filters.maxPrice > 0) {
+      console.log(`💰 MAX PRICE FILTER DEBUG: <= ${filters.maxPrice}`);
       query = query.lte('price_per_month', filters.maxPrice);
+      console.log(`✅ Max price filter applied successfully: <= ${filters.maxPrice}`);
     }
 
     const { data: hotels, error } = await query;

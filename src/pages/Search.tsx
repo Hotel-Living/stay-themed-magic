@@ -23,6 +23,9 @@ export default function Search() {
   
   // Parse URL parameters on component mount
   useEffect(() => {
+    console.log('🔍 SEARCH PAGE: Parsing URL parameters');
+    console.log('🌐 Current URL:', window.location.href);
+    
     const urlParams = new URLSearchParams(window.location.search);
     const urlFilters: Partial<FilterState> = {};
     
@@ -34,23 +37,50 @@ export default function Search() {
     const location = urlParams.get('location');
     const propertyType = urlParams.get('propertyType');
     
-    if (country) urlFilters.country = country;
-    if (month) urlFilters.month = month;
-    if (theme) urlFilters.theme = { id: theme, name: theme, level: 1 };
+    console.log('📥 URL Parameters found:');
+    console.log(`   - country: ${country}`);
+    console.log(`   - month: ${month}`);
+    console.log(`   - theme: ${theme}`);
+    console.log(`   - price: ${price}`);
+    console.log(`   - location: ${location}`);
+    console.log(`   - propertyType: ${propertyType}`);
+    
+    if (country) {
+      urlFilters.country = country;
+      console.log(`✅ Country filter will be applied: ${country}`);
+    }
+    if (month) {
+      urlFilters.month = month;
+      console.log(`✅ Month filter will be applied: ${month}`);
+    }
+    if (theme) {
+      urlFilters.theme = { id: theme, name: theme, level: 1 };
+      console.log(`✅ Theme filter will be applied: ${theme}`);
+    }
     if (price) {
       const priceNum = parseInt(price);
       urlFilters.maxPrice = priceNum;
+      console.log(`✅ Max price filter will be applied: ${priceNum}`);
     }
-    if (location) urlFilters.location = location;
-    if (propertyType) urlFilters.propertyType = propertyType;
+    if (location) {
+      urlFilters.location = location;
+      console.log(`✅ Location filter will be applied: ${location}`);
+    }
+    if (propertyType) {
+      urlFilters.propertyType = propertyType;
+      console.log(`✅ Property type filter will be applied: ${propertyType}`);
+    }
     
     // Update filters if we have any from URL
     if (Object.keys(urlFilters).length > 0) {
       console.log("🔗 Applying URL filters:", urlFilters);
       const initialFilters = { ...createDefaultFilters(), ...urlFilters };
+      console.log("🎯 Final filters being set:", initialFilters);
       setActiveFilters(initialFilters);
       // Also update the useHotels hook
       updateFilters(initialFilters);
+    } else {
+      console.log("⚠️ No URL filters found - using default filters");
     }
   }, []); // Empty dependency array to run only once on mount
 

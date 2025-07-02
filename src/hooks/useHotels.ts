@@ -41,11 +41,14 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
 
   useEffect(() => {
     const getHotels = async () => {
+      console.log('🏨 useHotels: Starting hotel fetch with filters:', filters);
       setLoading(true);
       setError(null);
 
       try {
+        console.log('📡 useHotels: Calling fetchHotelsWithFilters...');
         const data = await fetchHotelsWithFilters(filters);
+        console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);
         
         // Convert API hotel data to UI format
         const validHotels = (data || [])
@@ -53,13 +56,15 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
           .map(hotel => convertHotelToUIFormat(hotel))
           .filter(hotel => hotel !== null);
           
-        console.log(`Processed ${validHotels.length} hotels for display`);
+        console.log(`✅ useHotels: Processed ${validHotels.length} valid hotels for display`);
+        console.log('🏨 useHotels: Sample hotel names:', validHotels.slice(0, 3).map(h => h.name));
         setHotels(validHotels as HotelCardData[]);
       } catch (err: any) {
-        console.error("Error fetching hotels:", err);
+        console.error("❌ useHotels: Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));
       } finally {
         setLoading(false);
+        console.log('🏁 useHotels: Hotel fetch completed');
       }
     };
 

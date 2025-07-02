@@ -53,6 +53,7 @@ export default function Search() {
     if (month) {
       urlFilters.month = month;
       console.log(`✅ Month filter will be applied: ${month}`);
+      console.log(`📅 MONTH URL PARAMETER DETECTED AND PROCESSED:`, month);
     }
     if (theme) {
       urlFilters.theme = { id: theme, name: theme, level: 1 };

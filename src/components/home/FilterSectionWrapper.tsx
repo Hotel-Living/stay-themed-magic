@@ -34,11 +34,24 @@ export function FilterSectionWrapper({
 
   const handleFilterChange = (newFilters: FilterState) => {
     console.log('🔄 FilterSectionWrapper: Filter change received', newFilters);
+    
+    // DEBUGGING: Special logging for month filter
+    if (newFilters.month) {
+      console.log('📅 MONTH FILTER SELECTED ON INDEX PAGE:', newFilters.month);
+      console.log('📅 Previous month filter value:', activeFilters.month);
+    }
+    
     const updatedFilters = {
       ...activeFilters,
       ...newFilters
     };
     console.log('📝 FilterSectionWrapper: Updated active filters', updatedFilters);
+    
+    // DEBUGGING: Log the month specifically in updated filters
+    if (updatedFilters.month) {
+      console.log('✅ MONTH FILTER NOW ACTIVE IN UPDATED FILTERS:', updatedFilters.month);
+    }
+    
     setActiveFilters(updatedFilters);
     onFilterChange(updatedFilters);
   };

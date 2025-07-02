@@ -121,6 +121,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (filters.month) {
       console.log(`🗓️ MONTH FILTER DEBUG: ${filters.month}`);
+      console.log(`🗓️ DATABASE QUERY: Filtering hotels with available_months containing '${filters.month}'`);
       query = query.contains('available_months', [filters.month]);
       console.log(`✅ Month filter applied successfully for: ${filters.month}`);
     }

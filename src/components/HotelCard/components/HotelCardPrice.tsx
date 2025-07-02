@@ -22,7 +22,7 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
     }
 
     const parsedRates = parseRatesData(rates);
-    const stayLengths = ["8", "16", "24", "32"];
+    const stayLengths = ["8", "15", "22", "29"];
     const availableRates = stayLengths.filter(length => parsedRates[length]);
     
     if (availableRates.length === 0) {

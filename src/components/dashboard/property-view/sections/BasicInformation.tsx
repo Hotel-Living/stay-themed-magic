@@ -20,7 +20,7 @@ export function BasicInformation({ hotel }: BasicInformationProps) {
   
   const displayRates = () => {
     const rates = hotel.rates || {};
-    const stayLengths = ["8", "16", "24", "32"];
+    const stayLengths = ["8", "15", "22", "29"];
     const availableRates = stayLengths.filter(length => rates[length]);
     
     if (availableRates.length === 0) {

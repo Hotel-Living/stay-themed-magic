@@ -12,7 +12,7 @@ export function HotelPriceBreakdown({ stayLengths, rates, currency }: HotelPrice
   return (
     <div className="bg-fuchsia-950/30 rounded-xl p-4 shadow text-sm text-purple-200 mb-8">
       <p>
-        <span className="font-semibold">Stays available:</span> {stayLengths.join(", ").replace(/, ([^,]*)$/, " and $1")} nights
+        <span className="font-semibold">Stays available:</span> {stayLengths.join(", ").replace(/, ([^,]*)$/, " and $1")} days
       </p>
       <p>
         <span className="font-semibold">Rates:</span> From: {' '}

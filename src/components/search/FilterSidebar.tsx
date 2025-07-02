@@ -30,15 +30,23 @@ export function FilterSidebar({
     handleFilterChange('theme', theme);
   };
 
-  const handleActivityChange = (value: string, isSelected: boolean) => {
-    handleArrayFilterChange('activities', value, isSelected);
+  const handleActivityChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('activities', value, isChecked);
+  };
+
+  // Helper function to get price value as number for PriceRangeFilter
+  const getPriceValue = (): number | null => {
+    if (typeof activeFilters.priceRange === 'number') {
+      return activeFilters.priceRange;
+    }
+    return null;
   };
 
   return (
     <div className="w-72 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
       {/* PRICE PER MONTH */}
       <PriceRangeFilter
-        activePrice={activeFilters.priceRange}
+        activePrice={getPriceValue()}
         onChange={(value) => handleFilterChange('priceRange', value)}
       />
 

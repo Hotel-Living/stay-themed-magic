@@ -171,7 +171,7 @@ export function FilterSidebar({
       {/* Meal Plans Filter */}
       <CheckboxFilter
         title={t('filters.mealPlan')}
-        options={mealPlanOptions.map(option => option.label)}
+        options={mealPlanOptions}
         selectedOptions={activeFilters.mealPlans || []}
         onChange={handleArrayFilterChange.bind(null, 'mealPlans')}
       />
@@ -201,7 +201,7 @@ export function FilterSidebar({
       {/* Room Types Filter */}
       <CheckboxFilter
         title={t('filters.roomTypes')}
-        options={roomTypeOptions.map(option => option.label)}
+        options={roomTypeOptions}
         selectedOptions={activeFilters.roomTypes || []}
         onChange={handleArrayFilterChange.bind(null, 'roomTypes')}
       />
@@ -209,7 +209,7 @@ export function FilterSidebar({
       {/* Room Features Filter */}
       <CheckboxFilter
         title={t('filters.roomFeatures')}
-        options={roomFeatureOptions.map(option => option.label)}
+        options={roomFeatureOptions}
         selectedOptions={activeFilters.roomFeatures || []}
         onChange={handleArrayFilterChange.bind(null, 'roomFeatures')}
       />
@@ -217,7 +217,7 @@ export function FilterSidebar({
       {/* Hotel Features Filter */}
       <CheckboxFilter
         title={t('filters.hotelFeatures')}
-        options={hotelFeatureOptions.map(option => option.label)}
+        options={hotelFeatureOptions}
         selectedOptions={activeFilters.hotelFeatures || []}
         onChange={handleArrayFilterChange.bind(null, 'hotelFeatures')}
       />

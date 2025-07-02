@@ -38,16 +38,15 @@ ${t('dashboard.ratesCalculator.utilitiesDescription1')}
 ${t('dashboard.ratesCalculator.utilitiesDescription2')}
 ${t('dashboard.ratesCalculator.utilitiesDescription3')}
 ________________________________________
-⚡ EL CONSUMO DE SERVICIOS ES MÁS BAJO Y MÁS ESTABLE
-💡 LOS SISTEMAS DE EFICIENCIA ENERGÉTICA (como iluminación LED y control climático moderado) resultan aún más efectivos
-🌱 AL SENTIRSE COMO EN CASA, los huéspedes adoptan naturalmente hábitos más conservadores
+⚡ ${t('dashboard.ratesCalculator.utilitiesLowerConsumption')}
+💡 ${t('dashboard.ratesCalculator.utilitiesEnergyEfficiency')}
+🌱 ${t('dashboard.ratesCalculator.utilitiesConservativeHabits')}
 ________________________________________
-💜 UN SENTIDO DE RESPONSABILIDAD COMPARTIDA
-Dado que Hotel-Living ofrece tarifas accesibles, los huéspedes suelen ser conscientes y respetuosos de la oportunidad que se les brinda.
-Saben que este modelo depende del equilibrio, el cuidado y la sostenibilidad — y la mayoría actúa en consecuencia.
+💜 ${t('dashboard.ratesCalculator.utilitiesSharedResponsibility')}
+${t('dashboard.ratesCalculator.utilitiesResponsibilityDescription')}
 ________________________________________
-🔄 OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO
-Gracias a la menor rotación de habitaciones y a los protocolos de limpieza simplificados, el uso de servicios permanece constante y optimizado, con menos picos de demanda de electricidad o agua.
+🔄 ${t('dashboard.ratesCalculator.utilitiesOptimizedOperations')}
+${t('dashboard.ratesCalculator.utilitiesOptimizedDescription')}
 ________________________________________`;
       case "cleaning":
         return `**${t('dashboard.ratesCalculator.cleaningModelTitle')}**
@@ -59,20 +58,16 @@ ${t('dashboard.ratesCalculator.cleaningDescription1')}
 ${t('dashboard.ratesCalculator.cleaningDescription2')}
 ________________________________________
 🧹 ${t('dashboard.ratesCalculator.cleaningCompleteTitle')}
-Uma limpeza completa de la habitación cada 7 días garantiza higiene e frescura, com uma mínima intrusão.
+${t('dashboard.ratesCalculator.cleaningCompleteDescription')}
 ________________________________________
-🔄 REFRESCO LIGERO DIARIO (A PETICIÓN)
-Pequeños retoques opcionales — 🗑️ retirada de basura, 🧺 orden ligero, 🌬️ ventilación — están disponibles, respetando la privacidad y el estilo de vida.
+🔄 ${t('dashboard.ratesCalculator.cleaningLightRefresh')}
+${t('dashboard.ratesCalculator.cleaningLightRefreshDescription')}
 ________________________________________
-🛏️ CAMBIO DE ROPA DE CAMA — CADA 5 DÍAS
-Las sábanas y toallas se renuevan regularmente, siguiendo los estándares de comodidad del hogar.
+🛏️ ${t('dashboard.ratesCalculator.cleaningBedChange')}
+${t('dashboard.ratesCalculator.cleaningBedChangeDescription')}
 ________________________________________
-💼 BENEFICIOS OPERATIVOS
-Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los huéspedes una experiencia residencial:
-
-•	Menos interrupciones
-•	Más privacidad
-•	La sensación de realmente pertenecer — no solo alojarse.`;
+💼 ${t('dashboard.ratesCalculator.cleaningOperationalBenefits')}
+${t('dashboard.ratesCalculator.cleaningOperationalDescription')}`;
       case "meal-plans":
         return `${t('dashboard.ratesCalculator.mealsModelTitle')}
 
@@ -84,63 +79,47 @@ ${t('dashboard.ratesCalculator.mealsModelDescription3')}
 
 ${t('dashboard.ratesCalculator.mealsModelDescription4')}
 ________________________________________
-🔧 POR ESO NUESTRO MODELO DE ALIMENTACIÓN ES:
+🔧 ${t('dashboard.ratesCalculator.mealsOurModel')}
 
-✅ 🥗 Equilibrado, estilo hogar y fácil de preparar
+✅ 🥗 ${t('dashboard.ratesCalculator.mealsBalanced')}
 
-✅ 🍎 Diseñado para la moderación y el bienestar, no para el exceso
+✅ 🍎 ${t('dashboard.ratesCalculator.mealsModerate')}
 
-✅ 👨‍🍳 Compatible con la cocina y el personal existentes de su hotel
+✅ 👨‍🍳 ${t('dashboard.ratesCalculator.mealsCompatible')}
 
-✅ ♻️ Bajo en residuos y en coste — sin sacrificar calidad ni cuidado
+✅ ♻️ ${t('dashboard.ratesCalculator.mealsLowWaste')}
 ________________________________________
-🍳 PLANES DE COMIDAS FLEXIBLES
+🍳 ${t('dashboard.ratesCalculator.mealsFlexiblePlans')}
 
-Tanto si ofrece solo desayuno como pensión completa, los planes de comidas de Hotel-Living están diseñados para:
-
-•	🧘 Consistencia
-
-•	🏡 Comodidad
-
-•	🙂 Satisfacción de los huéspedes — no exhibiciones culinarias.
+${t('dashboard.ratesCalculator.mealsFlexibleDescription')}
 ________________________________________
-💼 VENTAJAS OPERATIVAS:
+💼 ${t('dashboard.ratesCalculator.mealsOperationalAdvantages')}
 
-🧑‍🍳 Menor complejidad operativa
+🧑‍🍳 ${t('dashboard.ratesCalculator.mealsLowerComplexity')}
 
-🧾 Costes predecibles y control de porciones
+🧾 ${t('dashboard.ratesCalculator.mealsPredictableCosts')}
 
-😊 Una experiencia gastronómica relajada y familiar que sus huéspedes valoran realmente
+😊 ${t('dashboard.ratesCalculator.mealsRelaxedExperience')}
 ________________________________________
-📊 BENEFICIOS PARA EL PRESUPUESTO Y LA PLANIFICACIÓN:
+📊 ${t('dashboard.ratesCalculator.mealsBudgetBenefits')}
 
-Como todas las reservas se realizan por adelantado y con duración fija:
-
-✅ 📅 Usted sabrá exactamente cuántos huéspedes vendrán — y durante cuánto tiempo.
-
-✅ 🚫 El desperdicio de alimentos puede llegar prácticamente a cero.
+${t('dashboard.ratesCalculator.mealsBudgetDescription')}
 ________________________________________
-🔁 ESTRATEGIA DE COCINA SIMPLE Y EFICIENTE:
+🔁 ${t('dashboard.ratesCalculator.mealsKitchenStrategy')}
 
-Para cocinas sencillas, existe una estrategia comprobada y rentable:
+${t('dashboard.ratesCalculator.mealsKitchenDescription')}
 
-🔄 MENÚS SEMANALES ROTATIVOS
+🔄 ${t('dashboard.ratesCalculator.mealsRotatingMenus')}
 
-Donde cada día de la semana tiene un menú fijo que puede repetirse semanalmente, lo que permite:
-
-•	🛒 Compras al por mayor
-
-•	🍳 Preparación simplificada
-
-•	💰 Reducción adicional de costes
+${t('dashboard.ratesCalculator.mealsRotatingDescription')}
 ________________________________________
-🔑 EL RESULTADO:
+🔑 ${t('dashboard.ratesCalculator.mealsResult')}
 
-🏨 Su hotel ahorra
+🏨 ${t('dashboard.ratesCalculator.mealsResultHotel')}
 
-🏡 Sus huéspedes se sienten como en casa
+🏡 ${t('dashboard.ratesCalculator.mealsResultGuests')}
 
-🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`;
+🌍 ${t('dashboard.ratesCalculator.mealsResultExperience')}`;
       default:
         return "";
     }

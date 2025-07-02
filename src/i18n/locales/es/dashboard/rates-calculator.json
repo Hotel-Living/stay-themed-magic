@@ -57,6 +57,13 @@
     "mealsResult": "EL RESULTADO:",
     "mealsResultHotel": "Su hotel ahorra",
     "mealsResultGuests": "Sus huéspedes se sienten como en casa",
-    "mealsResultExperience": "Y toda la experiencia se vuelve escalable, sostenible y profundamente humana."
+    "mealsResultExperience": "Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.",
+    "beforeStartingTitle": "ANTES DE EMPEZAR: LEA CUIDADOSAMENTE",
+    "beforeStartingDescription": "Construir su modelo personalizado es un paso crucial para maximizar sus oportunidades de ingresos.<br />Recomendamos encarecidamente que revise cuidadosamente la sección \"CONSEJOS Y PAUTAS ESTRATÉGICAS\" primero.<br />Estas recomendaciones le ayudarán a diseñar un modelo completamente adaptado a la categoría, capacidad y perfil de audiencia de su hotel.<br /><b>Una vez que haya estudiado las pautas, puede proceder a descargar y usar la Calculadora en Línea ubicada a la derecha.</b>",
+    "pleaseReadThis": "POR FAVOR<br />LEA ESTO",
+    "3starHotels": "HOTELES<br />3 ESTRELLAS",
+    "4starHotels": "HOTELES<br />4 ESTRELLAS",
+    "5starHotels": "HOTELES<br />5 ESTRELLAS",
+    "downloadCalculator": "DESCARGAR<br />CALCULADORA"
   }
 }

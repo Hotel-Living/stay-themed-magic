@@ -185,13 +185,10 @@ export const RatesCalculatorContent: React.FC = () => {
           {/* BUILD YOUR OWN MODEL & RATES Section */}
           {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
               <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
-                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
-                <div className="text-[15px] leading-relaxed font-medium">
-                  Building your custom model is a crucial step to maximize your revenue opportunities.<br />
-                  We strongly recommend that you carefully review the "TIPS & STRATEGIC GUIDELINES" section first.<br />
-                  These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br />
-                  <b>Once you have studied the guidelines, you may proceed to download and use the Online Calculator located on the right.</b>
-                </div>
+                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">{t('dashboard.ratesCalculator.beforeStartingTitle')}</h3>
+                <div className="text-[15px] leading-relaxed font-medium" dangerouslySetInnerHTML={{
+                  __html: t('dashboard.ratesCalculator.beforeStartingDescription')
+                }} />
               </div>
               <ModelRatesTabs />
             </TabsContent>}

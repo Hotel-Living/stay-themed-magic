@@ -1,39 +1,33 @@
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // NOTE: Color scheme and two-line formatting are retained as per prior specification.
 const TAB_BG = "bg-[#3C1865]";
 const ACTIVE_TAB_BG = "bg-[#3C1865]";
 const ACTIVE_TEXT = "text-white";
-const tabs = [{
-  value: "read-this",
-  label: <>
-        PLEASE<br />READ THIS
-      </>
-}, {
-  value: "3star",
-  label: <>
-        3-STAR<br />HOTELS
-      </>
-}, {
-  value: "4star",
-  label: <>
-        4-STAR<br />HOTELS
-      </>
-}, {
-  value: "5star",
-  label: <>
-        5-STAR<br />HOTELS
-      </>
-}, {
-  value: "download",
-  label: <>
-        DOWNLOAD<br />CALCULATOR
-      </>
-}];
+
 export const ModelRatesTabs: React.FC = () => {
+  const { t } = useTranslation();
   // Move the tab state into this component so refactor does not break layout or logic.
   const [modelTab, setModelTab] = useState<string>("read-this"); // default
+
+  const tabs = [{
+    value: "read-this",
+    label: <span dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.pleaseReadThis') }} />
+  }, {
+    value: "3star",
+    label: <span dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.3starHotels') }} />
+  }, {
+    value: "4star",
+    label: <span dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.4starHotels') }} />
+  }, {
+    value: "5star",
+    label: <span dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.5starHotels') }} />
+  }, {
+    value: "download",
+    label: <span dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.downloadCalculator') }} />
+  }];
 
   return <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
       <TabsList className="flex w-full mb-6 gap-1 rounded-xl shadow-lg bg-transparent">
@@ -78,7 +72,7 @@ export const ModelRatesTabs: React.FC = () => {
               2️⃣ NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
             </div>
             <div className="text-white/80 text-[15px]">
-              Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business’s unique seasonality and potential.
+              Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business's unique seasonality and potential.
             </div>
           </div>
           <div className="mb-4">
@@ -86,7 +80,7 @@ export const ModelRatesTabs: React.FC = () => {
               3️⃣ BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
             </div>
             <div className="text-white/80 text-[15px]">
-              The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that “living” guests fill gaps left by transient guests without undermining your regular pricing.
+              The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that "living" guests fill gaps left by transient guests without undermining your regular pricing.
             </div>
           </div>
           <div className="mb-4">
@@ -94,7 +88,7 @@ export const ModelRatesTabs: React.FC = () => {
               4️⃣ USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
             </div>
             <div className="text-white/80 text-[15px]">
-              Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see “Themes” section).
+              Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see "Themes" section).
             </div>
           </div>
           <div className="mb-4">
@@ -102,7 +96,7 @@ export const ModelRatesTabs: React.FC = () => {
               5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
             </div>
             <div className="text-white/80 text-[15px]">
-              Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., “9 nights per month club”—to optimize for higher volume and guest experience.
+              Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., "9 nights per month club"—to optimize for higher volume and guest experience.
             </div>
           </div>
           <div className="mb-4">
@@ -118,7 +112,7 @@ export const ModelRatesTabs: React.FC = () => {
               7️⃣ APPLY VOLUME LOGIC FOR LARGER HOTELS
             </div>
             <div className="text-white/80 text-[15px]">
-              Larger properties can tap into “living at scale” logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
+              Larger properties can tap into "living at scale" logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
             </div>
           </div>
           <div>
@@ -126,7 +120,7 @@ export const ModelRatesTabs: React.FC = () => {
               8️⃣ UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
             </div>
             <div className="text-white/80 text-[15px]">
-              Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests “home” status. This increases loyalty and can transform your hotel’s business model in a predictable, positive way.
+              Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests "home" status. This increases loyalty and can transform your hotel's business model in a predictable, positive way.
             </div>
           </div>
         </div>
@@ -389,7 +383,7 @@ export const ModelRatesTabs: React.FC = () => {
         </div>
       </TabsContent>
 
-      {/* ... keep existing code (download tab and any other content the same) ... */}
+      {/* DOWNLOAD CALCULATOR Tab Content */}
       <TabsContent value="download" className="w-full rounded-lg bg-[#3C1865]">
         <div className="p-4 rounded-lg text-white" style={{
         background: "none"

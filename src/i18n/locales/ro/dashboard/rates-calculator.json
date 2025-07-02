@@ -57,6 +57,13 @@
     "mealsResult": "REZULTATUL:",
     "mealsResultHotel": "Hotelul dumneavoastră economisește",
     "mealsResultGuests": "Oaspeții dumneavoastră se simt ca acasă",
-    "mealsResultExperience": "Și întreaga experiență devine scalabilă, sustenabilă și profund umană."
+    "mealsResultExperience": "Și întreaga experiență devine scalabilă, sustenabilă și profund umană.",
+    "beforeStartingTitle": "ÎNAINTE DE A ÎNCEPE: VĂ RUGĂM CITIȚI CU ATENȚIE",
+    "beforeStartingDescription": "Construirea modelului dumneavoastră personalizat este un pas crucial pentru a maximiza oportunitățile de venituri.<br />Recomandăm cu tărie să revizuiți cu atenție secțiunea \"SFATURI ȘI GHIDURI STRATEGICE\" mai întâi.<br />Aceste recomandări vă vor ajuta să proiectați un model complet adaptat categoriei, capacității și profilului de audiență al hotelului dumneavoastră.<br /><b>Odată ce ați studiat ghidurile, puteți proceda să descărcați și să utilizați Calculatorul Online situat în dreapta.</b>",
+    "pleaseReadThis": "VĂ RUGĂM<br />CITIȚI ACEST",
+    "3starHotels": "HOTELURI<br />3 STELE",
+    "4starHotels": "HOTELURI<br />4 STELE",
+    "5starHotels": "HOTELURI<br />5 STELE",
+    "downloadCalculator": "DESCĂRCAȚI<br />CALCULATORUL"
   }
 }

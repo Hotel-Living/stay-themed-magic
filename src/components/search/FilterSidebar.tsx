@@ -9,6 +9,7 @@ import { CategoryFilter } from "./CategoryFilter";
 import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { PriceRangeFilter } from "./PriceRangeFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 
@@ -34,9 +35,13 @@ export function FilterSidebar({
   };
 
   return (
-    <div className="w-80 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
-      {/* PRICE PER MONTH - TODO: Create PriceFilter component */}
-      
+    <div className="w-72 bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
+      {/* PRICE PER MONTH */}
+      <PriceRangeFilter
+        activePrice={activeFilters.priceRange}
+        onChange={(value) => handleFilterChange('priceRange', value)}
+      />
+
       {/* COUNTRY */}
       <CountryFilter
         activeCountry={activeFilters.country}

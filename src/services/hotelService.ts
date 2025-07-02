@@ -172,6 +172,35 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     console.log(`📊 Database returned ${hotels?.length || 0} hotels`);
     
+    // CRITICAL DEBUGGING: Log sample hotel available_months data to check format mismatch
+    if (hotels && hotels.length > 0) {
+      console.log('🔍 SAMPLE HOTEL available_months DATA:');
+      hotels.slice(0, 3).forEach((hotel, index) => {
+        console.log(`   Hotel ${index + 1} (${hotel.name}): available_months =`, hotel.available_months);
+      });
+      
+      if (filters.month) {
+        console.log(`🔍 MONTH FILTER DEBUGGING:`);
+        console.log(`   - Looking for month: "${filters.month}"`);
+        const hotelsWithMonth = hotels.filter(h => 
+          h.available_months && Array.isArray(h.available_months) && h.available_months.includes(filters.month)
+        );
+        console.log(`   - Hotels matching month "${filters.month}": ${hotelsWithMonth.length}`);
+        
+        if (hotelsWithMonth.length === 0) {
+          console.log('❌ NO HOTELS MATCH THE MONTH FILTER - POSSIBLE DATA MISMATCH!');
+          console.log('🔍 Let\'s check what month values actually exist in the database:');
+          const allAvailableMonths = new Set();
+          hotels.forEach(h => {
+            if (h.available_months && Array.isArray(h.available_months)) {
+              h.available_months.forEach(month => allAvailableMonths.add(month));
+            }
+          });
+          console.log('📅 All month values found in database:', Array.from(allAvailableMonths));
+        }
+      }
+    }
+    
     // VALIDATION: Log unique countries in results to verify filtering worked
     if (hotels && hotels.length > 0) {
       const uniqueCountries = [...new Set(hotels.map(h => h.country))];

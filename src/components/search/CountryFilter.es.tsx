@@ -92,20 +92,23 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       ) : countries.length === 0 ? (
         <div className="text-sm text-fuchsia-300/70 italic">No hay países disponibles</div>
       ) : (
-        countries.map(country => (
-          <label key={country.code} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
-            <input 
-              type="checkbox" 
-              checked={activeCountry === country.code}
-              onChange={() => handleCountryClick(country.code)}
-              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-            />
-            <span className="text-sm flex items-center text-white whitespace-nowrap">
-              {getSpanishCountryName(country.code)} {country.code}
-              <span className="ml-2">{country.flag}</span>
-            </span>
-          </label>
-        ))
+        // Sort countries alphabetically by Spanish translated name
+        countries
+          .sort((a, b) => getSpanishCountryName(a.code).localeCompare(getSpanishCountryName(b.code)))
+          .map(country => (
+            <label key={country.code} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+              <input 
+                type="checkbox" 
+                checked={activeCountry === country.code}
+                onChange={() => handleCountryClick(country.code)}
+                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+              />
+              <span className="text-sm flex items-center text-white whitespace-nowrap">
+                {getSpanishCountryName(country.code)}
+                <span className="ml-2">{country.flag}</span>
+              </span>
+            </label>
+          ))
       )}
     </FilterItem>
   );

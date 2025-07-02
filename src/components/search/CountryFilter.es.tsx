@@ -10,11 +10,11 @@ interface CountryFilterESProps {
 export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProps) {
   const { countries, loading, error } = useFilterData();
   
-  // Spanish translations for all 60 countries
+  // Spanish translations for all 60 countries - exact order as specified
   const getSpanishCountryName = (countryCode: string): string => {
     const translations: Record<string, string> = {
       'DE': 'Alemania',
-      'AR': 'Argentina',
+      'AR': 'Argentina', 
       'AU': 'Australia',
       'AT': 'Austria',
       'BE': 'Bélgica',
@@ -22,11 +22,14 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'BG': 'Bulgaria',
       'CA': 'Canadá',
       'CO': 'Colombia',
+      'KR': 'Corea del Sur',
       'CR': 'Costa Rica',
       'HR': 'Croacia',
       'DK': 'Dinamarca',
+      'EC': 'Ecuador',
       'EG': 'Egipto',
       'AE': 'Emiratos Árabes Unidos',
+      'SK': 'Eslovaquia',
       'ES': 'España',
       'US': 'Estados Unidos',
       'EE': 'Estonia',
@@ -51,9 +54,9 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'MX': 'México',
       'NO': 'Noruega',
       'NZ': 'Nueva Zelanda',
-      'NL': 'Países Bajos',
       'PA': 'Panamá',
       'PY': 'Paraguay',
+      'NL': 'Países Bajos',
       'PE': 'Perú',
       'PL': 'Polonia',
       'PT': 'Portugal',
@@ -69,18 +72,14 @@ export function CountryFilterES({ activeCountry, onChange }: CountryFilterESProp
       'TH': 'Tailandia',
       'TR': 'Turquía',
       'UY': 'Uruguay',
-      'VN': 'Vietnam',
-      'KR': 'Corea del Sur',
-      'EC': 'Ecuador',
-      'SK': 'Eslovaquia'
+      'VN': 'Vietnam'
     };
     return translations[countryCode] || countryCode;
   };
-  
+
   const handleCountryClick = (countryCode: string) => {
-    // Toggle selection: if already selected, deselect; otherwise select
     const newValue = activeCountry === countryCode ? null : countryCode;
-    console.log("CountryFilter - Country toggled:", countryCode, "->", newValue);
+    console.log(`🌍 Country filter verification: ${getSpanishCountryName(countryCode)} (${countryCode}) selected`);
     onChange(newValue);
   };
   

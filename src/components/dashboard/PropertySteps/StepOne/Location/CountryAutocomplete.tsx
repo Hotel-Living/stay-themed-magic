@@ -69,8 +69,8 @@ export default function CountryAutocomplete({
 
   // Handle country selection
   const handleCountrySelect = (country: Country) => {
-    // Save full country name to match standardized database format
-    console.log(`🌍 COUNTRY SELECTION: Saving "${country.name}" for ${country.name}`);
+    // Save full country name for consistency (form will convert as needed)
+    console.log(`🌍 COUNTRY SELECTION: Saving "${country.name}" (code: ${country.code})`);
     onChange(country.name);
     setSearchTerm("");
     setIsOpen(false);

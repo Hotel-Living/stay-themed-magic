@@ -65,8 +65,24 @@ export default function LocationStep({
 
   const handleCustomCitySubmit = () => {
     if (customCity.trim()) {
-      handleChange('city', customCity.trim());
+      const cityName = customCity.trim();
+      console.log(`🏙️ CUSTOM CITY: Adding "${cityName}" to "${selectedCountry}"`);
+      
+      // Update the form data
+      handleChange('city', cityName);
+      
+      // Update local state
+      setSelectedCity(cityName);
       setIsAddingNewCity(false);
+      setCustomCity("");
+      
+      // Add the new city to available cities list for immediate display
+      setAvailableCities(prev => {
+        if (!prev.includes(cityName)) {
+          return [...prev, cityName].sort();
+        }
+        return prev;
+      });
     }
   };
 
@@ -88,40 +104,51 @@ export default function LocationStep({
       setCitiesLoading(true);
       try {
         // Find the selected country object
-        const selectedCountryObj = countries.find(c => c.code === selectedCountry);
+        const selectedCountryObj = countries.find(c => c.code === selectedCountry || c.name === selectedCountry);
         if (!selectedCountryObj) {
+          console.warn(`🏙️ Country not found in list: "${selectedCountry}"`);
           setAvailableCities([]);
+          setCitiesLoading(false);
           return;
         }
 
-        // Fetch cities from database for this specific country
-        // Since we now save lowercase country codes, query directly with the saved value
-        console.log(`🏙️ CITY LOADING DEBUG: Searching for cities with country code: "${formData.country}"`);
+        console.log(`🏙️ CITY SEARCH: Looking for cities in "${selectedCountryObj.name}" (code: ${selectedCountryObj.code})`);
         
-        const { data: hotelData, error } = await supabase
-          .from('hotels')
-          .select('city, country')
-          .eq('status', 'approved')
-          .eq('country', formData.country); // Use the exact saved country code
+        // Try multiple query strategies to handle database inconsistencies
+        const queries = [
+          selectedCountryObj.name,    // Full name like "Argentina"
+          selectedCountryObj.code,    // Code like "AR"
+          selectedCountryObj.code.toLowerCase() // Lowercase code like "ar"
+        ];
 
-        if (error) {
-          console.error('Error fetching cities:', error);
-          setAvailableCities([]);
-          return;
+        let allCities: string[] = [];
+        
+        for (const queryValue of queries) {
+          const { data: hotelData, error } = await supabase
+            .from('hotels')
+            .select('city, country')
+            .eq('status', 'approved')
+            .eq('country', queryValue);
+
+          if (!error && hotelData && hotelData.length > 0) {
+            const cities = hotelData
+              .map(hotel => hotel.city)
+              .filter(city => city && city.trim() !== '');
+            
+            allCities = [...allCities, ...cities];
+            console.log(`🏙️ Found ${cities.length} cities with query "${queryValue}":`, cities.slice(0, 3));
+          }
         }
 
-        console.log(`🏙️ Raw hotel data:`, hotelData?.slice(0, 3)); // Show first 3 results for debugging
-        
-        // Extract unique cities for this country
-        const uniqueCities = [...new Set(hotelData?.map(hotel => hotel.city) || [])]
+        // Remove duplicates and sort
+        const uniqueCities = [...new Set(allCities)]
           .filter(city => city && city.trim() !== '')
           .sort();
           
-        console.log(`🏙️ Found ${uniqueCities.length} cities:`, uniqueCities);
-
+        console.log(`🏙️ FINAL RESULT: ${uniqueCities.length} unique cities:`, uniqueCities);
         setAvailableCities(uniqueCities);
       } catch (error) {
-        console.error('Error fetching cities for country:', error);
+        console.error('🏙️ ERROR fetching cities:', error);
         setAvailableCities([]);
       } finally {
         setCitiesLoading(false);
@@ -129,7 +156,7 @@ export default function LocationStep({
     };
 
     fetchCitiesForCountry();
-  }, [selectedCountry, countries]);
+  }, [selectedCountry, countries, formData.country]);
   
   // Update form data when local state changes
   useEffect(() => {

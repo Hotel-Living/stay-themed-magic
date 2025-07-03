@@ -29,27 +29,35 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
   }, [onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
+    console.log('THEMES - Theme selection:', { themeId, isSelected });
     const currentThemes = Array.isArray(formData.themes) ? formData.themes : [];
     const updatedThemes = isSelected 
       ? [...currentThemes, themeId]
       : currentThemes.filter((id: string) => id !== themeId);
+    console.log('THEMES - Updated themes:', updatedThemes);
     updateFormData('themes', updatedThemes);
+    // Also update affinities field for consistency
+    updateFormData('affinities', updatedThemes);
   };
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
+    console.log('ACTIVITIES - Activity selection:', { activity, isChecked });
     const currentActivities = Array.isArray(formData.activities) ? formData.activities : [];
     const updatedActivities = isChecked
       ? [...currentActivities, activity]
       : currentActivities.filter((a: string) => a !== activity);
+    console.log('ACTIVITIES - Updated activities:', updatedActivities);
     updateFormData('activities', updatedActivities);
   };
 
   const handleFeatureToggle = (featureType: 'hotel' | 'room', feature: string) => {
+    console.log('FEATURES - Feature toggle:', { featureType, feature });
     const fieldName = featureType === 'hotel' ? 'featuresHotel' : 'featuresRoom';
     const currentFeatures = Array.isArray(formData[fieldName]) ? formData[fieldName] : [];
     const updatedFeatures = currentFeatures.includes(feature)
       ? currentFeatures.filter((f: string) => f !== feature)
       : [...currentFeatures, feature];
+    console.log('FEATURES - Updated features:', { fieldName, updatedFeatures });
     updateFormData(fieldName, updatedFeatures);
   };
 

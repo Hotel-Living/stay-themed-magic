@@ -46,6 +46,10 @@ export interface PropertyFormData {
   checkinDay?: string; // Added for check-in day selection in Step 3
   stayDurations?: number[]; // Alternative to stayLengths for consistency
   affinities?: string[]; // Alternative to themes for consistency
+  roomImages?: any[]; // Added for room images from RoomTypesSection
+  roomImagePreviews?: string[]; // Added for room image previews
+  roomDescription?: string; // Added for room description
+  availabilityPackages?: any[]; // Added for availability packages
 }
 
 export const usePropertyFormData = () => {
@@ -90,7 +94,11 @@ export const usePropertyFormData = () => {
     pricingMatrix: [],
     checkinDay: "Monday",
     stayDurations: [],
-    affinities: []
+    affinities: [],
+    roomImages: [],
+    roomImagePreviews: [],
+    roomDescription: "",
+    availabilityPackages: []
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

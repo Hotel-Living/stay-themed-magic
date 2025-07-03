@@ -99,23 +99,47 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
   };
 
   const handleSavePackage = () => {
-    const updatedPackages = [...existingPackages, {
+    const finalPackage = {
       id: Date.now().toString(),
       numberOfRooms: newPackage.numberOfRooms,
       startDate: newPackage.startDate,
       endDate: newPackage.endDate,
       selectedDates: newPackage.selectedDates,
       createdAt: new Date()
-    }];
+    };
+    
+    const updatedPackages = [...existingPackages, finalPackage];
+    console.log('AVAILABILITY - Saving package:', finalPackage);
+    console.log('AVAILABILITY - Updated packages:', updatedPackages);
 
     if (updateFormData) {
       updateFormData('availabilityPackages', updatedPackages);
+      
+      // CRITICAL: Also update available_months for database compatibility
+      if (newPackage.startDate && newPackage.endDate) {
+        const months = [];
+        const currentDate = new Date(newPackage.startDate);
+        const endDate = new Date(newPackage.endDate);
+        
+        while (currentDate <= endDate) {
+          const monthName = format(currentDate, 'MMMM').toLowerCase();
+          if (!months.includes(monthName)) {
+            months.push(monthName);
+          }
+          currentDate.setMonth(currentDate.getMonth() + 1);
+        }
+        
+        const existingMonths = formData?.available_months || [];
+        const allMonths = [...new Set([...existingMonths, ...months])];
+        console.log('AVAILABILITY - Updating available_months:', allMonths);
+        updateFormData('available_months', allMonths);
+      }
     }
 
     setIsAddingPackage(false);
     setPackageStep(1);
 
-  onValidationChange?.(true); // Manual validation trigger after saving a new package
+    onValidationChange?.(true); // Manual validation trigger after saving a new package
   };
 
   const handleDeletePackage = (packageId: string) => {

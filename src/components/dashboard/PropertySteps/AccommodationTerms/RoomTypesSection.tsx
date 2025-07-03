@@ -22,23 +22,66 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
   onValidationChange
 }) => {
   const { t } = useTranslation();
-  const [roomImages, setRoomImages] = useState<File[]>([]);
-  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
-  const [roomDescription, setRoomDescription] = useState("");
+  
+  // Initialize from form data if available
+  const [roomImages, setRoomImages] = useState<File[]>(formData?.roomImages || []);
+  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>(formData?.roomImagePreviews || []);
+  const [roomDescription, setRoomDescription] = useState(formData?.roomDescription || "");
 
-  // Validation logic: Valid if description is provided
+  // Load existing data from formData on mount
+  React.useEffect(() => {
+    if (formData?.roomDescription && roomDescription !== formData.roomDescription) {
+      setRoomDescription(formData.roomDescription);
+    }
+    if (formData?.roomImages && formData.roomImages !== roomImages) {
+      setRoomImages(formData.roomImages);
+    }
+    if (formData?.roomImagePreviews && formData.roomImagePreviews !== roomImagePreviews) {
+      setRoomImagePreviews(formData.roomImagePreviews);
+    }
+  }, [formData]);
+
+  // Validation logic and form data updates
   React.useEffect(() => {
     const isValid = roomDescription.trim().length > 0;
     if (onValidationChange) {
       onValidationChange(isValid);
     }
     
-    // Update form data
+    // CRITICAL: Always update form data when local state changes
     if (updateFormData) {
-      updateFormData('room_description', roomDescription);
-      updateFormData('room_images', roomImages);
+      updateFormData('roomDescription', roomDescription);
+      updateFormData('roomImages', roomImages);
+      updateFormData('roomImagePreviews', roomImagePreviews);
+      
+      // Also update roomTypes with this basic room data
+      const currentRoomTypes = formData?.roomTypes || [];
+      const hasBasicRoom = currentRoomTypes.some((room: any) => room.id === 'basic-room');
+      
+      if (!hasBasicRoom && roomDescription.trim()) {
+        const basicRoom = {
+          id: 'basic-room',
+          name: 'Standard Room',
+          description: roomDescription,
+          images: roomImages,
+          maxOccupancy: 2,
+          size: 25,
+          roomCount: 1,
+          basePrice: 100
+        };
+        
+        updateFormData('roomTypes', [...currentRoomTypes, basicRoom]);
+      } else if (hasBasicRoom) {
+        // Update existing basic room
+        const updatedRoomTypes = currentRoomTypes.map((room: any) => 
+          room.id === 'basic-room' 
+            ? { ...room, description: roomDescription, images: roomImages }
+            : room
+        );
+        updateFormData('roomTypes', updatedRoomTypes);
+      }
     }
-  }, [roomDescription, roomImages]);
+  }, [roomDescription, roomImages, roomImagePreviews, updateFormData, onValidationChange, formData]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);

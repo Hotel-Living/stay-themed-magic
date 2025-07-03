@@ -50,6 +50,11 @@ export default function CountryAutocomplete({
     setIsOpen(true);
     setHighlightedIndex(-1);
 
+    // Clear current selection if user is typing
+    if (selectedCountry && term !== displayText) {
+      onChange("");
+    }
+
     // If the search matches exactly one country, auto-select it
     if (term && filteredCountries.length === 1) {
       const match = filteredCountries[0];
@@ -109,7 +114,7 @@ export default function CountryAutocomplete({
   // Handle input focus
   const handleFocus = () => {
     setIsOpen(true);
-    setSearchTerm("");
+    setSearchTerm(selectedCountry ? "" : "");
   };
 
   // Handle input blur

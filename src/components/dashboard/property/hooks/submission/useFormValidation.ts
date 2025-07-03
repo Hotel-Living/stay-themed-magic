@@ -19,7 +19,7 @@ export const useFormValidation = () => {
     const warnings: string[] = [];
 
     // Critical field validation
-    if (!formData.name || formData.name.trim() === '') {
+    if (!formData.hotelName || formData.hotelName.trim() === '') {
       errors.push("Hotel name is required");
     }
 
@@ -31,7 +31,7 @@ export const useFormValidation = () => {
       errors.push("City is required");
     }
 
-    if (!formData.price_per_month || formData.price_per_month <= 0) {
+    if (!(formData as any).price_per_month || (formData as any).price_per_month <= 0) {
       errors.push("Valid price per month is required");
     }
 
@@ -69,11 +69,11 @@ export const useFormValidation = () => {
       errors.push("Stay lengths must be positive numbers");
     }
 
-    if (formData.latitude && (formData.latitude < -90 || formData.latitude > 90)) {
+    if (formData.latitude && (typeof formData.latitude === 'number' && (formData.latitude < -90 || formData.latitude > 90))) {
       errors.push("Latitude must be between -90 and 90");
     }
 
-    if (formData.longitude && (formData.longitude < -180 || formData.longitude > 180)) {
+    if (formData.longitude && (typeof formData.longitude === 'number' && (formData.longitude < -180 || formData.longitude > 180))) {
       errors.push("Longitude must be between -180 and 180");
     }
 

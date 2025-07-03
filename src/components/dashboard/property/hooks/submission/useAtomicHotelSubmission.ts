@@ -26,7 +26,7 @@ export const useAtomicHotelSubmission = () => {
   const createHotelAtomically = async (formData: PropertyFormData): Promise<AtomicSubmissionResult> => {
     console.group("🔄 ATOMIC HOTEL CREATION START");
     console.log("📋 Form data validation:");
-    console.log("   Hotel name:", formData.name);
+    console.log("   Hotel name:", formData.hotelName);
     console.log("   Room types:", formData.roomTypes?.length || 0);
     console.log("   Meal plans:", formData.mealPlans?.length || 0);
     console.log("   Stay lengths:", formData.stayLengths?.length || 0);
@@ -36,7 +36,7 @@ export const useAtomicHotelSubmission = () => {
     console.log("   Available months:", formData.available_months?.length || 0);
 
     // Validate critical data before starting
-    if (!formData.name || formData.name.trim() === '') {
+    if (!formData.hotelName || formData.hotelName.trim() === '') {
       return { hotel: null, success: false, errors: ["Hotel name is required"] };
     }
 
@@ -54,18 +54,18 @@ export const useAtomicHotelSubmission = () => {
 
       // Prepare complete hotel data including arrays
       const hotelData = {
-        name: formData.name,
+        name: formData.hotelName,
         description: formData.description || '',
         country: formData.country || '',
         city: formData.city || '',
         address: formData.address || '',
-        postal_code: formData.postal_code || '',
-        latitude: formData.latitude || null,
-        longitude: formData.longitude || null,
-        property_type: formData.property_type || '',
+        postal_code: formData.postalCode || '',
+        latitude: typeof formData.latitude === 'string' ? parseFloat(formData.latitude) : formData.latitude || null,
+        longitude: typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude || null,
+        property_type: formData.propertyType || '',
         style: formData.style || '',
-        category: formData.category || 1,
-        price_per_month: formData.price_per_month || 0,
+        category: typeof formData.category === 'string' ? parseInt(formData.category) : formData.category || 1,
+        price_per_month: (formData as any).price_per_month || 0,
         
         // CRITICAL: Ensure arrays are never null or undefined
         meal_plans: formData.mealPlans || [],
@@ -75,20 +75,20 @@ export const useAtomicHotelSubmission = () => {
         photos: [], // Will be populated after image upload
         
         // Contact and other data
-        contact_email: formData.contact_email || '',
-        contact_name: formData.contact_name || '',
-        contact_phone: formData.contact_phone || '',
+        contact_email: formData.contactEmail || '',
+        contact_name: formData.contactName || '',
+        contact_phone: formData.contactPhone || '',
         atmosphere: formData.atmosphere || '',
-        ideal_guests: formData.ideal_guests || '',
-        perfect_location: formData.perfect_location || '',
+        ideal_guests: formData.idealGuests || '',
+        perfect_location: formData.perfectLocation || '',
         
         // Availability settings
         check_in_weekday: formData.preferredWeekday || 'Monday',
         preferred: formData.preferredWeekday || 'Monday',
         
         // Features
-        features_hotel: formData.features_hotel || {},
-        features_room: formData.features_room || {},
+        features_hotel: formData.featuresHotel || {},
+        features_room: formData.featuresRoom || {},
         
         // Terms and other content
         terms: formData.terms || '',

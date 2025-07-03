@@ -1,11 +1,15 @@
 
-import React, { useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useTranslation } from '@/hooks/useTranslation';
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslation } from "@/hooks/useTranslation";
+import CountrySelector from "../../PropertySteps/StepOne/Location/CountrySelector";
+import CitySelector from "../../PropertySteps/StepOne/Location/CitySelector";
+import AddressInput from "../../PropertySteps/StepOne/Location/AddressInput";
+import InteractiveMap from "../../PropertySteps/StepOne/Location/InteractiveMap";
 
 interface NewStep1HotelInfoProps {
   formData: any;
@@ -20,164 +24,279 @@ export function NewStep1HotelInfo({
 }: NewStep1HotelInfoProps) {
   const { t } = useTranslation();
 
-  // Validate form data
-  useEffect(() => {
-    const isValid = formData.hotelName && 
-                   formData.category && 
-                   formData.propertyType && 
-                   formData.style &&
-                   formData.description;
-    
-    onValidationChange(isValid);
-  }, [formData.hotelName, formData.category, formData.propertyType, formData.style, formData.description, onValidationChange]);
+  const propertyStyles = [
+    "Classic",
+    "Classic Elegant", 
+    "Modern",
+    "Fusion",
+    "Urban",
+    "Rural",
+    "Minimalist",
+    "Luxury"
+  ];
+
+  const propertyTypes = [
+    "Hotel", 
+    "Resort", 
+    "Boutique Hotel", 
+    "Country House", 
+    "Roadside Motel"
+  ];
+
+  const categories = [
+    "5-star", 
+    "4-star", 
+    "3-star", 
+    "Budget", 
+    "Luxury", 
+    "Family-friendly", 
+    "Adults-only"
+  ];
+
+  const handleLocationSelect = (latitude: number, longitude: number, address: string) => {
+    updateFormData('latitude', latitude);
+    updateFormData('longitude', longitude);
+    updateFormData('address', address);
+  };
 
   return (
-    <div className="space-y-6 bg-[#7A0486] p-6 rounded-lg">
-      <Card className="bg-[#7A0486] border-purple-400/30">
-        <CardHeader>
-          <CardTitle className="text-white text-xl">
-            {t('dashboard.generalInformation')}
-          </CardTitle>
+    <div className="space-y-6 bg-[#2A1A3D] p-6 rounded-lg">
+      {/* Hotel Information Section */}
+      <Card className="bg-[#3D2A52] border-purple-400/30">
+        <CardHeader className="bg-purple-900/30 rounded-t-lg">
+          <CardTitle className="text-white text-xl">Hotel Information</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Hotel Name */}
+        <CardContent className="space-y-4 p-6">
           <div>
-            <Label htmlFor="hotelName" className="text-white text-sm font-medium mb-2 block">
-              {t('dashboard.hotelName')} <span className="text-red-400">*</span>
+            <Label htmlFor="hotelName" className="text-white mb-2 block">
+              Hotel Name
             </Label>
             <Input
               id="hotelName"
-              type="text"
               value={formData.hotelName || ''}
               onChange={(e) => updateFormData('hotelName', e.target.value)}
-              placeholder={t('dashboard.hotelNamePlaceholder')}
-              className="bg-[#8A0499] border-purple-400/50 text-white placeholder:text-purple-200 focus:border-purple-300"
+              placeholder="Enter hotel name"
+              className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300"
             />
           </div>
 
-          {/* Category */}
-          <div>
-            <Label htmlFor="category" className="text-white text-sm font-medium mb-2 block">
-              {t('dashboard.category')} <span className="text-red-400">*</span>
-            </Label>
-            <Select
-              value={formData.category || ''}
-              onValueChange={(value) => updateFormData('category', value)}
-            >
-              <SelectTrigger className="bg-[#8A0499] border-purple-400/50 text-white">
-                <SelectValue placeholder={t('dashboard.selectHotelCategory')} />
-              </SelectTrigger>
-              <SelectContent className="bg-[#8A0499] border-purple-400/50">
-                <SelectItem value="1" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">1 Estrella</SelectItem>
-                <SelectItem value="2" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">2 Estrellas</SelectItem>
-                <SelectItem value="3" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">3 Estrellas</SelectItem>
-                <SelectItem value="4" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">4 Estrellas</SelectItem>
-                <SelectItem value="5" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">5 Estrellas</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="propertyStyle" className="text-white mb-2 block">
+                Property Style
+              </Label>
+              <Select
+                value={formData.propertyStyle || ''}
+                onValueChange={(value) => updateFormData('propertyStyle', value)}
+              >
+                <SelectTrigger className="bg-[#4A3461] text-white border-purple-400/50">
+                  <SelectValue placeholder="Select style" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#4A3461] border-purple-400/50">
+                  {propertyStyles.map((style) => (
+                    <SelectItem 
+                      key={style} 
+                      value={style}
+                      className="text-white hover:bg-purple-600/50 focus:bg-purple-600/50"
+                    >
+                      {style}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="propertyType" className="text-white mb-2 block">
+                Property Type
+              </Label>
+              <Select
+                value={formData.propertyType || ''}
+                onValueChange={(value) => updateFormData('propertyType', value)}
+              >
+                <SelectTrigger className="bg-[#4A3461] text-white border-purple-400/50">
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#4A3461] border-purple-400/50">
+                  {propertyTypes.map((type) => (
+                    <SelectItem 
+                      key={type} 
+                      value={type}
+                      className="text-white hover:bg-purple-600/50 focus:bg-purple-600/50"
+                    >
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="category" className="text-white mb-2 block">
+                Category
+              </Label>
+              <Select
+                value={formData.category || ''}
+                onValueChange={(value) => updateFormData('category', value)}
+              >
+                <SelectTrigger className="bg-[#4A3461] text-white border-purple-400/50">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#4A3461] border-purple-400/50">
+                  {categories.map((category) => (
+                    <SelectItem 
+                      key={category} 
+                      value={category}
+                      className="text-white hover:bg-purple-600/50 focus:bg-purple-600/50"
+                    >
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          {/* Property Type */}
           <div>
-            <Label htmlFor="propertyType" className="text-white text-sm font-medium mb-2 block">
-              {t('dashboard.propertyType')} <span className="text-red-400">*</span>
-            </Label>
-            <Select
-              value={formData.propertyType || ''}
-              onValueChange={(value) => updateFormData('propertyType', value)}
-            >
-              <SelectTrigger className="bg-[#8A0499] border-purple-400/50 text-white">
-                <SelectValue placeholder={t('dashboard.selectPropertyType')} />
-              </SelectTrigger>
-              <SelectContent className="bg-[#8A0499] border-purple-400/50">
-                <SelectItem value="Hotel" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">Hotel</SelectItem>
-                <SelectItem value="Resort" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">Resort</SelectItem>
-                <SelectItem value="Hotel Boutique" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">Hotel Boutique</SelectItem>
-                <SelectItem value="Casa Rural" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">Casa Rural</SelectItem>
-                <SelectItem value="Hotel de carretera" className="text-white hover:bg-[#9A059F] focus:bg-[#9A059F]">Hotel de carretera</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Property Style */}
-          <div>
-            <Label htmlFor="style" className="text-white text-sm font-medium mb-2 block uppercase">
-              {t('dashboard.styleOfProperty')} <span className="text-red-400">*</span>
-            </Label>
-            <Select
-              value={formData.style || ''}
-              onValueChange={(value) => updateFormData('style', value)}
-            >
-              <SelectTrigger className="bg-purple-600 border-purple-400/50 text-white">
-                <SelectValue placeholder={t('dashboard.selectPropertyStyle')} />
-              </SelectTrigger>
-              <SelectContent className="bg-purple-600 border-purple-400/50">
-                <SelectItem value="Clásico" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.classic')}</SelectItem>
-                <SelectItem value="Clásico Elegante" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.classicElegant')}</SelectItem>
-                <SelectItem value="Moderno" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.modern')}</SelectItem>
-                <SelectItem value="Fusión" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.fusion')}</SelectItem>
-                <SelectItem value="Urbano" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.urban')}</SelectItem>
-                <SelectItem value="Rural" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.rural')}</SelectItem>
-                <SelectItem value="Minimalista" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.minimalist')}</SelectItem>
-                <SelectItem value="Lujo" className="text-white hover:bg-purple-700 focus:bg-purple-700">{t('dashboard.propertyStyles.luxury')}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Hotel Description */}
-          <div>
-            <Label htmlFor="description" className="text-white text-sm font-medium mb-2 block uppercase">
-              {t('dashboard.hotelDescription')} <span className="text-red-400">*</span>
+            <Label htmlFor="description" className="text-white mb-2 block">
+              Hotel Description
             </Label>
             <Textarea
               id="description"
               value={formData.description || ''}
               onChange={(e) => updateFormData('description', e.target.value)}
-              placeholder={t('dashboard.hotelDescriptionPlaceholder')}
-              className="bg-purple-600 border-purple-400/50 text-white placeholder:text-purple-200 focus:border-purple-300 min-h-[100px]"
+              placeholder="Describe your hotel..."
+              rows={4}
+              className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300 placeholder:text-gray-400"
             />
           </div>
 
-          {/* Ideal Guests */}
           <div>
-            <Label htmlFor="idealGuests" className="text-white text-sm font-medium mb-2 block uppercase">
-              {t('dashboard.idealGuestsEnjoy')}
+            <Label htmlFor="idealGuests" className="text-white mb-2 block">
+              Ideal Guests
             </Label>
             <Textarea
               id="idealGuests"
               value={formData.idealGuests || ''}
               onChange={(e) => updateFormData('idealGuests', e.target.value)}
-              placeholder={t('dashboard.idealGuestsPlaceholder')}
-              className="bg-purple-600 border-purple-400/50 text-white placeholder:text-purple-200 focus:border-purple-300 min-h-[100px]"
+              placeholder="Describe your ideal guests..."
+              rows={3}
+              className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300 placeholder:text-gray-400"
             />
           </div>
 
-          {/* Atmosphere */}
           <div>
-            <Label htmlFor="atmosphere" className="text-white text-sm font-medium mb-2 block uppercase">
-              {t('dashboard.atmosphereIs')}
+            <Label htmlFor="atmosphere" className="text-white mb-2 block">
+              Atmosphere
             </Label>
             <Textarea
               id="atmosphere"
               value={formData.atmosphere || ''}
               onChange={(e) => updateFormData('atmosphere', e.target.value)}
-              placeholder={t('dashboard.atmospherePlaceholder')}
-              className="bg-purple-600 border-purple-400/50 text-white placeholder:text-purple-200 focus:border-purple-300 min-h-[100px]"
+              placeholder="Describe the atmosphere..."
+              rows={3}
+              className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300 placeholder:text-gray-400"
             />
           </div>
 
-          {/* Perfect Location */}
           <div>
-            <Label htmlFor="perfectLocation" className="text-white text-sm font-medium mb-2 block uppercase">
-              {t('dashboard.locationPerfectFor')}
+            <Label htmlFor="locationDescription" className="text-white mb-2 block">
+              Location Description
             </Label>
             <Textarea
-              id="perfectLocation"
-              value={formData.perfectLocation || ''}
-              onChange={(e) => updateFormData('perfectLocation', e.target.value)}
-              placeholder={t('dashboard.locationPlaceholder')}
-              className="bg-purple-600 border-purple-400/50 text-white placeholder:text-purple-200 focus:border-purple-300 min-h-[100px]"
+              id="locationDescription"
+              value={formData.locationDescription || ''}
+              onChange={(e) => updateFormData('locationDescription', e.target.value)}
+              placeholder="Describe the location..."
+              rows={3}
+              className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300 placeholder:text-gray-400"
             />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Address Section */}
+      <Card className="bg-[#3D2A52] border-purple-400/30">
+        <CardHeader className="bg-purple-900/30 rounded-t-lg">
+          <CardTitle className="text-white text-xl">Address Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CountrySelector
+              value={formData.country || ''}
+              onChange={(e) => updateFormData('country', e.target.value)}
+              onValueChange={(value) => updateFormData('country', value)}
+              onBlur={() => {}}
+              error={null}
+              touched={false}
+              onCustomClick={() => {}}
+            />
+
+            <CitySelector
+              value={formData.city || ''}
+              country={formData.country || ''}
+              onChange={(e) => updateFormData('city', e.target.value)}
+              onValueChange={(value) => updateFormData('city', value)}
+              onBlur={() => {}}
+              error={null}
+              touched={false}
+              disabled={!formData.country}
+              onCustomClick={() => {}}
+            />
+          </div>
+
+          <AddressInput
+            value={formData.address || ''}
+            onChange={(e) => updateFormData('address', e.target.value)}
+            onBlur={() => {}}
+            error={null}
+            touched={false}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="latitude" className="text-white mb-2 block">
+                Latitude
+              </Label>
+              <Input
+                id="latitude"
+                type="number"
+                step="any"
+                value={formData.latitude || ''}
+                onChange={(e) => updateFormData('latitude', parseFloat(e.target.value) || 0)}
+                placeholder="41.8902"
+                className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="longitude" className="text-white mb-2 block">
+                Longitude
+              </Label>
+              <Input
+                id="longitude"
+                type="number"
+                step="any"
+                value={formData.longitude || ''}
+                onChange={(e) => updateFormData('longitude', parseFloat(e.target.value) || 0)}
+                placeholder="12.4922"
+                className="bg-[#4A3461] text-white border-purple-400/50 focus:border-purple-300"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <Label className="text-white mb-2 block">
+              Location on Map
+            </Label>
+            <div className="bg-[#4A3461] rounded-lg p-2 border border-purple-400/30">
+              <InteractiveMap
+                latitude={formData.latitude || 0}
+                longitude={formData.longitude || 0}
+                address={formData.address || ''}
+                onLocationSelect={handleLocationSelect}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -4,18 +4,18 @@ import { UploadedImage } from "@/hooks/usePropertyImages";
 
 export const useImageSubmission = () => {
   const handlePlaceholderImages = async (hotelId: string) => {
-    console.log("Using placeholder images for hotel:", hotelId);
+    console.log("Skipping placeholder images - user images take priority");
     
-    // For now, we don't add any placeholder images here since they'll be handled by auto-population
-    // This function remains for backward compatibility
+    // Do NOT add placeholder images if user has uploaded custom images
+    // This prevents overwriting user-uploaded photos
     return Promise.resolve();
   };
 
   const handleCustomImages = async (hotelId: string, images: UploadedImage[]) => {
-    console.log("Processing custom images for hotel:", hotelId, "Images:", images);
+    console.log("Processing ONLY user-uploaded custom images for hotel:", hotelId, "Images:", images);
     
     if (!images || images.length === 0) {
-      console.log("No custom images provided");
+      console.log("No custom images provided by user");
       return;
     }
 
@@ -23,7 +23,7 @@ export const useImageSubmission = () => {
     const imagesToUpload = images.filter(img => img.url.startsWith('blob:'));
     const storageImages = images.filter(img => !img.url.startsWith('blob:'));
     
-    console.log("Images to upload:", imagesToUpload.length, "Storage images:", storageImages.length);
+    console.log("User images to upload:", imagesToUpload.length, "Existing storage images:", storageImages.length);
     
     const allImageUrls: string[] = [];
     
@@ -50,7 +50,7 @@ export const useImageSubmission = () => {
           });
 
         if (uploadError) {
-          console.error("Error uploading image:", uploadError);
+          console.error("Error uploading user image:", uploadError);
           continue;
         }
 
@@ -60,22 +60,22 @@ export const useImageSubmission = () => {
           .getPublicUrl(uploadData.path);
         
         allImageUrls.push(urlData.publicUrl);
-        console.log("Successfully uploaded image:", urlData.publicUrl);
+        console.log("Successfully uploaded USER image:", urlData.publicUrl);
         
         // Clean up blob URL
         URL.revokeObjectURL(image.url);
         
       } catch (error) {
-        console.error("Error processing image:", error);
+        console.error("Error processing user image:", error);
       }
     }
     
     if (allImageUrls.length === 0) {
-      console.warn("No images were successfully processed");
+      console.warn("No user images were successfully processed");
       return;
     }
     
-    // Insert image records into database
+    // Insert ONLY user image records into database
     const imageRecords = allImageUrls.map((url, index) => ({
       hotel_id: hotelId,
       image_url: url,
@@ -87,11 +87,11 @@ export const useImageSubmission = () => {
       .insert(imageRecords);
     
     if (insertError) {
-      console.error("Error inserting image records:", insertError);
+      console.error("Error inserting user image records:", insertError);
       throw insertError;
     }
     
-    // Update hotel's main image URL
+    // Update hotel's main image URL with user's main image
     const mainImageUrl = allImageUrls.find((url, index) => 
       imageRecords[index].is_main
     ) || allImageUrls[0];
@@ -107,34 +107,15 @@ export const useImageSubmission = () => {
       }
     }
     
-    console.log(`Successfully processed ${allImageUrls.length} custom images for hotel ${hotelId}`);
+    console.log(`Successfully processed ${allImageUrls.length} USER IMAGES for hotel ${hotelId}`);
   };
 
   const handleAutoImagePopulation = async (hotelId: string, hotelData: any) => {
-    console.log("Starting auto image population for hotel:", hotelId);
+    console.log("SKIPPING auto image population - user images take priority");
     
-    try {
-      const { data, error } = await supabase.functions.invoke('fetch-hotel-images', {
-        body: {
-          hotelId,
-          city: hotelData.city,
-          country: hotelData.country,
-          style: hotelData.style || 'luxury',
-          hotelName: hotelData.name
-        }
-      });
-
-      if (error) {
-        console.error("Error calling fetch-hotel-images function:", error);
-        return;
-      }
-
-      console.log("Auto image population result:", data);
-      
-    } catch (error) {
-      console.error("Error in auto image population:", error);
-      // Don't throw error - auto population failure shouldn't break hotel creation
-    }
+    // DO NOT auto-populate images if user has uploaded their own
+    // This prevents overwriting user-uploaded photos with system images
+    return Promise.resolve();
   };
 
   return {

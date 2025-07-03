@@ -179,7 +179,7 @@ export function NewStep3AccommodationTerms({
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Step 3: Accommodation Terms</CardHeader>
+          <CardTitle>Step 3: Accommodation Terms</CardTitle>
         </CardHeader>
         <CardContent>
           

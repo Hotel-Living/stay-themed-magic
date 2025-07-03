@@ -299,13 +299,26 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Property style filter applied successfully`);
     }
 
-    // ROOM TYPES FILTER - Using simple text matching approach
+    // ROOM TYPES FILTER - Match room names within JSON structure
     if (filters.roomTypes && filters.roomTypes.length > 0) {
       console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
       
-      // Use PostgreSQL array overlap operator to check if any room type matches
-      query = query.overlaps('room_types', filters.roomTypes);
-      console.log(`✅ Room types filter applied successfully using overlaps: ${filters.roomTypes.join(', ')}`);
+      // Map filter values to actual room names in database
+      const roomTypeMapping: Record<string, string> = {
+        'singleRoom': 'Single Room',
+        'doubleRoom': 'Double Room'
+      };
+      
+      const roomNames = filters.roomTypes.map(type => roomTypeMapping[type] || type);
+      console.log(`🛏️ Mapped room types to names:`, roomNames);
+      
+      // Build OR conditions for each room type name
+      const orConditions = roomNames.map(roomName => 
+        `room_types->0->>'name'.eq."${roomName}",room_types->1->>'name'.eq."${roomName}",room_types->2->>'name'.eq."${roomName}"`
+      ).join(',');
+      
+      query = query.or(orConditions);
+      console.log(`✅ Room types filter applied with JSON path matching`);
     }
 
     // ROOM FEATURES FILTER

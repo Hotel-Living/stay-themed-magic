@@ -63,8 +63,18 @@ export function FilterSidebar({
   };
 
   return (
-    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 min-h-screen flex flex-col">
-      <div className="space-y-4 overflow-y-auto overflow-x-hidden">
+    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 flex flex-col">
+      {/* RESET BUTTON */}
+      <div className="pb-2">
+        <button
+          onClick={onResetAllFilters}
+          className="w-full px-3 py-2 text-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 rounded-lg transition-colors"
+        >
+          Limpiar Filtros
+        </button>
+      </div>
+      
+      <div className="space-y-4 overflow-y-auto overflow-x-hidden flex-1">
         {/* PRICE PER MONTH */}
       <PriceRangeFilter
         activePrice={getPriceValue()}

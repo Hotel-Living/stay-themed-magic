@@ -129,12 +129,20 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
     const dateString = format(date, 'yyyy-MM-dd');
     
     if (!newPackage.startDate) {
+      // Select first date
       setNewPackage(prev => ({ ...prev, startDate: date, selectedDates: [dateString] }));
     } else if (!newPackage.endDate) {
+      // Select second date (end date)
       if (date >= newPackage.startDate) {
         setNewPackage(prev => ({ ...prev, endDate: date }));
         setPackageStep(4);
+      } else {
+        // If selected date is before start date, make it the new start date
+        setNewPackage(prev => ({ ...prev, startDate: date, endDate: null, selectedDates: [dateString] }));
       }
+    } else {
+      // Reset selection if both dates are already selected
+      setNewPackage(prev => ({ ...prev, startDate: date, endDate: null, selectedDates: [dateString] }));
     }
   };
 
@@ -227,19 +235,26 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-4 gap-2">
-                          {validDates.map((date) => (
-                            <Button
-                              key={date.toISOString()}
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDateSelect(date)}
-                              className="h-12"
-                            >
-                              {format(date, 'd')}
-                            </Button>
-                          ))}
-                        </div>
+                         <div className="grid grid-cols-4 gap-2">
+                           {validDates.map((date) => {
+                             const isSelected = newPackage.startDate && format(newPackage.startDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
+                             const isEndSelected = newPackage.endDate && format(newPackage.endDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
+                             const isInRange = newPackage.startDate && newPackage.endDate && 
+                               date >= newPackage.startDate && date <= newPackage.endDate;
+                             
+                             return (
+                               <Button
+                                 key={date.toISOString()}
+                                 variant={isSelected || isEndSelected ? "default" : isInRange ? "secondary" : "outline"}
+                                 size="sm"
+                                 onClick={() => handleDateSelect(date)}
+                                 className={`h-12 ${isSelected ? 'bg-fuchsia-600 text-white' : isEndSelected ? 'bg-fuchsia-500 text-white' : isInRange ? 'bg-fuchsia-200 text-fuchsia-900' : ''}`}
+                               >
+                                 {format(date, 'd')}
+                               </Button>
+                             );
+                           })}
+                         </div>
                       </CardContent>
                     </Card>
                   );
@@ -258,19 +273,26 @@ const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-4 gap-2">
-                          {validDates.map((date) => (
-                            <Button
-                              key={date.toISOString()}
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDateSelect(date)}
-                              className="h-12"
-                            >
-                              {format(date, 'd')}
-                            </Button>
-                          ))}
-                        </div>
+                         <div className="grid grid-cols-4 gap-2">
+                           {validDates.map((date) => {
+                             const isSelected = newPackage.startDate && format(newPackage.startDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
+                             const isEndSelected = newPackage.endDate && format(newPackage.endDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
+                             const isInRange = newPackage.startDate && newPackage.endDate && 
+                               date >= newPackage.startDate && date <= newPackage.endDate;
+                             
+                             return (
+                               <Button
+                                 key={date.toISOString()}
+                                 variant={isSelected || isEndSelected ? "default" : isInRange ? "secondary" : "outline"}
+                                 size="sm"
+                                 onClick={() => handleDateSelect(date)}
+                                 className={`h-12 ${isSelected ? 'bg-fuchsia-600 text-white' : isEndSelected ? 'bg-fuchsia-500 text-white' : isInRange ? 'bg-fuchsia-200 text-fuchsia-900' : ''}`}
+                               >
+                                 {format(date, 'd')}
+                               </Button>
+                             );
+                           })}
+                         </div>
                       </CardContent>
                     </Card>
                   );

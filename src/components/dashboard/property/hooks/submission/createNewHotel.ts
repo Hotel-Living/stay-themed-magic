@@ -7,8 +7,8 @@ import { useImageSubmission } from "./useImageSubmission";
 export const createNewHotel = async (formData: PropertyFormData) => {
   console.log("Creating new hotel with COMPLETE form data:", formData);
   
-  const { user } = await supabase.auth.getUser();
-  if (!user.data.user) {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user) {
     throw new Error("User not authenticated");
   }
 
@@ -21,7 +21,7 @@ export const createNewHotel = async (formData: PropertyFormData) => {
     .from('hotels')
     .insert({
       ...hotelData,
-      owner_id: user.data.user.id
+      owner_id: userData.user.id
     })
     .select()
     .single();

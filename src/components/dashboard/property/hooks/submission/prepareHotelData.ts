@@ -29,12 +29,6 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     contact_email: formData.contactEmail || '',
     contact_phone: formData.contactPhone || '',
     
-    // ENSURE AFFINITIES/THEMES ARE SAVED
-    themes: formData.themes || formData.affinities || [],
-    
-    // ENSURE ACTIVITIES ARE SAVED  
-    activities: formData.activities || [],
-    
     // ENSURE ROOM TYPES ARE SAVED
     room_types: formData.roomTypes || [],
     

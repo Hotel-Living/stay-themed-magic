@@ -34,9 +34,9 @@ export default function CountryAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Get selected country display text (handle lowercase saved values)
+  // Get selected country display text (handle full country names)
   const selectedCountry = countries.find(country => 
-    country.code === value || country.code.toLowerCase() === value
+    country.name === value || country.code === value || country.code.toLowerCase() === value
   );
   const displayText = selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name}` : "";
 
@@ -61,7 +61,7 @@ export default function CountryAutocomplete({
     if (term && filteredCountries.length === 1) {
       const match = filteredCountries[0];
       if (match.name.toLowerCase() === term.toLowerCase()) {
-        onChange(match.code.toLowerCase());
+        onChange(match.name);
         setIsOpen(false);
       }
     }
@@ -69,9 +69,9 @@ export default function CountryAutocomplete({
 
   // Handle country selection
   const handleCountrySelect = (country: Country) => {
-    // Save lowercase country code to match database format
-    console.log(`🌍 COUNTRY SELECTION: Saving "${country.code.toLowerCase()}" for ${country.name}`);
-    onChange(country.code.toLowerCase());
+    // Save full country name to match standardized database format
+    console.log(`🌍 COUNTRY SELECTION: Saving "${country.name}" for ${country.name}`);
+    onChange(country.name);
     setSearchTerm("");
     setIsOpen(false);
     setHighlightedIndex(-1);

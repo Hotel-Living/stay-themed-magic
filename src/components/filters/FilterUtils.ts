@@ -1,18 +1,18 @@
 // Import translation utilities
 import { useTranslation } from "@/hooks/useTranslation";
 
-// Countries - Updated to use ISO codes that match the database
+// Countries - Updated to use full names that match the normalized database
 export const availableCountries = [
-  { value: "ES", label: "Spain 🇪🇸", translationKey: "filters.countries.spain" },
-  { value: "FR", label: "France 🇫🇷", translationKey: "filters.countries.france" },
-  { value: "IT", label: "Italy 🇮🇹", translationKey: "filters.countries.italy" },
-  { value: "US", label: "USA 🇺🇸", translationKey: "filters.countries.usa" },
-  { value: "EG", label: "Egypt 🇪🇬", translationKey: "filters.countries.egypt" },
-  { value: "TR", label: "Turkey 🇹🇷", translationKey: "filters.countries.turkey" },
-  { value: "GB", label: "United Kingdom 🇬🇧", translationKey: "filters.countries.unitedKingdom" },
-  { value: "DE", label: "Germany 🇩🇪", translationKey: "filters.countries.germany" },
-  { value: "PT", label: "Portugal 🇵🇹", translationKey: "filters.countries.portugal" },
-  { value: "GR", label: "Greece 🇬🇷", translationKey: "filters.countries.greece" },
+  { value: "Spain", label: "Spain 🇪🇸", translationKey: "filters.countries.spain" },
+  { value: "France", label: "France 🇫🇷", translationKey: "filters.countries.france" },
+  { value: "Italy", label: "Italy 🇮🇹", translationKey: "filters.countries.italy" },
+  { value: "United States", label: "USA 🇺🇸", translationKey: "filters.countries.usa" },
+  { value: "Egypt", label: "Egypt 🇪🇬", translationKey: "filters.countries.egypt" },
+  { value: "Turkey", label: "Turkey 🇹🇷", translationKey: "filters.countries.turkey" },
+  { value: "United Kingdom", label: "United Kingdom 🇬🇧", translationKey: "filters.countries.unitedKingdom" },
+  { value: "Germany", label: "Germany 🇩🇪", translationKey: "filters.countries.germany" },
+  { value: "Portugal", label: "Portugal 🇵🇹", translationKey: "filters.countries.portugal" },
+  { value: "Greece", label: "Greece 🇬🇷", translationKey: "filters.countries.greece" },
 ];
 
 // Months with translation keys

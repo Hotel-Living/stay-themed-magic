@@ -237,29 +237,21 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // MEAL PLANS FILTER
+    // MEAL PLANS FILTER - Single selection logic
     if (filters.mealPlans && filters.mealPlans.length > 0) {
       console.log(`🍽️ MEAL PLANS FILTER DEBUG:`, filters.mealPlans);
       
-      // Handle "No meals" filter separately
-      if (filters.mealPlans.includes('No meals')) {
-        if (filters.mealPlans.length === 1) {
-          // Only "No meals" selected - show hotels with empty or null meal_plans
-          query = query.or('meal_plans.is.null,meal_plans.eq.{},meal_plans.eq.[]');
-          console.log(`✅ "No meals" filter applied - showing hotels with no meal plans`);
-        } else {
-          // "No meals" + other options - show hotels with no meals OR hotels with selected meal plans
-          const otherPlans = filters.mealPlans.filter(plan => plan !== 'No meals');
-          const mealConditions = otherPlans.map(plan => `meal_plans.cs.[${plan}]`).join(',');
-          query = query.or(`meal_plans.is.null,meal_plans.eq.{},${mealConditions}`);
-          console.log(`✅ Mixed meal plans filter applied - no meals + selected options`);
-        }
+      // Since meal plans are now single-selection, get the first (and only) selected plan
+      const selectedPlan = filters.mealPlans[0];
+      
+      if (selectedPlan === 'No meals') {
+        // "No meals" selected - show hotels with empty or null meal_plans
+        query = query.or('meal_plans.is.null,meal_plans.eq.{},meal_plans.eq.[]');
+        console.log(`✅ "No meals" filter applied - showing hotels with no meal plans`);
       } else {
-        // Regular meal plans filtering (no "No meals" option selected)
-        filters.mealPlans.forEach(plan => {
-          query = query.contains('meal_plans', [plan]);
-        });
-        console.log(`✅ Meal plans filter applied successfully`);
+        // Regular meal plan filtering
+        query = query.contains('meal_plans', [selectedPlan]);
+        console.log(`✅ Single meal plan filter applied: ${selectedPlan}`);
       }
     }
 

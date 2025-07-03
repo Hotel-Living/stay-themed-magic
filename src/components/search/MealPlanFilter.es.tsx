@@ -16,14 +16,14 @@ export function MealPlanFilterES({ activeMealPlans, onChange }: MealPlanFilterES
     { value: "laundryIncluded", label: "Lavandería Incluída" }
   ];
 
-  // Handle single selection logic
+  // Handle single selection logic - only one meal plan can be selected at a time
   const handleMealPlanClick = (planValue: string) => {
     const isCurrentlySelected = activeMealPlans.includes(planValue);
     if (isCurrentlySelected) {
       // Deselect - remove from array
       onChange(planValue, false);
     } else {
-      // Select - first clear all others, then add this one
+      // Select - first clear all others, then add this one (single selection)
       activeMealPlans.forEach(plan => onChange(plan, false));
       onChange(planValue, true);
     }

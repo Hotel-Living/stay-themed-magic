@@ -28,7 +28,17 @@ export function HotelFeaturesFilterES({ activeHotelFeatures, onChange }: HotelFe
     { value: "Acceso a la Playa", label: "Acceso a la Playa" },
     { value: "Vista a la Montaña", label: "Vista a la Montaña" },
     { value: "Jardín", label: "Jardín" },
-    { value: "Terraza", label: "Terraza" }
+    { value: "Terraza", label: "Terraza" },
+    { value: "Caja Fuerte del Hotel", label: "Caja Fuerte del Hotel" },
+    { value: "Ascensor", label: "Ascensor" },
+    { value: "Sala de Juegos", label: "Sala de Juegos" },
+    { value: "Biblioteca", label: "Biblioteca" },
+    { value: "Servicio de Seguridad", label: "Servicio de Seguridad" },
+    { value: "WiFi en Zonas Comunes", label: "WiFi en Zonas Comunes" },
+    { value: "Zona de Barbacoa", label: "Zona de Barbacoa" },
+    { value: "Chimenea", label: "Chimenea" },
+    { value: "Equipo de Sonido", label: "Equipo de Sonido" },
+    { value: "Videoteca", label: "Videoteca" }
   ];
 
   return (

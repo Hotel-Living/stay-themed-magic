@@ -74,7 +74,7 @@ export function FilterSidebar({
         </button>
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(100vh - 160px)' }}>
+      <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden">
         {/* PRICE PER MONTH */}
       <PriceRangeFilter
         activePrice={getPriceValue()}

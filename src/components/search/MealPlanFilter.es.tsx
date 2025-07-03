@@ -24,7 +24,11 @@ export function MealPlanFilterES({ activeMealPlans, onChange }: MealPlanFilterES
       onChange(planValue, false);
     } else {
       // Select - first clear all others, then add this one (single selection)
-      activeMealPlans.forEach(plan => onChange(plan, false));
+      activeMealPlans.forEach(plan => {
+        if (plan !== planValue) {
+          onChange(plan, false);
+        }
+      });
       onChange(planValue, true);
     }
   };

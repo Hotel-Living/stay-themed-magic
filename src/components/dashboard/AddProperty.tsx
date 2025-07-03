@@ -5,7 +5,12 @@ import { usePropertySubmission } from './property/hooks/usePropertySubmission';
 import PropertyFormNavigation from './property/components/PropertyFormNavigation';
 import StepContent from './PropertySteps/StepContent';
 
-export default function AddProperty() {
+interface AddPropertyProps {
+  editingHotelId?: string;
+  onDoneEditing?: () => void;
+}
+
+export default function AddProperty({ editingHotelId, onDoneEditing }: AddPropertyProps) {
   const {
     currentStep,
     formData,
@@ -22,7 +27,10 @@ export default function AddProperty() {
 
   const handleSubmit = async () => {
     try {
-      await submitProperty(formData);
+      await submitProperty(formData, editingHotelId);
+      if (onDoneEditing) {
+        onDoneEditing();
+      }
     } catch (error) {
       console.error('Error submitting property:', error);
     }

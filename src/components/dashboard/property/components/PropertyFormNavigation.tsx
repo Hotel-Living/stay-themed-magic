@@ -4,29 +4,37 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyFormNavigationProps {
   currentStep: number;
-  totalSteps: number;
-  onPrevious: () => void;
-  onNext: () => void;
+  isStepValid: boolean;
+  canMoveToNextStep: boolean;
+  canMoveToPrevStep: boolean;
+  onNextStep: () => void;
+  onPrevStep: () => void;
   onSubmit: () => void;
+  isSubmitting: boolean;
 }
 
 export default function PropertyFormNavigation({
   currentStep,
-  totalSteps,
-  onPrevious,
-  onNext,
-  onSubmit
+  isStepValid,
+  canMoveToNextStep,
+  canMoveToPrevStep,
+  onNextStep,
+  onPrevStep,
+  onSubmit,
+  isSubmitting
 }: PropertyFormNavigationProps) {
   const { t } = useTranslation();
+  
+  const totalSteps = 5; // Assuming 5 steps total
   
   return (
     <div className="flex items-center justify-between mb-3">
       <button 
-        onClick={onPrevious} 
+        onClick={onPrevStep} 
         className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-          currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+          !canMoveToPrevStep ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
         }`} 
-        disabled={currentStep === 1}
+        disabled={!canMoveToPrevStep}
       >
         {t('dashboard.navigation.previous')}
       </button>
@@ -35,13 +43,15 @@ export default function PropertyFormNavigation({
         <button 
           onClick={onSubmit} 
           className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
+          disabled={isSubmitting}
         >
-          {t('dashboard.navigation.submit')}
+          {isSubmitting ? 'Submitting...' : t('dashboard.navigation.submit')}
         </button>
       ) : (
         <button 
-          onClick={onNext} 
+          onClick={onNextStep} 
           className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
+          disabled={!canMoveToNextStep}
         >
           {t('dashboard.navigation.next')}
         </button>

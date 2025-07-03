@@ -28,12 +28,16 @@ export default function AddProperty({ editingHotelId, onDoneEditing }: AddProper
 
   const handleSubmit = async () => {
     try {
-      await submitProperty(formData, editingHotelId);
-      // Clear the draft after successful submission
-      clearDraft();
-      if (onDoneEditing) {
-        onDoneEditing();
+      const result = await submitProperty(formData, editingHotelId);
+      // CRITICAL: Only proceed if submission actually succeeded
+      if (result) {
+        // Clear the draft after successful submission
+        clearDraft();
+        if (onDoneEditing) {
+          onDoneEditing();
+        }
       }
+      // If result is null, validation failed and form data is preserved
     } catch (error) {
       console.error('Error submitting property:', error);
     }

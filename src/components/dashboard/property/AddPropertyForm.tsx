@@ -27,10 +27,12 @@ export default function AddPropertyForm({ editingHotelId, onDoneEditing }: AddPr
 
   const handleSubmit = async () => {
     try {
-      await submitProperty(formData, editingHotelId);
-      if (onDoneEditing) {
+      const result = await submitProperty(formData, editingHotelId);
+      // CRITICAL: Only proceed if submission actually succeeded
+      if (result && onDoneEditing) {
         onDoneEditing();
       }
+      // If result is null, validation failed and form data is preserved
     } catch (error) {
       console.error('Error submitting property:', error);
     }

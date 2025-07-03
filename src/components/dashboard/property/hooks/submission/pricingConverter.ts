@@ -6,28 +6,56 @@ import type { PropertyFormData } from "../usePropertyFormData";
 export const convertPricingData = (formData: PropertyFormData): PropertyFormData & { price_per_month: number } => {
   const convertedData = { ...formData } as PropertyFormData & { price_per_month: number };
   
-  // Extract pricing fields from form data - now aligned with StayDurationSection
-  const price8 = (formData as any).price_8;
-  const price15 = (formData as any).price_15;
-  const price22 = (formData as any).price_22;
-  const price29 = (formData as any).price_29;
-  
-  console.log('🔄 Converting pricing data:', { price8, price15, price22, price29 });
-  
-  // Build pricing matrix from individual price fields
+  // Build pricing matrix from multiple sources
   const pricingMatrix: any[] = [];
   
-  if (price8 && price8 > 0) {
-    pricingMatrix.push({ duration: 8, price: price8, currency: 'EUR' });
-  }
-  if (price15 && price15 > 0) {
-    pricingMatrix.push({ duration: 15, price: price15, currency: 'EUR' });
-  }
-  if (price22 && price22 > 0) {
-    pricingMatrix.push({ duration: 22, price: price22, currency: 'EUR' });
-  }
-  if (price29 && price29 > 0) {
-    pricingMatrix.push({ duration: 29, price: price29, currency: 'EUR' });
+  // 1. FIRST PRIORITY: Convert from durationPricing (PackagesBuilderStep)
+  const durationPricing = (formData as any).durationPricing || {};
+  const durationKeys = Object.keys(durationPricing);
+  
+  if (durationKeys.length > 0) {
+    console.log('🔄 Converting durationPricing data:', durationPricing);
+    
+    // Convert durationPricing to pricingMatrix format
+    Object.entries(durationPricing).forEach(([duration, pricing]: [string, any]) => {
+      if (pricing && pricing.double && parseFloat(pricing.double) > 0) {
+        pricingMatrix.push({ 
+          duration: parseInt(duration), 
+          price: parseFloat(pricing.double), 
+          occupancy: 'double',
+          currency: 'EUR' 
+        });
+      }
+      if (pricing && pricing.single && parseFloat(pricing.single) > 0) {
+        pricingMatrix.push({ 
+          duration: parseInt(duration), 
+          price: parseFloat(pricing.single), 
+          occupancy: 'single',
+          currency: 'EUR' 
+        });
+      }
+    });
+  } else {
+    // 2. FALLBACK: Convert from legacy price_X fields (StayDurationSection)
+    const price8 = (formData as any).price_8;
+    const price15 = (formData as any).price_15;
+    const price22 = (formData as any).price_22;
+    const price29 = (formData as any).price_29;
+    
+    console.log('🔄 Converting legacy pricing data:', { price8, price15, price22, price29 });
+    
+    if (price8 && price8 > 0) {
+      pricingMatrix.push({ duration: 8, price: price8, currency: 'EUR' });
+    }
+    if (price15 && price15 > 0) {
+      pricingMatrix.push({ duration: 15, price: price15, currency: 'EUR' });
+    }
+    if (price22 && price22 > 0) {
+      pricingMatrix.push({ duration: 22, price: price22, currency: 'EUR' });
+    }
+    if (price29 && price29 > 0) {
+      pricingMatrix.push({ duration: 29, price: price29, currency: 'EUR' });
+    }
   }
   
   convertedData.pricingMatrix = pricingMatrix;

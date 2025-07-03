@@ -26,7 +26,22 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
   });
   
   // Check the ACTUAL pricing data structure used by the form
-  // 1. Check rates object (primary storage for pricing in StayRatesStep)
+  // 1. Check durationPricing (PRIMARY storage from PackagesBuilderStep)
+  const durationPricing = (formData as any).durationPricing || {};
+  const durationKeys = Object.keys(durationPricing);
+  const hasValidDurationPricing = durationKeys.length > 0 && 
+    Object.values(durationPricing).some((pricing: any) => {
+      return pricing && 
+             pricing.double && pricing.single && 
+             parseFloat(pricing.double) > 0 && parseFloat(pricing.single) > 0;
+    });
+  console.log("💰 Duration pricing (PackagesBuilderStep):", { 
+    keys: durationKeys, 
+    values: durationPricing,
+    isValid: hasValidDurationPricing 
+  });
+  
+  // 2. Check rates object (StayRatesStep)
   const rates = formData.rates || {};
   const ratesKeys = Object.keys(rates);
   const hasValidRates = ratesKeys.length > 0 && 
@@ -40,7 +55,7 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
     isValid: hasValidRates 
   });
   
-  // 2. Check pricingMatrix (converted from rates)
+  // 3. Check pricingMatrix (converted from rates)
   const pricingMatrix = formData.pricingMatrix || [];
   const hasValidPricingMatrix = pricingMatrix.length > 0 && 
     pricingMatrix.some((pkg: any) => {
@@ -53,7 +68,7 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
     isValid: hasValidPricingMatrix 
   });
   
-  // 3. Check legacy price_X fields (backup check) - now aligned with StayDurationSection
+  // 4. Check legacy price_X fields (backup check)
   const pricingFields = ['price_8', 'price_15', 'price_22', 'price_29'];
   const hasValidPricingFields = pricingFields.some(field => {
     const price = (formData as any)[field];
@@ -64,15 +79,16 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
     isValid: hasValidPricingFields 
   });
   
-  // 4. Check monthly price (fallback)
+  // 5. Check monthly price (fallback)
   const monthlyPrice = (formData as any).price_per_month;
   const hasValidMonthlyPrice = monthlyPrice && monthlyPrice > 0;
   console.log("💰 Monthly price:", { value: monthlyPrice, type: typeof monthlyPrice, isValid: hasValidMonthlyPrice });
   
-  // Final validation result
-  const anyPricingValid = hasValidRates || hasValidPricingMatrix || hasValidPricingFields || hasValidMonthlyPrice;
+  // Final validation result - durationPricing has priority
+  const anyPricingValid = hasValidDurationPricing || hasValidRates || hasValidPricingMatrix || hasValidPricingFields || hasValidMonthlyPrice;
   
   console.log("✅ Validation results:", {
+    hasValidDurationPricing,
     hasValidRates,
     hasValidPricingMatrix,
     hasValidPricingFields,
@@ -82,7 +98,7 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
   
   if (!anyPricingValid) {
     console.error('🚨 ALL PRICING VALIDATION FAILED');
-    console.error('🚨 No valid pricing found in: rates, pricingMatrix, price_X fields, or monthly price');
+    console.error('🚨 No valid pricing found in: durationPricing, rates, pricingMatrix, price_X fields, or monthly price');
     console.groupEnd();
     errors.push("Valid pricing is required - please set at least one package price");
   } else {

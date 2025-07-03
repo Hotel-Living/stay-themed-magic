@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText } from "lucide-react";
+import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText, Plus } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 
 // Import refactored components
@@ -40,6 +40,11 @@ export default function HotelDashboardRO() {
       id: "properties",
       label: "Proprietăți",
       icon: <Building className="w-5 h-5" />
+    },
+    {
+      id: "add-property",
+      label: "Adăugați Proprietate",
+      icon: <Plus className="w-5 h-5" />
     },
     {
       id: "advertising",

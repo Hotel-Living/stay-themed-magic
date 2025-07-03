@@ -10,16 +10,30 @@ export const usePropertySubmission = () => {
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
 
   const submitProperty = async (formData: PropertyFormData, editingHotelId?: string) => {
+    console.group("🚀 PROPERTY SUBMISSION START");
+    console.log("📋 Form data at submission:", formData);
+    console.log("✏️ Editing hotel ID:", editingHotelId);
+    
+    // Log critical arrays to verify they exist
+    console.log("🔍 Critical data check:");
+    console.log("   Room types:", formData.roomTypes?.length || 0);
+    console.log("   Meal plans:", formData.mealPlans?.length || 0);
+    console.log("   Stay lengths:", formData.stayLengths?.length || 0);
+    console.log("   Themes:", formData.themes?.length || 0);
+    console.log("   Activities:", formData.activities?.length || 0);
+    console.log("   Hotel images:", formData.hotelImages?.length || 0);
+    console.groupEnd();
+    
     setIsSubmitting(true);
     
     try {
       let result;
       
       if (editingHotelId) {
-        console.log("Updating existing hotel:", editingHotelId);
+        console.log("🔄 Updating existing hotel:", editingHotelId);
         result = await updateExistingHotel(formData, editingHotelId);
       } else {
-        console.log("Creating new hotel");
+        console.log("🆕 Creating new hotel");
         result = await createNewHotel(formData);
       }
 

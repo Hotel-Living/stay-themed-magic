@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "../usePropertyFormData";
 import { prepareHotelData } from "./prepareHotelData";
 import { UploadedImage } from "@/hooks/usePropertyImages";
+import { logFormDataState, logDatabaseData, logRelationshipData } from "./dataLogger";
 
 // Enhanced image upload utility function with better error handling
 const uploadHotelImages = async (hotelId: string, images: UploadedImage[]) => {
@@ -180,7 +181,8 @@ const uploadHotelImages = async (hotelId: string, images: UploadedImage[]) => {
 };
 
 export const createNewHotel = async (formData: PropertyFormData) => {
-  console.log("Creating new hotel with COMPLETE form data:", formData);
+  // Log initial form data state
+  logFormDataState("FORM SUBMISSION START", formData);
   
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData.user) {
@@ -189,7 +191,7 @@ export const createNewHotel = async (formData: PropertyFormData) => {
 
   // Prepare hotel data with ALL fields
   const hotelData = prepareHotelData(formData);
-  console.log("Prepared hotel data with all fields:", hotelData);
+  logDatabaseData("HOTEL DATA PREPARED", hotelData);
   
   // Insert hotel with owner_id
   const { data: hotel, error: hotelError } = await supabase
@@ -206,13 +208,15 @@ export const createNewHotel = async (formData: PropertyFormData) => {
     throw hotelError;
   }
 
-  console.log("Hotel created successfully:", hotel);
+  logDatabaseData("HOTEL CREATED IN DATABASE", hotel);
 
   // CRITICAL: Handle all related data - themes, activities, availability, and images
   try {
+    const relationshipData: any = {};
+    
     // Handle themes/affinities
     if (formData.themes && formData.themes.length > 0) {
-      console.log("Saving themes/affinities:", formData.themes);
+      console.log("🎨 Saving themes/affinities:", formData.themes);
       const themeInserts = formData.themes.map(themeId => ({
         hotel_id: hotel.id,
         theme_id: themeId
@@ -223,15 +227,18 @@ export const createNewHotel = async (formData: PropertyFormData) => {
         .insert(themeInserts);
 
       if (themesError) {
-        console.error("Error saving themes:", themesError);
+        console.error("❌ Error saving themes:", themesError);
       } else {
-        console.log("Themes saved successfully:", themeInserts.length);
+        console.log("✅ Themes saved successfully:", themeInserts.length);
+        relationshipData.themes = themeInserts;
       }
+    } else {
+      console.warn("⚠️ No themes provided to save");
     }
 
     // Handle activities
     if (formData.activities && formData.activities.length > 0) {
-      console.log("Saving activities:", formData.activities);
+      console.log("🎯 Saving activities:", formData.activities);
       const activityInserts = formData.activities.map(activityId => ({
         hotel_id: hotel.id,
         activity_id: activityId
@@ -242,15 +249,18 @@ export const createNewHotel = async (formData: PropertyFormData) => {
         .insert(activityInserts);
 
       if (activitiesError) {
-        console.error("Error saving activities:", activitiesError);
+        console.error("❌ Error saving activities:", activitiesError);
       } else {
-        console.log("Activities saved successfully:", activityInserts.length);
+        console.log("✅ Activities saved successfully:", activityInserts.length);
+        relationshipData.activities = activityInserts;
       }
+    } else {
+      console.warn("⚠️ No activities provided to save");
     }
     
     // Handle availability data
     if (formData.available_months && formData.available_months.length > 0) {
-      console.log("Processing availability months:", formData.available_months);
+      console.log("📅 Processing availability months:", formData.available_months);
       
       const currentYear = new Date().getFullYear();
       const availabilityRows = formData.available_months.map(month => ({
@@ -267,16 +277,22 @@ export const createNewHotel = async (formData: PropertyFormData) => {
         .insert(availabilityRows);
 
       if (availabilityError) {
-        console.error("Error saving availability:", availabilityError);
+        console.error("❌ Error saving availability:", availabilityError);
       } else {
-        console.log("Availability saved successfully:", availabilityRows.length);
+        console.log("✅ Availability saved successfully:", availabilityRows.length);
+        relationshipData.availability = availabilityRows;
       }
+    } else {
+      console.warn("⚠️ No availability months provided to save");
     }
     
     // Handle hotel images
     if (formData.hotelImages && formData.hotelImages.length > 0) {
-      console.log("Processing hotel images:", formData.hotelImages.length);
-      await uploadHotelImages(hotel.id, formData.hotelImages);
+      console.log("🖼️ Processing hotel images:", formData.hotelImages.length);
+      const imageResult = await uploadHotelImages(hotel.id, formData.hotelImages);
+      relationshipData.images = imageResult;
+    } else {
+      console.warn("⚠️ No hotel images provided to save");
     }
     
     // Handle room images (from formData.roomImages or extracted from roomTypes)
@@ -295,15 +311,22 @@ export const createNewHotel = async (formData: PropertyFormData) => {
     }
     
     if (roomImages.length > 0) {
-      console.log("Processing room images:", roomImages.length);
-      await uploadHotelImages(hotel.id, roomImages);
+      console.log("🛏️ Processing room images:", roomImages.length);
+      const roomImageResult = await uploadHotelImages(hotel.id, roomImages);
+      relationshipData.roomImages = roomImageResult;
+    } else {
+      console.warn("⚠️ No room images provided to save");
     }
     
+    // Log all relationship data that was processed
+    logRelationshipData("RELATIONSHIPS SAVED", relationshipData);
+    
   } catch (error) {
-    console.error("Error handling related data:", error);
+    console.error("❌ Error handling related data:", error);
     // Don't throw - let the hotel creation succeed even if some related data fails
   }
 
-  console.log("Hotel creation completed with all data preserved");
+  console.log("✅ Hotel creation completed with all data preserved");
+  logFormDataState("FORM SUBMISSION COMPLETE", formData);
   return hotel;
 };

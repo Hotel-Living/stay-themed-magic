@@ -10,9 +10,7 @@ interface RoomTypesFilterESProps {
 export function RoomTypesFilterES({ activeRoomTypes, onChange }: RoomTypesFilterESProps) {
   const roomTypeOptions = [
     { value: "singleRoom", label: "Habitación Individual" },
-    { value: "doubleRoom", label: "Habitación Doble" },
-    { value: "suite", label: "Suite" },
-    { value: "apartment", label: "Apartamento" }
+    { value: "doubleRoom", label: "Habitación Doble" }
   ];
 
   return (

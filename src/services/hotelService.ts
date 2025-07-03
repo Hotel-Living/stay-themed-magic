@@ -177,29 +177,21 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Max price filter applied successfully: <= ${filters.maxPrice}`);
     }
 
-    // STAY LENGTH FILTER - Map UI values to database values  
+    // STAY LENGTHS FILTER - Map UI values to nights stored in database
     if (filters.stayLengths) {
-      console.log(`⏱️ STAY LENGTH FILTER DEBUG: ${filters.stayLengths}`);
+      console.log(`🏨 STAY LENGTHS FILTER DEBUG: ${filters.stayLengths}`);
       
-      // Map user-facing night values to database night values
-      // Database stores: [32] for monthly stays, but we need to support 7,14,21,28 too
-      const nightToNightMap: Record<string, number[]> = {
-        '7 nights': [7, 8],     // Support both 7 and 8 night options
-        '14 nights': [14, 15],  // Support both 14 and 15 night options  
-        '21 nights': [21, 22],  // Support both 21 and 22 night options
-        '28 nights': [28, 29, 30, 31, 32]  // Support monthly options including 32
-      };
+      // Convert string numbers directly to numbers (no "nights" suffix)
+      const nightValue = parseInt(filters.stayLengths);
       
-      const possibleNightValues = nightToNightMap[filters.stayLengths];
-      if (possibleNightValues && possibleNightValues.length > 0) {
-        console.log(`   - Converting "${filters.stayLengths}" to possible night values: ${possibleNightValues.join(', ')}`);
+      if (!isNaN(nightValue)) {
+        console.log(`🏨 Stay length mapping: "${filters.stayLengths}" -> ${nightValue} nights`);
         
-        // Use OR conditions to match any of the possible values
-        const conditions = possibleNightValues.map(value => `stay_lengths.cs.[${value}]`).join(',');
-        query = query.or(conditions);
-        console.log(`✅ Stay length filter applied successfully: ${filters.stayLengths} -> ${possibleNightValues.join(', ')} nights`);
+        // Filter hotels that have this value in their stay_lengths array
+        query = query.overlaps('stay_lengths', [nightValue]);
+        console.log(`✅ Stay length filter applied successfully: ${filters.stayLengths} -> ${nightValue} nights`);
       } else {
-        console.warn(`⚠️ Unknown stay length value: ${filters.stayLengths}`);
+        console.warn(`⚠️ Invalid stay length value: ${filters.stayLengths}`);
       }
     }
 
@@ -338,7 +330,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (error) {
       console.error('Supabase query error:', error);
-      throw error;
+      throw new Error(`Database query failed: ${error.message}`);
     }
 
     console.log(`📊 Database returned ${hotels?.length || 0} hotels`);

@@ -1,15 +1,33 @@
 import { PropertyFormData } from "../usePropertyFormData";
 
 export const prepareHotelData = (formData: PropertyFormData) => {
-  console.log("Preparing hotel data with ALL form fields:", formData);
+  console.log("📋 Preparing hotel data with COMPLETE form fields:", formData);
+  console.log("📋 Room types being prepared:", formData.roomTypes);
+  console.log("📋 Meal plans being prepared:", formData.mealPlans);
+  console.log("📋 Stay lengths being prepared:", formData.stayLengths);
+  console.log("📋 Available months being prepared:", formData.available_months);
   
-  return {
+  // Ensure arrays are properly formatted and not null
+  const safeRoomTypes = Array.isArray(formData.roomTypes) ? formData.roomTypes : [];
+  const safeMealPlans = Array.isArray(formData.mealPlans) ? formData.mealPlans : [];
+  const safeStayLengths = Array.isArray(formData.stayLengths) ? formData.stayLengths : 
+                         Array.isArray(formData.stayDurations) ? formData.stayDurations : [];
+  const safeAvailableMonths = Array.isArray(formData.available_months) ? formData.available_months : [];
+  
+  console.log("📋 Safe arrays prepared:", {
+    roomTypes: safeRoomTypes,
+    mealPlans: safeMealPlans,
+    stayLengths: safeStayLengths,
+    availableMonths: safeAvailableMonths
+  });
+  
+  const hotelData = {
     // Basic information
-    name: formData.hotelName,
-    description: formData.description,
-    category: parseInt(formData.category) || null,
-    property_type: formData.propertyType,
-    style: formData.style,
+    name: formData.hotelName || '',
+    description: formData.description || '',
+    category: formData.category ? parseInt(formData.category) : null,
+    property_type: formData.propertyType || '',
+    style: formData.style || '',
     
     // Extended descriptions - ENSURE THESE ARE SAVED
     ideal_guests: formData.idealGuests || '',
@@ -17,8 +35,8 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     perfect_location: formData.perfectLocation || '',
     
     // Location information - ENSURE ADDRESS IS SAVED
-    country: formData.country,
-    city: formData.city,
+    country: formData.country || '',
+    city: formData.city || '',
     address: formData.address || '',
     postal_code: formData.postalCode || '',
     latitude: formData.latitude ? parseFloat(formData.latitude.toString()) : null,
@@ -29,20 +47,16 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     contact_email: formData.contactEmail || '',
     contact_phone: formData.contactPhone || '',
     
-    // ENSURE ROOM TYPES ARE SAVED
-    room_types: formData.roomTypes || [],
-    
-    // ENSURE MEAL PLANS ARE SAVED
-    meal_plans: formData.mealPlans || [],
-    
-    // ENSURE STAY DURATIONS ARE SAVED
-    stay_lengths: formData.stayLengths || formData.stayDurations || [],
+    // CRITICAL: ENSURE ARRAYS ARE PROPERLY SAVED - NOT EMPTY
+    room_types: safeRoomTypes,
+    meal_plans: safeMealPlans,
+    stay_lengths: safeStayLengths,
     
     // ENSURE CHECK-IN DAY IS SAVED
     check_in_weekday: formData.checkinDay || formData.preferredWeekday || 'Monday',
     
     // ENSURE AVAILABILITY IS SAVED
-    available_months: formData.available_months || [],
+    available_months: safeAvailableMonths,
     
     // Features
     features_hotel: formData.featuresHotel || {},
@@ -64,4 +78,7 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     // Status
     status: 'pending'
   };
+  
+  console.log("✅ Final prepared hotel data:", hotelData);
+  return hotelData;
 };

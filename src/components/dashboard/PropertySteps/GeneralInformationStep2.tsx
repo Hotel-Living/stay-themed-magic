@@ -23,22 +23,10 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
     activities: false
   });
 
-  // Validate step completion
+  // Always set validation to true to allow navigation
   useEffect(() => {
-    const hasAffinities = formData.themes && formData.themes.length > 0;
-    const hasActivities = formData.activities && formData.activities.length > 0;
-    
-    const newValidationState = {
-      affinities: hasAffinities,
-      activities: hasActivities
-    };
-    
-    setValidationState(newValidationState);
-    
-    // Step is valid if both sections have data
-    const isValid = hasAffinities && hasActivities;
-    onValidationChange(isValid);
-  }, [formData.themes, formData.activities, onValidationChange]);
+    onValidationChange(true);
+  }, [onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
     const currentThemes = formData.themes || [];

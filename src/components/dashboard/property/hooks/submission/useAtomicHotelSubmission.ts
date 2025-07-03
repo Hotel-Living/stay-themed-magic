@@ -15,6 +15,9 @@ interface AtomicSubmissionResult {
   errors: string[];
 }
 
+// Import the shared pricing converter
+import { convertPricingData } from "./pricingConverter";
+
 /**
  * Calculate monthly price from pricing matrix or use existing monthly price
  */
@@ -377,6 +380,7 @@ export const useAtomicHotelSubmission = () => {
   };
 
   return {
-    createHotelAtomically
+    createHotelAtomically,
+    convertPricingData
   };
 };

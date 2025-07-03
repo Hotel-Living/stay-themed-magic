@@ -13,22 +13,37 @@ export interface ValidationResult {
 }
 
 /**
- * Validates pricing structure - handles both monthly pricing and package-based pricing
+ * Validates pricing structure - checks for actual pricing fields used in form
  */
 const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors: string[] } => {
   const errors: string[] = [];
   
-  // Check if we have pricingMatrix (package-based pricing)
+  // Check for actual pricing fields used in the form
+  const pricingFields = ['price_8', 'price_16', 'price_24', 'price_32'];
+  const hasValidPricing = pricingFields.some(field => {
+    const price = (formData as any)[field];
+    return price && typeof price === 'number' && price > 0;
+  });
+  
+  // Also check for traditional monthly pricing as fallback
+  const monthlyPrice = (formData as any).price_per_month;
+  const hasValidMonthlyPrice = monthlyPrice && monthlyPrice > 0;
+  
+  // Check for pricingMatrix if it exists (after conversion)
   const pricingMatrix = formData.pricingMatrix || [];
   const hasValidPricingMatrix = pricingMatrix.length > 0 && 
     pricingMatrix.some((pkg: any) => pkg.price && pkg.price > 0);
   
-  // Check if we have traditional monthly pricing
-  const monthlyPrice = (formData as any).price_per_month;
-  const hasValidMonthlyPrice = monthlyPrice && monthlyPrice > 0;
-  
-  if (!hasValidPricingMatrix && !hasValidMonthlyPrice) {
-    errors.push("Valid pricing is required - either set monthly rate or configure package prices");
+  if (!hasValidPricing && !hasValidMonthlyPrice && !hasValidPricingMatrix) {
+    // Provide detailed debugging information
+    const priceValues = pricingFields.map(field => `${field}: ${(formData as any)[field] || 'undefined'}`);
+    console.error('🚨 Pricing validation failed. Current pricing data:', {
+      priceValues,
+      monthlyPrice,
+      pricingMatrix: pricingMatrix.length,
+      formDataKeys: Object.keys(formData)
+    });
+    errors.push("Valid pricing is required - please set at least one package price");
   }
   
   // Validate pricing matrix entries if they exist

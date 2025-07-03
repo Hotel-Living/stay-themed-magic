@@ -16,11 +16,21 @@ export const usePropertySubmission = () => {
     console.log("📋 Form data at submission:", formData);
     console.log("✏️ Editing hotel ID:", editingHotelId);
     
-    // PHASE 4: Pre-submission validation
-    const validation = validateBeforeSubmission(formData);
+    // CRITICAL: Backup form data to prevent loss on validation failure
+    const formDataBackup = JSON.parse(JSON.stringify(formData));
+    console.log("💾 Form data backed up for recovery");
+    
+    // PHASE 1: Convert pricing data from individual fields to proper format
+    const { convertPricingData } = await import("./submission/pricingConverter");
+    const convertedData = convertPricingData(formData);
+    console.log("🔄 Pricing data converted before validation");
+    
+    // PHASE 2: Pre-submission validation on converted data
+    const validation = validateBeforeSubmission(convertedData);
     
     if (!validation.isValid) {
       console.error("❌ Validation failed:", validation.errors);
+      console.warn("🔄 Form data preserved - no data loss occurred");
       toast({
         title: "Validation Error",
         description: validation.errors.join(". "),
@@ -40,8 +50,8 @@ export const usePropertySubmission = () => {
       });
     }
 
-    // Check data integrity
-    if (!validateDataIntegrity(formData)) {
+    // Check data integrity on converted data
+    if (!validateDataIntegrity(convertedData)) {
       console.error("❌ Data integrity check failed");
       toast({
         title: "Data Error",
@@ -54,12 +64,14 @@ export const usePropertySubmission = () => {
     
     // Log critical arrays to verify they exist
     console.log("🔍 Critical data check:");
-    console.log("   Room types:", formData.roomTypes?.length || 0);
-    console.log("   Meal plans:", formData.mealPlans?.length || 0);
-    console.log("   Stay lengths:", formData.stayLengths?.length || 0);
-    console.log("   Themes:", formData.themes?.length || 0);
-    console.log("   Activities:", formData.activities?.length || 0);
-    console.log("   Hotel images:", formData.hotelImages?.length || 0);
+    console.log("   Room types:", convertedData.roomTypes?.length || 0);
+    console.log("   Meal plans:", convertedData.mealPlans?.length || 0);
+    console.log("   Stay lengths:", convertedData.stayLengths?.length || 0);
+    console.log("   Themes:", convertedData.themes?.length || 0);
+    console.log("   Activities:", convertedData.activities?.length || 0);
+    console.log("   Hotel images:", convertedData.hotelImages?.length || 0);
+    console.log("   Pricing matrix:", convertedData.pricingMatrix?.length || 0);
+    console.log("   Monthly price:", convertedData.price_per_month);
     console.groupEnd();
     
     setIsSubmitting(true);
@@ -69,10 +81,10 @@ export const usePropertySubmission = () => {
       
       if (editingHotelId) {
         console.log("🔄 Updating existing hotel:", editingHotelId);
-        result = await updateExistingHotel(formData, editingHotelId);
+        result = await updateExistingHotel(convertedData, editingHotelId);
       } else {
         console.log("🆕 Creating new hotel");
-        result = await createNewHotel(formData);
+        result = await createNewHotel(convertedData);
       }
 
       toast({

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InteractiveMap from "./StepOne/Location/InteractiveMap";
+import CountryAutocomplete from "./StepOne/Location/CountryAutocomplete";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -37,10 +38,9 @@ export default function LocationStep({
   const [availableCities, setAvailableCities] = useState<string[]>([]);
   const [citiesLoading, setCitiesLoading] = useState(false);
   
-  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSelectedCountry(value);
-    handleChange('country', value);
+  const handleCountryChange = (countryCode: string) => {
+    setSelectedCountry(countryCode);
+    handleChange('country', countryCode);
     
     // Reset city selection when country changes
     setSelectedCity("");
@@ -95,11 +95,12 @@ export default function LocationStep({
         }
 
         // Fetch cities from database for this specific country
+        // Handle multiple possible country formats in the database
         const { data: hotelData, error } = await supabase
           .from('hotels')
           .select('city, country')
           .eq('status', 'approved')
-          .eq('country', selectedCountryObj.name);
+          .or(`country.eq.${selectedCountryObj.name},country.eq.${selectedCountryObj.code},country.ilike.%${selectedCountryObj.name}%`);
 
         if (error) {
           console.error('Error fetching cities:', error);
@@ -199,23 +200,18 @@ export default function LocationStep({
           <label className="block text-sm font-medium text-white mb-1 uppercase">
             {t('dashboard.country')}
           </label>
-          <select 
-            required 
-            value={selectedCountry} 
+          <CountryAutocomplete
+            countries={countries}
+            value={selectedCountry}
             onChange={handleCountryChange}
             onBlur={() => handleBlur('country')}
+            placeholder={filterLoading ? t('dashboard.loading') : t('dashboard.selectCountry')}
             disabled={filterLoading}
             className={`text-white w-full p-2.5 rounded-lg border focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486] ${
               touchedFields.country && errors.country ? 'border-red-500' : 'border-fuchsia-800/30'
             }`}
-          >
-            <option value="">{filterLoading ? t('dashboard.loading') : t('dashboard.selectCountry')}</option>
-            {countries.map((country, index) => (
-              <option key={`${country.code}-${index}`} value={country.code}>
-                {country.flag} {country.name}
-              </option>
-            ))}
-          </select>
+            error={!!(touchedFields.country && errors.country)}
+          />
           {touchedFields.country && errors.country && (
             <p className="text-red-400 text-sm mt-1">{errors.country}</p>
           )}

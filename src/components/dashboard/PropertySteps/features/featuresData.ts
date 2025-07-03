@@ -20,3 +20,8 @@ export const roomFeatures = [
   "Habitaciones Comunicadas", "Cuna Disponible", "Camas Supletorias",
   "Ropa de Cama Hipoalergénica", "Batas y Zapatillas", "Productos de Aseo Premium"
 ];
+
+export const featuresData = {
+  hotel: hotelFeatures,
+  room: roomFeatures
+};

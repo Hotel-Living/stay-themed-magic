@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import AffinitiesSection from "./themes/AffinitiesSection";
-import ActivitiesSection from "./activities/ActivitiesSection";
-import FeaturesList from "./features/FeaturesList";
-import { featuresData } from "./features/featuresData";
+import { AffinitiesSection } from "./themes/AffinitiesSection";
+import { ActivitiesSection } from "./activities/ActivitiesSection";
+import { FeaturesList } from "./features/FeaturesList";
+import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
 interface GeneralInformationStep2Props {
   formData: any;
@@ -40,6 +40,31 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
     onValidationChange(isValid);
   }, [formData.themes, formData.activities, onValidationChange]);
 
+  const handleThemeSelect = (themeId: string, isSelected: boolean) => {
+    const currentThemes = formData.themes || [];
+    const updatedThemes = isSelected 
+      ? [...currentThemes, themeId]
+      : currentThemes.filter((id: string) => id !== themeId);
+    updateFormData('themes', updatedThemes);
+  };
+
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
+    const currentActivities = formData.activities || [];
+    const updatedActivities = isChecked
+      ? [...currentActivities, activity]
+      : currentActivities.filter((a: string) => a !== activity);
+    updateFormData('activities', updatedActivities);
+  };
+
+  const handleFeatureToggle = (featureType: 'hotel' | 'room', feature: string) => {
+    const fieldName = featureType === 'hotel' ? 'featuresHotel' : 'featuresRoom';
+    const currentFeatures = formData[fieldName] || [];
+    const updatedFeatures = currentFeatures.includes(feature)
+      ? currentFeatures.filter((f: string) => f !== feature)
+      : [...currentFeatures, feature];
+    updateFormData(fieldName, updatedFeatures);
+  };
+
   return (
     <div className="space-y-8 max-w-[80%]">
       <div className="text-center mb-6">
@@ -50,18 +75,20 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
       {/* Affinities Section */}
       <div className="bg-purple-900/30 rounded-lg p-6">
         <AffinitiesSection
-          formData={formData}
-          updateFormData={updateFormData}
-          isValid={validationState.affinities}
+          selectedThemes={formData.themes || []}
+          onThemeSelect={handleThemeSelect}
+          openCategory={null}
+          setOpenCategory={() => {}}
+          openSubmenu={null}
+          setOpenSubmenu={() => {}}
         />
       </div>
 
       {/* Activities Section */}
       <div className="bg-purple-900/30 rounded-lg p-6">
         <ActivitiesSection
-          formData={formData}
-          updateFormData={updateFormData}
-          isValid={validationState.activities}
+          selectedActivities={formData.activities || []}
+          onActivityChange={handleActivityChange}
         />
       </div>
 
@@ -69,15 +96,9 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
       <div className="bg-purple-900/30 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-white mb-4">{t('dashboard.hotelFeatures')}</h3>
         <FeaturesList
-          features={featuresData.hotel}
-          selectedFeatures={formData.featuresHotel || {}}
-          onFeatureChange={(featureKey: string, checked: boolean) => {
-            const updatedFeatures = {
-              ...formData.featuresHotel,
-              [featureKey]: checked
-            };
-            updateFormData('featuresHotel', updatedFeatures);
-          }}
+          features={hotelFeatures}
+          selectedFeatures={formData.featuresHotel || []}
+          onToggle={(feature) => handleFeatureToggle('hotel', feature)}
         />
       </div>
 
@@ -85,15 +106,9 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
       <div className="bg-purple-900/30 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-white mb-4">{t('dashboard.roomFeatures')}</h3>
         <FeaturesList
-          features={featuresData.room}
-          selectedFeatures={formData.featuresRoom || {}}
-          onFeatureChange={(featureKey: string, checked: boolean) => {
-            const updatedFeatures = {
-              ...formData.featuresRoom,
-              [featureKey]: checked
-            };
-            updateFormData('featuresRoom', updatedFeatures);
-          }}
+          features={roomFeatures}
+          selectedFeatures={formData.featuresRoom || []}
+          onToggle={(feature) => handleFeatureToggle('room', feature)}
         />
       </div>
     </div>

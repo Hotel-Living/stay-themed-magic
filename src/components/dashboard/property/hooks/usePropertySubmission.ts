@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
@@ -47,8 +46,12 @@ export const usePropertySubmission = () => {
     }
   };
 
+  // Legacy support - keeping the old method name for backward compatibility
+  const handleSubmitProperty = submitProperty;
+
   return {
     submitProperty,
+    handleSubmitProperty, // For backward compatibility
     isSubmitting
   };
 };

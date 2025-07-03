@@ -96,11 +96,21 @@ export default function LocationStep({
 
         // Fetch cities from database for this specific country
         // Handle multiple possible country formats in the database
+        const countryQueryValues = [
+          selectedCountryObj.name,      // "Spain" 
+          selectedCountryObj.code,      // "ES"
+          selectedCountryObj.code.toLowerCase(), // "es"
+          selectedCountryObj.name.toLowerCase()  // "spain"
+        ];
+        
+        console.log(`🏙️ CITY LOADING DEBUG: Searching for cities in country: ${selectedCountryObj.name} (${selectedCountryObj.code})`);
+        console.log(`🏙️ Query values:`, countryQueryValues);
+        
         const { data: hotelData, error } = await supabase
           .from('hotels')
           .select('city, country')
           .eq('status', 'approved')
-          .or(`country.eq.${selectedCountryObj.name},country.eq.${selectedCountryObj.code},country.ilike.%${selectedCountryObj.name}%`);
+          .in('country', countryQueryValues);
 
         if (error) {
           console.error('Error fetching cities:', error);
@@ -108,10 +118,14 @@ export default function LocationStep({
           return;
         }
 
+        console.log(`🏙️ Raw hotel data:`, hotelData?.slice(0, 3)); // Show first 3 results for debugging
+        
         // Extract unique cities for this country
         const uniqueCities = [...new Set(hotelData?.map(hotel => hotel.city) || [])]
           .filter(city => city && city.trim() !== '')
           .sort();
+          
+        console.log(`🏙️ Found ${uniqueCities.length} cities:`, uniqueCities);
 
         setAvailableCities(uniqueCities);
       } catch (error) {

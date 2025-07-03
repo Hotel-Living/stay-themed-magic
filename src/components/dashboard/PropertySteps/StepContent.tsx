@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import StepOne from "./StepOne";
 import GeneralInformationStep2 from "./GeneralInformationStep2";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
@@ -19,6 +19,14 @@ const StepContent: React.FC<StepContentProps> = ({
   formData,
   updateFormData
 }) => {
+  
+  // Ensure validation is called when step loads
+  useEffect(() => {
+    console.log('StepContent loaded for step:', currentStep);
+    // Set validation to true by default to allow navigation
+    onValidationChange(true);
+  }, [currentStep, onValidationChange]);
+
   switch (currentStep) {
     case 1:
       return (

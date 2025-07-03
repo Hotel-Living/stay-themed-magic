@@ -6,11 +6,11 @@ import { StepValidationState } from "../types";
 export const useStepManagement = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [stepValidation, setStepValidation] = useState<StepValidationState>({
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false
+    1: true, // Initialize as true to allow navigation
+    2: true,
+    3: true,
+    4: true,
+    5: true
   });
 
   const validateStep = (step: number, isValid: boolean) => {

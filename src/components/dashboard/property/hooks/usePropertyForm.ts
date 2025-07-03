@@ -3,7 +3,7 @@ import { useStepManagement } from "./useStepManagement";
 import { usePropertyFormData } from "./usePropertyFormData";
 import { useValidationState } from "./useValidationState";
 import { useSubmissionState } from "./useSubmissionState";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { PropertyFormData } from "./usePropertyFormData";
 
 export type { PropertyFormData };
@@ -14,15 +14,30 @@ export const usePropertyForm = () => {
   const validationState = useValidationState();
   const submissionState = useSubmissionState();
   
-  // Add missing validation state
-  const [isStepValid, setIsStepValid] = useState(false);
+  // Initialize as true to allow navigation by default
+  const [isStepValid, setIsStepValid] = useState(true);
   
   const onValidationChange = (isValid: boolean) => {
+    console.log('Validation changed for step', stepManagement.currentStep, ':', isValid);
     setIsStepValid(isValid);
   };
+
+  // Reset validation to true when step changes to allow navigation
+  useEffect(() => {
+    console.log('Step changed to:', stepManagement.currentStep);
+    setIsStepValid(true);
+  }, [stepManagement.currentStep]);
   
-  const canMoveToNextStep = isStepValid;
+  // Allow free navigation between steps - only validate on final submit
+  const canMoveToNextStep = stepManagement.currentStep < 5;
   const canMoveToPrevStep = stepManagement.currentStep > 1;
+  
+  console.log('Current navigation state:', {
+    currentStep: stepManagement.currentStep,
+    isStepValid,
+    canMoveToNextStep,
+    canMoveToPrevStep
+  });
   
   return {
     ...stepManagement,

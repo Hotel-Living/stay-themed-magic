@@ -23,65 +23,35 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
 }) => {
   const { t } = useTranslation();
   
-  // Initialize from form data if available
-  const [roomImages, setRoomImages] = useState<File[]>(formData?.roomImages || []);
-  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>(formData?.roomImagePreviews || []);
-  const [roomDescription, setRoomDescription] = useState(formData?.roomDescription || "");
+  // Simple local state without circular dependencies
+  const [roomImages, setRoomImages] = useState<File[]>([]);
+  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  const [roomDescription, setRoomDescription] = useState("");
 
-  // Load existing data from formData on mount
-  React.useEffect(() => {
-    if (formData?.roomDescription && roomDescription !== formData.roomDescription) {
-      setRoomDescription(formData.roomDescription);
-    }
-    if (formData?.roomImages && formData.roomImages !== roomImages) {
-      setRoomImages(formData.roomImages);
-    }
-    if (formData?.roomImagePreviews && formData.roomImagePreviews !== roomImagePreviews) {
-      setRoomImagePreviews(formData.roomImagePreviews);
-    }
-  }, [formData]);
-
-  // Validation logic and form data updates
+  // Simple validation - no infinite loops
   React.useEffect(() => {
     const isValid = roomDescription.trim().length > 0;
     if (onValidationChange) {
       onValidationChange(isValid);
     }
-    
-    // CRITICAL: Always update form data when local state changes
+  }, [roomDescription, onValidationChange]);
+
+  // Update form data only when user makes changes (not on every render)
+  const handleDescriptionChange = (value: string) => {
+    setRoomDescription(value);
     if (updateFormData) {
-      updateFormData('roomDescription', roomDescription);
-      updateFormData('roomImages', roomImages);
-      updateFormData('roomImagePreviews', roomImagePreviews);
-      
-      // Also update roomTypes with this basic room data
-      const currentRoomTypes = formData?.roomTypes || [];
-      const hasBasicRoom = currentRoomTypes.some((room: any) => room.id === 'basic-room');
-      
-      if (!hasBasicRoom && roomDescription.trim()) {
-        const basicRoom = {
-          id: 'basic-room',
-          name: 'Standard Room',
-          description: roomDescription,
-          images: roomImages,
-          maxOccupancy: 2,
-          size: 25,
-          roomCount: 1,
-          basePrice: 100
-        };
-        
-        updateFormData('roomTypes', [...currentRoomTypes, basicRoom]);
-      } else if (hasBasicRoom) {
-        // Update existing basic room
-        const updatedRoomTypes = currentRoomTypes.map((room: any) => 
-          room.id === 'basic-room' 
-            ? { ...room, description: roomDescription, images: roomImages }
-            : room
-        );
-        updateFormData('roomTypes', updatedRoomTypes);
-      }
+      updateFormData('roomDescription', value);
     }
-  }, [roomDescription, roomImages, roomImagePreviews, updateFormData, onValidationChange, formData]);
+  };
+
+  const handleImagesUpdate = (newImages: File[], newPreviews: string[]) => {
+    setRoomImages(newImages);
+    setRoomImagePreviews(newPreviews);
+    if (updateFormData) {
+      updateFormData('roomImages', newImages);
+      updateFormData('roomImagePreviews', newPreviews);
+    }
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -92,19 +62,20 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
       const reader = new FileReader();
       reader.onload = (e) => {
         newPreviews.push(e.target?.result as string);
-        setRoomImagePreviews([...newPreviews]);
+        // Use the helper function to prevent loops
+        handleImagesUpdate(newImages, [...newPreviews]);
       };
       reader.readAsDataURL(file);
     });
     
-    setRoomImages(newImages);
+    // Update images immediately
+    handleImagesUpdate(newImages, newPreviews);
   };
 
   const handleRemoveImage = (index: number) => {
     const newImages = roomImages.filter((_, i) => i !== index);
     const newPreviews = roomImagePreviews.filter((_, i) => i !== index);
-    setRoomImages(newImages);
-    setRoomImagePreviews(newPreviews);
+    handleImagesUpdate(newImages, newPreviews);
   };
 
   return (
@@ -188,7 +159,7 @@ const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
               <Textarea
                 id="room-description"
                 value={roomDescription}
-                onChange={(e) => setRoomDescription(e.target.value)}
+                onChange={(e) => handleDescriptionChange(e.target.value)}
                 placeholder={t('dashboard.accommodation.roomDescriptionPlaceholder')}
                 className="min-h-[100px] resize-vertical"
                 rows={4}

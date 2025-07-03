@@ -181,15 +181,15 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     if (filters.stayLengths) {
       console.log(`⏱️ STAY LENGTH FILTER DEBUG: ${filters.stayLengths}`);
       
-      // Map user-facing day values to database night values
-      const dayToNightMap: Record<string, number> = {
-        '8 days': 8,    // 8 days = 8 nights (special case)
-        '15 days': 16,  // 15 days = 16 nights (old values)  
-        '22 days': 24,  // 22 days = 24 nights (old values)
-        '29 days': 32   // 29 days = 32 nights (old values)
+      // Map user-facing night values to database night values
+      const nightToNightMap: Record<string, number> = {
+        '7 nights': 7,   // 8 days = 7 nights
+        '14 nights': 14, // 15 days = 14 nights  
+        '21 nights': 21, // 22 days = 21 nights
+        '28 nights': 28  // 29 days = 28 nights
       };
       
-      const nightValue = dayToNightMap[filters.stayLengths];
+      const nightValue = nightToNightMap[filters.stayLengths];
       if (nightValue) {
         console.log(`   - Converting "${filters.stayLengths}" to ${nightValue} nights for database query`);
         query = query.contains('stay_lengths', [nightValue]);

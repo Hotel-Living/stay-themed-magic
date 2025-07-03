@@ -9,12 +9,25 @@ interface RoomFeaturesFilterESProps {
 
 export function RoomFeaturesFilterES({ activeRoomFeatures, onChange }: RoomFeaturesFilterESProps) {
   const roomFeatureOptions = [
-    { value: "airConditioning", label: "Aire Acondicionado" },
-    { value: "balcony", label: "Balcón" },
-    { value: "kitchen", label: "Cocina" },
-    { value: "workspace", label: "Espacio de Trabajo" },
-    { value: "tv", label: "TV" },
-    { value: "minibar", label: "Minibar" }
+    { value: "Aire Acondicionado", label: "Aire Acondicionado" },
+    { value: "Baño Privado", label: "Baño Privado" },
+    { value: "Televisor", label: "Televisor" },
+    { value: "Caja Fuerte", label: "Caja Fuerte" },
+    { value: "Mini Bar", label: "Mini Bar" },
+    { value: "Máquina de Café", label: "Máquina de Café" },
+    { value: "Hervidor de Agua", label: "Hervidor de Agua" },
+    { value: "Secador de Pelo", label: "Secador de Pelo" },
+    { value: "Plancha", label: "Plancha" },
+    { value: "Escritorio", label: "Escritorio" },
+    { value: "Balcón", label: "Balcón" },
+    { value: "Vista al Mar", label: "Vista al Mar" },
+    { value: "Vista a la Montaña", label: "Vista a la Montaña" },
+    { value: "Vista a la Ciudad", label: "Vista a la Ciudad" },
+    { value: "Bañera", label: "Bañera" },
+    { value: "Ducha a Ras de Suelo", label: "Ducha a Ras de Suelo" },
+    { value: "Internet de Alta Velocidad", label: "Internet de Alta Velocidad" },
+    { value: "Cortinas Opacas", label: "Cortinas Opacas" },
+    { value: "Insonorizado", label: "Insonorizado" }
   ];
 
   return (

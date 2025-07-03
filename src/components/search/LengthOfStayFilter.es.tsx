@@ -8,10 +8,10 @@ interface LengthOfStayFilterESProps {
 
 export function LengthOfStayFilterES({ activeLength, onChange }: LengthOfStayFilterESProps) {
   const lengthOfStayOptions = [
-    { value: "8 days", label: "8 días" },
-    { value: "15 days", label: "15 días" },
-    { value: "22 days", label: "22 días" },
-    { value: "29 days", label: "29 días" }
+    { value: "7 nights", label: "8 días (7 noches)" },
+    { value: "14 nights", label: "15 días (14 noches)" },
+    { value: "21 nights", label: "22 días (21 noches)" },
+    { value: "28 nights", label: "29 días (28 noches)" }
   ];
 
   const handleLengthClick = (lengthValue: string) => {

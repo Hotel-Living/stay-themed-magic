@@ -63,7 +63,7 @@ export function FilterSidebar({
   };
 
   return (
-    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 h-screen flex flex-col">
+    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 h-screen flex flex-col min-h-0">
       {/* Clear Filters Button - Top */}
       <div className="mb-4">
         <button

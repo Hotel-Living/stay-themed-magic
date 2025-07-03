@@ -15,6 +15,40 @@ interface AtomicSubmissionResult {
   errors: string[];
 }
 
+/**
+ * Calculate monthly price from pricing matrix or use existing monthly price
+ */
+const calculateMonthlyPrice = (formData: PropertyFormData): number => {
+  // If we have explicit monthly price, use it
+  const explicitMonthlyPrice = (formData as any).price_per_month;
+  if (explicitMonthlyPrice && explicitMonthlyPrice > 0) {
+    return explicitMonthlyPrice;
+  }
+  
+  // Calculate from pricing matrix
+  const pricingMatrix = formData.pricingMatrix || [];
+  if (pricingMatrix.length === 0) {
+    console.warn("⚠️ No pricing data available - using default 0");
+    return 0;
+  }
+  
+  // Find the pricing entry with the most reasonable duration for monthly calculation
+  const validPrices = pricingMatrix.filter((pkg: any) => pkg.price && pkg.price > 0 && pkg.duration && pkg.duration > 0);
+  
+  if (validPrices.length === 0) {
+    console.warn("⚠️ No valid prices in pricing matrix");
+    return 0;
+  }
+  
+  // Use the first valid price and convert to monthly equivalent
+  const firstPrice = validPrices[0];
+  const dailyRate = firstPrice.price / firstPrice.duration;
+  const monthlyEquivalent = Math.round(dailyRate * 30);
+  
+  console.log(`💰 Calculated monthly price: ${monthlyEquivalent} (from ${firstPrice.duration}-day package at ${firstPrice.price})`);
+  return monthlyEquivalent;
+};
+
 export const useAtomicHotelSubmission = () => {
   
   /**
@@ -34,6 +68,12 @@ export const useAtomicHotelSubmission = () => {
     console.log("   Activities:", formData.activities?.length || 0);
     console.log("   Hotel images:", formData.hotelImages?.length || 0);
     console.log("   Available months:", formData.available_months?.length || 0);
+    console.log("   Pricing matrix:", formData.pricingMatrix?.length || 0, "packages");
+    if (formData.pricingMatrix && formData.pricingMatrix.length > 0) {
+      formData.pricingMatrix.forEach((pkg: any, index: number) => {
+        console.log(`     Package ${index + 1}: ${pkg.duration} days = ${pkg.price} ${pkg.currency || 'EUR'}`);
+      });
+    }
 
     // Validate critical data before starting
     if (!formData.hotelName || formData.hotelName.trim() === '') {
@@ -65,7 +105,8 @@ export const useAtomicHotelSubmission = () => {
         property_type: formData.propertyType || '',
         style: formData.style || '',
         category: typeof formData.category === 'string' ? parseInt(formData.category) : formData.category || 1,
-        price_per_month: (formData as any).price_per_month || 0,
+        price_per_month: calculateMonthlyPrice(formData),
+        pricingmatrix: formData.pricingMatrix || [],
         
         // CRITICAL: Ensure arrays are never null or undefined
         meal_plans: formData.mealPlans || [],

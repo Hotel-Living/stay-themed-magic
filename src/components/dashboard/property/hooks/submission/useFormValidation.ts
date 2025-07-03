@@ -12,6 +12,40 @@ export interface ValidationResult {
   warnings: string[];
 }
 
+/**
+ * Validates pricing structure - handles both monthly pricing and package-based pricing
+ */
+const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+  
+  // Check if we have pricingMatrix (package-based pricing)
+  const pricingMatrix = formData.pricingMatrix || [];
+  const hasValidPricingMatrix = pricingMatrix.length > 0 && 
+    pricingMatrix.some((pkg: any) => pkg.price && pkg.price > 0);
+  
+  // Check if we have traditional monthly pricing
+  const monthlyPrice = (formData as any).price_per_month;
+  const hasValidMonthlyPrice = monthlyPrice && monthlyPrice > 0;
+  
+  if (!hasValidPricingMatrix && !hasValidMonthlyPrice) {
+    errors.push("Valid pricing is required - either set monthly rate or configure package prices");
+  }
+  
+  // Validate pricing matrix entries if they exist
+  if (pricingMatrix.length > 0) {
+    for (const pkg of pricingMatrix) {
+      if (!pkg.price || pkg.price <= 0) {
+        errors.push(`Invalid price for ${pkg.duration || 'unknown'} day package`);
+      }
+      if (!pkg.duration || pkg.duration <= 0) {
+        errors.push(`Invalid duration for pricing package`);
+      }
+    }
+  }
+  
+  return { isValid: errors.length === 0, errors };
+};
+
 export const useFormValidation = () => {
   
   const validateBeforeSubmission = (formData: PropertyFormData): ValidationResult => {
@@ -31,8 +65,10 @@ export const useFormValidation = () => {
       errors.push("City is required");
     }
 
-    if (!(formData as any).price_per_month || (formData as any).price_per_month <= 0) {
-      errors.push("Valid price per month is required");
+    // Validate pricing data - check for either price_per_month OR pricingMatrix
+    const hasValidPricing = validatePricing(formData);
+    if (!hasValidPricing.isValid) {
+      errors.push(...hasValidPricing.errors);
     }
 
     // Data completeness warnings

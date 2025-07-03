@@ -13,10 +13,16 @@ export function RoomTypesFilterES({ activeRoomTypes, onChange }: RoomTypesFilter
   ];
 
   const handleRoomTypeChange = (value: string) => {
-    // Clear all selections first (radio behavior)
-    activeRoomTypes.forEach(type => onChange(type, false));
-    // Add new selection
-    onChange(value, true);
+    // For radio behavior: if clicking the same option, deselect it; otherwise select the new one
+    if (selectedValue === value) {
+      onChange(value, false);
+    } else {
+      // Clear current selection and set new one
+      if (selectedValue) {
+        onChange(selectedValue, false);
+      }
+      onChange(value, true);
+    }
   };
 
   const selectedValue = activeRoomTypes.length > 0 ? activeRoomTypes[0] : null;

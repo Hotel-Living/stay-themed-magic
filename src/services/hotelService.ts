@@ -177,19 +177,27 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Max price filter applied successfully: <= ${filters.maxPrice}`);
     }
 
-    // STAY LENGTHS FILTER - Map UI values to nights stored in database
+    // STAY LENGTHS FILTER - Enhanced debugging and multiple format support
     if (filters.stayLengths) {
-      console.log(`🏨 STAY LENGTHS FILTER DEBUG: ${filters.stayLengths}`);
+      console.log(`🏨 STAY LENGTHS FILTER DEBUG: "${filters.stayLengths}"`);
       
-      // Convert string numbers directly to numbers (no "nights" suffix)
+      // Convert string numbers directly to numbers
       const nightValue = parseInt(filters.stayLengths);
       
       if (!isNaN(nightValue)) {
-        console.log(`🏨 Stay length mapping: "${filters.stayLengths}" -> ${nightValue} nights`);
+        console.log(`🏨 Converting "${filters.stayLengths}" to ${nightValue} nights`);
         
-        // Filter hotels that have this value in their stay_lengths array
-        query = query.overlaps('stay_lengths', [nightValue]);
-        console.log(`✅ Stay length filter applied successfully: ${filters.stayLengths} -> ${nightValue} nights`);
+        // Try multiple approaches: exact match, range match, and flexibility for common values
+        const valuesToCheck = [nightValue];
+        
+        // Add common variations for monthly stays
+        if (nightValue === 28) {
+          valuesToCheck.push(29, 30, 31, 32); // Monthly variations
+        }
+        
+        console.log(`🏨 Checking for stay lengths: ${valuesToCheck.join(', ')}`);
+        query = query.overlaps('stay_lengths', valuesToCheck);
+        console.log(`✅ Stay length filter applied successfully`);
       } else {
         console.warn(`⚠️ Invalid stay length value: ${filters.stayLengths}`);
       }
@@ -291,19 +299,13 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Property style filter applied successfully`);
     }
 
-    // ROOM TYPES FILTER
+    // ROOM TYPES FILTER - Using simple text matching approach
     if (filters.roomTypes && filters.roomTypes.length > 0) {
       console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
       
-      // Check if any room type in room_types array matches selected options
-      const roomTypeConditions = filters.roomTypes.map(roomType => 
-        `room_types.cs.[{"name":"${roomType}"}]`
-      ).join(',');
-      
-      if (roomTypeConditions) {
-        query = query.or(roomTypeConditions);
-        console.log(`✅ Room types filter applied successfully`);
-      }
+      // Use PostgreSQL array overlap operator to check if any room type matches
+      query = query.overlaps('room_types', filters.roomTypes);
+      console.log(`✅ Room types filter applied successfully using overlaps: ${filters.roomTypes.join(', ')}`);
     }
 
     // ROOM FEATURES FILTER

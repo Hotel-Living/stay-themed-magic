@@ -1,6 +1,6 @@
 
 import React from "react";
-import { CheckboxFilter } from "./CheckboxFilter";
+import { RadioFilter } from "./RadioFilter";
 
 interface RoomTypesFilterESProps {
   activeRoomTypes: string[];
@@ -13,12 +13,23 @@ export function RoomTypesFilterES({ activeRoomTypes, onChange }: RoomTypesFilter
     { value: "doubleRoom", label: "Habitación Doble" }
   ];
 
+  const handleRadioChange = (value: string | null) => {
+    // Clear all selections first
+    activeRoomTypes.forEach(type => onChange(type, false));
+    // Add new selection if value is not null
+    if (value) {
+      onChange(value, true);
+    }
+  };
+
+  const selectedValue = activeRoomTypes.length > 0 ? activeRoomTypes[0] : null;
+
   return (
-    <CheckboxFilter
+    <RadioFilter
       title="TIPO HABITACIÓN"
       options={roomTypeOptions}
-      selectedOptions={activeRoomTypes}
-      onChange={onChange}
+      selectedOption={selectedValue}
+      onChange={handleRadioChange}
     />
   );
 }

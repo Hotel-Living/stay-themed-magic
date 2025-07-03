@@ -186,26 +186,26 @@ export function NewStep3AccommodationTerms({
           <Accordion type="single" collapsible className="space-y-4">
             
             {/* Room Types Section */}
-            <AccordionItem value="room-types" className="border rounded-xl overflow-hidden bg-blue-900/10">
+            <AccordionItem value="room-types" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setRoomTypesOpen(!roomTypesOpen)}
               >
-                <h3 className="text-lg capitalize">3.1— ROOM TYPES</h3>
+                <h3 className="text-lg capitalize text-white">3.1— ROOM TYPES</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
                   
-                  <div className="p-4 border rounded-lg bg-white">
-                    <h4 className="font-semibold mb-4">Double Rooms Can Be Single</h4>
+                  <div className="p-4 border border-purple-500 rounded-lg bg-purple-700/30">
+                    <h4 className="font-semibold mb-4 text-white">Double Rooms Can Be Single</h4>
                     
                     {/* Room Images */}
                     <div className="space-y-4">
-                      <Label>Room Images</Label>
+                      <Label className="text-white">Room Images</Label>
                       
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                        <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600 mb-2">Upload room images</p>
+                      <div className="border-2 border-dashed border-purple-400 rounded-lg p-6 text-center bg-purple-700/50">
+                        <Upload className="mx-auto h-8 w-8 text-purple-300 mb-2" />
+                        <p className="text-sm text-purple-200 mb-2">Upload room images</p>
                         <input
                           type="file"
                           multiple
@@ -248,13 +248,14 @@ export function NewStep3AccommodationTerms({
                     
                     {/* Room Description */}
                     <div className="space-y-2">
-                      <Label htmlFor="roomDescription">Room Description *</Label>
+                      <Label htmlFor="roomDescription" className="text-white">Room Description *</Label>
                       <Textarea
                         id="roomDescription"
                         value={formData.roomTypes?.[0]?.description || ''}
                         onChange={(e) => updateRoomDescription(e.target.value)}
                         placeholder="Describe the room amenities and features..."
                         rows={3}
+                        className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
                         required
                       />
                     </div>
@@ -264,16 +265,16 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Meal Plans Section */}
-            <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-green-900/10">
+            <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setMealPlansOpen(!mealPlansOpen)}
               >
-                <h3 className="text-lg capitalize">3.2— MEAL PLANS</h3>
+                <h3 className="text-lg capitalize text-white">3.2— MEAL PLANS</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
-                  <p className="text-gray-300">Select the meal plans available at your property:</p>
+                  <p className="text-purple-200">Select the meal plans available at your property:</p>
                   
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {mealPlanOptions.map((plan) => (

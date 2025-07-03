@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,62 +49,64 @@ export function NewStep1HotelInfo({
     updateFormData('hotelImages', updatedImages);
   };
 
-  const handleDrag = (e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     setDragActive(false);
     
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImageUpload(e.dataTransfer.files);
+    const files = e.dataTransfer.files;
+    if (files) {
+      handleImageUpload(files);
     }
   };
 
+  const propertyTypes = [
+    "Hotel", "Boutique Hotel", "Resort", "Bed & Breakfast", 
+    "Hostel", "Apartment", "Villa", "Guest House", "Other"
+  ];
+
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="space-y-6 bg-purple-900 text-white p-6 rounded-lg">
+      
+      <Card className="bg-purple-800 border-purple-600">
         <CardHeader>
-          <CardTitle>Step 1: Property Images & Information</CardTitle>
+          <CardTitle className="text-white">Step 1: General Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           
-          {/* Image Upload Section */}
+          {/* Hotel Images */}
           <div className="space-y-4">
-            <Label className="text-lg font-semibold">Property Images</Label>
-            
-            <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-              }`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
+            <Label className="text-white">Hotel Images *</Label>
+            <div 
+              className="border-2 border-dashed border-purple-400 rounded-lg p-6 text-center bg-purple-700/50"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-              <p className="text-lg font-medium mb-2">Upload Property Images</p>
-              <p className="text-gray-500 mb-4">Drag and drop your images here or click to browse</p>
+              <Upload className="mx-auto h-8 w-8 text-purple-300 mb-2" />
+              <p className="text-sm text-purple-200 mb-2">Drag & drop images or click to upload</p>
               <input
                 type="file"
                 multiple
                 accept="image/*"
                 onChange={(e) => handleImageUpload(e.target.files)}
                 className="hidden"
-                id="image-upload"
+                id="hotel-image-upload"
               />
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => document.getElementById('image-upload')?.click()}
+                size="sm"
+                onClick={() => document.getElementById('hotel-image-upload')?.click()}
               >
                 Choose Images
               </Button>
@@ -118,20 +119,15 @@ export function NewStep1HotelInfo({
                   <div key={index} className="relative group">
                     <img
                       src={image.url}
-                      alt={`Property ${index + 1}`}
-                      className="w-full h-32 object-cover rounded-lg"
+                      alt={`Hotel ${index + 1}`}
+                      className="w-full h-24 object-cover rounded-lg"
                     />
                     <button
                       onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-3 w-3" />
                     </button>
-                    {index === 0 && (
-                      <span className="absolute bottom-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
-                        Main Image
-                      </span>
-                    )}
                   </div>
                 ))}
               </div>
@@ -141,141 +137,122 @@ export function NewStep1HotelInfo({
           {/* Hotel Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="hotelName">Property Name *</Label>
+              <Label htmlFor="hotelName" className="text-white">Hotel Name *</Label>
               <Input
                 id="hotelName"
                 value={formData.hotelName || ''}
                 onChange={(e) => updateFormData('hotelName', e.target.value)}
-                placeholder="Enter property name"
+                placeholder="Enter hotel name"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
                 required
               />
             </div>
-
+            
             <div className="space-y-2">
-              <Label htmlFor="propertyType">Property Type</Label>
-              <select 
+              <Label htmlFor="propertyType" className="text-white">Property Type</Label>
+              <select
                 id="propertyType"
                 value={formData.propertyType || ''}
                 onChange={(e) => updateFormData('propertyType', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="w-full px-3 py-2 border border-purple-500 rounded-md bg-purple-700 text-white"
               >
                 <option value="">Select property type</option>
-                <option value="hotel">Hotel</option>
-                <option value="resort">Resort</option>
-                <option value="villa">Villa</option>
-                <option value="apartment">Apartment</option>
-                <option value="guesthouse">Guesthouse</option>
-                <option value="hostel">Hostel</option>
+                {propertyTypes.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
               </select>
             </div>
           </div>
 
+          {/* Hotel Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description *</Label>
+            <Label htmlFor="description" className="text-white">Description (Atmosphere) *</Label>
             <Textarea
               id="description"
               value={formData.description || ''}
               onChange={(e) => updateFormData('description', e.target.value)}
-              placeholder="Describe your property"
+              placeholder="Describe the atmosphere and unique characteristics of your property..."
               rows={4}
+              className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
               required
             />
           </div>
 
-          {/* CRITICAL: Exact atmosphere phrasing */}
-          <div className="space-y-2">
-            <Label htmlFor="atmosphere">Atmosphere</Label>
-            <div className="flex items-start space-x-2">
-              <span className="mt-2 text-sm font-medium whitespace-nowrap">The atmosphere is...</span>
-              <Textarea
-                id="atmosphere"
-                value={formData.atmosphere || ''}
-                onChange={(e) => updateFormData('atmosphere', e.target.value)}
-                placeholder="warm and welcoming..."
-                rows={2}
-              />
-            </div>
-          </div>
-
           {/* Location Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="country">Country *</Label>
+              <Label htmlFor="country" className="text-white">Country *</Label>
               <Input
                 id="country"
                 value={formData.country || ''}
                 onChange={(e) => updateFormData('country', e.target.value)}
-                placeholder="Enter country"
+                placeholder="Country"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
                 required
               />
             </div>
-
+            
             <div className="space-y-2">
-              <Label htmlFor="city">City *</Label>
+              <Label htmlFor="city" className="text-white">City *</Label>
               <Input
                 id="city"
                 value={formData.city || ''}
                 onChange={(e) => updateFormData('city', e.target.value)}
-                placeholder="Enter city"
+                placeholder="City"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
                 required
               />
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
             <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
+              <Label htmlFor="address" className="text-white">Address</Label>
               <Input
                 id="address"
                 value={formData.address || ''}
                 onChange={(e) => updateFormData('address', e.target.value)}
-                placeholder="Enter full address"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="postalCode">Postal Code</Label>
-              <Input
-                id="postalCode"
-                value={formData.postalCode || ''}
-                onChange={(e) => updateFormData('postalCode', e.target.value)}
-                placeholder="Enter postal code"
+                placeholder="Street address"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
               />
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="contactName">Contact Name</Label>
+              <Label htmlFor="email" className="text-white">Contact Email</Label>
               <Input
-                id="contactName"
-                value={formData.contactName || ''}
-                onChange={(e) => updateFormData('contactName', e.target.value)}
-                placeholder="Contact person name"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="contactEmail">Contact Email</Label>
-              <Input
-                id="contactEmail"
+                id="email"
                 type="email"
-                value={formData.contactEmail || ''}
-                onChange={(e) => updateFormData('contactEmail', e.target.value)}
-                placeholder="contact@property.com"
+                value={formData.email || ''}
+                onChange={(e) => updateFormData('email', e.target.value)}
+                placeholder="contact@hotel.com"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
               />
             </div>
-
+            
             <div className="space-y-2">
-              <Label htmlFor="contactPhone">Contact Phone</Label>
+              <Label htmlFor="phone" className="text-white">Phone Number</Label>
               <Input
-                id="contactPhone"
-                value={formData.contactPhone || ''}
-                onChange={(e) => updateFormData('contactPhone', e.target.value)}
+                id="phone"
+                value={formData.phone || ''}
+                onChange={(e) => updateFormData('phone', e.target.value)}
                 placeholder="+1 234 567 8900"
+                className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
               />
             </div>
+          </div>
+
+          {/* Website */}
+          <div className="space-y-2">
+            <Label htmlFor="website" className="text-white">Website (Optional)</Label>
+            <Input
+              id="website"
+              type="url"
+              value={formData.website || ''}
+              onChange={(e) => updateFormData('website', e.target.value)}
+              placeholder="https://www.yourhotel.com"
+              className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
+            />
           </div>
 
         </CardContent>

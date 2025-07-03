@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -113,16 +112,16 @@ export function NewStep2PropertyDetails({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-purple-900 text-white p-6 rounded-lg">
       
       {/* Themes Section */}
-      <Card>
+      <Card className="bg-purple-800 border-purple-600">
         <CardHeader>
-          <CardTitle>Property Themes</CardTitle>
+          <CardTitle className="text-white">Property Themes</CardTitle>
         </CardHeader>
         <CardContent>
           {loadingThemes ? (
-            <p>Loading themes...</p>
+            <p className="text-purple-200">Loading themes...</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {themes.map((theme) => (
@@ -130,8 +129,8 @@ export function NewStep2PropertyDetails({
                   key={theme.id}
                   className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                     (formData.themes || []).includes(theme.id)
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-purple-400 bg-purple-700/50'
+                      : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
                   }`}
                   onClick={() => toggleTheme(theme.id)}
                 >
@@ -139,8 +138,9 @@ export function NewStep2PropertyDetails({
                     <Checkbox 
                       checked={(formData.themes || []).includes(theme.id)}
                       onChange={() => {}} // Handled by div onClick
+                      className="border-purple-400 data-[state=checked]:bg-purple-600"
                     />
-                    <span className="text-sm font-medium">{theme.name}</span>
+                    <span className="text-sm font-medium text-white">{theme.name}</span>
                   </div>
                 </div>
               ))}
@@ -150,13 +150,13 @@ export function NewStep2PropertyDetails({
       </Card>
 
       {/* Activities Section */}
-      <Card>
+      <Card className="bg-purple-800 border-purple-600">
         <CardHeader>
-          <CardTitle>Available Activities</CardTitle>
+          <CardTitle className="text-white">Available Activities</CardTitle>
         </CardHeader>
         <CardContent>
           {loadingActivities ? (
-            <p>Loading activities...</p>
+            <p className="text-purple-200">Loading activities...</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {activities.map((activity) => (
@@ -164,8 +164,8 @@ export function NewStep2PropertyDetails({
                   key={activity.id}
                   className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                     (formData.activities || []).includes(activity.id)
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-purple-400 bg-purple-700/50'
+                      : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
                   }`}
                   onClick={() => toggleActivity(activity.id)}
                 >
@@ -173,8 +173,9 @@ export function NewStep2PropertyDetails({
                     <Checkbox 
                       checked={(formData.activities || []).includes(activity.id)}
                       onChange={() => {}} // Handled by div onClick
+                      className="border-purple-400 data-[state=checked]:bg-purple-600"
                     />
-                    <span className="text-sm font-medium">{activity.name}</span>
+                    <span className="text-sm font-medium text-white">{activity.name}</span>
                   </div>
                 </div>
               ))}
@@ -184,9 +185,9 @@ export function NewStep2PropertyDetails({
       </Card>
 
       {/* Hotel Features */}
-      <Card>
+      <Card className="bg-purple-800 border-purple-600">
         <CardHeader>
-          <CardTitle>Hotel Features & Amenities</CardTitle>
+          <CardTitle className="text-white">Hotel Features & Amenities</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -195,8 +196,8 @@ export function NewStep2PropertyDetails({
                 key={feature}
                 className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                   (formData.featuresHotel || {})[feature]
-                    ? 'border-purple-500 bg-purple-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-purple-400 bg-purple-700/50'
+                    : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
                 }`}
                 onClick={() => toggleHotelFeature(feature)}
               >
@@ -204,8 +205,9 @@ export function NewStep2PropertyDetails({
                   <Checkbox 
                     checked={(formData.featuresHotel || {})[feature] || false}
                     onChange={() => {}} // Handled by div onClick
+                    className="border-purple-400 data-[state=checked]:bg-purple-600"
                   />
-                  <span className="text-sm font-medium">{feature}</span>
+                  <span className="text-sm font-medium text-white">{feature}</span>
                 </div>
               </div>
             ))}
@@ -214,9 +216,9 @@ export function NewStep2PropertyDetails({
       </Card>
 
       {/* Room Features */}
-      <Card>
+      <Card className="bg-purple-800 border-purple-600">
         <CardHeader>
-          <CardTitle>Room Features & Amenities</CardTitle>
+          <CardTitle className="text-white">Room Features & Amenities</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -225,8 +227,8 @@ export function NewStep2PropertyDetails({
                 key={feature}
                 className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                   (formData.featuresRoom || {})[feature]
-                    ? 'border-orange-500 bg-orange-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-purple-400 bg-purple-700/50'
+                    : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
                 }`}
                 onClick={() => toggleRoomFeature(feature)}
               >
@@ -234,8 +236,9 @@ export function NewStep2PropertyDetails({
                   <Checkbox 
                     checked={(formData.featuresRoom || {})[feature] || false}
                     onChange={() => {}} // Handled by div onClick
+                    className="border-purple-400 data-[state=checked]:bg-purple-600"
                   />
-                  <span className="text-sm font-medium">{feature}</span>
+                  <span className="text-sm font-medium text-white">{feature}</span>
                 </div>
               </div>
             ))}

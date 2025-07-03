@@ -79,7 +79,7 @@ export default function CountryAutocomplete({
     if (!isOpen) {
       if (e.key === "Enter" || e.key === "ArrowDown") {
         setIsOpen(true);
-        setHighlightedIndex(0);
+        setHighlightedIndex(filteredCountries.length > 0 ? 0 : -1);
         e.preventDefault();
       }
       return;
@@ -100,6 +100,9 @@ export default function CountryAutocomplete({
         e.preventDefault();
         if (highlightedIndex >= 0 && filteredCountries[highlightedIndex]) {
           handleCountrySelect(filteredCountries[highlightedIndex]);
+        } else if (filteredCountries.length === 1) {
+          // If only one result, select it
+          handleCountrySelect(filteredCountries[0]);
         }
         break;
       case "Escape":

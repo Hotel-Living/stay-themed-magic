@@ -120,22 +120,27 @@ export const useFilterData = (): FilterData => {
             'TR': { name: 'Turkey', flag: '🇹🇷', code: 'TR' }
           };
 
-          const countryList = allCountryNames.map(countryName => {
-            const countryInfo = countryMap[countryName];
-            if (countryInfo) {
+          const countryList = allCountryNames
+            .map(countryName => {
+              const countryInfo = countryMap[countryName];
+              if (countryInfo) {
+                return {
+                  code: countryInfo.code,
+                  name: countryInfo.name,
+                  flag: countryInfo.flag
+                };
+              }
+              // For any unmapped countries from database, create basic entry
               return {
-                code: countryInfo.code,
-                name: countryInfo.name,
-                flag: countryInfo.flag
+                code: countryName.toUpperCase().substring(0, 2),
+                name: countryName,
+                flag: '🏳️'
               };
-            }
-            // For any unmapped countries from database, create basic entry
-            return {
-              code: countryName.toUpperCase().substring(0, 2),
-              name: countryName,
-              flag: '🏳️'
-            };
-          }).sort((a, b) => a.name.localeCompare(b.name));
+            })
+            .filter((country, index, self) => 
+              index === self.findIndex(c => c.code === country.code) // Remove duplicates by code
+            )
+            .sort((a, b) => a.name.localeCompare(b.name));
 
           // Extract unique cities
           const uniqueCities = [...new Set(hotelData.map(hotel => hotel.city))]

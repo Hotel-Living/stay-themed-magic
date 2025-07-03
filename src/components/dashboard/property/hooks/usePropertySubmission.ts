@@ -17,7 +17,7 @@ export const usePropertySubmission = () => {
       
       if (editingHotelId) {
         console.log("Updating existing hotel:", editingHotelId);
-        result = await updateExistingHotel(editingHotelId, formData);
+        result = await updateExistingHotel(formData, editingHotelId);
       } else {
         console.log("Creating new hotel");
         result = await createNewHotel(formData);

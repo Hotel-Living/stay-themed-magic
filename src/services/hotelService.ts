@@ -299,7 +299,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Property style filter applied successfully`);
     }
 
-    // ROOM TYPES FILTER - Match room names within JSON structure
+    // ROOM TYPES FILTER - Better approach using JSON operators
     if (filters.roomTypes && filters.roomTypes.length > 0) {
       console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
       
@@ -312,13 +312,14 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       const roomNames = filters.roomTypes.map(type => roomTypeMapping[type] || type);
       console.log(`🛏️ Mapped room types to names:`, roomNames);
       
-      // Build OR conditions for each room type name
-      const orConditions = roomNames.map(roomName => 
-        `room_types->0->>'name'.eq."${roomName}",room_types->1->>'name'.eq."${roomName}",room_types->2->>'name'.eq."${roomName}"`
+      // Use a more flexible approach - check if any room_types array element has matching name
+      const roomTypeConditions = roomNames.map(roomName => 
+        `room_types.cs.${JSON.stringify([{ name: roomName }])}`
       ).join(',');
       
-      query = query.or(orConditions);
-      console.log(`✅ Room types filter applied with JSON path matching`);
+      console.log(`🛏️ Room type conditions:`, roomTypeConditions);
+      query = query.or(roomTypeConditions);
+      console.log(`✅ Room types filter applied with JSON containment check`);
     }
 
     // ROOM FEATURES FILTER

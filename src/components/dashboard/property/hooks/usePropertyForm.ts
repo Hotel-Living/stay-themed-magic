@@ -27,7 +27,7 @@ export const usePropertyForm = (editingHotelId?: string) => {
   const { isLoading: isLoadingHotel } = useHotelEditing({
     editingHotelId,
     setFormData: formDataManagement.setFormData,
-    setCurrentStep: stepManagement.setCurrentStep
+    setCurrentStep: stepManagement.setCurrentStepDirect
   });
   
   // Initialize as true to allow navigation by default

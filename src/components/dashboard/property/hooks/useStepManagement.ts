@@ -50,6 +50,8 @@ export const useStepManagement = () => {
     stepValidation,
     validateStep,
     nextStep,
-    previousStep
+    previousStep,
+    // Also expose the raw setCurrentStep for the hotel editing hook
+    setCurrentStepDirect: setCurrentStep
   };
 };

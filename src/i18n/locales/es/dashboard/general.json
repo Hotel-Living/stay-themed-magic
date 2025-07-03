@@ -199,6 +199,10 @@
     "latitude": "Latitud",
     "longitude": "Longitud",
     "latitudeFromMap": "La latitud se establecerá desde el mapa",
-    "longitudeFromMap": "La longitud se establecerá desde el mapa"
+    "longitudeFromMap": "La longitud se establecerá desde el mapa",
+    "selectCountryFirst": "Seleccione primero un país",
+    "addCountryFirst": "Añada primero el país personalizado",
+    "loading": "Cargando...",
+    "clickAnywhereOnMap": "Haga clic en cualquier lugar del mapa para establecer la ubicación"
   }
 }

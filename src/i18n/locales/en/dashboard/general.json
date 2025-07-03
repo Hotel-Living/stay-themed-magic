@@ -136,6 +136,26 @@
     "idealGuestsEnjoy": "Ideal Guests Enjoy",
     "atmosphereIs": "Atmosphere Is",
     "locationPerfectFor": "Location Perfect For",
-    "location": "Location"
+    "location": "Location",
+    "address": "Address",
+    "streetAddress": "Street Address",
+    "country": "Country",
+    "selectCountry": "Select Country",
+    "city": "City",
+    "selectCity": "Select City",
+    "selectCountryFirst": "Select a country first",
+    "addCountryFirst": "Add the custom country first",
+    "addAnotherCountry": "Add Another Country",
+    "addNewCity": "Add New City",
+    "enterCountryName": "Enter Country Name",
+    "enterCityName": "Enter City Name",
+    "postalCode": "Postal Code",
+    "postalZipCode": "Postal/ZIP Code",
+    "locationOnMap": "Location on Map",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "latitudeFromMap": "Latitude will be set from the map",
+    "longitudeFromMap": "Longitude will be set from the map",
+    "clickAnywhereOnMap": "Click anywhere on the map to set location"
   }
 }

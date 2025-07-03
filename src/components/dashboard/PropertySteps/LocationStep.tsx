@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import InteractiveMap from "./StepOne/Location/InteractiveMap";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Country } from 'country-state-city';
 import { useTranslation } from "@/hooks/useTranslation";
+import { useFilterData } from "@/hooks/useFilterData";
 
 interface LocationStepProps {
   formData: any;
@@ -24,6 +24,7 @@ export default function LocationStep({
   handleBlur
 }: LocationStepProps) {
   const { t } = useTranslation();
+  const { countries, cities, loading: filterLoading } = useFilterData();
   const [address, setAddress] = useState(formData.address || "");
   const [selectedCountry, setSelectedCountry] = useState(formData.country || "");
   const [customCountry, setCustomCountry] = useState("");
@@ -91,6 +92,18 @@ export default function LocationStep({
     updateFormData('customCity', customCity);
   }, [customCity, updateFormData]);
   
+  // Get available cities for selected country
+  const getAvailableCities = () => {
+    if (!selectedCountry || selectedCountry === "other") return [];
+    
+    // Find cities that belong to the selected country from database
+    const countryData = countries.find(c => c.code === selectedCountry || c.name === selectedCountry);
+    if (!countryData) return [];
+    
+    // For now, return the predefined cities and add database cities later
+    return cities.filter(city => city && city.trim() !== "").sort();
+  };
+
   // Create formatted address for geocoding
   useEffect(() => {
     let formattedAddr = "";
@@ -111,7 +124,7 @@ export default function LocationStep({
     
     // Add country if available
     if (selectedCountry && selectedCountry !== "other" && selectedCountry.trim() !== "") {
-      const countryData = Country.getCountryByCode(selectedCountry);
+      const countryData = countries.find(c => c.code === selectedCountry || c.name === selectedCountry);
       if (countryData) {
         if (formattedAddr) formattedAddr += ", ";
         formattedAddr += countryData.name;
@@ -122,7 +135,7 @@ export default function LocationStep({
     }
     
     setFormattedAddress(formattedAddr);
-  }, [address, selectedCity, customCity, selectedCountry, customCountry]);
+  }, [address, selectedCity, customCity, selectedCountry, customCountry, countries]);
   
   return (
     <div className="space-y-5">
@@ -156,20 +169,22 @@ export default function LocationStep({
           <label className="block text-sm font-medium text-white mb-1 uppercase">
             {t('dashboard.country')}
           </label>
-          <select 
+           <select 
             required 
             value={selectedCountry} 
             onChange={handleCountryChange}
             onBlur={() => handleBlur('country')}
+            disabled={filterLoading}
             className={`text-white w-full p-2.5 rounded-lg border focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486] ${
               touchedFields.country && errors.country ? 'border-red-500' : 'border-fuchsia-800/30'
             }`}
           >
-            <option value="">{t('dashboard.selectCountry')}</option>
-            <option value="es">{t('dashboard.countries.spain')}</option>
-            <option value="fr">{t('dashboard.countries.france')}</option>
-            <option value="it">{t('dashboard.countries.italy')}</option>
-            <option value="us">{t('dashboard.countries.unitedStates')}</option>
+            <option value="">{filterLoading ? t('dashboard.loading') : t('dashboard.selectCountry')}</option>
+            {countries.map(country => (
+              <option key={country.code} value={country.code}>
+                {country.flag} {country.name}
+              </option>
+            ))}
             <option value="other">{t('dashboard.addAnotherCountry')}</option>
           </select>
           {touchedFields.country && errors.country && (
@@ -194,53 +209,32 @@ export default function LocationStep({
           <label className="block text-sm font-medium text-white mb-1 uppercase">
             {t('dashboard.city')}
           </label>
-          <select 
+           <select 
             required 
             value={selectedCity} 
             onChange={handleCityChange}
             onBlur={() => handleBlur('city')}
+            disabled={!selectedCountry || selectedCountry === "other"}
             className={`text-white w-full p-2.5 rounded-lg border focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486] ${
               touchedFields.city && errors.city ? 'border-red-500' : 'border-fuchsia-800/30'
             }`}
           >
-            <option value="">{t('dashboard.selectCity')}</option>
-            {selectedCountry === 'es' && (
-              <>
-                <option value="madrid">{t('dashboard.cities.madrid')}</option>
-                <option value="barcelona">{t('dashboard.cities.barcelona')}</option>
-                <option value="valencia">{t('dashboard.cities.valencia')}</option>
-                <option value="seville">{t('dashboard.cities.seville')}</option>
-                <option value="other">{t('dashboard.addNewCity')}</option>
-              </>
+            <option value="">
+              {!selectedCountry 
+                ? t('dashboard.selectCountryFirst') 
+                : selectedCountry === "other" 
+                  ? t('dashboard.addCountryFirst')
+                  : t('dashboard.selectCity')
+              }
+            </option>
+            {selectedCountry && selectedCountry !== "other" && getAvailableCities().map(city => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+            {selectedCountry && selectedCountry !== "other" && (
+              <option value="other">{t('dashboard.addNewCity')}</option>
             )}
-            {selectedCountry === 'fr' && (
-              <>
-                <option value="paris">{t('dashboard.cities.paris')}</option>
-                <option value="nice">{t('dashboard.cities.nice')}</option>
-                <option value="marseille">{t('dashboard.cities.marseille')}</option>
-                <option value="lyon">{t('dashboard.cities.lyon')}</option>
-                <option value="other">{t('dashboard.addNewCity')}</option>
-              </>
-            )}
-            {selectedCountry === 'it' && (
-              <>
-                <option value="rome">{t('dashboard.cities.rome')}</option>
-                <option value="milan">{t('dashboard.cities.milan')}</option>
-                <option value="venice">{t('dashboard.cities.venice')}</option>
-                <option value="florence">{t('dashboard.cities.florence')}</option>
-                <option value="other">{t('dashboard.addNewCity')}</option>
-              </>
-            )}
-            {selectedCountry === 'us' && (
-              <>
-                <option value="newyork">{t('dashboard.cities.newYork')}</option>
-                <option value="losangeles">{t('dashboard.cities.losAngeles')}</option>
-                <option value="chicago">{t('dashboard.cities.chicago')}</option>
-                <option value="miami">{t('dashboard.cities.miami')}</option>
-                <option value="other">{t('dashboard.addNewCity')}</option>
-              </>
-            )}
-            {selectedCountry === 'other' && <option value="other">{t('dashboard.addNewCity')}</option>}
           </select>
           {touchedFields.city && errors.city && (
             <p className="text-red-400 text-sm mt-1">{errors.city}</p>

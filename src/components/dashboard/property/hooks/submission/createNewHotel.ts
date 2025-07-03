@@ -153,22 +153,25 @@ const uploadHotelImages = async (hotelId: string, images: UploadedImage[]) => {
     throw insertError;
   }
   
-  // Update hotel's main image URL
+  // Update hotel's main image URL and photos array
   const mainImageUrl = allImageUrls.find((url, index) => 
     imageRecords[index].is_main
   ) || allImageUrls[0];
   
   if (mainImageUrl) {
-    console.log("🖼️ Setting main image URL:", mainImageUrl);
+    console.log("🖼️ Setting main image URL and photos array:", { mainImageUrl, photos: allImageUrls });
     const { error: updateError } = await supabase
       .from('hotels')
-      .update({ main_image_url: mainImageUrl })
+      .update({ 
+        main_image_url: mainImageUrl,
+        photos: allImageUrls // Populate the photos array
+      })
       .eq('id', hotelId);
     
     if (updateError) {
-      console.warn("⚠️ Could not update hotel main image:", updateError);
+      console.warn("⚠️ Could not update hotel images:", updateError);
     } else {
-      console.log("✅ Successfully updated hotel main image URL");
+      console.log("✅ Successfully updated hotel main image URL and photos array");
     }
   }
   

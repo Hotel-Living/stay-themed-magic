@@ -18,11 +18,43 @@ export interface HotelDetailContentProps {
 export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailContentProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = hotel?.hotel_images?.length > 0 
-    ? hotel.hotel_images.map(img => img.image_url)
-    : hotel?.main_image_url 
-      ? [hotel.main_image_url]
-      : [];
+  // Collect images from multiple sources: hotel_images table, photos array, and main_image_url
+  const images = (() => {
+    const imageUrls: string[] = [];
+    
+    // First, add images from hotel_images table
+    if (hotel?.hotel_images?.length > 0) {
+      hotel.hotel_images.forEach(img => {
+        if (img.image_url && !imageUrls.includes(img.image_url)) {
+          imageUrls.push(img.image_url);
+        }
+      });
+    }
+    
+    // Then, add images from photos array (for backward compatibility)
+    const hotelWithPhotos = hotel as any; // Type assertion to access photos array
+    if (hotelWithPhotos?.photos && Array.isArray(hotelWithPhotos.photos) && hotelWithPhotos.photos.length > 0) {
+      hotelWithPhotos.photos.forEach((photoUrl: string) => {
+        if (photoUrl && typeof photoUrl === 'string' && !imageUrls.includes(photoUrl)) {
+          imageUrls.push(photoUrl);
+        }
+      });
+    }
+    
+    // Finally, add main_image_url if not already included
+    if (hotel?.main_image_url && !imageUrls.includes(hotel.main_image_url)) {
+      imageUrls.push(hotel.main_image_url);
+    }
+    
+    console.log(`Hotel ${hotel?.name} image sources:`, {
+      hotel_images_count: hotel?.hotel_images?.length || 0,
+      photos_array_count: (hotel as any)?.photos?.length || 0,
+      main_image: hotel?.main_image_url ? 'present' : 'none',
+      total_images: imageUrls.length
+    });
+    
+    return imageUrls;
+  })();
 
   const themes = hotel?.themes || hotel?.hotel_themes?.map(ht => ht.themes).filter(Boolean) || [];
   const activities = hotel?.activities || [];

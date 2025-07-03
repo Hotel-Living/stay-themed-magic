@@ -4,6 +4,7 @@ import { usePropertyFormData } from "./usePropertyFormData";
 import { useValidationState } from "./useValidationState";
 import { useSubmissionState } from "./useSubmissionState";
 import { usePropertyFormAutoSave } from "./usePropertyFormAutoSave";
+import { useHotelEditing } from "./useHotelEditing";
 import { useState, useEffect } from "react";
 import type { PropertyFormData } from "./usePropertyFormData";
 
@@ -11,26 +12,39 @@ export type { PropertyFormData };
 
 export const usePropertyForm = (editingHotelId?: string) => {
   const stepManagement = useStepManagement();
-  const formDataManagement = usePropertyFormData();
+  const formDataManagement = usePropertyFormData(editingHotelId);
   const validationState = useValidationState();
   const submissionState = useSubmissionState();
   
-  // Initialize auto-save functionality
+  // Initialize auto-save functionality (only for new properties)
   const autoSaveHook = usePropertyFormAutoSave(
     formDataManagement.formData,
     formDataManagement.setFormData,
     editingHotelId
   );
+
+  // Initialize hotel editing (only for existing properties)
+  const { isLoading: isLoadingHotel } = useHotelEditing({
+    editingHotelId,
+    setFormData: formDataManagement.setFormData,
+    setCurrentStep: stepManagement.setCurrentStep
+  });
   
   // Initialize as true to allow navigation by default
   const [isStepValid, setIsStepValid] = useState(true);
   
-  // Load draft data on initialization
+  // Load data on initialization - prioritize hotel data over draft for editing
   useEffect(() => {
-    const draft = autoSaveHook.loadDraft();
-    if (draft) {
-      console.log('Loading draft data:', draft);
-      formDataManagement.setFormData(draft);
+    if (editingHotelId) {
+      // For editing mode, hotel data will be loaded by useHotelEditing hook
+      console.log('Editing mode: Hotel data will be loaded from database');
+    } else {
+      // For new properties, try to load draft
+      const draft = autoSaveHook.loadDraft();
+      if (draft) {
+        console.log('Loading draft data for new property:', draft);
+        formDataManagement.setFormData(draft);
+      }
     }
   }, [editingHotelId]); // Only run when editingHotelId changes
   

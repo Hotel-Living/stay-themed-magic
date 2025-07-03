@@ -52,7 +52,7 @@ export interface PropertyFormData {
   availabilityPackages?: any[]; // Added for availability packages
 }
 
-export const usePropertyFormData = () => {
+export const usePropertyFormData = (editingHotelId?: string | null) => {
   const [formData, setFormData] = useState<PropertyFormData>({
     hotelName: "",
     propertyType: "",
@@ -111,6 +111,7 @@ export const usePropertyFormData = () => {
   return {
     formData,
     setFormData,
-    updateFormData
+    updateFormData,
+    editingHotelId
   };
 };

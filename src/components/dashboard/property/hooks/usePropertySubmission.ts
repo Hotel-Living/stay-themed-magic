@@ -3,16 +3,54 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
 import { useHotelSubmission } from "./submission/useHotelSubmission";
+import { useFormValidation } from "./submission/useFormValidation";
 
 export const usePropertySubmission = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
+  const { validateBeforeSubmission, validateDataIntegrity } = useFormValidation();
 
   const submitProperty = async (formData: PropertyFormData, editingHotelId?: string) => {
     console.group("🚀 PROPERTY SUBMISSION START");
     console.log("📋 Form data at submission:", formData);
     console.log("✏️ Editing hotel ID:", editingHotelId);
+    
+    // PHASE 4: Pre-submission validation
+    const validation = validateBeforeSubmission(formData);
+    
+    if (!validation.isValid) {
+      console.error("❌ Validation failed:", validation.errors);
+      toast({
+        title: "Validation Error",
+        description: validation.errors.join(". "),
+        variant: "destructive"
+      });
+      console.groupEnd();
+      return null;
+    }
+
+    // Show warnings but allow submission
+    if (validation.warnings.length > 0) {
+      console.warn("⚠️ Validation warnings:", validation.warnings);
+      toast({
+        title: "Data Incomplete",
+        description: `${validation.warnings.length} items need attention. You can still submit, but consider completing them.`,
+        variant: "default"
+      });
+    }
+
+    // Check data integrity
+    if (!validateDataIntegrity(formData)) {
+      console.error("❌ Data integrity check failed");
+      toast({
+        title: "Data Error",
+        description: "Data format is invalid. Please refresh and try again.",
+        variant: "destructive"
+      });
+      console.groupEnd();
+      return null;
+    }
     
     // Log critical arrays to verify they exist
     console.log("🔍 Critical data check:");

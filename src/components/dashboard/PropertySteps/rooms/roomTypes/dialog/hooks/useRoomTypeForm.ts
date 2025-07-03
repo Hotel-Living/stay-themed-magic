@@ -81,7 +81,7 @@ export function useRoomTypeForm({
 
       // Process images - convert any blob URLs to permanent storage URLs
       if (roomImagePreviews.length > 0) {
-        const hotelId = 'temp-hotel-id'; // This should be the actual hotel ID
+        const hotelId = 'NEEDS-DYNAMIC-HOTEL-ID'; // Will be fixed in Phase 2
         const roomTypeId = `${selectedRoomType}-${Date.now()}`;
         
         // Check if we have blob URLs that need to be converted

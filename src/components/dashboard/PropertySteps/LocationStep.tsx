@@ -95,22 +95,14 @@ export default function LocationStep({
         }
 
         // Fetch cities from database for this specific country
-        // Handle multiple possible country formats in the database
-        const countryQueryValues = [
-          selectedCountryObj.name,      // "Spain" 
-          selectedCountryObj.code,      // "ES"
-          selectedCountryObj.code.toLowerCase(), // "es"
-          selectedCountryObj.name.toLowerCase()  // "spain"
-        ];
-        
-        console.log(`🏙️ CITY LOADING DEBUG: Searching for cities in country: ${selectedCountryObj.name} (${selectedCountryObj.code})`);
-        console.log(`🏙️ Query values:`, countryQueryValues);
+        // Since we now save lowercase country codes, query directly with the saved value
+        console.log(`🏙️ CITY LOADING DEBUG: Searching for cities with country code: "${formData.country}"`);
         
         const { data: hotelData, error } = await supabase
           .from('hotels')
           .select('city, country')
           .eq('status', 'approved')
-          .in('country', countryQueryValues);
+          .eq('country', formData.country); // Use the exact saved country code
 
         if (error) {
           console.error('Error fetching cities:', error);

@@ -51,7 +51,7 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     // Pricing information
     price_per_month: formData.price_8 || formData.price_16 || formData.price_24 || formData.price_32 || 1000,
     rates: formData.rates || {},
-    pricingMatrix: formData.pricingMatrix || [],
+    pricingmatrix: formData.pricingMatrix || [],
     
     // Dynamic pricing
     enable_price_increase: formData.enablePriceIncrease || false,

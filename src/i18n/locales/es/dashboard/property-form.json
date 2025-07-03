@@ -12,6 +12,8 @@
     "step5Of5": "Paso 5 de 5",
     "previous": "Anterior",
     "next": "Siguiente",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
     "hotelName": "Nombre del Hotel",
     "hotelNamePlaceholder": "Ingrese el nombre del hotel",
     "category": "Categoría",
@@ -30,6 +32,15 @@
     "locationPerfectFor": "NUESTRA UBICACIÓN ES PERFECTA PARA…",
     "locationPlaceholder": "Describa qué hace especial a su ubicación",
     "defineRoomTypesStayDurations": "Por favor, defina los tipos de habitación, duraciones de estancia y regímenes de comidas en el Paso 3 antes de establecer precios.",
+    "uploadPhotos": "Subir Fotos",
+    "selectedFiles": "Archivos Seleccionados",
+    "imagesCount": "Número de Imágenes",
+    "remainingUploads": "Subidas Restantes",
+    "navigation": {
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "submit": "Enviar"
+    },
     "propertyStyles": {
       "classic": "Clásico",
       "classicElegant": "Clásico Elegante",

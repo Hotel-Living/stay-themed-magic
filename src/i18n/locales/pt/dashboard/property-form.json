@@ -12,6 +12,8 @@
     "step5Of5": "Etapa 5 de 5",
     "previous": "Anterior",
     "next": "Próximo",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
     "hotelName": "Nome do Hotel",
     "hotelNamePlaceholder": "Digite o nome do hotel",
     "category": "Categoria",
@@ -30,6 +32,15 @@
     "locationPerfectFor": "NOSSA LOCALIZAÇÃO É PERFEITA PARA…",
     "locationPlaceholder": "Descreva o que torna sua localização especial",
     "defineRoomTypesStayDurations": "Por favor, defina os tipos de quarto, durações de estadia e regimes de refeições na Etapa 3 antes de estabelecer preços.",
+    "uploadPhotos": "Enviar Fotos",
+    "selectedFiles": "Arquivos Selecionados",
+    "imagesCount": "Número de Imagens",
+    "remainingUploads": "Envios Restantes",
+    "navigation": {
+      "next": "Próximo",
+      "previous": "Anterior",
+      "submit": "Enviar"
+    },
     "propertyStyles": {
       "classic": "Clássico",
       "classicElegant": "Clássico Elegante",

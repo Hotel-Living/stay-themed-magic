@@ -42,6 +42,19 @@
         "minimalist": "Minimalist",
         "luxury": "Luxury"
       }
-    }
+    },
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Submit"
+    },
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "uploadPhotos": "Upload Photos",
+    "selectedFiles": "Selected Files",
+    "imagesCount": "Images Count",
+    "remainingUploads": "Remaining Uploads"
   }
 }

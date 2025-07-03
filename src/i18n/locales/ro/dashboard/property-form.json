@@ -1,3 +1,4 @@
+
 {
   "dashboard": {
     "propertyForm": {
@@ -50,6 +51,19 @@
         "loadFailed": "Încărcarea datelor proprietății a eșuat",
         "saveFailed": "Salvarea modificărilor a eșuat"
       }
+    },
+    "previous": "Anterior",
+    "next": "Următorul",
+    "submit": "Trimite",
+    "submitting": "Se trimite...",
+    "uploadPhotos": "Încărcare Fotografii",
+    "selectedFiles": "Fișiere Selectate",
+    "imagesCount": "Numărul de Imagini",
+    "remainingUploads": "Încărcări Rămase",
+    "navigation": {
+      "next": "Următorul",
+      "previous": "Anterior",
+      "submit": "Trimite"
     }
   }
 }

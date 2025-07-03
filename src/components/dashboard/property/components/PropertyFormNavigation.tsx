@@ -25,10 +25,10 @@ export default function PropertyFormNavigation({
 }: PropertyFormNavigationProps) {
   const { t } = useTranslation();
   
-  const totalSteps = 5; // Assuming 5 steps total
+  const totalSteps = 5;
   
   return (
-    <div className="flex items-center justify-between mb-3">
+    <div className="flex items-center justify-between mb-6">
       <button 
         onClick={onPrevStep} 
         className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
@@ -36,16 +36,16 @@ export default function PropertyFormNavigation({
         }`} 
         disabled={!canMoveToPrevStep}
       >
-        {t('dashboard.navigation.previous')}
+        {t('dashboard.previous')}
       </button>
       
       {currentStep === totalSteps ? (
         <button 
           onClick={onSubmit} 
-          className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
+          className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80 hover:bg-[#a209ad]"
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Submitting...' : t('dashboard.navigation.submit')}
+          {isSubmitting ? t('dashboard.submitting') : t('dashboard.submit')}
         </button>
       ) : (
         <button 
@@ -53,7 +53,7 @@ export default function PropertyFormNavigation({
           className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
           disabled={!canMoveToNextStep}
         >
-          {t('dashboard.navigation.next')}
+          {t('dashboard.next')}
         </button>
       )}
     </div>

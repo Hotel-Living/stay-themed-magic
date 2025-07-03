@@ -39,6 +39,7 @@ export default function AddPropertyForm({ editingHotelId, onDoneEditing }: AddPr
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
+        {/* Top Navigation */}
         <PropertyFormNavigation
           currentStep={currentStep}
           isStepValid={isStepValid}
@@ -56,6 +57,20 @@ export default function AddPropertyForm({ editingHotelId, onDoneEditing }: AddPr
             onValidationChange={onValidationChange}
             formData={formData}
             updateFormData={updateFormData}
+          />
+        </div>
+        
+        {/* Bottom Navigation */}
+        <div className="mt-8">
+          <PropertyFormNavigation
+            currentStep={currentStep}
+            isStepValid={isStepValid}
+            canMoveToNextStep={canMoveToNextStep}
+            canMoveToPrevStep={canMoveToPrevStep}
+            onNextStep={nextStep}
+            onPrevStep={prevStep}
+            onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         </div>
       </div>

@@ -63,8 +63,19 @@ export function FilterSidebar({
   };
 
   return (
-    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
-      {/* PRICE PER MONTH */}
+    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 h-screen flex flex-col">
+      {/* Clear Filters Button - Top */}
+      <div className="mb-4">
+        <button
+          onClick={onResetAllFilters}
+          className="w-full py-2 px-4 bg-[#6D28D9] hover:bg-[#7C3AED] text-white rounded-lg transition-colors text-sm font-medium"
+        >
+          Clear Filters
+        </button>
+      </div>
+
+      <div className="flex-1 space-y-4 overflow-y-auto">
+        {/* PRICE PER MONTH */}
       <PriceRangeFilter
         activePrice={getPriceValue()}
         onChange={(value) => handleFilterChange('priceRange', value)}
@@ -142,11 +153,22 @@ export function FilterSidebar({
         onChange={handleHotelFeaturesChange}
       />
 
-      {/* ROOM FEATURES */}
-      <RoomFeaturesFilter
-        activeRoomFeatures={activeFilters.roomFeatures || []}
-        onChange={handleRoomFeaturesChange}
-      />
+        {/* ROOM FEATURES */}
+        <RoomFeaturesFilter
+          activeRoomFeatures={activeFilters.roomFeatures || []}
+          onChange={handleRoomFeaturesChange}
+        />
+      </div>
+
+      {/* Clear Filters Button - Bottom */}
+      <div className="mt-4 pt-4 border-t border-purple-600/30">
+        <button
+          onClick={onResetAllFilters}
+          className="w-full py-2 px-4 bg-[#6D28D9] hover:bg-[#7C3AED] text-white rounded-lg transition-colors text-sm font-medium"
+        >
+          Clear Filters
+        </button>
+      </div>
     </div>
   );
 }

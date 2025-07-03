@@ -4,84 +4,152 @@ import { PropertyFormData } from "../usePropertyFormData";
 import { prepareHotelData } from "./prepareHotelData";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
-// Image upload utility function
+// Enhanced image upload utility function with better error handling
 const uploadHotelImages = async (hotelId: string, images: UploadedImage[]) => {
-  console.log("Processing user-uploaded images for hotel:", hotelId, "Images:", images);
+  console.log("🖼️ Processing user-uploaded images for hotel:", hotelId, "Images count:", images?.length || 0);
+  console.log("🖼️ Image details:", images?.map(img => ({ url: img.url, isMain: img.isMain, name: img.name })));
   
   if (!images || images.length === 0) {
-    console.log("No images provided by user");
-    return;
+    console.log("⚠️ No images provided by user");
+    return { success: false, message: "No images provided" };
   }
 
-  // Filter for images that haven't been uploaded to storage yet (blob URLs)
-  const imagesToUpload = images.filter(img => img.url.startsWith('blob:'));
-  const storageImages = images.filter(img => !img.url.startsWith('blob:'));
+  // Filter for images that haven't been uploaded to storage yet (blob URLs or file objects)
+  const imagesToUpload = images.filter(img => 
+    img.url && (img.url.startsWith('blob:') || img.url.startsWith('data:'))
+  );
+  const storageImages = images.filter(img => 
+    img.url && !img.url.startsWith('blob:') && !img.url.startsWith('data:')
+  );
   
-  console.log("Images to upload:", imagesToUpload.length, "Existing storage images:", storageImages.length);
+  console.log("📤 Images to upload:", imagesToUpload.length, "📁 Existing storage images:", storageImages.length);
   
   const allImageUrls: string[] = [];
+  const uploadPromises: Promise<string | null>[] = [];
   
   // Add existing storage URLs
-  storageImages.forEach(img => allImageUrls.push(img.url));
-  
-  // Upload blob images to storage
-  for (const image of imagesToUpload) {
-    try {
-      // Convert blob URL to file
-      const response = await fetch(image.url);
-      const blob = await response.blob();
-      
-      // Generate unique filename
-      const fileExt = blob.type.split('/')[1] || 'jpg';
-      const fileName = `${hotelId}/${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-      
-      // Upload to Supabase Storage
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('Hotel Images')
-        .upload(fileName, blob, {
-          contentType: blob.type,
-          upsert: false
-        });
-
-      if (uploadError) {
-        console.error("Error uploading image:", uploadError);
-        continue;
-      }
-
-      // Get public URL
-      const { data: urlData } = supabase.storage
-        .from('Hotel Images')
-        .getPublicUrl(uploadData.path);
-      
-      allImageUrls.push(urlData.publicUrl);
-      console.log("Successfully uploaded image:", urlData.publicUrl);
-      
-      // Clean up blob URL
-      URL.revokeObjectURL(image.url);
-      
-    } catch (error) {
-      console.error("Error processing image:", error);
+  storageImages.forEach(img => {
+    if (img.url) {
+      allImageUrls.push(img.url);
     }
+  });
+  
+  // Upload blob/data images to storage
+  for (const image of imagesToUpload) {
+    const uploadPromise = (async () => {
+      try {
+        let blob: Blob;
+        
+        // Handle different image formats
+        if (image.url.startsWith('blob:')) {
+          const response = await fetch(image.url);
+          blob = await response.blob();
+        } else if (image.url.startsWith('data:')) {
+          // Convert data URL to blob
+          const response = await fetch(image.url);
+          blob = await response.blob();
+        } else {
+          console.warn("⚠️ Unknown image format:", image.url);
+          return null;
+        }
+        
+        // Generate unique filename
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substring(2, 15);
+        const fileExt = blob.type.split('/')[1] || 'jpg';
+        const fileName = `${hotelId}/${timestamp}-${random}.${fileExt}`;
+        
+        console.log("📤 Uploading image to storage:", fileName, "Size:", blob.size, "Type:", blob.type);
+        
+        // Upload to Supabase Storage with retry logic
+        let uploadData, uploadError;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          const result = await supabase.storage
+            .from('Hotel Images')
+            .upload(fileName, blob, {
+              contentType: blob.type,
+              upsert: false
+            });
+          
+          uploadData = result.data;
+          uploadError = result.error;
+          
+          if (!uploadError) break;
+          
+          console.warn(`⚠️ Upload attempt ${attempt} failed:`, uploadError);
+          if (attempt === 3) {
+            console.error("❌ Final upload attempt failed:", uploadError);
+            return null;
+          }
+          
+          // Wait before retry
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+
+        if (uploadError || !uploadData) {
+          console.error("❌ Error uploading image after all attempts:", uploadError);
+          return null;
+        }
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('Hotel Images')
+          .getPublicUrl(uploadData.path);
+        
+        console.log("✅ Successfully uploaded image:", urlData.publicUrl);
+        
+        // Clean up blob URL
+        if (image.url.startsWith('blob:')) {
+          URL.revokeObjectURL(image.url);
+        }
+        
+        return urlData.publicUrl;
+        
+      } catch (error) {
+        console.error("❌ Error processing image:", error, image);
+        return null;
+      }
+    })();
+    
+    uploadPromises.push(uploadPromise);
   }
   
+  // Wait for all uploads to complete
+  const uploadedUrls = await Promise.all(uploadPromises);
+  const successfulUploads = uploadedUrls.filter(url => url !== null) as string[];
+  
+  // Add successful uploads to the list
+  allImageUrls.push(...successfulUploads);
+  
+  console.log(`📊 Upload summary: ${successfulUploads.length}/${imagesToUpload.length} new images uploaded successfully`);
+  console.log(`📊 Total images to save: ${allImageUrls.length}`);
+  
   if (allImageUrls.length === 0) {
-    console.warn("No images were successfully processed");
-    return;
+    console.warn("⚠️ No images were successfully processed");
+    return { success: false, message: "No images were successfully uploaded" };
   }
   
   // Insert image records into database
-  const imageRecords = allImageUrls.map((url, index) => ({
-    hotel_id: hotelId,
-    image_url: url,
-    is_main: index === 0 || (images.find(img => img.url === url)?.isMain === true)
-  }));
+  const imageRecords = allImageUrls.map((url, index) => {
+    const originalImage = images.find(img => img.url === url) || 
+                          images.find(img => successfulUploads.includes(url)) ||
+                          images[index];
+    
+    return {
+      hotel_id: hotelId,
+      image_url: url,
+      is_main: originalImage?.isMain === true || index === 0
+    };
+  });
+  
+  console.log("💾 Inserting image records into database:", imageRecords);
   
   const { error: insertError } = await supabase
     .from('hotel_images')
     .insert(imageRecords);
   
   if (insertError) {
-    console.error("Error inserting image records:", insertError);
+    console.error("❌ Error inserting image records:", insertError);
     throw insertError;
   }
   
@@ -91,17 +159,21 @@ const uploadHotelImages = async (hotelId: string, images: UploadedImage[]) => {
   ) || allImageUrls[0];
   
   if (mainImageUrl) {
+    console.log("🖼️ Setting main image URL:", mainImageUrl);
     const { error: updateError } = await supabase
       .from('hotels')
       .update({ main_image_url: mainImageUrl })
       .eq('id', hotelId);
     
     if (updateError) {
-      console.warn("Could not update hotel main image:", updateError);
+      console.warn("⚠️ Could not update hotel main image:", updateError);
+    } else {
+      console.log("✅ Successfully updated hotel main image URL");
     }
   }
   
-  console.log(`Successfully processed ${allImageUrls.length} images for hotel ${hotelId}`);
+  console.log(`✅ Successfully processed ${allImageUrls.length} images for hotel ${hotelId}`);
+  return { success: true, message: `Processed ${allImageUrls.length} images successfully` };
 };
 
 export const createNewHotel = async (formData: PropertyFormData) => {

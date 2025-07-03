@@ -20,14 +20,17 @@ export default function AddProperty({ editingHotelId, onDoneEditing }: AddProper
     canMoveToNextStep,
     canMoveToPrevStep,
     nextStep,
-    prevStep
-  } = usePropertyForm();
+    prevStep,
+    clearDraft
+  } = usePropertyForm(editingHotelId);
 
   const { submitProperty, isSubmitting } = usePropertySubmission();
 
   const handleSubmit = async () => {
     try {
       await submitProperty(formData, editingHotelId);
+      // Clear the draft after successful submission
+      clearDraft();
       if (onDoneEditing) {
         onDoneEditing();
       }

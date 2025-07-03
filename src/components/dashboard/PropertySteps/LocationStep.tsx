@@ -210,8 +210,8 @@ export default function LocationStep({
             }`}
           >
             <option value="">{filterLoading ? t('dashboard.loading') : t('dashboard.selectCountry')}</option>
-            {countries.map(country => (
-              <option key={country.code} value={country.code}>
+            {countries.map((country, index) => (
+              <option key={`${country.code}-${index}`} value={country.code}>
                 {country.flag} {country.name}
               </option>
             ))}

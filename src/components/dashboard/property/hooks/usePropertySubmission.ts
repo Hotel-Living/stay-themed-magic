@@ -18,7 +18,7 @@ export const usePropertySubmission = () => {
     
     // CRITICAL: Backup form data to prevent loss on validation failure
     const formDataBackup = JSON.parse(JSON.stringify(formData));
-    console.log("💾 Form data backed up for recovery");
+    console.log("💾 Form data backed up for recovery:", formDataBackup);
     
     // PHASE 1: Convert pricing data from individual fields to proper format
     const { convertPricingData } = await import("./submission/pricingConverter");
@@ -30,13 +30,15 @@ export const usePropertySubmission = () => {
     
     if (!validation.isValid) {
       console.error("❌ Validation failed:", validation.errors);
-      console.warn("🔄 Form data preserved - no data loss occurred");
+      console.warn("🔄 FORM DATA REMAINS INTACT - NO DATA LOSS");
+      console.warn("🔄 User can fix the validation errors and resubmit");
       toast({
         title: "Validation Error",
-        description: validation.errors.join(". "),
+        description: `${validation.errors.join(". ")}. Your data has been preserved - please fix the errors and try again.`,
         variant: "destructive"
       });
       console.groupEnd();
+      // IMPORTANT: Return null without modifying any form state - data is preserved
       return null;
     }
 

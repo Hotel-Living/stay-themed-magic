@@ -6,13 +6,13 @@ import type { PropertyFormData } from "../usePropertyFormData";
 export const convertPricingData = (formData: PropertyFormData): PropertyFormData & { price_per_month: number } => {
   const convertedData = { ...formData } as PropertyFormData & { price_per_month: number };
   
-  // Extract pricing fields from form data
+  // Extract pricing fields from form data - now aligned with StayDurationSection
   const price8 = (formData as any).price_8;
-  const price16 = (formData as any).price_16;
-  const price24 = (formData as any).price_24;
-  const price32 = (formData as any).price_32;
+  const price15 = (formData as any).price_15;
+  const price22 = (formData as any).price_22;
+  const price29 = (formData as any).price_29;
   
-  console.log('🔄 Converting pricing data:', { price8, price16, price24, price32 });
+  console.log('🔄 Converting pricing data:', { price8, price15, price22, price29 });
   
   // Build pricing matrix from individual price fields
   const pricingMatrix: any[] = [];
@@ -20,14 +20,14 @@ export const convertPricingData = (formData: PropertyFormData): PropertyFormData
   if (price8 && price8 > 0) {
     pricingMatrix.push({ duration: 8, price: price8, currency: 'EUR' });
   }
-  if (price16 && price16 > 0) {
-    pricingMatrix.push({ duration: 16, price: price16, currency: 'EUR' });
+  if (price15 && price15 > 0) {
+    pricingMatrix.push({ duration: 15, price: price15, currency: 'EUR' });
   }
-  if (price24 && price24 > 0) {
-    pricingMatrix.push({ duration: 24, price: price24, currency: 'EUR' });
+  if (price22 && price22 > 0) {
+    pricingMatrix.push({ duration: 22, price: price22, currency: 'EUR' });
   }
-  if (price32 && price32 > 0) {
-    pricingMatrix.push({ duration: 32, price: price32, currency: 'EUR' });
+  if (price29 && price29 > 0) {
+    pricingMatrix.push({ duration: 29, price: price29, currency: 'EUR' });
   }
   
   convertedData.pricingMatrix = pricingMatrix;
@@ -74,24 +74,24 @@ export const calculateMonthlyPrice = (formData: PropertyFormData): number => {
   
   let monthlyPrice = 0;
   
-  // Apply your specific calculation logic
+  // Apply the correct calculation logic: 28 days = 1 month
   switch (duration) {
     case 8:
-      monthlyPrice = Math.round(price * 4); // 8 days → multiply by 4
+      monthlyPrice = Math.round((price / 8) * 28); // 8 days → scale to 28 days (1 month)
       break;
-    case 16:
-      monthlyPrice = Math.round(price * 2); // 16 days → multiply by 2
+    case 15:
+      monthlyPrice = Math.round((price / 15) * 28); // 15 days → scale to 28 days (1 month)
       break;
-    case 24:
-      monthlyPrice = Math.round(price * 1.33); // 24 days → multiply by 1.33
+    case 22:
+      monthlyPrice = Math.round((price / 22) * 28); // 22 days → scale to 28 days (1 month)
       break;
-    case 32:
-      monthlyPrice = Math.round(price); // 32 days → use directly
+    case 29:
+      monthlyPrice = Math.round((price / 29) * 28); // 29 days → scale to 28 days (1 month)
       break;
     default:
-      // For any other duration, calculate proportionally to 32 days
-      monthlyPrice = Math.round((price / duration) * 32);
-      console.warn(`⚠️ Unusual duration ${duration} days - calculated proportionally`);
+      // For any other duration, calculate proportionally to 28 days (1 month)
+      monthlyPrice = Math.round((price / duration) * 28);
+      console.warn(`⚠️ Unusual duration ${duration} days - calculated proportionally to 28 days`);
   }
   
   console.log(`💰 Calculated monthly price: ${monthlyPrice} (from ${duration}-day package at ${price})`);

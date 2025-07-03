@@ -33,9 +33,9 @@ export interface PropertyFormData {
   featuresRoom?: Record<string, boolean>;
   available_months?: string[]; // Added available_months to match database schema
   price_8?: number; // Price for 8-day stay
-  price_16?: number; // Price for 16-day stay
-  price_24?: number; // Price for 24-day stay
-  price_32?: number; // Price for 32-day stay
+  price_15?: number; // Price for 15-day stay
+  price_22?: number; // Price for 22-day stay
+  price_29?: number; // Price for 29-day stay
   rates?: Record<string, number>; // For storing all rates together
   currency?: string; // Added to store currency information
   enablePriceIncrease?: boolean; // Added for dynamic pricing setting
@@ -82,9 +82,9 @@ export const usePropertyFormData = (editingHotelId?: string | null) => {
     featuresRoom: {},
     available_months: [], // Initialize available_months as empty array
     price_8: 0,
-    price_16: 0,
-    price_24: 0,
-    price_32: 0,
+    price_15: 0,
+    price_22: 0,
+    price_29: 0,
     rates: {},
     currency: "USD",
     enablePriceIncrease: false,

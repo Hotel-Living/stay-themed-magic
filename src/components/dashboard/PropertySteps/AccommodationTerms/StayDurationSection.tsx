@@ -19,10 +19,10 @@ const StayDurationSection: React.FC<StayDurationSectionProps> = ({
   onValidationChange
 }) => {
   const durationOptions = [
-    { nights: 8, label: "8 nights" },
-    { nights: 15, label: "15 nights" },
-    { nights: 22, label: "22 nights" },
-    { nights: 29, label: "29 nights" }
+    { nights: 8, label: "8 days" },
+    { nights: 15, label: "15 days" },
+    { nights: 22, label: "22 days" },
+    { nights: 29, label: "29 days" }
   ];
 
   const handleDurationSelect = (nights: number) => {

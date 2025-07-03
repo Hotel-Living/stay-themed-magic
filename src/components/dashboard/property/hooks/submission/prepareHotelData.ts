@@ -63,7 +63,7 @@ export const prepareHotelData = (formData: PropertyFormData) => {
     features_room: formData.featuresRoom || {},
     
     // Pricing information
-    price_per_month: formData.price_8 || formData.price_16 || formData.price_24 || formData.price_32 || 1000,
+    price_per_month: formData.price_8 || formData.price_15 || formData.price_22 || formData.price_29 || 1000,
     rates: formData.rates || {},
     pricingmatrix: formData.pricingMatrix || [],
     

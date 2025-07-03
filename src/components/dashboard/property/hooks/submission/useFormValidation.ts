@@ -53,8 +53,8 @@ const validatePricing = (formData: PropertyFormData): { isValid: boolean; errors
     isValid: hasValidPricingMatrix 
   });
   
-  // 3. Check legacy price_X fields (backup check)
-  const pricingFields = ['price_8', 'price_16', 'price_24', 'price_32'];
+  // 3. Check legacy price_X fields (backup check) - now aligned with StayDurationSection
+  const pricingFields = ['price_8', 'price_15', 'price_22', 'price_29'];
   const hasValidPricingFields = pricingFields.some(field => {
     const price = (formData as any)[field];
     return price && typeof price === 'number' && price > 0;

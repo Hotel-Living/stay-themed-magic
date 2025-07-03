@@ -30,9 +30,9 @@ export const prepareHotelData = (formData: PropertyFormData) => {
   // Extract rates for different stay lengths
   const rates = formData.rates || {
     "8": formData.price_8,
-    "16": formData.price_16,
-    "24": formData.price_24,
-    "32": formData.price_32
+    "15": formData.price_15,
+    "22": formData.price_22,
+    "29": formData.price_29
   };
 
   // Parse latitude and longitude if they're strings

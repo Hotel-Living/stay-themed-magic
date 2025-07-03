@@ -25,14 +25,14 @@ const calculateMonthlyPrice = (formData: PropertyFormData): number => {
     return explicitMonthlyPrice;
   }
   
-  // Calculate from pricing matrix
+  // Calculate from pricing matrix using hotel's package logic
   const pricingMatrix = formData.pricingMatrix || [];
   if (pricingMatrix.length === 0) {
     console.warn("⚠️ No pricing data available - using default 0");
     return 0;
   }
   
-  // Find the pricing entry with the most reasonable duration for monthly calculation
+  // Find the first valid price and apply the correct multiplier
   const validPrices = pricingMatrix.filter((pkg: any) => pkg.price && pkg.price > 0 && pkg.duration && pkg.duration > 0);
   
   if (validPrices.length === 0) {
@@ -40,13 +40,34 @@ const calculateMonthlyPrice = (formData: PropertyFormData): number => {
     return 0;
   }
   
-  // Use the first valid price and convert to monthly equivalent
   const firstPrice = validPrices[0];
-  const dailyRate = firstPrice.price / firstPrice.duration;
-  const monthlyEquivalent = Math.round(dailyRate * 30);
+  const duration = parseInt(firstPrice.duration);
+  const price = parseFloat(firstPrice.price);
   
-  console.log(`💰 Calculated monthly price: ${monthlyEquivalent} (from ${firstPrice.duration}-day package at ${firstPrice.price})`);
-  return monthlyEquivalent;
+  let monthlyPrice = 0;
+  
+  // Apply your specific calculation logic
+  switch (duration) {
+    case 8:
+      monthlyPrice = Math.round(price * 4); // 8 days → multiply by 4
+      break;
+    case 16:
+      monthlyPrice = Math.round(price * 2); // 16 days → multiply by 2
+      break;
+    case 24:
+      monthlyPrice = Math.round(price * 1.33); // 24 days → multiply by 1.33
+      break;
+    case 32:
+      monthlyPrice = Math.round(price); // 32 days → use directly
+      break;
+    default:
+      // For any other duration, calculate proportionally to 32 days
+      monthlyPrice = Math.round((price / duration) * 32);
+      console.warn(`⚠️ Unusual duration ${duration} days - calculated proportionally`);
+  }
+  
+  console.log(`💰 Calculated monthly price: ${monthlyPrice} (from ${duration}-day package at ${price})`);
+  return monthlyPrice;
 };
 
 export const useAtomicHotelSubmission = () => {

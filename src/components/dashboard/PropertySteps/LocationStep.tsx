@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import InteractiveMap from "./StepOne/Location/InteractiveMap";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useFilterData } from "@/hooks/useFilterData";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LocationStepProps {
   formData: any;
@@ -24,31 +24,25 @@ export default function LocationStep({
   handleBlur
 }: LocationStepProps) {
   const { t } = useTranslation();
-  const { countries, cities, loading: filterLoading } = useFilterData();
+  const { countries, loading: filterLoading } = useFilterData();
   const [address, setAddress] = useState(formData.address || "");
   const [selectedCountry, setSelectedCountry] = useState(formData.country || "");
-  const [customCountry, setCustomCountry] = useState("");
   const [selectedCity, setSelectedCity] = useState(formData.city || "");
   const [customCity, setCustomCity] = useState("");
-  const [isAddingNewCountry, setIsAddingNewCountry] = useState(false);
   const [isAddingNewCity, setIsAddingNewCity] = useState(false);
   const [postalCode, setPostalCode] = useState(formData.postalCode || "");
   const [latitude, setLatitude] = useState(formData.latitude || "");
   const [longitude, setLongitude] = useState(formData.longitude || "");
   const [formattedAddress, setFormattedAddress] = useState("");
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  const [citiesLoading, setCitiesLoading] = useState(false);
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSelectedCountry(value);
     handleChange('country', value);
     
-    if (value === "other") {
-      setIsAddingNewCountry(true);
-    } else {
-      setIsAddingNewCountry(false);
-      setCustomCountry("");
-    }
-    
+    // Reset city selection when country changes
     setSelectedCity("");
     setIsAddingNewCity(false);
     setCustomCity("");
@@ -58,13 +52,21 @@ export default function LocationStep({
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSelectedCity(value);
-    handleChange('city', value);
     
     if (value === "other") {
       setIsAddingNewCity(true);
+      setCustomCity("");
     } else {
       setIsAddingNewCity(false);
       setCustomCity("");
+      handleChange('city', value);
+    }
+  };
+
+  const handleCustomCitySubmit = () => {
+    if (customCity.trim()) {
+      handleChange('city', customCity.trim());
+      setIsAddingNewCity(false);
     }
   };
 
@@ -74,6 +76,53 @@ export default function LocationStep({
     updateFormData('latitude', lat);
     updateFormData('longitude', lng);
   };
+  
+  // Fetch cities for selected country
+  useEffect(() => {
+    const fetchCitiesForCountry = async () => {
+      if (!selectedCountry) {
+        setAvailableCities([]);
+        return;
+      }
+
+      setCitiesLoading(true);
+      try {
+        // Find the selected country object
+        const selectedCountryObj = countries.find(c => c.code === selectedCountry);
+        if (!selectedCountryObj) {
+          setAvailableCities([]);
+          return;
+        }
+
+        // Fetch cities from database for this specific country
+        const { data: hotelData, error } = await supabase
+          .from('hotels')
+          .select('city, country')
+          .eq('status', 'approved')
+          .eq('country', selectedCountryObj.name);
+
+        if (error) {
+          console.error('Error fetching cities:', error);
+          setAvailableCities([]);
+          return;
+        }
+
+        // Extract unique cities for this country
+        const uniqueCities = [...new Set(hotelData?.map(hotel => hotel.city) || [])]
+          .filter(city => city && city.trim() !== '')
+          .sort();
+
+        setAvailableCities(uniqueCities);
+      } catch (error) {
+        console.error('Error fetching cities for country:', error);
+        setAvailableCities([]);
+      } finally {
+        setCitiesLoading(false);
+      }
+    };
+
+    fetchCitiesForCountry();
+  }, [selectedCountry, countries]);
   
   // Update form data when local state changes
   useEffect(() => {
@@ -85,25 +134,9 @@ export default function LocationStep({
   }, [postalCode, updateFormData]);
 
   useEffect(() => {
-    updateFormData('customCountry', customCountry);
-  }, [customCountry, updateFormData]);
-
-  useEffect(() => {
     updateFormData('customCity', customCity);
   }, [customCity, updateFormData]);
   
-  // Get available cities for selected country
-  const getAvailableCities = () => {
-    if (!selectedCountry || selectedCountry === "other") return [];
-    
-    // Find cities that belong to the selected country from database
-    const countryData = countries.find(c => c.code === selectedCountry || c.name === selectedCountry);
-    if (!countryData) return [];
-    
-    // For now, return the predefined cities and add database cities later
-    return cities.filter(city => city && city.trim() !== "").sort();
-  };
-
   // Create formatted address for geocoding
   useEffect(() => {
     let formattedAddr = "";
@@ -123,19 +156,16 @@ export default function LocationStep({
     }
     
     // Add country if available
-    if (selectedCountry && selectedCountry !== "other" && selectedCountry.trim() !== "") {
-      const countryData = countries.find(c => c.code === selectedCountry || c.name === selectedCountry);
+    if (selectedCountry && selectedCountry.trim() !== "") {
+      const countryData = countries.find(c => c.code === selectedCountry);
       if (countryData) {
         if (formattedAddr) formattedAddr += ", ";
         formattedAddr += countryData.name;
       }
-    } else if (customCountry && customCountry.trim() !== "") {
-      if (formattedAddr) formattedAddr += ", ";
-      formattedAddr += customCountry;
     }
     
     setFormattedAddress(formattedAddr);
-  }, [address, selectedCity, customCity, selectedCountry, customCountry, countries]);
+  }, [address, selectedCity, customCity, selectedCountry, countries]);
   
   return (
     <div className="space-y-5">
@@ -169,7 +199,7 @@ export default function LocationStep({
           <label className="block text-sm font-medium text-white mb-1 uppercase">
             {t('dashboard.country')}
           </label>
-           <select 
+          <select 
             required 
             value={selectedCountry} 
             onChange={handleCountryChange}
@@ -185,23 +215,9 @@ export default function LocationStep({
                 {country.flag} {country.name}
               </option>
             ))}
-            <option value="other">{t('dashboard.addAnotherCountry')}</option>
           </select>
           {touchedFields.country && errors.country && (
             <p className="text-red-400 text-sm mt-1">{errors.country}</p>
-          )}
-          
-          {isAddingNewCountry && (
-            <div className="mt-2">
-              <input 
-                type="text" 
-                placeholder={t('dashboard.enterCountryName')} 
-                value={customCountry} 
-                onChange={e => setCustomCountry(e.target.value)} 
-                required 
-                className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486]" 
-              />
-            </div>
           )}
         </div>
         
@@ -209,12 +225,12 @@ export default function LocationStep({
           <label className="block text-sm font-medium text-white mb-1 uppercase">
             {t('dashboard.city')}
           </label>
-           <select 
+          <select 
             required 
             value={selectedCity} 
             onChange={handleCityChange}
             onBlur={() => handleBlur('city')}
-            disabled={!selectedCountry || selectedCountry === "other"}
+            disabled={!selectedCountry || citiesLoading}
             className={`text-white w-full p-2.5 rounded-lg border focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486] ${
               touchedFields.city && errors.city ? 'border-red-500' : 'border-fuchsia-800/30'
             }`}
@@ -222,17 +238,17 @@ export default function LocationStep({
             <option value="">
               {!selectedCountry 
                 ? t('dashboard.selectCountryFirst') 
-                : selectedCountry === "other" 
-                  ? t('dashboard.addCountryFirst')
+                : citiesLoading
+                  ? t('dashboard.loading')
                   : t('dashboard.selectCity')
               }
             </option>
-            {selectedCountry && selectedCountry !== "other" && getAvailableCities().map(city => (
+            {availableCities.map(city => (
               <option key={city} value={city}>
                 {city}
               </option>
             ))}
-            {selectedCountry && selectedCountry !== "other" && (
+            {selectedCountry && !citiesLoading && (
               <option value="other">{t('dashboard.addNewCity')}</option>
             )}
           </select>
@@ -241,7 +257,7 @@ export default function LocationStep({
           )}
           
           {isAddingNewCity && (
-            <div className="mt-2">
+            <div className="mt-2 space-y-2">
               <input 
                 type="text" 
                 placeholder={t('dashboard.enterCityName')} 
@@ -250,6 +266,27 @@ export default function LocationStep({
                 required 
                 className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7A0486]" 
               />
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleCustomCitySubmit}
+                  disabled={!customCity.trim()}
+                  className="px-3 py-1 text-xs bg-fuchsia-600 hover:bg-fuchsia-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded transition-colors"
+                >
+                  {t('dashboard.add')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAddingNewCity(false);
+                    setCustomCity("");
+                    setSelectedCity("");
+                  }}
+                  className="px-3 py-1 text-xs bg-gray-600 hover:bg-gray-700 text-white rounded transition-colors"
+                >
+                  {t('dashboard.cancel')}
+                </button>
+              </div>
             </div>
           )}
         </div>

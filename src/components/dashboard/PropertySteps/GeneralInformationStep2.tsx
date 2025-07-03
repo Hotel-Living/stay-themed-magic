@@ -29,7 +29,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
   }, [onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    const currentThemes = formData.themes || [];
+    const currentThemes = Array.isArray(formData.themes) ? formData.themes : [];
     const updatedThemes = isSelected 
       ? [...currentThemes, themeId]
       : currentThemes.filter((id: string) => id !== themeId);
@@ -37,7 +37,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
   };
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
-    const currentActivities = formData.activities || [];
+    const currentActivities = Array.isArray(formData.activities) ? formData.activities : [];
     const updatedActivities = isChecked
       ? [...currentActivities, activity]
       : currentActivities.filter((a: string) => a !== activity);
@@ -46,7 +46,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
 
   const handleFeatureToggle = (featureType: 'hotel' | 'room', feature: string) => {
     const fieldName = featureType === 'hotel' ? 'featuresHotel' : 'featuresRoom';
-    const currentFeatures = formData[fieldName] || [];
+    const currentFeatures = Array.isArray(formData[fieldName]) ? formData[fieldName] : [];
     const updatedFeatures = currentFeatures.includes(feature)
       ? currentFeatures.filter((f: string) => f !== feature)
       : [...currentFeatures, feature];
@@ -63,7 +63,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
       {/* Affinities Section */}
       <div className="bg-purple-900/30 rounded-lg p-6">
         <AffinitiesSection
-          selectedThemes={formData.themes || []}
+          selectedThemes={Array.isArray(formData.themes) ? formData.themes : []}
           onThemeSelect={handleThemeSelect}
           openCategory={null}
           setOpenCategory={() => {}}
@@ -75,7 +75,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
       {/* Activities Section */}
       <div className="bg-purple-900/30 rounded-lg p-6">
         <ActivitiesSection
-          selectedActivities={formData.activities || []}
+          selectedActivities={Array.isArray(formData.activities) ? formData.activities : []}
           onActivityChange={handleActivityChange}
         />
       </div>
@@ -85,7 +85,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
         <h3 className="text-lg font-semibold text-white mb-4">{t('dashboard.hotelFeatures')}</h3>
         <FeaturesList
           features={hotelFeatures}
-          selectedFeatures={formData.featuresHotel || []}
+          selectedFeatures={Array.isArray(formData.featuresHotel) ? formData.featuresHotel : []}
           onToggle={(feature) => handleFeatureToggle('hotel', feature)}
         />
       </div>
@@ -95,7 +95,7 @@ const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
         <h3 className="text-lg font-semibold text-white mb-4">{t('dashboard.roomFeatures')}</h3>
         <FeaturesList
           features={roomFeatures}
-          selectedFeatures={formData.featuresRoom || []}
+          selectedFeatures={Array.isArray(formData.featuresRoom) ? formData.featuresRoom : []}
           onToggle={(feature) => handleFeatureToggle('room', feature)}
         />
       </div>

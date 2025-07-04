@@ -16,6 +16,8 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
   onValidationChange
 }) => {
   const { t } = useTranslation();
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
   
   // Mock data for demonstration - in production, these would come from API/database
   const mockAffinities = [
@@ -45,16 +47,61 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
     'Satellite/Cable TV', 'Telephone', 'Wake-up Service', 'Work Desk'
   ];
 
-  // Validation logic
-  useEffect(() => {
+  // Validation logic with error messages
+  const validateStep = () => {
+    const errors: Record<string, string> = {};
+    let isValid = true;
+
     const hasAffinities = formData.selectedAffinities && formData.selectedAffinities.length > 0;
     const hasActivities = formData.selectedActivities && formData.selectedActivities.length > 0;
     const hasHotelFeatures = formData.selectedHotelFeatures && formData.selectedHotelFeatures.length > 0;
     const hasRoomFeatures = formData.selectedRoomFeatures && formData.selectedRoomFeatures.length > 0;
 
-    const isValid = hasAffinities && hasActivities && hasHotelFeatures && hasRoomFeatures;
+    if (!hasAffinities) {
+      errors.affinities = 'Please select at least one affinity';
+      isValid = false;
+    }
+
+    if (!hasActivities) {
+      errors.activities = 'Please select at least one activity';
+      isValid = false;
+    }
+
+    if (!hasHotelFeatures) {
+      errors.hotelFeatures = 'Please select at least one hotel feature';
+      isValid = false;
+    }
+
+    if (!hasRoomFeatures) {
+      errors.roomFeatures = 'Please select at least one room feature';
+      isValid = false;
+    }
+
+    setValidationErrors(errors);
+    return isValid;
+  };
+
+  // Run validation whenever form data changes
+  useEffect(() => {
+    const isValid = validateStep();
     onValidationChange(isValid);
   }, [formData.selectedAffinities, formData.selectedActivities, formData.selectedHotelFeatures, formData.selectedRoomFeatures, onValidationChange]);
+
+  // Listen for navigation attempts to show validation errors
+  useEffect(() => {
+    const handleNavigationAttempt = () => {
+      const isValid = validateStep();
+      if (!isValid) {
+        setShowValidationErrors(true);
+      }
+    };
+
+    window.addEventListener('attemptStepNavigation', handleNavigationAttempt);
+    
+    return () => {
+      window.removeEventListener('attemptStepNavigation', handleNavigationAttempt);
+    };
+  }, [formData]);
 
   const toggleSelection = (field: string, item: string) => {
     const currentSelection = formData[field] || [];
@@ -63,6 +110,14 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
       : [...currentSelection, item];
     
     updateFormData(field, newSelection);
+    
+    // Clear validation error when user makes a selection
+    if (newSelection.length > 0 && validationErrors[field.replace('selected', '').toLowerCase()]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [field.replace('selected', '').toLowerCase()]: ''
+      }));
+    }
   };
 
   const selectAll = (field: string, items: string[]) => {
@@ -73,10 +128,10 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
     updateFormData(field, []);
   };
 
-  const renderSection = (title: string, field: string, items: string[]) => (
+  const renderSection = (title: string, field: string, items: string[], errorKey: string) => (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <Label className="text-white text-lg font-semibold">
+        <Label className={`text-lg font-semibold ${showValidationErrors && validationErrors[errorKey] ? 'text-red-400' : 'text-white'}`}>
           {title} <span className="text-red-500">*</span>
         </Label>
         <div className="space-x-2">
@@ -100,6 +155,12 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
           </Button>
         </div>
       </div>
+      
+      {showValidationErrors && validationErrors[errorKey] && (
+        <div className="text-red-400 text-sm bg-red-900/20 border border-red-500/30 rounded px-3 py-2">
+          {validationErrors[errorKey]}
+        </div>
+      )}
       
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {items.map((item) => (
@@ -127,10 +188,10 @@ export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = (
         <p className="text-white/80">{t('dashboard.affinitiesDescription')}</p>
       </div>
 
-      {renderSection(t('dashboard.affinities'), 'selectedAffinities', mockAffinities)}
-      {renderSection(t('dashboard.activities'), 'selectedActivities', mockActivities)}
-      {renderSection(t('dashboard.hotelFeatures'), 'selectedHotelFeatures', mockHotelFeatures)}
-      {renderSection(t('dashboard.roomFeatures'), 'selectedRoomFeatures', mockRoomFeatures)}
+      {renderSection(t('dashboard.affinities'), 'selectedAffinities', mockAffinities, 'affinities')}
+      {renderSection(t('dashboard.activities'), 'selectedActivities', mockActivities, 'activities')}
+      {renderSection(t('dashboard.hotelFeatures'), 'selectedHotelFeatures', mockHotelFeatures, 'hotelFeatures')}
+      {renderSection(t('dashboard.roomFeatures'), 'selectedRoomFeatures', mockRoomFeatures, 'roomFeatures')}
     </div>
   );
 };

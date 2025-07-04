@@ -40,7 +40,7 @@ export default function LocationStep({
         handleChange('city', '');
       }
     }
-  }, [formData.country]);
+  }, [formData.country, formData.city, handleChange]);
 
   return (
     <div className="space-y-6">
@@ -66,7 +66,6 @@ export default function LocationStep({
             value={formData.country || ""}
             onChange={(e) => handleChange('country', e.target.value)}
             onBlur={() => handleBlur('country')}
-            error={errors.country}
             touched={touchedFields.country}
             errorMessage={errors.country}
             onBackClick={() => setShowCustomCountry(false)}
@@ -91,7 +90,6 @@ export default function LocationStep({
             value={formData.city || ""}
             onChange={(e) => handleChange('city', e.target.value)}
             onBlur={() => handleBlur('city')}
-            error={errors.city}
             touched={touchedFields.city}
             errorMessage={errors.city}
             onBackClick={() => setShowCustomCity(false)}
@@ -120,7 +118,7 @@ export default function LocationStep({
       <InteractiveMap
         latitude={formData.latitude}
         longitude={formData.longitude}
-        onLocationChange={(lat, lng) => {
+        onLocationSelect={(lat, lng) => {
           updateFormData('latitude', lat.toString());
           updateFormData('longitude', lng.toString());
         }}

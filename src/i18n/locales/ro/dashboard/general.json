@@ -1,6 +1,9 @@
 
 {
   "dashboard": {
+    "selectCheckinDay": "Selectați ziua preferată pentru check-in",
+    "days": "zile",
+    "laundry": "Spălătorie",
     "title": "Tablou de bord",
     "welcome": "Bun venit",
     "overview": "Prezentare generală",

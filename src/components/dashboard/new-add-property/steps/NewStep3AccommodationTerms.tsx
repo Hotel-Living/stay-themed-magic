@@ -32,6 +32,21 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
     'allInclusive'
   ];
 
+  // State for validation error display
+  const [showValidationErrors, setShowValidationErrors] = React.useState(false);
+
+  // Listen for navigation attempts to show validation errors
+  React.useEffect(() => {
+    const handleAttemptNavigation = () => {
+      setShowValidationErrors(true);
+    };
+
+    window.addEventListener('attemptStepNavigation', handleAttemptNavigation);
+    return () => {
+      window.removeEventListener('attemptStepNavigation', handleAttemptNavigation);
+    };
+  }, []);
+
   // Validation logic
   useEffect(() => {
     const hasStayDurations = formData.selectedStayDurations && formData.selectedStayDurations.length > 0;
@@ -50,6 +65,27 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
     formData.roomImages,
     onValidationChange
   ]);
+
+  // Helper function to get validation errors
+  const getValidationErrors = () => {
+    const errors = [];
+    if (!formData.selectedStayDurations || formData.selectedStayDurations.length === 0) {
+      errors.push(t('dashboard.stayDurations'));
+    }
+    if (!formData.preferredWeekday) {
+      errors.push(t('dashboard.preferredWeekday'));
+    }
+    if (!formData.selectedMealPlans || formData.selectedMealPlans.length === 0) {
+      errors.push(t('dashboard.mealPlans'));
+    }
+    if (!formData.roomDescription || formData.roomDescription.trim().length === 0) {
+      errors.push(t('dashboard.propertyForm.roomDescription'));
+    }
+    if (!formData.roomImages || formData.roomImages.length === 0) {
+      errors.push(t('dashboard.propertyForm.roomPhotos'));
+    }
+    return errors;
+  };
 
   const handleStayDurationChange = (duration: number, checked: boolean) => {
     const currentSelections = formData.selectedStayDurations || [];
@@ -75,6 +111,18 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
         <h2 className="text-2xl font-bold text-white">{t('dashboard.accommodationTerms')}</h2>
       </div>
 
+      {/* Validation Error Display */}
+      {showValidationErrors && getValidationErrors().length > 0 && (
+        <div className="bg-red-500/20 border border-red-500 rounded-lg p-4">
+          <h3 className="text-red-400 font-semibold mb-2">Please complete the following required fields:</h3>
+          <ul className="text-red-300 space-y-1">
+            {getValidationErrors().map((error, index) => (
+              <li key={index}>• {error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Room Types Section 3.1 */}
       <RoomTypesSection
         formData={formData}
@@ -87,7 +135,7 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
           {t('dashboard.stayDurations')} <span className="text-red-500">*</span>
         </Label>
         <p className="text-white/70 text-sm">
-          {t('dashboard.propertyForm.selectStayDurations')}
+          {t('dashboard.selectStayDurations')}
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stayDurations.map((duration) => (
@@ -102,7 +150,7 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
                 htmlFor={`duration-${duration}`}
                 className="text-white cursor-pointer"
               >
-                {duration} {t('dashboard.propertyForm.days')}
+                {duration} {t('dashboard.days')}
               </Label>
             </div>
           ))}
@@ -115,19 +163,19 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
           {t('dashboard.preferredWeekday')} <span className="text-red-500">*</span>
         </Label>
         <p className="text-white/70 text-sm">
-          {t('dashboard.propertyForm.selectCheckinDay')}
+          {t('dashboard.selectCheckinDay')}
         </p>
         <Select
           value={formData.preferredWeekday || ''}
           onValueChange={(value) => updateFormData('preferredWeekday', value)}
         >
           <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-            <SelectValue placeholder={t('dashboard.propertyForm.selectCheckinDay')} />
+            <SelectValue placeholder={t('dashboard.selectCheckinDay')} />
           </SelectTrigger>
           <SelectContent>
             {weekdays.map((day) => (
               <SelectItem key={day} value={day}>
-                {t(`dashboard.propertyForm.${day}`)}
+                {t(`dashboard.${day}`)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -152,7 +200,7 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
                 htmlFor={mealPlan}
                 className="text-white cursor-pointer"
               >
-                {t(`dashboard.propertyForm.${mealPlan}`)}
+                {t(`dashboard.${mealPlan}`)}
               </Label>
             </div>
           ))}
@@ -161,30 +209,40 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
 
       {/* Laundry Options */}
       <div className="space-y-4">
-        <Label className="text-white text-lg font-semibold">{t('dashboard.propertyForm.laundry')}</Label>
+        <Label className="text-white text-lg font-semibold">{t('dashboard.laundry')}</Label>
         <div className="space-y-3">
           <div className="flex items-center space-x-2">
             <Checkbox
               id="laundryIncluded"
               checked={formData.laundryIncluded || false}
-              onCheckedChange={(checked) => updateFormData('laundryIncluded', checked)}
+              onCheckedChange={(checked) => {
+                updateFormData('laundryIncluded', checked);
+                // If laundry is included, reset external laundry to false
+                if (checked) {
+                  updateFormData('externalLaundryAvailable', false);
+                }
+              }}
               className="border-purple-600"
             />
             <Label htmlFor="laundryIncluded" className="text-white cursor-pointer">
               {t('dashboard.laundryIncluded')}
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="externalLaundryAvailable"
-              checked={formData.externalLaundryAvailable || false}
-              onCheckedChange={(checked) => updateFormData('externalLaundryAvailable', checked)}
-              className="border-purple-600"
-            />
-            <Label htmlFor="externalLaundryAvailable" className="text-white cursor-pointer">
-              {t('dashboard.externalLaundryAvailable')}
-            </Label>
-          </div>
+          
+          {/* Only show external laundry option if laundry is NOT included */}
+          {!formData.laundryIncluded && (
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="externalLaundryAvailable"
+                checked={formData.externalLaundryAvailable || false}
+                onCheckedChange={(checked) => updateFormData('externalLaundryAvailable', checked)}
+                className="border-purple-600"
+              />
+              <Label htmlFor="externalLaundryAvailable" className="text-white cursor-pointer">
+                {t('dashboard.externalLaundryAvailable')}
+              </Label>
+            </div>
+          )}
         </div>
       </div>
     </div>

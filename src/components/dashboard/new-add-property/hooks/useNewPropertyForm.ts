@@ -31,7 +31,7 @@ interface PropertyFormData {
   
   // Step 3: Accommodation Terms
   roomTypes: any[];
-  mealPlans: string[];
+  selectedMealPlans: string[];
   selectedStayDurations: number[];
   preferredWeekday: string;
   laundryIncluded: boolean;
@@ -82,9 +82,9 @@ export function useNewPropertyForm(editingHotelId?: string) {
     
     // Step 3: Accommodation Terms
     roomTypes: [],
-    mealPlans: [],
+    selectedMealPlans: [],
     selectedStayDurations: [],
-    preferredWeekday: 'Monday',
+    preferredWeekday: 'monday',
     laundryIncluded: false,
     externalLaundryAvailable: false,
     availabilityPackages: [],

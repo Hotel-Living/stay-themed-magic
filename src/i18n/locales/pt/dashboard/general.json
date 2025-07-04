@@ -1,6 +1,9 @@
 
 {
   "dashboard": {
+    "selectCheckinDay": "Selecione o dia da semana preferido para check-in",
+    "days": "dias",
+    "laundry": "Lavanderia",
     "title": "Painel de controle",
     "welcome": "Bem-vindo",
     "overview": "Visão geral",

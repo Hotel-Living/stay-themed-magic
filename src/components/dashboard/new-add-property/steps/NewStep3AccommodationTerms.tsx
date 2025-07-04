@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import React, { useEffect, useState } from 'react';
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Upload, X, CalendarIcon } from "lucide-react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, getDay, isSameDay } from "date-fns";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface NewStep3AccommodationTermsProps {
   formData: any;
@@ -16,623 +13,215 @@ interface NewStep3AccommodationTermsProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export function NewStep3AccommodationTerms({
+export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProps> = ({
   formData,
   updateFormData,
   onValidationChange
-}: NewStep3AccommodationTermsProps) {
+}) => {
+  const { t } = useTranslation();
   
-  // Section states for accordion
-  const [roomTypesOpen, setRoomTypesOpen] = useState(false);
-  const [mealPlansOpen, setMealPlansOpen] = useState(false);
-  const [stayDurationOpen, setStayDurationOpen] = useState(false);
-  const [weekdayOpen, setWeekdayOpen] = useState(false);
-  const [availabilityOpen, setAvailabilityOpen] = useState(false);
+  const [newRoomType, setNewRoomType] = useState({ name: '', count: 1 });
 
-  // Availability package creation states
-  const [showPackageCreator, setShowPackageCreator] = useState(false);
-  const [showRoomSelector, setShowRoomSelector] = useState(false);
-  const [packageRooms, setPackageRooms] = useState(1);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
-  const [monthsExpanded, setMonthsExpanded] = useState<{[key: string]: boolean}>({});
-
-  // Validation logic - requires room types, meal plans, and stay durations
-  useEffect(() => {
-    const isValid = (formData.roomTypes || []).length > 0 &&
-                   (formData.mealPlans || []).length > 0 &&
-                   (formData.selectedStayDurations || []).length > 0;
-    
-    console.log('✅ Step 3 validation:', isValid);
-    onValidationChange(isValid);
-  }, [formData.roomTypes, formData.mealPlans, formData.selectedStayDurations, onValidationChange]);
-
-  // Stay duration options - EXACT as original
-  const stayDurationOptions = [
-    { nights: 8, label: "8 days" },
-    { nights: 15, label: "15 days" },
-    { nights: 22, label: "22 days" },
-    { nights: 29, label: "29 days" }
-  ];
-
-  // Meal plan options
   const mealPlanOptions = [
-    "Breakfast Only",
-    "Half Board",
-    "Full Board", 
-    "All Inclusive",
-    "No Meals"
+    'Breakfast Only', 'Half Board', 'Full Board', 'All Inclusive', 'Room Only'
   ];
 
-  // Weekday options
-  const weekdayOptions = [
-    "Monday", "Tuesday", "Wednesday", "Thursday", 
-    "Friday", "Saturday", "Sunday"
-  ];
+  const stayDurationOptions = [7, 14, 21, 28, 30, 60, 90];
+  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-  const handleStayDurationToggle = (nights: number) => {
-    const current = formData.selectedStayDurations || [];
-    const updated = current.includes(nights)
-      ? current.filter((d: number) => d !== nights)
-      : [...current, nights];
-    
-    updateFormData('selectedStayDurations', updated);
-  };
-
-  const handleMealPlanToggle = (plan: string) => {
-    const current = formData.mealPlans || [];
-    const updated = current.includes(plan)
-      ? current.filter((p: string) => p !== plan)
-      : [...current, plan];
-    
-    updateFormData('mealPlans', updated);
-  };
-
-  const handleLaundryIncludedToggle = (included: boolean) => {
-    updateFormData('laundryIncluded', included);
-    if (included) {
-      // If laundry is included, reset external laundry service
-      updateFormData('externalLaundryAvailable', undefined);
-    }
-  };
-
-  const handleExternalLaundryToggle = (available: boolean) => {
-    updateFormData('externalLaundryAvailable', available);
-  };
-
-  const handleRoomImageUpload = (files: FileList | null) => {
-    if (!files || !formData.roomTypes?.[0]) return;
-    
-    const newImages = Array.from(files).map(file => ({
-      file,
-      url: URL.createObjectURL(file),
-      name: file.name
-    }));
-    
-    const updatedRoomType = {
-      ...formData.roomTypes[0],
-      images: [...(formData.roomTypes[0].images || []), ...newImages]
-    };
-    
-    updateFormData('roomTypes', [updatedRoomType]);
-  };
-
-  const removeRoomImage = (index: number) => {
-    if (!formData.roomTypes?.[0]) return;
-    
-    const updatedImages = formData.roomTypes[0].images?.filter((_: any, i: number) => i !== index) || [];
-    const updatedRoomType = {
-      ...formData.roomTypes[0],
-      images: updatedImages
-    };
-    
-    updateFormData('roomTypes', [updatedRoomType]);
-  };
-
-  const updateRoomDescription = (description: string) => {
-    const roomType = formData.roomTypes?.[0] || { 
-      id: '1', 
-      name: 'Double Rooms Can Be Single',
-      images: [],
-      description: ''
-    };
-    
-    const updatedRoomType = { ...roomType, description };
-    updateFormData('roomTypes', [updatedRoomType]);
-  };
-
-  // Get weekday number (0 = Sunday, 1 = Monday, etc.)
-  const getWeekdayNumber = (weekday: string) => {
-    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return weekdays.indexOf(weekday);
-  };
-
-  // Get allowed check-in dates based on preferred weekday
-  const getAllowedDates = (month: Date, weekday: string) => {
-    const start = startOfMonth(month);
-    const end = endOfMonth(month);
-    const allDates = eachDayOfInterval({ start, end });
-    const weekdayNumber = getWeekdayNumber(weekday);
-    
-    return allDates.filter(date => getDay(date) === weekdayNumber);
-  };
-
-  // Generate months for display (next 12 months)
-  const generateMonths = () => {
-    const months = [];
-    for (let i = 0; i < 12; i++) {
-      months.push(addMonths(new Date(), i));
-    }
-    return months;
-  };
-
-  const months = generateMonths();
-
-  const toggleMonth = (monthKey: string) => {
-    setMonthsExpanded(prev => ({
-      ...prev,
-      [monthKey]: !prev[monthKey]
-    }));
-  };
-
-  const handleDateSelection = (date: Date) => {
-    setSelectedDates(prev => {
-      const isSelected = prev.some(d => isSameDay(d, date));
-      if (isSelected) {
-        return prev.filter(d => !isSameDay(d, date));
-      } else {
-        return [...prev, date];
-      }
-    });
-  };
-
-  const createAvailabilityPackage = () => {
-    if (selectedDates.length === 0 || packageRooms < 1) return;
-
-    const newPackage = {
-      id: Date.now().toString(),
-      numberOfRooms: packageRooms,
-      selectedDates: selectedDates.map(date => format(date, 'yyyy-MM-dd'))
-    };
-
-    const currentPackages = formData.availabilityPackages || [];
-    updateFormData('availabilityPackages', [...currentPackages, newPackage]);
-
-    // Reset creator
-    setPackageRooms(1);
-    setSelectedDates([]);
-    setShowRoomSelector(false);
-    setShowCalendar(false);
-    setShowPackageCreator(false);
-  };
-
-  const removeAvailabilityPackage = (packageId: string) => {
-    const currentPackages = formData.availabilityPackages || [];
-    const updatedPackages = currentPackages.filter((pkg: any) => pkg.id !== packageId);
-    updateFormData('availabilityPackages', updatedPackages);
-  };
-
-  // Initialize room type if not exists
+  // Validation logic
   useEffect(() => {
-    if (!formData.roomTypes || formData.roomTypes.length === 0) {
-      updateFormData('roomTypes', [{
-        id: '1',
-        name: 'Double Rooms Can Be Single',
-        images: [],
-        description: ''
-      }]);
+    const hasRoomTypes = formData.roomTypes && formData.roomTypes.length > 0;
+    const hasMealPlans = formData.mealPlans && formData.mealPlans.length > 0;
+    const hasStayDurations = formData.selectedStayDurations && formData.selectedStayDurations.length > 0;
+    const hasPreferredWeekday = formData.preferredWeekday && formData.preferredWeekday !== '';
+
+    const isValid = hasRoomTypes && hasMealPlans && hasStayDurations && hasPreferredWeekday;
+    onValidationChange(isValid);
+  }, [formData.roomTypes, formData.mealPlans, formData.selectedStayDurations, formData.preferredWeekday, onValidationChange]);
+
+  const addRoomType = () => {
+    if (newRoomType.name.trim()) {
+      const currentRoomTypes = formData.roomTypes || [];
+      updateFormData('roomTypes', [...currentRoomTypes, { ...newRoomType, id: Date.now() }]);
+      setNewRoomType({ name: '', count: 1 });
     }
+  };
+
+  const removeRoomType = (id: number) => {
+    const currentRoomTypes = formData.roomTypes || [];
+    updateFormData('roomTypes', currentRoomTypes.filter((room: any) => room.id !== id));
+  };
+
+  const toggleMealPlan = (mealPlan: string) => {
+    const currentMealPlans = formData.mealPlans || [];
+    const newMealPlans = currentMealPlans.includes(mealPlan)
+      ? currentMealPlans.filter((plan: string) => plan !== mealPlan)
+      : [...currentMealPlans, mealPlan];
     
-    if (!formData.preferredWeekday) {
-      updateFormData('preferredWeekday', 'Monday');
-    }
-  }, []);
+    updateFormData('mealPlans', newMealPlans);
+  };
+
+  const toggleStayDuration = (duration: number) => {
+    const currentDurations = formData.selectedStayDurations || [];
+    const newDurations = currentDurations.includes(duration)
+      ? currentDurations.filter((d: number) => d !== duration)
+      : [...currentDurations, duration];
+    
+    updateFormData('selectedStayDurations', newDurations);
+  };
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-purple-900/40 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Step 3: Accommodation Terms</CardTitle>
-        </CardHeader>
-        <CardContent className="bg-purple-900/40">
-          
-          <Accordion type="single" collapsible className="space-y-4">
-            
-            {/* Room Types Section */}
-            <AccordionItem value="room-types" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
-              <AccordionTrigger 
-                className="px-4 py-3"
-                onClick={() => setRoomTypesOpen(!roomTypesOpen)}
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-white">{t('dashboard.accommodationTerms')}</h2>
+      </div>
+
+      {/* Room Types */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.roomTypes')} <span className="text-red-500">*</span>
+        </Label>
+        
+        <div className="flex gap-2">
+          <Input
+            value={newRoomType.name}
+            onChange={(e) => setNewRoomType({ ...newRoomType, name: e.target.value })}
+            placeholder={t('dashboard.propertyForm.enterRoomTypeName') || 'Enter room type name'}
+            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
+          />
+          <Input
+            type="number"
+            min="1"
+            value={newRoomType.count}
+            onChange={(e) => setNewRoomType({ ...newRoomType, count: parseInt(e.target.value) || 1 })}
+            className="bg-purple-800/50 border-purple-600 text-white w-24"
+          />
+          <Button
+            type="button"
+            onClick={addRoomType}
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+          >
+            {t('dashboard.add') || 'Add'}
+          </Button>
+        </div>
+
+        <div className="space-y-2">
+          {(formData.roomTypes || []).map((room: any) => (
+            <div key={room.id} className="flex justify-between items-center bg-purple-800/30 p-3 rounded">
+              <span className="text-white">{room.name} (x{room.count})</span>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={() => removeRoomType(room.id)}
               >
-                <h3 className="text-lg capitalize text-white">3.1— ROOM TYPES</h3>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <div className="space-y-4">
-                  
-                  <div className="p-4 border border-purple-500 rounded-lg bg-purple-700/30">
-                    <h4 className="font-semibold mb-4 text-white">Double Rooms Can Be Single</h4>
-                    
-                    {/* Room Images */}
-                    <div className="space-y-4">
-                      <Label className="text-white">Room Images</Label>
-                      
-                      <div className="border-2 border-dashed border-purple-400 rounded-lg p-6 text-center bg-purple-700/50">
-                        <Upload className="mx-auto h-8 w-8 text-purple-300 mb-2" />
-                        <p className="text-sm text-purple-200 mb-2">Upload room images</p>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*"
-                          onChange={(e) => handleRoomImageUpload(e.target.files)}
-                          className="hidden"
-                          id="room-image-upload"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => document.getElementById('room-image-upload')?.click()}
-                        >
-                          Choose Images
-                        </Button>
-                      </div>
+                {t('dashboard.remove') || 'Remove'}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
 
-                      {/* Room Image Preview */}
-                      {formData.roomTypes?.[0]?.images && formData.roomTypes[0].images.length > 0 && (
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          {formData.roomTypes[0].images.map((image: any, index: number) => (
-                            <div key={index} className="relative group">
-                              <img
-                                src={image.url}
-                                alt={`Room ${index + 1}`}
-                                className="w-full h-24 object-cover rounded-lg"
-                              />
-                              <button
-                                onClick={() => removeRoomImage(index)}
-                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Room Description */}
-                    <div className="space-y-2">
-                      <Label htmlFor="roomDescription" className="text-white">Room Description *</Label>
-                      <Textarea
-                        id="roomDescription"
-                        value={formData.roomTypes?.[0]?.description || ''}
-                        onChange={(e) => updateRoomDescription(e.target.value)}
-                        placeholder="Describe the room amenities and features..."
-                        rows={3}
-                        className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+      {/* Meal Plans */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.mealPlans')} <span className="text-red-500">*</span>
+        </Label>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {mealPlanOptions.map((mealPlan) => (
+            <button
+              key={mealPlan}
+              type="button"
+              onClick={() => toggleMealPlan(mealPlan)}
+              className={`p-3 rounded-lg text-sm font-medium border transition-all ${
+                (formData.mealPlans || []).includes(mealPlan)
+                  ? 'bg-purple-600 border-purple-400 text-white'
+                  : 'bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700'
+              }`}
+            >
+              {mealPlan}
+            </button>
+          ))}
+        </div>
+      </div>
 
-            {/* Meal Plans Section */}
-            <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
-              <AccordionTrigger 
-                className="px-4 py-3"
-                onClick={() => setMealPlansOpen(!mealPlansOpen)}
-              >
-                <h3 className="text-lg capitalize text-white">3.2— MEAL PLANS</h3>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-purple-200 mb-4">Select the meal plans available at your property:</p>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {mealPlanOptions.map((plan) => (
-                        <Button
-                          key={plan}
-                          variant={(formData.mealPlans || []).includes(plan) ? "default" : "outline"}
-                          onClick={() => handleMealPlanToggle(plan)}
-                          className="h-12"
-                        >
-                          {plan}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
+      {/* Stay Durations */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.stayDurations')} <span className="text-red-500">*</span>
+        </Label>
+        
+        <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
+          {stayDurationOptions.map((duration) => (
+            <button
+              key={duration}
+              type="button"
+              onClick={() => toggleStayDuration(duration)}
+              className={`p-3 rounded-lg text-sm font-medium border transition-all ${
+                (formData.selectedStayDurations || []).includes(duration)
+                  ? 'bg-purple-600 border-purple-400 text-white'
+                  : 'bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700'
+              }`}
+            >
+              {duration} {t('dashboard.days') || 'days'}
+            </button>
+          ))}
+        </div>
+      </div>
 
-                  {/* Laundry Service Section */}
-                  <div>
-                    <p className="text-purple-200 mb-4">Laundry service included?</p>
-                    
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      <Button
-                        variant={formData.laundryIncluded === true ? "default" : "outline"}
-                        onClick={() => handleLaundryIncludedToggle(true)}
-                        className="h-12 flex items-center justify-center gap-2"
-                      >
-                        <span className="text-green-500">✓</span>
-                        Yes
-                      </Button>
-                      <Button
-                        variant={formData.laundryIncluded === false ? "default" : "outline"}
-                        onClick={() => handleLaundryIncludedToggle(false)}
-                        className="h-12 flex items-center justify-center gap-2"
-                      >
-                        <span className="text-red-500">✗</span>
-                        No
-                      </Button>
-                    </div>
+      {/* Preferred Weekday */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.preferredWeekday')} <span className="text-red-500">*</span>
+        </Label>
+        <Select value={formData.preferredWeekday || ''} onValueChange={(value) => updateFormData('preferredWeekday', value)}>
+          <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
+            <SelectValue placeholder={t('dashboard.selectPreferredWeekday') || 'Select preferred weekday'} />
+          </SelectTrigger>
+          <SelectContent className="bg-purple-800 border-purple-600">
+            {weekdays.map((day) => (
+              <SelectItem key={day} value={day} className="text-white">
+                {day}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-                    {/* External Laundry Service - Only show if laundry is not included */}
-                    {formData.laundryIncluded === false && (
-                      <div>
-                        <p className="text-purple-200 mb-4">Is external laundry service available (not included)?</p>
-                        
-                        <div className="grid grid-cols-2 gap-3">
-                          <Button
-                            variant={formData.externalLaundryAvailable === true ? "default" : "outline"}
-                            onClick={() => handleExternalLaundryToggle(true)}
-                            className="h-12 flex items-center justify-center gap-2"
-                          >
-                            <span className="text-green-500">✓</span>
-                            Yes
-                          </Button>
-                          <Button
-                            variant={formData.externalLaundryAvailable === false ? "default" : "outline"}
-                            onClick={() => handleExternalLaundryToggle(false)}
-                            className="h-12 flex items-center justify-center gap-2"
-                          >
-                            <span className="text-red-500">✗</span>
-                            No
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+      {/* Laundry Options */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.laundryOptions') || 'Laundry Options'}
+        </Label>
+        
+        <div className="space-y-3">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="laundryIncluded"
+              checked={formData.laundryIncluded || false}
+              onCheckedChange={(checked) => updateFormData('laundryIncluded', checked)}
+              className="border-purple-600"
+            />
+            <Label htmlFor="laundryIncluded" className="text-white">
+              {t('dashboard.laundryIncluded')}
+            </Label>
+          </div>
 
-            {/* Stay Duration Section */}
-            <AccordionItem value="stay-duration" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
-              <AccordionTrigger 
-                className="px-4 py-3"
-                onClick={() => setStayDurationOpen(!stayDurationOpen)}
-              >
-                <h3 className="text-lg capitalize text-white">3.3— STAY DURATION</h3>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <div className="space-y-4">
-                  <p className="text-purple-200">Select one or more stay durations for your availability packages:</p>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {stayDurationOptions.map((option) => (
-                      <Button
-                        key={option.nights}
-                        variant={(formData.selectedStayDurations || []).includes(option.nights) ? "default" : "outline"}
-                        onClick={() => handleStayDurationToggle(option.nights)}
-                        className="h-12"
-                      >
-                        {option.label}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Preferred Check-in Weekday */}
-            <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
-              <AccordionTrigger 
-                className="px-4 py-3"
-                onClick={() => setWeekdayOpen(!weekdayOpen)}
-              >
-                <h3 className="text-lg capitalize text-white">3.4— PREFERRED CHECK-IN WEEKDAY</h3>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <div className="space-y-4">
-                  <p className="text-purple-200">Select the preferred weekday for check-ins:</p>
-                  
-                  <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
-                    {weekdayOptions.map((day) => (
-                      <Button
-                        key={day}
-                        variant={formData.preferredWeekday === day ? "default" : "outline"}
-                        onClick={() => updateFormData('preferredWeekday', day)}
-                        className="h-12"
-                      >
-                        {day.slice(0, 3)}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Availability Packages Section */}
-            <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
-              <AccordionTrigger 
-                className="px-4 py-3"
-                onClick={() => setAvailabilityOpen(!availabilityOpen)}
-              >
-                <h3 className="text-lg capitalize text-white">3.5— AVAILABILITY PACKAGES</h3>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <div className="space-y-4">
-                  <p className="text-purple-200">Create availability packages with room counts and date ranges:</p>
-                  
-                   {/* Existing Packages */}
-                   {(formData.availabilityPackages || []).map((pkg: any) => (
-                     <div key={pkg.id} className="p-4 border rounded-lg bg-purple-700/30 border-purple-500 flex justify-between items-center">
-                       <div>
-                         <p className="font-medium text-white">{pkg.numberOfRooms} room(s) available</p>
-                         <p className="text-sm text-purple-200">
-                           {pkg.selectedDates.length} dates selected
-                         </p>
-                       </div>
-                       <Button
-                         variant="destructive"
-                         size="sm"
-                         onClick={() => removeAvailabilityPackage(pkg.id)}
-                       >
-                         Remove
-                       </Button>
-                     </div>
-                   ))}
-
-                   {/* Package Creator Flow */}
-                   {showPackageCreator ? (
-                     <div className="space-y-4">
-                       {/* Step 1: Room Selector */}
-                       {!showCalendar && (
-                         <div className="p-6 border rounded-lg bg-purple-700/30 border-purple-500 space-y-4">
-                           <h4 className="text-lg font-medium text-white">Step 1: Number of Rooms</h4>
-                           <div className="space-y-2">
-                             <Label className="text-purple-200">Available Rooms:</Label>
-                             <Input
-                               type="number"
-                               min="1"
-                               value={packageRooms}
-                               onChange={(e) => setPackageRooms(parseInt(e.target.value) || 1)}
-                               className="bg-purple-800 border-purple-600 text-white w-32"
-                             />
-                           </div>
-                           <div className="flex space-x-2">
-                             <Button 
-                               onClick={() => setShowCalendar(true)}
-                               className="bg-pink-600 hover:bg-pink-700"
-                             >
-                               Next
-                             </Button>
-                             <Button 
-                               variant="outline" 
-                               onClick={() => setShowPackageCreator(false)}
-                               className="border-purple-500 text-purple-200"
-                             >
-                               Cancel
-                             </Button>
-                           </div>
-                         </div>
-                       )}
-
-                       {/* Step 2: Calendar Selector */}
-                       {showCalendar && (
-                         <div className="p-6 border rounded-lg bg-purple-700/30 border-purple-500 space-y-4">
-                           <h4 className="text-lg font-medium text-white">Step 2: Select Dates Within Rolling 12-Month Window</h4>
-                           <p className="text-purple-200">
-                             Select your first check-in date (only valid check-in days are shown)
-                           </p>
-
-                           {/* Monthly Calendar Grid */}
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                             {months.map((month, index) => {
-                               const monthKey = format(month, 'yyyy-MM');
-                               const allowedDates = getAllowedDates(month, formData.preferredWeekday || 'Monday');
-                               const isExpanded = monthsExpanded[monthKey];
-
-                               return (
-                                 <div key={monthKey} className="border border-purple-500 rounded-lg overflow-hidden">
-                                   {/* Month Header */}
-                                   <Button
-                                     variant="ghost"
-                                     onClick={() => toggleMonth(monthKey)}
-                                     className="w-full p-4 bg-pink-600 hover:bg-pink-700 text-white font-medium rounded-none"
-                                   >
-                                     {format(month, 'MMMM yyyy')}
-                                   </Button>
-
-                                   {/* Expandable Date Grid */}
-                                   {isExpanded && (
-                                     <div className="p-4 bg-purple-800/50">
-                                       <div className="grid grid-cols-4 gap-2">
-                                         {allowedDates.map(date => {
-                                           const isSelected = selectedDates.some(d => isSameDay(d, date));
-                                           return (
-                                             <Button
-                                               key={format(date, 'yyyy-MM-dd')}
-                                               variant={isSelected ? "default" : "outline"}
-                                               onClick={() => handleDateSelection(date)}
-                                               className={`h-12 text-sm ${
-                                                 isSelected 
-                                                   ? 'bg-pink-600 hover:bg-pink-700 text-white' 
-                                                   : 'border-purple-400 text-purple-200 hover:bg-purple-600'
-                                               }`}
-                                             >
-                                               {format(date, 'd')}
-                                             </Button>
-                                           );
-                                         })}
-                                       </div>
-                                     </div>
-                                   )}
-                                 </div>
-                               );
-                             })}
-                           </div>
-
-                           {/* Selected Dates Summary */}
-                           {selectedDates.length > 0 && (
-                             <div className="p-3 bg-purple-800 rounded-lg">
-                               <p className="text-white text-sm">
-                                 Selected {selectedDates.length} date(s)
-                               </p>
-                             </div>
-                           )}
-
-                           <div className="flex space-x-2">
-                             <Button 
-                               onClick={createAvailabilityPackage}
-                               disabled={selectedDates.length === 0}
-                               className="bg-pink-600 hover:bg-pink-700"
-                             >
-                               Create Package
-                             </Button>
-                             <Button 
-                               variant="outline" 
-                               onClick={() => {
-                                 setShowCalendar(false);
-                                 setSelectedDates([]);
-                               }}
-                               className="border-purple-500 text-purple-200"
-                             >
-                               Back
-                             </Button>
-                             <Button 
-                               variant="outline" 
-                               onClick={() => {
-                                 setShowPackageCreator(false);
-                                 setShowCalendar(false);
-                                 setSelectedDates([]);
-                               }}
-                               className="border-purple-500 text-purple-200"
-                             >
-                               Cancel
-                             </Button>
-                           </div>
-                         </div>
-                       )}
-                     </div>
-                   ) : (
-                     <Button 
-                       onClick={() => setShowPackageCreator(true)}
-                       className="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3"
-                     >
-                       + Add New Availability Package
-                     </Button>
-                   )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-          </Accordion>
-
-        </CardContent>
-      </Card>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="externalLaundryAvailable"
+              checked={formData.externalLaundryAvailable || false}
+              onCheckedChange={(checked) => updateFormData('externalLaundryAvailable', checked)}
+              className="border-purple-600"
+            />
+            <Label htmlFor="externalLaundryAvailable" className="text-white">
+              {t('dashboard.externalLaundryAvailable')}
+            </Label>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};

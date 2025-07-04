@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import React, { useEffect, useState } from 'react';
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface NewStep4PricingPackagesProps {
   formData: any;
@@ -11,178 +11,181 @@ interface NewStep4PricingPackagesProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export function NewStep4PricingPackages({
+export const NewStep4PricingPackages: React.FC<NewStep4PricingPackagesProps> = ({
   formData,
   updateFormData,
   onValidationChange
-}: NewStep4PricingPackagesProps) {
-  
-  const selectedDurations = formData.selectedStayDurations || [];
-  const [enablePriceIncrease, setEnablePriceIncrease] = useState(formData.enablePriceIncrease || false);
-  const [priceIncreaseCap, setPriceIncreaseCap] = useState(formData.priceIncreaseCap || 20);
+}) => {
+  const { t } = useTranslation();
 
-  // Validation - all selected durations must have pricing
+  // Validation logic
   useEffect(() => {
-    const durationPricing = formData.durationPricing || {};
-    
-    const allDurationsHavePricing = selectedDurations.every((duration: number) => {
-      const pricing = durationPricing[duration.toString()];
-      return pricing && (pricing.double > 0 || pricing.single > 0);
-    });
-    
-    console.log('✅ Step 4 validation:', allDurationsHavePricing);
-    onValidationChange(allDurationsHavePricing);
-  }, [formData.durationPricing, selectedDurations, onValidationChange]);
+    const hasRoomTypes = formData.roomTypes && formData.roomTypes.length > 0;
+    const hasStayDurations = formData.selectedStayDurations && formData.selectedStayDurations.length > 0;
+    const hasPricing = formData.durationPricing && Object.keys(formData.durationPricing).length > 0;
 
-  const updateDurationPricing = (duration: number, occupancy: 'double' | 'single', price: string) => {
-    const currentPricing = formData.durationPricing || {};
-    const durationKey = duration.toString();
-    
-    const updatedPricing = {
-      ...currentPricing,
-      [durationKey]: {
-        ...currentPricing[durationKey],
-        [occupancy]: parseFloat(price) || 0
-      }
-    };
-    
-    updateFormData('durationPricing', updatedPricing);
-  };
-
-  const handlePriceIncreaseToggle = (checked: boolean) => {
-    setEnablePriceIncrease(checked);
-    updateFormData('enablePriceIncrease', checked);
-  };
-
-  // Initialize pricing structure for selected durations
-  useEffect(() => {
-    const currentPricing = formData.durationPricing || {};
-    let needsUpdate = false;
-    
-    selectedDurations.forEach((duration: number) => {
-      const key = duration.toString();
-      if (!currentPricing[key]) {
-        currentPricing[key] = { double: 0, single: 0 };
-        needsUpdate = true;
-      }
-    });
-    
-    if (needsUpdate) {
-      updateFormData('durationPricing', currentPricing);
+    // Check if pricing is set for all duration/room combinations
+    let pricingComplete = true;
+    if (hasRoomTypes && hasStayDurations) {
+      formData.selectedStayDurations.forEach((duration: number) => {
+        formData.roomTypes.forEach((roomType: any) => {
+          const key = `${duration}-${roomType.name}`;
+          if (!formData.durationPricing[key] || 
+              !formData.durationPricing[key].double || 
+              !formData.durationPricing[key].single) {
+            pricingComplete = false;
+          }
+        });
+      });
     }
-  }, [selectedDurations]);
 
-  const durationPricing = formData.durationPricing || {};
+    const isValid = hasRoomTypes && hasStayDurations && hasPricing && pricingComplete;
+    onValidationChange(isValid);
+  }, [formData.roomTypes, formData.selectedStayDurations, formData.durationPricing, onValidationChange]);
+
+  const updatePricing = (duration: number, roomType: string, occupancy: 'double' | 'single', value: string) => {
+    const key = `${duration}-${roomType}`;
+    const currentPricing = formData.durationPricing || {};
+    
+    updateFormData('durationPricing', {
+      ...currentPricing,
+      [key]: {
+        ...currentPricing[key],
+        [occupancy]: parseFloat(value) || 0
+      }
+    });
+  };
+
+  const getPricing = (duration: number, roomType: string, occupancy: 'double' | 'single'): number => {
+    const key = `${duration}-${roomType}`;
+    return formData.durationPricing?.[key]?.[occupancy] || 0;
+  };
+
+  if (!formData.roomTypes || formData.roomTypes.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold text-white">{t('dashboard.pricingPackages')}</h2>
+        </div>
+        <div className="bg-purple-800/30 p-6 rounded-lg">
+          <p className="text-white text-center">
+            {t('dashboard.defineRoomTypesStayDurations')}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 bg-purple-900 text-white p-6 rounded-lg">
-      
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Step 4: Pricing & Packages</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          
-          {/* Duration-based Pricing */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">Duration-based Pricing *</h3>
-            <p className="text-purple-200">Set prices for your selected stay durations:</p>
-            
-            {selectedDurations.length === 0 ? (
-              <p className="text-purple-200">Please select stay durations in Step 3 first.</p>
-            ) : (
-              <div className="space-y-4">
-                {selectedDurations.map((duration: number) => (
-                  <div key={duration} className="p-4 border border-purple-500 rounded-lg bg-purple-700/30">
-                    <h4 className="font-medium mb-4 text-white">{duration} Days Stay</h4>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label className="text-white">Double Occupancy Price (€)</Label>
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={durationPricing[duration.toString()]?.double || ''}
-                          onChange={(e) => updateDurationPricing(duration, 'double', e.target.value)}
-                          placeholder="0.00"
-                          className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label className="text-white">Single Occupancy Price (€)</Label>
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={durationPricing[duration.toString()]?.single || ''}
-                          onChange={(e) => updateDurationPricing(duration, 'single', e.target.value)}
-                          placeholder="0.00"
-                          className="bg-purple-700 border-purple-500 text-white placeholder:text-purple-300"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-white">{t('dashboard.pricingPackages')}</h2>
+      </div>
 
-          {/* Dynamic Pricing Settings */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">Dynamic Pricing Settings</h3>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="enablePriceIncrease"
-                checked={enablePriceIncrease}
-                onCheckedChange={handlePriceIncreaseToggle}
-                className="border-purple-400 data-[state=checked]:bg-purple-600"
-              />
-              <Label htmlFor="enablePriceIncrease" className="text-white">Enable automatic price increases based on demand</Label>
-            </div>
-
-            {enablePriceIncrease && (
-              <div className="ml-6 space-y-2">
-                <Label htmlFor="priceIncreaseCap" className="text-white">Maximum price increase (%)</Label>
-                <Input
-                  id="priceIncreaseCap"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={priceIncreaseCap}
-                  onChange={(e) => setPriceIncreaseCap(parseInt(e.target.value) || 0)}
-                  className="w-32 bg-purple-700 border-purple-500 text-white"
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Pricing Summary */}
-          {Object.keys(durationPricing).length > 0 && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Pricing Summary</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(durationPricing).map(([duration, pricing]: [string, any]) => (
-                  <div key={duration} className="p-3 bg-purple-700/50 rounded border border-purple-500">
-                    <p className="font-medium text-white">{duration} Days</p>
-                    {pricing.double > 0 && <p className="text-sm text-purple-200">Double: €{pricing.double}</p>}
-                    {pricing.single > 0 && <p className="text-sm text-purple-200">Single: €{pricing.single}</p>}
-                  </div>
-                ))}
-              </div>
-              
-              {enablePriceIncrease && (
-                <p className="mt-3 text-sm text-purple-200">
-                  Dynamic pricing enabled with {priceIncreaseCap}% maximum increase
-                </p>
+      {/* Pricing Table */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.durationPricing')} <span className="text-red-500">*</span>
+        </Label>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-purple-800/50">
+                <th className="border border-purple-600 p-3 text-white text-left">
+                  {t('dashboard.duration') || 'Duration'}
+                </th>
+                <th className="border border-purple-600 p-3 text-white text-left">
+                  {t('dashboard.roomType') || 'Room Type'}
+                </th>
+                <th className="border border-purple-600 p-3 text-white text-left">
+                  {t('dashboard.doubleOccupancy') || 'Double Occupancy (€)'}
+                </th>
+                <th className="border border-purple-600 p-3 text-white text-left">
+                  {t('dashboard.singleOccupancy') || 'Single Occupancy (€)'}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {(formData.selectedStayDurations || []).map((duration: number) =>
+                (formData.roomTypes || []).map((roomType: any, idx: number) => (
+                  <tr key={`${duration}-${roomType.name}`} className="bg-purple-800/20">
+                    {idx === 0 && (
+                      <td 
+                        className="border border-purple-600 p-3 text-white font-medium"
+                        rowSpan={formData.roomTypes.length}
+                      >
+                        {duration} {t('dashboard.days') || 'days'}
+                      </td>
+                    )}
+                    <td className="border border-purple-600 p-3 text-white">
+                      {roomType.name}
+                    </td>
+                    <td className="border border-purple-600 p-3">
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={getPricing(duration, roomType.name, 'double')}
+                        onChange={(e) => updatePricing(duration, roomType.name, 'double', e.target.value)}
+                        className="bg-purple-800/50 border-purple-600 text-white"
+                      />
+                    </td>
+                    <td className="border border-purple-600 p-3">
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={getPricing(duration, roomType.name, 'single')}
+                        onChange={(e) => updatePricing(duration, roomType.name, 'single', e.target.value)}
+                        className="bg-purple-800/50 border-purple-600 text-white"
+                      />
+                    </td>
+                  </tr>
+                ))
               )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Price Increase Settings */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">
+          {t('dashboard.priceSettings') || 'Price Settings'}
+        </Label>
+        
+        <div className="space-y-4 bg-purple-800/30 p-4 rounded-lg">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="enablePriceIncrease"
+              checked={formData.enablePriceIncrease || false}
+              onCheckedChange={(checked) => updateFormData('enablePriceIncrease', checked)}
+              className="border-purple-600"
+            />
+            <Label htmlFor="enablePriceIncrease" className="text-white">
+              {t('dashboard.enablePriceIncrease')}
+            </Label>
+          </div>
+
+          {formData.enablePriceIncrease && (
+            <div className="space-y-2">
+              <Label htmlFor="priceIncreaseCap" className="text-white">
+                {t('dashboard.priceIncreaseCap')} (%)
+              </Label>
+              <Input
+                id="priceIncreaseCap"
+                type="number"
+                min="0"
+                max="100"
+                value={formData.priceIncreaseCap || 20}
+                onChange={(e) => updateFormData('priceIncreaseCap', parseInt(e.target.value) || 20)}
+                className="bg-purple-800/50 border-purple-600 text-white w-32"
+              />
             </div>
           )}
-
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
-}
+};

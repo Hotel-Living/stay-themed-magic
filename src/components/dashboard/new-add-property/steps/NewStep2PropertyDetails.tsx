@@ -1,12 +1,8 @@
 
-import React from "react";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
-import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
-import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
-import { FeaturesList } from "../../PropertySteps/features/FeaturesList";
-import { hotelFeatures, roomFeatures } from "../../PropertySteps/features/featuresData";
-import { useTranslation } from "@/hooks/useTranslation";
+import React, { useEffect, useState } from 'react';
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface NewStep2PropertyDetailsProps {
   formData: any;
@@ -14,233 +10,127 @@ interface NewStep2PropertyDetailsProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export function NewStep2PropertyDetails({
+export const NewStep2PropertyDetails: React.FC<NewStep2PropertyDetailsProps> = ({
   formData,
   updateFormData,
   onValidationChange
-}: NewStep2PropertyDetailsProps) {
+}) => {
   const { t } = useTranslation();
-
-  const handleAffinityChange = (affinity: string, isChecked: boolean) => {
-    const currentAffinities = formData.selectedAffinities || [];
-    let updatedAffinities;
-    
-    if (isChecked) {
-      updatedAffinities = [...currentAffinities, affinity];
-    } else {
-      updatedAffinities = currentAffinities.filter((a: string) => a !== affinity);
-    }
-    
-    updateFormData('selectedAffinities', updatedAffinities);
-  };
-
-  const handleActivityChange = (activity: string, isChecked: boolean) => {
-    const currentActivities = formData.selectedActivities || [];
-    let updatedActivities;
-    
-    if (isChecked) {
-      updatedActivities = [...currentActivities, activity];
-    } else {
-      updatedActivities = currentActivities.filter((a: string) => a !== activity);
-    }
-    
-    updateFormData('selectedActivities', updatedActivities);
-  };
-
-  const handleHotelFeatureChange = (feature: string) => {
-    const currentFeatures = formData.selectedHotelFeatures || [];
-    const isCurrentlySelected = currentFeatures.includes(feature);
-    let updatedFeatures;
-    
-    if (isCurrentlySelected) {
-      updatedFeatures = currentFeatures.filter((f: string) => f !== feature);
-    } else {
-      updatedFeatures = [...currentFeatures, feature];
-    }
-    
-    updateFormData('selectedHotelFeatures', updatedFeatures);
-  };
-
-  const handleRoomFeatureChange = (feature: string) => {
-    const currentFeatures = formData.selectedRoomFeatures || [];
-    const isCurrentlySelected = currentFeatures.includes(feature);
-    let updatedFeatures;
-    
-    if (isCurrentlySelected) {
-      updatedFeatures = currentFeatures.filter((f: string) => f !== feature);
-    } else {
-      updatedFeatures = [...currentFeatures, feature];
-    }
-    
-    updateFormData('selectedRoomFeatures', updatedFeatures);
-  };
-
-  // Indoor activities as shown in the screenshot
-  const indoorActivities = [
-    "Art & Creativity",
-    "Cinema & Media", 
-    "Cooking & Food",
-    "Fitness & Movement",
-    "Games & Entertainment",
-    "Language Activities"
+  
+  // Mock data for demonstration - in production, these would come from API/database
+  const mockAffinities = [
+    'Adventure Sports', 'Art & Culture', 'Beach & Water Sports', 'Business Travel',
+    'Culinary Experiences', 'Eco-Tourism', 'Family Friendly', 'Hiking & Nature',
+    'Historical Sites', 'Luxury & Spa', 'Nightlife', 'Photography',
+    'Romantic Getaways', 'Shopping', 'Wine & Gastronomy', 'Wellness & Yoga'
   ];
 
-  // Outdoor activities as shown in the screenshot
-  const outdoorActivities = [
-    "Animal Encounters",
-    "Adventure",
-    "Gardening & Green Living", 
-    "Live Culture",
-    "Nature & Trails",
-    "Outdoor Wellness"
+  const mockActivities = [
+    'Beach Activities', 'City Tours', 'Cooking Classes', 'Cultural Visits',
+    'Cycling', 'Diving & Snorkeling', 'Golf', 'Hiking Trails',
+    'Museum Visits', 'Nature Walks', 'Photography Tours', 'Shopping Tours',
+    'Spa & Wellness', 'Water Sports', 'Wine Tasting', 'Yoga Classes'
   ];
 
-  return (
-    <div className="space-y-6">
-      {/* 2.1 - Affinities Section */}
-      <Collapsible defaultOpen={false} className="w-full">
-        <div className="bg-[#6c0686]">
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-            <label className="block text-xl font-bold text-foreground/90 uppercase">
-              {t('dashboard.affinities')}
-            </label>
-            <ChevronDown className="h-5 w-5 text-white" />
-          </CollapsibleTrigger>
-        </div>
-        
-        <CollapsibleContent>
-          <p className="text-sm text-foreground/90 mb-4">
-            Select the affinities that best describe your hotel's target audience and atmosphere
-          </p>
-          
-          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
-            <HierarchicalThemeSelector
-              selectedThemes={formData.selectedAffinities || []}
-              onThemeSelect={handleAffinityChange}
-              allowMultiple={true}
-              className="space-y-1"
-            />
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+  const mockHotelFeatures = [
+    '24/7 Reception', 'Air Conditioning', 'Airport Shuttle', 'Bar & Lounge',
+    'Business Center', 'Concierge Service', 'Fitness Center', 'Free WiFi',
+    'Laundry Service', 'Parking', 'Pet Friendly', 'Pool',
+    'Restaurant', 'Room Service', 'Spa Services', 'Tour Desk'
+  ];
 
-      {/* 2.2 - Activities Section */}
-      <Collapsible defaultOpen={false} className="w-full">
-        <div className="bg-[#6c0686]">
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-            <label className="block text-xl font-bold text-foreground/90 uppercase">
-              {t('dashboard.activities')}
-            </label>
-            <ChevronDown className="h-5 w-5 text-white" />
-          </CollapsibleTrigger>
-        </div>
-        
-        <CollapsibleContent>
-          <p className="text-sm text-foreground/90 mb-4">
-            Select activities available at your hotel or in the surrounding area
-          </p>
-          
-          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto space-y-4">
-            {/* Indoor Activities */}
-            <Collapsible defaultOpen={false} className="w-full">
-              <div className="bg-[#6c0686]">
-                <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-                  <span className="text-white font-semibold uppercase">INDOOR</span>
-                  <ChevronDown className="h-4 w-4 text-white" />
-                </CollapsibleTrigger>
-              </div>
-              <CollapsibleContent className="pt-2 pl-4 space-y-1">
-                {indoorActivities.map((activity) => (
-                  <label key={activity} className="flex items-center space-x-2 text-white cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={(formData.selectedActivities || []).includes(activity)}
-                      onChange={(e) => handleActivityChange(activity, e.target.checked)}
-                      className="rounded border-gray-300"
-                    />
-                    <span className="text-sm">{activity}</span>
-                  </label>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
+  const mockRoomFeatures = [
+    'Air Conditioning', 'Balcony/Terrace', 'Coffee/Tea Maker', 'Hair Dryer',
+    'Internet Access', 'Mini Bar', 'Private Bathroom', 'Safe',
+    'Satellite/Cable TV', 'Telephone', 'Wake-up Service', 'Work Desk'
+  ];
 
-            {/* Outdoor Activities */}
-            <Collapsible defaultOpen={false} className="w-full">
-              <div className="bg-[#6c0686]">
-                <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-                  <span className="text-white font-semibold uppercase">OUTDOOR</span>
-                  <ChevronDown className="h-4 w-4 text-white" />
-                </CollapsibleTrigger>
-              </div>
-              <CollapsibleContent className="pt-2 pl-4 space-y-1">
-                {outdoorActivities.map((activity) => (
-                  <label key={activity} className="flex items-center space-x-2 text-white cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={(formData.selectedActivities || []).includes(activity)}
-                      onChange={(e) => handleActivityChange(activity, e.target.checked)}
-                      className="rounded border-gray-300"
-                    />
-                    <span className="text-sm">{activity}</span>
-                  </label>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+  // Validation logic
+  useEffect(() => {
+    const hasAffinities = formData.selectedAffinities && formData.selectedAffinities.length > 0;
+    const hasActivities = formData.selectedActivities && formData.selectedActivities.length > 0;
+    const hasHotelFeatures = formData.selectedHotelFeatures && formData.selectedHotelFeatures.length > 0;
+    const hasRoomFeatures = formData.selectedRoomFeatures && formData.selectedRoomFeatures.length > 0;
 
-      {/* 2.3 - Hotel Features Section */}
-      <Collapsible defaultOpen={false} className="w-full">
-        <div className="bg-[#6c0686]">
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-            <label className="block text-xl font-bold text-foreground/90 uppercase">
-              Hotel Features
-            </label>
-            <ChevronDown className="h-5 w-5 text-white" />
-          </CollapsibleTrigger>
-        </div>
-        
-        <CollapsibleContent>
-          <p className="text-sm text-foreground/90 mb-4">
-            Select the features and amenities available at your hotel
-          </p>
-          
-          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
-            <FeaturesList
-              features={hotelFeatures}
-              selectedFeatures={formData.selectedHotelFeatures || []}
-              onToggle={handleHotelFeatureChange}
-            />
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+    const isValid = hasAffinities && hasActivities && hasHotelFeatures && hasRoomFeatures;
+    onValidationChange(isValid);
+  }, [formData.selectedAffinities, formData.selectedActivities, formData.selectedHotelFeatures, formData.selectedRoomFeatures, onValidationChange]);
 
-      {/* 2.4 - Room Features Section */}
-      <Collapsible defaultOpen={false} className="w-full">
-        <div className="bg-[#6c0686]">
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-            <label className="block text-xl font-bold text-foreground/90 uppercase">
-              Room Features
-            </label>
-            <ChevronDown className="h-5 w-5 text-white" />
-          </CollapsibleTrigger>
+  const toggleSelection = (field: string, item: string) => {
+    const currentSelection = formData[field] || [];
+    const newSelection = currentSelection.includes(item)
+      ? currentSelection.filter((i: string) => i !== item)
+      : [...currentSelection, item];
+    
+    updateFormData(field, newSelection);
+  };
+
+  const selectAll = (field: string, items: string[]) => {
+    updateFormData(field, [...items]);
+  };
+
+  const deselectAll = (field: string) => {
+    updateFormData(field, []);
+  };
+
+  const renderSection = (title: string, field: string, items: string[]) => (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <Label className="text-white text-lg font-semibold">
+          {title} <span className="text-red-500">*</span>
+        </Label>
+        <div className="space-x-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => selectAll(field, items)}
+            className="bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700"
+          >
+            {t('dashboard.selectAll')}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => deselectAll(field)}
+            className="bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700"
+          >
+            {t('dashboard.deselectAll')}
+          </Button>
         </div>
-        
-        <CollapsibleContent>
-          <p className="text-sm text-foreground/90 mb-4">
-            Select the features and amenities available in the rooms
-          </p>
-          
-          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
-            <FeaturesList
-              features={roomFeatures}
-              selectedFeatures={formData.selectedRoomFeatures || []}
-              onToggle={handleRoomFeatureChange}
-            />
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {items.map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => toggleSelection(field, item)}
+            className={`p-3 rounded-lg text-sm font-medium border transition-all ${
+              (formData[field] || []).includes(item)
+                ? 'bg-purple-600 border-purple-400 text-white'
+                : 'bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700'
+            }`}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
     </div>
   );
-}
+
+  return (
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-white">{t('dashboard.propertyForm.features')}</h2>
+        <p className="text-white/80">{t('dashboard.affinitiesDescription')}</p>
+      </div>
+
+      {renderSection(t('dashboard.affinities'), 'selectedAffinities', mockAffinities)}
+      {renderSection(t('dashboard.activities'), 'selectedActivities', mockActivities)}
+      {renderSection(t('dashboard.hotelFeatures'), 'selectedHotelFeatures', mockHotelFeatures)}
+      {renderSection(t('dashboard.roomFeatures'), 'selectedRoomFeatures', mockRoomFeatures)}
+    </div>
+  );
+};

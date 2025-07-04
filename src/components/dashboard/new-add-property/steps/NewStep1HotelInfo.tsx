@@ -47,23 +47,42 @@ export function NewStep1HotelInfo({
     maxFileSize: 10 * 1024 * 1024 // 10MB
   });
 
-  // Get all countries
-  const countries = Country.getAllCountries();
+  // Predefined list of allowed countries for better performance
+  const allowedCountries = [
+    'Germany', 'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Bulgaria', 
+    'Canada', 'Colombia', 'South Korea', 'Costa Rica', 'Croatia', 'Denmark', 'Ecuador', 
+    'Egypt', 'United Arab Emirates', 'Slovakia', 'Spain', 'United States', 'Estonia', 
+    'Philippines', 'Finland', 'France', 'Georgia', 'Greece', 'Hungary', 'Indonesia', 
+    'Ireland', 'Iceland', 'Italy', 'Japan', 'Kazakhstan', 'Latvia', 'Lithuania', 
+    'Luxembourg', 'Malaysia', 'Malta', 'Morocco', 'Mexico', 'Norway', 'New Zealand', 
+    'Netherlands', 'Panama', 'Paraguay', 'Peru', 'Poland', 'Portugal', 'United Kingdom', 
+    'Czech Republic', 'Dominican Republic', 'Romania', 'Singapore', 'Sri Lanka', 
+    'Sweden', 'Switzerland', 'Thailand', 'Taiwan', 'Turkey', 'Uruguay'
+  ];
 
-  // Update cities when country changes - limit to top 10 cities alphabetically
+  // Filter countries to only show allowed ones
+  const countries = Country.getAllCountries().filter(country => 
+    allowedCountries.includes(country.name)
+  );
+
+  // Update cities when country changes - limit to top 10 cities for performance
   useEffect(() => {
     if (formData.country) {
       const selectedCountry = countries.find(c => c.name === formData.country);
       if (selectedCountry) {
         const countryCities = City.getCitiesOfCountry(selectedCountry.isoCode) || [];
-        // Sort alphabetically and take top 10 to improve performance
-        const sortedCities = countryCities
+        // Sort alphabetically and take top 10 to improve performance and avoid loading issues
+        const limitedCities = countryCities
           .sort((a, b) => a.name.localeCompare(b.name))
-          .slice(0, 10); // Limit to top 10 for better performance
-        setCities(sortedCities);
+          .slice(0, 10); // Strict limit to prevent performance issues
+        setCities(limitedCities);
+      } else {
+        setCities([]); // Clear cities if country not found
       }
+    } else {
+      setCities([]); // Clear cities if no country selected
     }
-  }, [formData.country]);
+  }, [formData.country, countries]);
 
   // Load Google Maps with proper API key
   useEffect(() => {
@@ -340,6 +359,8 @@ export function NewStep1HotelInfo({
               onValueChange={(value) => {
                 updateFormData('country', value);
                 updateFormData('city', ''); // Reset city when country changes
+                updateFormData('latitude', ''); // Reset coordinates
+                updateFormData('longitude', '');
               }}
             >
               <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
@@ -365,7 +386,23 @@ export function NewStep1HotelInfo({
               <Label className="text-white text-lg font-medium">City</Label>
               <Select
                 value={formData.city || ''}
-                onValueChange={(value) => updateFormData('city', value)}
+                onValueChange={(value) => {
+                  updateFormData('city', value);
+                  // Auto-geocode the selected city for coordinates
+                  if (value && window.google?.maps) {
+                    const geocoder = new window.google.maps.Geocoder();
+                    geocoder.geocode(
+                      { address: `${value}, ${formData.country}` },
+                      (results, status) => {
+                        if (status === 'OK' && results?.[0]) {
+                          const location = results[0].geometry.location;
+                          updateFormData('latitude', location.lat().toString());
+                          updateFormData('longitude', location.lng().toString());
+                        }
+                      }
+                    );
+                  }
+                }}
               >
                 <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
                   <SelectValue placeholder="Select city" />

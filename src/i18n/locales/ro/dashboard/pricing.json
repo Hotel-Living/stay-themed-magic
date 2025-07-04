@@ -1,0 +1,13 @@
+
+{
+  "dashboard": {
+    "packagesAndRates": "PACHETE ȘI TARIFE",
+    "defineRoomTypesStayDurations": "Vă rugăm să definiți tipurile de camere, duratele de ședere și planurile de masă în Pasul 3 înainte de a stabili prețurile.",
+    "enableDynamicPricing": "ACTIVEAZĂ PREȚUL DINAMIC BAZAT PE NOPȚILE VÂNDUTE",
+    "maximumPriceIncrease": "CREȘTEREA MAXIMĂ A PREȚULUI",
+    "maxPriceIncreaseDescription": "Acesta este procentajul maxim cu care prețurile pot crește din cauza cererii.",
+    "howDynamicPricingWorks": "Cum funcționează prețul dinamic",
+    "priceIncreaseDescription": "Prețul crește cu 1% pentru fiecare X nopți vândute într-o lună, unde X se calculează ca:",
+    "priceIncreaseExample": "De exemplu, cu 30 de camere × 30 de zile = 900 de nopți totale și o creștere maximă de {percent}%, prețul ar crește cu 1% pentru fiecare {nights} nopți vândute."
+  }
+}

@@ -59,7 +59,7 @@ export function NewStep3AccommodationTerms({
     "Half Board",
     "Full Board", 
     "All Inclusive",
-    "Self Catering"
+    "No Meals"
   ];
 
   // Weekday options
@@ -84,6 +84,18 @@ export function NewStep3AccommodationTerms({
       : [...current, plan];
     
     updateFormData('mealPlans', updated);
+  };
+
+  const handleLaundryIncludedToggle = (included: boolean) => {
+    updateFormData('laundryIncluded', included);
+    if (included) {
+      // If laundry is included, reset external laundry service
+      updateFormData('externalLaundryAvailable', undefined);
+    }
+  };
+
+  const handleExternalLaundryToggle = (available: boolean) => {
+    updateFormData('externalLaundryAvailable', available);
   };
 
   const handleRoomImageUpload = (files: FileList | null) => {
@@ -273,20 +285,72 @@ export function NewStep3AccommodationTerms({
                 <h3 className="text-lg capitalize text-white">3.2— MEAL PLANS</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
-                <div className="space-y-4">
-                  <p className="text-purple-200">Select the meal plans available at your property:</p>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {mealPlanOptions.map((plan) => (
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-purple-200 mb-4">Select the meal plans available at your property:</p>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {mealPlanOptions.map((plan) => (
+                        <Button
+                          key={plan}
+                          variant={(formData.mealPlans || []).includes(plan) ? "default" : "outline"}
+                          onClick={() => handleMealPlanToggle(plan)}
+                          className="h-12"
+                        >
+                          {plan}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Laundry Service Section */}
+                  <div>
+                    <p className="text-purple-200 mb-4">Laundry service included?</p>
+                    
+                    <div className="grid grid-cols-2 gap-3 mb-4">
                       <Button
-                        key={plan}
-                        variant={(formData.mealPlans || []).includes(plan) ? "default" : "outline"}
-                        onClick={() => handleMealPlanToggle(plan)}
-                        className="h-12"
+                        variant={formData.laundryIncluded === true ? "default" : "outline"}
+                        onClick={() => handleLaundryIncludedToggle(true)}
+                        className="h-12 flex items-center justify-center gap-2"
                       >
-                        {plan}
+                        <span className="text-green-500">✓</span>
+                        Yes
                       </Button>
-                    ))}
+                      <Button
+                        variant={formData.laundryIncluded === false ? "default" : "outline"}
+                        onClick={() => handleLaundryIncludedToggle(false)}
+                        className="h-12 flex items-center justify-center gap-2"
+                      >
+                        <span className="text-red-500">✗</span>
+                        No
+                      </Button>
+                    </div>
+
+                    {/* External Laundry Service - Only show if laundry is not included */}
+                    {formData.laundryIncluded === false && (
+                      <div>
+                        <p className="text-purple-200 mb-4">Is external laundry service available (not included)?</p>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          <Button
+                            variant={formData.externalLaundryAvailable === true ? "default" : "outline"}
+                            onClick={() => handleExternalLaundryToggle(true)}
+                            className="h-12 flex items-center justify-center gap-2"
+                          >
+                            <span className="text-green-500">✓</span>
+                            Yes
+                          </Button>
+                          <Button
+                            variant={formData.externalLaundryAvailable === false ? "default" : "outline"}
+                            onClick={() => handleExternalLaundryToggle(false)}
+                            className="h-12 flex items-center justify-center gap-2"
+                          >
+                            <span className="text-red-500">✗</span>
+                            No
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </AccordionContent>

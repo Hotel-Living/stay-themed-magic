@@ -1,11 +1,11 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useGoogleMaps } from "./hooks/useGoogleMaps";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getCitiesForCountry } from "@/utils/cityData";
 
 interface CitySelectorProps {
   value: string;
@@ -16,7 +16,6 @@ interface CitySelectorProps {
   error: any;
   touched: any;
   errorMessage?: string;
-  cities?: string[];
   disabled?: boolean;
   onCustomClick: () => void;
 }
@@ -34,97 +33,44 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   onCustomClick
 }) => {
   const { t } = useTranslation();
-  const [validationError, setValidationError] = useState<string | null>(null);
-  const hasError = (touched && error) || validationError;
-  const { isLoading, error: mapsError } = useGoogleMaps();
+  const hasError = (touched && error);
+  const cities = getCitiesForCountry(country);
 
-  const validateCity = async (cityName: string) => {
-    if (!cityName) return;
-    
-    // Check if Google Maps API is loaded
-    if (isLoading) {
-      console.log("Google Maps API is still loading, validation delayed");
-      return false;
-    }
-    
-    if (mapsError) {
-      console.error("Google Maps API failed to load:", mapsError);
-      setValidationError("Unable to validate city due to Maps API error");
-      return false;
-    }
-
-    try {
-      // Check if the global google object exists
-      if (typeof window.google === 'undefined' || !window.google.maps) {
-        console.error('Google Maps API not loaded');
-        return false;
-      }
-
-      const geocoder = new window.google.maps.Geocoder();
-      const response = await geocoder.geocode({
-        address: `${cityName}, ${country}`,
-        componentRestrictions: {
-          country: country
-        }
-      });
-
-      if (response.results.length > 0) {
-        // Check if result is a city
-        const isCity = response.results[0].types.some(type => 
-          ['locality', 'administrative_area_level_1', 'administrative_area_level_2'].includes(type)
-        );
-
-        if (!isCity) {
-          setValidationError("The location entered is not a city. Please enter a valid city name.");
-          return false;
-        }
-
-        setValidationError(null);
-        return true;
-      } else {
-        setValidationError("The city entered was not recognized. Please enter a valid city.");
-        return false;
-      }
-    } catch (err) {
-      console.error('Error validating city:', err);
-      setValidationError("Could not validate the city. Please try again.");
-      return false;
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+  const handleChange = (newValue: string) => {
     onValueChange(newValue);
     onChange({ target: { value: newValue } });
-    setValidationError(null);
-  };
-
-  const handleBlur = async () => {
-    if (value) {
-      await validateCity(value);
-    }
-    onBlur();
   };
 
   return (
     <div>
       <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
-        {t('dashboard.city')} {hasError && <span className="text-red-500">*</span>}
+        {t('dashboard.propertyForm.city')} {hasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
-        <Input
-          id="city"
+        <Select
           value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          disabled={disabled || !country}
-          placeholder={t('dashboard.enterCityName')}
-          className={cn(
+          onValueChange={handleChange}
+          disabled={disabled || !country || cities.length === 0}
+        >
+          <SelectTrigger className={cn(
             "bg-[#7A0486] text-white border-white",
             hasError ? "border-red-500" : "",
             "placeholder:text-white/50"
-          )}
-        />
+          )}>
+            <SelectValue placeholder={t('dashboard.propertyForm.enterCityName')} />
+          </SelectTrigger>
+          <SelectContent className="bg-[#7A0486] border-white max-h-60 overflow-y-auto">
+            {cities.map((city) => (
+              <SelectItem 
+                key={city} 
+                value={city}
+                className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+              >
+                {city}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Button 
           variant="secondary" 
           size="sm" 
@@ -132,12 +78,12 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           disabled={disabled || !country}
           className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          {t('dashboard.custom')}
+          {t('dashboard.propertyForm.custom')}
         </Button>
       </div>
       {hasError && (
         <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">
-          {validationError || errorMessage || error}
+          {errorMessage || error}
         </p>
       )}
     </div>

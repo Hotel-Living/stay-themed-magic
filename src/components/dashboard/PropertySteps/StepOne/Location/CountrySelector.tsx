@@ -3,9 +3,9 @@ import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Country } from 'country-state-city';
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "@/hooks/useTranslation";
+import { availableCountries } from "@/components/filters/FilterUtils";
 
 interface CountrySelectorProps {
   value: string;
@@ -29,7 +29,6 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   onCustomClick
 }) => {
   const { t } = useTranslation();
-  const countries = Country.getAllCountries();
   const hasError = touched && error;
 
   const handleChange = (newValue: string) => {
@@ -42,7 +41,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   return (
     <div>
       <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "text-white")}>
-        {t('dashboard.country')} {hasError && <span className="text-red-500">*</span>}
+        {t('dashboard.propertyForm.country')} {hasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
         <Select 
@@ -50,33 +49,18 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           onValueChange={handleChange}
         >
           <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
-            <SelectValue placeholder={t('dashboard.selectCountry')} />
+            <SelectValue placeholder={t('dashboard.propertyForm.selectCountry')} />
           </SelectTrigger>
-          <SelectContent className="bg-[#7A0486] border-white">
-            <input
-              type="text"
-              placeholder="Search countries..."
-              className="w-full p-2 mb-2 text-white bg-[#8A0499] border border-white/30 rounded focus:outline-none focus:border-white/50"
-              onChange={(e) => {
-                // Filter will be handled by the select component
-              }}
-              autoComplete="off"
-            />
-            {countries.map((country) => (
+          <SelectContent className="bg-[#7A0486] border-white max-h-60 overflow-y-auto">
+            {availableCountries.map((country) => (
               <SelectItem 
-                key={country.isoCode} 
-                value={country.isoCode}
+                key={country.value} 
+                value={country.value}
                 className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
               >
-                {country.name}
+                {country.label}
               </SelectItem>
             ))}
-            <SelectItem 
-              value="add-new" 
-              className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
-            >
-              + Add New Country
-            </SelectItem>
           </SelectContent>
         </Select>
         <Button 
@@ -85,7 +69,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           onClick={onCustomClick}
           className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          {t('dashboard.custom')}
+          {t('dashboard.propertyForm.custom')}
         </Button>
       </div>
       {hasError && (

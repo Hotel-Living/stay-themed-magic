@@ -21,19 +21,18 @@ export const NewStep4PricingPackages: React.FC<NewStep4PricingPackagesProps> = (
   const [priceIncreaseCap, setPriceIncreaseCap] = useState(formData.priceIncreaseCap || 20);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-  // Check if Step 3 data is actually present
-  const hasRoomTypes = formData.roomTypes && formData.roomTypes.length > 0;
+  // Check if Step 3 data is actually present - ONLY check stay durations and meal plans
   const hasStayDurations = formData.selectedStayDurations && formData.selectedStayDurations.length > 0;
   const hasMealPlans = formData.selectedMealPlans && formData.selectedMealPlans.length > 0;
 
-  const hasRequiredStep3Data = hasRoomTypes && hasStayDurations && hasMealPlans;
+  const hasRequiredStep3Data = hasStayDurations && hasMealPlans;
 
   useEffect(() => {
     // Update form data when pricing settings change
     updateFormData('enablePriceIncrease', enablePriceIncrease);
     updateFormData('priceIncreaseCap', priceIncreaseCap);
 
-    // Validate the step
+    // Validate the step - only check stay durations and meal plans
     const errors: string[] = [];
     
     if (!hasRequiredStep3Data) {
@@ -67,7 +66,6 @@ export const NewStep4PricingPackages: React.FC<NewStep4PricingPackagesProps> = (
             {t('dashboard.defineRoomTypesStayDurations')}
           </p>
           <div className="text-sm text-yellow-300/70 space-y-1">
-            {!hasRoomTypes && <p>• {t('dashboard.roomTypes')} missing</p>}
             {!hasStayDurations && <p>• {t('dashboard.stayDuration')} missing</p>}
             {!hasMealPlans && <p>• {t('dashboard.mealPlans')} missing</p>}
           </div>

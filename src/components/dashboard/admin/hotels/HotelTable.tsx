@@ -2,7 +2,7 @@
 import React from 'react';
 import { StatusBadge } from './StatusBadge';
 import { Button } from "@/components/ui/button";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Edit, Trash2 } from "lucide-react";
 
 interface HotelTableProps {
   hotels: any[];
@@ -60,6 +60,9 @@ export const HotelTable: React.FC<HotelTableProps> = ({ hotels }) => {
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline" className="h-8 w-8 p-0">
                     <Eye className="w-4 h-4" />
+                  </Button>
+                  <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                    <Edit className="w-4 h-4" />
                   </Button>
                   <Button size="sm" className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700">
                     <Trash2 className="w-4 h-4" />

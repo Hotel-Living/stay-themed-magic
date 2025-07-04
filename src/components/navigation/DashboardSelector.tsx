@@ -6,45 +6,40 @@ import { useAuth } from "@/context/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 export const DashboardSelector = () => {
-  const { profile, user } = useAuth();
+  const { profile } = useAuth();
   const isAdmin = useIsAdmin();
   
-  // Check if this is the specific user who needs dual access
-  const isDualAccessUser = user?.email === 'grand_soiree@yahoo.com';
-  
-  // Don't show if user has no dashboard access (unless it's the dual access user)
-  if (!isDualAccessUser && !isAdmin && !profile?.is_hotel_owner) {
+  // Don't show if user has no dashboard access
+  if (!isAdmin && !profile?.is_hotel_owner) {
     return null;
   }
   
-  // If user only has one role (and is not the dual access user), show direct link
-  if (!isDualAccessUser) {
-    if (isAdmin && !profile?.is_hotel_owner) {
-      return (
-        <Link
-          to="/admin"
-          className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white hover:bg-purple-700/50 rounded-lg transition-colors"
-        >
-          <Shield className="w-4 h-4" />
-          Admin Dashboard
-        </Link>
-      );
-    }
-    
-    if (!isAdmin && profile?.is_hotel_owner) {
-      return (
-        <Link
-          to="/hotel-dashboard"
-          className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white hover:bg-purple-700/50 rounded-lg transition-colors"
-        >
-          <Building className="w-4 h-4" />
-          Hotel Dashboard
-        </Link>
-      );
-    }
+  // If user only has one role, show direct link
+  if (isAdmin && !profile?.is_hotel_owner) {
+    return (
+      <Link
+        to="/admin"
+        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white hover:bg-purple-700/50 rounded-lg transition-colors"
+      >
+        <Shield className="w-4 h-4" />
+        Admin Dashboard
+      </Link>
+    );
   }
   
-  // If user has both roles OR is the dual access user, show dropdown/selector
+  if (!isAdmin && profile?.is_hotel_owner) {
+    return (
+      <Link
+        to="/hotel-dashboard"
+        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white hover:bg-purple-700/50 rounded-lg transition-colors"
+      >
+        <Building className="w-4 h-4" />
+        Hotel Dashboard
+      </Link>
+    );
+  }
+  
+  // If user has both roles, show dropdown/selector
   return (
     <div className="relative group">
       <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white hover:bg-purple-700/50 rounded-lg transition-colors">

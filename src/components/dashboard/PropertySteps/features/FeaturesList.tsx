@@ -22,9 +22,6 @@ export const FeaturesList = memo(function FeaturesList({
 }: FeaturesListProps) {
   const { t } = useTranslation();
   
-  // Ensure selectedFeatures is always an array to prevent errors
-  const safeSelectedFeatures = Array.isArray(selectedFeatures) ? selectedFeatures : [];
-  
   return (
     <div className="space-y-4">
       {/* Select All / Deselect All buttons */}
@@ -57,7 +54,7 @@ export const FeaturesList = memo(function FeaturesList({
             <input 
               type="checkbox" 
               className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
-              checked={safeSelectedFeatures.includes(feature)}
+              checked={selectedFeatures.includes(feature)}
               onChange={() => onToggle(feature)}
             />
             <span className="text-sm">{feature}</span>

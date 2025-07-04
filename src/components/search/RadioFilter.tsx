@@ -12,7 +12,7 @@ export function RadioFilter({ title, options, selectedOption, onChange }: RadioF
   return (
     <FilterItem title={title}>
       {options.map(option => (
-        <label key={option.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+        <label key={option.value} className="flex items-start">
           <input 
             type="radio" 
             name={title}
@@ -20,7 +20,7 @@ export function RadioFilter({ title, options, selectedOption, onChange }: RadioF
             onChange={() => onChange(option.value)}
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm text-white">{option.label}</span>
+          <span className="text-sm">{option.label}</span>
         </label>
       ))}
       {selectedOption && (

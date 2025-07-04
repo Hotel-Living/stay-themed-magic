@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from "react";
-// Legacy step - PropertyFormData type removed with legacy system
+import { PropertyFormData } from "../property/hooks/usePropertyFormData";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
 import { ImportantNotice } from "./ImportantNotice";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface StayRatesStepProps {
-  formData: any; // Legacy step - type simplified after PropertyFormData removal
+  formData: PropertyFormData;
   updateFormData: (field: string, value: any) => void;
   onValidationChange: (isValid: boolean) => void;
 }

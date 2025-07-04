@@ -177,29 +177,25 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Max price filter applied successfully: <= ${filters.maxPrice}`);
     }
 
-    // STAY LENGTHS FILTER - Enhanced debugging and multiple format support
+    // STAY LENGTH FILTER - Convert day values to night values for database comparison
     if (filters.stayLengths) {
-      console.log(`🏨 STAY LENGTHS FILTER DEBUG: "${filters.stayLengths}"`);
+      console.log(`⏱️ STAY LENGTH FILTER DEBUG: ${filters.stayLengths}`);
       
-      // Convert string numbers directly to numbers
-      const nightValue = parseInt(filters.stayLengths);
+      // Map user-facing day values to database night values
+      const dayToNightMap: Record<string, number> = {
+        '8 days': 8,    // 8 days = 8 nights (special case)
+        '15 days': 16,  // 15 days = 16 nights (old values)  
+        '22 days': 24,  // 22 days = 24 nights (old values)
+        '29 days': 32   // 29 days = 32 nights (old values)
+      };
       
-      if (!isNaN(nightValue)) {
-        console.log(`🏨 Converting "${filters.stayLengths}" to ${nightValue} nights`);
-        
-        // Try multiple approaches: exact match, range match, and flexibility for common values
-        const valuesToCheck = [nightValue];
-        
-        // Add common variations for monthly stays
-        if (nightValue === 28) {
-          valuesToCheck.push(29, 30, 31, 32); // Monthly variations
-        }
-        
-        console.log(`🏨 Checking for stay lengths: ${valuesToCheck.join(', ')}`);
-        query = query.overlaps('stay_lengths', valuesToCheck);
-        console.log(`✅ Stay length filter applied successfully`);
+      const nightValue = dayToNightMap[filters.stayLengths];
+      if (nightValue) {
+        console.log(`   - Converting "${filters.stayLengths}" to ${nightValue} nights for database query`);
+        query = query.contains('stay_lengths', [nightValue]);
+        console.log(`✅ Stay length filter applied successfully: ${filters.stayLengths} -> ${nightValue} nights`);
       } else {
-        console.warn(`⚠️ Invalid stay length value: ${filters.stayLengths}`);
+        console.warn(`⚠️ Unknown stay length value: ${filters.stayLengths}`);
       }
     }
 
@@ -241,55 +237,37 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // MEAL PLANS FILTER - Single selection logic  
+    // MEAL PLANS FILTER
     if (filters.mealPlans && filters.mealPlans.length > 0) {
       console.log(`🍽️ MEAL PLANS FILTER DEBUG:`, filters.mealPlans);
       
-      // Since meal plans are now single-selection, get the first (and only) selected plan
-      const selectedPlan = filters.mealPlans[0];
-      console.log(`🍽️ Selected meal plan for filtering: "${selectedPlan}"`);
-      
-      if (selectedPlan === 'No meals') {
-        // "No meals" selected - show hotels with empty or null meal_plans
-        query = query.or('meal_plans.is.null,meal_plans.eq.{},meal_plans.eq.[]');
-        console.log(`✅ "No meals" filter applied - showing hotels with no meal plans`);
+      // Handle "No meals" filter separately
+      if (filters.mealPlans.includes('No meals')) {
+        if (filters.mealPlans.length === 1) {
+          // Only "No meals" selected - show hotels with empty or null meal_plans
+          query = query.or('meal_plans.is.null,meal_plans.eq.{},meal_plans.eq.[]');
+          console.log(`✅ "No meals" filter applied - showing hotels with no meal plans`);
+        } else {
+          // "No meals" + other options - show hotels with no meals OR hotels with selected meal plans
+          const otherPlans = filters.mealPlans.filter(plan => plan !== 'No meals');
+          const mealConditions = otherPlans.map(plan => `meal_plans.cs.[${plan}]`).join(',');
+          query = query.or(`meal_plans.is.null,meal_plans.eq.{},${mealConditions}`);
+          console.log(`✅ Mixed meal plans filter applied - no meals + selected options`);
+        }
       } else {
-        // Map filter values to database values
-        const mealPlanMapping: Record<string, string> = {
-          'breakfast': 'Breakfast',
-          'halfBoard': 'Half Board', 
-          'fullBoard': 'Full Board',
-          'allInclusive': 'All Inclusive',
-          'laundryIncluded': 'Laundry Included'
-        };
-        
-        const dbMealPlan = mealPlanMapping[selectedPlan] || selectedPlan;
-        console.log(`🍽️ Mapping "${selectedPlan}" to database value: "${dbMealPlan}"`);
-        
-        // Use contains for array field matching
-        query = query.contains('meal_plans', [dbMealPlan]);
-        console.log(`✅ Single meal plan filter applied: ${selectedPlan} -> ${dbMealPlan}`);
+        // Regular meal plans filtering (no "No meals" option selected)
+        filters.mealPlans.forEach(plan => {
+          query = query.contains('meal_plans', [plan]);
+        });
+        console.log(`✅ Meal plans filter applied successfully`);
       }
     }
 
     // PROPERTY TYPE FILTER
     if (filters.propertyType) {
       console.log(`🏨 PROPERTY TYPE FILTER DEBUG: ${filters.propertyType}`);
-      
-      // Map filter values to potential database values
-      const propertyTypeMapping: Record<string, string[]> = {
-        'hotel': ['hotel', 'Hotel'],
-        'resort': ['resort', 'Resort'], 
-        'boutiqueHotel': ['boutiqueHotel', 'Boutique Hotel', 'boutique hotel'],
-        'countryHouse': ['countryHouse', 'Country House', 'country house'],
-        'roadsideMotel': ['roadsideMotel', 'Roadside Motel', 'roadside motel']
-      };
-      
-      const possibleValues = propertyTypeMapping[filters.propertyType] || [filters.propertyType];
-      console.log(`🏨 Property type mapping: "${filters.propertyType}" -> ${possibleValues.join(', ')}`);
-      
-      query = query.in('property_type', possibleValues);
-      console.log(`✅ Property type filter applied successfully with multiple possible values`);
+      query = query.eq('property_type', filters.propertyType);
+      console.log(`✅ Property type filter applied successfully`);
     }
 
     // PROPERTY STYLE FILTER
@@ -299,13 +277,19 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Property style filter applied successfully`);
     }
 
-    // ROOM TYPES FILTER - Foolproof approach since all hotels have both room types
+    // ROOM TYPES FILTER
     if (filters.roomTypes && filters.roomTypes.length > 0) {
       console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
-      console.log(`🛏️ Since all hotels have both Single and Double rooms, not applying restrictive filter`);
-      // Since all hotels have both room types, we don't need to filter
-      // This ensures the filter works without causing database errors
-      console.log(`✅ Room types filter acknowledged (no restriction needed)`);
+      
+      // Check if any room type in room_types array matches selected options
+      const roomTypeConditions = filters.roomTypes.map(roomType => 
+        `room_types.cs.[{"name":"${roomType}"}]`
+      ).join(',');
+      
+      if (roomTypeConditions) {
+        query = query.or(roomTypeConditions);
+        console.log(`✅ Room types filter applied successfully`);
+      }
     }
 
     // ROOM FEATURES FILTER
@@ -332,7 +316,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     if (error) {
       console.error('Supabase query error:', error);
-      throw new Error(`Database query failed: ${error.message}`);
+      throw error;
     }
 
     console.log(`📊 Database returned ${hotels?.length || 0} hotels`);

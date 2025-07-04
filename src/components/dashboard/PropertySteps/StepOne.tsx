@@ -57,12 +57,9 @@ export default function StepOne({
   const handleChange = (field: string, value: string) => {
     updateFormData(field, value);
     
-    // Always validate country and city fields immediately (for dropdowns)
-    // For other fields, only validate if they've been touched
-    if (touchedFields[field as keyof typeof touchedFields] || field === 'country' || field === 'city') {
+    if (touchedFields[field as keyof typeof touchedFields]) {
       const error = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: error }));
-      console.log(`✅ VALIDATION: ${field} = "${value}" → ${error ? 'ERROR: ' + error : 'VALID'}`);
     }
   };
 

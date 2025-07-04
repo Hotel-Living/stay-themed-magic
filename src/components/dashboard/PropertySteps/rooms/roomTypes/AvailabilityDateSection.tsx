@@ -192,7 +192,7 @@ export default function AvailabilityDateSection({
               return (
                 <Collapsible 
                   key={month} 
-                  open={expandedMonths[month] || false} 
+                  open={expandedMonths[month]} 
                   onOpenChange={() => toggleMonth(month)} 
                   className="border border-fuchsia-800/30 rounded-md overflow-hidden"
                 >

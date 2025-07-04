@@ -113,7 +113,7 @@ export default function StepTwo({
         <ValidationMessages
           error={error}
           showValidationError={showValidationError && hasInteracted}
-          hasInteracted={hasInteracted}
+          roomTypesCount={roomTypes.length}
         />
       </div>
     </div>

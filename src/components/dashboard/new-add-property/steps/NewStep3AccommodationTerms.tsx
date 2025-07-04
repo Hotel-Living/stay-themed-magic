@@ -177,16 +177,16 @@ export function NewStep3AccommodationTerms({
 
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="bg-purple-900/40 border-purple-600">
         <CardHeader>
-          <CardTitle>Step 3: Accommodation Terms</CardTitle>
+          <CardTitle className="text-white">Step 3: Accommodation Terms</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="bg-purple-900/40">
           
           <Accordion type="single" collapsible className="space-y-4">
             
             {/* Room Types Section */}
-            <AccordionItem value="room-types" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
+            <AccordionItem value="room-types" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setRoomTypesOpen(!roomTypesOpen)}
@@ -265,7 +265,7 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Meal Plans Section */}
-            <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
+            <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setMealPlansOpen(!mealPlansOpen)}
@@ -293,7 +293,7 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Stay Duration Section */}
-            <AccordionItem value="stay-duration" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
+            <AccordionItem value="stay-duration" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setStayDurationOpen(!stayDurationOpen)}
@@ -321,7 +321,7 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Preferred Check-in Weekday */}
-            <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
+            <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setWeekdayOpen(!weekdayOpen)}
@@ -349,7 +349,7 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Availability Packages Section */}
-            <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
+            <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-purple-900/60 border-purple-400">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setAvailabilityOpen(!availabilityOpen)}

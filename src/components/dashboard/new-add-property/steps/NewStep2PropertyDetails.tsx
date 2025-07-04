@@ -4,7 +4,8 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/component
 import { ChevronDown } from "lucide-react";
 import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
 import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
-import { FeaturesList } from "../PropertySteps/features/FeaturesList";
+import { FeaturesList } from "../../PropertySteps/features/FeaturesList";
+import { hotelFeatures, roomFeatures } from "../../PropertySteps/features/featuresData";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface NewStep2PropertyDetailsProps {
@@ -46,27 +47,29 @@ export function NewStep2PropertyDetails({
     updateFormData('selectedActivities', updatedActivities);
   };
 
-  const handleHotelFeatureChange = (feature: string, isChecked: boolean) => {
+  const handleHotelFeatureChange = (feature: string) => {
     const currentFeatures = formData.selectedHotelFeatures || [];
+    const isCurrentlySelected = currentFeatures.includes(feature);
     let updatedFeatures;
     
-    if (isChecked) {
-      updatedFeatures = [...currentFeatures, feature];
-    } else {
+    if (isCurrentlySelected) {
       updatedFeatures = currentFeatures.filter((f: string) => f !== feature);
+    } else {
+      updatedFeatures = [...currentFeatures, feature];
     }
     
     updateFormData('selectedHotelFeatures', updatedFeatures);
   };
 
-  const handleRoomFeatureChange = (feature: string, isChecked: boolean) => {
+  const handleRoomFeatureChange = (feature: string) => {
     const currentFeatures = formData.selectedRoomFeatures || [];
+    const isCurrentlySelected = currentFeatures.includes(feature);
     let updatedFeatures;
     
-    if (isChecked) {
-      updatedFeatures = [...currentFeatures, feature];
-    } else {
+    if (isCurrentlySelected) {
       updatedFeatures = currentFeatures.filter((f: string) => f !== feature);
+    } else {
+      updatedFeatures = [...currentFeatures, feature];
     }
     
     updateFormData('selectedRoomFeatures', updatedFeatures);
@@ -205,9 +208,9 @@ export function NewStep2PropertyDetails({
           
           <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
             <FeaturesList
+              features={hotelFeatures}
               selectedFeatures={formData.selectedHotelFeatures || []}
-              onFeatureChange={handleHotelFeatureChange}
-              featureType="hotel"
+              onToggle={handleHotelFeatureChange}
             />
           </div>
         </CollapsibleContent>
@@ -231,9 +234,9 @@ export function NewStep2PropertyDetails({
           
           <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
             <FeaturesList
+              features={roomFeatures}
               selectedFeatures={formData.selectedRoomFeatures || []}
-              onFeatureChange={handleRoomFeatureChange}
-              featureType="room"
+              onToggle={handleRoomFeatureChange}
             />
           </div>
         </CollapsibleContent>

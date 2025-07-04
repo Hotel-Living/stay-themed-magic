@@ -18,6 +18,17 @@ export function NewStep5FinalReview({
   onValidationChange
 }: NewStep5FinalReviewProps) {
   
+  // Debug: Log all formData to identify what's actually stored
+  useEffect(() => {
+    console.log('🔍 STEP 5 DEBUG - Full formData:', formData);
+    console.log('🔍 Images data:', formData.hotelImages);
+    console.log('🔍 Themes data:', formData.themes);
+    console.log('🔍 Activities data:', formData.activities);
+    console.log('🔍 Stay durations:', formData.selectedStayDurations);
+    console.log('🔍 Meal plans:', formData.mealPlans);
+    console.log('🔍 Availability packages:', formData.availabilityPackages);
+  }, [formData]);
+  
   // Validation - only requires terms acceptance
   useEffect(() => {
     const isValid = formData.termsAccepted === true;

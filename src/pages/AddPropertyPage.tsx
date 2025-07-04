@@ -2,7 +2,7 @@
 import React from 'react';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import AddProperty from "@/components/dashboard/AddProperty";
+import { NewAddPropertyForm } from "@/components/dashboard/new-add-property/NewAddPropertyForm";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { getDashboardTabs } from "@/components/hotel-dashboard/TabConfiguration";
 
@@ -24,7 +24,7 @@ export default function AddPropertyPage() {
             <h1 className="text-3xl font-bold mb-8">PROPERTY MANAGEMENT</h1>
             
             <div className="lg:col-span-3">
-              <AddProperty />
+              <NewAddPropertyForm />
             </div>
           </div>
         </DashboardLayout>

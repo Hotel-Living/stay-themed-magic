@@ -6,7 +6,7 @@ import { Hotel } from "@/integrations/supabase/types-custom";
 import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
 import { PropertyEditView } from "./views/PropertyEditView";
-import AddProperty from "@/components/dashboard/AddProperty";
+import { NewAddPropertyForm } from "@/components/dashboard/new-add-property/NewAddPropertyForm";
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -97,7 +97,7 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   // Rendering logic for different states
   if (showAddProperty) {
     return (
-      <AddProperty 
+      <NewAddPropertyForm 
         onDoneEditing={handleDoneAddingProperty}
       />
     );

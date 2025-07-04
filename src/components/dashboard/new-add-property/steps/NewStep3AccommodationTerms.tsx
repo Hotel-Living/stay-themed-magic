@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Upload, X, CalendarIcon } from "lucide-react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths } from "date-fns";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, getDay, isSameDay } from "date-fns";
 
 interface NewStep3AccommodationTermsProps {
   formData: any;
@@ -31,9 +31,12 @@ export function NewStep3AccommodationTerms({
 
   // Availability package creation states
   const [showPackageCreator, setShowPackageCreator] = useState(false);
+  const [showRoomSelector, setShowRoomSelector] = useState(false);
   const [packageRooms, setPackageRooms] = useState(1);
-  const [packageStartDate, setPackageStartDate] = useState<Date>();
-  const [packageEndDate, setPackageEndDate] = useState<Date>();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [monthsExpanded, setMonthsExpanded] = useState<{[key: string]: boolean}>({});
 
   // Validation logic - requires room types, meal plans, and stay durations
   useEffect(() => {
@@ -139,19 +142,57 @@ export function NewStep3AccommodationTerms({
     updateFormData('roomTypes', [updatedRoomType]);
   };
 
-  const createAvailabilityPackage = () => {
-    if (!packageStartDate || !packageEndDate || packageRooms < 1) return;
+  // Get weekday number (0 = Sunday, 1 = Monday, etc.)
+  const getWeekdayNumber = (weekday: string) => {
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return weekdays.indexOf(weekday);
+  };
 
-    const selectedDates = eachDayOfInterval({
-      start: packageStartDate,
-      end: packageEndDate
+  // Get allowed check-in dates based on preferred weekday
+  const getAllowedDates = (month: Date, weekday: string) => {
+    const start = startOfMonth(month);
+    const end = endOfMonth(month);
+    const allDates = eachDayOfInterval({ start, end });
+    const weekdayNumber = getWeekdayNumber(weekday);
+    
+    return allDates.filter(date => getDay(date) === weekdayNumber);
+  };
+
+  // Generate months for display (next 12 months)
+  const generateMonths = () => {
+    const months = [];
+    for (let i = 0; i < 12; i++) {
+      months.push(addMonths(new Date(), i));
+    }
+    return months;
+  };
+
+  const months = generateMonths();
+
+  const toggleMonth = (monthKey: string) => {
+    setMonthsExpanded(prev => ({
+      ...prev,
+      [monthKey]: !prev[monthKey]
+    }));
+  };
+
+  const handleDateSelection = (date: Date) => {
+    setSelectedDates(prev => {
+      const isSelected = prev.some(d => isSameDay(d, date));
+      if (isSelected) {
+        return prev.filter(d => !isSameDay(d, date));
+      } else {
+        return [...prev, date];
+      }
     });
+  };
+
+  const createAvailabilityPackage = () => {
+    if (selectedDates.length === 0 || packageRooms < 1) return;
 
     const newPackage = {
       id: Date.now().toString(),
       numberOfRooms: packageRooms,
-      startDate: format(packageStartDate, 'yyyy-MM-dd'),
-      endDate: format(packageEndDate, 'yyyy-MM-dd'),
       selectedDates: selectedDates.map(date => format(date, 'yyyy-MM-dd'))
     };
 
@@ -160,8 +201,9 @@ export function NewStep3AccommodationTerms({
 
     // Reset creator
     setPackageRooms(1);
-    setPackageStartDate(undefined);
-    setPackageEndDate(undefined);
+    setSelectedDates([]);
+    setShowRoomSelector(false);
+    setShowCalendar(false);
     setShowPackageCreator(false);
   };
 
@@ -424,91 +466,165 @@ export function NewStep3AccommodationTerms({
                 <div className="space-y-4">
                   <p className="text-purple-200">Create availability packages with room counts and date ranges:</p>
                   
-                  {/* Existing Packages */}
-                  {(formData.availabilityPackages || []).map((pkg: any) => (
-                    <div key={pkg.id} className="p-4 border rounded-lg bg-white flex justify-between items-center">
-                      <div>
-                        <p className="font-medium">{pkg.numberOfRooms} room(s) available</p>
-                        <p className="text-sm text-gray-600">
-                          {format(new Date(pkg.startDate), 'MMM dd, yyyy')} - {format(new Date(pkg.endDate), 'MMM dd, yyyy')}
-                        </p>
-                      </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => removeAvailabilityPackage(pkg.id)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
+                   {/* Existing Packages */}
+                   {(formData.availabilityPackages || []).map((pkg: any) => (
+                     <div key={pkg.id} className="p-4 border rounded-lg bg-purple-700/30 border-purple-500 flex justify-between items-center">
+                       <div>
+                         <p className="font-medium text-white">{pkg.numberOfRooms} room(s) available</p>
+                         <p className="text-sm text-purple-200">
+                           {pkg.selectedDates.length} dates selected
+                         </p>
+                       </div>
+                       <Button
+                         variant="destructive"
+                         size="sm"
+                         onClick={() => removeAvailabilityPackage(pkg.id)}
+                       >
+                         Remove
+                       </Button>
+                     </div>
+                   ))}
 
-                  {/* Package Creator */}
-                  {showPackageCreator ? (
-                    <div className="p-4 border rounded-lg bg-gray-50 space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <Label>Number of Rooms</Label>
-                          <Input
-                            type="number"
-                            min="1"
-                            value={packageRooms}
-                            onChange={(e) => setPackageRooms(parseInt(e.target.value) || 1)}
-                          />
-                        </div>
-                        
-                        <div>
-                          <Label>Start Date</Label>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button variant="outline" className="w-full justify-start">
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {packageStartDate ? format(packageStartDate, 'MMM dd, yyyy') : 'Select date'}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                selected={packageStartDate}
-                                onSelect={setPackageStartDate}
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                        
-                        <div>
-                          <Label>End Date</Label>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button variant="outline" className="w-full justify-start">
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {packageEndDate ? format(packageEndDate, 'MMM dd, yyyy') : 'Select date'}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar 
-                                mode="single"
-                                selected={packageEndDate}
-                                onSelect={setPackageEndDate}
-                                initialFocus
-                                disabled={(date) => packageStartDate ? date < packageStartDate : false}
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        <Button onClick={createAvailabilityPackage}>Create Package</Button>
-                        <Button variant="outline" onClick={() => setShowPackageCreator(false)}>Cancel</Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <Button onClick={() => setShowPackageCreator(true)}>
-                      Add Availability Package
-                    </Button>
-                  )}
+                   {/* Package Creator Flow */}
+                   {showPackageCreator ? (
+                     <div className="space-y-4">
+                       {/* Step 1: Room Selector */}
+                       {!showCalendar && (
+                         <div className="p-6 border rounded-lg bg-purple-700/30 border-purple-500 space-y-4">
+                           <h4 className="text-lg font-medium text-white">Step 1: Number of Rooms</h4>
+                           <div className="space-y-2">
+                             <Label className="text-purple-200">Available Rooms:</Label>
+                             <Input
+                               type="number"
+                               min="1"
+                               value={packageRooms}
+                               onChange={(e) => setPackageRooms(parseInt(e.target.value) || 1)}
+                               className="bg-purple-800 border-purple-600 text-white w-32"
+                             />
+                           </div>
+                           <div className="flex space-x-2">
+                             <Button 
+                               onClick={() => setShowCalendar(true)}
+                               className="bg-pink-600 hover:bg-pink-700"
+                             >
+                               Next
+                             </Button>
+                             <Button 
+                               variant="outline" 
+                               onClick={() => setShowPackageCreator(false)}
+                               className="border-purple-500 text-purple-200"
+                             >
+                               Cancel
+                             </Button>
+                           </div>
+                         </div>
+                       )}
+
+                       {/* Step 2: Calendar Selector */}
+                       {showCalendar && (
+                         <div className="p-6 border rounded-lg bg-purple-700/30 border-purple-500 space-y-4">
+                           <h4 className="text-lg font-medium text-white">Step 2: Select Dates Within Rolling 12-Month Window</h4>
+                           <p className="text-purple-200">
+                             Select your first check-in date (only valid check-in days are shown)
+                           </p>
+
+                           {/* Monthly Calendar Grid */}
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             {months.map((month, index) => {
+                               const monthKey = format(month, 'yyyy-MM');
+                               const allowedDates = getAllowedDates(month, formData.preferredWeekday || 'Monday');
+                               const isExpanded = monthsExpanded[monthKey];
+
+                               return (
+                                 <div key={monthKey} className="border border-purple-500 rounded-lg overflow-hidden">
+                                   {/* Month Header */}
+                                   <Button
+                                     variant="ghost"
+                                     onClick={() => toggleMonth(monthKey)}
+                                     className="w-full p-4 bg-pink-600 hover:bg-pink-700 text-white font-medium rounded-none"
+                                   >
+                                     {format(month, 'MMMM yyyy')}
+                                   </Button>
+
+                                   {/* Expandable Date Grid */}
+                                   {isExpanded && (
+                                     <div className="p-4 bg-purple-800/50">
+                                       <div className="grid grid-cols-4 gap-2">
+                                         {allowedDates.map(date => {
+                                           const isSelected = selectedDates.some(d => isSameDay(d, date));
+                                           return (
+                                             <Button
+                                               key={format(date, 'yyyy-MM-dd')}
+                                               variant={isSelected ? "default" : "outline"}
+                                               onClick={() => handleDateSelection(date)}
+                                               className={`h-12 text-sm ${
+                                                 isSelected 
+                                                   ? 'bg-pink-600 hover:bg-pink-700 text-white' 
+                                                   : 'border-purple-400 text-purple-200 hover:bg-purple-600'
+                                               }`}
+                                             >
+                                               {format(date, 'd')}
+                                             </Button>
+                                           );
+                                         })}
+                                       </div>
+                                     </div>
+                                   )}
+                                 </div>
+                               );
+                             })}
+                           </div>
+
+                           {/* Selected Dates Summary */}
+                           {selectedDates.length > 0 && (
+                             <div className="p-3 bg-purple-800 rounded-lg">
+                               <p className="text-white text-sm">
+                                 Selected {selectedDates.length} date(s)
+                               </p>
+                             </div>
+                           )}
+
+                           <div className="flex space-x-2">
+                             <Button 
+                               onClick={createAvailabilityPackage}
+                               disabled={selectedDates.length === 0}
+                               className="bg-pink-600 hover:bg-pink-700"
+                             >
+                               Create Package
+                             </Button>
+                             <Button 
+                               variant="outline" 
+                               onClick={() => {
+                                 setShowCalendar(false);
+                                 setSelectedDates([]);
+                               }}
+                               className="border-purple-500 text-purple-200"
+                             >
+                               Back
+                             </Button>
+                             <Button 
+                               variant="outline" 
+                               onClick={() => {
+                                 setShowPackageCreator(false);
+                                 setShowCalendar(false);
+                                 setSelectedDates([]);
+                               }}
+                               className="border-purple-500 text-purple-200"
+                             >
+                               Cancel
+                             </Button>
+                           </div>
+                         </div>
+                       )}
+                     </div>
+                   ) : (
+                     <Button 
+                       onClick={() => setShowPackageCreator(true)}
+                       className="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3"
+                     >
+                       + Add New Availability Package
+                     </Button>
+                   )}
                 </div>
               </AccordionContent>
             </AccordionItem>

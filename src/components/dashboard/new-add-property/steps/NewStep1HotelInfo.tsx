@@ -50,33 +50,63 @@ export function NewStep1HotelInfo({
   // Get all countries
   const countries = Country.getAllCountries();
 
-  // Update cities when country changes
+  // Update cities when country changes - limit to top 10 cities alphabetically
   useEffect(() => {
     if (formData.country) {
       const selectedCountry = countries.find(c => c.name === formData.country);
       if (selectedCountry) {
         const countryCities = City.getCitiesOfCountry(selectedCountry.isoCode) || [];
-        setCities(countryCities);
+        // Sort alphabetically and take top 10 to improve performance
+        const sortedCities = countryCities
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .slice(0, 10); // Limit to top 10 for better performance
+        setCities(sortedCities);
       }
     }
   }, [formData.country]);
 
-  // Load Google Maps
+  // Load Google Maps with proper API key
   useEffect(() => {
-    if (!window.google && !document.querySelector('script[src*="maps.googleapis.com"]')) {
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO8Y8qxJ1Q8Qc8&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
+    const loadGoogleMaps = async () => {
+      if (!window.google && !document.querySelector('script[src*="maps.googleapis.com"]')) {
+        try {
+          // Get API key from Supabase edge function
+          let apiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM'; // fallback key
+          try {
+            const response = await fetch(`${window.location.origin}/functions/v1/get-maps-key`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            const result = await response.json();
+            apiKey = result?.key || result?.apiKey || apiKey;
+          } catch (error) {
+            console.log('Using fallback API key due to edge function error:', error);
+          }
+          
+          const script = document.createElement('script');
+          script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+          script.async = true;
+          script.defer = true;
+          script.onload = () => {
+            setMapLoaded(true);
+            initializeMap();
+          };
+          script.onerror = () => {
+            console.error('Failed to load Google Maps');
+            setMapLoaded(false);
+          };
+          document.head.appendChild(script);
+        } catch (error) {
+          console.error('Error loading Google Maps:', error);
+          setMapLoaded(false);
+        }
+      } else if (window.google) {
         setMapLoaded(true);
         initializeMap();
-      };
-      document.head.appendChild(script);
-    } else if (window.google) {
-      setMapLoaded(true);
-      initializeMap();
-    }
+      }
+    };
+    
+    loadGoogleMaps();
   }, []);
 
   // Initialize map

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { supabase } from "@/integrations/supabase/client";
+
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
+import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface NewStep2PropertyDetailsProps {
   formData: any;
@@ -15,237 +18,113 @@ export function NewStep2PropertyDetails({
   updateFormData,
   onValidationChange
 }: NewStep2PropertyDetailsProps) {
-  
-  const [themes, setThemes] = useState<any[]>([]);
-  const [activities, setActivities] = useState<any[]>([]);
-  const [loadingThemes, setLoadingThemes] = useState(true);
-  const [loadingActivities, setLoadingActivities] = useState(true);
+  const { t } = useTranslation();
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
+  const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
 
-  // Load themes and activities
+  // Update local state when formData changes
   useEffect(() => {
-    const loadThemes = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('themes')
-          .select('*')
-          .eq('level', 1)
-          .order('name');
-        
-        if (error) throw error;
-        setThemes(data || []);
-      } catch (error) {
-        console.error('Error loading themes:', error);
-      } finally {
-        setLoadingThemes(false);
-      }
-    };
+    if (formData.themes && formData.themes.length > 0) {
+      setSelectedThemes(formData.themes);
+    }
+    
+    if (formData.activities && formData.activities.length > 0) {
+      setSelectedActivities(formData.activities);
+    }
+  }, [formData.themes, formData.activities]);
 
-    const loadActivities = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('activities')
-          .select('*')
-          .order('name');
-        
-        if (error) throw error;
-        setActivities(data || []);
-      } catch (error) {
-        console.error('Error loading activities:', error);
-      } finally {
-        setLoadingActivities(false);
-      }
-    };
-
-    loadThemes();
-    loadActivities();
-  }, []);
-
-  // Validation - optional step, always valid
+  // Update parent form data when local state changes
   useEffect(() => {
-    onValidationChange(true);
-  }, [onValidationChange]);
+    updateFormData('themes', selectedThemes);
+    updateFormData('activities', selectedActivities);
+    onValidationChange(true); // Step is optional
+  }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
-  const toggleTheme = (themeId: string) => {
-    const currentThemes = formData.themes || [];
-    const updatedThemes = currentThemes.includes(themeId)
-      ? currentThemes.filter((id: string) => id !== themeId)
-      : [...currentThemes, themeId];
-    
-    updateFormData('themes', updatedThemes);
+  const handleThemeSelect = (themeId: string, isSelected: boolean) => {
+    if (isSelected) {
+      setSelectedThemes(prev => [...prev, themeId]);
+    } else {
+      setSelectedThemes(prev => prev.filter(id => id !== themeId));
+    }
   };
 
-  const toggleActivity = (activityId: string) => {
-    const currentActivities = formData.activities || [];
-    const updatedActivities = currentActivities.includes(activityId)
-      ? currentActivities.filter((id: string) => id !== activityId)
-      : [...currentActivities, activityId];
-    
-    updateFormData('activities', updatedActivities);
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
+    setSelectedActivities(prev => 
+      isChecked 
+        ? [...prev, activity]
+        : prev.filter(a => a !== activity)
+    );
   };
-
-  const toggleHotelFeature = (feature: string) => {
-    const currentFeatures = formData.featuresHotel || {};
-    updateFormData('featuresHotel', {
-      ...currentFeatures,
-      [feature]: !currentFeatures[feature]
-    });
-  };
-
-  const toggleRoomFeature = (feature: string) => {
-    const currentFeatures = formData.featuresRoom || {};
-    updateFormData('featuresRoom', {
-      ...currentFeatures,
-      [feature]: !currentFeatures[feature]
-    });
-  };
-
-  const hotelFeatures = [
-    'Swimming Pool', 'Gym/Fitness Center', 'Spa & Wellness', 'Restaurant', 
-    'Bar/Lounge', 'Free WiFi', 'Parking', 'Pet Friendly', 'Business Center',
-    'Concierge Service', 'Laundry Service', '24/7 Reception'
-  ];
-
-  const roomFeatures = [
-    'Air Conditioning', 'Heating', 'Private Bathroom', 'Balcony/Terrace',
-    'Sea View', 'Mountain View', 'City View', 'Kitchenette', 'Mini Bar',
-    'Safe', 'Desk', 'Seating Area'
-  ];
 
   return (
-    <div className="space-y-6 bg-purple-900 text-white p-6 rounded-lg">
-      
-      {/* Themes Section */}
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Property Themes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loadingThemes ? (
-            <p className="text-purple-200">Loading themes...</p>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {themes.map((theme) => (
-                <div
-                  key={theme.id}
-                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                    (formData.themes || []).includes(theme.id)
-                      ? 'border-purple-400 bg-purple-700/50'
-                      : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
-                  }`}
-                  onClick={() => toggleTheme(theme.id)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      checked={(formData.themes || []).includes(theme.id)}
-                      onChange={() => {}} // Handled by div onClick
-                      className="border-purple-400 data-[state=checked]:bg-purple-600"
-                    />
-                    <span className="text-sm font-medium text-white">{theme.name}</span>
-                  </div>
-                </div>
-              ))}
+    <div className="space-y-8 max-w-[80%]">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-white mb-2">Hotel Profile & Character</h2>
+        <p className="text-gray-300">Define your hotel's personality, activities, and features</p>
+      </div>
+
+      {/* Affinities Section */}
+      <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 rounded-lg p-6 border border-purple-500/20">
+        <Collapsible defaultOpen={true} className="w-full">
+          <div className="bg-gradient-to-r from-purple-700 to-purple-600 rounded-t-lg">
+            <CollapsibleTrigger className="flex items-center justify-between w-full p-4">
+              <h3 className="text-xl font-bold text-white uppercase tracking-wide">AFFINITIES</h3>
+              <ChevronDown className="h-5 w-5 text-white" />
+            </CollapsibleTrigger>
+          </div>
+          
+          <CollapsibleContent className="bg-purple-900/30 rounded-b-lg p-4">
+            <p className="text-white/90 mb-4 text-sm">
+              Choose the interests and activities that align with your property's character
+            </p>
+            
+            <Link 
+              to="/themes-information" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="inline-flex items-center rounded-lg text-white text-sm font-medium transition-colors mb-6 bg-fuchsia-600/80 hover:bg-fuchsia-600 px-4 py-2"
+            >
+              More Information
+            </Link>
+            
+            <div className="bg-purple-900/40 rounded-lg p-4 border border-purple-600/30 max-h-96 overflow-y-auto">
+              <HierarchicalThemeSelector
+                selectedThemes={selectedThemes}
+                onThemeSelect={handleThemeSelect}
+                allowMultiple={true}
+                className="space-y-2"
+              />
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
 
       {/* Activities Section */}
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Available Activities</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loadingActivities ? (
-            <p className="text-purple-200">Loading activities...</p>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {activities.map((activity) => (
-                <div
-                  key={activity.id}
-                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                    (formData.activities || []).includes(activity.id)
-                      ? 'border-purple-400 bg-purple-700/50'
-                      : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
-                  }`}
-                  onClick={() => toggleActivity(activity.id)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      checked={(formData.activities || []).includes(activity.id)}
-                      onChange={() => {}} // Handled by div onClick
-                      className="border-purple-400 data-[state=checked]:bg-purple-600"
-                    />
-                    <span className="text-sm font-medium text-white">{activity.name}</span>
-                  </div>
-                </div>
-              ))}
+      <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 rounded-lg p-6 border border-purple-500/20">
+        <Collapsible defaultOpen={true} className="w-full">
+          <div className="bg-gradient-to-r from-purple-700 to-purple-600 rounded-t-lg">
+            <CollapsibleTrigger className="flex items-center justify-between w-full p-4">
+              <h3 className="text-xl font-bold text-white uppercase tracking-wide">ACTIVITIES</h3>
+              <ChevronDown className="h-5 w-5 text-white" />
+            </CollapsibleTrigger>
+          </div>
+          
+          <CollapsibleContent className="bg-purple-900/30 rounded-b-lg p-4">
+            <p className="text-white/90 mb-4 text-sm">
+              Select activities available at your hotel or in the surrounding area
+            </p>
+            
+            <div className="bg-purple-900/40 rounded-lg p-4 border border-purple-600/30 max-h-96 overflow-y-auto">
+              <HierarchicalActivitySelector
+                selectedActivities={selectedActivities}
+                onActivitySelect={handleActivityChange}
+                allowMultiple={true}
+                className="space-y-1"
+              />
             </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Hotel Features */}
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Hotel Features & Amenities</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {hotelFeatures.map((feature) => (
-              <div
-                key={feature}
-                className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                  (formData.featuresHotel || {})[feature]
-                    ? 'border-purple-400 bg-purple-700/50'
-                    : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
-                }`}
-                onClick={() => toggleHotelFeature(feature)}
-              >
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    checked={(formData.featuresHotel || {})[feature] || false}
-                    onChange={() => {}} // Handled by div onClick
-                    className="border-purple-400 data-[state=checked]:bg-purple-600"
-                  />
-                  <span className="text-sm font-medium text-white">{feature}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Room Features */}
-      <Card className="bg-purple-800 border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Room Features & Amenities</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {roomFeatures.map((feature) => (
-              <div
-                key={feature}
-                className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                  (formData.featuresRoom || {})[feature]
-                    ? 'border-purple-400 bg-purple-700/50'
-                    : 'border-purple-500 hover:border-purple-400 hover:bg-purple-700/30'
-                }`}
-                onClick={() => toggleRoomFeature(feature)}
-              >
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    checked={(formData.featuresRoom || {})[feature] || false}
-                    onChange={() => {}} // Handled by div onClick
-                    className="border-purple-400 data-[state=checked]:bg-purple-600"
-                  />
-                  <span className="text-sm font-medium text-white">{feature}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
     </div>
   );
 }

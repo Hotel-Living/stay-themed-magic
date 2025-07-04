@@ -55,7 +55,11 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
       </div>
 
       <AccommodationValidation 
-        validationState={validationState}
+        error={validationState.error}
+        hasInteracted={validationState.hasInteracted}
+        showValidationErrors={validationState.showValidationErrors}
+        isValid={validationState.isValid}
+        formData={formData}
       />
     </div>
   );

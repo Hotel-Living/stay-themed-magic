@@ -17,7 +17,7 @@ interface AccommodationSectionsProps {
   stayLengthState: any;
   updateSectionState: (section: string, isOpen: boolean) => void;
   updateWeekdayState: (field: string, value: any) => void;
-  updateStayLengthState: (field: string, value: any) => void;
+  updateStayLengthState: (lengths: number[]) => void;
   onValidationChange?: (isValid: boolean) => void;
 }
 
@@ -41,7 +41,7 @@ export const AccommodationSections: React.FC<AccommodationSectionsProps> = ({
         isOpen={sectionsState.stayLength}
         onToggle={(isOpen) => updateSectionState('stayLength', isOpen)}
         selectedLengths={stayLengthState.selectedLengths}
-        onLengthToggle={updateStayLengthState}
+        onLengthToggle={(field, value) => updateStayLengthState(value)}
         formData={formData}
         updateFormData={updateFormData}
       />

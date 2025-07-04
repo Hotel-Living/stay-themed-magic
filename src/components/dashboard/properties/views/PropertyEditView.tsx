@@ -1,6 +1,6 @@
 
 import React from 'react';
-import AddProperty from "../../AddProperty";
+import { NewAddPropertyForm } from "../../new-add-property/NewAddPropertyForm";
 
 interface PropertyEditViewProps {
   hotelId: string;
@@ -16,7 +16,7 @@ export const PropertyEditView: React.FC<PropertyEditViewProps> = ({ hotelId, onB
       >
         Back to My Properties
       </button>
-      <AddProperty editingHotelId={hotelId} onDoneEditing={onBack} />
+      <NewAddPropertyForm editingHotelId={hotelId} onDoneEditing={onBack} />
     </div>
   );
 };

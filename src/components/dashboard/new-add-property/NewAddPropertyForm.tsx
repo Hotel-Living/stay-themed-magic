@@ -4,7 +4,12 @@ import { useNewPropertyForm } from './hooks/useNewPropertyForm';
 import { NewPropertyFormNavigation } from './components/NewPropertyFormNavigation';
 import { NewStepContent } from './steps/NewStepContent';
 
-export function NewAddPropertyForm() {
+interface NewAddPropertyFormProps {
+  editingHotelId?: string;
+  onDoneEditing?: () => void;
+}
+
+export function NewAddPropertyForm({ editingHotelId, onDoneEditing }: NewAddPropertyFormProps = {}) {
   const {
     currentStep,
     formData,
@@ -17,12 +22,15 @@ export function NewAddPropertyForm() {
     prevStep,
     submitProperty,
     isSubmitting
-  } = useNewPropertyForm();
+  } = useNewPropertyForm(editingHotelId);
 
   const handleSubmit = async () => {
     try {
       console.log('🚀 Submitting property with data:', formData);
-      await submitProperty(formData);
+      const result = await submitProperty(formData, editingHotelId);
+      if (result && onDoneEditing) {
+        onDoneEditing();
+      }
     } catch (error) {
       console.error('❌ Error submitting property:', error);
     }

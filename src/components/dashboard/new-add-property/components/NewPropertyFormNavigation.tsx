@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface NewPropertyFormNavigationProps {
   currentStep: number;
@@ -13,7 +12,7 @@ interface NewPropertyFormNavigationProps {
   isSubmitting: boolean;
 }
 
-export function NewPropertyFormNavigation({
+export const NewPropertyFormNavigation: React.FC<NewPropertyFormNavigationProps> = ({
   currentStep,
   isStepValid,
   canMoveToNextStep,
@@ -22,44 +21,70 @@ export function NewPropertyFormNavigation({
   onPrevStep,
   onSubmit,
   isSubmitting
-}: NewPropertyFormNavigationProps) {
-  const { t } = useTranslation();
-  
-  const totalSteps = 5;
+}) => {
+  const isLastStep = currentStep === 5;
 
   return (
-    <div className="flex items-center justify-between mb-6">
-      <button 
-        onClick={onPrevStep} 
-        className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-          !canMoveToPrevStep ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
-        }`} 
-        disabled={!canMoveToPrevStep}
-      >
-        {t('dashboard.previous')}
-      </button>
-      
-      <div className="text-sm text-gray-500">
-        Step {currentStep} of {totalSteps}
+    <div className="flex justify-between items-center p-4 bg-white/10 rounded-lg">
+      <div className="flex space-x-2">
+        {[1, 2, 3, 4, 5].map((step) => (
+          <div
+            key={step}
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              step === currentStep
+                ? 'bg-fuchsia-500 text-white'
+                : step < currentStep
+                ? 'bg-green-500 text-white'
+                : 'bg-white/20 text-white/60'
+            }`}
+          >
+            {step}
+          </div>
+        ))}
       </div>
-      
-      {currentStep === totalSteps ? (
-        <button 
-          onClick={onSubmit} 
-          className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80 hover:bg-[#a209ad] disabled:opacity-50"
-          disabled={isSubmitting}
+
+      <div className="flex space-x-3">
+        <button
+          type="button"
+          onClick={onPrevStep}
+          disabled={!canMoveToPrevStep}
+          className={`px-4 py-2 rounded-lg font-medium ${
+            canMoveToPrevStep
+              ? 'bg-white/20 text-white hover:bg-white/30'
+              : 'bg-white/10 text-white/50 cursor-not-allowed'
+          }`}
         >
-          {isSubmitting ? t('dashboard.submitting') : t('dashboard.submit')}
+          Previous
         </button>
-      ) : (
-        <button 
-          onClick={onNextStep} 
-          className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors disabled:opacity-50"
-          disabled={!canMoveToNextStep}
-        >
-          {t('dashboard.next')}
-        </button>
-      )}
+
+        {isLastStep ? (
+          <button
+            type="button"
+            onClick={onSubmit}
+            disabled={isSubmitting}
+            className={`px-6 py-2 rounded-lg font-medium ${
+              isSubmitting
+                ? 'bg-fuchsia-400 text-white cursor-not-allowed'
+                : 'bg-fuchsia-500 text-white hover:bg-fuchsia-600'
+            }`}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onNextStep}
+            disabled={!canMoveToNextStep}
+            className={`px-4 py-2 rounded-lg font-medium ${
+              canMoveToNextStep
+                ? 'bg-fuchsia-500 text-white hover:bg-fuchsia-600'
+                : 'bg-fuchsia-400 text-white cursor-not-allowed'
+            }`}
+          >
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
-}
+};

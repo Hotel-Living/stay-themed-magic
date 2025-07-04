@@ -9,12 +9,16 @@ interface NewStep5FinalReviewProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   onValidationChange: (isValid: boolean) => void;
+  submitProperty: (data: any) => Promise<any>;
+  isSubmitting: boolean;
 }
 
 export const NewStep5FinalReview: React.FC<NewStep5FinalReviewProps> = ({
   formData,
   updateFormData,
-  onValidationChange
+  onValidationChange,
+  submitProperty,
+  isSubmitting
 }) => {
   const { t } = useTranslation();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -60,6 +64,14 @@ export const NewStep5FinalReview: React.FC<NewStep5FinalReviewProps> = ({
       console.error('Failed to upload images:', error);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await submitProperty(formData);
+    } catch (error) {
+      console.error('Failed to submit property:', error);
     }
   };
 
@@ -226,7 +238,26 @@ export const NewStep5FinalReview: React.FC<NewStep5FinalReviewProps> = ({
             </div>
             <div>
               <span className="text-white/60">{t('dashboard.roomTypes')}:</span>
-              <span className="text-white ml-2">{(formData.roomTypes || []).length}</span>
+              <span className="text-white ml-2">{t('dashboard.propertyForm.doubleRoomsCanBeSingle')}</span>
+            </div>
+            <div>
+              <span className="text-white/60">{t('dashboard.stayDurations')}:</span>
+              <span className="text-white ml-2">{(formData.selectedStayDurations || []).join(', ')} {t('dashboard.days')}</span>
+            </div>
+            <div>
+              <span className="text-white/60">{t('dashboard.mealPlans')}:</span>
+              <span className="text-white ml-2">{(formData.selectedMealPlans || []).map(plan => t(`dashboard.${plan}`)).join(', ')}</span>
+            </div>
+            <div>
+              <span className="text-white/60">{t('dashboard.laundry')}:</span>
+              <span className="text-white ml-2">
+                {formData.laundryIncluded ? t('dashboard.laundryIncluded') : 
+                 formData.externalLaundryAvailable ? t('dashboard.externalLaundryAvailable') : 'N/A'}
+              </span>
+            </div>
+            <div>
+              <span className="text-white/60">{t('dashboard.propertyForm.roomPhotos')}:</span>
+              <span className="text-white ml-2">{(formData.roomImages || []).length}</span>
             </div>
             <div>
               <span className="text-white/60">{t('dashboard.imagesCount')}:</span>
@@ -234,6 +265,23 @@ export const NewStep5FinalReview: React.FC<NewStep5FinalReviewProps> = ({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Submit Button */}
+      <div className="pt-6">
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitting || !formData.termsAccepted || !formData.hotelImages?.length}
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
+        >
+          {isSubmitting ? t('dashboard.submitting') || 'Submitting...' : t('dashboard.submitProperty') || 'Submit Property for Approval'}
+        </Button>
+        
+        {(!formData.termsAccepted || !formData.hotelImages?.length) && (
+          <p className="text-yellow-400 text-sm mt-2 text-center">
+            {t('dashboard.completeAllFieldsToSubmit') || 'Please complete all required fields to submit'}
+          </p>
+        )}
       </div>
     </div>
   );

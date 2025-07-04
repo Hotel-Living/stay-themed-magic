@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTranslation } from '@/hooks/useTranslation';
 import { RoomTypesSection } from '../components/RoomTypesSection';
 
@@ -96,13 +97,9 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
     updateFormData('selectedStayDurations', newSelections);
   };
 
-  const handleMealPlanChange = (mealPlan: string, checked: boolean) => {
-    const currentSelections = formData.selectedMealPlans || [];
-    const newSelections = checked
-      ? [...currentSelections, mealPlan]
-      : currentSelections.filter((m: string) => m !== mealPlan);
-    
-    updateFormData('selectedMealPlans', newSelections);
+  const handleMealPlanChange = (selectedMealPlan: string) => {
+    // Only allow single selection - replace current selection
+    updateFormData('selectedMealPlans', [selectedMealPlan]);
   };
 
   return (
@@ -187,14 +184,17 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
         <Label className="text-white text-lg font-semibold">
           {t('dashboard.mealPlans')} <span className="text-red-500">*</span>
         </Label>
-        <div className="space-y-3">
+        <RadioGroup
+          value={(formData.selectedMealPlans || [])[0] || ''}
+          onValueChange={handleMealPlanChange}
+          className="space-y-3"
+        >
           {mealPlanOptions.map((mealPlan) => (
             <div key={mealPlan} className="flex items-center space-x-2">
-              <Checkbox
+              <RadioGroupItem
+                value={mealPlan}
                 id={mealPlan}
-                checked={(formData.selectedMealPlans || []).includes(mealPlan)}
-                onCheckedChange={(checked) => handleMealPlanChange(mealPlan, checked as boolean)}
-                className="border-purple-600"
+                className="border-purple-600 text-purple-400"
               />
               <Label 
                 htmlFor={mealPlan}
@@ -204,7 +204,7 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
               </Label>
             </div>
           ))}
-        </div>
+        </RadioGroup>
       </div>
 
       {/* Laundry Options */}

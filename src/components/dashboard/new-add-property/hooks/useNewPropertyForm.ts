@@ -1,6 +1,8 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useMyRoles } from '@/hooks/useMyRoles';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface PropertyFormData {
   // Step 1: Hotel Information
@@ -52,6 +54,7 @@ interface PropertyFormData {
 
 export function useNewPropertyForm(editingHotelId?: string) {
   const { roles } = useMyRoles();
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<PropertyFormData>({
     // Step 1: Hotel Information
@@ -139,22 +142,70 @@ export function useNewPropertyForm(editingHotelId?: string) {
   const submitProperty = useCallback(async (data: PropertyFormData, hotelId?: string) => {
     setIsSubmitting(true);
     try {
-      // Implementation for submitting property data
-      console.log('Submitting property data:', data);
-      console.log('Editing hotel ID:', hotelId);
-      
-      // Here you would call the actual submission logic
-      // For now, just simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      return { success: true };
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Prepare hotel data for submission
+      const hotelData = {
+        name: data.hotelName,
+        description: data.description,
+        property_type: data.propertyType,
+        country: data.country,
+        city: data.city,
+        address: data.address,
+        postal_code: data.postalCode,
+        latitude: parseFloat(data.latitude) || null,
+        longitude: parseFloat(data.longitude) || null,
+        contact_name: data.contactName,
+        contact_email: data.contactEmail,
+        contact_phone: data.contactPhone,
+        style: data.style,
+        category: parseInt(data.category) || null,
+        atmosphere: data.atmosphereIs,
+        ideal_guests: data.idealGuestsEnjoy,
+        perfect_location: data.locationPerfectFor,
+        stay_lengths: data.selectedStayDurations,
+        meal_plans: data.selectedMealPlans,
+        preferred_weekday: data.preferredWeekday,
+        photos: data.hotelImages,
+        rates: data.durationPricing,
+        enable_price_increase: data.enablePriceIncrease,
+        price_increase_cap: data.priceIncreaseCap,
+        price_per_month: 0, // Will be calculated from rates
+        owner_id: user.id,
+        status: 'pending'
+      };
+
+      // Submit to database
+      const { data: hotel, error } = await supabase
+        .from('hotels')
+        .insert(hotelData)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Show success message
+      toast({
+        title: "Property Submitted Successfully",
+        description: "Your property has been submitted for review and approval.",
+      });
+
+      return { success: true, hotel };
     } catch (error) {
       console.error('Error submitting property:', error);
+      toast({
+        title: "Error Submitting Property",
+        description: "There was an error submitting your property. Please try again.",
+        variant: "destructive",
+      });
       throw error;
     } finally {
       setIsSubmitting(false);
     }
-  }, []);
+  }, [toast]);
 
   const canMoveToNextStep = currentStep < 5 && stepValidations[currentStep as keyof typeof stepValidations];
   const canMoveToPrevStep = currentStep > 1;

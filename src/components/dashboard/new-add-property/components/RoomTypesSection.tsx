@@ -26,12 +26,26 @@ export const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
     removeFile: removeRoomFile,
     removeUploadedImage: removeRoomImage,
     uploadFiles: uploadRoomFiles
-  } = usePropertyImages(formData.roomImages || [], updateFormData);
+  } = usePropertyImages(formData.roomImages || [], (field, value) => {
+    // Update form data when images change
+    if (field === 'mainImageUrl') return; // Skip main image updates for room images
+    updateFormData('roomImages', value);
+  });
 
-  const handleRoomImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Update form data whenever roomImages change
+  React.useEffect(() => {
+    updateFormData('roomImages', roomImages.map(img => img.url));
+  }, [roomImages, updateFormData]);
+
+  const handleRoomImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const newFiles = Array.from(event.target.files);
       addRoomFiles(newFiles);
+      
+      // Auto-upload immediately after selection
+      setTimeout(async () => {
+        await uploadRoomFiles();
+      }, 100);
     }
   };
 
@@ -93,15 +107,11 @@ export const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
             </label>
           </div>
 
-          {/* Upload Button */}
-          {roomFiles.length > 0 && (
-            <Button
-              onClick={handleUploadRoomFiles}
-              disabled={roomUploading}
-              className="w-full bg-purple-600 hover:bg-purple-700"
-            >
-              {roomUploading ? t('dashboard.submitting') : t('dashboard.propertyForm.uploadPhotos')}
-            </Button>
+          {/* Upload Status */}
+          {roomUploading && (
+            <div className="text-center py-2">
+              <p className="text-purple-400">{t('dashboard.submitting')}...</p>
+            </div>
           )}
 
           {/* Uploaded Room Images */}

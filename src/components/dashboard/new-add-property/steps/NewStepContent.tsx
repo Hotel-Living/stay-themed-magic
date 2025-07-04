@@ -12,6 +12,8 @@ interface NewStepContentProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   isAdmin: boolean;
+  submitProperty: (data: any) => Promise<any>;
+  isSubmitting: boolean;
 }
 
 export const NewStepContent: React.FC<NewStepContentProps> = ({
@@ -19,7 +21,9 @@ export const NewStepContent: React.FC<NewStepContentProps> = ({
   onValidationChange,
   formData,
   updateFormData,
-  isAdmin
+  isAdmin,
+  submitProperty,
+  isSubmitting
 }) => {
   
   // Remove default validation - let each step handle its own validation
@@ -67,6 +71,8 @@ export const NewStepContent: React.FC<NewStepContentProps> = ({
           formData={formData}
           updateFormData={updateFormData}
           onValidationChange={onValidationChange}
+          submitProperty={submitProperty}
+          isSubmitting={isSubmitting}
         />
       );
     default:

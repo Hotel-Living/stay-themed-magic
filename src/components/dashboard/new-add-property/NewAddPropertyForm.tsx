@@ -59,6 +59,8 @@ export function NewAddPropertyForm({ editingHotelId, onDoneEditing }: NewAddProp
             formData={formData}
             updateFormData={updateFormData}
             isAdmin={isAdmin}
+            submitProperty={submitProperty}
+            isSubmitting={isSubmitting}
           />
         </div>
         

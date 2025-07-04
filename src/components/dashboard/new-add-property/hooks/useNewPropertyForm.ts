@@ -1,7 +1,9 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useMyRoles } from '@/hooks/useMyRoles';
 
 interface PropertyFormData {
+  // Step 1: Hotel Information
   hotelName: string;
   propertyType: string;
   description: string;
@@ -13,12 +15,41 @@ interface PropertyFormData {
   contactEmail: string;
   contactPhone: string;
   category: string;
-  // Add other fields as needed
+  style: string;
+  latitude: string;
+  longitude: string;
+  referralAssociation: string;
+  
+  // Step 2: Property Details
+  selectedAffinities: string[];
+  selectedActivities: string[];
+  selectedHotelFeatures: string[];
+  selectedRoomFeatures: string[];
+  
+  // Step 3: Accommodation Terms
+  roomTypes: any[];
+  mealPlans: string[];
+  selectedStayDurations: number[];
+  preferredWeekday: string;
+  laundryIncluded: boolean;
+  externalLaundryAvailable: boolean;
+  availabilityPackages: any[];
+  
+  // Step 4: Pricing & Packages
+  durationPricing: Record<string, { double: number; single: number }>;
+  enablePriceIncrease: boolean;
+  priceIncreaseCap: number;
+  
+  // Step 5: Photos & Final Review
+  hotelImages: string[];
+  termsAccepted: boolean;
 }
 
 export function useNewPropertyForm(editingHotelId?: string) {
+  const { roles } = useMyRoles();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<PropertyFormData>({
+    // Step 1: Hotel Information
     hotelName: '',
     propertyType: '',
     description: '',
@@ -29,9 +60,43 @@ export function useNewPropertyForm(editingHotelId?: string) {
     contactName: '',
     contactEmail: '',
     contactPhone: '',
-    category: ''
+    category: '',
+    style: '',
+    latitude: '',
+    longitude: '',
+    referralAssociation: '',
+    
+    // Step 2: Property Details
+    selectedAffinities: [],
+    selectedActivities: [],
+    selectedHotelFeatures: [],
+    selectedRoomFeatures: [],
+    
+    // Step 3: Accommodation Terms
+    roomTypes: [],
+    mealPlans: [],
+    selectedStayDurations: [],
+    preferredWeekday: 'Monday',
+    laundryIncluded: false,
+    externalLaundryAvailable: false,
+    availabilityPackages: [],
+    
+    // Step 4: Pricing & Packages
+    durationPricing: {},
+    enablePriceIncrease: false,
+    priceIncreaseCap: 20,
+    
+    // Step 5: Photos & Final Review
+    hotelImages: [],
+    termsAccepted: false
   });
-  const [isStepValid, setIsStepValid] = useState(true);
+  const [stepValidations, setStepValidations] = useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateFormData = useCallback((field: string, value: any) => {
@@ -41,15 +106,19 @@ export function useNewPropertyForm(editingHotelId?: string) {
     }));
   }, []);
 
-  const onValidationChange = useCallback((isValid: boolean) => {
-    setIsStepValid(isValid);
+  const onValidationChange = useCallback((stepNumber: number, isValid: boolean) => {
+    setStepValidations(prev => ({
+      ...prev,
+      [stepNumber]: isValid
+    }));
   }, []);
 
   const nextStep = useCallback(() => {
-    if (currentStep < 5) {
+    // Only allow navigation if current step is valid
+    if (currentStep < 5 && stepValidations[currentStep as keyof typeof stepValidations]) {
       setCurrentStep(prev => prev + 1);
     }
-  }, [currentStep]);
+  }, [currentStep, stepValidations]);
 
   const prevStep = useCallback(() => {
     if (currentStep > 1) {
@@ -77,20 +146,24 @@ export function useNewPropertyForm(editingHotelId?: string) {
     }
   }, []);
 
-  const canMoveToNextStep = currentStep < 5;
+  const canMoveToNextStep = currentStep < 5 && stepValidations[currentStep as keyof typeof stepValidations];
   const canMoveToPrevStep = currentStep > 1;
+  const isCurrentStepValid = stepValidations[currentStep as keyof typeof stepValidations];
+  const isAdmin = roles.includes('admin');
 
   return {
     currentStep,
     formData,
     updateFormData,
-    isStepValid,
+    isStepValid: isCurrentStepValid,
     onValidationChange,
     canMoveToNextStep,
     canMoveToPrevStep,
     nextStep,
     prevStep,
     submitProperty,
-    isSubmitting
+    isSubmitting,
+    isAdmin,
+    stepValidations
   };
 }

@@ -71,18 +71,18 @@ export const NewPropertyFormNavigation: React.FC<NewPropertyFormNavigationProps>
             {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={onNextStep}
-            disabled={!canMoveToNextStep}
-            className={`px-4 py-2 rounded-lg font-medium ${
-              canMoveToNextStep
-                ? 'bg-fuchsia-500 text-white hover:bg-fuchsia-600'
-                : 'bg-fuchsia-400 text-white cursor-not-allowed'
-            }`}
-          >
-            Next
-          </button>
+        <button
+          type="button"
+          onClick={onNextStep}
+          disabled={!canMoveToNextStep || !isStepValid}
+          className={`px-4 py-2 rounded-lg font-medium ${
+            canMoveToNextStep && isStepValid
+              ? 'bg-fuchsia-500 text-white hover:bg-fuchsia-600'
+              : 'bg-fuchsia-400 text-white cursor-not-allowed'
+          }`}
+        >
+          Next
+        </button>
         )}
       </div>
     </div>

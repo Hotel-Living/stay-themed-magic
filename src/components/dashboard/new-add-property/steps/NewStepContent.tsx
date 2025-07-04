@@ -1,27 +1,31 @@
 
 import React, { useEffect } from "react";
 import { NewStep1HotelInfo } from "./NewStep1HotelInfo";
+import { NewStep2PropertyDetails } from "./NewStep2PropertyDetails";
+import { NewStep3AccommodationTerms } from "./NewStep3AccommodationTerms";
+import { NewStep4PricingPackages } from "./NewStep4PricingPackages";
+import { NewStep5FinalReview } from "./NewStep5FinalReview";
 
 interface NewStepContentProps {
   currentStep: number;
   onValidationChange: (isValid: boolean) => void;
   formData: any;
   updateFormData: (field: string, value: any) => void;
+  isAdmin: boolean;
 }
 
 export const NewStepContent: React.FC<NewStepContentProps> = ({
   currentStep,
   onValidationChange,
   formData,
-  updateFormData
+  updateFormData,
+  isAdmin
 }) => {
   
-  // Ensure validation is called when step loads
+  // Remove default validation - let each step handle its own validation
   useEffect(() => {
     console.log('NewStepContent loaded for step:', currentStep);
-    // Set validation to true by default to allow navigation
-    onValidationChange(true);
-  }, [currentStep, onValidationChange]);
+  }, [currentStep]);
 
   switch (currentStep) {
     case 1:
@@ -30,35 +34,40 @@ export const NewStepContent: React.FC<NewStepContentProps> = ({
           formData={formData}
           updateFormData={updateFormData}
           onValidationChange={onValidationChange}
+          isAdmin={isAdmin}
         />
       );
     case 2:
       return (
-        <div className="p-6 border rounded-md bg-white/10">
-          <h3 className="text-lg font-medium mb-4">Step 2: General Information</h3>
-          <p className="text-white/80">Step 2 content coming soon...</p>
-        </div>
+        <NewStep2PropertyDetails
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
+        />
       );
     case 3:
       return (
-        <div className="p-6 border rounded-md bg-white/10">
-          <h3 className="text-lg font-medium mb-4">Step 3: Accommodation Terms</h3>
-          <p className="text-white/80">Step 3 content coming soon...</p>
-        </div>
+        <NewStep3AccommodationTerms
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
+        />
       );
     case 4:
       return (
-        <div className="p-6 border rounded-md bg-white/10">
-          <h3 className="text-lg font-medium mb-4">Step 4: Packages Builder</h3>
-          <p className="text-white/80">Step 4 content coming soon...</p>
-        </div>
+        <NewStep4PricingPackages
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
+        />
       );
     case 5:
       return (
-        <div className="p-6 border rounded-md bg-white/10">
-          <h3 className="text-lg font-medium mb-4">Step 5: FAQ & Terms</h3>
-          <p className="text-white/80">Step 5 content coming soon...</p>
-        </div>
+        <NewStep5FinalReview
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
+        />
       );
     default:
       return <div>Step not found</div>;

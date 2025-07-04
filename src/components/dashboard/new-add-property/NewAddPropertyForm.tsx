@@ -21,7 +21,8 @@ export function NewAddPropertyForm({ editingHotelId, onDoneEditing }: NewAddProp
     nextStep,
     prevStep,
     submitProperty,
-    isSubmitting
+    isSubmitting,
+    isAdmin
   } = useNewPropertyForm(editingHotelId);
 
   const handleSubmit = async () => {
@@ -54,9 +55,10 @@ export function NewAddPropertyForm({ editingHotelId, onDoneEditing }: NewAddProp
         <div className="mt-8">
           <NewStepContent
             currentStep={currentStep}
-            onValidationChange={onValidationChange}
+            onValidationChange={(isValid) => onValidationChange(currentStep, isValid)}
             formData={formData}
             updateFormData={updateFormData}
+            isAdmin={isAdmin}
           />
         </div>
         

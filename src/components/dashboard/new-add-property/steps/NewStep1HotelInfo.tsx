@@ -14,12 +14,14 @@ interface NewStep1HotelInfoProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   onValidationChange: (isValid: boolean) => void;
+  isAdmin: boolean;
 }
 
 export function NewStep1HotelInfo({
   formData,
   updateFormData,
-  onValidationChange
+  onValidationChange,
+  isAdmin
 }: NewStep1HotelInfoProps) {
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
@@ -195,10 +197,12 @@ export function NewStep1HotelInfo({
 
   // Validate form when data changes
   useEffect(() => {
-    const isValid = formData?.hotelName && 
-                   formData?.country && 
-                   formData?.city && 
-                   formData?.description;
+    const isValid = !!(formData?.hotelName && 
+                      formData?.country && 
+                      formData?.city && 
+                      formData?.propertyType &&
+                      formData?.category &&
+                      formData?.description);
     onValidationChange(isValid);
   }, [formData, onValidationChange]);
 
@@ -209,50 +213,10 @@ export function NewStep1HotelInfo({
         <p className="text-gray-300">Basic details about your property</p>
       </div>
 
-      {/* Image Upload Section */}
-      <Card className="p-6 bg-purple-900/30 border-purple-600">
-        <h3 className="text-xl font-semibold text-white mb-4">Hotel Images</h3>
-        <div className="flex items-center justify-center w-full">
-          <Label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-600 border-dashed rounded-lg cursor-pointer bg-purple-800/50 hover:bg-purple-700/50"
-          >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <Upload className="w-8 h-8 mb-4 text-white" />
-              <p className="mb-2 text-sm text-gray-300">
-                <span className="font-semibold">Click to upload</span> or drag and drop
-              </p>
-              <p className="text-xs text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-            </div>
-            <input id="dropzone-file" type="file" className="hidden" multiple onChange={handleFileUpload} />
-          </Label>
-        </div>
-
-        {/* Display uploaded images */}
-        {formData.hotelImages && formData.hotelImages.length > 0 && (
-          <div className="mt-4 grid grid-cols-3 gap-4">
-            {formData.hotelImages.map((imageUrl: string, index: number) => (
-              <div key={index} className="relative">
-                <img src={imageUrl} alt={`Hotel Image ${index + 1}`} className="rounded-lg" />
-                <Button
-                  onClick={() => handleRemoveImage(imageUrl)}
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2 bg-black/50 hover:bg-black/80 text-white rounded-full"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {uploading && (
-          <div className="text-center text-gray-300">
-            Uploading images...
-          </div>
-        )}
-      </Card>
+      {/* Note about images */}
+      <div className="text-center text-purple-200 bg-purple-800/30 p-4 rounded-lg border border-purple-600">
+        <p className="text-sm">📸 Hotel images will be uploaded in the final step (Step 5)</p>
+      </div>
 
       {/* Hotel Information Form */}
       <Card className="p-6 bg-purple-900/30 border-purple-600">
@@ -261,19 +225,34 @@ export function NewStep1HotelInfo({
         <div className="space-y-6">
           {/* Hotel Name */}
           <div>
-            <Label className="text-white text-lg font-medium">Hotel Name</Label>
+            <Label className="text-white text-lg font-medium">Hotel Name *</Label>
             <Input
               value={formData.hotelName || ''}
               onChange={(e) => updateFormData('hotelName', e.target.value)}
               placeholder="Enter hotel name"
               className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400"
+              required
             />
           </div>
+
+          {/* Referral Association (Admin Only) */}
+          {isAdmin && (
+            <div>
+              <Label className="text-white text-lg font-medium">Referral Association (Admin Only)</Label>
+              <Input
+                value={formData.referralAssociation || ''}
+                onChange={(e) => updateFormData('referralAssociation', e.target.value)}
+                placeholder="e.g., FEHGRA, AHRA, etc."
+                className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400"
+              />
+              <p className="text-xs text-purple-300 mt-1">Optional field for tracking revenue share agreements</p>
+            </div>
+          )}
 
           {/* Country and City */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-white text-lg font-medium">Country</Label>
+              <Label className="text-white text-lg font-medium">Country *</Label>
               <Select
                 value={formData.country || ''}
                 onValueChange={(value) => {
@@ -297,7 +276,7 @@ export function NewStep1HotelInfo({
             </div>
 
             <div>
-              <Label className="text-white text-lg font-medium">City</Label>
+              <Label className="text-white text-lg font-medium">City *</Label>
               <Select
                 value={formData.city || ''}
                 onValueChange={(value) => {
@@ -338,29 +317,9 @@ export function NewStep1HotelInfo({
             />
           </div>
 
-          {/* Category */}
-          <div>
-            <Label className="text-white text-lg font-medium">Category</Label>
-            <Select
-              value={formData.category || ''}
-              onValueChange={(value) => updateFormData('category', value)}
-            >
-              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-                <SelectValue placeholder="Select hotel category" />
-              </SelectTrigger>
-              <SelectContent className="bg-purple-900 border-purple-600">
-                <SelectItem value="1" className="text-white hover:bg-purple-800">1 Star</SelectItem>
-                <SelectItem value="2" className="text-white hover:bg-purple-800">2 Stars</SelectItem>
-                <SelectItem value="3" className="text-white hover:bg-purple-800">3 Stars</SelectItem>
-                <SelectItem value="4" className="text-white hover:bg-purple-800">4 Stars</SelectItem>
-                <SelectItem value="5" className="text-white hover:bg-purple-800">5 Stars</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Property Type */}
           <div>
-            <Label className="text-white text-lg font-medium">Property Type</Label>
+            <Label className="text-white text-lg font-medium">Property Type *</Label>
             <Select
               value={formData.propertyType || ''}
               onValueChange={(value) => updateFormData('propertyType', value)}
@@ -378,14 +337,36 @@ export function NewStep1HotelInfo({
             </Select>
           </div>
 
+          {/* Category */}
+          <div>
+            <Label className="text-white text-lg font-medium">Category *</Label>
+            <Select
+              value={formData.category || ''}
+              onValueChange={(value) => updateFormData('category', value)}
+            >
+              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
+                <SelectValue placeholder="Select hotel category" />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-900 border-purple-600">
+                <SelectItem value="1" className="text-white hover:bg-purple-800">1 Star</SelectItem>
+                <SelectItem value="2" className="text-white hover:bg-purple-800">2 Stars</SelectItem>
+                <SelectItem value="3" className="text-white hover:bg-purple-800">3 Stars</SelectItem>
+                <SelectItem value="4" className="text-white hover:bg-purple-800">4 Stars</SelectItem>
+                <SelectItem value="5" className="text-white hover:bg-purple-800">5 Stars</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Description */}
           <div>
-            <Label className="text-white text-lg font-medium">Description</Label>
+            <Label className="text-white text-lg font-medium">Description *</Label>
             <Textarea
               value={formData.description || ''}
               onChange={(e) => updateFormData('description', e.target.value)}
-              placeholder="Describe your property"
+              placeholder="Describe your property atmosphere, unique features, and ideal guests"
               className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400 resize-none"
+              rows={4}
+              required
             />
           </div>
 

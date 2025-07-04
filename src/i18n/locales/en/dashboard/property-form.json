@@ -38,6 +38,12 @@
       "longitude": "Longitude",
       "coordinates": "Coordinates",
       "custom": "Custom",
+      "idealGuestsEnjoy": "Ideal for guests who enjoy...",
+      "idealGuestsEnjoyPlaceholder": "Describe your ideal guests and their interests",
+      "atmosphereIs": "The atmosphere is...",
+      "atmospherePlaceholder": "Describe the atmosphere and emotional tone of your hotel",
+      "locationPerfectFor": "Our location is perfect for...",
+      "locationPlaceholder": "Describe what makes your location special",
       "validation": {
         "required": "This field is required",
         "minLength": "Minimum length is {min} characters",

@@ -38,6 +38,12 @@
       "longitude": "Longitudine",
       "coordinates": "Coordonate",
       "custom": "Personalizat",
+      "idealGuestsEnjoy": "Ideal pentru oaspeți care se bucură de...",
+      "idealGuestsEnjoyPlaceholder": "Descrieți oaspeții ideali și interesele lor",
+      "atmosphereIs": "Atmosfera este...",
+      "atmospherePlaceholder": "Descrieți atmosfera și tonul emoțional al hotelului",
+      "locationPerfectFor": "Locația noastră este perfectă pentru...",
+      "locationPlaceholder": "Descrieți ce face locația dvs. specială",
       "validation": {
         "required": "Acest câmp este obligatoriu",
         "minLength": "Lungimea minimă este {min} caractere",

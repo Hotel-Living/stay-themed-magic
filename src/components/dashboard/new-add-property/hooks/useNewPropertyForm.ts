@@ -7,6 +7,9 @@ interface PropertyFormData {
   hotelName: string;
   propertyType: string;
   description: string;
+  idealGuestsEnjoy: string;
+  atmosphereIs: string;
+  locationPerfectFor: string;
   country: string;
   city: string;
   address: string;
@@ -34,6 +37,8 @@ interface PropertyFormData {
   laundryIncluded: boolean;
   externalLaundryAvailable: boolean;
   availabilityPackages: any[];
+  roomImages: string[];
+  roomDescription: string;
   
   // Step 4: Pricing & Packages
   durationPricing: Record<string, { double: number; single: number }>;
@@ -53,6 +58,9 @@ export function useNewPropertyForm(editingHotelId?: string) {
     hotelName: '',
     propertyType: '',
     description: '',
+    idealGuestsEnjoy: '',
+    atmosphereIs: '',
+    locationPerfectFor: '',
     country: '',
     city: '',
     address: '',
@@ -80,6 +88,8 @@ export function useNewPropertyForm(editingHotelId?: string) {
     laundryIncluded: false,
     externalLaundryAvailable: false,
     availabilityPackages: [],
+    roomImages: [],
+    roomDescription: '',
     
     // Step 4: Pricing & Packages
     durationPricing: {},

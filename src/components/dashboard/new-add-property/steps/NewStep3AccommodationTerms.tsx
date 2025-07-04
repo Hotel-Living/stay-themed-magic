@@ -293,16 +293,16 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Stay Duration Section */}
-            <AccordionItem value="stay-duration" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
+            <AccordionItem value="stay-duration" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setStayDurationOpen(!stayDurationOpen)}
               >
-                <h3 className="text-lg capitalize">3.3— STAY DURATION</h3>
+                <h3 className="text-lg capitalize text-white">3.3— STAY DURATION</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
-                  <p className="text-gray-300">Select one or more stay durations for your availability packages:</p>
+                  <p className="text-purple-200">Select one or more stay durations for your availability packages:</p>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {stayDurationOptions.map((option) => (
@@ -321,16 +321,16 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Preferred Check-in Weekday */}
-            <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-purple-900/10">
+            <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setWeekdayOpen(!weekdayOpen)}
               >
-                <h3 className="text-lg capitalize">3.4— PREFERRED CHECK-IN WEEKDAY</h3>
+                <h3 className="text-lg capitalize text-white">3.4— PREFERRED CHECK-IN WEEKDAY</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
-                  <p className="text-gray-300">Select the preferred weekday for check-ins:</p>
+                  <p className="text-purple-200">Select the preferred weekday for check-ins:</p>
                   
                   <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
                     {weekdayOptions.map((day) => (
@@ -349,16 +349,16 @@ export function NewStep3AccommodationTerms({
             </AccordionItem>
 
             {/* Availability Packages Section */}
-            <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-orange-900/10">
+            <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-purple-700/20 border-purple-500">
               <AccordionTrigger 
                 className="px-4 py-3"
                 onClick={() => setAvailabilityOpen(!availabilityOpen)}
               >
-                <h3 className="text-lg capitalize">3.5— AVAILABILITY PACKAGES</h3>
+                <h3 className="text-lg capitalize text-white">3.5— AVAILABILITY PACKAGES</h3>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
-                  <p className="text-gray-300">Create availability packages with room counts and date ranges:</p>
+                  <p className="text-purple-200">Create availability packages with room counts and date ranges:</p>
                   
                   {/* Existing Packages */}
                   {(formData.availabilityPackages || []).map((pkg: any) => (

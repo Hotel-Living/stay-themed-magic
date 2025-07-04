@@ -1,8 +1,8 @@
 
 import React from "react";
-import { useAccommodationTerms } from "../PropertySteps/AccommodationTerms/hooks/useAccommodationTerms";
-import { AccommodationSections } from "../PropertySteps/AccommodationTerms/components/AccommodationSections";
-import { AccommodationValidation } from "../PropertySteps/AccommodationTerms/components/AccommodationValidation";
+import { useAccommodationTerms } from "../../PropertySteps/AccommodationTerms/hooks/useAccommodationTerms";
+import { AccommodationSections } from "../../PropertySteps/AccommodationTerms/components/AccommodationSections";
+import { AccommodationValidation } from "../../PropertySteps/AccommodationTerms/components/AccommodationValidation";
 import { RoomTypesSection } from "../components/RoomTypesSection";
 
 interface NewStep3AccommodationTermsProps {

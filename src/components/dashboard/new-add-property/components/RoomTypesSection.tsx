@@ -1,11 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from '@/hooks/useTranslation';
 import { usePropertyImages } from '@/hooks/usePropertyImages';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface RoomTypesSectionProps {
   formData: any;
@@ -17,42 +19,90 @@ export const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
   updateFormData
 }) => {
   const { t } = useTranslation();
+  const { toast } = useToast();
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   
-  const {
-    files: roomFiles,
-    uploadedImages: roomImages,
-    uploading: roomUploading,
-    addFiles: addRoomFiles,
-    removeFile: removeRoomFile,
-    removeUploadedImage: removeRoomImage,
-    uploadFiles: uploadRoomFiles
-  } = usePropertyImages(formData.roomImages || [], (field, value) => {
-    // Update form data when images change
-    if (field === 'mainImageUrl') return; // Skip main image updates for room images
-    updateFormData('roomImages', value);
-  });
+  // Initialize uploaded images from formData
+  const [roomImages, setRoomImages] = useState<Array<{url: string, uploaded: boolean}>>(
+    (formData.roomImages || []).map((url: string) => ({ url, uploaded: true }))
+  );
 
   // Update form data whenever roomImages change
   React.useEffect(() => {
-    updateFormData('roomImages', roomImages.map(img => img.url));
+    const uploadedUrls = roomImages.filter(img => img.uploaded).map(img => img.url);
+    updateFormData('roomImages', uploadedUrls);
   }, [roomImages, updateFormData]);
+
+  const uploadToStorage = async (file: File): Promise<string> => {
+    const fileName = `room-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${file.name.split('.').pop()}`;
+    const filePath = `hotel-images/${fileName}`;
+
+    const { data, error } = await supabase.storage
+      .from('Hotel Images')
+      .upload(filePath, file);
+
+    if (error) {
+      console.error('Upload error:', error);
+      throw new Error(`Upload failed: ${error.message}`);
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('Hotel Images')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  };
 
   const handleRoomImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      const newFiles = Array.from(event.target.files);
-      addRoomFiles(newFiles);
-      
-      // Auto-upload immediately after selection
-      setTimeout(async () => {
-        await uploadRoomFiles();
-      }, 100);
+      const files = Array.from(event.target.files);
+      setUploadingImages(true);
+      setUploadError(null);
+
+      try {
+        const uploadPromises = files.map(async (file) => {
+          // Validate file size (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            throw new Error(`File ${file.name} is too large. Maximum size is 5MB.`);
+          }
+
+          // Validate file type
+          if (!file.type.startsWith('image/')) {
+            throw new Error(`File ${file.name} is not a valid image format.`);
+          }
+
+          const uploadedUrl = await uploadToStorage(file);
+          return { url: uploadedUrl, uploaded: true };
+        });
+
+        const uploadedImages = await Promise.all(uploadPromises);
+        
+        setRoomImages(prev => [...prev, ...uploadedImages]);
+        
+        toast({
+          title: "Success",
+          description: `${files.length} image(s) uploaded successfully.`,
+        });
+
+      } catch (error: any) {
+        console.error('Upload error:', error);
+        setUploadError(error.message);
+        toast({
+          variant: "destructive",
+          title: "Upload Failed",
+          description: error.message,
+        });
+      } finally {
+        setUploadingImages(false);
+        // Reset the input so the same file can be selected again if needed
+        event.target.value = '';
+      }
     }
   };
 
-  const handleUploadRoomFiles = async () => {
-    await uploadRoomFiles();
-    // Update form data with room images
-    updateFormData('roomImages', roomImages);
+  const removeRoomImage = (index: number) => {
+    setRoomImages(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleRoomDescriptionChange = (value: string) => {
@@ -94,23 +144,33 @@ export const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
               onChange={handleRoomImageUpload}
               className="hidden"
               id="room-image-upload"
+              disabled={uploadingImages}
             />
-            <label htmlFor="room-image-upload" className="cursor-pointer">
+            <label htmlFor="room-image-upload" className={`cursor-pointer ${uploadingImages ? 'opacity-50' : ''}`}>
               <Upload className="mx-auto h-8 w-8 text-purple-400 mb-2" />
               <p className="text-white mb-2">{t('dashboard.dragDropPhotos')}</p>
               <p className="text-white/60 text-sm">{t('dashboard.orClickToBrowse')}</p>
-              {roomFiles.length > 0 && (
-                <p className="text-purple-400 mt-2">
-                  {roomFiles.length} {t('dashboard.propertyForm.photosSelected')}
-                </p>
+              {roomImages.length > 0 && (
+                <div className="flex items-center justify-center gap-2 text-green-400 mt-2">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>{roomImages.length} image(s) uploaded</span>
+                </div>
               )}
             </label>
           </div>
 
           {/* Upload Status */}
-          {roomUploading && (
+          {uploadingImages && (
             <div className="text-center py-2">
-              <p className="text-purple-400">{t('dashboard.submitting')}...</p>
+              <p className="text-purple-400">Uploading images...</p>
+            </div>
+          )}
+
+          {/* Upload Error */}
+          {uploadError && (
+            <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 p-3 rounded-lg">
+              <AlertCircle className="h-4 w-4 flex-shrink-0" />
+              <span>{uploadError}</span>
             </div>
           )}
 
@@ -124,6 +184,11 @@ export const RoomTypesSection: React.FC<RoomTypesSectionProps> = ({
                     alt={`Room ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg"
                   />
+                  {image.uploaded && (
+                    <div className="absolute top-1 left-1 bg-green-500 text-white rounded-full p-1">
+                      <CheckCircle className="h-3 w-3" />
+                    </div>
+                  )}
                   <button
                     onClick={() => removeRoomImage(index)}
                     className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"

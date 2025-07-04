@@ -1,11 +1,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslation } from '@/hooks/useTranslation';
+import { RoomTypesSection } from '../components/RoomTypesSection';
 
 interface NewStep3AccommodationTermsProps {
   formData: any;
@@ -19,56 +19,54 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
   onValidationChange
 }) => {
   const { t } = useTranslation();
-  
-  const [newRoomType, setNewRoomType] = useState({ name: '', count: 1 });
 
-  const mealPlanOptions = [
-    'Breakfast Only', 'Half Board', 'Full Board', 'All Inclusive', 'Room Only'
+  // Available options
+  const stayDurations = [8, 15, 22, 29];
+  const weekdays = [
+    'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];
-
-  const stayDurationOptions = [7, 14, 21, 28, 30, 60, 90];
-  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const mealPlanOptions = [
+    'breakfastIncluded',
+    'halfBoard', 
+    'fullBoard',
+    'allInclusive'
+  ];
 
   // Validation logic
   useEffect(() => {
-    const hasRoomTypes = formData.roomTypes && formData.roomTypes.length > 0;
-    const hasMealPlans = formData.mealPlans && formData.mealPlans.length > 0;
     const hasStayDurations = formData.selectedStayDurations && formData.selectedStayDurations.length > 0;
-    const hasPreferredWeekday = formData.preferredWeekday && formData.preferredWeekday !== '';
+    const hasPreferredWeekday = formData.preferredWeekday;
+    const hasMealPlans = formData.selectedMealPlans && formData.selectedMealPlans.length > 0;
+    const hasRoomDescription = formData.roomDescription && formData.roomDescription.trim().length > 0;
+    const hasRoomImages = formData.roomImages && formData.roomImages.length > 0;
 
-    const isValid = hasRoomTypes && hasMealPlans && hasStayDurations && hasPreferredWeekday;
+    const isValid = hasStayDurations && hasPreferredWeekday && hasMealPlans && hasRoomDescription && hasRoomImages;
     onValidationChange(isValid);
-  }, [formData.roomTypes, formData.mealPlans, formData.selectedStayDurations, formData.preferredWeekday, onValidationChange]);
+  }, [
+    formData.selectedStayDurations, 
+    formData.preferredWeekday, 
+    formData.selectedMealPlans,
+    formData.roomDescription,
+    formData.roomImages,
+    onValidationChange
+  ]);
 
-  const addRoomType = () => {
-    if (newRoomType.name.trim()) {
-      const currentRoomTypes = formData.roomTypes || [];
-      updateFormData('roomTypes', [...currentRoomTypes, { ...newRoomType, id: Date.now() }]);
-      setNewRoomType({ name: '', count: 1 });
-    }
-  };
-
-  const removeRoomType = (id: number) => {
-    const currentRoomTypes = formData.roomTypes || [];
-    updateFormData('roomTypes', currentRoomTypes.filter((room: any) => room.id !== id));
-  };
-
-  const toggleMealPlan = (mealPlan: string) => {
-    const currentMealPlans = formData.mealPlans || [];
-    const newMealPlans = currentMealPlans.includes(mealPlan)
-      ? currentMealPlans.filter((plan: string) => plan !== mealPlan)
-      : [...currentMealPlans, mealPlan];
+  const handleStayDurationChange = (duration: number, checked: boolean) => {
+    const currentSelections = formData.selectedStayDurations || [];
+    const newSelections = checked
+      ? [...currentSelections, duration]
+      : currentSelections.filter((d: number) => d !== duration);
     
-    updateFormData('mealPlans', newMealPlans);
+    updateFormData('selectedStayDurations', newSelections);
   };
 
-  const toggleStayDuration = (duration: number) => {
-    const currentDurations = formData.selectedStayDurations || [];
-    const newDurations = currentDurations.includes(duration)
-      ? currentDurations.filter((d: number) => d !== duration)
-      : [...currentDurations, duration];
+  const handleMealPlanChange = (mealPlan: string, checked: boolean) => {
+    const currentSelections = formData.selectedMealPlans || [];
+    const newSelections = checked
+      ? [...currentSelections, mealPlan]
+      : currentSelections.filter((m: string) => m !== mealPlan);
     
-    updateFormData('selectedStayDurations', newDurations);
+    updateFormData('selectedMealPlans', newSelections);
   };
 
   return (
@@ -77,125 +75,93 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
         <h2 className="text-2xl font-bold text-white">{t('dashboard.accommodationTerms')}</h2>
       </div>
 
-      {/* Room Types */}
+      {/* Room Types Section 3.1 */}
+      <RoomTypesSection
+        formData={formData}
+        updateFormData={updateFormData}
+      />
+
+      {/* Stay Duration Section */}
       <div className="space-y-4">
         <Label className="text-white text-lg font-semibold">
-          {t('dashboard.roomTypes')} <span className="text-red-500">*</span>
+          {t('dashboard.stayDurations')} <span className="text-red-500">*</span>
         </Label>
-        
-        <div className="flex gap-2">
-          <Input
-            value={newRoomType.name}
-            onChange={(e) => setNewRoomType({ ...newRoomType, name: e.target.value })}
-            placeholder={t('dashboard.propertyForm.enterRoomTypeName') || 'Enter room type name'}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-          />
-          <Input
-            type="number"
-            min="1"
-            value={newRoomType.count}
-            onChange={(e) => setNewRoomType({ ...newRoomType, count: parseInt(e.target.value) || 1 })}
-            className="bg-purple-800/50 border-purple-600 text-white w-24"
-          />
-          <Button
-            type="button"
-            onClick={addRoomType}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
-          >
-            {t('dashboard.add') || 'Add'}
-          </Button>
-        </div>
-
-        <div className="space-y-2">
-          {(formData.roomTypes || []).map((room: any) => (
-            <div key={room.id} className="flex justify-between items-center bg-purple-800/30 p-3 rounded">
-              <span className="text-white">{room.name} (x{room.count})</span>
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-                onClick={() => removeRoomType(room.id)}
+        <p className="text-white/70 text-sm">
+          {t('dashboard.propertyForm.selectStayDurations')}
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {stayDurations.map((duration) => (
+            <div key={duration} className="flex items-center space-x-2">
+              <Checkbox
+                id={`duration-${duration}`}
+                checked={(formData.selectedStayDurations || []).includes(duration)}
+                onCheckedChange={(checked) => handleStayDurationChange(duration, checked as boolean)}
+                className="border-purple-600"
+              />
+              <Label 
+                htmlFor={`duration-${duration}`}
+                className="text-white cursor-pointer"
               >
-                {t('dashboard.remove') || 'Remove'}
-              </Button>
+                {duration} {t('dashboard.propertyForm.days')}
+              </Label>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Meal Plans */}
-      <div className="space-y-4">
-        <Label className="text-white text-lg font-semibold">
-          {t('dashboard.mealPlans')} <span className="text-red-500">*</span>
-        </Label>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {mealPlanOptions.map((mealPlan) => (
-            <button
-              key={mealPlan}
-              type="button"
-              onClick={() => toggleMealPlan(mealPlan)}
-              className={`p-3 rounded-lg text-sm font-medium border transition-all ${
-                (formData.mealPlans || []).includes(mealPlan)
-                  ? 'bg-purple-600 border-purple-400 text-white'
-                  : 'bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700'
-              }`}
-            >
-              {mealPlan}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Stay Durations */}
-      <div className="space-y-4">
-        <Label className="text-white text-lg font-semibold">
-          {t('dashboard.stayDurations')} <span className="text-red-500">*</span>
-        </Label>
-        
-        <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
-          {stayDurationOptions.map((duration) => (
-            <button
-              key={duration}
-              type="button"
-              onClick={() => toggleStayDuration(duration)}
-              className={`p-3 rounded-lg text-sm font-medium border transition-all ${
-                (formData.selectedStayDurations || []).includes(duration)
-                  ? 'bg-purple-600 border-purple-400 text-white'
-                  : 'bg-purple-800/50 border-purple-600 text-white hover:bg-purple-700'
-              }`}
-            >
-              {duration} {t('dashboard.days') || 'days'}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Preferred Weekday */}
+      {/* Preferred Weekday Section */}
       <div className="space-y-4">
         <Label className="text-white text-lg font-semibold">
           {t('dashboard.preferredWeekday')} <span className="text-red-500">*</span>
         </Label>
-        <Select value={formData.preferredWeekday || ''} onValueChange={(value) => updateFormData('preferredWeekday', value)}>
+        <p className="text-white/70 text-sm">
+          {t('dashboard.propertyForm.selectCheckinDay')}
+        </p>
+        <Select
+          value={formData.preferredWeekday || ''}
+          onValueChange={(value) => updateFormData('preferredWeekday', value)}
+        >
           <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-            <SelectValue placeholder={t('dashboard.selectPreferredWeekday') || 'Select preferred weekday'} />
+            <SelectValue placeholder={t('dashboard.propertyForm.selectCheckinDay')} />
           </SelectTrigger>
-          <SelectContent className="bg-purple-800 border-purple-600">
+          <SelectContent>
             {weekdays.map((day) => (
-              <SelectItem key={day} value={day} className="text-white">
-                {day}
+              <SelectItem key={day} value={day}>
+                {t(`dashboard.propertyForm.${day}`)}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
-      {/* Laundry Options */}
+      {/* Meal Plans Section */}
       <div className="space-y-4">
         <Label className="text-white text-lg font-semibold">
-          {t('dashboard.laundryOptions') || 'Laundry Options'}
+          {t('dashboard.mealPlans')} <span className="text-red-500">*</span>
         </Label>
-        
+        <div className="space-y-3">
+          {mealPlanOptions.map((mealPlan) => (
+            <div key={mealPlan} className="flex items-center space-x-2">
+              <Checkbox
+                id={mealPlan}
+                checked={(formData.selectedMealPlans || []).includes(mealPlan)}
+                onCheckedChange={(checked) => handleMealPlanChange(mealPlan, checked as boolean)}
+                className="border-purple-600"
+              />
+              <Label 
+                htmlFor={mealPlan}
+                className="text-white cursor-pointer"
+              >
+                {t(`dashboard.propertyForm.${mealPlan}`)}
+              </Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Laundry Options */}
+      <div className="space-y-4">
+        <Label className="text-white text-lg font-semibold">{t('dashboard.propertyForm.laundry')}</Label>
         <div className="space-y-3">
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -204,11 +170,10 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
               onCheckedChange={(checked) => updateFormData('laundryIncluded', checked)}
               className="border-purple-600"
             />
-            <Label htmlFor="laundryIncluded" className="text-white">
+            <Label htmlFor="laundryIncluded" className="text-white cursor-pointer">
               {t('dashboard.laundryIncluded')}
             </Label>
           </div>
-
           <div className="flex items-center space-x-2">
             <Checkbox
               id="externalLaundryAvailable"
@@ -216,7 +181,7 @@ export const NewStep3AccommodationTerms: React.FC<NewStep3AccommodationTermsProp
               onCheckedChange={(checked) => updateFormData('externalLaundryAvailable', checked)}
               className="border-purple-600"
             />
-            <Label htmlFor="externalLaundryAvailable" className="text-white">
+            <Label htmlFor="externalLaundryAvailable" className="text-white cursor-pointer">
               {t('dashboard.externalLaundryAvailable')}
             </Label>
           </div>

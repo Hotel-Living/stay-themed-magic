@@ -77,7 +77,16 @@
         "3star": "3 Stele",
         "4star": "4 Stele",
         "5star": "5 Stele"
-      }
+      },
+      "roomTypes": "TIPURI DE CAMERE",
+      "roomTypesDescription": "Configurați tipurile de camere și capacitatea:",
+      "doubleRoomsCanBeSingle": "Camere duble care pot fi folosite și ca individuale",
+      "roomPhotos": "Fotografii Cameră",
+      "uploadPhotos": "Încărcare Fotografii",
+      "photosSelected": "fotografii selectate",
+      "roomDescription": "Descrierea Camerei",
+      "roomDescriptionPlaceholder": "Descrieți caracteristicile camerei, facilitățile și ceea ce oaspeții pot aștepta",
+      "roomDescriptionNote": "Această descriere va fi afișată oaspeților în listingul public al hotelului dvs."
     },
     "navigation": {
       "next": "Următorul",

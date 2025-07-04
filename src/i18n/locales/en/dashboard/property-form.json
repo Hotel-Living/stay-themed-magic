@@ -77,7 +77,31 @@
         "3star": "3 Stars",
         "4star": "4 Stars",
         "5star": "5 Stars"
-      }
+      },
+      "roomTypes": "ROOM TYPES",
+      "roomTypesDescription": "Configure your room types and capacity:",
+      "doubleRoomsCanBeSingle": "Double rooms that can also be used as singles",
+      "roomPhotos": "Room Photos",
+      "uploadPhotos": "Upload Photos",
+      "photosSelected": "photos selected",
+      "roomDescription": "Room Description",
+      "roomDescriptionPlaceholder": "Describe the room characteristics, amenities and what guests can expect",
+      "roomDescriptionNote": "This description will be shown to guests in your hotel's public listing",
+      "selectStayDurations": "Select all stay durations you offer:",
+      "days": "days",
+      "selectCheckinDay": "Select the day guests check in and out:",
+      "laundry": "Laundry",
+      "monday": "Monday",
+      "tuesday": "Tuesday", 
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "breakfastIncluded": "Breakfast Included",
+      "halfBoard": "Half Board",
+      "fullBoard": "Full Board",
+      "allInclusive": "All Inclusive"
     },
     "navigation": {
       "next": "Next",
@@ -115,6 +139,8 @@
     "dragDropPhotos": "Drag and drop photos here",
     "orClickToBrowse": "or click to browse from your device",
     "uploadAtLeastOneImage": "Please upload at least one image for your hotel",
-    "selectMainImage": "★ Select a photo as main image"
+    "selectMainImage": "★ Select a photo as main image",
+    "contactInformation": "Contact Information",
+    "affinitiesDescription": "Make your hotel stand out from the competition by incorporating group affinities to attract your most suitable and like-minded guests"
   }
 }

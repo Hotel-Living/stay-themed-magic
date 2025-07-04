@@ -77,7 +77,16 @@
         "3star": "3 Estrellas",
         "4star": "4 Estrellas",
         "5star": "5 Estrellas"
-      }
+      },
+      "roomTypes": "TIPOS DE HABITACIÓN",
+      "roomTypesDescription": "Configure sus tipos de habitación y capacidad:",
+      "doubleRoomsCanBeSingle": "Habitaciones dobles que también se pueden usar como individuales",
+      "roomPhotos": "Fotos de la Habitación",
+      "uploadPhotos": "Subir Fotos",
+      "photosSelected": "fotos seleccionadas",
+      "roomDescription": "Descripción de la Habitación",
+      "roomDescriptionPlaceholder": "Describe las características de la habitación, amenities y lo que los huéspedes pueden esperar",
+      "roomDescriptionNote": "Esta descripción se mostrará a los huéspedes en la página pública de tu hotel"
     },
     "navigation": {
       "next": "Siguiente",

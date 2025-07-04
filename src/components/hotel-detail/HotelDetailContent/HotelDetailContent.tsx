@@ -1,14 +1,12 @@
 
 import React from "react";
 import { HotelDetailProps } from "@/types/hotel";
-import { HotelHeader } from "./HotelHeader";
+import { HotelHeader } from "../HotelHeader";
 import { HotelDescriptionSection } from "../HotelDescription";
-import { HotelImageGallery } from "./HotelImageGallery";
-import { HotelBookingSection } from "./HotelBookingSection";
-import { HotelFeatures } from "./HotelFeatures";
-import { HotelThemesDisplay } from "./HotelThemesDisplay";
-import { HotelActivitiesDisplay } from "./HotelActivitiesDisplay";
-import { LoadingState } from "./LoadingState";
+import { HotelBookingSection } from "../HotelBookingSection";
+import { HotelFeaturesInfo } from "../HotelFeaturesInfo";
+import { HotelThemesAndActivities } from "../HotelThemesAndActivities";
+import { HotelSkeletonLoader } from "../HotelSkeletonLoader";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -17,7 +15,7 @@ export interface HotelDetailContentProps {
 
 export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailContentProps) {
   if (isLoading) {
-    return <LoadingState />;
+    return <HotelSkeletonLoader />;
   }
 
   return (
@@ -27,9 +25,6 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           {/* Hotel Header */}
           <HotelHeader hotel={hotel} />
           
-          {/* Main Image Gallery */}
-          <HotelImageGallery hotel={hotel} />
-          
           {/* Hotel Description with new narrative fields */}
           <HotelDescriptionSection
             description={hotel.description}
@@ -38,17 +33,18 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             perfectLocation={hotel.perfect_location || hotel.perfectLocation}
           />
           
-          {/* Booking Section */}
-          <HotelBookingSection hotel={hotel} />
-          
           {/* Features Section */}
-          <HotelFeatures hotel={hotel} />
+          <HotelFeaturesInfo 
+            hotelFeatures={hotel.hotelFeatures || []}
+            roomFeatures={hotel.roomFeatures || []}
+          />
           
-          {/* Themes Display */}
-          <HotelThemesDisplay hotel={hotel} />
-          
-          {/* Activities Display */}
-          <HotelActivitiesDisplay hotel={hotel} />
+          {/* Themes and Activities */}
+          <HotelThemesAndActivities 
+            stayLengths={hotel.stay_lengths || []}
+            hotelThemes={hotel.hotel_themes?.map(ht => ht.themes) || []}
+            hotelActivities={hotel.activities || []}
+          />
         </div>
       </div>
     </div>

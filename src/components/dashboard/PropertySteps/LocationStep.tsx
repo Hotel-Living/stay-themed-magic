@@ -42,6 +42,13 @@ export default function LocationStep({
     }
   }, [formData.country, formData.city, handleChange]);
 
+  // Create formatted address for the map
+  const formattedAddress = [
+    formData.address,
+    formData.city,
+    formData.country
+  ].filter(Boolean).join(", ");
+
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
@@ -118,6 +125,7 @@ export default function LocationStep({
       <InteractiveMap
         latitude={formData.latitude}
         longitude={formData.longitude}
+        address={formattedAddress}
         onLocationSelect={(lat, lng) => {
           updateFormData('latitude', lat.toString());
           updateFormData('longitude', lng.toString());

@@ -1,15 +1,14 @@
-
-import React, { useState, useEffect } from 'react';
-import { Input } from "@/components/ui/input";
+import React, { useState, useEffect } from "react";
+import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useTranslation } from "@/hooks/useTranslation";
-import { Country, City } from 'country-state-city';
-import { usePropertyImages } from "@/hooks/usePropertyImages";
-import { useImageUploadLimiter } from "@/hooks/useImageUploadLimiter";
+import { Button } from "@/components/ui/button";
+import { Upload, X, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Country } from 'country-state-city';
 
 interface NewStep1HotelInfoProps {
   formData: any;
@@ -22,30 +21,60 @@ export function NewStep1HotelInfo({
   updateFormData,
   onValidationChange
 }: NewStep1HotelInfoProps) {
-  const { t } = useTranslation();
   const { toast } = useToast();
-  
-  const [cities, setCities] = useState<any[]>([]);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [map, setMap] = useState<any>(null);
-  const [marker, setMarker] = useState<any>(null);
+  const [uploading, setUploading] = useState(false);
+  const [cities, setCities] = useState<Array<{name: string, placeId: string}>>([]);
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [mapsLoaded, setMapsLoaded] = useState(false);
 
-  // Image upload functionality
-  const {
-    files,
-    uploadedImages,
-    uploading,
-    addFiles,
-    removeFile,
-    removeUploadedImage,
-    uploadFiles
-  } = usePropertyImages(formData.images || [], updateFormData);
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
 
-  const imageLimiter = useImageUploadLimiter({
-    maxImages: 20,
-    maxUploadsPerMinute: 10,
-    maxFileSize: 10 * 1024 * 1024 // 10MB
-  });
+    setUploading(true);
+    try {
+      for (const file of files) {
+        const { data, error } = await supabase.storage
+          .from('hotel-images')
+          .upload(`${formData.hotelName}/${file.name}`, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) {
+          toast({
+            title: "Upload error",
+            description: "Could not upload image: " + error.message,
+            variant: "destructive",
+          });
+          console.error("File upload error:", error);
+        } else {
+          toast({
+            title: "Image uploaded",
+            description: `Image ${file.name} uploaded successfully.`,
+          });
+          console.log("File uploaded successfully:", data);
+
+          // Update form data with the new image URL
+          const imageUrl = supabase.storage
+            .from('hotel-images')
+            .getPublicUrl(`${formData.hotelName}/${file.name}`).data.publicUrl;
+
+          updateFormData('hotelImages', [...(formData.hotelImages || []), imageUrl]);
+        }
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleRemoveImage = (imageUrl: string) => {
+    updateFormData(
+      'hotelImages',
+      formData.hotelImages.filter((url: string) => url !== imageUrl)
+    );
+  };
 
   // Predefined list of allowed countries for better performance
   const allowedCountries = [
@@ -65,538 +94,316 @@ export function NewStep1HotelInfo({
     allowedCountries.includes(country.name)
   );
 
-  // Update cities when country changes - limit to top 10 cities for performance
-  useEffect(() => {
-    if (formData.country) {
-      const selectedCountry = countries.find(c => c.name === formData.country);
-      if (selectedCountry) {
-        const countryCities = City.getCitiesOfCountry(selectedCountry.isoCode) || [];
-        // Sort alphabetically and take top 10 to improve performance and avoid loading issues
-        const limitedCities = countryCities
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .slice(0, 10); // Strict limit to prevent performance issues
-        setCities(limitedCities);
-      } else {
-        setCities([]); // Clear cities if country not found
-      }
-    } else {
-      setCities([]); // Clear cities if no country selected
-    }
-  }, [formData.country, countries]);
-
   // Load Google Maps with proper API key
   useEffect(() => {
     const loadGoogleMaps = async () => {
-      if (!window.google && !document.querySelector('script[src*="maps.googleapis.com"]')) {
-        try {
-          // Get API key from Supabase edge function
-          let apiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM'; // fallback key
-          try {
-            const response = await fetch(`${window.location.origin}/functions/v1/get-maps-key`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' }
-            });
-            const result = await response.json();
-            apiKey = result?.key || result?.apiKey || apiKey;
-          } catch (error) {
-            console.log('Using fallback API key due to edge function error:', error);
-          }
-          
+      try {
+        const { data, error } = await supabase.functions.invoke('get-maps-key');
+        if (error) throw error;
+        
+        const apiKey = data.key || data.apiKey;
+        if (!apiKey) {
+          console.error('No API key received from server');
+          return;
+        }
+
+        if (!window.google) {
           const script = document.createElement('script');
           script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
           script.async = true;
           script.defer = true;
-          script.onload = () => {
-            setMapLoaded(true);
-            initializeMap();
-          };
-          script.onerror = () => {
-            console.error('Failed to load Google Maps');
-            setMapLoaded(false);
-          };
+          script.onload = () => setMapsLoaded(true);
           document.head.appendChild(script);
-        } catch (error) {
-          console.error('Error loading Google Maps:', error);
-          setMapLoaded(false);
+        } else {
+          setMapsLoaded(true);
         }
-      } else if (window.google) {
-        setMapLoaded(true);
-        initializeMap();
+      } catch (error) {
+        console.error('Error loading Google Maps:', error);
       }
     };
-    
+
     loadGoogleMaps();
   }, []);
 
-  // Initialize map
-  const initializeMap = () => {
-    if (!window.google || !mapLoaded) return;
-
-    const mapElement = document.getElementById('property-map');
-    if (!mapElement) return;
-
-    const lat = parseFloat(formData.latitude) || 40.7128;
-    const lng = parseFloat(formData.longitude) || -74.0060;
-
-    const googleMap = new window.google.maps.Map(mapElement, {
-      center: { lat, lng },
-      zoom: 13,
-      styles: [
-        {
-          featureType: "all",
-          elementType: "geometry.fill",
-          stylers: [{ color: "#1a1a2e" }]
-        },
-        {
-          featureType: "all",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#ffffff" }]
-        }
-      ]
-    });
-
-    const mapMarker = new window.google.maps.Marker({
-      position: { lat, lng },
-      map: googleMap,
-      draggable: true
-    });
-
-    mapMarker.addListener('dragend', () => {
-      const position = mapMarker.getPosition();
-      if (position) {
-        const newLat = position.lat().toString();
-        const newLng = position.lng().toString();
-        updateFormData('latitude', newLat);
-        updateFormData('longitude', newLng);
-      }
-    });
-
-    setMap(googleMap);
-    setMarker(mapMarker);
-  };
-
-  // Update map when coordinates change
-  useEffect(() => {
-    if (map && marker && formData.latitude && formData.longitude) {
-      const lat = parseFloat(formData.latitude);
-      const lng = parseFloat(formData.longitude);
-      const position = { lat, lng };
-      
-      map.setCenter(position);
-      marker.setPosition(position);
-    }
-  }, [formData.latitude, formData.longitude, map, marker]);
-
-  // Handle file selection for images
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files;
-    if (!selectedFiles || selectedFiles.length === 0) return;
-
-    const fileArray = Array.from(selectedFiles);
-    
-    // Validate files
-    const { validFiles, errors } = imageLimiter.validateFiles(fileArray);
-    
-    if (errors.length > 0) {
-      errors.forEach(error => {
-        toast({
-          title: "File Error",
-          description: error,
-          variant: "destructive"
-        });
-      });
-    }
-
-    if (validFiles.length === 0) return;
-
-    // Check upload limits
-    if (!imageLimiter.canUpload(uploadedImages.length, validFiles.length)) {
+  // Fetch top 10 prominent cities using Google Maps Places API
+  const fetchProminentCities = async (countryName: string) => {
+    if (!mapsLoaded || !window.google?.maps?.places) {
+      console.log('Google Maps Places API not loaded yet');
       return;
     }
 
-    // Add files and automatically upload them
-    addFiles(validFiles);
-    
-    // Auto-upload after files are added
-    setTimeout(async () => {
-      try {
-        await uploadFiles();
-        imageLimiter.recordUpload(validFiles.length);
-        
-        toast({
-          title: "Images Uploaded",
-          description: `${validFiles.length} image(s) uploaded successfully`,
-          variant: "default"
-        });
-      } catch (error) {
-        console.error('Upload error:', error);
-        toast({
-          title: "Upload Error",
-          description: "Failed to upload images. Please try again.",
-          variant: "destructive"
-        });
-      }
-    }, 100);
+    setLoadingCities(true);
+    try {
+      const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+      
+      const request = {
+        query: `cities in ${countryName}`,
+        type: 'locality',
+        fields: ['name', 'place_id', 'geometry']
+      };
 
-    // Clear the input
-    event.target.value = '';
+      service.textSearch(request, (results: any[], status: any) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
+          // Limit to top 10 most prominent cities
+          const topCities = results
+            .slice(0, 10)
+            .map(place => ({
+              name: place.name,
+              placeId: place.place_id
+            }));
+          
+          setCities(topCities);
+        } else {
+          console.error('Places API request failed:', status);
+          setCities([]);
+        }
+        setLoadingCities(false);
+      });
+
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      setCities([]);
+      setLoadingCities(false);
+    }
   };
 
-  // Validation
+  // Update cities when country changes
   useEffect(() => {
-    const isValid = !!(
-      formData.hotelName &&
-      formData.propertyStyle &&
-      formData.propertyType &&
-      formData.category &&
-      formData.description &&
-      formData.country &&
-      formData.city &&
-      formData.latitude &&
-      formData.longitude
+    if (formData.country && mapsLoaded) {
+      fetchProminentCities(formData.country);
+    } else {
+      setCities([]);
+    }
+  }, [formData.country, mapsLoaded]);
+
+  // Auto-geocode selected city for coordinates
+  const geocodeCity = (cityName: string, countryName: string) => {
+    if (!window.google?.maps) return;
+
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode(
+      { address: `${cityName}, ${countryName}` },
+      (results, status) => {
+        if (status === 'OK' && results?.[0]) {
+          const location = results[0].geometry.location;
+          updateFormData('latitude', location.lat().toString());
+          updateFormData('longitude', location.lng().toString());
+        }
+      }
     );
+  };
+
+  // Validate form when data changes
+  useEffect(() => {
+    const isValid = formData?.hotelName && 
+                   formData?.country && 
+                   formData?.city && 
+                   formData?.description;
     onValidationChange(isValid);
   }, [formData, onValidationChange]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-6">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="space-y-8">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-white mb-2">Hotel Information</h2>
+        <p className="text-gray-300">Basic details about your property</p>
+      </div>
+
+      {/* Image Upload Section */}
+      <Card className="p-6 bg-purple-900/30 border-purple-600">
+        <h3 className="text-xl font-semibold text-white mb-4">Hotel Images</h3>
+        <div className="flex items-center justify-center w-full">
+          <Label
+            htmlFor="dropzone-file"
+            className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-600 border-dashed rounded-lg cursor-pointer bg-purple-800/50 hover:bg-purple-700/50"
+          >
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <Upload className="w-8 h-8 mb-4 text-white" />
+              <p className="mb-2 text-sm text-gray-300">
+                <span className="font-semibold">Click to upload</span> or drag and drop
+              </p>
+              <p className="text-xs text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="dropzone-file" type="file" className="hidden" multiple onChange={handleFileUpload} />
+          </Label>
+        </div>
+
+        {/* Display uploaded images */}
+        {formData.hotelImages && formData.hotelImages.length > 0 && (
+          <div className="mt-4 grid grid-cols-3 gap-4">
+            {formData.hotelImages.map((imageUrl: string, index: number) => (
+              <div key={index} className="relative">
+                <img src={imageUrl} alt={`Hotel Image ${index + 1}`} className="rounded-lg" />
+                <Button
+                  onClick={() => handleRemoveImage(imageUrl)}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-2 right-2 bg-black/50 hover:bg-black/80 text-white rounded-full"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {uploading && (
+          <div className="text-center text-gray-300">
+            Uploading images...
+          </div>
+        )}
+      </Card>
+
+      {/* Hotel Information Form */}
+      <Card className="p-6 bg-purple-900/30 border-purple-600">
+        <h3 className="text-xl font-semibold text-white mb-4">Property Details</h3>
         
-        {/* Hotel Name */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            {t('dashboard.hotelName')}
-          </Label>
-          <Input
-            type="text"
-            value={formData.hotelName || ''}
-            onChange={(e) => updateFormData('hotelName', e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400"
-            placeholder={t('dashboard.enterHotelName')}
-          />
-        </div>
-
-        {/* Property Style */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Property Style
-          </Label>
-          <Select
-            value={formData.propertyStyle || ''}
-            onValueChange={(value) => updateFormData('propertyStyle', value)}
-          >
-            <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-              <SelectValue placeholder="Select property style" />
-            </SelectTrigger>
-            <SelectContent className="bg-purple-800 border-purple-600">
-              <SelectItem value="modern" className="text-white hover:bg-purple-700">Modern</SelectItem>
-              <SelectItem value="classic" className="text-white hover:bg-purple-700">Classic</SelectItem>
-              <SelectItem value="boutique" className="text-white hover:bg-purple-700">Boutique</SelectItem>
-              <SelectItem value="luxury" className="text-white hover:bg-purple-700">Luxury</SelectItem>
-              <SelectItem value="budget" className="text-white hover:bg-purple-700">Budget</SelectItem>
-              <SelectItem value="historic" className="text-white hover:bg-purple-700">Historic</SelectItem>
-              <SelectItem value="contemporary" className="text-white hover:bg-purple-700">Contemporary</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Property Type */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Property Type
-          </Label>
-          <Select
-            value={formData.propertyType || ''}
-            onValueChange={(value) => updateFormData('propertyType', value)}
-          >
-            <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-              <SelectValue placeholder="Select property type" />
-            </SelectTrigger>
-            <SelectContent className="bg-purple-800 border-purple-600">
-              <SelectItem value="hotel" className="text-white hover:bg-purple-700">Hotel</SelectItem>
-              <SelectItem value="apartment" className="text-white hover:bg-purple-700">Apartment</SelectItem>
-              <SelectItem value="guesthouse" className="text-white hover:bg-purple-700">Guesthouse</SelectItem>
-              <SelectItem value="hostel" className="text-white hover:bg-purple-700">Hostel</SelectItem>
-              <SelectItem value="resort" className="text-white hover:bg-purple-700">Resort</SelectItem>
-              <SelectItem value="villa" className="text-white hover:bg-purple-700">Villa</SelectItem>
-              <SelectItem value="bed-breakfast" className="text-white hover:bg-purple-700">Bed & Breakfast</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Category */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Category
-          </Label>
-          <Select
-            value={formData.category || ''}
-            onValueChange={(value) => updateFormData('category', value)}
-          >
-            <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent className="bg-purple-800 border-purple-600">
-              <SelectItem value="1-star" className="text-white hover:bg-purple-700">1 Star</SelectItem>
-              <SelectItem value="2-star" className="text-white hover:bg-purple-700">2 Star</SelectItem>
-              <SelectItem value="3-star" className="text-white hover:bg-purple-700">3 Star</SelectItem>
-              <SelectItem value="4-star" className="text-white hover:bg-purple-700">4 Star</SelectItem>
-              <SelectItem value="5-star" className="text-white hover:bg-purple-700">5 Star</SelectItem>
-              <SelectItem value="unrated" className="text-white hover:bg-purple-700">Unrated</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Address Section */}
-        <div className="space-y-6 bg-purple-800/30 p-6 rounded-lg border border-purple-600">
-          <h3 className="text-white text-xl font-semibold">Add Address</h3>
-          
-          {/* Country Selection */}
-          <div className="space-y-2">
-            <Label className="text-white text-lg font-medium">Country</Label>
-            <Select
-              value={formData.country || ''}
-              onValueChange={(value) => {
-                updateFormData('country', value);
-                updateFormData('city', ''); // Reset city when country changes
-                updateFormData('latitude', ''); // Reset coordinates
-                updateFormData('longitude', '');
-              }}
-            >
-              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent className="bg-purple-800 border-purple-600 max-h-60 overflow-y-auto">
-                {countries.map((country) => (
-                  <SelectItem 
-                    key={country.isoCode} 
-                    value={country.name}
-                    className="text-white hover:bg-purple-700"
-                  >
-                    {country.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        <div className="space-y-6">
+          {/* Hotel Name */}
+          <div>
+            <Label className="text-white text-lg font-medium">Hotel Name</Label>
+            <Input
+              value={formData.hotelName || ''}
+              onChange={(e) => updateFormData('hotelName', e.target.value)}
+              placeholder="Enter hotel name"
+              className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400"
+            />
           </div>
 
-          {/* City Selection */}
-          {formData.country && (
-            <div className="space-y-2">
+          {/* Country and City */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label className="text-white text-lg font-medium">Country</Label>
+              <Select
+                value={formData.country || ''}
+                onValueChange={(value) => {
+                  updateFormData('country', value);
+                  updateFormData('city', ''); // Reset city when country changes
+                  updateFormData('latitude', ''); // Reset coordinates
+                  updateFormData('longitude', '');
+                }}
+              >
+                <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent className="bg-purple-900 border-purple-600">
+                  {countries.map((country) => (
+                    <SelectItem key={country.isoCode} value={country.name} className="text-white hover:bg-purple-800">
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
               <Label className="text-white text-lg font-medium">City</Label>
               <Select
                 value={formData.city || ''}
                 onValueChange={(value) => {
                   updateFormData('city', value);
                   // Auto-geocode the selected city for coordinates
-                  if (value && window.google?.maps) {
-                    const geocoder = new window.google.maps.Geocoder();
-                    geocoder.geocode(
-                      { address: `${value}, ${formData.country}` },
-                      (results, status) => {
-                        if (status === 'OK' && results?.[0]) {
-                          const location = results[0].geometry.location;
-                          updateFormData('latitude', location.lat().toString());
-                          updateFormData('longitude', location.lng().toString());
-                        }
-                      }
-                    );
+                  if (value && formData.country) {
+                    geocodeCity(value, formData.country);
                   }
                 }}
+                disabled={!formData.country || loadingCities}
               >
                 <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-                  <SelectValue placeholder="Select city" />
+                  <SelectValue placeholder={
+                    loadingCities ? "Loading cities..." : 
+                    !formData.country ? "Select country first" : 
+                    "Select city"
+                  } />
                 </SelectTrigger>
-                <SelectContent className="bg-purple-800 border-purple-600 max-h-60 overflow-y-auto">
+                <SelectContent className="bg-purple-900 border-purple-600">
                   {cities.map((city) => (
-                    <SelectItem 
-                      key={city.name} 
-                      value={city.name}
-                      className="text-white hover:bg-purple-700"
-                    >
+                    <SelectItem key={city.placeId} value={city.name} className="text-white hover:bg-purple-800">
                       {city.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-          )}
+          </div>
 
-          {/* Address Input */}
-          <div className="space-y-2">
-            <Label className="text-white text-lg font-medium">Street Address</Label>
+          {/* Address */}
+          <div>
+            <Label className="text-white text-lg font-medium">Address</Label>
             <Input
-              type="text"
               value={formData.address || ''}
               onChange={(e) => updateFormData('address', e.target.value)}
-              className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400"
               placeholder="Enter street address"
+              className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400"
             />
           </div>
 
-          {/* Coordinates */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-white text-lg font-medium">Latitude</Label>
-              <Input
-                type="number"
-                step="any"
-                value={formData.latitude || ''}
-                onChange={(e) => updateFormData('latitude', e.target.value)}
-                className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400"
-                placeholder="0.000000"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white text-lg font-medium">Longitude</Label>
-              <Input
-                type="number"
-                step="any"
-                value={formData.longitude || ''}
-                onChange={(e) => updateFormData('longitude', e.target.value)}
-                className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400"
-                placeholder="0.000000"
-              />
-            </div>
-          </div>
-
-          {/* Google Maps */}
-          <div className="space-y-2">
-            <Label className="text-white text-lg font-medium">Location on Map</Label>
-            <div 
-              id="property-map" 
-              className="w-full h-64 bg-purple-700/50 border border-purple-600 rounded-lg"
+          {/* Category */}
+          <div>
+            <Label className="text-white text-lg font-medium">Category</Label>
+            <Select
+              value={formData.category || ''}
+              onValueChange={(value) => updateFormData('category', value)}
             >
-              {!mapLoaded && (
-                <div className="flex items-center justify-center h-full text-purple-300">
-                  Loading map...
-                </div>
-              )}
-            </div>
+              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
+                <SelectValue placeholder="Select hotel category" />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-900 border-purple-600">
+                <SelectItem value="1" className="text-white hover:bg-purple-800">1 Star</SelectItem>
+                <SelectItem value="2" className="text-white hover:bg-purple-800">2 Stars</SelectItem>
+                <SelectItem value="3" className="text-white hover:bg-purple-800">3 Stars</SelectItem>
+                <SelectItem value="4" className="text-white hover:bg-purple-800">4 Stars</SelectItem>
+                <SelectItem value="5" className="text-white hover:bg-purple-800">5 Stars</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
 
-        {/* Hotel Description */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Hotel Description
-          </Label>
-          <Textarea
-            value={formData.description || ''}
-            onChange={(e) => updateFormData('description', e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400 min-h-[120px]"
-            placeholder="Describe your hotel..."
-          />
-        </div>
+          {/* Property Type */}
+          <div>
+            <Label className="text-white text-lg font-medium">Property Type</Label>
+            <Select
+              value={formData.propertyType || ''}
+              onValueChange={(value) => updateFormData('propertyType', value)}
+            >
+              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
+                <SelectValue placeholder="Select property type" />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-900 border-purple-600">
+                <SelectItem value="Hotel" className="text-white hover:bg-purple-800">Hotel</SelectItem>
+                <SelectItem value="Resort" className="text-white hover:bg-purple-800">Resort</SelectItem>
+                <SelectItem value="Boutique Hotel" className="text-white hover:bg-purple-800">Boutique Hotel</SelectItem>
+                <SelectItem value="Country House" className="text-white hover:bg-purple-800">Country House</SelectItem>
+                <SelectItem value="Roadside Motel" className="text-white hover:bg-purple-800">Roadside Motel</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        {/* Upload Images Section */}
-        <div className="space-y-4 bg-purple-800/30 p-6 rounded-lg border border-purple-600">
-          <Label className="text-white text-lg font-medium">Upload Images</Label>
-          
-          {/* Upload Area */}
-          <div className="relative">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleFileSelect}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-              disabled={uploading}
+          {/* Description */}
+          <div>
+            <Label className="text-white text-lg font-medium">Description</Label>
+            <Textarea
+              value={formData.description || ''}
+              onChange={(e) => updateFormData('description', e.target.value)}
+              placeholder="Describe your property"
+              className="bg-purple-800/50 border-purple-600 text-white placeholder:text-gray-400 resize-none"
             />
-            <div className="border-2 border-dashed border-purple-400 rounded-lg p-8 text-center bg-purple-800/20 hover:bg-purple-800/40 transition-colors">
-              <Upload className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-              <p className="text-lg font-medium text-white mb-2">
-                {uploading ? 'Uploading...' : 'Drag and drop photos here'}
-              </p>
-              <p className="text-sm text-purple-300">
-                or click to browse • Supported formats: JPG, PNG, WebP • Maximum file size: 10MB
-              </p>
-            </div>
           </div>
 
-          {/* Upload Progress */}
-          {uploading && (
-            <div className="flex items-center space-x-2 text-purple-300">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-400"></div>
-              <span>Processing images...</span>
-            </div>
-          )}
-
-          {/* Uploaded Images Gallery */}
-          {uploadedImages.length > 0 && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="text-white font-medium">Uploaded Images ({uploadedImages.length})</h4>
+          {/* Coordinates Display */}
+          {formData.latitude && formData.longitude && (
+            <div className="grid grid-cols-2 gap-4 text-sm text-gray-300">
+              <div>
+                <Label className="text-gray-400">Latitude</Label>
+                <div className="bg-purple-800/30 p-2 rounded">{formData.latitude}</div>
               </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {uploadedImages.map((image, index) => (
-                  <div key={image.id} className="relative group">
-                    <img
-                      src={image.url}
-                      alt={`Hotel image ${index + 1}`}
-                      className="w-full h-32 object-cover rounded-lg"
-                    />
-                    
-                    {/* Success indicator */}
-                    <div className="absolute top-2 left-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                      <Check className="w-4 h-4" />
-                    </div>
-                    
-                    {/* Remove button */}
-                    <button
-                      onClick={() => removeUploadedImage(index)}
-                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
+              <div>
+                <Label className="text-gray-400">Longitude</Label>
+                <div className="bg-purple-800/30 p-2 rounded">{formData.longitude}</div>
               </div>
             </div>
           )}
         </div>
-
-        {/* Ideal Guests */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Ideal Guests
-          </Label>
-          <Textarea
-            value={formData.idealGuests || ''}
-            onChange={(e) => updateFormData('idealGuests', e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400 min-h-[120px]"
-            placeholder="Describe your ideal guests..."
-          />
-        </div>
-
-        {/* Atmosphere */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Atmosphere
-          </Label>
-          <Textarea
-            value={formData.atmosphere || ''}
-            onChange={(e) => updateFormData('atmosphere', e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400 min-h-[120px]"
-            placeholder="Describe the atmosphere..."
-          />
-        </div>
-
-        {/* Location Description */}
-        <div className="space-y-2">
-          <Label className="text-white text-lg font-medium">
-            Location Description
-          </Label>
-          <Textarea
-            value={formData.locationDescription || ''}
-            onChange={(e) => updateFormData('locationDescription', e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder-purple-300 focus:border-purple-400 min-h-[120px]"
-            placeholder="Describe the location..."
-          />
-        </div>
-
-      </div>
+      </Card>
     </div>
   );
 }

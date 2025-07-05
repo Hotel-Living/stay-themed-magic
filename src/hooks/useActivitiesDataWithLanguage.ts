@@ -15,27 +15,57 @@ export function useActivitiesDataWithLanguage() {
   return useQuery({
     queryKey: ['activities', language],
     queryFn: async (): Promise<ActivityOption[]> => {
-      console.log(`🎯 Fetching activities from database for language: ${language}`);
+      console.log(`🎯 Fetching activities for language: ${language}`);
       
-      const { data, error } = await supabase
-        .from('activities')
-        .select('id, name, category, level')
-        .order('name');
+      // Spanish activities are stored in filters table, English in activities table
+      if (language === 'es') {
+        const { data, error } = await supabase
+          .from('filters')
+          .select('id, value, category')
+          .eq('category', 'activities')
+          .eq('is_active', true)
+          .order('value');
 
-      if (error) {
-        console.error(`❌ Error fetching activities:`, error);
-        throw error;
+        if (error) {
+          console.error(`❌ Error fetching Spanish activities:`, error);
+          throw error;
+        }
+
+        if (!data) {
+          console.log(`✅ No Spanish activities found`);
+          return [];
+        }
+
+        // Transform filters data to ActivityOption format
+        const activities = data.map(filter => ({
+          id: filter.id,
+          name: filter.value,
+          category: 'activities',
+          level: 1
+        }));
+
+        console.log(`✅ Found ${activities.length} Spanish activities:`, activities);
+        return activities;
+      } else {
+        // For English and other languages, use activities table
+        const { data, error } = await supabase
+          .from('activities')
+          .select('id, name, category, level')
+          .order('name');
+
+        if (error) {
+          console.error(`❌ Error fetching English activities:`, error);
+          throw error;
+        }
+
+        if (!data) {
+          console.log(`✅ No English activities found`);
+          return [];
+        }
+
+        console.log(`✅ Found ${data.length} English activities:`, data);
+        return data;
       }
-
-      if (!data) {
-        console.log(`✅ No activities found`);
-        return [];
-      }
-
-      // Return all activities since there's no proper translation system yet
-      // TODO: Implement proper activity translations similar to themes
-      console.log(`✅ Found ${data.length} activities (language-agnostic until translations added):`, data);
-      return data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes

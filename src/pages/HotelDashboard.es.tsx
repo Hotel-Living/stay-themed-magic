@@ -42,6 +42,11 @@ export default function HotelDashboardES() {
       icon: <Building className="w-5 h-5" />
     },
     {
+      id: "add-property-2",
+      label: "Agregar Propiedad 2",
+      icon: <Building className="w-5 h-5" />
+    },
+    {
       id: "advertising",
       label: "Publicidad",
       icon: <BarChart3 className="w-5 h-5" />

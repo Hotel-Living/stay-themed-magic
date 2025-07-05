@@ -13,6 +13,7 @@ import SettingsContent from "@/components/dashboard/SettingsContent";
 import { RatesCalculatorContent } from "@/components/dashboard/RatesCalculatorContent";
 import { WelcomeOverviewContent } from "@/components/dashboard/WelcomeOverviewContent";
 import { TermsConditionsContent } from "@/components/dashboard/TermsConditionsContent";
+import AddProperty2Content from "@/components/dashboard/AddProperty2Content";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -46,6 +47,8 @@ export default function TabContentSelector({ activeTab }: TabContentSelectorProp
       return <SettingsContent />;
     case "terms-conditions":
       return <TermsConditionsContent />;
+    case "add-property-2":
+      return <AddProperty2Content />;
     default:
       return <DashboardContent />;
   }

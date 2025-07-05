@@ -13,6 +13,7 @@
       "draftLoaded": "Rascunho Carregado",
       "draftLoadedDescription": "Seu trabalho anterior foi restaurado"
     },
+    "addProperty2Title": "Adicionar Propriedade 2",
     "images": {
       "limitReached": "Limite de Imagens Atingido",
       "maxImagesAllowed": "Máximo {max} imagens permitidas por propriedade",

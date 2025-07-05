@@ -42,6 +42,11 @@ export default function HotelDashboardRO() {
       icon: <Building className="w-5 h-5" />
     },
     {
+      id: "add-property-2",
+      label: "Adaugă Proprietate 2",
+      icon: <Building className="w-5 h-5" />
+    },
+    {
       id: "advertising",
       label: "Publicitate",
       icon: <BarChart3 className="w-5 h-5" />

@@ -13,6 +13,7 @@
       "draftLoaded": "Draft Loaded",
       "draftLoadedDescription": "Your previous work has been restored"
     },
+    "addProperty2Title": "Add Property 2",
     "images": {
       "limitReached": "Image Limit Reached",
       "maxImagesAllowed": "Maximum {max} images allowed per property",

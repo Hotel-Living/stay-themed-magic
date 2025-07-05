@@ -298,6 +298,15 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
     return 'room_features'
   }
   
+  // Room Types - Specific detection for room type fields
+  if (text.includes('room type') || text.includes('type of room') || text.includes('accommodation type') ||
+      text.includes('tipo de habitación') || text.includes('tipos de cuarto') || text.includes('modalidad habitación') ||
+      text.includes('single') || text.includes('double') || text.includes('twin') || text.includes('apartment') ||
+      text.includes('individual') || text.includes('doble') || text.includes('apartamento') || 
+      (text.includes('room') && (text.includes('type') || text.includes('tipos')))) {
+    return 'room_types'
+  }
+  
   // Meal Plans - CRITICAL: This includes "Solo alojamiento" and all Spanish variants
   if (text.includes('meal') || text.includes('dining') || text.includes('breakfast') ||
       text.includes('comida') || text.includes('alimentación') || text.includes('desayuno') ||

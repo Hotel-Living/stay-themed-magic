@@ -1,10 +1,8 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { MealPlanFilterEN } from "./MealPlanFilter.en";
-import { MealPlanFilterES } from "./MealPlanFilter.es";
-import { MealPlanFilterPT } from "./MealPlanFilter.pt";
-import { MealPlanFilterRO } from "./MealPlanFilter.ro";
+import { SquareFilter } from "./SquareFilter";
+import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
 
 interface MealPlanFilterProps {
   activeMealPlans: string[];
@@ -12,13 +10,26 @@ interface MealPlanFilterProps {
 }
 
 export function MealPlanFilter({ activeMealPlans, onChange }: MealPlanFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <MealPlanFilterEN activeMealPlans={activeMealPlans} onChange={onChange} />;
-  if (language === 'es') return <MealPlanFilterES activeMealPlans={activeMealPlans} onChange={onChange} />;
-  if (language === 'pt') return <MealPlanFilterPT activeMealPlans={activeMealPlans} onChange={onChange} />;
-  if (language === 'ro') return <MealPlanFilterRO activeMealPlans={activeMealPlans} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <MealPlanFilterEN activeMealPlans={activeMealPlans} onChange={onChange} />;
+  const { t } = useTranslation();
+  const { data: mealPlanOptions = [], isLoading } = useFiltersByCategory('meal_plans');
+
+  console.log(`🍽️ MealPlanFilter: Loading=${isLoading}, Options=`, mealPlanOptions);
+
+  // Transform the data to the format expected by SquareFilter
+  const formattedOptions = mealPlanOptions.map(option => ({
+    value: option.value,
+    label: option.value // Could be enhanced with translations later
+  }));
+
+  console.log(`🍽️ MealPlanFilter: Formatted options=`, formattedOptions);
+
+  return (
+    <SquareFilter
+      title={t("filters.mealPlan")}
+      options={formattedOptions}
+      selectedOptions={activeMealPlans}
+      onChange={onChange}
+      loading={isLoading}
+    />
+  );
 }

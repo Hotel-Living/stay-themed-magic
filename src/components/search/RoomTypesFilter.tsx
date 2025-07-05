@@ -1,10 +1,8 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { RoomTypesFilterEN } from "./RoomTypesFilter.en";
-import { RoomTypesFilterES } from "./RoomTypesFilter.es";
-import { RoomTypesFilterPT } from "./RoomTypesFilter.pt";
-import { RoomTypesFilterRO } from "./RoomTypesFilter.ro";
+import { SquareFilter } from "./SquareFilter";
+import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
 
 interface RoomTypesFilterProps {
   activeRoomTypes: string[];
@@ -12,13 +10,26 @@ interface RoomTypesFilterProps {
 }
 
 export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <RoomTypesFilterEN activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'es') return <RoomTypesFilterES activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'pt') return <RoomTypesFilterPT activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  if (language === 'ro') return <RoomTypesFilterRO activeRoomTypes={activeRoomTypes} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <RoomTypesFilterEN activeRoomTypes={activeRoomTypes} onChange={onChange} />;
+  const { t } = useTranslation();
+  const { data: roomTypeOptions = [], isLoading } = useFiltersByCategory('room_types');
+
+  console.log(`🏠 RoomTypesFilter: Loading=${isLoading}, Options=`, roomTypeOptions);
+
+  // Transform the data to the format expected by SquareFilter
+  const formattedOptions = roomTypeOptions.map(option => ({
+    value: option.value,
+    label: option.value // Could be enhanced with translations later
+  }));
+
+  console.log(`🏠 RoomTypesFilter: Formatted options=`, formattedOptions);
+
+  return (
+    <SquareFilter
+      title={t("filters.roomTypes")}
+      options={formattedOptions}
+      selectedOptions={activeRoomTypes}
+      onChange={onChange}
+      loading={isLoading}
+    />
+  );
 }

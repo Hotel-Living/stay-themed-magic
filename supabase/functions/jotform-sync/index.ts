@@ -156,6 +156,40 @@ Deno.serve(async (req) => {
         
         console.log(`Found ${options.length} options for ${category}: ${options.join(', ')}`)
         
+        // SPECIAL HANDLING: If category is ambiguous, try content-based categorization
+        if (category === 'other_options') {
+          // Analyze the actual content to determine proper category
+          const sampleOptions = options.slice(0, 3).map(opt => opt.toLowerCase().trim())
+          
+          // Check if this looks like hotel features
+          if (sampleOptions.some(opt => 
+            opt.includes('wifi') || opt.includes('piscina') || opt.includes('gimnasio') || 
+            opt.includes('spa') || opt.includes('bar') || opt.includes('restaurante') ||
+            opt.includes('parking') || opt.includes('ascensor') || opt.includes('jardín') ||
+            opt.includes('biblioteca') || opt.includes('recepción') || opt.includes('servicio')
+          )) {
+            category = 'hotel_features'
+            console.log(`Reclassified field ${qid} as hotel_features based on content analysis`)
+          }
+          // Check if this looks like room features
+          else if (sampleOptions.some(opt => 
+            opt.includes('aire acondicionado') || opt.includes('balcón') || opt.includes('baño') ||
+            opt.includes('cocina') || opt.includes('minibar') || opt.includes('tv') ||
+            opt.includes('escritorio') || opt.includes('caja fuerte') || opt.includes('vista')
+          )) {
+            category = 'room_features'
+            console.log(`Reclassified field ${qid} as room_features based on content analysis`)
+          }
+          // Check if this looks like room types
+          else if (sampleOptions.some(opt => 
+            opt.includes('habitación') || opt.includes('individual') || opt.includes('doble') ||
+            opt.includes('apartamento') || opt.includes('suite') || opt.includes('estudio')
+          )) {
+            category = 'room_types'
+            console.log(`Reclassified field ${qid} as room_types based on content analysis`)
+          }
+        }
+        
         for (const option of options) {
           const trimmedOption = option.trim()
           if (!trimmedOption) continue
@@ -285,75 +319,76 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
   
   // ENHANCED CONTENT-BASED DETECTION - Analyze individual values, not just field names
   
-  // Check if this looks like content rather than a field name
-  const isContentValue = !text.includes('select') && !text.includes('choose') && !text.includes('pick') && 
-                        !text.includes('selecciona') && !text.includes('elige') && !text.includes('escoge')
+  // PRIORITY DETECTION: Check individual values first (most common case in JotForm)
   
-  if (isContentValue) {
-    // MEAL PLANS - Direct content detection
-    if (text.includes('desayuno') || text.includes('breakfast') || text.includes('media pensión') || 
-        text.includes('pensión completa') || text.includes('solo alojamiento') || text.includes('all inclusive') ||
-        text.includes('half board') || text.includes('full board') || text.includes('bed & breakfast') ||
-        text.includes('room only') || text.includes('cena') || text.includes('almuerzo') || text.includes('comida')) {
-      return 'meal_plans'
-    }
+  // ROOM TYPES - Exact Spanish room type matches
+  if (text === 'habitación individual' || text === 'habitación doble' || text === 'habitación twin' ||
+      text === 'habitación triple' || text === 'habitación cuádruple' || text === 'apartamento' ||
+      text === 'suite' || text === 'estudio' || text === 'habitación familiar' ||
+      text.includes('habitación') || text.includes('individual') || text.includes('doble') ||
+      text.includes('twin') || text.includes('triple') || text.includes('apartamento') ||
+      text.includes('suite') || text.includes('estudio') || text.includes('single') || 
+      text.includes('double') || text.includes('family')) {
+    return 'room_types'
+  }
+  
+  // MEAL PLANS - Direct content detection
+  if (text.includes('desayuno') || text.includes('breakfast') || text.includes('media pensión') || 
+      text.includes('pensión completa') || text.includes('solo alojamiento') || text.includes('all inclusive') ||
+      text.includes('half board') || text.includes('full board') || text.includes('bed & breakfast') ||
+      text.includes('room only') || text.includes('cena') || text.includes('almuerzo') || text.includes('comida') ||
+      text.includes('todo incluido')) {
+    return 'meal_plans'
+  }
     
-    // HOTEL FEATURES - Direct amenity detection (standalone terms)
-    if (text === 'wifi' || text === 'wifi gratis' || text === 'piscina' || text === 'pool' || 
-        text === 'gimnasio' || text === 'gym' || text === 'spa' || text === 'bar' || 
-        text === 'restaurante' || text === 'restaurant' || text === 'parking' || 
-        text === 'estacionamiento' || text === 'ascensor' || text === 'elevator' || 
-        text === 'jardín' || text === 'garden' || text === 'terraza' || text === 'terrace' ||
-        text === 'biblioteca' || text === 'library' || text === 'sala de juegos' || 
-        text === 'game room' || text === 'centro de negocios' || text === 'business center' ||
-        text === 'conserjería' || text === 'concierge' || text === 'recepción 24/7' ||
-        text === 'recepción 24 horas' || text === '24 hour reception' ||
-        text.includes('recepción 24') || text.includes('24 hour') || 
-        text.includes('wifi') || text.includes('piscina') || text.includes('pool') || 
-        text.includes('gimnasio') || text.includes('gym') || text.includes('spa') || 
-        text.includes('bar') || text.includes('restaurante') || text.includes('restaurant') || 
-        text.includes('parking') || text.includes('estacionamiento') ||
-        text.includes('ascensor') || text.includes('elevator') || text.includes('jardín') || 
-        text.includes('garden') || text.includes('terraza') || text.includes('terrace') || 
-        text.includes('biblioteca') || text.includes('library') || 
-        text.includes('sala de juegos') || text.includes('game room') || 
-        text.includes('centro de negocios') || text.includes('business center') || 
-        text.includes('conserjería') || text.includes('concierge')) {
-      return 'hotel_features'
-    }
+  // HOTEL FEATURES - Exact Spanish amenity matches
+  if (text === 'wifi' || text === 'wifi gratis' || text === 'wifi en zonas comunes' ||
+      text === 'piscina' || text === 'gimnasio' || text === 'gimnasio y fitness' ||
+      text === 'spa' || text === 'bar' || text === 'restaurante' || text === 'parking' ||
+      text === 'estacionamiento' || text === 'ascensor' || text === 'jardín' ||
+      text === 'terraza' || text === 'biblioteca' || text === 'sala de juegos' ||
+      text === 'centro de negocios' || text === 'conserjería' || text === 'recepción 24/7' ||
+      text === 'servicio de habitaciones' || text === 'servicio de lavandería' ||
+      text === 'servicio de seguridad' || text === 'traslado al aeropuerto' ||
+      text.includes('wifi') || text.includes('piscina') || text.includes('gimnasio') || 
+      text.includes('spa') || text.includes('bar') || text.includes('restaurante') || 
+      text.includes('parking') || text.includes('estacionamiento') || text.includes('ascensor') || 
+      text.includes('jardín') || text.includes('terraza') || text.includes('biblioteca') || 
+      text.includes('sala de juegos') || text.includes('centro de negocios') || 
+      text.includes('conserjería') || text.includes('recepción') || text.includes('servicio')) {
+    return 'hotel_features'
+  }
     
-    // ROOM FEATURES - Direct room amenities (standalone terms)
-    if (text === 'aire acondicionado' || text === 'air conditioning' || text === 'balcón' || 
-        text === 'balcony' || text === 'baño privado' || text === 'private bathroom' ||
-        text === 'cocina' || text === 'kitchen' || text === 'minibar' || text === 'mini bar' ||
-        text === 'televisor' || text === 'tv' || text === 'television' || text === 'escritorio' || 
-        text === 'desk' || text === 'sofá' || text === 'sofa' || text === 'chimenea' || 
-        text === 'fireplace' || text === 'caja fuerte' || text === 'safe' || text === 'plancha' || 
-        text === 'iron' || text === 'secador de pelo' || text === 'hair dryer' || 
-        text === 'teléfono' || text === 'phone' ||
-        text.includes('aire acondicionado') || text.includes('air condition') || 
-        text.includes('balcón') || text.includes('balcony') || text.includes('baño privado') || 
-        text.includes('private bath') || text.includes('cocina') || text.includes('kitchen') || 
-        text.includes('minibar') || text.includes('mini bar') || text.includes('televisor') || 
-        text.includes('tv') || text.includes('escritorio') || text.includes('desk') ||
-        text.includes('sofá') || text.includes('sofa') || text.includes('chimenea') || 
-        text.includes('fireplace') || text.includes('caja fuerte') || text.includes('safe') || 
-        text.includes('plancha') || text.includes('iron') || text.includes('secador') || 
-        text.includes('hair dryer') || text.includes('teléfono') || text.includes('phone') ||
-        text.includes('vista al mar') || text.includes('sea view') || 
-        text.includes('vista a la montaña') || text.includes('mountain view') || 
-        text.includes('vista a la ciudad') || text.includes('city view') ||
-        text.includes('vista al jardín') || text.includes('garden view')) {
-      return 'room_features'
-    }
+  // ROOM FEATURES - Exact Spanish room amenity matches
+  if (text === 'aire acondicionado' || text === 'balcón' || text === 'baño privado' ||
+      text === 'cocina' || text === 'cocina equipada' || text === 'minibar' || text === 'mini bar' ||
+      text === 'televisor' || text === 'tv' || text === 'escritorio' || text === 'sofá' ||
+      text === 'chimenea' || text === 'caja fuerte' || text === 'plancha' || 
+      text === 'secador de pelo' || text === 'teléfono' || text === 'hervidor de agua' ||
+      text === 'máquina de café' || text === 'microondas' || text === 'ducha' ||
+      text === 'ducha a ras de suelo' || text === 'bañera' || text === 'cortinas opacas' ||
+      text === 'insonorizado' || text === 'vista al mar' || text === 'vista a la montaña' ||
+      text === 'vista a la ciudad' || text === 'vista al jardín' ||
+      text.includes('aire acondicionado') || text.includes('balcón') || 
+      text.includes('baño privado') || text.includes('cocina') || text.includes('minibar') || 
+      text.includes('televisor') || text.includes('tv') || text.includes('escritorio') ||
+      text.includes('sofá') || text.includes('chimenea') || text.includes('caja fuerte') || 
+      text.includes('plancha') || text.includes('secador') || text.includes('teléfono') ||
+      text.includes('hervidor') || text.includes('máquina de café') || text.includes('microondas') ||
+      text.includes('ducha') || text.includes('bañera') || text.includes('cortinas') ||
+      text.includes('insonorizado') || text.includes('vista al') || text.includes('vista a la')) {
+    return 'room_features'
+  }
     
-    // ROOM TYPES - Direct room type detection  
-    if (text.includes('individual') || text.includes('single') || text.includes('doble') || text.includes('double') ||
-        text.includes('apartamento') || text.includes('apartment') || text.includes('suite') || 
-        text.includes('estudio') || text.includes('studio') || text.includes('familiar') || text.includes('family') ||
-        text.includes('twin') || text.includes('triple') || text.includes('cuádruple') || text.includes('quad')) {
-      return 'room_types'
-    }
+  // ACTIVITIES - Direct activity detection
+  if (text.includes('clases de') || text.includes('taller') || text.includes('curso') ||
+      text.includes('deporte') || text.includes('música') || text.includes('arte') ||
+      text.includes('cocina') || text.includes('yoga') || text.includes('meditación') ||
+      text.includes('fitness') || text.includes('ciclismo') || text.includes('natación') ||
+      text.includes('escalada') || text.includes('golf') || text.includes('tenis') ||
+      text.includes('equitación') || text.includes('cata') || text.includes('degustación') ||
+      text.includes('fotografía') || text.includes('pintura') || text.includes('escultura')) {
+    return 'activities'
   }
   
   // FIELD NAME BASED DETECTION - For actual form field labels

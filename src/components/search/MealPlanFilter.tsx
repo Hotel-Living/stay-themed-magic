@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
+import { useFiltersByCategoryWithLanguage } from "@/hooks/useFiltersByCategoryWithLanguage";
 
 interface MealPlanFilterProps {
   activeMealPlans: string[];
@@ -11,7 +11,7 @@ interface MealPlanFilterProps {
 
 export function MealPlanFilter({ activeMealPlans, onChange }: MealPlanFilterProps) {
   const { t } = useTranslation();
-  const { data: mealPlanOptions = [], isLoading } = useFiltersByCategory('meal_plans');
+  const { data: mealPlanOptions = [], isLoading } = useFiltersByCategoryWithLanguage('meal_plans');
 
   console.log(`🍽️ MealPlanFilter: Loading=${isLoading}, Options=`, mealPlanOptions);
 

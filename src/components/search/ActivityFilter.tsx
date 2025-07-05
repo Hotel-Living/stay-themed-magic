@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useActivitiesData } from "@/hooks/useActivitiesData";
+import { useActivitiesDataWithLanguage } from "@/hooks/useActivitiesDataWithLanguage";
 
 interface ActivityFilterProps {
   activeActivities: string[];
@@ -14,7 +14,7 @@ export function ActivityFilter({
   onChange 
 }: ActivityFilterProps) {
   const { t } = useTranslation();
-  const { data: activityOptions = [], isLoading } = useActivitiesData();
+  const { data: activityOptions = [], isLoading } = useActivitiesDataWithLanguage();
 
   console.log(`🎯 ActivityFilter: Loading=${isLoading}, Options=`, activityOptions);
 

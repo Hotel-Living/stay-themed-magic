@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
+import { useFiltersByCategoryWithLanguage } from "@/hooks/useFiltersByCategoryWithLanguage";
 
 interface HotelFeaturesFilterProps {
   activeHotelFeatures: string[];
@@ -11,7 +11,7 @@ interface HotelFeaturesFilterProps {
 
 export function HotelFeaturesFilter({ activeHotelFeatures, onChange }: HotelFeaturesFilterProps) {
   const { t } = useTranslation();
-  const { data: hotelFeatureOptions = [], isLoading } = useFiltersByCategory('hotel_features');
+  const { data: hotelFeatureOptions = [], isLoading } = useFiltersByCategoryWithLanguage('hotel_features');
 
   console.log(`🏨 HotelFeaturesFilter: Loading=${isLoading}, Options=`, hotelFeatureOptions);
 

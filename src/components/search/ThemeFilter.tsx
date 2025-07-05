@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useThemesData } from "@/hooks/useThemesData";
+import { useThemesWithTranslations } from "@/hooks/useThemesWithTranslations";
 import { Theme } from "@/utils/themes";
 
 interface ThemeFilterProps {
@@ -12,7 +12,7 @@ interface ThemeFilterProps {
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   const { t } = useTranslation();
-  const { data: themeOptions = [], isLoading } = useThemesData();
+  const { data: themeOptions = [], isLoading } = useThemesWithTranslations();
 
   console.log(`🎨 ThemeFilter: Loading=${isLoading}, Options=`, themeOptions);
 

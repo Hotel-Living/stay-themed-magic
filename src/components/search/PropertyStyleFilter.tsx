@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
+import { useFiltersByCategoryWithLanguage } from "@/hooks/useFiltersByCategoryWithLanguage";
 
 interface PropertyStyleFilterProps {
   activePropertyStyle: string | null;
@@ -11,7 +11,7 @@ interface PropertyStyleFilterProps {
 
 export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyStyleFilterProps) {
   const { t } = useTranslation();
-  const { data: propertyStyleOptions = [], isLoading } = useFiltersByCategory('property_styles');
+  const { data: propertyStyleOptions = [], isLoading } = useFiltersByCategoryWithLanguage('property_styles');
 
   console.log(`🏗️ PropertyStyleFilter: Loading=${isLoading}, Options=`, propertyStyleOptions);
 

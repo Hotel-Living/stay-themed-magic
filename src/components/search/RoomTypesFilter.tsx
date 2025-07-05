@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { SquareFilter } from "./SquareFilter";
-import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
+import { useFiltersByCategoryWithLanguage } from "@/hooks/useFiltersByCategoryWithLanguage";
 
 interface RoomTypesFilterProps {
   activeRoomTypes: string[];
@@ -11,7 +11,7 @@ interface RoomTypesFilterProps {
 
 export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterProps) {
   const { t } = useTranslation();
-  const { data: roomTypeOptions = [], isLoading } = useFiltersByCategory('room_types');
+  const { data: roomTypeOptions = [], isLoading } = useFiltersByCategoryWithLanguage('room_types');
 
   console.log(`🏠 RoomTypesFilter: Loading=${isLoading}, Options=`, roomTypeOptions);
 

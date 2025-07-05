@@ -141,7 +141,7 @@ Deno.serve(async (req) => {
         if (!field.options) continue
 
         // Process ALL option fields regardless of their name or language
-        const category = determineCategory(field.text || '', qid, field.type)
+        let category = determineCategory(field.text || '', qid, field.type)
         
         console.log(`Processing field ${qid} (${field.text}) [Type: ${field.type}] as category: ${category || 'SKIPPED'}`)
 

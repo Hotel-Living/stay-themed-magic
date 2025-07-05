@@ -33,6 +33,8 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders })
   }
 
+  console.log(`JotForm sync triggered via ${req.method} request`)
+
   try {
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
@@ -44,6 +46,34 @@ Deno.serve(async (req) => {
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    // Handle webhook validation - JotForm sends POST requests to webhooks
+    let isWebhookCall = false
+    let webhookData = null
+    
+    if (req.method === 'POST') {
+      try {
+        const contentType = req.headers.get('content-type') || ''
+        
+        if (contentType.includes('application/x-www-form-urlencoded')) {
+          // JotForm webhook data comes as form-encoded
+          const formData = await req.formData()
+          webhookData = Object.fromEntries(formData.entries())
+          isWebhookCall = true
+          console.log('Webhook call detected from JotForm:', {
+            submissionID: webhookData.submissionID,
+            formID: webhookData.formID
+          })
+        } else if (contentType.includes('application/json')) {
+          // Manual API calls or other JSON payloads
+          const jsonData = await req.json()
+          console.log('JSON call detected:', jsonData)
+        }
+      } catch (e) {
+        // If parsing fails, continue with manual sync
+        console.log('Request parsing failed, continuing with manual sync:', e.message)
+      }
+    }
 
     // Create sync log entry
     const { data: syncLog, error: logError } = await supabase
@@ -66,10 +96,15 @@ Deno.serve(async (req) => {
     }
 
     try {
-      // Get JotForm forms - assuming form ID will be provided via request or environment
-      const formId = Deno.env.get('JOTFORM_FORM_ID') || 
-        (await req.json()).formId || 
-        '251846986373069' // Default to the form we embedded
+      // Get JotForm form ID - prioritize webhook data, then environment, then default
+      let formId = Deno.env.get('JOTFORM_FORM_ID') || '251846986373069'
+      
+      if (isWebhookCall && webhookData?.formID) {
+        formId = webhookData.formID
+        console.log(`Using form ID from webhook: ${formId}`)
+      } else {
+        console.log(`Using default/configured form ID: ${formId}`)
+      }
 
       console.log(`Fetching JotForm data for form: ${formId}`)
 

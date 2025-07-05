@@ -41,6 +41,9 @@ verify_jwt = true
 [functions.send-join-us-notification]
 verify_jwt = false
 
+[functions.jotform-sync]
+verify_jwt = false
+
 [functions.send-notification]
 verify_jwt = true
 

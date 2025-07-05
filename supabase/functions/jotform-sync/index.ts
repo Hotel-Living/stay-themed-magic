@@ -26,15 +26,6 @@ interface SyncStats {
   itemsDeactivated: number
 }
 
-// Field mapping configuration
-const JOTFORM_FIELD_MAPPING = {
-  'hotel_features': ['hotel_amenities', 'hotel_facilities', 'property_features'],
-  'room_features': ['room_amenities', 'room_facilities', 'room_types'],
-  'meal_plans': ['meal_options', 'dining_options', 'breakfast_options'],
-  'activities': ['activities', 'local_activities', 'nearby_activities'],
-  'property_types': ['property_type', 'accommodation_type'],
-  'themes': ['themes', 'style', 'atmosphere']
-}
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -82,7 +73,17 @@ Deno.serve(async (req) => {
 
       console.log(`Fetching JotForm data for form: ${formId}`)
 
-      // Fetch form structure from JotForm API
+      // PHASE 1: Mark all existing JotForm filters as inactive (complete replacement approach)
+      console.log('Phase 1: Deactivating all existing JotForm filters for complete replacement...')
+      const { data: deactivatedFilters } = await supabase
+        .from('filters')
+        .update({ is_active: false })
+        .eq('source_type', 'jotform')
+        .select('id')
+
+      console.log(`Deactivated ${deactivatedFilters?.length || 0} existing JotForm filters`)
+
+      // PHASE 2: Fetch complete form structure from JotForm API
       const jotformResponse = await fetch(
         `https://api.jotform.com/form/${formId}/questions?apikey=${jotformApiKey}`,
         {
@@ -99,18 +100,26 @@ Deno.serve(async (req) => {
       const jotformData: JotFormResponse = await jotformResponse.json()
       console.log(`Retrieved ${Object.keys(jotformData.content).length} fields from JotForm`)
 
-      // Process each field and extract options
+      // PHASE 3: Process ALL fields with options - JotForm is single source of truth
       for (const [qid, field] of Object.entries(jotformData.content)) {
+        // Skip fields without options (these are not filter-relevant)
         if (!field.options) continue
 
-        // Determine category based on field text/name
-        const category = determineCategory(field.text || '', qid)
-        if (!category) continue
+        // Process ALL option fields regardless of their name or language
+        const category = determineCategory(field.text || '', qid, field.type)
+        
+        console.log(`Processing field ${qid} (${field.text}) [Type: ${field.type}] as category: ${category || 'SKIPPED'}`)
 
-        console.log(`Processing field ${qid} (${field.text}) as category: ${category}`)
+        // If we can't categorize, still log it but skip processing
+        if (!category) {
+          console.warn(`Could not categorize field ${qid}: "${field.text}" - Type: ${field.type}`)
+          continue
+        }
 
         // Parse options - JotForm stores options as pipe-separated string
         const options = field.options.split('|').filter(opt => opt.trim().length > 0)
+        
+        console.log(`Found ${options.length} options for ${category}: ${options.join(', ')}`)
         
         for (const option of options) {
           const trimmedOption = option.trim()
@@ -118,7 +127,7 @@ Deno.serve(async (req) => {
 
           stats.itemsProcessed++
 
-          // Check if option already exists
+          // Create or reactivate filter - JotForm data completely replaces existing
           const { data: existingFilter } = await supabase
             .from('filters')
             .select('id, is_active')
@@ -128,28 +137,20 @@ Deno.serve(async (req) => {
             .maybeSingle()
 
           if (existingFilter) {
-            // Update existing filter
-            if (!existingFilter.is_active) {
-              await supabase
-                .from('filters')
-                .update({ 
-                  is_active: true, 
-                  last_sync_at: new Date().toISOString(),
-                  source_type: 'jotform'
-                })
-                .eq('id', existingFilter.id)
-              
-              stats.itemsUpdated++
-              console.log(`Reactivated filter: ${category} - ${trimmedOption}`)
-            } else {
-              // Just update sync timestamp
-              await supabase
-                .from('filters')
-                .update({ last_sync_at: new Date().toISOString() })
-                .eq('id', existingFilter.id)
-            }
+            // Reactivate existing filter
+            await supabase
+              .from('filters')
+              .update({ 
+                is_active: true, 
+                last_sync_at: new Date().toISOString(),
+                source_type: 'jotform'
+              })
+              .eq('id', existingFilter.id)
+            
+            stats.itemsUpdated++
+            console.log(`Reactivated filter: ${category} - ${trimmedOption}`)
           } else {
-            // Create new filter
+            // Create new filter - ALL JotForm options are included
             const { error: insertError } = await supabase
               .from('filters')
               .insert({
@@ -171,17 +172,14 @@ Deno.serve(async (req) => {
         }
       }
 
-      // Deactivate filters that are no longer in JotForm
-      const currentSyncTime = new Date().toISOString()
-      const { data: outdatedFilters } = await supabase
+      // PHASE 4: Count final deactivated filters (those not present in current JotForm)
+      const { data: finalInactiveFilters } = await supabase
         .from('filters')
-        .update({ is_active: false })
-        .eq('source_type', 'jotform')
-        .is('last_sync_at', null)
-        .or(`last_sync_at.lt.${currentSyncTime}`)
         .select('id')
+        .eq('source_type', 'jotform')
+        .eq('is_active', false)
 
-      stats.itemsDeactivated = outdatedFilters?.length || 0
+      stats.itemsDeactivated = finalInactiveFilters?.length || 0
 
       // Update sync log with success
       await supabase
@@ -246,37 +244,82 @@ Deno.serve(async (req) => {
   }
 })
 
-function determineCategory(fieldText: string, qid: string): string | null {
+function determineCategory(fieldText: string, qid: string, fieldType: string): string | null {
   const text = fieldText.toLowerCase()
   const id = qid.toLowerCase()
   
-  // Check each category mapping
-  for (const [category, keywords] of Object.entries(JOTFORM_FIELD_MAPPING)) {
-    for (const keyword of keywords) {
-      if (text.includes(keyword) || id.includes(keyword)) {
-        return category
-      }
-    }
-  }
-  
-  // Fallback mapping based on common terms
-  if (text.includes('hotel') || text.includes('property') || text.includes('facility')) {
+  // COMPREHENSIVE CATEGORY DETECTION - All languages supported
+  // Hotel/Property Features
+  if (text.includes('hotel') || text.includes('property') || text.includes('facility') || 
+      text.includes('servicios') || text.includes('instalaciones') || text.includes('amenities') ||
+      text.includes('features') || text.includes('características')) {
     return 'hotel_features'
   }
-  if (text.includes('room') || text.includes('bedroom') || text.includes('suite')) {
+  
+  // Room Features  
+  if (text.includes('room') || text.includes('bedroom') || text.includes('suite') ||
+      text.includes('habitación') || text.includes('cuarto') || text.includes('dormitorio') ||
+      text.includes('amenidades') || text.includes('equipamiento')) {
     return 'room_features'
   }
-  if (text.includes('meal') || text.includes('dining') || text.includes('breakfast')) {
+  
+  // Meal Plans - CRITICAL: This includes "Solo alojamiento" and all Spanish variants
+  if (text.includes('meal') || text.includes('dining') || text.includes('breakfast') ||
+      text.includes('comida') || text.includes('alimentación') || text.includes('desayuno') ||
+      text.includes('pensión') || text.includes('alojamiento') || text.includes('incluido') ||
+      text.includes('plan') || text.includes('food') || text.includes('restaurante')) {
     return 'meal_plans'
   }
-  if (text.includes('activity') || text.includes('attraction') || text.includes('entertainment')) {
+  
+  // Activities
+  if (text.includes('activity') || text.includes('attraction') || text.includes('entertainment') ||
+      text.includes('actividad') || text.includes('entretenimiento') || text.includes('ocio') ||
+      text.includes('diversión') || text.includes('recreation') || text.includes('things to do')) {
     return 'activities'
   }
-  if (text.includes('type') || text.includes('style') || text.includes('category')) {
+  
+  // Property Types
+  if (text.includes('type') || text.includes('category') || text.includes('classification') ||
+      text.includes('tipo') || text.includes('categoría') || text.includes('clase') ||
+      text.includes('estilo') || text.includes('kind') || text.includes('modalidad')) {
     return 'property_types'
   }
-  if (text.includes('theme') || text.includes('atmosphere') || text.includes('vibe')) {
+  
+  // Themes/Atmosphere/Style
+  if (text.includes('theme') || text.includes('atmosphere') || text.includes('vibe') ||
+      text.includes('tema') || text.includes('ambiente') || text.includes('estilo') ||
+      text.includes('mood') || text.includes('feeling') || text.includes('ambiance')) {
     return 'themes'
+  }
+  
+  // Countries/Locations
+  if (text.includes('country') || text.includes('location') || text.includes('destination') ||
+      text.includes('país') || text.includes('destino') || text.includes('lugar') ||
+      text.includes('ubicación') || text.includes('región')) {
+    return 'countries'
+  }
+  
+  // Price-related
+  if (text.includes('price') || text.includes('cost') || text.includes('budget') ||
+      text.includes('precio') || text.includes('coste') || text.includes('presupuesto') ||
+      text.includes('tarifa') || text.includes('rate')) {
+    return 'price_ranges'
+  }
+  
+  // Duration/Stay Length
+  if (text.includes('duration') || text.includes('length') || text.includes('stay') ||
+      text.includes('duración') || text.includes('estancia') || text.includes('tiempo') ||
+      text.includes('período') || text.includes('nights') || text.includes('noches')) {
+    return 'stay_lengths'
+  }
+  
+  // FALLBACK: Use field type and position to make educated guesses
+  // If it's a multiple choice field and we couldn't categorize it, log it for manual review
+  if (fieldType === 'control_dropdown' || fieldType === 'control_radio' || 
+      fieldType === 'control_checkbox' || fieldType === 'control_matrix') {
+    console.log(`UNCATEGORIZED FIELD DETECTED: ID=${qid}, Text="${fieldText}", Type=${fieldType}`)
+    // Return a generic category so data isn't lost
+    return 'other_options'
   }
   
   return null

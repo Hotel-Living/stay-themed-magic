@@ -1,10 +1,8 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ActivityFilterEN } from "./ActivityFilter.en";
-import { ActivityFilterES } from "./ActivityFilter.es";
-import { ActivityFilterPT } from "./ActivityFilter.pt";
-import { ActivityFilterRO } from "./ActivityFilter.ro";
+import { SquareFilter } from "./SquareFilter";
+import { useActivitiesData } from "@/hooks/useActivitiesData";
 
 interface ActivityFilterProps {
   activeActivities: string[];
@@ -15,13 +13,26 @@ export function ActivityFilter({
   activeActivities, 
   onChange 
 }: ActivityFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <ActivityFilterEN activeActivities={activeActivities} onChange={onChange} />;
-  if (language === 'es') return <ActivityFilterES activeActivities={activeActivities} onChange={onChange} />;
-  if (language === 'pt') return <ActivityFilterPT activeActivities={activeActivities} onChange={onChange} />;
-  if (language === 'ro') return <ActivityFilterRO activeActivities={activeActivities} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <ActivityFilterEN activeActivities={activeActivities} onChange={onChange} />;
+  const { t } = useTranslation();
+  const { data: activityOptions = [], isLoading } = useActivitiesData();
+
+  console.log(`🎯 ActivityFilter: Loading=${isLoading}, Options=`, activityOptions);
+
+  // Transform the data to the format expected by SquareFilter
+  const formattedOptions = activityOptions.map(option => ({
+    value: option.name, // Use name as value for consistency
+    label: option.name
+  }));
+
+  console.log(`🎯 ActivityFilter: Formatted options=`, formattedOptions);
+
+  return (
+    <SquareFilter
+      title={t("filters.activities")}
+      options={formattedOptions}
+      selectedOptions={activeActivities}
+      onChange={onChange}
+      loading={isLoading}
+    />
+  );
 }

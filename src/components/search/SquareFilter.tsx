@@ -13,6 +13,7 @@ interface SquareFilterProps {
   selectedOptions: string[];
   onChange: (value: string, isChecked: boolean) => void;
   loading?: boolean;
+  singleSelect?: boolean; // New prop for single-select behavior
 }
 
 export function SquareFilter({ 
@@ -20,8 +21,31 @@ export function SquareFilter({
   options, 
   selectedOptions, 
   onChange, 
-  loading = false 
+  loading = false,
+  singleSelect = false
 }: SquareFilterProps) {
+
+  const handleOptionClick = (optionValue: string) => {
+    const isCurrentlySelected = selectedOptions.includes(optionValue);
+    
+    if (singleSelect) {
+      // Single select: clear others and toggle this one
+      if (isCurrentlySelected) {
+        onChange(optionValue, false); // Deselect
+      } else {
+        // Deselect any currently selected options first
+        selectedOptions.forEach(selected => {
+          if (selected !== optionValue) {
+            onChange(selected, false);
+          }
+        });
+        onChange(optionValue, true); // Select this one
+      }
+    } else {
+      // Multi-select: normal toggle behavior
+      onChange(optionValue, !isCurrentlySelected);
+    }
+  };
   
   if (loading) {
     return (
@@ -52,7 +76,7 @@ export function SquareFilter({
           return (
             <button
               key={option.value}
-              onClick={() => onChange(option.value, !isSelected)}
+              onClick={() => handleOptionClick(option.value)}
               className={cn(
                 "w-full text-left px-3 py-2 text-sm rounded-md transition-colors",
                 isSelected

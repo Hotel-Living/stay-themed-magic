@@ -1,10 +1,8 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ThemeFilterEN } from "./ThemeFilter.en";
-import { ThemeFilterES } from "./ThemeFilter.es";
-import { ThemeFilterPT } from "./ThemeFilter.pt";
-import { ThemeFilterRO } from "./ThemeFilter.ro";
+import { SquareFilter } from "./SquareFilter";
+import { useThemesData } from "@/hooks/useThemesData";
 import { Theme } from "@/utils/themes";
 
 interface ThemeFilterProps {
@@ -13,13 +11,50 @@ interface ThemeFilterProps {
 }
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <ThemeFilterEN activeTheme={activeTheme} onChange={onChange} />;
-  if (language === 'es') return <ThemeFilterES activeTheme={activeTheme} onChange={onChange} />;
-  if (language === 'pt') return <ThemeFilterPT activeTheme={activeTheme} onChange={onChange} />;
-  if (language === 'ro') return <ThemeFilterRO activeTheme={activeTheme} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <ThemeFilterEN activeTheme={activeTheme} onChange={onChange} />;
+  const { t } = useTranslation();
+  const { data: themeOptions = [], isLoading } = useThemesData();
+
+  console.log(`🎨 ThemeFilter: Loading=${isLoading}, Options=`, themeOptions);
+
+  // Transform the data to the format expected by SquareFilter (single select)
+  const formattedOptions = themeOptions.map(option => ({
+    value: option.name, // Use name as value for consistency
+    label: option.name
+  }));
+
+  console.log(`🎨 ThemeFilter: Formatted options=`, formattedOptions);
+
+  // Convert single theme selection to array format for SquareFilter
+  const selectedThemes = activeTheme ? [activeTheme.name] : [];
+
+  const handleThemeChange = (value: string, isChecked: boolean) => {
+    if (isChecked) {
+      // Find the theme in our data to get the full object
+      const selectedTheme = themeOptions.find(theme => theme.name === value);
+      if (selectedTheme) {
+        onChange({
+          id: selectedTheme.id,
+          name: selectedTheme.name,
+          level: selectedTheme.level || 1,
+          category: selectedTheme.category || 'GENERAL'
+        } as Theme);
+      }
+    } else {
+      // If deselecting the current theme, clear selection
+      if (activeTheme && activeTheme.name === value) {
+        onChange(null);
+      }
+    }
+  };
+
+  return (
+    <SquareFilter
+      title={t("filters.affinity")}
+      options={formattedOptions}
+      selectedOptions={selectedThemes}
+      onChange={handleThemeChange}
+      loading={isLoading}
+      singleSelect={true}
+    />
+  );
 }

@@ -1,10 +1,8 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { HotelFeaturesFilterEN } from "./HotelFeaturesFilter.en";
-import { HotelFeaturesFilterES } from "./HotelFeaturesFilter.es";
-import { HotelFeaturesFilterPT } from "./HotelFeaturesFilter.pt";
-import { HotelFeaturesFilterRO } from "./HotelFeaturesFilter.ro";
+import { SquareFilter } from "./SquareFilter";
+import { useFiltersByCategory } from "@/hooks/useFiltersByCategory";
 
 interface HotelFeaturesFilterProps {
   activeHotelFeatures: string[];
@@ -12,13 +10,26 @@ interface HotelFeaturesFilterProps {
 }
 
 export function HotelFeaturesFilter({ activeHotelFeatures, onChange }: HotelFeaturesFilterProps) {
-  const { language } = useTranslation();
-  
-  if (language === 'en') return <HotelFeaturesFilterEN activeHotelFeatures={activeHotelFeatures} onChange={onChange} />;
-  if (language === 'es') return <HotelFeaturesFilterES activeHotelFeatures={activeHotelFeatures} onChange={onChange} />;
-  if (language === 'pt') return <HotelFeaturesFilterPT activeHotelFeatures={activeHotelFeatures} onChange={onChange} />;
-  if (language === 'ro') return <HotelFeaturesFilterRO activeHotelFeatures={activeHotelFeatures} onChange={onChange} />;
-  
-  // Default fallback to English
-  return <HotelFeaturesFilterEN activeHotelFeatures={activeHotelFeatures} onChange={onChange} />;
+  const { t } = useTranslation();
+  const { data: hotelFeatureOptions = [], isLoading } = useFiltersByCategory('hotel_features');
+
+  console.log(`🏨 HotelFeaturesFilter: Loading=${isLoading}, Options=`, hotelFeatureOptions);
+
+  // Transform the data to the format expected by SquareFilter
+  const formattedOptions = hotelFeatureOptions.map(option => ({
+    value: option.value,
+    label: option.value
+  }));
+
+  console.log(`🏨 HotelFeaturesFilter: Formatted options=`, formattedOptions);
+
+  return (
+    <SquareFilter
+      title={t("filters.hotelFeatures")}
+      options={formattedOptions}
+      selectedOptions={activeHotelFeatures}
+      onChange={onChange}
+      loading={isLoading}
+    />
+  );
 }

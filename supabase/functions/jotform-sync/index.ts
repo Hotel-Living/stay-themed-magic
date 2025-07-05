@@ -284,21 +284,8 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
   const id = qid.toLowerCase()
   
   // COMPREHENSIVE CATEGORY DETECTION - All languages supported
-  // Hotel/Property Features
-  if (text.includes('hotel') || text.includes('property') || text.includes('facility') || 
-      text.includes('servicios') || text.includes('instalaciones') || text.includes('amenities') ||
-      text.includes('features') || text.includes('características')) {
-    return 'hotel_features'
-  }
   
-  // Room Features  
-  if (text.includes('room') || text.includes('bedroom') || text.includes('suite') ||
-      text.includes('habitación') || text.includes('cuarto') || text.includes('dormitorio') ||
-      text.includes('amenidades') || text.includes('equipamiento')) {
-    return 'room_features'
-  }
-  
-  // Room Types - Specific detection for room type fields
+  // Room Types - Most specific first
   if (text.includes('room type') || text.includes('type of room') || text.includes('accommodation type') ||
       text.includes('tipo de habitación') || text.includes('tipos de cuarto') || text.includes('modalidad habitación') ||
       text.includes('single') || text.includes('double') || text.includes('twin') || text.includes('apartment') ||
@@ -314,6 +301,34 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
       text.includes('plan') || text.includes('food') || text.includes('restaurante')) {
     return 'meal_plans'
   }
+
+  // Hotel Features - Specific hotel amenities
+  if ((text.includes('hotel') || text.includes('property')) && 
+      (text.includes('feature') || text.includes('amenity') || text.includes('service') || 
+       text.includes('facility') || text.includes('servicio') || text.includes('instalación') || 
+       text.includes('comodidad') || text.includes('pool') || text.includes('gym') || text.includes('spa') ||
+       text.includes('restaurant') || text.includes('bar') || text.includes('wifi') || text.includes('parking'))) {
+    return 'hotel_features'
+  }
+  
+  // Room Features - Specific room amenities  
+  if (text.includes('room') && 
+      (text.includes('feature') || text.includes('amenity') || text.includes('service') ||
+       text.includes('comodidad') || text.includes('servicio') || text.includes('air condition') || 
+       text.includes('balcony') || text.includes('kitchen') || text.includes('workspace') || text.includes('tv') ||
+       text.includes('minibar') || text.includes('aire acondicionado') || text.includes('balcón') ||
+       text.includes('cocina') || text.includes('escritorio'))) {
+    return 'room_features'
+  }
+  
+  // Property Styles - Enhanced detection for style-related fields
+  if (text.includes('style') || text.includes('design') || text.includes('decor') || text.includes('aesthetic') ||
+      text.includes('estilo') || text.includes('diseño') || text.includes('decoración') || text.includes('aspecto') ||
+      text.includes('classic') || text.includes('modern') || text.includes('luxury') || text.includes('minimalist') ||
+      text.includes('clásico') || text.includes('moderno') || text.includes('lujo') || text.includes('minimalista') ||
+      text.includes('fusion') || text.includes('urban') || text.includes('rural') || text.includes('elegant')) {
+    return 'property_styles'
+  }
   
   // Activities
   if (text.includes('activity') || text.includes('attraction') || text.includes('entertainment') ||
@@ -322,10 +337,10 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
     return 'activities'
   }
   
-  // Property Types
+  // Property Types - General property classification
   if (text.includes('type') || text.includes('category') || text.includes('classification') ||
       text.includes('tipo') || text.includes('categoría') || text.includes('clase') ||
-      text.includes('estilo') || text.includes('kind') || text.includes('modalidad')) {
+      text.includes('kind') || text.includes('modalidad')) {
     return 'property_types'
   }
   

@@ -127,9 +127,9 @@ function App() {
               <Route path="/affinity-stays" element={<AffinityStays />} />
               <Route path="/faq" element={<FAQ />} />
               
-              {/* Admin Routes - NO FORCED REDIRECTS */}
-              <Route path="/admin/*" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-              <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
+              {/* Admin Routes - DEPRECATED - Redirects to Fernando Panel */}
+              <Route path="/admin/*" element={<Navigate to="/panel-fernando/hotels" replace />} />
+              <Route path="/admin/roles" element={<Navigate to="/panel-fernando/user-roles" replace />} />
               
               {/* Panel Fernando - New Admin Panel */}
               <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />

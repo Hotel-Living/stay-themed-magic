@@ -32,34 +32,10 @@ export function useActivitiesDataWithLanguage() {
         return [];
       }
 
-      // Filter activities by language characteristics (similar to filters)
-      const languageFilteredData = data.filter(activity => {
-        const name = activity.name.toLowerCase();
-        
-        // Spanish language detection
-        if (language === 'es') {
-          // Spanish characteristics: contains Spanish accents, ñ, or known Spanish activity words
-          return (
-            /[áéíóúñü]/.test(name) || 
-            /\b(arte|cultura|educación|entretenimiento|comida|bebidas|deportes|actividades|tecnología|ciencia|música|teatro|danza|pintura|escultura|fotografía|literatura|historia|arqueología|museos|galerías|conciertos|espectáculos|teatro|cine|festivales|deportes|natación|senderismo|ciclismo|escalada|esquí|buceo|surf|pesca|golf|tenis|fútbol|baloncesto|cocina|gastronomía|vinos|cervezas|bares|restaurantes|cafeterías|mercados|programación|informática|ingeniería|física|química|biología|astronomía|matemáticas)\b/.test(name)
-          );
-        }
-        
-        // English language detection (default)
-        if (language === 'en') {
-          // English characteristics: no Spanish accents and common English activity words
-          return (
-            !/[áéíóúñü]/.test(name) && 
-            !/\b(arte|cultura|educación|entretenimiento|comida|bebidas|deportes|actividades|tecnología|ciencia|música|teatro|danza|pintura|escultura|fotografía|literatura|historia|arqueología|museos|galerías|conciertos|espectáculos|natación|senderismo|ciclismo|escalada|esquí|buceo|surf|pesca|golf|tenis|fútbol|baloncesto|cocina|gastronomía|vinos|cervezas|bares|restaurantes|cafeterías|mercados|programación|informática|ingeniería|física|química|biología|astronomía|matemáticas)\b/.test(name)
-          );
-        }
-        
-        // For other languages (pt, ro), fall back to English for now
-        return !/[áéíóúñü]/.test(name);
-      });
-
-      console.log(`✅ Found ${languageFilteredData.length} language-filtered activities (${language}):`, languageFilteredData);
-      return languageFilteredData;
+      // Return all activities since there's no proper translation system yet
+      // TODO: Implement proper activity translations similar to themes
+      console.log(`✅ Found ${data.length} activities (language-agnostic until translations added):`, data);
+      return data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes

@@ -237,18 +237,30 @@ export type Database = {
           category: string
           created_at: string | null
           id: string
+          is_active: boolean
+          jotform_field_id: string | null
+          last_sync_at: string | null
+          source_type: string
           value: string
         }
         Insert: {
           category: string
           created_at?: string | null
           id?: string
+          is_active?: boolean
+          jotform_field_id?: string | null
+          last_sync_at?: string | null
+          source_type?: string
           value: string
         }
         Update: {
           category?: string
           created_at?: string | null
           id?: string
+          is_active?: boolean
+          jotform_field_id?: string | null
+          last_sync_at?: string | null
+          source_type?: string
           value?: string
         }
         Relationships: []
@@ -752,6 +764,45 @@ export type Database = {
           message?: string
           name?: string
           recipient_email?: string | null
+        }
+        Relationships: []
+      }
+      jotform_sync_logs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          items_added: number | null
+          items_deactivated: number | null
+          items_processed: number | null
+          items_updated: number | null
+          status: string
+          sync_completed_at: string | null
+          sync_started_at: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          items_added?: number | null
+          items_deactivated?: number | null
+          items_processed?: number | null
+          items_updated?: number | null
+          status?: string
+          sync_completed_at?: string | null
+          sync_started_at?: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          items_added?: number | null
+          items_deactivated?: number | null
+          items_processed?: number | null
+          items_updated?: number | null
+          status?: string
+          sync_completed_at?: string | null
+          sync_started_at?: string
         }
         Relationships: []
       }

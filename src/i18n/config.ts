@@ -1,4 +1,3 @@
-import hotelsES from "./locales/es/hotels.json";
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -46,27 +45,34 @@ import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
-import esNavigation from './locales/es/navigation.json';
 import esFaq from './locales/es/faq.json';
 import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
 import esFooter from './locales/es/footer.json';
 import esHome from './locales/es/home.json';
 import esAffinity from './locales/es/affinity.json';
-import esFilters from './locales/es/filters.json';
 import esContact from './locales/es/contact.json';
-import esOurServices from './locales/es/ourServices.json';
-import esMisc from './locales/es/misc.json';
 import esContent from './locales/es/content.json';
 import esCustomerService from './locales/es/customerService.json';
-import esIntellectualProperty from './locales/es/intellectualProperty.json';
-import esOurValues from './locales/es/ourValues.json';
-import esPrivacy from './locales/es/privacy.json';
 import esHotels from './locales/es/hotels.json';
-import esDashboardGeneral from './locales/es/dashboard/general.json';
-import esDashboardCommon from './locales/es/dashboard/common.json';
-import esDashboardAccommodation from './locales/es/dashboard/accommodation.json';
-import esAdvertising from './locales/es/dashboard/advertising.json';
+import esHeader from './locales/es/header.json';
+import esLegal from './locales/es/legal.json';
+import esMenu from './locales/es/menu.json';
+import esMessages from './locales/es/messages.json';
+import esNotifications from './locales/es/notifications.json';
+import esOnboarding from './locales/es/onboarding.json';
+import esProfile from './locales/es/profile.json';
+import esQuestions from './locales/es/questions.json';
+import esReviews from './locales/es/reviews.json';
+import esSearch from './locales/es/search.json';
+import esServices from './locales/es/services.json';
+import esSignup from './locales/es/signup.json';
+import esTerms from './locales/es/terms.json';
+import esDashboardHotel from './locales/es/dashboard/hotel.json';
+import esDashboardProfile from './locales/es/dashboard/profile.json';
+import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
+import esDashboardRates from './locales/es/dashboard/rates.json';
+import esDashboardSettings from './locales/es/dashboard/settings.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -115,4 +121,150 @@ import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
 
+const resources = {
+  en: {
+    translation: enCommon,
+    navigation: enNavigation,
+    faq: enFaq,
+    auth: enAuth,
+    booking: enBooking,
+    footer: enFooter,
+    home: enHome,
+    affinity: enAffinity,
+    filters: enFilters,
+    contact: enContact,
+    ourServices: enOurServices,
+    misc: enMisc,
+    content: enContent,
+    customerService: enCustomerService,
+    intellectualProperty: enIntellectualProperty,
+    ourValues: enOurValues,
+    privacy: enPrivacy,
+    hotels: enHotels,
+    dashboard: {
+      general: enDashboardGeneral,
+      welcome: enDashboardWelcome,
+      stats: enDashboardStats,
+      accommodation: enDashboardAccommodation,
+      location: enDashboardLocation,
+      pricing: enDashboardPricing,
+      images: enDashboardImages,
+      features: enDashboardFeatures,
+      contact: enDashboardContact,
+      terms: enDashboardTerms,
+      content: enDashboardContent,
+      settings: enDashboardSettings,
+      property: enDashboardProperty,
+      affinities: enDashboardAffinities,
+      propertySteps: enDashboardPropertySteps,
+      propertyForm: enDashboardPropertyForm,
+      common: enDashboardCommon,
+      faqTerms: enDashboardFaqTerms,
+      advertising: enAdvertising,
+      ratesCalculator: enRatesCalculator,
+      welcomeContent: enWelcomeContent,
+    },
+  },
+  es: {
+    translation: esCommon,
+    faq: esFaq,
+    auth: esAuth,
+    booking: esBooking,
+    footer: esFooter,
+    home: esHome,
+    affinity: esAffinity,
+    contact: esContact,
+    content: esContent,
+    customerService: esCustomerService,
+    hotels: esHotels,
+    header: esHeader,
+    legal: esLegal,
+    menu: esMenu,
+    messages: esMessages,
+    notifications: esNotifications,
+    onboarding: esOnboarding,
+    profile: esProfile,
+    questions: esQuestions,
+    reviews: esReviews,
+    search: esSearch,
+    services: esServices,
+    signup: esSignup,
+    terms: esTerms,
+    dashboard: {
+      hotel: esDashboardHotel,
+      profile: esDashboardProfile,
+      ratesCalculator: esDashboardRatesCalculator,
+      rates: esDashboardRates,
+      settings: esDashboardSettings,
+    },
+  },
+  pt: {
+    translation: ptCommon,
+    navigation: ptNavigation,
+    faq: ptFaq,
+    auth: ptAuth,
+    booking: ptBooking,
+    footer: ptFooter,
+    home: ptHome,
+    affinity: ptAffinity,
+    filters: ptFilters,
+    contact: ptContact,
+    ourServices: ptOurServices,
+    misc: ptMisc,
+    content: ptContent,
+    customerService: ptCustomerService,
+    intellectualProperty: ptIntellectualProperty,
+    ourValues: ptOurValues,
+    privacy: ptPrivacy,
+    hotels: ptHotels,
+    dashboard: {
+      general: ptDashboardGeneral,
+      common: ptDashboardCommon,
+      accommodation: ptDashboardAccommodation,
+      advertising: ptAdvertising,
+    },
+  },
+  ro: {
+    translation: roCommon,
+    navigation: roNavigation,
+    faq: roFaq,
+    auth: roAuth,
+    booking: roBooking,
+    footer: roFooter,
+    home: roHome,
+    affinity: roAffinity,
+    filters: roFilters,
+    contact: roContact,
+    ourServices: roOurServices,
+    misc: roMisc,
+    content: roContent,
+    customerService: roCustomerService,
+    intellectualProperty: roIntellectualProperty,
+    ourValues: roOurValues,
+    privacy: roPrivacy,
+    hotels: roHotels,
+    dashboard: {
+      general: roDashboardGeneral,
+      common: roDashboardCommon,
+      accommodation: roDashboardAccommodation,
+    },
+  },
+};
 
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources,
+    fallbackLng: 'en',
+    debug: false,
+    interpolation: {
+      escapeValue: false,
+    },
+    detection: {
+      order: ['navigator', 'htmlTag', 'path', 'subdomain'],
+      caches: ['localStorage'],
+    },
+  });
+
+export default i18n;

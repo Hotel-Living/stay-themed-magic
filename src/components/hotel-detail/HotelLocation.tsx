@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslation } from "react-i18next";
 
 interface HotelLocationProps {
   hotelId: string;
@@ -24,7 +23,6 @@ export function HotelLocation({
   city,
   country
 }: HotelLocationProps) {
-  const { t } = useTranslation('hotels');
   const [mapKey, setMapKey] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -163,12 +161,12 @@ export function HotelLocation({
   }
   return <Card className="overflow-hidden border-border">
       <CardHeader className="bg-white/10 pb-4">
-        <CardTitle className="text-xl font-bold text-white">{t('hotelLocation')}</CardTitle>
+        <CardTitle className="text-xl font-bold text-white">IT´S PLACE IN THE WORLD...</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="h-64 w-full">
           {isLoading && <div className="w-full h-full bg-white/10 flex items-center justify-center">
-              <p className="text-center text-white">{t('loadingMap')}</p>
+              <p className="text-center text-white">Loading map...</p>
             </div>}
           
           {!isLoading && error && <div className="w-full h-full bg-white/10 flex flex-col items-center justify-center p-4">
@@ -177,10 +175,10 @@ export function HotelLocation({
                 {error}
               </p>
               <p className="text-sm text-white/70 mb-3">
-                {t('location')}: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : t('noLocationData'))}
+                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
               </p>
               <Button variant="outline" size="sm" className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" onClick={fetchMapKey}>
-                {t('retryLoadingMap')}
+                Retry Loading Map
               </Button>
             </div>}
           
@@ -190,9 +188,9 @@ export function HotelLocation({
           
           {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-white/10 flex items-center justify-center">
               <p className="text-center text-white">
-                {t('locationInfoUnavailable')}.
+                Location information unavailable.
                 <br />
-                {t('location')}: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : t('noLocationData'))}
+                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
               </p>
             </div>}
         </div>

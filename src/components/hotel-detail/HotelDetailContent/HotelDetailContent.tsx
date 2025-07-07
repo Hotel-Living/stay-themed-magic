@@ -144,7 +144,7 @@ export function HotelDetailContent({
       <div className="container mx-auto px-4 py-12">
         {/* Image Gallery Section */}
         {images.length > 1 && <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-            <div className="p-6 bg-[#0a0a00] bg-[_#957B23]">
+            <div className="p-6 bg-gold-800">
               <h2 className="text-2xl font-bold mb-6 text-white text-center">Gallery</h2>
               <HotelGallerySection images={images} hotelName={hotel.name} currentImageIndex={currentImageIndex} setCurrentImageIndex={setCurrentImageIndex} />
             </div>
@@ -159,20 +159,20 @@ export function HotelDetailContent({
 
         {/* Available Months Section */}
         {hotel.available_months && hotel.available_months.length > 0 && <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-            <div className="p-6">
+            <div className="p-6 bg-gold-800">
               <HotelAvailableMonths months={hotel.available_months} />
             </div>
           </Card>}
 
         {/* Room Types and Stay Durations */}
-        {hotel.room_types && hotel.room_types.length > 0 || convertedStayLengths.length > 0 && <Card className="mb-8 bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
-            <div className="p-6">
+        {hotel.room_types && hotel.room_types.length > 0 || convertedStayLengths.length > 0 && <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
+            <div className="p-6 bg-gold-800">
               <h2 className="text-2xl font-bold mb-6 text-white">Room Types & Stay Options</h2>
               
               {hotel.room_types && hotel.room_types.length > 0 && <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3 text-white">Available Room Types</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {hotel.room_types.map((roomType: any, index: number) => <div key={index} className="bg-purple-800/30 rounded-lg p-4 border border-purple-600/30">
+                    {hotel.room_types.map((roomType: any, index: number) => <div key={index} className="bg-gold-700/40 rounded-lg p-4 border border-gold-600/30">
                         <h4 className="font-semibold text-white mb-2">{roomType.name || roomType.type}</h4>
                         {roomType.description && <p className="text-white/80 text-sm">{roomType.description}</p>}
                         {roomType.capacity && <p className="text-white/70 text-sm mt-1">Capacity: {roomType.capacity} guests</p>}

@@ -15,7 +15,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
       <h2 className="text-xl font-semibold mb-6 text-white">FEATURES & AMENITIES</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {hotelFeatures?.length > 0 && (
-          <div className="p-6 rounded-xl bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(121,19,129,0.8),0_0_80px_rgba(121,19,129,0.4)] hover:shadow-[0_0_60px_rgba(121,19,129,1),0_0_100px_rgba(121,19,129,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="p-6 rounded-xl bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
             <h3 className="text-lg font-bold mb-4 text-white text-center">HOTEL FEATURES</h3>
             <div className="space-y-3">
               {hotelFeatures.map((feature, index) => (
@@ -29,7 +29,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
         )}
         
         {roomFeatures?.length > 0 && (
-          <div className="p-6 rounded-xl bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(121,19,129,0.8),0_0_80px_rgba(121,19,129,0.4)] hover:shadow-[0_0_60px_rgba(121,19,129,1),0_0_100px_rgba(121,19,129,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="p-6 rounded-xl bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
             <h3 className="text-lg font-bold mb-4 text-white text-center">ROOM FEATURES</h3>
             <div className="space-y-3">
               {roomFeatures.map((feature, index) => (

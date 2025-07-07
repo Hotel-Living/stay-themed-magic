@@ -136,8 +136,8 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-[#73127B] border-border shadow-2xl">
-      <div className="p-6 space-y-6 bg-[#73127B]">
+  return <Card className="bg-[#6000B3] border-border shadow-2xl">
+      <div className="p-6 space-y-6 bg-[#6000B3]">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">{t('bookYourStay')}</h2>
           <p className="text-white/80 mb-2">
@@ -154,10 +154,10 @@ export function RedesignedBookingSection({
         {roomTypes.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">{t('roomType')}</label>
             <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
-              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
+              <SelectTrigger className="bg-[#6000B3]/30 border-border text-white">
                 <SelectValue placeholder={t('selectRoomType')} />
               </SelectTrigger>
-              <SelectContent className="bg-[#957B23] border-border">
+              <SelectContent className="bg-[#6000B3] border-border">
                 {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-accent/50">
                     {roomType}
                   </SelectItem>)}
@@ -169,10 +169,10 @@ export function RedesignedBookingSection({
         {stayDurations.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">{t('stayDuration')}</label>
             <Select value={selectedDuration.toString()} onValueChange={value => setSelectedDuration(parseInt(value))}>
-              <SelectTrigger className="bg-[#73127B]/30 border-border text-white font-bold">
+              <SelectTrigger className="bg-[#6000B3]/30 border-border text-white font-bold">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#73127B] border-border z-50">
+              <SelectContent className="bg-[#6000B3] border-border z-50">
                 {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white font-bold hover:bg-white/10">
                     {duration} {duration === 1 ? t('day') : t('days')}
                   </SelectItem>)}
@@ -187,7 +187,7 @@ export function RedesignedBookingSection({
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);
           }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#73127B]" classNames={{
+        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#6000B3]" classNames={{
           day: "h-9 w-9 p-0 font-bold text-white hover:bg-white/10",
           day_selected: "bg-[#C4F0FF] text-[#003366] hover:bg-[#C4F0FF] hover:text-[#003366] focus:bg-[#C4F0FF] focus:text-[#003366] font-bold",
           day_today: "bg-white/20 text-white font-bold",
@@ -199,20 +199,20 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Check-out Date Display */}
-        {checkInDate && checkoutDate && <div className="bg-[#73127B]/30 rounded-lg p-4 border border-border">
+        {checkInDate && checkoutDate && <div className="bg-[#6000B3]/30 rounded-lg p-4 border border-border">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-white mb-2">{t('yourStayDetails')}</h3>
               <div className="space-y-1 text-white/90">
                 <p><strong>{t('checkIn')}:</strong> {format(checkInDate, "EEEE, MMMM do, yyyy")}</p>
                 <p><strong>{t('checkOut')}:</strong> {format(checkoutDate, "EEEE, MMMM do, yyyy")}</p>
-                <p className="bg-[#73127b]"><strong>{t('duration')}:</strong> {selectedDuration} {selectedDuration === 1 ? t('day') : t('days')}</p>
+                <p className="bg-[#6000B3]"><strong>{t('duration')}:</strong> {selectedDuration} {selectedDuration === 1 ? t('day') : t('days')}</p>
                 {selectedRoomType && <p><strong>{t('roomType')}:</strong> {selectedRoomType}</p>}
               </div>
             </div>
           </div>}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-[#73127B]/40 to-[#73127B]/30 rounded-lg p-4 border border-border">
+        <div className="bg-gradient-to-br from-[#6000B3]/40 to-[#6000B3]/30 rounded-lg p-4 border border-border">
           <div className="text-center">
             {currentPrice !== null ? <>
                 <p className="text-white/80 text-sm font-bold">
@@ -227,14 +227,14 @@ export function RedesignedBookingSection({
                   </p>}
               </> : <>
                 <p className="text-white/80 text-sm font-bold">{t('pricingInformation')}</p>
-                <p className="text-lg font-semibold text-white bg-[#73127b]">{t('priceNotAvailable')}</p>
+                <p className="text-lg font-semibold text-white bg-[#6000B3]">{t('priceNotAvailable')}</p>
                 <p className="text-white/70 text-xs font-bold">{t('contactForRates')}</p>
               </>}
           </div>
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-[#73127B]/40 to-[#73127B]/30 border border-border rounded-lg p-4">
+        <div className="bg-gradient-to-r from-[#6000B3]/40 to-[#6000B3]/30 border border-border rounded-lg p-4">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2 font-bold">
               🔔 <strong>{t('takeAdvantageOfPrice')}</strong>
@@ -246,7 +246,7 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Booking Button */}
-        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-[#73127B] hover:bg-[#73127B]/90 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-[#6000B3] hover:bg-[#6000B3]/90 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
           {t('completeBooking')}
         </Button>
       </div>

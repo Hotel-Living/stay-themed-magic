@@ -185,7 +185,7 @@ export function RedesignedBookingSection({
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);
           }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto bg-purple-800/20 text-white border-purple-600/30" />
+        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-purple-600/30 bg-[#781dc5]/20" />
         </div>
 
         {/* Check-out Date Display */}

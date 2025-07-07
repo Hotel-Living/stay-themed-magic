@@ -221,14 +221,14 @@ export function RedesignedBookingSection({
                 <p className="text-2xl font-bold text-white">
                   {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
                 </p>
-                <p className="text-white/70 text-xs font-bold">por {selectedDuration} {selectedDuration === 1 ? 'día' : 'días'}</p>
+                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.duration', { count: selectedDuration, duration: selectedDuration === 1 ? 'día' : 'días' })}</p>
                 {isPricePerPerson && <p className="text-yellow-200/80 text-xs mt-1 font-bold">
-                    Total para 2 huéspedes: {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{(currentPrice * 2).toLocaleString()}
+                    {t('priceDisplay.totalGuests', { total: `${currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}${(currentPrice * 2).toLocaleString()}` })}
                   </p>}
               </> : <>
-                <p className="text-white/80 text-sm font-bold">{t('priceInformation')}</p>
-                <p className="text-lg font-semibold text-white">{t('priceNotAvailable')}</p>
-                <p className="text-white/70 text-xs font-bold">{t('contactForRates')}</p>
+                <p className="text-white/80 text-sm font-bold">{t('priceDisplay.pricingInfo')}</p>
+                <p className="text-lg font-semibold text-white">{t('priceDisplay.notAvailable')}</p>
+                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.contactRates')}</p>
               </>}
           </div>
         </div>
@@ -237,10 +237,10 @@ export function RedesignedBookingSection({
         <div className="bg-gradient-to-r from-[#6000B3]/40 to-[#6000B3]/30 border border-border rounded-lg p-4 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2 font-bold">
-              🔔 <strong>{t('takeAdvantageOfPrice')}</strong>
+              🔔 <strong>{t('priceDisplay.takeAdvantage')}</strong>
             </p>
             <p className="text-white/80 text-xs mt-1 font-bold">
-              {t('dynamicPricingMessage')}
+              {t('priceDisplay.smartPricing')}
             </p>
           </div>
         </div>

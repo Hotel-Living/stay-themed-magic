@@ -1,5 +1,9 @@
 {
   "atAGlance": "DE UN VISTAZO...",
+  "propertyDescription": "Esta {{propertyType}} es {{style}} y ofrece opciones de estancia extendida de {{stayLengths}}.",
+  "idealFor": "ES IDEAL PARA QUIENES DISFRUTAN DE",
+  "atmosphere": "EL AMBIENTE ES",
+  "locationPerfectFor": "LA UBICACIÓN ES PERFECTA PARA",
   "featuresAndAmenities": "CARACTERÍSTICAS Y SERVICIOS",
   "hotelFeatures": "CARACTERÍSTICAS DEL HOTEL",
   "roomFeatures": "CARACTERÍSTICAS DE LAS HABITACIONES",

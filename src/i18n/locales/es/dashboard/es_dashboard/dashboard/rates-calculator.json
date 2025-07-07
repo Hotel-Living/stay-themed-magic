@@ -1,0 +1,7 @@
+{
+  "title": "Calculadora de tarifas",
+  "instruction": "Selecciona la categoría y duración de la estancia.",
+  "calculate": "Calcular",
+  "result": "Tarifa estimada:",
+  "note": "Estos valores son solo una estimación."
+}

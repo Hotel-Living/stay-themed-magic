@@ -3,8 +3,9 @@ import React from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { HotelFeaturesInfo } from "../HotelFeaturesInfo";
 import { HotelLocation } from "../HotelLocation";
-import { HotelBookingSection } from "../HotelBookingSection";
+import { RedesignedBookingSection } from "../RedesignedBookingSection";
 import { HotelNotificationButtons } from "../HotelNotificationButtons";
+import { Card } from "@/components/ui/card";
 
 interface HotelMainContentGridProps {
   hotel: HotelDetailProps;
@@ -39,35 +40,40 @@ export function HotelMainContentGrid({
   isHotelAvailable
 }: HotelMainContentGridProps) {
   return (
-    <div className="grid md:grid-cols-3 gap-6 mt-6">
-      {/* Left content area */}
-      <div className="md:col-span-2 space-y-6">
-        {/* Features card with enhanced styling */}
-        <div className="bg-gradient-to-br from-[#7B1C92] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
-          <HotelFeaturesInfo
-            hotelFeatures={hotel.hotelFeatures || []}
-            roomFeatures={hotel.roomFeatures || []}
-          />
-        </div>
+    <div className="grid lg:grid-cols-3 gap-8">
+      {/* Left content area - Features and Map */}
+      <div className="lg:col-span-2 space-y-8">
+        {/* Hotel Features and Room Features */}
+        <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
+          <div className="p-6">
+            <HotelFeaturesInfo
+              hotelFeatures={hotel.hotelFeatures || []}
+              roomFeatures={hotel.roomFeatures || []}
+            />
+          </div>
+        </Card>
         
-        {/* Location card with enhanced styling */}
-        <div className="bg-gradient-to-br from-[#7B1C92] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
-          <HotelLocation 
-            hotelId={hotel.id}
-            latitude={Number(hotel.latitude)} 
-            longitude={Number(hotel.longitude)} 
-            hotelName={hotel.name} 
-            address={hotel.address || ""}
-            city={hotel.city || ""}
-            country={hotel.country || ""}
-          />
-        </div>
+        {/* Google Map Section */}
+        <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-6 text-white text-center">Hotel Location</h2>
+            <HotelLocation 
+              hotelId={hotel.id}
+              latitude={Number(hotel.latitude)} 
+              longitude={Number(hotel.longitude)} 
+              hotelName={hotel.name} 
+              address={hotel.address || ""}
+              city={hotel.city || ""}
+              country={hotel.country || ""}
+            />
+          </div>
+        </Card>
       </div>
 
-      {/* Booking section with enhanced styling and CORRECT DYNAMIC PRICING FIELD NAMES */}
-      <div className="bg-gradient-to-br from-[#7B1C92] via-[#8B1FA3] to-[#6B1A87] rounded-xl shadow-2xl border border-white/10 p-1">
-        <div className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 rounded-lg backdrop-blur-sm border border-white/10">
-          <HotelBookingSection 
+      {/* Right sidebar - Booking Widget */}
+      <div className="lg:col-span-1">
+        <div className="sticky top-4">
+          <RedesignedBookingSection 
             checkInDate={checkInDate}
             setCheckInDate={setCheckInDate}
             selectedDuration={selectedDuration}
@@ -85,12 +91,14 @@ export function HotelMainContentGrid({
           />
           
           {/* Add notification buttons */}
-          <div className="p-4 border-t border-white/10">
-            <HotelNotificationButtons 
-              hotelId={hotel.id}
-              isAvailable={isHotelAvailable}
-            />
-          </div>
+          <Card className="mt-4 bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
+            <div className="p-4">
+              <HotelNotificationButtons 
+                hotelId={hotel.id}
+                isAvailable={isHotelAvailable}
+              />
+            </div>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import hotelsES from "./locales/es/hotels.json";
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -104,4 +105,4 @@ import roFilters from './locales/ro/filters.json';
 import roContact from './locales/ro/contact.json';
 import roOurServices from './locales/ro/ourServices.json';
 import roMisc from './locales/ro/misc.json';
-import roContent from './l
+import roContent from './locales/ro/content.json';

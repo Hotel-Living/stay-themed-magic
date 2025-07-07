@@ -114,5 +114,5 @@ import roHotels from './locales/ro/hotels.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
-import roAdvertising from './locales/ro/dashboard/advertising.json';
+
 

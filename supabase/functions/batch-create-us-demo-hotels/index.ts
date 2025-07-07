@@ -233,31 +233,31 @@ serve(async (req) => {
                      'cálido y familiar, perfecto para una estancia cómoda y accesible',
           
           // Hotel features (5-10 random)
-          features_hotel: JSON.stringify(shuffleArray([
+          features_hotel: shuffleArray([
             'WiFi gratuito', 'Aire acondicionado', 'Recepción 24h', 'Servicio de habitaciones',
             'Gimnasio', 'Piscina', 'Restaurante', 'Bar', 'Aparcamiento', 'Servicio de lavandería'
-          ]).slice(0, Math.floor(Math.random() * 6) + 5)),
+          ]).slice(0, Math.floor(Math.random() * 6) + 5),
           
           // Room features (5-10 random)  
-          features_room: JSON.stringify(shuffleArray([
+          features_room: shuffleArray([
             'TV pantalla plana', 'Minibar', 'Caja fuerte', 'Escritorio', 'Balcón',
             'Vista a la ciudad', 'Baño privado', 'Secador de pelo', 'Plancha', 'Teléfono'
-          ]).slice(0, Math.floor(Math.random() * 6) + 5)),
+          ]).slice(0, Math.floor(Math.random() * 6) + 5),
           
           // Room types
-          room_types: JSON.stringify([
+          room_types: [
             { type: 'Double', capacity: 2, description: 'Habitación doble con cama matrimonial' },
             { type: 'Single', capacity: 1, description: 'Habitación individual' }
-          ]),
+          ],
           
           // Meal plans
-          meal_plans: JSON.stringify([mealPlan]),
+          meal_plans: [mealPlan],
           
           // Stay lengths
-          stay_lengths: JSON.stringify(dist.durations),
+          stay_lengths: dist.durations,
           
           // Pricing matrix
-          pricingmatrix: JSON.stringify(pricingMatrix),
+          pricingmatrix: pricingMatrix,
           
           // Booking settings
           enable_price_increase: true,

@@ -134,7 +134,7 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl bg-[#710e92]">
+  return <Card className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
       <div className="p-6 space-y-6 bg-gold-800">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">Book Your Stay</h2>
@@ -152,11 +152,11 @@ export function RedesignedBookingSection({
         {roomTypes.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Room Type</label>
             <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
-              <SelectTrigger className="bg-purple-800/30 border-purple-600/50 text-white">
+              <SelectTrigger className="bg-gold-800/30 border-gold-600/50 text-white">
                 <SelectValue placeholder="Select room type" />
               </SelectTrigger>
-              <SelectContent className="bg-purple-900 border-purple-600/50">
-                {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-purple-700/50">
+              <SelectContent className="bg-gold-900 border-gold-600/50">
+                {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-gold-700/50">
                     {roomType}
                   </SelectItem>)}
               </SelectContent>
@@ -167,11 +167,11 @@ export function RedesignedBookingSection({
         {stayDurations.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Stay Duration</label>
             <Select value={selectedDuration.toString()} onValueChange={value => setSelectedDuration(parseInt(value))}>
-              <SelectTrigger className="bg-purple-800/30 border-purple-600/50 text-white">
+              <SelectTrigger className="bg-gold-800/30 border-gold-600/50 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-purple-900 border-purple-600/50">
-                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-purple-700/50">
+              <SelectContent className="bg-gold-900 border-gold-600/50">
+                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-gold-700/50">
                     {duration} {duration === 1 ? 'day' : 'days'}
                   </SelectItem>)}
               </SelectContent>
@@ -185,11 +185,11 @@ export function RedesignedBookingSection({
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);
           }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-purple-600/30 bg-[#710e92]" />
+        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-gold-600/30 bg-gold-800" />
         </div>
 
         {/* Check-out Date Display */}
-        {checkInDate && checkoutDate && <div className="bg-purple-800/30 rounded-lg p-4 border border-purple-600/30">
+        {checkInDate && checkoutDate && <div className="bg-gold-800/30 rounded-lg p-4 border border-gold-600/30">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-white mb-2">Your Stay Details</h3>
               <div className="space-y-1 text-white/90">
@@ -202,7 +202,7 @@ export function RedesignedBookingSection({
           </div>}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 rounded-lg p-4 border border-gold-600/30 bg-[#710e92]">
+        <div className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 rounded-lg p-4 border border-gold-600/30">
           <div className="text-center">
             {currentPrice !== null ? <>
                 <p className="text-white/80 text-sm">
@@ -224,7 +224,7 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-fuchsia-900/40 to-purple-900/40 border border-fuchsia-700/30 rounded-lg p-4 bg-[#710e92]">
+        <div className="bg-gradient-to-r from-gold-900/40 to-gold-800/30 border border-gold-700/30 rounded-lg p-4">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2">
               🔔 <strong>Take advantage of today's price!</strong>
@@ -236,7 +236,7 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Booking Button */}
-        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-gradient-to-r from-gold-600 to-gold-700 hover:from-gold-700 hover:to-gold-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
           Complete Booking
         </Button>
       </div>

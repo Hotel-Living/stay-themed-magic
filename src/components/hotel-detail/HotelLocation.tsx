@@ -159,7 +159,7 @@ export function HotelLocation({
   if (!hasMapData) {
     return null;
   }
-  return <Card className="overflow-hidden bg-[#957B23] border-border">
+  return <Card className="overflow-hidden border-border">
       <CardHeader className="bg-white/10 pb-4">
         <CardTitle className="text-xl font-bold text-white">IT´S PLACE IN THE WORLD...</CardTitle>
       </CardHeader>

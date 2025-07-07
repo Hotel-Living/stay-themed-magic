@@ -106,3 +106,13 @@ import roContact from './locales/ro/contact.json';
 import roOurServices from './locales/ro/ourServices.json';
 import roMisc from './locales/ro/misc.json';
 import roContent from './locales/ro/content.json';
+import roCustomerService from './locales/ro/customerService.json';
+import roIntellectualProperty from './locales/ro/intellectualProperty.json';
+import roOurValues from './locales/ro/ourValues.json';
+import roPrivacy from './locales/ro/privacy.json';
+import roHotels from './locales/ro/hotels.json';
+import roDashboardGeneral from './locales/ro/dashboard/general.json';
+import roDashboardCommon from './locales/ro/dashboard/common.json';
+import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
+import roAdvertising from './locales/ro/dashboard/advertising.json';
+

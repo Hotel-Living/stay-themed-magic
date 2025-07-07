@@ -28,25 +28,25 @@ export function HotelAtAGlanceSection({
       
       {/* Enhanced descriptive blocks with purple background and strong glow */}
       <div className="space-y-4">
-        <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
           <p className="text-white leading-relaxed">
             This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
           </p>
         </div>
         
-        <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
           <p className="text-white leading-relaxed">
             <span className="font-bold text-purple-100">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {lowercase(getIdealGuestsText())}.
           </p>
         </div>
         
-        <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
           <p className="text-white leading-relaxed">
             <span className="font-bold text-purple-100">EL AMBIENTE ES</span> {lowercase(getAtmosphereText())}.
           </p>
         </div>
         
-        <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
           <p className="text-white leading-relaxed">
             <span className="font-bold text-purple-100">LA UBICACIÓN ES PERFECTA PARA</span> {lowercase(getPerfectLocationText())}.
           </p>
@@ -54,7 +54,7 @@ export function HotelAtAGlanceSection({
         
         {/* Description with enhanced styling */}
         {hotel.description && (
-          <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
             <p className="text-white leading-relaxed">
               {hotel.description}
             </p>

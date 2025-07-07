@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useTranslation } from "react-i18next";
 interface PricingMatrixItem {
   roomType: string;
   stayLength: string | number;
@@ -46,7 +45,6 @@ export function RedesignedBookingSection({
   pricingMatrix,
   mealPlans
 }: RedesignedBookingSectionProps) {
-  const { t } = useTranslation('hotels');
   const [selectedRoomType, setSelectedRoomType] = useState<string>("");
   const [showUnavailableMessage, setShowUnavailableMessage] = useState(false);
 
@@ -212,35 +210,35 @@ export function RedesignedBookingSection({
           </div>}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-[#6000B3]/40 to-[#6000B3]/30 rounded-lg p-4 border border-border shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300">
+        <div className="bg-gradient-to-br from-[#73127B]/40 to-[#73127B]/30 rounded-lg p-4 border border-border">
           <div className="text-center">
             {currentPrice !== null ? <>
                 <p className="text-white/80 text-sm font-bold">
-                  {t('priceDisplay.pricePerPerson', isPricePerPerson ? 'Precio por persona' : 'Precio por habitación')}
+                  {isPricePerPerson ? 'Price per person' : 'Price for room'}
                 </p>
                 <p className="text-2xl font-bold text-white">
                   {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
                 </p>
-                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.duration', `por ${selectedDuration} ${selectedDuration === 1 ? 'día' : 'días'}`)}</p>
+                <p className="text-white/70 text-xs font-bold">for {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
                 {isPricePerPerson && <p className="text-yellow-200/80 text-xs mt-1 font-bold">
-                    {t('priceDisplay.totalGuests', `Total para 2 huéspedes: ${currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}${(currentPrice * 2).toLocaleString()}`)}
+                    Total for 2 guests: {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{(currentPrice * 2).toLocaleString()}
                   </p>}
               </> : <>
-                <p className="text-white/80 text-sm font-bold">{t('priceDisplay.pricingInfo', 'Información de Precios')}</p>
-                <p className="text-lg font-semibold text-white bg-[#6000B3]">{t('priceDisplay.notAvailable', 'Precio aún no disponible')}</p>
-                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.contactRates', 'Contáctanos para tarifas actuales')}</p>
+                <p className="text-white/80 text-sm font-bold">Pricing Information</p>
+                <p className="text-lg font-semibold text-white bg-[#73127b]">Price not available yet</p>
+                <p className="text-white/70 text-xs font-bold">Please contact us for current rates</p>
               </>}
           </div>
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-[#6000B3]/40 to-[#6000B3]/30 border border-border rounded-lg p-4 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300">
+        <div className="bg-gradient-to-r from-[#73127B]/40 to-[#73127B]/30 border border-border rounded-lg p-4">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2 font-bold">
-              🔔 <strong>{t('priceDisplay.takeAdvantage', '¡Aprovecha el precio de hoy!')}</strong>
+              🔔 <strong>Take advantage of today's price!</strong>
             </p>
             <p className="text-white/80 text-xs mt-1 font-bold">
-              {t('priceDisplay.smartPricing', 'Estas no son tarifas finales — este hotel usa nuestro sistema inteligente de precios basado en ocupación.')}
+              These are not final rates — this hotel uses our smart occupancy-based pricing system.
             </p>
           </div>
         </div>

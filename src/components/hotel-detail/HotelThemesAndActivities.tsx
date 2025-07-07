@@ -1,5 +1,6 @@
 import React from "react";
 import { HotelTheme } from "@/types/hotel";
+import { useTranslation } from "react-i18next";
 interface HotelThemesAndActivitiesProps {
   stayLengths: number[];
   hotelThemes: HotelTheme[];
@@ -10,17 +11,25 @@ export function HotelThemesAndActivities({
   hotelThemes,
   hotelActivities
 }: HotelThemesAndActivitiesProps) {
+  const { t } = useTranslation('hotels');
+  
   return <>
       {stayLengths.length > 0 && <p className="text-white mt-3 text-base font-medium">
-          This hotel offers extended stay options of {stayLengths.join(", ").replace(/, ([^,]*)$/, " and $1")} nights.
+          {t('extendedStayOptions', { 
+            stayLengths: stayLengths.join(", ").replace(/, ([^,]*)$/, ` ${t('and')} $1`) 
+          })}
         </p>}
       
       {hotelThemes.length > 0 && <p className="text-white mt-1 text-base">
-          This is a welcoming place for guests with a passion for {hotelThemes.map(theme => theme.name).join(", ").replace(/, ([^,]*)$/, " and $1")}.
+          {t('welcomingPlaceForGuests', {
+            themes: hotelThemes.map(theme => theme.name).join(", ").replace(/, ([^,]*)$/, ` ${t('and')} $1`)
+          })}
         </p>}
       
       {hotelActivities.length > 0 && <p className="text-white mt-1 text-base">
-          Guests can enjoy activities such as {hotelActivities.join(", ").replace(/, ([^,]*)$/, " and $1")} right from the hotel or nearby.
+          {t('guestsCanEnjoyActivities', {
+            activities: hotelActivities.join(", ").replace(/, ([^,]*)$/, ` ${t('and')} $1`)
+          })}
         </p>}
     </>;
 }

@@ -354,10 +354,57 @@
           },
           {
             "step": "4. ADĂUGAȚI HOTELUL VOSTRU ÎN PANOUL DE CONTROL",
-            "details": "Odată ce ați definit tema și modelul de preț, accesați panoul de control și completați pașii pentru \\\"Adăugare proprietate nouă\\\".\\nDe acolo, veți putea gestiona disponibilitatea, vizibilitatea și rezervările pe termen lung."
+            "details": "Odată ce ați definit tematica și modelul de prețuri, accesați panoul de control și completați pașii pentru \\\"Adăugare proprietate nouă\\\".\\nDe acolo veți putea gestiona disponibilitatea, vizibilitatea și rezervările pe termen lung."
           }
         ]
       }
-    }
+    },
+    "atAGlance": "DINTR-O PRIVIRE...",
+    "featuresAndAmenities": "CARACTERISTICI ȘI FACILITĂȚI",
+    "hotelFeatures": "CARACTERISTICI HOTEL",
+    "roomFeatures": "CARACTERISTICI CAMERĂ",
+    "hotelLocation": "LOCUL SĂU ÎN LUME...",
+    "loadingMap": "Se încarcă harta...",
+    "location": "Locație",
+    "noLocationData": "Fără date de locație",
+    "retryLoadingMap": "Reîncearcă încărcarea hărții",
+    "locationInfoUnavailable": "Informații de locație indisponibile",
+    "bookYourStay": "REZERVAȚI ȘEDEREA",
+    "weeklyCheckInDay": "Ziua de check-in săptămânală",
+    "meals": "Mese",
+    "roomType": "Tipul camerei",
+    "selectRoomType": "Selectați tipul camerei",
+    "stayDuration": "Durata șederii",
+    "day": "zi",
+    "days": "zile",
+    "checkInDate": "Data de check-in (doar lunea)",
+    "yourStayDetails": "Detaliile șederii voastre",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "duration": "Durata",
+    "pricePerPerson": "Preț pe persoană",
+    "priceForRoom": "Preț pe cameră",
+    "for": "pentru",
+    "totalForTwoGuests": "Total pentru 2 oaspeți",
+    "pricingInformation": "Informații despre prețuri",
+    "priceNotAvailable": "Preț încă indisponibil",
+    "contactForRates": "Contactați-ne pentru tarife actuale",
+    "takeAdvantageOfPrice": "Profitați de prețul de astăzi!",
+    "dynamicPricingMessage": "Acestea nu sunt tarife finale — acest hotel folosește sistemul nostru inteligent de prețuri bazat pe ocupare.",
+    "completeBooking": "Finalizează rezervarea",
+    "hotelNotAvailable": "Acest hotel nu este disponibil în prezent pentru rezervări.",
+    "backToSelection": "Înapoi la selecție",
+    "and": "și",
+    "mealPlans": {
+      "breakfast": "Mic dejun",
+      "halfBoard": "Demipensiune",
+      "fullBoard": "Pensiune completă",
+      "allInclusive": "Totul inclus",
+      "laundry": "Spălătorie",
+      "externalLaundry": "Serviciu de spălătorie externă disponibil"
+    },
+    "extendedStayOptions": "Acest hotel oferă opțiuni de ședere extinsă de {{stayLengths}} nopți.",
+    "welcomingPlaceForGuests": "Acesta este un loc primitor pentru oaspeții cu pasiune pentru {{themes}}.",
+    "guestsCanEnjoyActivities": "Oaspeții se pot bucura de activități precum {{activities}} direct de la hotel sau în apropiere."
   }
 }

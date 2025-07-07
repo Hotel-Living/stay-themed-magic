@@ -225,7 +225,7 @@ export function RedesignedBookingSection({
                   </p>}
               </> : <>
                 <p className="text-white/80 text-sm font-bold">Pricing Information</p>
-                <p className="text-lg font-semibold text-white">Price not available yet</p>
+                <p className="text-lg font-semibold text-white bg-[#73127b]">Price not available yet</p>
                 <p className="text-white/70 text-xs font-bold">Please contact us for current rates</p>
               </>}
           </div>

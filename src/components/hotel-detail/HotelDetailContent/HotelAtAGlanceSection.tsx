@@ -30,27 +30,37 @@ export function HotelAtAGlanceSection({
       <div className="space-y-4">
         <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
           <p className="text-white leading-relaxed">
-            This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
+            {t('propertyDescription', { 
+              propertyType: hotel.property_type ? hotel.property_type.toLowerCase() : t('property'), 
+              style: hotel.style || t('welcoming'), 
+              stayLengths: formatStayLengths() 
+            })}
           </p>
         </div>
         
-        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
-          <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {lowercase(getIdealGuestsText())}.
-          </p>
-        </div>
+        {getIdealGuestsText() && (
+          <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
+            <p className="text-white leading-relaxed">
+              <span className="font-bold text-purple-100">{t('idealFor')}</span> {lowercase(getIdealGuestsText())}.
+            </p>
+          </div>
+        )}
         
-        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
-          <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">EL AMBIENTE ES</span> {lowercase(getAtmosphereText())}.
-          </p>
-        </div>
+        {getAtmosphereText() && (
+          <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
+            <p className="text-white leading-relaxed">
+              <span className="font-bold text-purple-100">{t('atmosphereIs')}</span> {lowercase(getAtmosphereText())}.
+            </p>
+          </div>
+        )}
         
-        <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
-          <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">LA UBICACIÓN ES PERFECTA PARA</span> {lowercase(getPerfectLocationText())}.
-          </p>
-        </div>
+        {getPerfectLocationText() && (
+          <div className="p-4 rounded-lg bg-[#791381] backdrop-blur-sm border border-white/20 shadow-[0_0_30px_rgba(121,19,129,0.6)] hover:shadow-[0_0_40px_rgba(121,19,129,0.8)] transition-shadow duration-300">
+            <p className="text-white leading-relaxed">
+              <span className="font-bold text-purple-100">{t('locationPerfectFor')}</span> {lowercase(getPerfectLocationText())}.
+            </p>
+          </div>
+        )}
         
         {/* Description with enhanced styling */}
         {hotel.description && (

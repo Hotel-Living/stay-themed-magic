@@ -116,6 +116,12 @@
     },
     "extendedStayOptions": "Este hotel oferece opções de estadia prolongada de {{stayLengths}} noites.",
     "welcomingPlaceForGuests": "Este é um lugar acolhedor para hóspedes com paixão por {{themes}}.",
-    "guestsCanEnjoyActivities": "Os hóspedes podem desfrutar de atividades como {{activities}} diretamente do hotel ou nas proximidades."
+    "guestsCanEnjoyActivities": "Os hóspedes podem desfrutar de atividades como {{activities}} diretamente do hotel ou nas proximidades.",
+    "propertyDescription": "Este {{propertyType}} é {{style}} e oferece opções de estadia prolongada de {{stayLengths}}.",
+    "idealFor": "É IDEAL PARA QUEM GOSTA DE",
+    "atmosphereIs": "O AMBIENTE É",
+    "locationPerfectFor": "A LOCALIZAÇÃO É PERFEITA PARA",
+    "property": "estabelecimento",
+    "welcoming": "acolhedor"
   }
 }

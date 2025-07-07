@@ -5,6 +5,7 @@ import { HotelLocation } from "../HotelLocation";
 import { RedesignedBookingSection } from "../RedesignedBookingSection";
 import { HotelNotificationButtons } from "../HotelNotificationButtons";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 interface HotelMainContentGridProps {
   hotel: HotelDetailProps;
   checkInDate: Date | undefined;
@@ -36,6 +37,7 @@ export function HotelMainContentGrid({
   pricingMatrix,
   isHotelAvailable
 }: HotelMainContentGridProps) {
+  const { t } = useTranslation('hotels');
   // Helper function to convert features to array format
   const convertFeaturesToArray = (features: any): string[] => {
     if (!features) return [];
@@ -74,7 +76,7 @@ export function HotelMainContentGrid({
         {/* Google Map Section */}
         <Card className="bg-[#957B23] border-border shadow-2xl">
           <div className="p-6 bg-[#957B23]">
-            <h2 className="text-2xl font-bold mb-6 text-white text-center">HOTEL LOCATION</h2>
+            <h2 className="text-2xl font-bold mb-6 text-white text-center">{t('hotelLocation')}</h2>
             <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
           </div>
         </Card>

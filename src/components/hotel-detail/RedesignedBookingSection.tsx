@@ -136,28 +136,28 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-[#73127B] border-border shadow-2xl">
-      <div className="p-6 space-y-6 bg-[#73127B]">
+  return <Card className="bg-[#6000B3] border-border shadow-2xl">
+      <div className="p-6 space-y-6 bg-[#6000B3]">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2 text-white">BOOK YOUR STAY</h2>
+          <h2 className="text-2xl font-bold mb-2 text-white">{t('bookYourStay')}</h2>
           <p className="text-white/80 mb-2">
-            Weekly Check-In Day: {preferredWeekday}
+            {t('weeklyCheckInDay')}: {preferredWeekday}
           </p>
           
           {/* Display meal plans if available */}
           {mealPlans && mealPlans.length > 0 && <p className="text-white/90 mb-4 text-sm">
-              Meals: {formatMealPlans()}
+              {t('meals')}: {formatMealPlans()}
             </p>}
         </div>
 
         {/* Room Type Selection */}
         {roomTypes.length > 0 && <div className="space-y-2">
-            <label className="text-sm font-semibold text-white">Room Type</label>
+            <label className="text-sm font-semibold text-white">{t('roomType')}</label>
             <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
-              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
+              <SelectTrigger className="bg-[#6000B3]/30 border-border text-white">
                 <SelectValue placeholder="Select room type" />
               </SelectTrigger>
-              <SelectContent className="bg-[#957B23] border-border">
+              <SelectContent className="bg-[#6000B3] border-border">
                 {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-accent/50">
                     {roomType}
                   </SelectItem>)}
@@ -167,12 +167,12 @@ export function RedesignedBookingSection({
 
         {/* Stay Duration Selection */}
         {stayDurations.length > 0 && <div className="space-y-2">
-            <label className="text-sm font-semibold text-white">Stay Duration</label>
+            <label className="text-sm font-semibold text-white">{t('stayDuration')}</label>
             <Select value={selectedDuration.toString()} onValueChange={value => setSelectedDuration(parseInt(value))}>
-              <SelectTrigger className="bg-[#73127B]/30 border-border text-white font-bold">
+              <SelectTrigger className="bg-[#6000B3]/30 border-border text-white font-bold">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#73127B] border-border z-50">
+              <SelectContent className="bg-[#6000B3] border-border z-50">
                 {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white font-bold hover:bg-white/10">
                     {duration} {duration === 1 ? 'day' : 'days'}
                   </SelectItem>)}
@@ -182,12 +182,12 @@ export function RedesignedBookingSection({
 
         {/* Calendar - Only Mondays selectable */}
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-white">Check-in Date (Mondays only)</label>
+          <label className="text-sm font-semibold text-white">{t('checkInDate')} (Mondays only)</label>
           <Calendar mode="single" selected={checkInDate} onSelect={date => {
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);
           }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#73127B]" classNames={{
+        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#6000B3]" classNames={{
           day: "h-9 w-9 p-0 font-bold text-white hover:bg-white/10",
           day_selected: "bg-[#C4F0FF] text-[#003366] hover:bg-[#C4F0FF] hover:text-[#003366] focus:bg-[#C4F0FF] focus:text-[#003366] font-bold",
           day_today: "bg-white/20 text-white font-bold",
@@ -199,13 +199,13 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Check-out Date Display */}
-        {checkInDate && checkoutDate && <div className="bg-[#73127B]/30 rounded-lg p-4 border border-border">
+        {checkInDate && checkoutDate && <div className="bg-[#6000B3]/30 rounded-lg p-4 border border-border">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-white mb-2">Your Stay Details</h3>
               <div className="space-y-1 text-white/90">
                 <p><strong>Check-in:</strong> {format(checkInDate, "EEEE, MMMM do, yyyy")}</p>
                 <p><strong>Check-out:</strong> {format(checkoutDate, "EEEE, MMMM do, yyyy")}</p>
-                <p className="bg-[#73127b]"><strong>Duration:</strong> {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
+                <p><strong>Duration:</strong> {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
                 {selectedRoomType && <p><strong>Room Type:</strong> {selectedRoomType}</p>}
               </div>
             </div>
@@ -216,19 +216,19 @@ export function RedesignedBookingSection({
           <div className="text-center">
             {currentPrice !== null ? <>
                 <p className="text-white/80 text-sm font-bold">
-                  {t('priceDisplay.pricePerPerson', isPricePerPerson ? 'Precio por persona' : 'Precio por habitación')}
+                  {isPricePerPerson ? t('priceDisplay.pricePerPerson') : t('priceDisplay.pricePerRoom')}
                 </p>
                 <p className="text-2xl font-bold text-white">
                   {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
                 </p>
-                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.duration', `por ${selectedDuration} ${selectedDuration === 1 ? 'día' : 'días'}`)}</p>
+                <p className="text-white/70 text-xs font-bold">por {selectedDuration} {selectedDuration === 1 ? 'día' : 'días'}</p>
                 {isPricePerPerson && <p className="text-yellow-200/80 text-xs mt-1 font-bold">
-                    {t('priceDisplay.totalGuests', `Total para 2 huéspedes: ${currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}${(currentPrice * 2).toLocaleString()}`)}
+                    Total para 2 huéspedes: {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{(currentPrice * 2).toLocaleString()}
                   </p>}
               </> : <>
-                <p className="text-white/80 text-sm font-bold">{t('priceDisplay.pricingInfo', 'Información de Precios')}</p>
-                <p className="text-lg font-semibold text-white bg-[#6000B3]">{t('priceDisplay.notAvailable', 'Precio aún no disponible')}</p>
-                <p className="text-white/70 text-xs font-bold">{t('priceDisplay.contactRates', 'Contáctanos para tarifas actuales')}</p>
+                <p className="text-white/80 text-sm font-bold">{t('priceInformation')}</p>
+                <p className="text-lg font-semibold text-white">{t('priceNotAvailable')}</p>
+                <p className="text-white/70 text-xs font-bold">{t('contactForRates')}</p>
               </>}
           </div>
         </div>
@@ -237,17 +237,17 @@ export function RedesignedBookingSection({
         <div className="bg-gradient-to-r from-[#6000B3]/40 to-[#6000B3]/30 border border-border rounded-lg p-4 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2 font-bold">
-              🔔 <strong>{t('priceDisplay.takeAdvantage', '¡Aprovecha el precio de hoy!')}</strong>
+              🔔 <strong>{t('takeAdvantageOfPrice')}</strong>
             </p>
             <p className="text-white/80 text-xs mt-1 font-bold">
-              {t('priceDisplay.smartPricing', 'Estas no son tarifas finales — este hotel usa nuestro sistema inteligente de precios basado en ocupación.')}
+              {t('dynamicPricingMessage')}
             </p>
           </div>
         </div>
 
         {/* Booking Button */}
-        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-[#73127B] hover:bg-[#73127B]/90 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
-          Complete Booking
+        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-[#6000B3] hover:bg-[#6000B3]/90 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+          {t('completeBooking')}
         </Button>
       </div>
     </Card>;

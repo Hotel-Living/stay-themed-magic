@@ -5,6 +5,7 @@ import { HotelLocation } from "../HotelLocation";
 import { RedesignedBookingSection } from "../RedesignedBookingSection";
 import { HotelNotificationButtons } from "../HotelNotificationButtons";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 interface HotelMainContentGridProps {
   hotel: HotelDetailProps;
   checkInDate: Date | undefined;
@@ -36,6 +37,8 @@ export function HotelMainContentGrid({
   pricingMatrix,
   isHotelAvailable
 }: HotelMainContentGridProps) {
+  const { t } = useTranslation('hotels');
+  
   // Helper function to convert features to array format
   const convertFeaturesToArray = (features: any): string[] => {
     if (!features) return [];
@@ -62,8 +65,8 @@ export function HotelMainContentGrid({
       {/* Left content area - Features and Map */}
       <div className="lg:col-span-2 space-y-8">
         {/* Hotel Features and Room Features */}
-        <Card className="bg-[#957B23] border-border shadow-2xl">
-          <div className="p-6 bg-[#957B23]">
+        <Card className="bg-[#6000B3] border-border shadow-2xl">
+          <div className="p-6 bg-[#6000B3]">
             <HotelFeaturesInfo 
               hotelFeatures={hotelFeaturesArray} 
               roomFeatures={roomFeaturesArray} 
@@ -72,9 +75,9 @@ export function HotelMainContentGrid({
         </Card>
         
         {/* Google Map Section */}
-        <Card className="bg-[#957B23] border-border shadow-2xl">
-          <div className="p-6 bg-[#957B23]">
-            <h2 className="text-2xl font-bold mb-6 text-white text-center">HOTEL LOCATION</h2>
+        <Card className="bg-[#6000B3] border-border shadow-2xl">
+          <div className="p-6 bg-[#6000B3]">
+            <h2 className="text-2xl font-bold mb-6 text-white text-center">{t('hotelLocation')}</h2>
             <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
           </div>
         </Card>
@@ -82,7 +85,7 @@ export function HotelMainContentGrid({
 
       {/* Right sidebar - Booking Widget */}
       <div className="lg:col-span-1">
-        <div className="sticky top-4 bg-[#830d8a]">
+        <div className="sticky top-4 bg-[#6000B3]">
           <RedesignedBookingSection checkInDate={checkInDate} setCheckInDate={setCheckInDate} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} stayDurations={stayDurations} rates={preparedRates} currency={hotel.currency || "USD"} handleBookClick={handleBookClick} preferredWeekday={checkInWeekday} enable_price_increase={hotel.enable_price_increase} price_increase_cap={hotel.price_increase_cap} availableMonths={hotel.available_months} pricingMatrix={pricingMatrix} mealPlans={hotel.meal_plans} />
           
           {/* Add notification buttons */}

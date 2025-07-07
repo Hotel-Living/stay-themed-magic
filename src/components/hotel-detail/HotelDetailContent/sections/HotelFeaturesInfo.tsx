@@ -12,16 +12,16 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
 
   return (
     <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-4 text-white">FEATURES & AMENITIES</h2>
+      <h2 className="text-xl font-semibold mb-6 text-white">FEATURES & AMENITIES</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {hotelFeatures?.length > 0 && (
-          <div>
-            <h3 className="text-lg font-medium mb-3 text-white">Hotel Features</h3>
-            <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-gradient-to-br from-amber-600/40 via-yellow-600/30 to-amber-700/40 backdrop-blur-sm border border-amber-400/30 shadow-lg">
+            <h3 className="text-lg font-bold mb-4 text-white text-center">HOTEL FEATURES</h3>
+            <div className="space-y-3">
               {hotelFeatures.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2 text-white">
-                  <Check size={16} className="text-green-400 flex-shrink-0" />
-                  <span className="text-sm">{feature}</span>
+                <div key={index} className="flex items-center gap-3 text-white">
+                  <Check size={18} className="text-emerald-300 flex-shrink-0" />
+                  <span className="text-sm font-medium">{feature}</span>
                 </div>
               ))}
             </div>
@@ -29,13 +29,13 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
         )}
         
         {roomFeatures?.length > 0 && (
-          <div>
-            <h3 className="text-lg font-medium mb-3 text-white">Room Features</h3>
-            <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-gradient-to-br from-amber-600/40 via-yellow-600/30 to-amber-700/40 backdrop-blur-sm border border-amber-400/30 shadow-lg">
+            <h3 className="text-lg font-bold mb-4 text-white text-center">ROOM FEATURES</h3>
+            <div className="space-y-3">
               {roomFeatures.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2 text-white">
-                  <Check size={16} className="text-green-400 flex-shrink-0" />
-                  <span className="text-sm">{feature}</span>
+                <div key={index} className="flex items-center gap-3 text-white">
+                  <Check size={18} className="text-emerald-300 flex-shrink-0" />
+                  <span className="text-sm font-medium">{feature}</span>
                 </div>
               ))}
             </div>

@@ -23,35 +23,35 @@ export function HotelAtAGlanceSection({
     <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">
       <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
       
-      {/* Content with diagonal purple-to-gold animated backgrounds */}
-      <div className="space-y-3">
-        <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s' }}>
-          <p className="text-white">
+      {/* Enhanced descriptive blocks with distinct colored backgrounds */}
+      <div className="space-y-4">
+        <div className="p-4 rounded-lg bg-gradient-to-br from-indigo-600/60 via-blue-600/50 to-purple-600/60 backdrop-blur-sm border border-indigo-300/40 shadow-xl">
+          <p className="text-white leading-relaxed">
             This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
           </p>
         </div>
         
-        <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.4s' }}>
-          <p className="text-white">
-            <span className="font-semibold">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {lowercase(getIdealGuestsText())}.
+        <div className="p-4 rounded-lg bg-gradient-to-br from-emerald-600/60 via-teal-600/50 to-cyan-600/60 backdrop-blur-sm border border-emerald-300/40 shadow-xl">
+          <p className="text-white leading-relaxed">
+            <span className="font-bold text-emerald-100">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {lowercase(getIdealGuestsText())}.
           </p>
         </div>
         
-        <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.8s' }}>
-          <p className="text-white">
-            <span className="font-semibold">EL AMBIENTE ES</span> {lowercase(getAtmosphereText())}.
+        <div className="p-4 rounded-lg bg-gradient-to-br from-rose-600/60 via-pink-600/50 to-purple-600/60 backdrop-blur-sm border border-rose-300/40 shadow-xl">
+          <p className="text-white leading-relaxed">
+            <span className="font-bold text-rose-100">EL AMBIENTE ES</span> {lowercase(getAtmosphereText())}.
           </p>
         </div>
         
-        <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '1.2s' }}>
-          <p className="text-white">
-            <span className="font-semibold">LA UBICACIÓN ES PERFECTA PARA</span> {lowercase(getPerfectLocationText())}.
+        <div className="p-4 rounded-lg bg-gradient-to-br from-amber-600/60 via-orange-600/50 to-red-600/60 backdrop-blur-sm border border-amber-300/40 shadow-xl">
+          <p className="text-white leading-relaxed">
+            <span className="font-bold text-amber-100">LA UBICACIÓN ES PERFECTA PARA</span> {lowercase(getPerfectLocationText())}.
           </p>
         </div>
         
-        {/* Description with enhanced styling - NOW WITH SAME ANIMATED BACKGROUND */}
+        {/* Description with enhanced styling */}
         {hotel.description && (
-          <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '1.6s' }}>
+          <div className="p-4 rounded-lg bg-gradient-to-br from-violet-600/60 via-purple-600/50 to-fuchsia-600/60 backdrop-blur-sm border border-violet-300/40 shadow-xl">
             <p className="text-white leading-relaxed">
               {hotel.description}
             </p>

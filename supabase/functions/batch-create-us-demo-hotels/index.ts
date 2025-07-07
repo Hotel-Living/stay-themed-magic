@@ -259,11 +259,7 @@ serve(async (req) => {
           // Pricing matrix
           pricingmatrix: JSON.stringify(pricingMatrix),
           
-          // Laundry (50/50 split)
-          laundry: Math.random() < 0.5 ? 'included' : 'external_service',
-          
           // Booking settings
-          is_reservable: false, // Demo mode
           enable_price_increase: true,
           price_increase_cap: 20,
           allow_stay_extensions: true,
@@ -329,8 +325,14 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Successfully created 60 US demo hotels',
-      hotels_created: insertedHotels.length
+      stats: {
+        totalCreated: insertedHotels.length,
+        errors: 0,
+        hotelDetails: insertedHotels.map(hotel => ({
+          id: hotel.id,
+          name: hotel.name
+        }))
+      }
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });

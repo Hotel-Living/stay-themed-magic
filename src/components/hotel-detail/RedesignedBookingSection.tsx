@@ -120,15 +120,15 @@ export function RedesignedBookingSection({
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
   if (showUnavailableMessage) {
-    return <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
+    return <Card className="border-border shadow-2xl">
         <div className="p-6">
-          <Alert className="border-orange-500/50 bg-orange-950/30">
+          <Alert className="border-orange-500/50">
             <AlertCircle className="h-4 w-4 text-orange-400" />
             <AlertDescription className="text-orange-200">
               This hotel is currently not available for reservations.
             </AlertDescription>
           </Alert>
-          <Button onClick={() => setShowUnavailableMessage(false)} variant="outline" className="mt-4 w-full bg-purple-800/30 border-purple-600/50 text-white hover:bg-purple-700/40">
+          <Button onClick={() => setShowUnavailableMessage(false)} variant="outline" className="mt-4 w-full border-border text-white hover:bg-white/10">
             Back to Selection
           </Button>
         </div>

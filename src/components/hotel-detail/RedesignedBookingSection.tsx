@@ -203,7 +203,7 @@ export function RedesignedBookingSection({
               <div className="space-y-1 text-white/90">
                 <p><strong>Check-in:</strong> {format(checkInDate, "EEEE, MMMM do, yyyy")}</p>
                 <p><strong>Check-out:</strong> {format(checkoutDate, "EEEE, MMMM do, yyyy")}</p>
-                <p><strong>Duration:</strong> {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
+                <p className="bg-[#73127b]"><strong>Duration:</strong> {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
                 {selectedRoomType && <p><strong>Room Type:</strong> {selectedRoomType}</p>}
               </div>
             </div>

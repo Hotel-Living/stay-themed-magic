@@ -57,14 +57,12 @@ export function HotelMainContentGrid({
 
       {/* Right sidebar - Booking Widget */}
       <div className="lg:col-span-1">
-        <div className="sticky top-4">
+        <div className="sticky top-4 bg-[#710e92]">
           <RedesignedBookingSection checkInDate={checkInDate} setCheckInDate={setCheckInDate} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} stayDurations={stayDurations} rates={preparedRates} currency={hotel.currency || "USD"} handleBookClick={handleBookClick} preferredWeekday={checkInWeekday} enable_price_increase={hotel.enable_price_increase} price_increase_cap={hotel.price_increase_cap} availableMonths={hotel.available_months} pricingMatrix={pricingMatrix} mealPlans={hotel.meal_plans} />
           
           {/* Add notification buttons */}
           <Card className="mt-4 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-            <div className="p-4">
-              <HotelNotificationButtons hotelId={hotel.id} isAvailable={isHotelAvailable} />
-            </div>
+            
           </Card>
         </div>
       </div>

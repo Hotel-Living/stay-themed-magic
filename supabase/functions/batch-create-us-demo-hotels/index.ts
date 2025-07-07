@@ -125,37 +125,7 @@ serve(async (req) => {
     );
 
     console.log('Starting batch creation of 60 US demo hotels...');
-
-    // First, clean up existing US demo hotels (except Hotel Diplomat)
-    console.log('Cleaning up existing US demo hotels...');
-    const { data: existingUSHotels } = await supabase
-      .from('hotels')
-      .select('id, name')
-      .eq('country', 'United States')
-      .neq('name', 'Hotel Diplomat');
-    
-    if (existingUSHotels && existingUSHotels.length > 0) {
-      console.log(`Found ${existingUSHotels.length} existing US hotels to delete`);
-      
-      // Delete related data first
-      for (const hotel of existingUSHotels) {
-        await supabase.from('hotel_themes').delete().eq('hotel_id', hotel.id);
-        await supabase.from('hotel_activities').delete().eq('hotel_id', hotel.id);
-        await supabase.from('hotel_images').delete().eq('hotel_id', hotel.id);
-        await supabase.from('favorites').delete().eq('hotel_id', hotel.id);
-        await supabase.from('bookings').delete().eq('hotel_id', hotel.id);
-        await supabase.from('reviews').delete().eq('hotel_id', hotel.id);
-      }
-      
-      // Delete the hotels themselves
-      await supabase
-        .from('hotels')
-        .delete()
-        .eq('country', 'United States')
-        .neq('name', 'Hotel Diplomat');
-      
-      console.log('Cleanup completed');
-    }
+    console.log('Database has been pre-cleaned via SQL migration - proceeding with generation');
 
     // Fetch existing themes and activities
     const { data: themes } = await supabase.from('themes').select('id, name');

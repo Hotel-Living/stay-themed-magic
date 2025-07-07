@@ -49,7 +49,7 @@ export function HotelAvailableMonths({
         <Calendar className="w-5 h-5 text-fuchsia-400" />
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {normalizedMonths.map(month => <div key={month} className="text-center p-3 rounded-lg border border-gold-500/20 transition-colors bg-gold-800">
+        {normalizedMonths.map(month => <div key={month} className="text-center p-3 rounded-lg border border-border transition-colors bg-card">
             <span className="font-medium">{month}</span>
           </div>)}
       </div>

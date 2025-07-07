@@ -69,7 +69,7 @@ export default function BookingDropdown({ pricingMatrix = [], onSelect }: Bookin
       <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 text-white">
         <SelectValue placeholder={defaultDisplayValue} />
       </SelectTrigger>
-      <SelectContent className="bg-[#860493] border border-fuchsia-800/30 z-50">
+      <SelectContent className="bg-card border border-border z-50">
         {sortedPricingMatrix.map((item, index) => {
           const optionValue = formatDropdownOption(item);
           return (

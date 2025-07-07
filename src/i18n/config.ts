@@ -52,6 +52,7 @@ import esFooter from './locales/es/footer.json';
 import esHome from './locales/es/home.json';
 import esAffinity from './locales/es/affinity.json';
 import esContact from './locales/es/contact.json';
+import esFilters from './locales/es/filters.json';
 import esContent from './locales/es/content.json';
 import esCustomerService from './locales/es/customerService.json';
 import esHotels from './locales/es/hotels.json';
@@ -177,6 +178,7 @@ const resources = {
     content: esContent,
     customerService: esCustomerService,
     hotels: esHotels,
+    filters: esFilters,
     header: esHeader,
     legal: esLegal,
     menu: esMenu,

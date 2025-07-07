@@ -134,8 +134,8 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-gradient-to-br from-[#957B23]/40 to-[#957B23]/30 border-border shadow-2xl">
-      <div className="p-6 space-y-6 bg-[#957B23]">
+  return <Card className="bg-gradient-to-br from-[#73127B]/40 to-[#73127B]/30 border-border shadow-2xl">
+      <div className="p-6 space-y-6 bg-[#73127B]">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">Book Your Stay</h2>
           <p className="text-white/80 mb-2">
@@ -152,11 +152,11 @@ export function RedesignedBookingSection({
         {roomTypes.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Room Type</label>
             <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
-              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
+              <SelectTrigger className="bg-[#73127B]/30 border-border text-white font-bold">
                 <SelectValue placeholder="Select room type" />
               </SelectTrigger>
-              <SelectContent className="bg-[#957B23] border-border">
-                {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-accent/50">
+              <SelectContent className="bg-[#73127B] border-border z-50">
+                {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white font-bold hover:bg-white/10">
                     {roomType}
                   </SelectItem>)}
               </SelectContent>
@@ -170,8 +170,8 @@ export function RedesignedBookingSection({
               <SelectTrigger className="bg-[#73127B]/30 border-border text-white font-bold">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#73127B] border-border">
-                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white font-bold hover:bg-accent/50">
+              <SelectContent className="bg-[#73127B] border-border z-50">
+                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white font-bold hover:bg-white/10">
                     {duration} {duration === 1 ? 'day' : 'days'}
                   </SelectItem>)}
               </SelectContent>
@@ -192,12 +192,12 @@ export function RedesignedBookingSection({
             disabled={date => !isDateSelectable(date)} 
             className="border rounded-md w-full mx-auto text-white border-border bg-[#73127B]"
             classNames={{
-              day: "h-9 w-9 p-0 font-normal text-white hover:bg-white/10",
-              day_selected: "bg-[#B3DAF3] text-[#003A70] hover:bg-[#B3DAF3] hover:text-[#003A70] focus:bg-[#B3DAF3] focus:text-[#003A70]",
-              day_today: "bg-white/20 text-white",
+              day: "h-9 w-9 p-0 font-bold text-white hover:bg-white/10",
+              day_selected: "bg-[#C4F0FF] text-[#003366] hover:bg-[#C4F0FF] hover:text-[#003366] focus:bg-[#C4F0FF] focus:text-[#003366] font-bold",
+              day_today: "bg-white/20 text-white font-bold",
               day_disabled: "text-white/30 opacity-50",
-              head_cell: "text-white/70 rounded-md w-9 font-normal text-[0.8rem]",
-              caption_label: "text-white font-medium",
+              head_cell: "text-white/70 rounded-md w-9 font-bold text-[0.8rem]",
+              caption_label: "text-white font-bold",
               nav_button: "text-white hover:bg-white/10"
             }}
           />
@@ -217,41 +217,41 @@ export function RedesignedBookingSection({
           </div>}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-[#957B23]/40 to-[#957B23]/30 rounded-lg p-4 border border-border">
+        <div className="bg-gradient-to-br from-[#73127B]/40 to-[#73127B]/30 rounded-lg p-4 border border-border">
           <div className="text-center">
             {currentPrice !== null ? <>
-                <p className="text-white/80 text-sm">
+                <p className="text-white/80 text-sm font-bold">
                   {isPricePerPerson ? 'Price per person' : 'Price for room'}
                 </p>
                 <p className="text-2xl font-bold text-white">
                   {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
                 </p>
-                <p className="text-white/70 text-xs">for {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
-                {isPricePerPerson && <p className="text-yellow-200/80 text-xs mt-1">
+                <p className="text-white/70 text-xs font-bold">for {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
+                {isPricePerPerson && <p className="text-yellow-200/80 text-xs mt-1 font-bold">
                     Total for 2 guests: {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{(currentPrice * 2).toLocaleString()}
                   </p>}
               </> : <>
-                <p className="text-white/80 text-sm">Pricing Information</p>
+                <p className="text-white/80 text-sm font-bold">Pricing Information</p>
                 <p className="text-lg font-semibold text-white">Price not available yet</p>
-                <p className="text-white/70 text-xs">Please contact us for current rates</p>
+                <p className="text-white/70 text-xs font-bold">Please contact us for current rates</p>
               </>}
           </div>
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-[#957B23]/40 to-[#957B23]/30 border border-border rounded-lg p-4">
+        <div className="bg-gradient-to-r from-[#73127B]/40 to-[#73127B]/30 border border-border rounded-lg p-4">
           <div className="text-center">
-            <p className="text-white text-sm flex items-center justify-center gap-2">
+            <p className="text-white text-sm flex items-center justify-center gap-2 font-bold">
               🔔 <strong>Take advantage of today's price!</strong>
             </p>
-            <p className="text-white/80 text-xs mt-1">
+            <p className="text-white/80 text-xs mt-1 font-bold">
               These are not final rates — this hotel uses our smart occupancy-based pricing system.
             </p>
           </div>
         </div>
 
         {/* Booking Button */}
-        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-gradient-to-r from-primary to-primary-foreground hover:from-primary/90 hover:to-primary-foreground/90 text-white font-semibold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        <Button onClick={handleFinalBooking} disabled={!checkInDate || !selectedDuration || roomTypes.length > 0 && !selectedRoomType} className="w-full bg-[#73127B] hover:bg-[#73127B]/90 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
           Complete Booking
         </Button>
       </div>

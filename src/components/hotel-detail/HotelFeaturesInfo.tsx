@@ -15,7 +15,7 @@ export function HotelFeaturesInfo({
   if (validHotelFeatures.length === 0 && validRoomFeatures.length === 0) {
     return null;
   }
-  return <div className="my-6 p-4 rounded-lg bg-[#957B23]">
+  return <div className="my-6 p-4 rounded-lg bg-[#73127B]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {validHotelFeatures.length > 0 && <div>
             <h3 className="text-xl font-semibold mb-4 text-white text-left">HOTEL FEATURES</h3>

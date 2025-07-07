@@ -7,14 +7,14 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export function HeroSection() {
   const isMobile = useIsMobile();
-  const { t, language } = useTranslation();
+  const { t, language } = useTranslation('home');
 
   // Common slogans data to avoid duplication
   const slogans = [
-    t('home.heroSection.slogans.getRidOfChores'),
-    t('home.heroSection.slogans.selectHotelsByThemes'),
-    t('home.heroSection.slogans.boostSocialLife'),
-    t('home.heroSection.slogans.meetLikeMinded')
+    t('heroSection.slogans.getRidOfChores'),
+    t('heroSection.slogans.selectHotelsByThemes'),
+    t('heroSection.slogans.boostSocialLife'),
+    t('heroSection.slogans.meetLikeMinded')
   ];
 
   // Render a single slogan item consistently
@@ -44,7 +44,7 @@ export function HeroSection() {
               <div className="relative rounded-lg border-2 border-[#D946EF] bg-[#8017B0] backdrop-blur-sm shadow-[0_0_15px_rgba(0,110,245,0.7)] px-[11px] my-0 py-0">
                 <p className={`${isMobile ? "text-xl" : "text-sm sm:text-base md:text-lg"} font-bold max-w-full text-center whitespace-nowrap`} style={{
                 color: "#FFF9B0"
-              }}>{t('home.heroSection.revolutionHasCome')}</p>
+              }}>{t('heroSection.revolutionHasCome')}</p>
               </div>
             </div>
           </div>
@@ -53,14 +53,14 @@ export function HeroSection() {
           <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-2 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
             filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
           }}>
-            {t('home.heroSection.liveInHotels')}
+            {t('heroSection.liveInHotels')}
           </h1>
 
           {/* Boost Your Life! with 30% reduced size and updated color to #FFF7BD */}
           <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFF7BD] via-[#FFF7BD] to-[#FFF7BD] bg-clip-text text-transparent`} style={{
             filter: 'drop-shadow(0 0 10px rgba(255, 247, 189, 0.8)) drop-shadow(0 0 20px rgba(255, 247, 189, 0.6)) drop-shadow(0 0 30px rgba(255, 247, 189, 0.4))'
           }}>
-            {t('home.heroSection.boostYourLife')}
+            {t('heroSection.boostYourLife')}
           </h2>
         </div>
         

@@ -134,7 +134,7 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
+  return <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl bg-[#710e92]">
       <div className="p-6 space-y-6 bg-gold-800">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">Book Your Stay</h2>

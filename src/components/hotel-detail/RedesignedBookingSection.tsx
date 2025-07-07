@@ -224,7 +224,7 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-fuchsia-900/40 to-purple-900/40 border border-fuchsia-700/30 rounded-lg p-4">
+        <div className="bg-gradient-to-r from-fuchsia-900/40 to-purple-900/40 border border-fuchsia-700/30 rounded-lg p-4 bg-[#710e92]">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2">
               🔔 <strong>Take advantage of today's price!</strong>

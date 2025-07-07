@@ -1,0 +1,364 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+interface JotFormSubmission {
+  submissionID: string
+  formID: string
+  ip: string
+  formTitle: string
+  answers: {
+    [key: string]: {
+      name: string
+      answer: string | string[]
+      text: string
+      type: string
+    }
+  }
+}
+
+interface PricingMatrix {
+  category: number
+  stayLength: number
+  doubleOccupancy: number
+  singleOccupancy: number
+}
+
+Deno.serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
+
+  console.log(`JotForm hotel submission handler triggered via ${req.method} request`)
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    let submissionData: JotFormSubmission
+
+    if (req.method === 'POST') {
+      const contentType = req.headers.get('content-type') || ''
+      
+      if (contentType.includes('application/x-www-form-urlencoded')) {
+        // JotForm webhook data comes as form-encoded
+        const formData = await req.formData()
+        const rawSubmissionID = formData.get('submissionID') as string
+        const rawJSONData = formData.get('rawRequest') as string
+        
+        if (rawJSONData) {
+          submissionData = JSON.parse(rawJSONData)
+        } else {
+          throw new Error('No submission data received from JotForm')
+        }
+        
+        console.log('JotForm submission received:', {
+          submissionID: submissionData.submissionID,
+          formID: submissionData.formID,
+          answersCount: Object.keys(submissionData.answers).length
+        })
+        
+      } else if (contentType.includes('application/json')) {
+        submissionData = await req.json()
+      } else {
+        throw new Error('Unsupported content type')
+      }
+    } else {
+      throw new Error('Only POST requests are supported')
+    }
+
+    // Parse hotel data from JotForm submission
+    const hotelData = parseHotelSubmission(submissionData)
+    console.log('Parsed hotel data:', hotelData)
+
+    // Create hotel record
+    const { data: hotel, error: hotelError } = await supabase
+      .from('hotels')
+      .insert({
+        name: hotelData.name,
+        description: hotelData.description,
+        country: hotelData.country,
+        city: hotelData.city,
+        address: hotelData.address,
+        postal_code: hotelData.postalCode,
+        latitude: hotelData.latitude,
+        longitude: hotelData.longitude,
+        category: hotelData.category,
+        property_type: hotelData.propertyType,
+        style: hotelData.style,
+        contact_name: hotelData.contactName,
+        contact_email: hotelData.contactEmail,
+        contact_phone: hotelData.contactPhone,
+        stay_lengths: hotelData.stayLengths,
+        meal_plans: hotelData.mealPlans,
+        rates: hotelData.rates,
+        features_hotel: hotelData.hotelFeatures,
+        features_room: hotelData.roomFeatures,
+        room_types: hotelData.roomTypes,
+        photos: hotelData.photos,
+        status: 'pending'
+      })
+      .select()
+      .single()
+
+    if (hotelError) {
+      console.error('Error creating hotel:', hotelError)
+      throw new Error(`Failed to create hotel: ${hotelError.message}`)
+    }
+
+    console.log(`Successfully created hotel: ${hotel.name} (ID: ${hotel.id})`)
+
+    // Insert hotel themes/affinities if provided
+    if (hotelData.themes && hotelData.themes.length > 0) {
+      const themeInserts = hotelData.themes.map(themeId => ({
+        hotel_id: hotel.id,
+        theme_id: themeId
+      }))
+
+      const { error: themesError } = await supabase
+        .from('hotel_themes')
+        .insert(themeInserts)
+
+      if (themesError) {
+        console.error('Error inserting hotel themes:', themesError)
+      } else {
+        console.log(`Inserted ${themeInserts.length} hotel themes`)
+      }
+    }
+
+    // Insert hotel activities if provided
+    if (hotelData.activities && hotelData.activities.length > 0) {
+      const activityInserts = hotelData.activities.map(activityId => ({
+        hotel_id: hotel.id,
+        activity_id: activityId
+      }))
+
+      const { error: activitiesError } = await supabase
+        .from('hotel_activities')
+        .insert(activityInserts)
+
+      if (activitiesError) {
+        console.error('Error inserting hotel activities:', activitiesError)
+      } else {
+        console.log(`Inserted ${activityInserts.length} hotel activities`)
+      }
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: 'Hotel submission processed successfully',
+        hotelId: hotel.id,
+        hotelName: hotel.name,
+        submissionId: submissionData.submissionID
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
+      }
+    )
+
+  } catch (error) {
+    console.error('JotForm hotel submission error:', error)
+    
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500
+      }
+    )
+  }
+})
+
+function parseHotelSubmission(submission: JotFormSubmission) {
+  const answers = submission.answers
+  console.log('Parsing submission answers:', Object.keys(answers))
+
+  // Extract basic hotel information
+  const hotelData: any = {
+    name: '',
+    description: '',
+    country: '',
+    city: '',
+    address: '',
+    postalCode: '',
+    latitude: null,
+    longitude: null,
+    category: null,
+    propertyType: '',
+    style: '',
+    contactName: '',
+    contactEmail: '',
+    contactPhone: '',
+    stayLengths: [],
+    mealPlans: [],
+    rates: {},
+    hotelFeatures: {},
+    roomFeatures: {},
+    roomTypes: [],
+    photos: [],
+    themes: [],
+    activities: []
+  }
+
+  // Parse each answer by field text/name patterns
+  Object.entries(answers).forEach(([qid, answer]) => {
+    const fieldText = answer.text?.toLowerCase() || answer.name?.toLowerCase() || ''
+    const answerValue = Array.isArray(answer.answer) ? answer.answer : [answer.answer]
+    
+    console.log(`Processing field ${qid}: "${fieldText}" = ${JSON.stringify(answerValue)}`)
+
+    // Basic Information Fields
+    if (fieldText.includes('nombre del hotel') || fieldText.includes('hotel name')) {
+      hotelData.name = answerValue[0] || ''
+    }
+    else if (fieldText.includes('descripción') || fieldText.includes('description')) {
+      hotelData.description = answerValue[0] || ''
+    }
+    else if (fieldText.includes('país') || fieldText.includes('country')) {
+      hotelData.country = answerValue[0] || ''
+    }
+    else if (fieldText.includes('ciudad') || fieldText.includes('city')) {
+      hotelData.city = answerValue[0] || ''
+    }
+    else if (fieldText.includes('dirección') || fieldText.includes('address')) {
+      hotelData.address = answerValue[0] || ''
+    }
+    else if (fieldText.includes('código postal') || fieldText.includes('postal code')) {
+      hotelData.postalCode = answerValue[0] || ''
+    }
+    else if (fieldText.includes('latitud') || fieldText.includes('latitude')) {
+      hotelData.latitude = parseFloat(answerValue[0]) || null
+    }
+    else if (fieldText.includes('longitud') || fieldText.includes('longitude')) {
+      hotelData.longitude = parseFloat(answerValue[0]) || null
+    }
+    else if (fieldText.includes('categoría') || fieldText.includes('category')) {
+      const categoryStr = answerValue[0] || ''
+      const categoryMatch = categoryStr.match(/(\d+)/)
+      hotelData.category = categoryMatch ? parseInt(categoryMatch[1]) : null
+    }
+    else if (fieldText.includes('tipo de propiedad') || fieldText.includes('property type')) {
+      hotelData.propertyType = answerValue[0] || ''
+    }
+    else if (fieldText.includes('estilo') || fieldText.includes('style')) {
+      hotelData.style = answerValue[0] || ''
+    }
+    
+    // Contact Information
+    else if (fieldText.includes('nombre de contacto') || fieldText.includes('contact name')) {
+      hotelData.contactName = answerValue[0] || ''
+    }
+    else if (fieldText.includes('email') || fieldText.includes('correo')) {
+      hotelData.contactEmail = answerValue[0] || ''
+    }
+    else if (fieldText.includes('teléfono') || fieldText.includes('phone')) {
+      hotelData.contactPhone = answerValue[0] || ''
+    }
+    
+    // Stay Lengths and Meal Plans
+    else if (fieldText.includes('duración') || fieldText.includes('stay length') || fieldText.includes('noches')) {
+      const stayLengths = answerValue.map(val => {
+        const match = val.match(/(\d+)/)
+        return match ? parseInt(match[1]) : null
+      }).filter(val => val !== null)
+      hotelData.stayLengths = [...new Set([...hotelData.stayLengths, ...stayLengths])]
+    }
+    else if (fieldText.includes('plan de comida') || fieldText.includes('meal plan')) {
+      hotelData.mealPlans = [...new Set([...hotelData.mealPlans, ...answerValue])]
+    }
+    
+    // Pricing Matrix - New pricing structure based on category and stay lengths
+    else if (fieldText.includes('precio') || fieldText.includes('price') || fieldText.includes('tarifa')) {
+      parsePricingField(qid, fieldText, answerValue, hotelData)
+    }
+    
+    // Features and Amenities
+    else if (fieldText.includes('servicios del hotel') || fieldText.includes('hotel features')) {
+      const features = {}
+      answerValue.forEach(feature => {
+        features[feature] = true
+      })
+      hotelData.hotelFeatures = { ...hotelData.hotelFeatures, ...features }
+    }
+    else if (fieldText.includes('servicios de habitación') || fieldText.includes('room features')) {
+      const features = {}
+      answerValue.forEach(feature => {
+        features[feature] = true
+      })  
+      hotelData.roomFeatures = { ...hotelData.roomFeatures, ...features }
+    }
+    
+    // Room Types
+    else if (fieldText.includes('tipos de habitación') || fieldText.includes('room types')) {
+      const roomTypes = answerValue.map(roomType => ({
+        type: roomType,
+        description: ''
+      }))
+      hotelData.roomTypes = [...hotelData.roomTypes, ...roomTypes]
+    }
+    
+    // Photos/Images
+    else if (fieldText.includes('foto') || fieldText.includes('image') || fieldText.includes('photo')) {
+      hotelData.photos = [...new Set([...hotelData.photos, ...answerValue])]
+    }
+  })
+
+  console.log('Parsed hotel data summary:', {
+    name: hotelData.name,
+    category: hotelData.category,
+    stayLengths: hotelData.stayLengths,
+    ratesKeys: Object.keys(hotelData.rates)
+  })
+
+  return hotelData
+}
+
+function parsePricingField(qid: string, fieldText: string, answerValue: string[], hotelData: any) {
+  // Parse pricing fields based on the new structure
+  // Expected format: category-based pricing tables with stay durations and occupancy types
+  
+  console.log(`Parsing pricing field: ${fieldText}`)
+  
+  // Look for patterns like:
+  // "3 estrellas - 7 noches - doble" 
+  // "4 stars - 14 nights - single"
+  // "categoria 3 - 30 dias - ocupacion doble"
+  
+  const categoryMatch = fieldText.match(/(\d+)\s*(estrella|star|categoria|category)/i)
+  const stayLengthMatch = fieldText.match(/(\d+)\s*(noche|night|día|day)/i)
+  const occupancyMatch = fieldText.match(/(doble|double|individual|single)/i)
+  
+  if (categoryMatch && stayLengthMatch) {
+    const category = parseInt(categoryMatch[1])
+    const stayLength = parseInt(stayLengthMatch[1])
+    const occupancy = occupancyMatch ? occupancyMatch[1].toLowerCase() : 'double'
+    const price = parseFloat(answerValue[0]) || 0
+    
+    // Normalize occupancy terms
+    const normalizedOccupancy = ['doble', 'double'].includes(occupancy) ? 'double' : 'single'
+    
+    // Store in rates object with structured key
+    const rateKey = `${category}star_${stayLength}nights_${normalizedOccupancy}`
+    hotelData.rates[rateKey] = price
+    
+    console.log(`Parsed pricing: Category ${category}, ${stayLength} nights, ${normalizedOccupancy} = $${price}`)
+  } else {
+    // Fallback: try to parse general pricing information
+    const price = parseFloat(answerValue[0]) || 0
+    if (price > 0) {
+      // Store with field ID as key for now
+      hotelData.rates[`field_${qid}`] = price
+    }
+  }
+}

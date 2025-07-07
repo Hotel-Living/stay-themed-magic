@@ -1,6 +1,6 @@
 import React from "react";
 import { HotelDetailProps } from "@/types/hotel";
-import { HotelFeaturesInfo } from "../HotelFeaturesInfo";
+import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
 import { HotelLocation } from "../HotelLocation";
 import { RedesignedBookingSection } from "../RedesignedBookingSection";
 import { HotelNotificationButtons } from "../HotelNotificationButtons";

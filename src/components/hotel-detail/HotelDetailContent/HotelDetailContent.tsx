@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { HotelHeader } from "../HotelHeader";
 import { HotelGallerySection } from "./sections/HotelGallerySection";
-import { HotelDescriptionSection } from "../HotelDescription";
+import { HotelAtAGlanceSection } from "./HotelAtAGlanceSection";
 import { HotelThemesAndActivities } from "../HotelThemesAndActivities";
 import { HotelAvailableMonths } from "../HotelAvailableMonths";
 import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
@@ -167,7 +167,14 @@ export function HotelDetailContent({
         {/* Descriptive Content Section */}
         <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
           <div className="p-8 bg-[#957B23]">
-            <HotelDescriptionSection description={hotel.description} idealGuests={hotel.ideal_guests} atmosphere={hotel.atmosphere} perfectLocation={hotel.perfect_location} />
+            <HotelAtAGlanceSection 
+              hotel={hotel}
+              formatStayLengths={() => convertedStayLengths.map(length => `${length} ${length === 1 ? 'day' : 'days'}`).join(', ')}
+              getIdealGuestsText={() => hotel.ideal_guests || ''}
+              getPerfectLocationText={() => hotel.perfect_location || ''}
+              getAtmosphereText={() => hotel.atmosphere || ''}
+              lowercase={(text) => text ? text.toLowerCase() : ''}
+            />
           </div>
         </Card>
 

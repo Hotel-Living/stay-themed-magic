@@ -1,6 +1,7 @@
 
 import React from "react";
 import { HotelDetailProps } from "@/types/hotel";
+import { useTranslation } from "react-i18next";
 
 interface HotelAtAGlanceSectionProps {
   hotel: HotelDetailProps;
@@ -19,9 +20,11 @@ export function HotelAtAGlanceSection({
   getAtmosphereText, 
   lowercase 
 }: HotelAtAGlanceSectionProps) {
+  const { t } = useTranslation('hotels');
+  
   return (
     <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">
-      <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white text-left">{t('atAGlance')}</h2>
       
       {/* Enhanced descriptive blocks with distinct colored backgrounds */}
       <div className="space-y-4">

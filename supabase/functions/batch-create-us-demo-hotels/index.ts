@@ -35,25 +35,25 @@ const FORBIDDEN_TERMS = [
   'W Hotels', 'Wyndham'
 ];
 
-// Maximum pricing per category and duration (from user's image)
-const MAX_PRICING = {
+// Maximum pricing per person per category and duration (in USD as provided by user)
+const MAX_PRICING_PER_PERSON = {
   3: { // 3-star
-    8: { double: 515, single: 400 },   // Interpolated from 7-night rates
-    15: { double: 915, single: 700 },  // Interpolated from 14-night rates  
-    22: { double: 1290, single: 995 }, // Interpolated from 21-night rates
-    29: { double: 1720, single: 1290 } // Interpolated from 28-night rates
+    7: { double: 225, single: 350 },
+    14: { double: 425, single: 650 },
+    21: { double: 600, single: 925 },
+    28: { double: 800, single: 1200 }
   },
   4: { // 4-star
-    8: { double: 800, single: 630 },
-    15: { double: 1450, single: 1125 },
-    22: { double: 2095, single: 1610 },
-    29: { double: 2795, single: 2040 }
+    7: { double: 350, single: 550 },
+    14: { double: 675, single: 1050 },
+    21: { double: 975, single: 1500 },
+    28: { double: 1300, single: 1900 }
   },
   5: { // 5-star
-    8: { double: 1200, single: 915 },
-    15: { double: 2145, single: 1610 },
-    22: { double: 3060, single: 2255 },
-    29: { double: 3870, single: 2900 }
+    7: { double: 525, single: 800 },
+    14: { double: 1000, single: 1500 },
+    21: { double: 1425, single: 2100 },
+    28: { double: 1800, single: 2700 }
   }
 };
 
@@ -140,7 +140,7 @@ serve(async (req) => {
 
     // Generate 1 test hotel
     const distributions = [
-      { durations: [8, 15, 22, 29], count: 1 } // Test hotel with all durations
+      { durations: [7, 14, 21, 28], count: 1 } // Test hotel with all durations (matching pricing table)
     ];
 
     for (const dist of distributions) {
@@ -167,34 +167,42 @@ serve(async (req) => {
         let calculatedPricePerMonth = 0;
         
         for (const duration of dist.durations) {
-          const maxPrices = MAX_PRICING[category][duration];
+          const maxPrices = MAX_PRICING_PER_PERSON[category][duration];
           
-          // Generate random prices within limits (multiples of 25)
-          const doublePrice = Math.floor((Math.random() * maxPrices.double * 0.8 + maxPrices.double * 0.2) / 25) * 25;
-          const singlePrice = Math.floor((Math.random() * maxPrices.single * 0.8 + maxPrices.single * 0.2) / 25) * 25;
+          if (!maxPrices) {
+            console.error(`No pricing data for category ${category}, duration ${duration}`);
+            continue;
+          }
           
-          // Occasionally end in 95
-          const adjustDouble = Math.random() < 0.3 ? (Math.floor(doublePrice / 100) * 100 - 5) : doublePrice;
-          const adjustSingle = Math.random() < 0.3 ? (Math.floor(singlePrice / 100) * 100 - 5) : singlePrice;
+          // Generate random prices per person between 80-100% of maximum (multiples of 25)
+          const doubleMinPrice = Math.floor(maxPrices.double * 0.8 / 25) * 25;
+          const doubleMaxPrice = Math.floor(maxPrices.double / 25) * 25;
+          const singleMinPrice = Math.floor(maxPrices.single * 0.8 / 25) * 25;
+          const singleMaxPrice = Math.floor(maxPrices.single / 25) * 25;
+          
+          const doublePrice = Math.floor((Math.random() * (doubleMaxPrice - doubleMinPrice) + doubleMinPrice) / 25) * 25;
+          const singlePrice = Math.floor((Math.random() * (singleMaxPrice - singleMinPrice) + singleMinPrice) / 25) * 25;
+          
+          console.log(`Generated prices for ${category}★ hotel, ${duration} nights: Double $${doublePrice}, Single $${singlePrice} per person`);
 
           pricingMatrix.push({
             roomType: 'Double',
             stayLength: duration.toString(), // Ensure string type
             mealPlan: mealPlan,
-            price: Math.max(adjustDouble, 25)
+            price: Math.max(doublePrice, 25)
           });
           
           pricingMatrix.push({
             roomType: 'Single', 
             stayLength: duration.toString(), // Ensure string type
             mealPlan: mealPlan,
-            price: Math.max(adjustSingle, 25)
+            price: Math.max(singlePrice, 25)
           });
           
           // Calculate monthly equivalent for price_per_month (use longest duration's double room price)
           if (duration === Math.max(...dist.durations)) {
             const monthlyMultiplier = 30 / duration; // Convert stay duration to monthly equivalent
-            calculatedPricePerMonth = Math.round(Math.max(adjustDouble, 25) * monthlyMultiplier);
+            calculatedPricePerMonth = Math.round(Math.max(doublePrice, 25) * monthlyMultiplier);
           }
         }
 

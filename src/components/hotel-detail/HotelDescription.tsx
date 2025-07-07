@@ -29,27 +29,24 @@ export function HotelDescriptionSection({
       
       {idealGuests && (
         <div>
-          <h3 className="text-lg font-semibold mb-2 text-white text-left">IDEAL FOR</h3>
           <p className="text-white">
-            {idealGuests}
+            <span className="font-semibold">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {idealGuests}
           </p>
         </div>
       )}
       
       {atmosphere && (
         <div>
-          <h3 className="text-lg font-semibold mb-2 text-white text-left">ATMOSPHERE</h3>
           <p className="text-white">
-            {atmosphere}
+            <span className="font-semibold">EL AMBIENTE ES</span> {atmosphere}
           </p>
         </div>
       )}
       
       {perfectLocation && (
         <div>
-          <h3 className="text-lg font-semibold mb-2 text-white text-left">PERFECT LOCATION</h3>
           <p className="text-white">
-            {perfectLocation}
+            <span className="font-semibold">LA UBICACIÓN ES PERFECTA PARA</span> {perfectLocation}
           </p>
         </div>
       )}

@@ -33,19 +33,19 @@ export function HotelAtAGlanceSection({
         
         <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.4s' }}>
           <p className="text-white">
-            It's ideal for guests who enjoy {lowercase(getIdealGuestsText())}.
+            <span className="font-semibold">ES IDEAL PARA QUIENES DISFRUTAN DE</span> {lowercase(getIdealGuestsText())}.
           </p>
         </div>
         
         <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.8s' }}>
           <p className="text-white">
-            The vibe of this hotel is {lowercase(getAtmosphereText())}.
+            <span className="font-semibold">EL AMBIENTE ES</span> {lowercase(getAtmosphereText())}.
           </p>
         </div>
         
         <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '1.2s' }}>
           <p className="text-white">
-            Our location is perfect for {lowercase(getPerfectLocationText())}.
+            <span className="font-semibold">LA UBICACIÓN ES PERFECTA PARA</span> {lowercase(getPerfectLocationText())}.
           </p>
         </div>
         

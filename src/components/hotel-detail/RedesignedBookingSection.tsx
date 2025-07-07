@@ -134,8 +134,8 @@ export function RedesignedBookingSection({
         </div>
       </Card>;
   }
-  return <Card className="bg-gradient-to-br from-card/40 to-card/30 border-border shadow-2xl">
-      <div className="p-6 space-y-6 bg-card">
+  return <Card className="bg-gradient-to-br from-[#957B23]/40 to-[#957B23]/30 border-border shadow-2xl">
+      <div className="p-6 space-y-6 bg-[#957B23]">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">Book Your Stay</h2>
           <p className="text-white/80 mb-2">
@@ -152,10 +152,10 @@ export function RedesignedBookingSection({
         {roomTypes.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Room Type</label>
             <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
-              <SelectTrigger className="bg-card/30 border-border text-white">
+              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
                 <SelectValue placeholder="Select room type" />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border">
+              <SelectContent className="bg-[#957B23] border-border">
                 {roomTypes.map(roomType => <SelectItem key={roomType} value={roomType} className="text-white hover:bg-accent/50">
                     {roomType}
                   </SelectItem>)}
@@ -167,10 +167,10 @@ export function RedesignedBookingSection({
         {stayDurations.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Stay Duration</label>
             <Select value={selectedDuration.toString()} onValueChange={value => setSelectedDuration(parseInt(value))}>
-              <SelectTrigger className="bg-card/30 border-border text-white">
+              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border">
+              <SelectContent className="bg-[#957B23] border-border">
                 {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-accent/50">
                     {duration} {duration === 1 ? 'day' : 'days'}
                   </SelectItem>)}
@@ -185,11 +185,11 @@ export function RedesignedBookingSection({
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);
           }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-card" />
+        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#957B23]" />
         </div>
 
         {/* Check-out Date Display */}
-        {checkInDate && checkoutDate && <div className="bg-card/30 rounded-lg p-4 border border-border">
+        {checkInDate && checkoutDate && <div className="bg-[#957B23]/30 rounded-lg p-4 border border-border">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-white mb-2">Your Stay Details</h3>
               <div className="space-y-1 text-white/90">
@@ -202,7 +202,7 @@ export function RedesignedBookingSection({
           </div>}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-card/40 to-card/30 rounded-lg p-4 border border-border">
+        <div className="bg-gradient-to-br from-[#957B23]/40 to-[#957B23]/30 rounded-lg p-4 border border-border">
           <div className="text-center">
             {currentPrice !== null ? <>
                 <p className="text-white/80 text-sm">
@@ -224,7 +224,7 @@ export function RedesignedBookingSection({
         </div>
 
         {/* Dynamic Pricing Promotional Message */}
-        <div className="bg-gradient-to-r from-card/40 to-card/30 border border-border rounded-lg p-4">
+        <div className="bg-gradient-to-r from-[#957B23]/40 to-[#957B23]/30 border border-border rounded-lg p-4">
           <div className="text-center">
             <p className="text-white text-sm flex items-center justify-center gap-2">
               🔔 <strong>Take advantage of today's price!</strong>

@@ -43,13 +43,13 @@ export function HotelAvailableMonths({
         <p className="text-foreground/60 italic">No available months at the moment.</p>
       </div>;
   }
-  return <div className="glass-card rounded-2xl p-6 bg-gold-800">
+  return <div className="glass-card rounded-2xl p-6 bg-[#957B23]">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         Available Months
         <Calendar className="w-5 h-5 text-fuchsia-400" />
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {normalizedMonths.map(month => <div key={month} className="text-center p-3 rounded-lg border border-border transition-colors bg-card">
+        {normalizedMonths.map(month => <div key={month} className="text-center p-3 rounded-lg border border-border transition-colors bg-[#957B23]">
             <span className="font-medium">{month}</span>
           </div>)}
       </div>

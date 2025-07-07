@@ -179,14 +179,14 @@ serve(async (req) => {
 
           pricingMatrix.push({
             roomType: 'Double',
-            stayLength: duration,
+            stayLength: duration.toString(), // Ensure string type
             mealPlan: mealPlan,
             price: Math.max(adjustDouble, 25)
           });
           
           pricingMatrix.push({
             roomType: 'Single', 
-            stayLength: duration,
+            stayLength: duration.toString(), // Ensure string type
             mealPlan: mealPlan,
             price: Math.max(adjustSingle, 25)
           });
@@ -220,7 +220,8 @@ serve(async (req) => {
           description: `${hotelName} se encuentra en el corazón de ${cityInfo.city}, ${cityInfo.state}, ofreciendo una experiencia auténtica en una de las ciudades más vibrantes de Estados Unidos. Su ubicación estratégica cerca de ${selectedLandmark} lo convierte en el punto de partida perfecto para explorar la rica cultura y las atracciones de la región.`,
           country: 'United States',
           city: `${cityInfo.city}, ${cityInfo.state}`,
-          address: `${Math.floor(Math.random() * 9999) + 1} Main Street, ${cityInfo.city}, ${cityInfo.state}`,
+          address: `${Math.floor(Math.random() * 9999) + 1} Main Street`,
+          postal_code: `${Math.floor(Math.random() * 90000) + 10000}`,
           category: category,
           property_type: PROPERTY_TYPES[Math.floor(Math.random() * PROPERTY_TYPES.length)],
           style: PROPERTY_STYLES[Math.floor(Math.random() * PROPERTY_STYLES.length)],
@@ -238,17 +239,33 @@ serve(async (req) => {
                      category === 4 ? 'acogedor y profesional, ideal para viajeros exigentes' : 
                      'cálido y familiar, perfecto para una estancia cómoda y accesible',
           
-          // Hotel features (5-10 random)
-          features_hotel: shuffleArray([
-            'WiFi gratuito', 'Aire acondicionado', 'Recepción 24h', 'Servicio de habitaciones',
-            'Gimnasio', 'Piscina', 'Restaurante', 'Bar', 'Aparcamiento', 'Servicio de lavandería'
-          ]).slice(0, Math.floor(Math.random() * 6) + 5),
+          // Hotel features (as object with boolean values)
+          features_hotel: {
+            'WiFi gratuito': true,
+            'Aire acondicionado': true,
+            'Recepción 24h': true,
+            'Servicio de habitaciones': Math.random() > 0.3,
+            'Gimnasio': Math.random() > 0.4,
+            'Piscina': Math.random() > 0.5,
+            'Restaurante': Math.random() > 0.2,
+            'Bar': Math.random() > 0.3,
+            'Aparcamiento': Math.random() > 0.4,
+            'Servicio de lavandería': Math.random() > 0.3
+          },
           
-          // Room features (5-10 random)  
-          features_room: shuffleArray([
-            'TV pantalla plana', 'Minibar', 'Caja fuerte', 'Escritorio', 'Balcón',
-            'Vista a la ciudad', 'Baño privado', 'Secador de pelo', 'Plancha', 'Teléfono'
-          ]).slice(0, Math.floor(Math.random() * 6) + 5),
+          // Room features (as object with boolean values)  
+          features_room: {
+            'TV pantalla plana': true,
+            'Minibar': Math.random() > 0.3,
+            'Caja fuerte': true,
+            'Escritorio': Math.random() > 0.2,
+            'Balcón': Math.random() > 0.6,
+            'Vista a la ciudad': Math.random() > 0.4,
+            'Baño privado': true,
+            'Secador de pelo': true,
+            'Plancha': Math.random() > 0.3,
+            'Teléfono': Math.random() > 0.4
+          },
           
           // Room types
           room_types: [
@@ -283,6 +300,19 @@ serve(async (req) => {
     }
 
     console.log(`Generated ${hotels.length} hotels, inserting into database...`);
+    
+    // Log first hotel for debugging
+    if (hotels.length > 0) {
+      console.log('🏨 First hotel debug data:', {
+        name: hotels[0].name,
+        features_hotel: hotels[0].features_hotel,
+        features_room: hotels[0].features_room,
+        pricingmatrix: hotels[0].pricingmatrix,
+        address: hotels[0].address,
+        city: hotels[0].city,
+        postal_code: hotels[0].postal_code
+      });
+    }
 
     // Insert hotels in batches
     const batchSize = 10;

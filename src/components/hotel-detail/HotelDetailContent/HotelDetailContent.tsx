@@ -26,6 +26,19 @@ export function HotelDetailContent({
   const themes = hotel?.themes || hotel?.hotel_themes?.map(ht => ht.themes).filter(Boolean) || [];
   const activities = hotel?.activities || [];
 
+  // Debug logging for pricing matrix
+  console.log("🏨 Hotel Detail Debug:", {
+    hotelId: hotel?.id,
+    hotelName: hotel?.name,
+    pricingMatrix: hotel?.pricingMatrix,
+    pricingmatrix: (hotel as any)?.pricingmatrix,
+    features_hotel: hotel?.features_hotel,
+    features_room: hotel?.features_room,
+    address: hotel?.address,
+    city: hotel?.city,
+    postal_code: (hotel as any)?.postal_code
+  });
+
   // Convert old night values to day values for consistency with UI
   const convertNightsToDays = (nightValues: number[]) => {
     const nightToDayMap: Record<number, number> = {
@@ -41,6 +54,10 @@ export function HotelDetailContent({
   };
   const convertedStayLengths = convertNightsToDays(hotel.stay_lengths || []);
 
+  // Get pricing matrix - handle both field name variations
+  const hotelPricingMatrix = hotel?.pricingMatrix || (hotel as any)?.pricingmatrix || [];
+  console.log("📊 Pricing Matrix Debug:", { hotelPricingMatrix, length: hotelPricingMatrix.length });
+
   // Prepare rates data
   const preparedRates: Record<string, number> = {};
   if (hotel.rates && typeof hotel.rates === 'object') {
@@ -50,9 +67,6 @@ export function HotelDetailContent({
       }
     });
   }
-
-  // Prepare pricing matrix
-  const pricingMatrix = Array.isArray(hotel.pricingMatrix) ? hotel.pricingMatrix : [];
   const handleBookClick = () => {
     // For demo hotels, show unavailable message only at final booking step
     console.log("Booking attempt - this will show unavailable message at final step");
@@ -192,7 +206,7 @@ export function HotelDetailContent({
           </Card>}
 
         {/* Main Content Grid with Booking */}
-        <HotelMainContentGrid hotel={hotel} checkInDate={checkInDate} setCheckInDate={setCheckInDate} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} stayDurations={convertedStayLengths} preparedRates={preparedRates} handleBookClick={handleBookClick} checkInWeekday={checkInWeekday} pricingMatrix={pricingMatrix} isHotelAvailable={isHotelAvailable} />
+        <HotelMainContentGrid hotel={hotel} checkInDate={checkInDate} setCheckInDate={setCheckInDate} selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration} stayDurations={convertedStayLengths} preparedRates={preparedRates} handleBookClick={handleBookClick} checkInWeekday={checkInWeekday} pricingMatrix={hotelPricingMatrix} isHotelAvailable={isHotelAvailable} />
       </div>
     </div>;
 }

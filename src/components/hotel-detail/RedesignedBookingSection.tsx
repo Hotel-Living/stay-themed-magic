@@ -9,7 +9,7 @@ import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 interface PricingMatrixItem {
   roomType: string;
-  stayLength: string;
+  stayLength: string | number;
   mealPlan: string;
   price: number;
 }

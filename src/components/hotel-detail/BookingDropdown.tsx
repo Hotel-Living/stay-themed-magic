@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface PricingMatrixItem {
   roomType: string;
-  stayLength: string;
+  stayLength: string | number;
   mealPlan: string;
   price: number;
 }
@@ -15,6 +15,8 @@ interface BookingDropdownProps {
 }
 
 export default function BookingDropdown({ pricingMatrix = [], onSelect }: BookingDropdownProps) {
+  // Debug pricing matrix
+  console.log("🎯 BookingDropdown Debug:", { pricingMatrix, length: pricingMatrix.length });
   const formatRoomType = (roomType: string) => {
     // Capitalize first letter and ensure it says "Room"
     const formatted = roomType.charAt(0).toUpperCase() + roomType.slice(1);
@@ -29,9 +31,10 @@ export default function BookingDropdown({ pricingMatrix = [], onSelect }: Bookin
   const formatDropdownOption = (item: PricingMatrixItem) => {
     const roomTypeDisplay = formatRoomType(item.roomType);
     const mealPlanDisplay = formatMealPlan(item.mealPlan);
+    const stayLengthValue = typeof item.stayLength === 'string' ? item.stayLength : item.stayLength.toString();
     
     // Format: [Room Type] – [Meal Plan] – [Number of nights] – [Price]
-    return `${roomTypeDisplay} – ${mealPlanDisplay} – ${item.stayLength} nights – €${item.price}`;
+    return `${roomTypeDisplay} – ${mealPlanDisplay} – ${stayLengthValue} nights – €${item.price}`;
   };
 
   const formatDefaultDisplay = (item: PricingMatrixItem) => {

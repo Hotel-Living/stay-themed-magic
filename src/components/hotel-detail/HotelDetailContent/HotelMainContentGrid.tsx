@@ -36,13 +36,38 @@ export function HotelMainContentGrid({
   pricingMatrix,
   isHotelAvailable
 }: HotelMainContentGridProps) {
+  // Helper function to convert features to array format
+  const convertFeaturesToArray = (features: any): string[] => {
+    if (!features) return [];
+    if (Array.isArray(features)) return features;
+    if (typeof features === 'object') {
+      // Convert object format {feature: true/false} to array of true features
+      return Object.entries(features)
+        .filter(([_, value]) => value === true)
+        .map(([key, _]) => key);
+    }
+    return [];
+  };
+
+  const hotelFeaturesArray = convertFeaturesToArray(hotel.hotelFeatures || hotel.features_hotel);
+  const roomFeaturesArray = convertFeaturesToArray(hotel.roomFeatures || hotel.features_room);
+
+  console.log("🏨 Features Debug:", {
+    raw_hotel_features: hotel.features_hotel,
+    raw_room_features: hotel.features_room,
+    converted_hotel: hotelFeaturesArray,
+    converted_room: roomFeaturesArray
+  });
   return <div className="grid lg:grid-cols-3 gap-8">
       {/* Left content area - Features and Map */}
       <div className="lg:col-span-2 space-y-8">
         {/* Hotel Features and Room Features */}
         <Card className="bg-[#957B23] border-border shadow-2xl">
           <div className="p-6 bg-[#957B23]">
-            <HotelFeaturesInfo hotelFeatures={hotel.hotelFeatures || []} roomFeatures={hotel.roomFeatures || []} />
+            <HotelFeaturesInfo 
+              hotelFeatures={hotelFeaturesArray} 
+              roomFeatures={roomFeaturesArray} 
+            />
           </div>
         </Card>
         

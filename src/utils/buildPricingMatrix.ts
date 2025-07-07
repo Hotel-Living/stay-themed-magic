@@ -1,7 +1,7 @@
 
 interface PricingMatrixItem {
   roomType: string;
-  stayLength: string;
+  stayLength: string | number;
   mealPlan: string;
   price: number;
 }

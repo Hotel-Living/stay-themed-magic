@@ -11,7 +11,7 @@ interface Hotel {
 
 interface PricingMatrixItem {
   roomType: string;
-  stayLength: string;
+  stayLength: string | number;
   mealPlan: string;
   price: number;
 }
@@ -49,7 +49,7 @@ export function useBookingLogic({
     const bookingData = {
       ...selectedOption,
       checkInDate,
-      checkOutDate: new Date(checkInDate.getTime() + parseInt(selectedOption.stayLength) * 24 * 60 * 60 * 1000)
+      checkOutDate: new Date(checkInDate.getTime() + parseInt(selectedOption.stayLength.toString()) * 24 * 60 * 60 * 1000)
     };
     
     setConfirmedBookingData(bookingData);

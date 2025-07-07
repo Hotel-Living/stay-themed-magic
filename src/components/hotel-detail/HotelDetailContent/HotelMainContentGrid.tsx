@@ -40,15 +40,15 @@ export function HotelMainContentGrid({
       {/* Left content area - Features and Map */}
       <div className="lg:col-span-2 space-y-8">
         {/* Hotel Features and Room Features */}
-        <Card className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-          <div className="p-6 bg-gold-800">
+        <Card className="bg-[#957B23] border-border shadow-2xl">
+          <div className="p-6 bg-[#957B23]">
             <HotelFeaturesInfo hotelFeatures={hotel.hotelFeatures || []} roomFeatures={hotel.roomFeatures || []} />
           </div>
         </Card>
         
         {/* Google Map Section */}
-        <Card className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-          <div className="p-6 bg-gold-800">
+        <Card className="bg-[#957B23] border-border shadow-2xl">
+          <div className="p-6 bg-[#957B23]">
             <h2 className="text-2xl font-bold mb-6 text-white text-center">HOTEL LOCATION</h2>
             <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
           </div>

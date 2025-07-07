@@ -143,30 +143,30 @@ export function HotelDetailContent({
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* Image Gallery Section */}
-        {images.length > 1 && <Card className="mb-8 bg-[#73127B] border-border shadow-2xl">
-            <div className="p-6 bg-[gold-957b23] bg-gold-800">
+        {images.length > 1 && <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
+            <div className="p-6 bg-[#957B23]">
               <h2 className="text-2xl font-bold mb-6 text-white text-center">Gallery</h2>
               <HotelGallerySection images={images} hotelName={hotel.name} currentImageIndex={currentImageIndex} setCurrentImageIndex={setCurrentImageIndex} />
             </div>
           </Card>}
 
         {/* Descriptive Content Section */}
-        <Card className="mb-8 bg-[#73127B] border-border shadow-2xl">
-          <div className="p-8 bg-gold-800">
+        <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
+          <div className="p-8 bg-[#957B23]">
             <HotelDescriptionSection description={hotel.description} idealGuests={hotel.ideal_guests} atmosphere={hotel.atmosphere} perfectLocation={hotel.perfect_location} />
           </div>
         </Card>
 
         {/* Available Months Section */}
-        {hotel.available_months && hotel.available_months.length > 0 && <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-            <div className="p-6 bg-gold-800">
+        {hotel.available_months && hotel.available_months.length > 0 && <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
+            <div className="p-6 bg-[#957B23]">
               <HotelAvailableMonths months={hotel.available_months} />
             </div>
           </Card>}
 
         {/* Room Types and Stay Durations */}
-        {hotel.room_types && hotel.room_types.length > 0 || convertedStayLengths.length > 0 && <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-            <div className="p-6 bg-gold-800">
+        {hotel.room_types && hotel.room_types.length > 0 || convertedStayLengths.length > 0 && <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
+            <div className="p-6 bg-[#957B23]">
               <h2 className="text-2xl font-bold mb-6 text-white">Room Types & Stay Options</h2>
               
               {hotel.room_types && hotel.room_types.length > 0 && <div className="mb-6">

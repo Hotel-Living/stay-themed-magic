@@ -152,7 +152,7 @@ export function HotelDetailContent({
 
         {/* Descriptive Content Section */}
         <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
-          <div className="p-8">
+          <div className="p-8 bg-gold-800">
             <HotelDescriptionSection description={hotel.description} idealGuests={hotel.ideal_guests} atmosphere={hotel.atmosphere} perfectLocation={hotel.perfect_location} />
           </div>
         </Card>

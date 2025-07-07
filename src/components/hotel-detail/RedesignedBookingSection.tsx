@@ -58,10 +58,14 @@ export function RedesignedBookingSection({
   const availableOptions = pricingMatrix || [];
   const roomTypes = [...new Set(availableOptions.map(option => option.roomType))];
 
-  // Get pricing for current selection
+  // Get pricing for current selection with fallback
   const getCurrentPrice = () => {
-    if (!selectedRoomType || !selectedDuration || !availableOptions.length) {
-      return rates[selectedDuration.toString()] || 0;
+    if (!availableOptions.length && !Object.keys(rates).length) {
+      return null; // Will show fallback message
+    }
+    
+    if (!selectedRoomType || !selectedDuration) {
+      return rates[selectedDuration?.toString()] || null;
     }
     
     const matchingOption = availableOptions.find(option => 
@@ -69,10 +73,17 @@ export function RedesignedBookingSection({
       option.stayLength === selectedDuration.toString()
     );
     
-    return matchingOption?.price || rates[selectedDuration.toString()] || 0;
+    return matchingOption?.price || rates[selectedDuration.toString()] || null;
   };
 
   const currentPrice = getCurrentPrice();
+  
+  // Determine if price is per person based on room type
+  const isPricePerPerson = selectedRoomType && (
+    selectedRoomType.toLowerCase().includes('double') || 
+    selectedRoomType.toLowerCase().includes('twin') ||
+    selectedRoomType.toLowerCase().includes('shared')
+  );
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableMonths || availableMonths.length === 0) {
@@ -245,18 +256,33 @@ export function RedesignedBookingSection({
           </div>
         )}
 
-        {/* Price Display */}
-        {currentPrice > 0 && (
-          <div className="bg-fuchsia-800/30 rounded-lg p-4 border border-fuchsia-600/30">
-            <div className="text-center">
-              <p className="text-white/80 text-sm">Price per person</p>
-              <p className="text-2xl font-bold text-white">
-                {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
-              </p>
-              <p className="text-white/70 text-xs">for {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
-            </div>
+        {/* Price Display - Always show */}
+        <div className="bg-gradient-to-br from-yellow-900/40 to-yellow-800/30 rounded-lg p-4 border border-yellow-600/30">
+          <div className="text-center">
+            {currentPrice !== null ? (
+              <>
+                <p className="text-white/80 text-sm">
+                  {isPricePerPerson ? 'Price per person' : 'Price for room'}
+                </p>
+                <p className="text-2xl font-bold text-white">
+                  {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{currentPrice.toLocaleString()}
+                </p>
+                <p className="text-white/70 text-xs">for {selectedDuration} {selectedDuration === 1 ? 'day' : 'days'}</p>
+                {isPricePerPerson && (
+                  <p className="text-yellow-200/80 text-xs mt-1">
+                    Total for 2 guests: {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency}{(currentPrice * 2).toLocaleString()}
+                  </p>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="text-white/80 text-sm">Pricing Information</p>
+                <p className="text-lg font-semibold text-white">Price not available yet</p>
+                <p className="text-white/70 text-xs">Please contact us for current rates</p>
+              </>
+            )}
           </div>
-        )}
+        </div>
 
         {/* Dynamic Pricing Promotional Message */}
         <div className="bg-gradient-to-r from-fuchsia-900/40 to-purple-900/40 border border-fuchsia-700/30 rounded-lg p-4">

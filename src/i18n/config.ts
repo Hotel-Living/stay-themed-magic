@@ -181,7 +181,7 @@ const resources = {
       ...esBooking,
       ...esFooter,
       ...esHome,
-      ...esHotels,
+ hotels: esHotels
       ...esAffinity,
       ...esFilters,
       ...esContact,

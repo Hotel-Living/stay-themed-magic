@@ -49,7 +49,7 @@ export function HotelMainContentGrid({
         {/* Google Map Section */}
         <Card className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
           <div className="p-6 bg-gold-800">
-            <h2 className="text-2xl font-bold mb-6 text-white text-center">Hotel Location</h2>
+            <h2 className="text-2xl font-bold mb-6 text-white text-center">HOTEL LOCATION</h2>
             <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
           </div>
         </Card>

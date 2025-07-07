@@ -76,31 +76,34 @@ Deno.serve(async (req) => {
     const hotelData = parseHotelSubmission(submissionData)
     console.log('Parsed hotel data:', hotelData)
 
+    // Apply mappings to hotel data for consistency
+    const mappedHotelData = await applyFilterMappings(hotelData, supabase)
+    
     // Create hotel record
     const { data: hotel, error: hotelError } = await supabase
       .from('hotels')
       .insert({
-        name: hotelData.name,
-        description: hotelData.description,
-        country: hotelData.country,
-        city: hotelData.city,
-        address: hotelData.address,
-        postal_code: hotelData.postalCode,
-        latitude: hotelData.latitude,
-        longitude: hotelData.longitude,
-        category: hotelData.category,
-        property_type: hotelData.propertyType,
-        style: hotelData.style,
-        contact_name: hotelData.contactName,
-        contact_email: hotelData.contactEmail,
-        contact_phone: hotelData.contactPhone,
-        stay_lengths: hotelData.stayLengths,
-        meal_plans: hotelData.mealPlans,
-        rates: hotelData.rates,
-        features_hotel: hotelData.hotelFeatures,
-        features_room: hotelData.roomFeatures,
-        room_types: hotelData.roomTypes,
-        photos: hotelData.photos,
+        name: mappedHotelData.name,
+        description: mappedHotelData.description,
+        country: mappedHotelData.country,
+        city: mappedHotelData.city,
+        address: mappedHotelData.address,
+        postal_code: mappedHotelData.postalCode,
+        latitude: mappedHotelData.latitude,
+        longitude: mappedHotelData.longitude,
+        category: mappedHotelData.category,
+        property_type: mappedHotelData.propertyType,
+        style: mappedHotelData.style,
+        contact_name: mappedHotelData.contactName,
+        contact_email: mappedHotelData.contactEmail,
+        contact_phone: mappedHotelData.contactPhone,
+        stay_lengths: mappedHotelData.stayLengths,
+        meal_plans: mappedHotelData.mealPlans,
+        rates: mappedHotelData.rates,
+        features_hotel: mappedHotelData.hotelFeatures,
+        features_room: mappedHotelData.roomFeatures,
+        room_types: mappedHotelData.roomTypes,
+        photos: mappedHotelData.photos,
         status: 'pending'
       })
       .select()
@@ -362,3 +365,98 @@ function parsePricingField(qid: string, fieldText: string, answerValue: string[]
     }
   }
 }
+
+// Apply filter mappings to ensure consistent data storage
+async function applyFilterMappings(hotelData: any, supabase: any) {
+  console.log('Applying filter mappings to hotel data')
+  
+  // Get all mappings
+  const { data: mappings, error } = await supabase
+    .from('filter_value_mappings')
+    .select('category, spanish_value, english_value')
+    .eq('is_active', true)
+
+  if (error) {
+    console.error('Error fetching mappings:', error)
+    return hotelData // Return original data if mappings fail
+  }
+
+  if (!mappings || mappings.length === 0) {
+    console.log('No mappings found, returning original data')
+    return hotelData
+  }
+
+  // Create lookup maps
+  const spanishToEnglish = new Map<string, Map<string, string>>()
+  const englishToSpanish = new Map<string, Map<string, string>>()
+
+  mappings.forEach(mapping => {
+    // Spanish to English mappings
+    if (!spanishToEnglish.has(mapping.category)) {
+      spanishToEnglish.set(mapping.category, new Map())
+    }
+    spanishToEnglish.get(mapping.category)!.set(mapping.spanish_value, mapping.english_value)
+
+    // English to Spanish mappings  
+    if (!englishToSpanish.has(mapping.category)) {
+      englishToSpanish.set(mapping.category, new Map())
+    }
+    englishToSpanish.get(mapping.category)!.set(mapping.english_value, mapping.spanish_value)
+  })
+
+  const mappedData = { ...hotelData }
+
+  // Apply mappings to meal plans (store Spanish as primary, ensure English equivalent exists)
+  if (mappedData.mealPlans && mappedData.mealPlans.length > 0) {
+    const mealPlanMap = spanishToEnglish.get('meal_plans')
+    const englishMealPlanMap = englishToSpanish.get('meal_plans')
+    
+    mappedData.mealPlans = mappedData.mealPlans.map((mealPlan: string) => {
+      // If it's English, convert to Spanish (primary)
+      if (englishMealPlanMap && englishMealPlanMap.has(mealPlan)) {
+        return englishMealPlanMap.get(mealPlan)
+      }
+      // If it's already Spanish or unmapped, keep as-is
+      return mealPlan
+    })
+    
+    console.log('Mapped meal plans:', mappedData.mealPlans)
+  }
+
+  // Apply mappings to room types (stored in JSONB array)
+  if (mappedData.roomTypes && mappedData.roomTypes.length > 0) {
+    const roomTypeMap = spanishToEnglish.get('room_types')
+    const englishRoomTypeMap = englishToSpanish.get('room_types')
+    
+    mappedData.roomTypes = mappedData.roomTypes.map((roomTypeObj: any) => {
+      const roomType = roomTypeObj.type || roomTypeObj
+      
+      // If it's English, convert to Spanish (primary)
+      if (englishRoomTypeMap && englishRoomTypeMap.has(roomType)) {
+        const spanishValue = englishRoomTypeMap.get(roomType)
+        return typeof roomTypeObj === 'object' 
+          ? { ...roomTypeObj, type: spanishValue }
+          : spanishValue
+      }
+      // If it's already Spanish or unmapped, keep as-is
+      return roomTypeObj
+    })
+    
+    console.log('Mapped room types:', mappedData.roomTypes)
+  }
+
+  // Apply mappings to property style
+  if (mappedData.style) {
+    const styleMap = spanishToEnglish.get('property_styles')
+    const englishStyleMap = englishToSpanish.get('property_styles')
+    
+    // If it's English, convert to Spanish (primary)
+    if (englishStyleMap && englishStyleMap.has(mappedData.style)) {
+      mappedData.style = englishStyleMap.get(mappedData.style)
+      console.log('Mapped property style to Spanish:', mappedData.style)
+    }
+    // If it's already Spanish or unmapped, keep as-is
+  }
+
+  console.log('Applied mappings successfully')
+  return mappedData

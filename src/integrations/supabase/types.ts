@@ -232,6 +232,36 @@ export type Database = {
         }
         Relationships: []
       }
+      filter_value_mappings: {
+        Row: {
+          category: string
+          created_at: string
+          english_value: string
+          id: string
+          is_active: boolean
+          spanish_value: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          english_value: string
+          id?: string
+          is_active?: boolean
+          spanish_value: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          english_value?: string
+          id?: string
+          is_active?: boolean
+          spanish_value?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       filters: {
         Row: {
           category: string

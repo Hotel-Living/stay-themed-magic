@@ -2,6 +2,48 @@
 import { supabase } from '@/integrations/supabase/client';
 import { FilterState } from '@/components/filters/FilterTypes';
 
+// Helper function to get filter mappings for hotel search
+async function getFilterMappings() {
+  const { data: mappings, error } = await supabase
+    .from('filter_value_mappings')
+    .select('category, spanish_value, english_value')
+    .eq('is_active', true);
+
+  if (error) {
+    console.error('Error fetching filter mappings:', error);
+    return { meal_plans: new Map(), room_types: new Map(), property_styles: new Map() };
+  }
+
+  const filterMappings = {
+    meal_plans: new Map<string, string>(),
+    room_types: new Map<string, string>(),
+    property_styles: new Map<string, string>()
+  };
+
+  if (mappings) {
+    mappings.forEach(mapping => {
+      const category = mapping.category as keyof typeof filterMappings;
+      if (filterMappings[category]) {
+        // Bidirectional mapping for flexible matching
+        filterMappings[category].set(mapping.spanish_value, mapping.english_value);
+        filterMappings[category].set(mapping.english_value, mapping.spanish_value);
+      }
+    });
+  }
+
+  return filterMappings;
+}
+
+// Helper function to get all possible values for a filter (both languages)
+function getAllPossibleValues(filterValue: string, mappings: Map<string, string>): string[] {
+  const values = [filterValue];
+  const mappedValue = mappings.get(filterValue);
+  if (mappedValue && !values.includes(mappedValue)) {
+    values.push(mappedValue);
+  }
+  return values;
+}
+
 export const convertHotelToUIFormat = (hotel: any) => {
   if (!hotel || typeof hotel !== 'object') {
     console.warn('Invalid hotel data received:', hotel);
@@ -46,6 +88,10 @@ export const convertHotelToUIFormat = (hotel: any) => {
 export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
     console.log('🔍 Applying filters:', filters);
+
+    // Get filter mappings for consistent hotel matching
+    const filterMappings = await getFilterMappings();
+    console.log('🔗 Filter mappings loaded for consistent matching');
 
     // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values found via query
     const countryCodeToValues: Record<string, string[]> = {
@@ -237,7 +283,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // MEAL PLANS FILTER
+    // MEAL PLANS FILTER - Updated to handle Spanish/English mappings
     if (filters.mealPlans && filters.mealPlans.length > 0) {
       console.log(`🍽️ MEAL PLANS FILTER DEBUG:`, filters.mealPlans);
       
@@ -250,16 +296,30 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         } else {
           // "No meals" + other options - show hotels with no meals OR hotels with selected meal plans
           const otherPlans = filters.mealPlans.filter(plan => plan !== 'No meals');
-          const mealConditions = otherPlans.map(plan => `meal_plans.cs.[${plan}]`).join(',');
+          
+          // Get all possible values (Spanish + English) for each meal plan
+          const allPossibleValues = otherPlans.flatMap(plan => 
+            getAllPossibleValues(plan, filterMappings.meal_plans)
+          );
+          
+          const mealConditions = allPossibleValues.map(plan => `meal_plans.cs.[${plan}]`).join(',');
           query = query.or(`meal_plans.is.null,meal_plans.eq.{},${mealConditions}`);
-          console.log(`✅ Mixed meal plans filter applied - no meals + selected options`);
+          console.log(`✅ Mixed meal plans filter applied - no meals + selected options (with mappings)`);
         }
       } else {
-        // Regular meal plans filtering (no "No meals" option selected)
-        filters.mealPlans.forEach(plan => {
-          query = query.contains('meal_plans', [plan]);
-        });
-        console.log(`✅ Meal plans filter applied successfully`);
+        // Regular meal plans filtering with mappings support
+        const allMeatPlanValues = filters.mealPlans.flatMap(plan => 
+          getAllPossibleValues(plan, filterMappings.meal_plans)
+        );
+        
+        console.log(`🔗 Meal plan values to search for:`, allMeatPlanValues);
+        
+        // Build OR condition to match any of the possible values
+        const mealConditions = allMeatPlanValues.map(plan => `meal_plans.cs.[${plan}]`).join(',');
+        if (mealConditions) {
+          query = query.or(mealConditions);
+        }
+        console.log(`✅ Meal plans filter applied successfully with mapping support`);
       }
     }
 
@@ -270,25 +330,42 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Property type filter applied successfully`);
     }
 
-    // PROPERTY STYLE FILTER
+    // PROPERTY STYLE FILTER - Updated to handle Spanish/English mappings
     if (filters.propertyStyle) {
       console.log(`🎭 PROPERTY STYLE FILTER DEBUG: ${filters.propertyStyle}`);
-      query = query.eq('style', filters.propertyStyle);
-      console.log(`✅ Property style filter applied successfully`);
+      
+      // Get all possible values (Spanish + English) for the property style
+      const possibleStyleValues = getAllPossibleValues(filters.propertyStyle, filterMappings.property_styles);
+      console.log(`🔗 Property style values to search for:`, possibleStyleValues);
+      
+      // Use OR condition to match any of the possible values
+      const styleConditions = possibleStyleValues.map(style => `style.eq.${style}`).join(',');
+      if (styleConditions) {
+        query = query.or(styleConditions);
+      }
+      console.log(`✅ Property style filter applied successfully with mapping support`);
     }
 
-    // ROOM TYPES FILTER
+    // ROOM TYPES FILTER - Updated to handle Spanish/English mappings
     if (filters.roomTypes && filters.roomTypes.length > 0) {
       console.log(`🛏️ ROOM TYPES FILTER DEBUG:`, filters.roomTypes);
       
-      // Check if any room type in room_types array matches selected options
-      const roomTypeConditions = filters.roomTypes.map(roomType => 
-        `room_types.cs.[{"name":"${roomType}"}]`
-      ).join(',');
+      // Get all possible values (Spanish + English) for each room type
+      const allRoomTypeValues = filters.roomTypes.flatMap(roomType => 
+        getAllPossibleValues(roomType, filterMappings.room_types)
+      );
+      
+      console.log(`🔗 Room type values to search for:`, allRoomTypeValues);
+      
+      // Build OR conditions to check room_types JSONB array for both name patterns and direct values
+      const roomTypeConditions = allRoomTypeValues.flatMap(roomType => [
+        `room_types.cs.[{"type":"${roomType}"}]`,  // Check for {type: "value"} format
+        `room_types.cs.["${roomType}"]`           // Check for direct string format
+      ]).join(',');
       
       if (roomTypeConditions) {
         query = query.or(roomTypeConditions);
-        console.log(`✅ Room types filter applied successfully`);
+        console.log(`✅ Room types filter applied successfully with mapping support`);
       }
     }
 

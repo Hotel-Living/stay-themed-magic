@@ -14,54 +14,90 @@ export function useFiltersByCategoryWithLanguage(category: string) {
   const { language } = useTranslation();
   
   return useQuery({
-    queryKey: ['filters', category, language],
+    queryKey: ['filters-with-mappings', category, language],
     queryFn: async (): Promise<FilterOption[]> => {
-      console.log(`🔍 Fetching filters for category: ${category}, language: ${language}`);
+      console.log(`🔍 Fetching filters with mappings for category: ${category}, language: ${language}`);
       
-      const { data, error } = await supabase
+      // Get mappings for this category
+      const { data: mappings, error: mappingsError } = await supabase
+        .from('filter_value_mappings')
+        .select('spanish_value, english_value')
+        .eq('category', category)
+        .eq('is_active', true);
+
+      if (mappingsError) {
+        console.error(`❌ Error fetching mappings for category ${category}:`, mappingsError);
+      }
+
+      // Get all filters for this category
+      const { data: filters, error: filtersError } = await supabase
         .from('filters')
         .select('id, value, category, source_type, is_active')
         .eq('category', category)
         .eq('is_active', true)
         .order('value');
 
-      if (error) {
-        console.error(`❌ Error fetching filters for category ${category}:`, error);
-        throw error;
+      if (filtersError) {
+        console.error(`❌ Error fetching filters for category ${category}:`, filtersError);
+        throw filtersError;
       }
 
-      if (!data) {
+      if (!filters) {
         console.log(`✅ No filters found for category ${category}`);
         return [];
       }
 
-      // Filter by language based on content characteristics
-      const languageFilteredData = data.filter(filter => {
-        const value = filter.value.toLowerCase();
+      // Create a mapping lookup for quick access
+      const mappingLookup = new Map<string, string>();
+      if (mappings) {
+        mappings.forEach(mapping => {
+          // Create bidirectional mapping
+          mappingLookup.set(mapping.spanish_value, mapping.english_value);
+          mappingLookup.set(mapping.english_value, mapping.spanish_value);
+        });
+      }
+
+      // Transform filters based on language preference and mappings
+      const languageFilteredData: FilterOption[] = [];
+      const processedValues = new Set<string>();
+
+      filters.forEach(filter => {
+        const filterValue = filter.value;
+        let displayValue = filterValue;
         
-        // Spanish language detection
+        // Apply language-specific transformation using mappings
         if (language === 'es') {
-          // Spanish characteristics: contains Spanish accents, ñ, or known Spanish words
-          return (
-            /[áéíóúñü]/.test(value) || 
-            /\b(solo|desayuno|media|pensión|completa|habitación|individual|doble|apartamento|suite|estudio|balcón|máquina|café|baño|privado|cocina|equipada|vista|mar|minibar|escritorio|caja|fuerte|aire|acondicionado|terraza|jacuzzi|chimenea|montaña|cafetera|nevera|microondas|sofá|cama|mesa|trabajo|acepta|mascotas|acceso|playa|piscina|wifi|gratuito|gimnasio|restaurante|bar|spa|parking|recepción|servicio|limpieza|jardín|barbacoa|lavandería|biblioteca|sala|conferencias|habitaciones|consigna|equipaje|alquiler|bicicletas|transfer|aeropuerto|cambio|moneda|triple|familiar|ático|loft|cabaña|villa|bungalow|casa|compartida)\b/.test(value)
-          );
+          // If it's already Spanish, use as-is
+          // If it's English and we have a Spanish mapping, use the Spanish version
+          if (mappingLookup.has(filterValue)) {
+            const mappedValue = mappingLookup.get(filterValue);
+            // Use Spanish value if this is English->Spanish mapping
+            if (mappings?.some(m => m.english_value === filterValue && m.spanish_value === mappedValue)) {
+              displayValue = mappedValue!;
+            }
+          }
+        } else {
+          // For English and other languages, prefer English values
+          if (mappingLookup.has(filterValue)) {
+            const mappedValue = mappingLookup.get(filterValue);
+            // Use English value if this is Spanish->English mapping  
+            if (mappings?.some(m => m.spanish_value === filterValue && m.english_value === mappedValue)) {
+              displayValue = mappedValue!;
+            }
+          }
         }
-        
-        // English language detection (default)
-        if (language === 'en') {
-          // English characteristics: no Spanish accents and common English words
-          return (
-            !/[áéíóúñü]/.test(value) && 
-            !/\b(solo|desayuno|media|pensión|completa|habitación|baño|equipada|acepta|mascotas|acceso|playa|piscina|gratuito|gimnasio|restaurante|servicio|limpieza|jardín|barbacoa|lavandería|biblioteca|conferencias|habitaciones|consigna|equipaje|alquiler|bicicletas|aeropuerto|cambio|moneda|cabaña|villa|bungalow|compartida)\b/.test(value)
-          );
+
+        // Avoid duplicates (e.g., both "Todo incluido" and "All Inclusive" in same language)
+        if (!processedValues.has(displayValue)) {
+          processedValues.add(displayValue);
+          languageFilteredData.push({
+            ...filter,
+            value: displayValue
+          });
         }
-        
-        // For other languages (pt, ro), fall back to English for now
-        return !/[áéíóúñü]/.test(value);
       });
 
-      console.log(`✅ Found ${languageFilteredData.length} language-filtered filters for category ${category} (${language}):`, languageFilteredData);
+      console.log(`✅ Found ${languageFilteredData.length} mapped filters for category ${category} (${language}):`, languageFilteredData.map(f => f.value));
       return languageFilteredData;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes

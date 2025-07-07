@@ -53,10 +53,13 @@ export function HotelMainContentGrid({
         {/* Location card with enhanced styling */}
         <div className="bg-gradient-to-br from-[#7B1C92] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
           <HotelLocation 
+            hotelId={hotel.id}
             latitude={Number(hotel.latitude)} 
             longitude={Number(hotel.longitude)} 
             hotelName={hotel.name} 
             address={hotel.address || ""}
+            city={hotel.city || ""}
+            country={hotel.country || ""}
           />
         </div>
       </div>

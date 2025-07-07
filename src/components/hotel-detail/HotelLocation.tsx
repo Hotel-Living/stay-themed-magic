@@ -3,22 +3,88 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 interface HotelLocationProps {
+  hotelId: string;
   latitude: number;
   longitude: number;
   hotelName: string;
   address: string;
+  city: string;
+  country: string;
 }
+
 export function HotelLocation({
+  hotelId,
   latitude,
   longitude,
   hotelName,
-  address
+  address,
+  city,
+  country
 }: HotelLocationProps) {
   const [mapKey, setMapKey] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  const [coordinates, setCoordinates] = useState<{lat: number; lng: number} | null>(
+    latitude && longitude && !isNaN(latitude) && !isNaN(longitude) 
+      ? { lat: latitude, lng: longitude } 
+      : null
+  );
+  // Geocode address to coordinates if needed
+  const geocodeAddress = async (apiKey: string) => {
+    if (coordinates) return; // Already have coordinates
+    
+    const fullAddress = [address, city, country].filter(Boolean).join(', ');
+    if (!fullAddress.trim()) return; // No address to geocode
+
+    try {
+      console.log('Geocoding address:', fullAddress);
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(fullAddress)}&key=${apiKey}`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Geocoding API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.status !== 'OK' || !data.results || data.results.length === 0) {
+        console.warn('Geocoding failed:', data.status, data.error_message);
+        return;
+      }
+      
+      const location = data.results[0].geometry.location;
+      const newCoordinates = { lat: location.lat, lng: location.lng };
+      
+      console.log('Geocoded coordinates:', newCoordinates);
+      setCoordinates(newCoordinates);
+      
+      // Update hotel record with coordinates to avoid future geocoding
+      try {
+        const { error: updateError } = await supabase
+          .from('hotels')
+          .update({
+            latitude: location.lat,
+            longitude: location.lng
+          })
+          .eq('id', hotelId);
+          
+        if (updateError) {
+          console.warn('Failed to update hotel coordinates:', updateError);
+        } else {
+          console.log('Hotel coordinates updated successfully');
+        }
+      } catch (updateErr) {
+        console.warn('Error updating hotel coordinates:', updateErr);
+      }
+    } catch (err) {
+      console.error('Geocoding error:', err);
+    }
+  };
+
   const fetchMapKey = async () => {
     try {
       setIsLoading(true);
@@ -29,35 +95,33 @@ export function HotelLocation({
         data,
         error
       } = await supabase.functions.invoke('get-maps-key');
-      if (error) {
+      
+      let apiKey: string | null = null;
+      
+      if (error || !data || (!data.key && !data.apiKey)) {
         console.error('Error fetching map key:', error);
         // Try fallback from environment variable
         const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
         if (envKey) {
           console.log('Using fallback API key from environment');
-          setMapKey(envKey);
+          apiKey = envKey;
+        } else {
+          setError("Could not load map key");
           setIsLoading(false);
-          setMapReady(true);
           return;
         }
-        setError("Could not load map key");
-        setIsLoading(false);
-        return;
-      }
-      if (data && (data.key || data.apiKey)) {
-        console.log('Successfully retrieved API key');
-        setMapKey(data.key || data.apiKey);
-        setMapReady(true);
       } else {
-        console.error('No map key in response:', data);
-        // Try fallback from environment variable
-        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        if (envKey) {
-          console.log('Using fallback API key from environment');
-          setMapKey(envKey);
-          setMapReady(true);
-          return;
-        }
+        console.log('Successfully retrieved API key');
+        apiKey = data.key || data.apiKey;
+      }
+      
+      if (apiKey) {
+        setMapKey(apiKey);
+        setMapReady(true);
+        
+        // Geocode address if coordinates are missing
+        await geocodeAddress(apiKey);
+      } else {
         setError("No map key available");
       }
     } catch (err) {
@@ -71,21 +135,26 @@ export function HotelLocation({
     fetchMapKey();
   }, []);
 
-  // Generate a fallback URL if coordinates are not available
+  // Generate map URL based on available data
   const getMapUrl = () => {
     if (!mapKey) return null;
-    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
-      // Use direct Google Maps URL with the API key
-      return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${latitude},${longitude}&zoom=15`;
-    } else if (address) {
-      // Use address-based map URL with the API key
-      return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${encodeURIComponent(address)}&zoom=15`;
+    
+    if (coordinates) {
+      // Use geocoded or existing coordinates
+      return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${coordinates.lat},${coordinates.lng}&zoom=15`;
+    } else {
+      // Fallback to address-based map
+      const fullAddress = [address, city, country].filter(Boolean).join(', ');
+      if (fullAddress.trim()) {
+        return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${encodeURIComponent(fullAddress)}&zoom=15`;
+      }
     }
     return null;
   };
 
-  // Check if required props are available
-  const hasMapData = latitude && longitude && !isNaN(latitude) && !isNaN(longitude) || address;
+  // Check if we have any location data to display
+  const fullAddress = [address, city, country].filter(Boolean).join(', ');
+  const hasMapData = coordinates || fullAddress.trim();
   const mapUrl = mapReady ? getMapUrl() : null;
   if (!hasMapData) {
     return null;
@@ -106,7 +175,7 @@ export function HotelLocation({
                 {error}
               </p>
               <p className="text-sm text-white/70 mb-3">
-                Location: {address || `${latitude}, ${longitude}`}
+                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
               </p>
               <Button variant="outline" size="sm" className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" onClick={fetchMapKey}>
                 Retry Loading Map
@@ -121,7 +190,7 @@ export function HotelLocation({
               <p className="text-center text-white">
                 Location information unavailable.
                 <br />
-                Location: {address || `${latitude}, ${longitude}`}
+                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
               </p>
             </div>}
         </div>

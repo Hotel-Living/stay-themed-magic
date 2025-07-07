@@ -167,11 +167,11 @@ export function RedesignedBookingSection({
         {stayDurations.length > 0 && <div className="space-y-2">
             <label className="text-sm font-semibold text-white">Stay Duration</label>
             <Select value={selectedDuration.toString()} onValueChange={value => setSelectedDuration(parseInt(value))}>
-              <SelectTrigger className="bg-[#957B23]/30 border-border text-white">
+              <SelectTrigger className="bg-[#73127B]/30 border-border text-white font-bold">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[#957B23] border-border">
-                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-accent/50">
+              <SelectContent className="bg-[#73127B] border-border">
+                {stayDurations.map(duration => <SelectItem key={duration} value={duration.toString()} className="text-white font-bold hover:bg-accent/50">
                     {duration} {duration === 1 ? 'day' : 'days'}
                   </SelectItem>)}
               </SelectContent>
@@ -181,15 +181,30 @@ export function RedesignedBookingSection({
         {/* Calendar - Only Mondays selectable */}
         <div className="space-y-2">
           <label className="text-sm font-semibold text-white">Check-in Date (Mondays only)</label>
-          <Calendar mode="single" selected={checkInDate} onSelect={date => {
-          if (date && isDateSelectable(date)) {
-            setCheckInDate(date);
-          }
-        }} disabled={date => !isDateSelectable(date)} className="border rounded-md w-full mx-auto text-white border-border bg-[#957B23]" />
+          <Calendar 
+            mode="single" 
+            selected={checkInDate} 
+            onSelect={date => {
+              if (date && isDateSelectable(date)) {
+                setCheckInDate(date);
+              }
+            }} 
+            disabled={date => !isDateSelectable(date)} 
+            className="border rounded-md w-full mx-auto text-white border-border bg-[#73127B]"
+            classNames={{
+              day: "h-9 w-9 p-0 font-normal text-white hover:bg-white/10",
+              day_selected: "bg-[#B3DAF3] text-[#003A70] hover:bg-[#B3DAF3] hover:text-[#003A70] focus:bg-[#B3DAF3] focus:text-[#003A70]",
+              day_today: "bg-white/20 text-white",
+              day_disabled: "text-white/30 opacity-50",
+              head_cell: "text-white/70 rounded-md w-9 font-normal text-[0.8rem]",
+              caption_label: "text-white font-medium",
+              nav_button: "text-white hover:bg-white/10"
+            }}
+          />
         </div>
 
         {/* Check-out Date Display */}
-        {checkInDate && checkoutDate && <div className="bg-[#957B23]/30 rounded-lg p-4 border border-border">
+        {checkInDate && checkoutDate && <div className="bg-[#73127B]/30 rounded-lg p-4 border border-border">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-white mb-2">Your Stay Details</h3>
               <div className="space-y-1 text-white/90">

@@ -184,7 +184,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
       <div className="container mx-auto px-4 py-12">
         {/* Image Gallery Section */}
         {images.length > 1 && (
-          <Card className="mb-8 bg-gradient-to-br from-yellow-900/40 to-yellow-800/30 border-yellow-700/30 shadow-2xl">
+          <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-6 text-white text-center">Gallery</h2>
               <HotelGallerySection 
@@ -198,7 +198,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
         )}
 
         {/* Descriptive Content Section */}
-        <Card className="mb-8 bg-gradient-to-br from-yellow-900/40 to-yellow-800/30 border-yellow-700/30 shadow-2xl">
+        <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
           <div className="p-8">
             <HotelDescriptionSection 
               description={hotel.description}
@@ -211,7 +211,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
         {/* Available Months Section */}
         {hotel.available_months && hotel.available_months.length > 0 && (
-          <Card className="mb-8 bg-gradient-to-br from-yellow-900/40 to-yellow-800/30 border-yellow-700/30 shadow-2xl">
+          <Card className="mb-8 bg-gradient-to-br from-gold-900/40 to-gold-800/30 border-gold-700/30 shadow-2xl">
             <div className="p-6">
               <HotelAvailableMonths months={hotel.available_months} />
             </div>

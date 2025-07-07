@@ -257,7 +257,7 @@ export function RedesignedBookingSection({
         )}
 
         {/* Price Display - Always show */}
-        <div className="bg-gradient-to-br from-yellow-900/40 to-yellow-800/30 rounded-lg p-4 border border-yellow-600/30">
+        <div className="bg-gradient-to-br from-gold-900/40 to-gold-800/30 rounded-lg p-4 border border-gold-600/30">
           <div className="text-center">
             {currentPrice !== null ? (
               <>

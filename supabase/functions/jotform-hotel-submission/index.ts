@@ -460,3 +460,4 @@ async function applyFilterMappings(hotelData: any, supabase: any) {
 
   console.log('Applied mappings successfully')
   return mappedData
+}

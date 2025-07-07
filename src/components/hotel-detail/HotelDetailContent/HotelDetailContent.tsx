@@ -9,6 +9,7 @@ import { HotelThemesAndActivities } from "../HotelThemesAndActivities";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelAvailableMonths } from "../HotelAvailableMonths";
 import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
+import { HotelLocation } from "../HotelLocation";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -122,6 +123,16 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             <HotelFeaturesInfo 
               hotelFeatures={hotel.hotelFeatures || []}
               roomFeatures={hotel.roomFeatures || []}
+            />
+            
+            <HotelLocation 
+              hotelId={hotel.id}
+              latitude={Number(hotel.latitude)} 
+              longitude={Number(hotel.longitude)} 
+              hotelName={hotel.name} 
+              address={hotel.address || ""}
+              city={hotel.city || ""}
+              country={hotel.country || ""}
             />
           </div>
           

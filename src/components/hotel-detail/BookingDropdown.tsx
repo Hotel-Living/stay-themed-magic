@@ -31,13 +31,13 @@ export default function BookingDropdown({ pricingMatrix = [], onSelect }: Bookin
     const mealPlanDisplay = formatMealPlan(item.mealPlan);
     
     // Format: [Room Type] – [Meal Plan] – [Number of nights] – [Price]
-    return `${roomTypeDisplay} – ${mealPlanDisplay} – ${item.stayLength} nights – ${item.price}`;
+    return `${roomTypeDisplay} – ${mealPlanDisplay} – ${item.stayLength} nights – €${item.price}`;
   };
 
   const formatDefaultDisplay = (item: PricingMatrixItem) => {
     const roomTypeDisplay = formatRoomType(item.roomType);
     // Format for default display: [Room Type] – [Price]
-    return `${roomTypeDisplay} – ${item.price}`;
+    return `${roomTypeDisplay} – €${item.price}`;
   };
 
   const handleSelectionChange = (value: string) => {

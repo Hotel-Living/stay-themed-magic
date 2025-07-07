@@ -28,7 +28,7 @@ export function BookingSummary({
       <div className="space-y-4">
         <div className="mt-4 text-white text-sm">
           Selected: <strong>
-            {capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}
+            {capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – €{selectedOption.price}
           </strong>
         </div>
 
@@ -47,7 +47,7 @@ export function BookingSummary({
           <div className="bg-fuchsia-950/40 border border-fuchsia-700/50 rounded-lg p-4">
             <h4 className="text-white font-semibold text-sm mb-2">You are about to book:</h4>
             <p className="text-white/90 text-sm">
-              <strong>{capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}</strong>
+              <strong>{capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – €{selectedOption.price}</strong>
             </p>
             <p className="text-white/80 text-xs mt-1">
               Check-in: {format(checkInDate, "PPP")} | Check-out: {format(addDays(checkInDate, parseInt(selectedOption.stayLength)), "PPP")}
@@ -77,7 +77,7 @@ export function BookingSummary({
           <h4 className="text-white font-semibold text-sm">Your reservation has been confirmed!</h4>
         </div>
         <p className="text-white/90 text-sm mb-2">
-          <strong>{capitalize(confirmedBookingData.roomType)} Room – {confirmedBookingData.stayLength} nights – {capitalize(confirmedBookingData.mealPlan)} – {confirmedBookingData.price}</strong>
+          <strong>{capitalize(confirmedBookingData.roomType)} Room – {confirmedBookingData.stayLength} nights – {capitalize(confirmedBookingData.mealPlan)} – €{confirmedBookingData.price}</strong>
         </p>
         <p className="text-white/80 text-xs">
           Check-in: {format(confirmedBookingData.checkInDate, "PPP")} | Check-out: {format(confirmedBookingData.checkOutDate, "PPP")}

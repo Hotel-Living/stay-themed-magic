@@ -126,6 +126,37 @@ serve(async (req) => {
 
     console.log('Starting batch creation of 60 US demo hotels...');
 
+    // First, clean up existing US demo hotels (except Hotel Diplomat)
+    console.log('Cleaning up existing US demo hotels...');
+    const { data: existingUSHotels } = await supabase
+      .from('hotels')
+      .select('id, name')
+      .eq('country', 'United States')
+      .neq('name', 'Hotel Diplomat');
+    
+    if (existingUSHotels && existingUSHotels.length > 0) {
+      console.log(`Found ${existingUSHotels.length} existing US hotels to delete`);
+      
+      // Delete related data first
+      for (const hotel of existingUSHotels) {
+        await supabase.from('hotel_themes').delete().eq('hotel_id', hotel.id);
+        await supabase.from('hotel_activities').delete().eq('hotel_id', hotel.id);
+        await supabase.from('hotel_images').delete().eq('hotel_id', hotel.id);
+        await supabase.from('favorites').delete().eq('hotel_id', hotel.id);
+        await supabase.from('bookings').delete().eq('hotel_id', hotel.id);
+        await supabase.from('reviews').delete().eq('hotel_id', hotel.id);
+      }
+      
+      // Delete the hotels themselves
+      await supabase
+        .from('hotels')
+        .delete()
+        .eq('country', 'United States')
+        .neq('name', 'Hotel Diplomat');
+      
+      console.log('Cleanup completed');
+    }
+
     // Fetch existing themes and activities
     const { data: themes } = await supabase.from('themes').select('id, name');
     const { data: activities } = await supabase.from('activities').select('id, name');
@@ -166,6 +197,8 @@ serve(async (req) => {
 
         // Generate pricing for this hotel's durations
         const pricingMatrix = [];
+        let calculatedPricePerMonth = 0;
+        
         for (const duration of dist.durations) {
           const maxPrices = MAX_PRICING[category][duration];
           
@@ -190,6 +223,12 @@ serve(async (req) => {
             mealPlan: mealPlan,
             price: Math.max(adjustSingle, 25)
           });
+          
+          // Calculate monthly equivalent for price_per_month (use longest duration's double room price)
+          if (duration === Math.max(...dist.durations)) {
+            const monthlyMultiplier = 30 / duration; // Convert stay duration to monthly equivalent
+            calculatedPricePerMonth = Math.round(Math.max(adjustDouble, 25) * monthlyMultiplier);
+          }
         }
 
         // Generate descriptions
@@ -218,7 +257,7 @@ serve(async (req) => {
           category: category,
           property_type: PROPERTY_TYPES[Math.floor(Math.random() * PROPERTY_TYPES.length)],
           style: PROPERTY_STYLES[Math.floor(Math.random() * PROPERTY_STYLES.length)],
-          price_per_month: pricingMatrix[0].price, // Base price from first duration
+          price_per_month: calculatedPricePerMonth, // Properly calculated monthly equivalent
           status: 'approved',
           owner_id: null, // Demo hotels have no owner
           is_featured: Math.random() < 0.2, // 20% featured

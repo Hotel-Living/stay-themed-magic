@@ -124,7 +124,7 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    console.log('Starting batch creation of 60 US demo hotels...');
+    console.log('Starting creation of 1 test hotel for validation...');
     console.log('Database has been pre-cleaned via SQL migration - proceeding with generation');
 
     // Fetch existing themes and activities
@@ -138,12 +138,9 @@ serve(async (req) => {
     const hotels = [];
     let hotelIndex = 0;
 
-    // Generate 60 hotels with specific distribution
+    // Generate 1 test hotel
     const distributions = [
-      { durations: [8], count: 15 },           // 8-day only
-      { durations: [8, 15], count: 15 },       // 8 & 15 days
-      { durations: [8, 15, 22], count: 15 },   // 8, 15 & 22 days  
-      { durations: [8, 15, 22, 29], count: 15 } // All durations
+      { durations: [8, 15, 22, 29], count: 1 } // Test hotel with all durations
     ];
 
     for (const dist of distributions) {
@@ -330,7 +327,7 @@ serve(async (req) => {
       await supabase.from('hotel_activities').insert(activityInserts);
     }
 
-    console.log('Successfully created 60 US demo hotels!');
+    console.log('Successfully created 1 test hotel!');
 
     return new Response(JSON.stringify({
       success: true,

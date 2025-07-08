@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function AffinityAccordionMenu() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('affinity');
   
   return <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 mx-0 px-0 py-[18px]">
       <Accordion type="single" collapsible className="w-full space-y-3">

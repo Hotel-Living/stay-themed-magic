@@ -1,6 +1,9 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { HotelFeaturesFilter } from "./HotelFeaturesFilter"; 
+import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { FilterItem } from "./FilterItem";
 import { PriceRangeFilter } from "./PriceRangeFilter";
@@ -100,10 +103,8 @@ export function SecondFilterSidebar({
 
       {/* 8. COMIDAS */}
       <div className="mb-6">
-        <CheckboxFilter 
-          title={t('mealPlan')} 
-          options={[t('accommodationOnly'), t('breakfastIncluded'), t('halfBoard'), t('fullBoard'), t('laundryServiceIncluded'), t('externalLaundryService')]}
-          selectedOptions={activeFilters.mealPlans} 
+        <MealPlanFilter 
+          activeMealPlans={activeFilters.mealPlans} 
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
         />
       </div>
@@ -135,20 +136,16 @@ export function SecondFilterSidebar({
 
       {/* 12. SERVICIOS-HOTEL */}
       <div className="mb-6">
-        <CheckboxFilter 
-          title={t('hotelFeatures')} 
-          options={[t('pool'), t('gym'), t('spa'), t('restaurant'), t('bar'), t('wifi'), t('parking')]}
-          selectedOptions={activeFilters.hotelFeatures} 
+        <HotelFeaturesFilter 
+          activeHotelFeatures={activeFilters.hotelFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} 
         />
       </div>
 
       {/* 13. SERVICIOS-HABITACIÓN */}
       <div className="mb-6">
-        <CheckboxFilter 
-          title={t('roomFeatures')} 
-          options={[t('airConditioning'), t('balcony'), t('kitchen'), t('workspace'), t('tv'), t('minibar')]}
-          selectedOptions={activeFilters.roomFeatures} 
+        <RoomFeaturesFilter 
+          activeRoomFeatures={activeFilters.roomFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} 
         />
       </div>

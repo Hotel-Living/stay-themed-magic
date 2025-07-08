@@ -25,7 +25,7 @@ export function RoomFeaturesFilter({ activeRoomFeatures, onChange }: RoomFeature
 
   return (
     <SquareFilter
-      title={t("roomFeatures")}
+      title={t("filters.roomFeatures")}
       options={formattedOptions}
       selectedOptions={activeRoomFeatures}
       onChange={onChange}

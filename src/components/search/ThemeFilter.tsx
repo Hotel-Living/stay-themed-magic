@@ -49,7 +49,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
 
   return (
     <SquareFilter
-      title={t("affinity")}
+      title={t("filters.affinity")}
       options={formattedOptions}
       selectedOptions={selectedThemes}
       onChange={handleThemeChange}

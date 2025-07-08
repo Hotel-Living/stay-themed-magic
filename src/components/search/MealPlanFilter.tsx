@@ -25,7 +25,7 @@ export function MealPlanFilter({ activeMealPlans, onChange }: MealPlanFilterProp
 
   return (
     <SquareFilter
-      title={t("mealPlan")}
+      title={t("filters.mealPlan")}
       options={formattedOptions}
       selectedOptions={activeMealPlans}
       onChange={onChange}

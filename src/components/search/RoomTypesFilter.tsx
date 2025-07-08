@@ -25,7 +25,7 @@ export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterPr
 
   return (
     <SquareFilter
-      title={t("roomTypes")}
+      title={t("filters.roomTypes")}
       options={formattedOptions}
       selectedOptions={activeRoomTypes}
       onChange={onChange}

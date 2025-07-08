@@ -28,7 +28,7 @@ export function ActivityFilter({
 
   return (
     <SquareFilter
-      title={t("activities")}
+      title={t("filters.activities")}
       options={formattedOptions}
       selectedOptions={activeActivities}
       onChange={onChange}

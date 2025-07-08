@@ -2,20 +2,16 @@
 import React from "react";
 import { CountryFilter } from "./CountryFilter";
 import { LocationFilter } from "./LocationFilter";
-import { ThemeFilter } from "./ThemeFilter";
-import { ActivityFilter } from "./ActivityFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
-import { MealPlanFilter } from "./MealPlanFilter";
 import { RoomTypesFilter } from "./RoomTypesFilter";
 import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
 import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { Theme } from "@/utils/themes";
 
 interface FilterSidebarProps {
   activeFilters: FilterState;
@@ -30,17 +26,7 @@ export function FilterSidebar({
   handleArrayFilterChange,
   onResetAllFilters
 }: FilterSidebarProps) {
-  const handleThemeChange = (theme: Theme | null) => {
-    handleFilterChange('theme', theme);
-  };
 
-  const handleActivityChange = (value: string, isChecked: boolean) => {
-    handleArrayFilterChange('activities', value, isChecked);
-  };
-
-  const handleMealPlanChange = (value: string, isChecked: boolean) => {
-    handleArrayFilterChange('mealPlans', value, isChecked);
-  };
 
   const handleRoomTypesChange = (value: string, isChecked: boolean) => {
     handleArrayFilterChange('roomTypes', value, isChecked);
@@ -82,28 +68,10 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('location', value)}
       />
 
-      {/* AFFINITIES */}
-      <ThemeFilter
-        activeTheme={activeFilters.theme}
-        onChange={handleThemeChange}
-      />
-
-      {/* ACTIVITIES */}
-      <ActivityFilter
-        activeActivities={activeFilters.activities || []}
-        onChange={handleActivityChange}
-      />
-
       {/* STAY LENGTH */}
       <LengthOfStayFilter
         activeLength={activeFilters.stayLengths}
         onChange={(value) => handleFilterChange('stayLengths', value)}
-      />
-
-      {/* MEAL PLAN */}
-      <MealPlanFilter
-        activeMealPlans={activeFilters.mealPlans || []}
-        onChange={handleMealPlanChange}
       />
 
       {/* CATEGORY */}

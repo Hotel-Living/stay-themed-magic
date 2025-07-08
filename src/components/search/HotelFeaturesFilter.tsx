@@ -25,7 +25,7 @@ export function HotelFeaturesFilter({ activeHotelFeatures, onChange }: HotelFeat
 
   return (
     <SquareFilter
-      title={t("hotelFeatures")}
+      title={t("filters.hotelFeatures")}
       options={formattedOptions}
       selectedOptions={activeHotelFeatures}
       onChange={onChange}

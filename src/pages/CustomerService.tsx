@@ -12,7 +12,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CustomerService() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('customerService');
   const [formData, setFormData] = useState({
     name: "",
     email: "",

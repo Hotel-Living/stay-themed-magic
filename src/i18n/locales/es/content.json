@@ -1,1 +1,24 @@
-{}
+{
+  "content": {
+    "welcomeMessage": "Bienvenido a Hotel-Living",
+    "exploreHotels": "Explora nuestra selección curada de hoteles temáticos",
+    "bookYourStay": "Reserva tu estancia perfecta hoy",
+    "discoverExperiences": "Descubre experiencias únicas",
+    "whyChooseUs": "¿Por qué Elegir Hotel-Living?",
+    "ourMission": "Nuestra misión es revolucionar la forma en que las personas viven y viajan"
+  },
+  "videosContent": {
+    "featuredTitle": "Destacado: Experiencia de Hoteles Temáticos",
+    "featuredDescription": "Descubre la magia de nuestros hoteles temáticos y experimenta una nueva forma de hospitalidad.",
+    "comingSoonOwnerStories": "Próximamente: Historias de Propietarios de Hoteles",
+    "availableJune": "Disponible Junio 2025",
+    "comingSoonGuestExperiences": "Próximamente: Experiencias de Huéspedes",
+    "availableJuly": "Disponible Julio 2025"
+  },
+  "featuredHotelsContent": {
+    "pageTitle": "Hoteles Destacados",
+    "wantToBeFirst": "¿Quiere que su hotel aparezca primero?",
+    "featureDescription": "Podemos destacar su propiedad aquí mismo — sin grandes tarifas, solo colaboración inteligente.",
+    "loginForInfo": "Inicie sesión en su panel de hotel para más información."
+  }
+}

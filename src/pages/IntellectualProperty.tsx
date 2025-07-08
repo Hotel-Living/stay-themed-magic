@@ -6,7 +6,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function IntellectualProperty() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('intellectualProperty');
   
   return (
     <div className="min-h-screen flex flex-col">

@@ -5,7 +5,7 @@ import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function OurServices() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ourServices');
   
   return (
     <div className="min-h-screen flex flex-col">

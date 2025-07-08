@@ -42,6 +42,7 @@ import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enAdvertising from './locales/en/dashboard/advertising.json';
 import enRatesCalculator from './locales/en/dashboard/rates-calculator.json';
 import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
+import enTerms from './locales/en/terms.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -70,6 +71,10 @@ import esSearch from './locales/es/search.json';
 import esServices from './locales/es/services.json';
 import esSignup from './locales/es/signup.json';
 import esTerms from './locales/es/terms.json';
+import esOurServices from './locales/es/ourServices.json';
+import esIntellectualProperty from './locales/es/intellectualProperty.json';
+import esOurValues from './locales/es/ourValues.json';
+import esPrivacy from './locales/es/privacy.json';
 import esDashboardHotel from './locales/es/dashboard/hotel.json';
 import esDashboardProfile from './locales/es/dashboard/profile.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
@@ -142,6 +147,7 @@ const resources = {
     intellectualProperty: enIntellectualProperty,
     ourValues: enOurValues,
     privacy: enPrivacy,
+    terms: enTerms,
     hotels: enHotels,
     dashboard: {
       general: enDashboardGeneral,
@@ -194,6 +200,10 @@ const resources = {
     services: esServices,
     signup: esSignup,
     terms: esTerms,
+    ourServices: esOurServices,
+    intellectualProperty: esIntellectualProperty,
+    ourValues: esOurValues,
+    privacy: esPrivacy,
     dashboard: {
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
@@ -220,6 +230,7 @@ const resources = {
     intellectualProperty: ptIntellectualProperty,
     ourValues: ptOurValues,
     privacy: ptPrivacy,
+    terms: { terms: { title: "Termos e Condições" } },
     hotels: ptHotels,
     dashboard: {
       general: ptDashboardGeneral,
@@ -246,6 +257,7 @@ const resources = {
     intellectualProperty: roIntellectualProperty,
     ourValues: roOurValues,
     privacy: roPrivacy,
+    terms: { terms: { title: "Termeni și Condiții" } },
     hotels: roHotels,
     dashboard: {
       general: roDashboardGeneral,

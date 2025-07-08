@@ -20,7 +20,7 @@ export function FilterSectionWrapper({
   const { data: themes } = useThemesWithTranslations();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const { t, language } = useTranslation();
+  const { t, language } = useTranslation('filters');
 
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     country: null,
@@ -120,17 +120,17 @@ export function FilterSectionWrapper({
   const getPlaceholders = () => {
     if (language === 'es') {
       return {
-        month: "¿" + t('filters.month').toUpperCase() + "?",
-        country: "¿" + t('filters.country').toUpperCase() + "?",
-        theme: "¿" + t('filters.affinity').toUpperCase() + "?",
-        priceRange: "¿" + t('filters.pricePerMonth') + "?"
+        month: "¿" + t('month').toUpperCase() + "?",
+        country: "¿" + t('country').toUpperCase() + "?",
+        theme: "¿" + t('affinity').toUpperCase() + "?",
+        priceRange: "¿" + t('pricePerMonth') + "?"
       };
     }
     return {
-      month: t('filters.month').toUpperCase() + "?",
-      country: t('filters.country').toUpperCase() + "?",
-      theme: t('filters.affinity').toUpperCase() + "?",
-      priceRange: t('filters.pricePerMonth') + "?"
+      month: t('month').toUpperCase() + "?",
+      country: t('country').toUpperCase() + "?",
+      theme: t('affinity').toUpperCase() + "?",
+      priceRange: t('pricePerMonth') + "?"
     };
   };
 
@@ -148,7 +148,7 @@ export function FilterSectionWrapper({
             backgroundColor: "#996515"
           }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
-              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('home.filters.search')}</span>
+              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('search')}</span>
             </Button>
           </div>
         </div>

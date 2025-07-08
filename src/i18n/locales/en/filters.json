@@ -39,6 +39,7 @@
     "tv": "TV",
     "minibar": "Minibar",
     "affinity": "AFFINITIES",
+    "search": "SEARCH",
     "propertyTypes": {
       "hotel": "Hotel",
       "resort": "Resort",

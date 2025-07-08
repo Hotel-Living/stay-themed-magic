@@ -3,6 +3,7 @@ import { HotelDetailProps } from "@/types/hotel";
 import { HotelHeader } from "../HotelHeader";
 import { HotelGallerySection } from "./sections/HotelGallerySection";
 import { HotelAtAGlanceSection } from "./HotelAtAGlanceSection";
+import { HotelPropertyDetailsSection } from "./HotelPropertyDetailsSection";
 import { HotelThemesAndActivities } from "../HotelThemesAndActivities";
 import { HotelAvailableMonths } from "../HotelAvailableMonths";
 import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
@@ -167,6 +168,7 @@ export function HotelDetailContent({
         {/* Descriptive Content Section */}
         <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
           <div className="p-8 bg-[#957B23]">
+            <HotelPropertyDetailsSection hotel={hotel} />
             <HotelAtAGlanceSection 
               hotel={hotel}
               formatStayLengths={() => convertedStayLengths.map(length => `${length} ${length === 1 ? 'day' : 'days'}`).join(', ')}

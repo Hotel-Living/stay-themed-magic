@@ -1,19 +1,17 @@
 
 {
-  "home": {
-    "heroSection": {
-      "revolutionHasCome": "BINE AI VENIT ÎN VIITOR",
-      "liveInHotels": "TRĂIEȘTE ÎN HOTELURI",
-      "boostYourLife": "Trăiește din plin",
-      "slogans": {
-        "getRidOfChores": "UITĂ DE TREBURILE CASNICE",
-        "selectHotelsByThemes": "ALEGE TEME ȘI HOTELURI",
-        "boostSocialLife": "EXTINDE-ȚI VIAȚA SOCIALĂ",
-        "meetLikeMinded": "GĂSEȘTE OAMENI CA TINE"
-      }
-    },
-    "filters": {
-      "search": "Căutare"
+  "heroSection": {
+    "revolutionHasCome": "BINE AI VENIT ÎN VIITOR",
+    "liveInHotels": "TRĂIEȘTE ÎN HOTELURI",
+    "boostYourLife": "Trăiește din plin",
+    "slogans": {
+      "getRidOfChores": "UITĂ DE TREBURILE CASNICE",
+      "selectHotelsByThemes": "ALEGE TEME ȘI HOTELURI",
+      "boostSocialLife": "EXTINDE-ȚI VIAȚA SOCIALĂ",
+      "meetLikeMinded": "GĂSEȘTE OAMENI CA TINE"
     }
+  },
+  "filters": {
+    "search": "Căutare"
   }
 }

@@ -1,19 +1,17 @@
 
 {
-  "home": {
-    "heroSection": {
-      "revolutionHasCome": "BEM-VINDO AO FUTURO",
-      "liveInHotels": "VIVE EM HOTÉIS",
-      "boostYourLife": "Viva ao máximo",
-      "slogans": {
-        "getRidOfChores": "ESQUEÇA AS TAREFAS DOMÉSTICAS",
-        "selectHotelsByThemes": "ESCOLHA TEMAS E HOTÉIS",
-        "boostSocialLife": "MULTIPLIQUE SUA VIDA SOCIAL",
-        "meetLikeMinded": "ENCONTRE SEUS AFINS"
-      }
-    },
-    "filters": {
-      "search": "Pesquisar"
+  "heroSection": {
+    "revolutionHasCome": "BEM-VINDO AO FUTURO",
+    "liveInHotels": "VIVE EM HOTÉIS",
+    "boostYourLife": "Viva ao máximo",
+    "slogans": {
+      "getRidOfChores": "ESQUEÇA AS TAREFAS DOMÉSTICAS",
+      "selectHotelsByThemes": "ESCOLHA TEMAS E HOTÉIS",
+      "boostSocialLife": "MULTIPLIQUE SUA VIDA SOCIAL",
+      "meetLikeMinded": "ENCONTRE SEUS AFINS"
     }
+  },
+  "filters": {
+    "search": "Pesquisar"
   }
 }

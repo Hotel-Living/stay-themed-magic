@@ -1,18 +1,16 @@
 {
-  "home": {
-    "heroSection": {
-      "revolutionHasCome": "BIENVENIDO AL FUTURO",
-      "liveInHotels": "VIVE EN HOTELES",
-      "boostYourLife": "Potencia tu vida",
-      "slogans": {
-        "getRidOfChores": "OLVÍDATE DE LAS TAREAS DOMÉSTICAS",
-        "selectHotelsByThemes": "ELIGE TEMAS Y HOTELES",
-        "boostSocialLife": "POTENCIA TU VIDA SOCIAL",
-        "meetLikeMinded": "CONOCE PERSONAS AFINES"
-      }
-    },
-    "filters": {
-      "search": "Buscar"
+  "heroSection": {
+    "revolutionHasCome": "BIENVENIDO AL FUTURO",
+    "liveInHotels": "VIVE EN HOTELES",
+    "boostYourLife": "Potencia tu vida",
+    "slogans": {
+      "getRidOfChores": "OLVÍDATE DE LAS TAREAS DOMÉSTICAS",
+      "selectHotelsByThemes": "ELIGE TEMAS Y HOTELES",
+      "boostSocialLife": "POTENCIA TU VIDA SOCIAL",
+      "meetLikeMinded": "CONOCE PERSONAS AFINES"
     }
+  },
+  "filters": {
+    "search": "Buscar"
   }
 }

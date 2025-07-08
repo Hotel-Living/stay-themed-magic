@@ -1,19 +1,17 @@
 
 {
-  "home": {
-    "heroSection": {
-      "revolutionHasCome": "WELCOME TO THE FUTURE",
-      "liveInHotels": "LIVE IN HOTELS",
-      "boostYourLife": "Boost your life",
-      "slogans": {
-        "getRidOfChores": "FORGET HOUSEHOLD CHORES",
-        "selectHotelsByThemes": "CHOOSE THEMES AND HOTELS",
-        "boostSocialLife": "BOOST YOUR SOCIAL LIFE",
-        "meetLikeMinded": "MEET LIKE-MINDED PEOPLE"
-      }
-    },
-    "filters": {
-      "search": "Search"
+  "heroSection": {
+    "revolutionHasCome": "WELCOME TO THE FUTURE",
+    "liveInHotels": "LIVE IN HOTELS",
+    "boostYourLife": "Boost your life",
+    "slogans": {
+      "getRidOfChores": "FORGET HOUSEHOLD CHORES",
+      "selectHotelsByThemes": "CHOOSE THEMES AND HOTELS",
+      "boostSocialLife": "BOOST YOUR SOCIAL LIFE",
+      "meetLikeMinded": "MEET LIKE-MINDED PEOPLE"
     }
+  },
+  "filters": {
+    "search": "Search"
   }
 }

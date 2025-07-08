@@ -272,32 +272,32 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
-    debug: true, // Enable debug to see what's happening
-    lng: 'en', // Force English language
-    load: 'currentOnly',
+    fallbackLng: false, // Disable fallback to prevent key display
+    debug: false,
+    lng: 'en',
+    defaultNS: 'translation',
+    ns: ['translation', 'navigation', 'hotels', 'content', 'faq', 'auth', 'booking'],
+    load: 'languageOnly',
     preload: ['en'],
-    keySeparator: false, // Disable key nesting to avoid issues
-    returnEmptyString: false, // Return key instead of empty string on missing translation
-    saveMissing: false,
+    returnEmptyString: false,
+    returnNull: false,
+    returnObjects: false,
+    keySeparator: false,
+    nsSeparator: false,
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator', 'htmlTag', 'path', 'subdomain'],
-      caches: [],  // Disable caching to force reload
+      order: ['navigator'],
+      caches: [],
     },
     react: {
       useSuspense: false,
     },
+  }).then(() => {
+    // Force change language to ensure proper loading
+    i18n.changeLanguage('en');
+    console.log('i18n initialized successfully');
   });
-
-// Force clear and reload the resources
-i18n.services.backendConnector?.reload?.();
-i18n.reloadResources(['en'], ['hotels']).then(() => {
-  console.log('Hotels namespace reloaded successfully');
-}).catch((error) => {
-  console.error('Failed to reload hotels namespace:', error);
-});
 
 export default i18n;

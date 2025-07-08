@@ -274,13 +274,20 @@ i18n
     resources,
     fallbackLng: 'en',
     debug: false,
+    lng: 'en', // Force English language
     interpolation: {
       escapeValue: false,
     },
     detection: {
       order: ['navigator', 'htmlTag', 'path', 'subdomain'],
-      caches: ['localStorage'],
+      caches: [],  // Disable caching to force reload
+    },
+    react: {
+      useSuspense: false,
     },
   });
+
+// Force reload the resources with updated translations
+i18n.reloadResources(['en'], ['hotels']);
 
 export default i18n;

@@ -45,6 +45,7 @@ import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
+import esNavigation from './locales/es/navigation.json';
 import esFaq from './locales/es/faq.json';
 import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
@@ -168,6 +169,7 @@ const resources = {
   },
   es: {
     translation: esCommon,
+    navigation: esNavigation,
     faq: esFaq,
     auth: esAuth,
     booking: esBooking,

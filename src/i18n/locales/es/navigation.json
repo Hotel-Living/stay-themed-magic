@@ -1,0 +1,33 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "hotels": "Hoteles",
+    "dashboard": "Panel",
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
+    "signup": "Registrarse",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "bookings": "Reservas",
+    "admin": "Admin",
+    "language": "Idioma",
+    "help": "Ayuda",
+    "faq": "Ventajas",
+    "contact": "Contacto",
+    "videos": "Videos",
+    "featuredHotels": "Hoteles Destacados",
+    "affinityStays": "Estancias por Afinidad",
+    "register": "Registrar",
+    "aboutUs": "Acerca de Nosotros"
+  },
+  "mainNavigationContent": {
+    "faq": "VENTAJAS",
+    "affinityStays": "¿AFINIDADES?",
+    "hotel": "¿Hotel?",
+    "videos": "VIDEOS",
+    "featuredHotels": "HOTELES DESTACADOS",
+    "hotelDashboard": "Panel de Hotel",
+    "adminDashboard": "Panel de Admin",
+    "logout": "Cerrar Sesión"
+  }
+}

@@ -102,7 +102,7 @@ export function SecondFilterSidebar({
       <div className="mb-6">
         <CheckboxFilter 
           title={t('mealPlan')} 
-          options={[t('breakfast'), t('halfBoard'), t('fullBoard'), t('allInclusive')]}
+          options={[t('accommodationOnly'), t('breakfastIncluded'), t('halfBoard'), t('fullBoard'), t('laundryServiceIncluded'), t('externalLaundryService')]}
           selectedOptions={activeFilters.mealPlans} 
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
         />
@@ -132,17 +132,8 @@ export function SecondFilterSidebar({
         />
       </div>
 
-      {/* 12. TIPOS DE HABITACIÓN */}
-      <div className="mb-6">
-        <CheckboxFilter 
-          title={t('roomTypes')} 
-          options={[t('single'), t('double'), t('suite'), t('apartment')]}
-          selectedOptions={activeFilters.roomTypes} 
-          onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)} 
-        />
-      </div>
 
-      {/* 13. SERVICIOS-HOTEL */}
+      {/* 12. SERVICIOS-HOTEL */}
       <div className="mb-6">
         <CheckboxFilter 
           title={t('hotelFeatures')} 
@@ -152,7 +143,7 @@ export function SecondFilterSidebar({
         />
       </div>
 
-      {/* 14. SERVICIOS-HABITACIÓN */}
+      {/* 13. SERVICIOS-HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter 
           title={t('roomFeatures')} 

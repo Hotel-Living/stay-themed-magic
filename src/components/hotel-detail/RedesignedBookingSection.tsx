@@ -46,7 +46,7 @@ export function RedesignedBookingSection({
   pricingMatrix,
   mealPlans
 }: RedesignedBookingSectionProps) {
-  const { t } = useTranslation('hotels');
+  const { t } = useTranslation('booking');
   const [selectedRoomType, setSelectedRoomType] = useState<string>("");
   const [showUnavailableMessage, setShowUnavailableMessage] = useState(false);
 
@@ -94,8 +94,12 @@ export function RedesignedBookingSection({
     if (!mealPlans || mealPlans.length === 0) return "";
     const mealPlanDisplayNames = mealPlans.map(plan => {
       switch (plan) {
+        case 'Solo alojamiento':
+          return 'Room only';
+        case 'Desayuno':
+          return 'Breakfast included';
         case 'breakfast-included':
-          return 'Breakfast';
+          return 'Breakfast included';
         case 'half-board':
           return 'Half Board';
         case 'full-board':
@@ -115,11 +119,11 @@ export function RedesignedBookingSection({
       return mealPlanDisplayNames[0];
     }
     if (mealPlanDisplayNames.length === 2) {
-      return `${mealPlanDisplayNames[0]} and ${mealPlanDisplayNames[1]}`;
+      return `${mealPlanDisplayNames[0]}, ${mealPlanDisplayNames[1]}`;
     }
     const lastPlan = mealPlanDisplayNames[mealPlanDisplayNames.length - 1];
     const otherPlans = mealPlanDisplayNames.slice(0, -1);
-    return `${otherPlans.join(", ")} and ${lastPlan}`;
+    return `${otherPlans.join(", ")}, ${lastPlan}`;
   };
   if (showUnavailableMessage) {
     return <Card className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 border-purple-700/30 shadow-2xl">
@@ -141,7 +145,7 @@ export function RedesignedBookingSection({
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2 text-white">{t('bookYourStay')}</h2>
           <p className="text-white/80 mb-2">
-            {t('weeklyCheckInDay')}: {preferredWeekday}
+            {t('weeklyCheckIn')}: {preferredWeekday}
           </p>
           
           {/* Display meal plans if available */}
@@ -182,7 +186,7 @@ export function RedesignedBookingSection({
 
         {/* Calendar - Only Mondays selectable */}
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-white">{t('checkInDate')} (Mondays only)</label>
+          <label className="text-sm font-semibold text-white">{t('checkInDate')}</label>
           <Calendar mode="single" selected={checkInDate} onSelect={date => {
           if (date && isDateSelectable(date)) {
             setCheckInDate(date);

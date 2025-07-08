@@ -21,10 +21,12 @@
     "aboutUs": "Acerca de Nosotros"
   },
   "mainNavigationContent": {
-    "faq": "VENTAJAS",
+    "faq": "¿POR QUÉ HOTEL-LIVING?",
     "affinityStays": "¿AFINIDADES?",
-    "hotel": "¿Hotel?",
     "videos": "VIDEOS",
+    "signup": "ABRIR CUENTA",
+    "login": "INICIAR SESIÓN",
+    "hotel": "¿HOTEL?",
     "featuredHotels": "HOTELES DESTACADOS",
     "hotelDashboard": "Panel de Hotel",
     "adminDashboard": "Panel de Admin",

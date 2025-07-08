@@ -22,10 +22,12 @@
     "aboutUs": "Despre noi"
   },
   "mainNavigationContent": {
-    "faq": "AVANTAJE",
+    "faq": "DE CE HOTEL-LIVING?",
     "affinityStays": "AFINITĂȚI?",
+    "videos": "VIDEOCLIPURI",
+    "signup": "DESCHIDE CONT",
+    "login": "CONECTARE",
     "hotel": "HOTEL?",
-    "videos": "Videoclipuri",
     "featuredHotels": "RECOMANDATE",
     "hotelDashboard": "PANEL HOTEL",
     "adminDashboard": "PANEL ADMINISTRATOR",

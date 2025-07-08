@@ -22,10 +22,12 @@
     "aboutUs": "About Us"
   },
   "mainNavigationContent": {
-    "faq": "ADVANTAGES",
+    "faq": "WHY HOTEL-LIVING?",
     "affinityStays": "AFFINITIES?",
-    "hotel": "Hotel?",
     "videos": "VIDEOS",
+    "signup": "OPEN ACCOUNT",
+    "login": "SIGN IN",
+    "hotel": "HOTEL?",
     "featuredHotels": "FEATURED HOTELS",
     "hotelDashboard": "Hotel Dashboard",
     "adminDashboard": "Admin Dashboard",

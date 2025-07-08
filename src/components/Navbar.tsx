@@ -46,23 +46,14 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('home')}
-          </Link>
-          <Link to="/search" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('hotels')}
-          </Link>
           <Link to="/faq" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('faq')}
+            {t('mainNavigationContent.faq')}
+          </Link>
+          <Link to="/affinity-stays" className="text-[#FFF9B0] hover:text-white transition-colors">
+            {t('mainNavigationContent.affinityStays')}
           </Link>
           <Link to="/videos" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('videos')}
-          </Link>
-          <Link to="/contact" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('contact')}
-          </Link>
-          <Link to="/join-us" className="text-[#FFF9B0] hover:text-white transition-colors">
-            Join Us
+            {t('mainNavigationContent.videos')}
           </Link>
           
           {user ? (
@@ -87,14 +78,21 @@ export function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              
+              <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.hotel')}
+              </Link>
             </div>
           ) : (
             <div className="flex items-center space-x-4">
-              <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('login')}
+              <Link to="/signup" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.signup')}
               </Link>
-              <Link to="/signup" className="bg-[#FFF9B0] text-purple-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-200 transition-colors">
-                {t('signup')}
+              <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.login')}
+              </Link>
+              <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.hotel')}
               </Link>
             </div>
           )}
@@ -118,19 +116,22 @@ export function Navbar() {
           <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.affinityStays')}
           </Link>
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.hotel')}
+          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.videos')}
           </Link>
           {!isLoggedIn && (
             <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('signup')}
+                {t('mainNavigationContent.signup')}
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('login')}
+                {t('mainNavigationContent.login')}
               </Link>
             </>
           )}
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.hotel')}
+          </Link>
         </nav>
       </div>
     </header>

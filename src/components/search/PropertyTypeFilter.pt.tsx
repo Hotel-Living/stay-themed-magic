@@ -8,7 +8,7 @@ interface PropertyTypeFilterPTProps {
 }
 
 export function PropertyTypeFilterPT({ activePropertyType, onChange }: PropertyTypeFilterPTProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   const propertyTypes = [
     { value: "hotel", label: t("filters.propertyTypes.hotel") },

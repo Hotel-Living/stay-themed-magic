@@ -10,7 +10,7 @@ interface PropertyStyleFilterProps {
 }
 
 export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyStyleFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: propertyStyleOptions = [], isLoading } = useFiltersByCategoryWithLanguage('property_styles');
 
   console.log(`🏗️ PropertyStyleFilter: Loading=${isLoading}, Options=`, propertyStyleOptions);
@@ -32,7 +32,7 @@ export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyS
 
   return (
     <SquareFilter
-      title={t("filters.propertyStyle")}
+      title={t("propertyStyle")}
       options={formattedOptions}
       selectedOptions={selectedStyles}
       onChange={handleStyleChange}

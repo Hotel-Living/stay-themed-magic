@@ -13,7 +13,7 @@ export function ActivityFilter({
   activeActivities, 
   onChange 
 }: ActivityFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: activityOptions = [], isLoading } = useActivitiesDataWithLanguage();
 
   console.log(`🎯 ActivityFilter: Loading=${isLoading}, Options=`, activityOptions);
@@ -28,7 +28,7 @@ export function ActivityFilter({
 
   return (
     <SquareFilter
-      title={t("filters.activities")}
+      title={t("activities")}
       options={formattedOptions}
       selectedOptions={activeActivities}
       onChange={onChange}

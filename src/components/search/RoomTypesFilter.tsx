@@ -10,7 +10,7 @@ interface RoomTypesFilterProps {
 }
 
 export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: roomTypeOptions = [], isLoading } = useFiltersByCategoryWithLanguage('room_types');
 
   console.log(`🏠 RoomTypesFilter: Loading=${isLoading}, Options=`, roomTypeOptions);
@@ -25,7 +25,7 @@ export function RoomTypesFilter({ activeRoomTypes, onChange }: RoomTypesFilterPr
 
   return (
     <SquareFilter
-      title={t("filters.roomTypes")}
+      title={t("roomTypes")}
       options={formattedOptions}
       selectedOptions={activeRoomTypes}
       onChange={onChange}

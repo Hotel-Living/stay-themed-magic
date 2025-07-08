@@ -11,7 +11,7 @@ interface ThemeFilterProps {
 }
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: themeOptions = [], isLoading } = useThemesWithTranslations();
 
   console.log(`🎨 ThemeFilter: Loading=${isLoading}, Options=`, themeOptions);
@@ -49,7 +49,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
 
   return (
     <SquareFilter
-      title={t("filters.affinity")}
+      title={t("affinity")}
       options={formattedOptions}
       selectedOptions={selectedThemes}
       onChange={handleThemeChange}

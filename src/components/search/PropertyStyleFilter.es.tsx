@@ -8,17 +8,17 @@ interface PropertyStyleFilterESProps {
 }
 
 export function PropertyStyleFilterES({ activePropertyStyle, onChange }: PropertyStyleFilterESProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   const propertyStyles = [
-    { value: "classic", label: t("filters.propertyStyles.classic") },
-    { value: "classicElegant", label: t("filters.propertyStyles.classicElegant") },
-    { value: "modern", label: t("filters.propertyStyles.modern") },
-    { value: "fusion", label: t("filters.propertyStyles.fusion") },
-    { value: "urban", label: t("filters.propertyStyles.urban") },
-    { value: "rural", label: t("filters.propertyStyles.rural") },
-    { value: "minimalist", label: t("filters.propertyStyles.minimalist") },
-    { value: "luxury", label: t("filters.propertyStyles.luxury") }
+    { value: "classic", label: t("propertyStyles.classic") },
+    { value: "classicElegant", label: t("propertyStyles.classicElegant") },
+    { value: "modern", label: t("propertyStyles.modern") },
+    { value: "fusion", label: t("propertyStyles.fusion") },
+    { value: "urban", label: t("propertyStyles.urban") },
+    { value: "rural", label: t("propertyStyles.rural") },
+    { value: "minimalist", label: t("propertyStyles.minimalist") },
+    { value: "luxury", label: t("propertyStyles.luxury") }
   ];
 
   const handlePropertyStyleClick = (styleValue: string) => {
@@ -29,7 +29,7 @@ export function PropertyStyleFilterES({ activePropertyStyle, onChange }: Propert
   };
 
   return (
-    <FilterItem title={t("filters.propertyStyle")}>
+    <FilterItem title={t("propertyStyle")}>
       {propertyStyles.map(style => (
         <label key={style.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

@@ -10,7 +10,7 @@ interface HotelFeaturesFilterProps {
 }
 
 export function HotelFeaturesFilter({ activeHotelFeatures, onChange }: HotelFeaturesFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: hotelFeatureOptions = [], isLoading } = useFiltersByCategoryWithLanguage('hotel_features');
 
   console.log(`🏨 HotelFeaturesFilter: Loading=${isLoading}, Options=`, hotelFeatureOptions);
@@ -25,7 +25,7 @@ export function HotelFeaturesFilter({ activeHotelFeatures, onChange }: HotelFeat
 
   return (
     <SquareFilter
-      title={t("filters.hotelFeatures")}
+      title={t("hotelFeatures")}
       options={formattedOptions}
       selectedOptions={activeHotelFeatures}
       onChange={onChange}

@@ -10,7 +10,7 @@ interface RoomFeaturesFilterProps {
 }
 
 export function RoomFeaturesFilter({ activeRoomFeatures, onChange }: RoomFeaturesFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: roomFeatureOptions = [], isLoading } = useFiltersByCategoryWithLanguage('room_features');
 
   console.log(`🛏️ RoomFeaturesFilter: Loading=${isLoading}, Options=`, roomFeatureOptions);
@@ -25,7 +25,7 @@ export function RoomFeaturesFilter({ activeRoomFeatures, onChange }: RoomFeature
 
   return (
     <SquareFilter
-      title={t("filters.roomFeatures")}
+      title={t("roomFeatures")}
       options={formattedOptions}
       selectedOptions={activeRoomFeatures}
       onChange={onChange}

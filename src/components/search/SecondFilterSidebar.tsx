@@ -28,7 +28,7 @@ export function SecondFilterSidebar({
   handleArrayFilterChange,
   onResetAllFilters
 }: SecondFilterSidebarProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   return (
     <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-6 shadow-2xl px-0 py-0 rounded-none my-0">
@@ -38,7 +38,7 @@ export function SecondFilterSidebar({
           onClick={onResetAllFilters} 
           className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium px-0 whitespace-nowrap"
         >
-          {t('filters.resetFilters')}
+          {t('resetFilters')}
         </button>
       </div>
 
@@ -101,8 +101,8 @@ export function SecondFilterSidebar({
       {/* 8. COMIDAS */}
       <div className="mb-6">
         <CheckboxFilter 
-          title={t('filters.mealPlan')} 
-          options={[t('filters.breakfast'), t('filters.halfBoard'), t('filters.fullBoard'), t('filters.allInclusive')]} 
+          title={t('mealPlan')} 
+          options={[t('breakfast'), t('halfBoard'), t('fullBoard'), t('allInclusive')]}
           selectedOptions={activeFilters.mealPlans} 
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
         />
@@ -135,8 +135,8 @@ export function SecondFilterSidebar({
       {/* 12. TIPOS DE HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter 
-          title={t('filters.roomTypes')} 
-          options={[t('filters.single'), t('filters.double'), t('filters.suite'), t('filters.apartment')]} 
+          title={t('roomTypes')} 
+          options={[t('single'), t('double'), t('suite'), t('apartment')]}
           selectedOptions={activeFilters.roomTypes} 
           onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)} 
         />
@@ -145,8 +145,8 @@ export function SecondFilterSidebar({
       {/* 13. SERVICIOS-HOTEL */}
       <div className="mb-6">
         <CheckboxFilter 
-          title={t('filters.hotelFeatures')} 
-          options={[t('filters.pool'), t('filters.gym'), t('filters.spa'), t('filters.restaurant'), t('filters.bar'), t('filters.wifi'), t('filters.parking')]} 
+          title={t('hotelFeatures')} 
+          options={[t('pool'), t('gym'), t('spa'), t('restaurant'), t('bar'), t('wifi'), t('parking')]}
           selectedOptions={activeFilters.hotelFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} 
         />
@@ -155,8 +155,8 @@ export function SecondFilterSidebar({
       {/* 14. SERVICIOS-HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter 
-          title={t('filters.roomFeatures')} 
-          options={[t('filters.airConditioning'), t('filters.balcony'), t('filters.kitchen'), t('filters.workspace'), t('filters.tv'), t('filters.minibar')]} 
+          title={t('roomFeatures')} 
+          options={[t('airConditioning'), t('balcony'), t('kitchen'), t('workspace'), t('tv'), t('minibar')]}
           selectedOptions={activeFilters.roomFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} 
         />
@@ -168,7 +168,7 @@ export function SecondFilterSidebar({
           onClick={onResetAllFilters} 
           className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium whitespace-nowrap"
         >
-          {t('filters.resetFilters')}
+          {t('resetFilters')}
         </button>
       </div>
     </div>

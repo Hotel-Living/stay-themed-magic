@@ -14,7 +14,7 @@ import { User, LogOut } from "lucide-react";
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, session, profile, signOut } = useAuth();
-  const { t } = useTranslation();
+  const { t } = useTranslation('navigation');
   const isLoggedIn = !!user && !!session;
 
   const getDisplayName = () => {
@@ -47,19 +47,19 @@ export function Navbar() {
 
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('navigation.home')}
+            {t('home')}
           </Link>
           <Link to="/search" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('navigation.hotels')}
+            {t('hotels')}
           </Link>
           <Link to="/faq" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('navigation.faq')}
+            {t('faq')}
           </Link>
           <Link to="/videos" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('navigation.videos')}
+            {t('videos')}
           </Link>
           <Link to="/contact" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('navigation.contact')}
+            {t('contact')}
           </Link>
           <Link to="/join-us" className="text-[#FFF9B0] hover:text-white transition-colors">
             Join Us
@@ -78,12 +78,12 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/user-dashboard" className="text-white hover:bg-purple-800">
                       <User className="w-4 h-4 mr-2" />
-                      {t('navigation.profile')}
+                      {t('profile')}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="text-white hover:bg-purple-800">
                     <LogOut className="w-4 h-4 mr-2" />
-                    {t('navigation.logout')}
+                    {t('logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -91,10 +91,10 @@ export function Navbar() {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('navigation.login')}
+                {t('login')}
               </Link>
               <Link to="/signup" className="bg-[#FFF9B0] text-purple-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-200 transition-colors">
-                {t('navigation.signup')}
+                {t('signup')}
               </Link>
             </div>
           )}
@@ -124,10 +124,10 @@ export function Navbar() {
           {!isLoggedIn && (
             <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('navigation.signup')}
+                {t('signup')}
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('navigation.login')}
+                {t('login')}
               </Link>
             </>
           )}

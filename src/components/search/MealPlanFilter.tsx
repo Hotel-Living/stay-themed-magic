@@ -10,7 +10,7 @@ interface MealPlanFilterProps {
 }
 
 export function MealPlanFilter({ activeMealPlans, onChange }: MealPlanFilterProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   const { data: mealPlanOptions = [], isLoading } = useFiltersByCategoryWithLanguage('meal_plans');
 
   console.log(`🍽️ MealPlanFilter: Loading=${isLoading}, Options=`, mealPlanOptions);
@@ -25,7 +25,7 @@ export function MealPlanFilter({ activeMealPlans, onChange }: MealPlanFilterProp
 
   return (
     <SquareFilter
-      title={t("filters.mealPlan")}
+      title={t("mealPlan")}
       options={formattedOptions}
       selectedOptions={activeMealPlans}
       onChange={onChange}

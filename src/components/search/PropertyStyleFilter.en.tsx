@@ -8,7 +8,7 @@ interface PropertyStyleFilterENProps {
 }
 
 export function PropertyStyleFilterEN({ activePropertyStyle, onChange }: PropertyStyleFilterENProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   const propertyStyles = [
     { value: "classic", label: t("filters.propertyStyles.classic") },

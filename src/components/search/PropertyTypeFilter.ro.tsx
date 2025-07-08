@@ -8,7 +8,7 @@ interface PropertyTypeFilterROProps {
 }
 
 export function PropertyTypeFilterRO({ activePropertyType, onChange }: PropertyTypeFilterROProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   const propertyTypes = [
     { value: "hotel", label: t("filters.propertyTypes.hotel") },

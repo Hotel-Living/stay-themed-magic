@@ -1,4 +1,3 @@
-
 {
   "filters": {
     "pricePerMonth": "PRICE PER MONTH",
@@ -15,7 +14,7 @@
     "roomTypes": "ROOM TYPES",
     "hotelFeatures": "HOTEL FEATURES",
     "roomFeatures": "ROOM FEATURES",
-    "resetFilters": "Reset Filters",
+    "resetFilters": "RESET FILTERS",
     "breakfast": "Breakfast",
     "halfBoard": "Half Board",
     "fullBoard": "Full Board",
@@ -38,14 +37,6 @@
     "workspace": "Workspace",
     "tv": "TV",
     "minibar": "Minibar",
-    "affinity": "AFFINITIES",
-    "activities": "ACTIVITIES",
-    "mealPlan": "MEAL PLAN",
-    "roomTypes": "ROOM TYPES",
-    "hotelFeatures": "HOTEL FEATURES",
-    "roomFeatures": "ROOM FEATURES",
-    "propertyType": "PROPERTY TYPE",
-    "propertyStyle": "PROPERTY STYLE",
     "search": "SEARCH",
     "propertyTypes": {
       "hotel": "Hotel",

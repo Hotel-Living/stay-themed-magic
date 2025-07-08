@@ -7,7 +7,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export function Footer() {
   const isMobile = useIsMobile();
-  const { t } = useTranslation();
+  const { t } = useTranslation('footer');
   
   return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{ 
       backgroundColor: "#996515"

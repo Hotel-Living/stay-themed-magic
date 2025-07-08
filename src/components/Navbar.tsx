@@ -56,7 +56,16 @@ export function Navbar() {
             {t('mainNavigationContent.videos')}
           </Link>
           
-          {user ? (
+          {!user ? (
+            <>
+              <Link to="/signup" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.signup')}
+              </Link>
+              <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
+                {t('mainNavigationContent.login')}
+              </Link>
+            </>
+          ) : (
             <div className="flex items-center space-x-4">
               <DashboardSelector />
               
@@ -69,33 +78,21 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/user-dashboard" className="text-white hover:bg-purple-800">
                       <User className="w-4 h-4 mr-2" />
-                      {t('profile')}
+                      {t('navigation.profile')}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="text-white hover:bg-purple-800">
                     <LogOut className="w-4 h-4 mr-2" />
-                    {t('logout')}
+                    {t('mainNavigationContent.logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              
-              <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.hotel')}
-              </Link>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-4">
-              <Link to="/signup" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.signup')}
-              </Link>
-              <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.login')}
-              </Link>
-              <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.hotel')}
-              </Link>
             </div>
           )}
+          
+          <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
+            {t('mainNavigationContent.hotel')}
+          </Link>
           
           <LanguageSwitcher />
         </div>

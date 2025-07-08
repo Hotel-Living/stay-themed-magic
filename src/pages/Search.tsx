@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterSidebar } from "@/components/search/FilterSidebar";
+import { SecondFilterSidebar } from "@/components/search/SecondFilterSidebar";
 import { SearchResults } from "@/components/search/SearchResults";
 import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
@@ -200,7 +200,7 @@ export default function Search() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Filter Sidebar - All 14 filters */}
             <div className="lg:col-span-1 space-y-4">
-              <FilterSidebar
+              <SecondFilterSidebar
                 activeFilters={activeFilters} 
                 handleFilterChange={handleFilterChange} 
                 handleArrayFilterChange={handleArrayFilterChange} 

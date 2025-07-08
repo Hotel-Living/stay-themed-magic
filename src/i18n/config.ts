@@ -272,32 +272,22 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: false, // Disable fallback to prevent key display
+    fallbackLng: 'en',
     debug: false,
-    lng: 'en',
-    defaultNS: 'translation',
-    ns: ['translation', 'navigation', 'hotels', 'content', 'faq', 'auth', 'booking'],
-    load: 'languageOnly',
-    preload: ['en'],
-    returnEmptyString: false,
-    returnNull: false,
-    returnObjects: false,
-    keySeparator: false,
-    nsSeparator: false,
+    lng: 'en', // Force English language
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator'],
-      caches: [],
+      order: ['navigator', 'htmlTag', 'path', 'subdomain'],
+      caches: [],  // Disable caching to force reload
     },
     react: {
       useSuspense: false,
     },
-  }).then(() => {
-    // Force change language to ensure proper loading
-    i18n.changeLanguage('en');
-    console.log('i18n initialized successfully');
   });
+
+// Force reload the resources with updated translations
+i18n.reloadResources(['en'], ['hotels']);
 
 export default i18n;

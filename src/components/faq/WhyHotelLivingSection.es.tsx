@@ -8,14 +8,14 @@ export function WhyHotelLivingSectionES() {
   const isMobile = useIsMobile();
 
   const accordionOptions = [
-    { id: "still-renting", label: "¿Aún Alquilas?" },
-    { id: "retired", label: "Jubilado" },
+    { id: "still-renting", label: "¿AÚN\nALQUILAS?" },
+    { id: "retired", label: "JUBILADO" },
     { id: "airbnb", label: "¿AIRBNB?" },
-    { id: "online-worker", label: "Trabajador Online" },
-    { id: "commuter", label: "Viajero Diario" },
-    { id: "free-soul", label: "Alma Libre" },
-    { id: "hotel", label: "Hotel" },
-    { id: "society", label: "Sociedad" }
+    { id: "online-worker", label: "TRABAJADOR\nONLINE" },
+    { id: "commuter", label: "VIAJERO\nDIARIO" },
+    { id: "free-soul", label: "ALMA\nLIBRE" },
+    { id: "hotel", label: "HOTEL" },
+    { id: "society", label: "SOCIEDAD" }
   ];
 
   const handleAccordionTabChange = (value: string) => {
@@ -111,9 +111,9 @@ export function WhyHotelLivingSectionES() {
                 <button 
                   key={option.id} 
                   onClick={() => handleAccordionTabChange(option.id)}
-                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                  className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                 >
-                  <span className="mb-1">{option.label}</span>
+                  <span className="mb-1 leading-tight">{option.label}</span>
                   <span className="text-xs">▼</span>
                 </button>
               ))}

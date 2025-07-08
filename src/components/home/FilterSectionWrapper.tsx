@@ -120,17 +120,33 @@ export function FilterSectionWrapper({
   const getPlaceholders = () => {
     if (language === 'es') {
       return {
-        month: "¿" + t('month').toUpperCase() + "?",
-        country: "¿" + t('country').toUpperCase() + "?",
-        theme: "¿" + t('affinity').toUpperCase() + "?",
-        priceRange: "¿" + t('pricePerMonth') + "?"
+        month: "¿" + t('filters.month') + "?",
+        country: "¿" + t('filters.country') + "?",
+        theme: "¿" + t('filters.affinity') + "?",
+        priceRange: "¿" + t('filters.pricePerMonth') + "?"
+      };
+    }
+    if (language === 'pt') {
+      return {
+        month: t('filters.month') + "?",
+        country: t('filters.country') + "?",
+        theme: t('filters.affinity') + "?",
+        priceRange: t('filters.pricePerMonth') + "?"
+      };
+    }
+    if (language === 'ro') {
+      return {
+        month: t('filters.month') + "?",
+        country: t('filters.country') + "?",
+        theme: t('filters.affinity') + "?",
+        priceRange: t('filters.pricePerMonth') + "?"
       };
     }
     return {
-      month: t('month').toUpperCase() + "?",
-      country: t('country').toUpperCase() + "?",
-      theme: t('affinity').toUpperCase() + "?",
-      priceRange: t('pricePerMonth') + "?"
+      month: t('filters.month') + "?",
+      country: t('filters.country') + "?",
+      theme: t('filters.affinity') + "?",
+      priceRange: t('filters.pricePerMonth') + "?"
     };
   };
 
@@ -148,7 +164,7 @@ export function FilterSectionWrapper({
             backgroundColor: "#996515"
           }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
-              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('search')}</span>
+              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('filters.search')}</span>
             </Button>
           </div>
         </div>

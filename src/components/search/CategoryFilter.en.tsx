@@ -32,12 +32,9 @@ export function CategoryFilterEN({ activeCategory, onChange }: CategoryFilterENP
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
           <span className="text-sm flex items-center text-white">
-            {category.label}
-            <span className="ml-1 flex">
-              {[...Array(parseInt(category.value))].map((_, i) => (
-                <Star key={i} className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-              ))}
-            </span>
+            {[...Array(parseInt(category.value))].map((_, i) => (
+              <Star key={i} className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+            ))}
           </span>
         </label>
       ))}

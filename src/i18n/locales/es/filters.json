@@ -4,6 +4,7 @@
     "country": "PAÍS",
     "location": "UBICACIÓN",
     "affinities": "AFINIDADES",
+    "affinity": "AFINIDADES",
     "activities": "ACTIVIDADES",
     "duration": "DURACIÓN DE ESTANCIA",
     "mealPlan": "PLAN DE COMIDAS",
@@ -37,7 +38,6 @@
     "workspace": "Espacio de Trabajo",
     "tv": "TV",
     "minibar": "Minibar",
-    "affinity": "AFINIDADES",
     "search": "BUSCAR",
     "propertyTypes": {
       "hotel": "Hotel",

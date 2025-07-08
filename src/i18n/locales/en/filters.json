@@ -4,6 +4,7 @@
     "country": "COUNTRY",
     "location": "LOCATION",
     "affinities": "AFFINITIES",
+    "affinity": "AFFINITIES",
     "activities": "ACTIVITIES",
     "duration": "STAY LENGTH",
     "mealPlan": "MEAL PLAN",

@@ -168,15 +168,7 @@ export function HotelDetailContent({
         {/* Descriptive Content Section */}
         <Card className="mb-8 bg-[#957B23] border-border shadow-2xl">
           <div className="p-8 bg-[#957B23]">
-            <HotelPropertyDetailsSection hotel={hotel} />
-            <HotelAtAGlanceSection 
-              hotel={hotel}
-              formatStayLengths={() => convertedStayLengths.map(length => `${length} ${length === 1 ? 'day' : 'days'}`).join(', ')}
-              getIdealGuestsText={() => hotel.ideal_guests || ''}
-              getPerfectLocationText={() => hotel.perfect_location || ''}
-              getAtmosphereText={() => hotel.atmosphere || ''}
-              lowercase={(text) => text ? text.toLowerCase() : ''}
-            />
+          <HotelPropertyDetailsSection hotel={hotel} />
           </div>
         </Card>
 

@@ -11,11 +11,11 @@ export function PropertyTypeFilterES({ activePropertyType, onChange }: PropertyT
   const { t } = useTranslation('filters');
   
   const propertyTypes = [
-    { value: "hotel", label: t("propertyTypes.hotel") },
-    { value: "resort", label: t("propertyTypes.resort") },
-    { value: "boutiqueHotel", label: t("propertyTypes.boutiqueHotel") },
-    { value: "countryHouse", label: t("propertyTypes.countryHouse") },
-    { value: "roadsideMotel", label: t("propertyTypes.roadsideMotel") }
+    { value: "hotel", label: t("filters.propertyTypes.hotel") },
+    { value: "resort", label: t("filters.propertyTypes.resort") },
+    { value: "boutiqueHotel", label: t("filters.propertyTypes.boutiqueHotel") },
+    { value: "countryHouse", label: t("filters.propertyTypes.countryHouse") },
+    { value: "roadsideMotel", label: t("filters.propertyTypes.roadsideMotel") }
   ];
 
   const handlePropertyTypeClick = (typeValue: string) => {

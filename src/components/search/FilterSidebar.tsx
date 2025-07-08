@@ -8,7 +8,7 @@ import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
-import { RoomTypesFilter } from "./RoomTypesFilter";
+
 import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
 import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
@@ -28,9 +28,6 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
 
 
-  const handleRoomTypesChange = (value: string, isChecked: boolean) => {
-    handleArrayFilterChange('roomTypes', value, isChecked);
-  };
 
   const handleHotelFeaturesChange = (value: string, isChecked: boolean) => {
     handleArrayFilterChange('hotelFeatures', value, isChecked);
@@ -98,11 +95,6 @@ export function FilterSidebar({
         onChange={(value) => handleFilterChange('propertyStyle', value)}
       />
 
-      {/* ROOM TYPES */}
-      <RoomTypesFilter
-        activeRoomTypes={activeFilters.roomTypes || []}
-        onChange={handleRoomTypesChange}
-      />
 
       {/* HOTEL FEATURES */}
       <HotelFeaturesFilter

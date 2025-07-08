@@ -8,6 +8,8 @@ import { useBookingLogic } from "./hooks/useBookingLogic";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingSummary } from "./BookingSummary";
 import { BookingActionButton } from "./BookingActionButton";
+import { useFilterTranslations } from "@/hooks/useFilterTranslations";
+import { useTranslation } from "react-i18next";
 
 interface PricingMatrixItem {
   roomType: string;
@@ -54,6 +56,9 @@ export function HotelBookingSection({
   pricingMatrix,
   mealPlans
 }: HotelBookingSectionProps) {
+  const { t } = useTranslation('booking');
+  const { translateMealPlans } = useFilterTranslations();
+  
   const {
     selectedOption,
     setSelectedOption,
@@ -74,39 +79,20 @@ export function HotelBookingSection({
   const formatMealPlans = () => {
     if (!mealPlans || mealPlans.length === 0) return "";
     
-    const mealPlanDisplayNames = mealPlans.map(plan => {
-      switch (plan) {
-        case 'breakfast-included':
-          return 'Breakfast';
-        case 'half-board':
-          return 'Half Board';
-        case 'full-board':
-        case 'fullBoard':
-          return 'Full Board';
-        case 'all-inclusive':
-          return 'All Inclusive';
-        case 'laundry':
-          return 'Laundry';
-        case 'external-laundry':
-          return 'External Laundry Service Available';
-        default:
-          return plan.split(/[-_]/).map(word => 
-            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-          ).join(' ');
-      }
-    });
+    // Translate meal plans based on current language
+    const translatedMealPlans = translateMealPlans(mealPlans);
     
-    if (mealPlanDisplayNames.length === 1) {
-      return mealPlanDisplayNames[0];
+    if (translatedMealPlans.length === 1) {
+      return translatedMealPlans[0];
     }
     
-    if (mealPlanDisplayNames.length === 2) {
-      return `${mealPlanDisplayNames[0]} and ${mealPlanDisplayNames[1]}`;
+    if (translatedMealPlans.length === 2) {
+      return `${translatedMealPlans[0]} ${t('and', 'and')} ${translatedMealPlans[1]}`;
     }
     
-    const lastPlan = mealPlanDisplayNames[mealPlanDisplayNames.length - 1];
-    const otherPlans = mealPlanDisplayNames.slice(0, -1);
-    return `${otherPlans.join(", ")} and ${lastPlan}`;
+    const lastPlan = translatedMealPlans[translatedMealPlans.length - 1];
+    const otherPlans = translatedMealPlans.slice(0, -1);
+    return `${otherPlans.join(", ")} ${t('and', 'and')} ${lastPlan}`;
   };
 
   // Calculate checkout date using the longest duration since we removed the duration selector
@@ -121,19 +107,19 @@ export function HotelBookingSection({
       )}
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2 text-white">BOOKING</h2>
+        <h2 className="text-2xl font-bold mb-2 text-white">{t('booking', 'BOOKING')}</h2>
         <p className="text-white/80 mb-2">
-          Weekly Check-In/Out Day: {preferredWeekday}
+          {t('weeklyCheckIn', 'Weekly Check-In/Out Day')}: {preferredWeekday}
         </p>
         
         {/* Display meal plans if available */}
         {mealPlans && mealPlans.length > 0 && (
           <p className="text-white/90 mb-4 text-sm">
-            Meals: {formatMealPlans()}
+            {t('meals', 'Meals')}: {formatMealPlans()}
           </p>
         )}
 
-        <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">{t('tariffsPerPerson', 'TARIFFS PER PERSON')}</h3>
       </div>
 
       {/* First booking tooltip for meal plans */}

@@ -45,5 +45,12 @@
       "save": "Save Changes",
       "cancel": "Cancel Changes"
     }
+  },
+  "booking": "BOOKING",
+  "weeklyCheckIn": "Weekly Check-In/Out Day",
+  "meals": "Meals",
+  "tariffsPerPerson": "TARIFFS PER PERSON",
+  "bookingConfirmed": "Booking Confirmed",
+  "and": "and"
   }
 }

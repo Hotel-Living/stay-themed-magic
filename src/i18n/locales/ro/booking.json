@@ -45,5 +45,11 @@
       "save": "Salvează Modificările",
       "cancel": "Anulează Modificările"
     }
+  },
+  "booking": "REZERVARE",
+  "weeklyCheckIn": "Ziua săptămânală de check-in/check-out",
+  "meals": "Mese",
+  "tariffsPerPerson": "TARIFE PE PERSOANĂ",
+  "and": "și"
   }
 }

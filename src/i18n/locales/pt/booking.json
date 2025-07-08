@@ -53,5 +53,11 @@
       "save": "Salvar Alterações",
       "cancel": "Cancelar Alterações"
     }
+  },
+  "booking": "RESERVA",
+  "weeklyCheckIn": "Dia semanal de check-in/check-out",
+  "meals": "Refeições",
+  "tariffsPerPerson": "TARIFAS POR PESSOA",
+  "and": "e"
   }
 }

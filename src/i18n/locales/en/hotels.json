@@ -368,6 +368,13 @@
         ]
       }
     },
-    "atAGlance": "AT A GLANCE..."
+    "atAGlance": "AT A GLANCE...",
+    "featuresAndAmenities": "Features & Amenities",
+    "hotelFeatures": "Hotel Features",
+    "roomFeatures": "Room Features",
+    "propertyDescription": "This {{propertyType}} offers a {{style}} style with stay options of {{stayLengths}}.",
+    "idealFor": "This hotel is ideal for",
+    "atmosphere": "The atmosphere here is",
+    "locationPerfectFor": "This location is perfect for"
   }
 }

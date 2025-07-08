@@ -7,7 +7,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Videos() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('content');
 
   return (
     <div className="min-h-screen flex flex-col">

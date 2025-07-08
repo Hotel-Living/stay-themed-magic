@@ -27,6 +27,36 @@
       "slogan1": "Hoteles que entienden tus intereses",
       "slogan2": "Experiencias diseñadas para ti",
       "slogan3": "Donde la hospitalidad se encuentra con la afinidad"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes sobre Estancias por Afinidad",
+      "subtitle": "Todo lo que necesitas saber sobre nuestro concepto único",
+      "questions": {
+        "whatAreAffinityStays": {
+          "question": "¿Qué son las estancias por afinidad?",
+          "answer": "Las estancias por afinidad son una forma revolucionaria de viajar donde te hospedas en hoteles especializados que se alinean con tus intereses y pasiones específicas. Ya sea arte, cocina, deportes o bienestar, cada hotel está diseñado para crear una experiencia inmersiva para huéspedes con afinidades similares."
+        },
+        "howDoAffinitiesWork": {
+          "question": "¿Cómo funcionan las afinidades?",
+          "answer": "Cada hotel en nuestra plataforma se especializa en temas específicos. Los huéspedes eligen hoteles basándose en sus intereses personales, creando una comunidad natural de personas con gustos similares. Esto lleva a experiencias más ricas, conexiones genuinas y estancias más memorables."
+        },
+        "whyChooseAffinityStays": {
+          "question": "¿Por qué elegir estancias por afinidad?",
+          "answer": "Las estancias por afinidad ofrecen algo único: la oportunidad de combinar tu pasión con tu viaje. Te conectas con personas afines, participas en actividades especializadas y tienes acceso a experiencias que no encontrarías en hoteles tradicionales."
+        },
+        "whatTypesAvailable": {
+          "question": "¿Qué tipos de afinidades están disponibles?",
+          "answer": "Ofrecemos una amplia gama de afinidades incluyendo artes y cultura, deportes y actividades, gastronomía y bebidas, tecnología y ciencia, naturaleza y aventura, bienestar y salud, educación y entretenimiento. Cada categoría incluye múltiples subcategorías especializadas."
+        },
+        "howToChoose": {
+          "question": "¿Cómo elijo la afinidad correcta?",
+          "answer": "Considera tus intereses genuinos y lo que te gustaría explorar durante tu estancia. Puedes filtrar hoteles por múltiples afinidades y leer sobre las experiencias específicas que ofrece cada propiedad. No hay elección incorrecta - se trata de lo que te emociona."
+        },
+        "canChangeAffinities": {
+          "question": "¿Puedo cambiar mis afinidades después de reservar?",
+          "answer": "Tus preferencias de afinidad son flexibles y pueden actualizarse en cualquier momento en tu perfil. Sin embargo, las reservas de hotel específicas están vinculadas a las afinidades de esa propiedad particular."
+        }
+      }
     }
   }
 }

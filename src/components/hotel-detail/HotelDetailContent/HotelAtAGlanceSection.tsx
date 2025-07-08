@@ -20,7 +20,17 @@ export function HotelAtAGlanceSection({
   getAtmosphereText, 
   lowercase 
 }: HotelAtAGlanceSectionProps) {
-  const { t } = useTranslation('hotels');
+  const { t, i18n } = useTranslation('hotels');
+  
+  // Debug logging to see what's happening with translations
+  console.log('i18n language:', i18n.language);
+  console.log('i18n has loaded:', i18n.hasResourceBundle('en', 'hotels'));
+  console.log('Translation tests:', {
+    atAGlance: t('atAGlance'),
+    idealFor: t('idealFor'),
+    atmosphere: t('atmosphere'),
+    locationPerfectFor: t('locationPerfectFor')
+  });
   
   return (
     <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">

@@ -273,8 +273,13 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    debug: false,
+    debug: true, // Enable debug to see what's happening
     lng: 'en', // Force English language
+    load: 'currentOnly',
+    preload: ['en'],
+    keySeparator: false, // Disable key nesting to avoid issues
+    returnEmptyString: false, // Return key instead of empty string on missing translation
+    saveMissing: false,
     interpolation: {
       escapeValue: false,
     },
@@ -287,7 +292,12 @@ i18n
     },
   });
 
-// Force reload the resources with updated translations
-i18n.reloadResources(['en'], ['hotels']);
+// Force clear and reload the resources
+i18n.services.backendConnector?.reload?.();
+i18n.reloadResources(['en'], ['hotels']).then(() => {
+  console.log('Hotels namespace reloaded successfully');
+}).catch((error) => {
+  console.error('Failed to reload hotels namespace:', error);
+});
 
 export default i18n;

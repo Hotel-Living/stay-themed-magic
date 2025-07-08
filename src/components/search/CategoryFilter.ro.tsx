@@ -9,8 +9,6 @@ interface CategoryFilterROProps {
 
 export function CategoryFilterRO({ activeCategory, onChange }: CategoryFilterROProps) {
   const categories = [
-    { value: "1", label: "1 Stea" },
-    { value: "2", label: "2 Stele" },
     { value: "3", label: "3 Stele" },
     { value: "4", label: "4 Stele" },
     { value: "5", label: "5 Stele" }

@@ -9,8 +9,6 @@ interface CategoryFilterESProps {
 
 export function CategoryFilterES({ activeCategory, onChange }: CategoryFilterESProps) {
   const categories = [
-    { value: "1", label: "1 Estrella" },
-    { value: "2", label: "2 Estrellas" },
     { value: "3", label: "3 Estrellas" },
     { value: "4", label: "4 Estrellas" },
     { value: "5", label: "5 Estrellas" }

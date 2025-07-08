@@ -44,9 +44,10 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
 
   if (error) {
     console.error("❌ SearchResults - showing error state:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <div className="text-red-500">Error loading hotels: {error.message}</div>
+        <div className="text-red-500">Error loading hotels: {errorMessage}</div>
       </div>
     );
   }

@@ -9,8 +9,6 @@ interface CategoryFilterPTProps {
 
 export function CategoryFilterPT({ activeCategory, onChange }: CategoryFilterPTProps) {
   const categories = [
-    { value: "1", label: "1 Estrela" },
-    { value: "2", label: "2 Estrelas" },
     { value: "3", label: "3 Estrelas" },
     { value: "4", label: "4 Estrelas" },
     { value: "5", label: "5 Estrelas" }

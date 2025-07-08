@@ -11,19 +11,19 @@ const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
 const MAX_INTRO_SHOWS = 3;
 
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('home');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
   const [showAllText, setShowAllText] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'waiting' | 'approaching' | 'glowing' | 'dissolving'>('waiting');
 
   const INTRO_MESSAGES = [
-    t('home.heroSection.revolutionHasCome'),
-    t('home.heroSection.slogans.getRidOfChores'),
-    t('home.heroSection.slogans.boostSocialLife'),
-    t('home.heroSection.slogans.meetLikeMinded'),
-    t('home.heroSection.boostYourLife').toUpperCase(),
-    t('home.heroSection.liveInHotels')
+    t('heroSection.revolutionHasCome'),
+    t('heroSection.slogans.getRidOfChores'),
+    t('heroSection.slogans.boostSocialLife'),
+    t('heroSection.slogans.meetLikeMinded'),
+    t('heroSection.boostYourLife').toUpperCase(),
+    t('heroSection.liveInHotels')
   ];
 
   const handleDoubleClick = () => {

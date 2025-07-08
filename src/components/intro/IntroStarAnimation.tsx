@@ -10,18 +10,18 @@ const VISIT_COUNT_KEY = 'hotel-living-intro-visits';
 const MAX_INTRO_SHOWS = 3;
 
 export const IntroStarAnimation: React.FC<IntroStarAnimationProps> = ({ onComplete }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('home');
   const [currentStep, setCurrentStep] = useState(-1);
   const [isVisible, setIsVisible] = useState(true);
   const [exitingStep, setExitingStep] = useState<number | null>(null);
 
   const messages = [
-    t('home.heroSection.revolutionHasCome'),
-    t('home.heroSection.slogans.getRidOfChores'),
-    t('home.heroSection.slogans.boostSocialLife'), 
-    t('home.heroSection.slogans.meetLikeMinded'),
-    t('home.heroSection.boostYourLife').toUpperCase(),
-    t('home.heroSection.liveInHotels')
+    t('heroSection.revolutionHasCome'),
+    t('heroSection.slogans.getRidOfChores'),
+    t('heroSection.slogans.boostSocialLife'), 
+    t('heroSection.slogans.meetLikeMinded'),
+    t('heroSection.boostYourLife').toUpperCase(),
+    t('heroSection.liveInHotels')
   ];
 
   const formatTextWithLineBreaks = (text: string) => {

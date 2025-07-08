@@ -26,7 +26,7 @@ export function PropertyTypeFilterES({ activePropertyType, onChange }: PropertyT
   };
 
   return (
-    <FilterItem title={t("propertyType")}>
+    <FilterItem title={t("filters.propertyType")}>
       {propertyTypes.map(type => (
         <label key={type.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

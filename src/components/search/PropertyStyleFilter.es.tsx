@@ -29,7 +29,7 @@ export function PropertyStyleFilterES({ activePropertyStyle, onChange }: Propert
   };
 
   return (
-    <FilterItem title={t("propertyStyle")}>
+    <FilterItem title={t("filters.propertyStyle")}>
       {propertyStyles.map(style => (
         <label key={style.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

@@ -32,7 +32,7 @@ export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyS
 
   return (
     <SquareFilter
-      title={t("propertyStyle")}
+      title={t("filters.propertyStyle")}
       options={formattedOptions}
       selectedOptions={selectedStyles}
       onChange={handleStyleChange}

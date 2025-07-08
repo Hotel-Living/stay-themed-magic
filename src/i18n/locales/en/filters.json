@@ -39,6 +39,8 @@
     "tv": "TV",
     "minibar": "Minibar",
     "affinity": "AFFINITIES",
+    "propertyType": "PROPERTY TYPE",
+    "propertyStyle": "PROPERTY STYLE",
     "search": "SEARCH",
     "propertyTypes": {
       "hotel": "Hotel",

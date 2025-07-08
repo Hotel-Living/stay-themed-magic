@@ -38,6 +38,8 @@
     "tv": "TV",
     "minibar": "Minibar",
     "affinity": "AFINIDADES",
+    "propertyType": "TIPO DE PROPIEDAD",
+    "propertyStyle": "ESTILO DE PROPIEDAD",
     "search": "BUSCAR",
     "propertyTypes": {
       "hotel": "Hotel",

@@ -39,6 +39,8 @@
     "tv": "TV",
     "minibar": "Minibar",
     "affinity": "AFINITĂȚI",
+    "propertyType": "TIP PROPRIETATE",
+    "propertyStyle": "STIL PROPRIETATE",
     "search": "CĂUTARE",
     "priceRanges": {
       "upTo1000": "Până la $1.000",

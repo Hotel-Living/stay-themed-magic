@@ -2,7 +2,7 @@
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function AffinityStaysSlogans() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('affinity');
   
   return <>
       {/* Main header and quote section */}

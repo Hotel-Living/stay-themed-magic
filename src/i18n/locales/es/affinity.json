@@ -1,1 +1,32 @@
-{}
+{
+  "affinity": {
+    "title": "Encuentra Tu Afinidad Perfecta",
+    "subtitle": "Descubre hoteles que se alinean con tus pasiones e intereses",
+    "selectAffinities": "Selecciona tus afinidades",
+    "searchByAffinity": "Buscar por afinidad",
+    "popularAffinities": "Afinidades populares",
+    "allAffinities": "Todas las afinidades",
+    "noAffinitiesSelected": "No hay afinidades seleccionadas",
+    "clearSelection": "Limpiar selección",
+    "applyFilters": "Aplicar filtros",
+    "resultsFound": "resultados encontrados",
+    "noResults": "No se encontraron resultados para las afinidades seleccionadas",
+    "tryDifferentAffinities": "Prueba con diferentes afinidades o ajusta tus filtros",
+    "affinityCategories": {
+      "arts": "Artes y Cultura",
+      "sports": "Deportes y Actividades",
+      "food": "Comida y Bebidas",
+      "technology": "Tecnología y Ciencia",
+      "nature": "Naturaleza y Aventura",
+      "wellness": "Bienestar y Salud",
+      "education": "Educación y Aprendizaje",
+      "entertainment": "Entretenimiento"
+    },
+    "slogans": {
+      "mainTitle": "Vive Según Tus Pasiones",
+      "slogan1": "Hoteles que entienden tus intereses",
+      "slogan2": "Experiencias diseñadas para ti",
+      "slogan3": "Donde la hospitalidad se encuentra con la afinidad"
+    }
+  }
+}

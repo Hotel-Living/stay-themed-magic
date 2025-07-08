@@ -15,6 +15,41 @@
     "comingSoonGuestExperiences": "Próximamente: Experiencias de Huéspedes",
     "availableJuly": "Disponible Julio 2025"
   },
+  "footer": {
+    "links": {
+      "faq": "VENTAJAS",
+      "affinityStays": "¿AFINIDADES?",
+      "hotel": "¿Hotel?",
+      "videos": "VIDEOS",
+      "featuredHotels": "HOTELES DESTACADOS",
+      "ourServices": "NUESTROS SERVICIOS",
+      "ourValues": "NUESTROS VALORES",
+      "customerService": "ATENCIÓN AL CLIENTE",
+      "contact": "CONTACTO",
+      "terms": "TÉRMINOS Y CONDICIONES",
+      "privacy": "PRIVACIDAD Y COOKIES",
+      "intellectualProperty": "PROPIEDAD INTELECTUAL",
+      "ourTeam": "NUESTRO EQUIPO"
+    },
+    "buttons": {
+      "register": "Registrarse",
+      "signIn": "Iniciar Sesión",
+      "hotel": "¿Hotel?"
+    },
+    "copyright": "© 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
+    "disclaimer": "Algunas propiedades pueden ser ejemplos utilizados para demostrar la funcionalidad de Hotel Living."
+  },
+  "faq": "FAQ",
+  "affinityStays": "Affinity Stays",
+  "hotels": "Hoteles",
+  "videos": "Videos",
+  "contact": "Contacto",
+  "ourServices": "Nuestros Servicios",
+  "ourValues": "Nuestros Valores",
+  "terms": "Términos y Condiciones",
+  "privacy": "Privacidad y Cookies",
+  "intellectualProperty": "Propiedad Intelectual",
+  "ourTeam": "Nuestro Equipo",
   "featuredHotelsContent": {
     "pageTitle": "Hoteles Destacados",
     "wantToBeFirst": "¿Quiere que su hotel aparezca primero?",

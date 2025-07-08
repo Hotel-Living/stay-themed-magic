@@ -107,7 +107,7 @@ export function HotelBookingSection({
       )}
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2 text-white">{t('booking', 'BOOKING')}</h2>
+        <h2 className="text-2xl font-bold mb-2 text-white">{t('booking.booking', 'BOOKING')}</h2>
         <p className="text-white/80 mb-2">
           {t('weeklyCheckIn', 'Weekly Check-In/Out Day')}: {preferredWeekday}
         </p>

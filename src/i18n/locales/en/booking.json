@@ -43,11 +43,26 @@
       "newCheckOut": "New Check-out Date",
       "save": "Save Changes",
       "cancel": "Cancel Changes"
-    }
+    },
+    "booking": "BOOKING"
   },
   "weeklyCheckIn": "Weekly Check-In/Out Day",
   "meals": "Meals",
   "tariffsPerPerson": "TARIFFS PER PERSON",
   "bookingConfirmed": "Booking Confirmed",
-  "and": "and"
+  "and": "and",
+  "bookYourStay": "Book Your Stay",
+  "checkInDate": "Check-in Date",
+  "stayDuration": "Stay Duration",
+  "completeBooking": "Complete Booking",
+  "priceDisplay": {
+    "pricingInfo": "Pricing Information",
+    "perPersonPerNight": "per person per night",
+    "totalPrice": "Total Price",
+    "notAvailable": "Not Available",
+    "selectDates": "Select dates to see pricing",
+    "priceIncludes": "Price includes",
+    "taxes": "taxes",
+    "fees": "fees"
+  }
 }

@@ -375,6 +375,20 @@
     "propertyDescription": "This {{propertyType}} offers a {{style}} style with stay options of {{stayLengths}}.",
     "idealFor": "This hotel is ideal for",
     "atmosphere": "The atmosphere here is",
-    "locationPerfectFor": "This location is perfect for"
+    "locationPerfectFor": "This location is perfect for",
+    "bookYourStay": "Book Your Stay",
+    "checkInDate": "Check-in Date",
+    "stayDuration": "Stay Duration",
+    "completeBooking": "Complete Booking",
+    "priceDisplay": {
+      "pricingInfo": "Pricing Information",
+      "perPersonPerNight": "per person per night",
+      "totalPrice": "Total Price",
+      "notAvailable": "Not Available",
+      "selectDates": "Select dates to see pricing",
+      "priceIncludes": "Price includes",
+      "taxes": "taxes",
+      "fees": "fees"
+    }
   }
 }

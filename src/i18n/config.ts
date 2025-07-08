@@ -287,7 +287,11 @@ i18n
     },
   });
 
-// Force reload the resources with updated translations
-i18n.reloadResources(['en'], ['hotels']);
+// Force reload the resources with updated translations and clear cache
+setTimeout(() => {
+  i18n.reloadResources(['en'], ['hotels']).then(() => {
+    console.log('Hotels translations reloaded');
+  });
+}, 100);
 
 export default i18n;

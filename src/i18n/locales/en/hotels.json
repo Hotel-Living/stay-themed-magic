@@ -382,7 +382,7 @@
   "checkInDate": "Check-in Date (Mondays only)",
   "stayDuration": "Stay Duration",
   "completeBooking": "Complete Booking",
-    "priceDisplay": {
+  "priceDisplay": {
       "pricingInfo": "Pricing Information",
       "perPersonPerNight": "per person per night",
       "totalPrice": "Total Price",

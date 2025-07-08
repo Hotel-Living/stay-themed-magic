@@ -60,6 +60,19 @@ export const useFilterTranslations = () => {
   };
 
   const translateMealPlans = (mealPlans: string[]): string[] => {
+    // Handle specific meal plan translations for English
+    if (i18n.language === 'en') {
+      return mealPlans.map(plan => {
+        switch (plan) {
+          case 'Solo alojamiento':
+            return 'Room only';
+          case 'Desayuno':
+            return 'Breakfast included';
+          default:
+            return translateFilterValue('meal_plans', plan);
+        }
+      });
+    }
     return mealPlans.map(plan => translateFilterValue('meal_plans', plan));
   };
 

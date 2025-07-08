@@ -40,19 +40,19 @@ export function HotelAtAGlanceSection({
         
         <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
           <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">{t('idealFor')}</span> {lowercase(getIdealGuestsText())}.
+            <span className="font-bold text-purple-100">{t('idealFor')}</span> {getIdealGuestsText()}
           </p>
         </div>
         
         <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
           <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">{t('atmosphere')}</span> {lowercase(getAtmosphereText())}.
+            <span className="font-bold text-purple-100">{t('atmosphere')}</span> {getAtmosphereText()}
           </p>
         </div>
         
         <div className="p-4 rounded-lg bg-[#6000B3] backdrop-blur-sm border border-white/20 shadow-[0_0_50px_rgba(96,0,179,0.8),0_0_80px_rgba(96,0,179,0.4)] hover:shadow-[0_0_60px_rgba(96,0,179,1),0_0_100px_rgba(96,0,179,0.6)] transition-all duration-300 transform hover:scale-[1.02]">
           <p className="text-white leading-relaxed">
-            <span className="font-bold text-purple-100">{t('locationPerfectFor')}</span> {lowercase(getPerfectLocationText())}.
+            <span className="font-bold text-purple-100">{t('locationPerfectFor')}</span> {getPerfectLocationText()}
           </p>
         </div>
         

@@ -25,8 +25,13 @@
     "slogans": {
       "mainTitle": "Vive Según Tus Pasiones",
       "slogan1": "Hoteles que entienden tus intereses",
-      "slogan2": "Experiencias diseñadas para ti",
-      "slogan3": "Donde la hospitalidad se encuentra con la afinidad"
+      "slogan2": "Experiencias diseñadas para ti", 
+      "slogan3": "Donde la hospitalidad se encuentra con la afinidad",
+      "notJustStay": "No es solo una estancia. Es un mundo compartido",
+      "meetShareBelong": "Conoce. Comparte. Pertenece",
+      "stayWithThoseWhoGetYou": "Quédate con quienes te entienden",
+      "tiredOfRandom": "¿Cansado de lo aleatorio? Elige a tu gente",
+      "stayAndConnect": "Quédate y conecta a través de lo que amas"
     },
     "faq": {
       "whatAreAffinityHotels": {

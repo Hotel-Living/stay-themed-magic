@@ -10,6 +10,7 @@ export function WhyHotelLivingSectionES() {
   const accordionOptions = [
     { id: "still-renting", label: "¿Aún Alquilas?" },
     { id: "retired", label: "Jubilado" },
+    { id: "airbnb", label: "¿AIRBNB?" },
     { id: "online-worker", label: "Trabajador Online" },
     { id: "commuter", label: "Viajero Diario" },
     { id: "free-soul", label: "Alma Libre" },
@@ -105,7 +106,7 @@ export function WhyHotelLivingSectionES() {
       <div className="mb-24">
         <div className="w-full">
           <div className="flex justify-center mb-4">
-            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
               {accordionOptions.map((option) => (
                 <button 
                   key={option.id} 

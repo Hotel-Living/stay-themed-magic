@@ -7,6 +7,7 @@ import { CommuterContent } from "./CommuterContent";
 import { OnlineWorkerContent } from "./OnlineWorkerContent";
 import { RetiredContent } from "./RetiredContent";
 import { FreeSoulContent } from "./FreeSoulContent";
+import { AirbnbContent } from "./AirbnbContent";
 
 interface AccordionContentRendererProps {
   optionId: string;
@@ -16,18 +17,20 @@ export function AccordionContentRenderer({ optionId }: AccordionContentRendererP
   switch (optionId) {
     case "still-renting":
       return <StillRentingContent />;
+    case "retired":
+      return <RetiredContent />;
+    case "airbnb":
+      return <AirbnbContent />;
+    case "online-worker":
+      return <OnlineWorkerContent />;
+    case "commuter":
+      return <CommuterContent />;
+    case "free-soul":
+      return <FreeSoulContent />;
     case "hotel":
       return <HotelContent />;
     case "society":
       return <SocietyContent />;
-    case "commuter":
-      return <CommuterContent />;
-    case "online-worker":
-      return <OnlineWorkerContent />;
-    case "retired":
-      return <RetiredContent />;
-    case "free-soul":
-      return <FreeSoulContent />;
     default:
       return (
         <p className="text-white text-center">

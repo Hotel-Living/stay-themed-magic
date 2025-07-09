@@ -34,7 +34,8 @@ export default function Hotels() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
   const {
-    t
+    t,
+    language
   } = useTranslation();
   const hotelFaqCategories = useHotelFaqCategories();
   const hotelFaqsByCategory = useHotelFaqsByCategory();
@@ -47,15 +48,22 @@ export default function Hotels() {
         <div className="container mx-auto px-4 py-3 flex flex-col items-center">
           <HotelSlogans />
           
-          {/* Professional Study Offer */}
-          <div className="mb-16 flex justify-center px-4">
+          {/* Professional Study Offer - Centered between blocks */}
+          <div className="my-16 flex justify-center px-4">
             <div className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-2 border-fuchsia-400 rounded-2xl p-8 max-w-2xl cursor-pointer hover:border-fuchsia-300 hover:bg-gradient-to-br hover:from-purple-800/90 hover:via-fuchsia-800/70 hover:to-purple-700/90 transition-all duration-300 shadow-2xl hover:shadow-fuchsia-500/30 hover:scale-105" onClick={() => {
             // TODO: Navigate to professional study page
             console.log("Navigate to professional study page");
           }}>
               <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold">
-                Obtenga, sin coste alguno, un completo estudio profesional,<br />
-                técnico y presencial, sobre su hotel y sus posibilidades de desarrollo.
+                {language === 'en' && 'Get, at no cost, a complete professional, technical and in-person study about your hotel and its development possibilities'}
+                {language === 'es' && (
+                  <>
+                    Obtenga, sin coste alguno, un completo estudio profesional,<br />
+                    técnico y presencial, sobre su hotel y sus posibilidades de desarrollo
+                  </>
+                )}
+                {language === 'pt' && 'Obtenha, sem qualquer custo, um estudo profissional, técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento'}
+                {language === 'ro' && 'Obțineți, fără costuri, un studiu profesional complet, tehnic și în persoană despre hotelul dvs. și posibilitățile sale de dezvoltare'}
               </p>
             </div>
           </div>

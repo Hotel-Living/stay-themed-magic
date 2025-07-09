@@ -80,6 +80,22 @@ export default function HotelsPage() {
         <div className="container mx-auto px-4 py-3 flex flex-col items-center">
           <HotelSlogans />
           
+          {/* Professional Study Offer */}
+          <div className="mb-16 flex justify-center px-4">
+            <div 
+              className="bg-gradient-to-br from-purple-900/20 via-fuchsia-900/20 to-purple-800/20 backdrop-blur-sm border border-fuchsia-400/30 rounded-2xl p-8 max-w-2xl cursor-pointer hover:border-fuchsia-400/50 hover:bg-gradient-to-br hover:from-purple-900/30 hover:via-fuchsia-900/30 hover:to-purple-800/30 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-fuchsia-500/10"
+              onClick={() => {
+                // TODO: Navigate to professional study page
+                console.log("Navigate to professional study page");
+              }}
+            >
+              <p className="text-white text-center text-lg leading-relaxed font-medium">
+                Obtenga, sin coste alguno, un completo estudio profesional,<br />
+                técnico y presencial, sobre su hotel y sus posibilidades de desarrollo.
+              </p>
+            </div>
+          </div>
+          
           <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60 z-20">
             <HotelAccordionMenu />
           </div>

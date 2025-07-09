@@ -102,22 +102,6 @@ export function WhyHotelLivingSectionES() {
         </div>
       </div>
 
-      {/* Professional Study Offer - DEBUGGING */}
-      <div className="mb-16 flex justify-center" style={{backgroundColor: 'red', minHeight: '100px', width: '100%'}}>
-        <div 
-          className="bg-white border-2 border-black rounded-lg p-8 max-w-2xl cursor-pointer hover:bg-white hover:shadow-lg transition-all duration-300"
-          onClick={() => {
-            // TODO: Navigate to professional study page
-            console.log("Navigate to professional study page - BOX CLICKED!");
-          }}
-          style={{backgroundColor: 'white', border: '3px solid black'}}
-        >
-          <p className="text-black text-center text-lg leading-relaxed font-medium">
-            DEBUG: Obtenga, sin coste alguno, un completo estudio profesional,<br />
-            técnico y presencial, sobre su hotel y sus posibilidades de desarrollo.
-          </p>
-        </div>
-      </div>
 
       {/* First Horizontal Accordion Menu */}
       <div className="mb-24">

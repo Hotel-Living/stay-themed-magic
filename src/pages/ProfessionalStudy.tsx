@@ -41,16 +41,9 @@ export default function ProfessionalStudy() {
       case 'pt':
         return {
           title: "ESTUDO PROFISSIONAL GRATUITO",
-          subtitle: "Obtenha um estudo profissional, técnico\ne presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento",
-          description: "A nossa equipa de especialistas realizará uma análise exaustiva da sua propriedade para identificar oportunidades de crescimento e otimização.",
-          features: [
-            "Análise técnica completa das instalações",
-            "Avaliação do potencial de mercado",
-            "Estudo de viabilidade financeira",
-            "Recomendações personalizadas",
-            "Planeamento estratégico à medida",
-            "Consulta presencial com especialistas"
-          ],
+          subtitle: "Obtenha um estudo profissional completo, técnico\ne presencial sobre o seu hotel e as suas possibilidades de desenvolvimento",
+          description: "Uma oportunidade única para analisar o seu hotel a partir de uma nova perspetiva\n\nNo âmbito do nosso programa de expansão, e em colaboração com a empresa Bridgepoint Global Consulting, especializada em análise técnica e consultoria hoteleira, oferecemos a possibilidade única de realizar um estudo integral e personalizado do seu estabelecimento, completamente in situ.\n\nESTA CONSULTORIA INCLUI:\n• ✅ Um estudo de mercado contextualizado com dados reais do seu ambiente e concorrentes\n• ✅ Análise SWOT, benchmarking, projeções de rentabilidade e plano de ação inicial\n• ✅ Diagnóstico de forças, fraquezas e elementos diferenciadores\n• ✅ Recomendações para a sua integração no modelo Hotel-Living\n• ✅ Relatório técnico-profissional completo, com métricas, estratégias e observações detalhadas\n• ✅ Caso o estabelecimento cumpra com padrões básicos de atratividade, será realizada uma reportagem audiovisual profissional, que será incorporada na secção \"Hotéis Recomendados\" do portal, com visibilidade destacada durante um período de seis meses.\n\nAlém disso, durante a visita, apresentar-lhe-emos uma análise das novas tendências em soluções habitacionais, como o co-living, o housing as a service ou os modelos temáticos de longa estadia. Este contexto permitir-lhe-á avaliar com maior clareza o seu potencial dentro de uma transformação global no setor do alojamento.\n\n________________________________________\n\nDURACIÓN E CUSTO\n\nTrata-se de uma visita presencial de 5 a 7 dias, realizada por dois especialistas da nossa equipa.\n\nNão existe qualquer custo pelo estudo nem pela elaboração do relatório.\n\nApenas se solicitará a cobertura dos gastos básicos de viagem e estadia para os profissionais deslocados.\n\nNão há compromisso comercial nem vinculação posterior.\n\n________________________________________\n\nO QUE PROCURAMOS?\n\nEste programa está concebido para hotéis que:\n– Valorizem um olhar externo, profissional e sério sobre a sua oferta atual\n– Desejem explorar novas formas de rentabilidade mediante estadias longas e, em geral, estejam interessados em repensar a sua estratégia de ocupação\n– Tenham interesse em diferenciar-se através de afinidades temáticas\n\n________________________________________\n\nPORQUÊ O FAZEMOS?\n\nPorque acreditamos neste modelo.\n\nPorque sabemos que muitos hotéis têm potencial para crescer se mudarem o enfoque.\n\nE porque queremos construir uma rede de hotéis selecionados que representem o melhor do Hotel-Living.\n\n________________________________________\n\nCOMO SOLICITAR\n\nSe lhe interessa participar, pode solicitar a visita através do seguinte formulário.\n\nTodas as solicitações serão avaliadas cuidadosamente.",
+          features: [],
           formTitle: "Solicite o seu estudo gratuito",
           formDescription: "Complete o formulário e entraremos em contacto consigo para agendar a visita",
           nameLabel: "Nome completo",
@@ -66,15 +59,8 @@ export default function ProfessionalStudy() {
         return {
           title: "STUDIU PROFESIONAL GRATUIT",
           subtitle: "Obțineți un studiu profesional complet, tehnic\nși în persoană despre hotelul dvs. și posibilitățile sale de dezvoltare",
-          description: "Echipa noastră de experți va efectua o analiză cuprinzătoare a proprietății dvs. pentru a identifica oportunități de creștere și optimizare.",
-          features: [
-            "Analiza tehnică completă a instalațiilor",
-            "Evaluarea potențialului de piață",
-            "Studiu de fezabilitate financiară",
-            "Recomandări personalizate",
-            "Planificare strategică la comandă",
-            "Consultare în persoană cu experți"
-          ],
+          description: "O oportunitate unică de a analiza hotelul dvs. dintr-o perspectivă nouă\n\nÎn cadrul programului nostru de expansiune, în colaborare cu firma Bridgepoint Global Consulting, specializată în analize tehnice și consultanță hotelieră, oferim posibilitatea unică de a realiza un studiu integral și personalizat al etablisamentului dvs., complet in situ.\n\nACEASTĂ CONSULTANȚĂ INCLUDE:\n• ✅ Un studiu de piață contextualizat cu date reale din mediul dvs. și ale concurenților\n• ✅ Analiză SWOT, benchmarking, proiecții de rentabilitate și plan de acțiune inițial\n• ✅ Diagnosticul punctelor tari, slabe și elementelor diferențiatoare\n• ✅ Recomandări pentru integrarea în modelul Hotel-Living\n• ✅ Raport tehnic-profesional complet, cu metrici, strategii și observații detaliate\n• ✅ În cazul în care estabelisamentul îndeplinește standardele de bază de atracție, se va realiza un reportaj audiovizual profesional, care va fi încorporat în secțiunea \"Hoteluri Recomandate\" a portalului, cu vizibilitate evidențiată pentru o perioadă de șase luni.\n\nÎn plus, în timpul vizitei, vă vom prezenta o analiză a noilor tendințe în soluțiile de cazare, cum ar fi co-living-ul, housing as a service sau modelele tematice de ședere îndelungată. Acest context vă va permite să evaluați cu mai multă claritate potențialul dvs. în cadrul unei transformări globale în sectorul cazării.\n\n________________________________________\n\nDURATĂ ȘI COST\n\nEste vorba despre o vizită în persoană de 5-7 zile, realizată de doi specialiști din echipa noastră.\n\nNu există niciun cost pentru studiu sau pentru elaborarea raportului.\n\nSe va solicita doar acoperirea cheltuielilor de bază de călătorie și ședere pentru profesioniștii deplasați.\n\nNu există angajament comercial sau obligație ulterioară.\n\n________________________________________\n\nCE CĂUTĂM?\n\nAcest program este conceput pentru hoteluri care:\n– Apreciază o perspectivă externă, profesionistă și serioasă asupra ofertei lor actuale\n– Doresc să exploreze noi forme de rentabilitate prin șederi lungi și, în general, sunt interesate să-și regândească strategia de ocupare\n– Au interes să se diferențieze prin afinități tematice\n\n________________________________________\n\nDE CE FACEM ASTA?\n\nPentru că credem în acest model.\n\nPentru că știm că multe hoteluri au potențial de creștere dacă își schimbă abordarea.\n\nȘi pentru că vrem să construim o rețea de hoteluri selectate care să reprezinte ce este mai bun din Hotel-Living.\n\n________________________________________\n\nCUM SĂ SOLICITAȚI\n\nDacă vă interesează să participați, puteți solicita vizita prin următorul formular.\n\nToate solicitările vor fi evaluate cu atenție.",
+          features: [],
           formTitle: "Solicitați studiul dvs. gratuit",
           formDescription: "Completați formularul și vă vom contacta pentru a programa vizita",
           nameLabel: "Nume complet",
@@ -90,15 +76,8 @@ export default function ProfessionalStudy() {
         return {
           title: "FREE PROFESSIONAL STUDY",
           subtitle: "Get a complete professional, technical\nand in-person study about your hotel and its development possibilities",
-          description: "Our team of experts will conduct a comprehensive analysis of your property to identify growth and optimization opportunities.",
-          features: [
-            "Complete technical analysis of facilities",
-            "Market potential evaluation",
-            "Financial feasibility study",
-            "Personalized recommendations",
-            "Tailored strategic planning",
-            "In-person consultation with experts"
-          ],
+          description: "A unique opportunity to analyze your hotel from a new perspective\n\nWithin the framework of our expansion program, and in collaboration with Bridgepoint Global Consulting, a firm specialized in technical analysis and hotel consulting, we offer the unique possibility of conducting a comprehensive and personalized study of your establishment, completely on-site.\n\nTHIS CONSULTANCY INCLUDES:\n• ✅ A contextualized market study with real data from your environment and competitors\n• ✅ SWOT analysis, benchmarking, profitability projections and initial action plan\n• ✅ Diagnosis of strengths, weaknesses and differentiating elements\n• ✅ Recommendations for integration into the Hotel-Living model\n• ✅ Complete technical-professional report, with metrics, strategies and detailed observations\n• ✅ If the establishment meets basic attractiveness standards, a professional audiovisual report will be created, which will be incorporated into the \"Recommended Hotels\" section of the portal, with prominent visibility for a period of six months.\n\nAdditionally, during the visit, we will present an analysis of new trends in housing solutions, such as co-living, housing as a service, or thematic long-stay models. This context will allow you to evaluate with greater clarity your potential within a global transformation in the accommodation sector.\n\n________________________________________\n\nDURATION AND COST\n\nThis is an on-site visit of 5 to 7 days, conducted by two specialists from our team.\n\nThere is no cost for the study or the preparation of the report.\n\nOnly coverage of basic travel and accommodation expenses for the deployed professionals will be requested.\n\nThere is no commercial commitment or subsequent obligation.\n\n________________________________________\n\nWHAT ARE WE LOOKING FOR?\n\nThis program is designed for hotels that:\n– Value an external, professional and serious perspective on their current offering\n– Wish to explore new forms of profitability through long stays and, in general, are interested in rethinking their occupancy strategy\n– Have an interest in differentiating themselves through thematic affinities\n\n________________________________________\n\nWHY DO WE DO THIS?\n\nBecause we believe in this model.\n\nBecause we know that many hotels have potential to grow if they change their approach.\n\nAnd because we want to build a network of selected hotels that represent the best of Hotel-Living.\n\n________________________________________\n\nHOW TO REQUEST\n\nIf you are interested in participating, you can request the visit through the following form.\n\nAll requests will be carefully evaluated.",
+          features: [],
           formTitle: "Request your free study",
           formDescription: "Complete the form and we will contact you to schedule the visit",
           nameLabel: "Full name",
@@ -132,50 +111,19 @@ export default function ProfessionalStudy() {
             </p>
           </div>
 
-          {/* Information Section - Full Width for Spanish */}
-          {language === 'es' ? (
-            <div className="max-w-7xl mx-auto mb-16">
-              <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
-                <CardContent className="pt-8">
-                  <div className="text-white text-lg leading-relaxed whitespace-pre-line">
-                    {content.description}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          ) : null}
+          {/* Information Section - Full Width for All Languages */}
+          <div className="max-w-7xl mx-auto mb-16">
+            <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
+              <CardContent className="pt-8">
+                <div className="text-white text-lg leading-relaxed whitespace-pre-line">
+                  {content.description}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Original layout for non-Spanish or Spanish form section */}
-          <div className={language === 'es' ? "max-w-3xl mx-auto" : "grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto"}>
-            {/* Information Section for non-Spanish languages */}
-            {language !== 'es' && (
-              <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
-                <CardHeader>
-                  <CardTitle className="text-white text-2xl md:text-3xl font-bold">
-                    {content.formTitle}
-                  </CardTitle>
-                  <CardDescription className="text-fuchsia-200 text-lg">
-                    {content.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <h3 className="text-white text-xl font-semibold mb-4 flex items-center">
-                      <CheckCircle className="mr-2 text-fuchsia-400" />
-                      What's included:
-                    </h3>
-                    <ul className="space-y-3">
-                      {content.features.map((feature, index) => (
-                        <li key={index} className="flex items-start text-white">
-                          <CheckCircle className="mr-2 mt-1 text-fuchsia-400 flex-shrink-0 w-5 h-5" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+          {/* Form Section - Centered for all languages */}
+          <div className="max-w-3xl mx-auto">
 
             {/* Contact Form */}
             <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>

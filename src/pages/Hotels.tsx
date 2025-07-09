@@ -54,7 +54,7 @@ export default function Hotels() {
             // TODO: Navigate to professional study page
             console.log("Navigate to professional study page");
           }}>
-              <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold">
+              <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold uppercase">
                 {language === 'en' && 'Get, at no cost, a complete professional, technical and in-person study about your hotel and its development possibilities'}
                 {language === 'es' && (
                   <>

@@ -22,12 +22,41 @@
     "aboutUs": "Despre noi"
   },
   "mainNavigationContent": {
-    "faq": "DE CE HOTEL-LIVING?",
-    "affinityStays": "AFINITĂȚI?",
-    "videos": "VIDEOCLIPURI",
-    "signup": "DESCHIDE CONT",
-    "login": "CONECTARE",
-    "hotel": "HOTEL?",
+    "faq": {
+      "line1": "DE CE",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "DE CE HOTEL-LIVING?"
+    },
+    "affinityStays": {
+      "line1": "AFINITĂȚI?",
+      "line2": "",
+      "mobile": "AFINITĂȚI?"
+    },
+    "videos": {
+      "line1": "VIDEOCLIPURI",
+      "line2": "",
+      "mobile": "VIDEOCLIPURI"
+    },
+    "ambassador": {
+      "line1": "DEVINO",
+      "line2": "AMBASADOR",
+      "mobile": "DEVINO AMBASADOR"
+    },
+    "signup": {
+      "line1": "DESCHIDE",
+      "line2": "CONT",
+      "mobile": "DESCHIDE CONT"
+    },
+    "login": {
+      "line1": "CONECTARE",
+      "line2": "",
+      "mobile": "CONECTARE"
+    },
+    "hotel": {
+      "line1": "HOTEL?",
+      "line2": "",
+      "mobile": "HOTEL?"
+    },
     "featuredHotels": "RECOMANDATE",
     "hotelDashboard": "PANEL HOTEL",
     "adminDashboard": "PANEL ADMINISTRATOR",

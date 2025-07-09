@@ -22,12 +22,41 @@
     "aboutUs": "About Us"
   },
   "mainNavigationContent": {
-    "faq": "WHY HOTEL-LIVING?",
-    "affinityStays": "AFFINITIES?",
-    "videos": "VIDEOS",
-    "signup": "OPEN ACCOUNT",
-    "login": "SIGN IN",
-    "hotel": "HOTEL?",
+    "faq": {
+      "line1": "WHY",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "WHY HOTEL-LIVING?"
+    },
+    "affinityStays": {
+      "line1": "AFFINITIES?",
+      "line2": "",
+      "mobile": "AFFINITIES?"
+    },
+    "videos": {
+      "line1": "VIDEOS",
+      "line2": "",
+      "mobile": "VIDEOS"
+    },
+    "ambassador": {
+      "line1": "BECOME",
+      "line2": "AMBASSADOR",
+      "mobile": "BECOME AMBASSADOR"
+    },
+    "signup": {
+      "line1": "OPEN",
+      "line2": "ACCOUNT",
+      "mobile": "OPEN ACCOUNT"
+    },
+    "login": {
+      "line1": "SIGN",
+      "line2": "IN",
+      "mobile": "SIGN IN"
+    },
+    "hotel": {
+      "line1": "HOTEL?",
+      "line2": "",
+      "mobile": "HOTEL?"
+    },
     "featuredHotels": "FEATURED HOTELS",
     "hotelDashboard": "Hotel Dashboard",
     "adminDashboard": "Admin Dashboard",

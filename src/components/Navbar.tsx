@@ -46,23 +46,44 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/faq" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('mainNavigationContent.faq')}
+          <Link to="/faq" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.faq.line1')}</div>
+              <div>{t('mainNavigationContent.faq.line2')}</div>
+            </div>
           </Link>
-          <Link to="/affinity-stays" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('mainNavigationContent.affinityStays')}
+          <Link to="/affinity-stays" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.affinityStays.line1')}</div>
+              <div>{t('mainNavigationContent.affinityStays.line2')}</div>
+            </div>
           </Link>
-          <Link to="/videos" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('mainNavigationContent.videos')}
+          <Link to="/videos" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.videos.line1')}</div>
+              <div>{t('mainNavigationContent.videos.line2')}</div>
+            </div>
+          </Link>
+          <Link to="/ambassador" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.ambassador.line1')}</div>
+              <div>{t('mainNavigationContent.ambassador.line2')}</div>
+            </div>
           </Link>
           
           {!user ? (
             <>
-              <Link to="/signup" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.signup')}
+              <Link to="/signup" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+                <div className="text-center">
+                  <div>{t('mainNavigationContent.signup.line1')}</div>
+                  <div>{t('mainNavigationContent.signup.line2')}</div>
+                </div>
               </Link>
-              <Link to="/login" className="text-[#FFF9B0] hover:text-white transition-colors">
-                {t('mainNavigationContent.login')}
+              <Link to="/login" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+                <div className="text-center">
+                  <div>{t('mainNavigationContent.login.line1')}</div>
+                  <div>{t('mainNavigationContent.login.line2')}</div>
+                </div>
               </Link>
             </>
           ) : (
@@ -90,8 +111,11 @@ export function Navbar() {
             </div>
           )}
           
-          <Link to="/hotels" className="text-[#FFF9B0] hover:text-white transition-colors">
-            {t('mainNavigationContent.hotel')}
+          <Link to="/hotels" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.hotel.line1')}</div>
+              <div>{t('mainNavigationContent.hotel.line2')}</div>
+            </div>
           </Link>
           
           <LanguageSwitcher />
@@ -108,26 +132,29 @@ export function Navbar() {
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ backgroundColor: "#996515" }}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.faq')}
+            {t('mainNavigationContent.faq.mobile')}
           </Link>
           <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.affinityStays')}
+            {t('mainNavigationContent.affinityStays.mobile')}
           </Link>
           <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.videos')}
+            {t('mainNavigationContent.videos.mobile')}
           </Link>
-          {!isLoggedIn && (
+          <Link to="/ambassador" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.ambassador.mobile')}
+          </Link>
+           {!isLoggedIn && (
             <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('mainNavigationContent.signup')}
+                {t('mainNavigationContent.signup.mobile')}
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('mainNavigationContent.login')}
+                {t('mainNavigationContent.login.mobile')}
               </Link>
             </>
           )}
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.hotel')}
+            {t('mainNavigationContent.hotel.mobile')}
           </Link>
         </nav>
       </div>

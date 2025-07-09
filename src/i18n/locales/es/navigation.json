@@ -21,12 +21,41 @@
     "aboutUs": "Acerca de Nosotros"
   },
   "mainNavigationContent": {
-    "faq": "¿POR QUÉ HOTEL-LIVING?",
-    "affinityStays": "¿AFINIDADES?",
-    "videos": "VIDEOS",
-    "signup": "ABRIR CUENTA",
-    "login": "INICIAR SESIÓN",
-    "hotel": "¿HOTEL?",
+    "faq": {
+      "line1": "¿POR QUÉ",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "¿POR QUÉ HOTEL-LIVING?"
+    },
+    "affinityStays": {
+      "line1": "¿AFINIDADES?",
+      "line2": "",
+      "mobile": "¿AFINIDADES?"
+    },
+    "videos": {
+      "line1": "VIDEOS",
+      "line2": "",
+      "mobile": "VIDEOS"
+    },
+    "ambassador": {
+      "line1": "HÁGASE",
+      "line2": "EMBAJADOR",
+      "mobile": "HÁGASE EMBAJADOR"
+    },
+    "signup": {
+      "line1": "ABRIR",
+      "line2": "CUENTA",
+      "mobile": "ABRIR CUENTA"
+    },
+    "login": {
+      "line1": "INICIAR",
+      "line2": "SESIÓN",
+      "mobile": "INICIAR SESIÓN"
+    },
+    "hotel": {
+      "line1": "¿HOTEL?",
+      "line2": "",
+      "mobile": "¿HOTEL?"
+    },
     "featuredHotels": "HOTELES DESTACADOS",
     "hotelDashboard": "Panel de Hotel",
     "adminDashboard": "Panel de Admin",

@@ -25,15 +25,8 @@ export default function ProfessionalStudy() {
         return {
           title: "ESTUDIO PROFESIONAL GRATUITO",
           subtitle: "Obtenga un completo estudio profesional, técnico y presencial sobre su hotel y sus posibilidades de desarrollo",
-          description: "Nuestro equipo de expertos realizará un análisis exhaustivo de su propiedad para identificar oportunidades de crecimiento y optimización.",
-          features: [
-            "Análisis técnico completo de las instalaciones",
-            "Evaluación del potencial de mercado",
-            "Estudio de viabilidad financiera",
-            "Recomendaciones personalizadas",
-            "Planificación estratégica a medida",
-            "Consulta presencial con expertos"
-          ],
+          description: "Una oportunidad única para analizar su hotel desde una nueva perspectiva\n\nEn el marco de nuestro programa de expansión, y en colaboración con la firma Bridgepoint Global Consulting, especializada en análisis técnico y consultoría hotelera, ofrecemos la posibilidad única de realizar un estudio integral y personalizado de su establecimiento, completamente in situ.\n\nEsta consultoría incluye:\n• ✅ Un estudio de mercado contextualizado con datos reales de su entorno y competidores\n• ✅ Análisis SWOT, benchmarking, proyecciones de rentabilidad y plan de acción inicial\n• ✅ Diagnóstico de fortalezas, debilidades y elementos diferenciadores\n• ✅ Recomendaciones para su integración en el modelo Hotel-Living\n• ✅ Informe técnico-profesional completo, con métricas, estrategias y observaciones detalladas\n• ✅ En caso de que el establecimiento cumpla con estándares básicos de atractivo, se realizará un reportaje audiovisual profesional, que será incorporado en la sección de \"Hoteles Recomendados\" del portal, con visibilidad destacada durante un periodo de seis meses.\n\nAdemás, durante la visita, le presentaremos un análisis de las nuevas tendencias en soluciones habitacionales, como el co-living, el housing as a service o los modelos temáticos de larga estancia. Este contexto le permitirá evaluar con mayor claridad su potencial dentro de una transformación global en el sector alojamiento.\n\n________________________________________\n\nDuración y coste\n\nSe trata de una visita presencial de 5 a 7 días, realizada por dos especialistas de nuestro equipo.\n\nNo existe ningún coste por el estudio ni la elaboración del informe.\n\nÚnicamente se solicitará la cobertura de los gastos básicos de viaje y estancia para los profesionales desplazados.\n\nNo hay compromiso comercial ni vinculación posterior.\n\n________________________________________\n\n¿Qué buscamos?\n\nEste programa está diseñado para hoteles que:\n– Valoren una mirada externa, profesional y seria sobre su oferta actual\n– Desean explorar nuevas formas de rentabilidad mediante estancias largas y, en general, estén interesados en repensar su estrategia de ocupación\n– Tengan interés en diferenciarse a través de afinidades temáticas\n\n________________________________________\n\n¿POR QUÉ LO HACEMOS?\n\nPorque creemos en este modelo.\n\nPorque sabemos que muchos hoteles tienen potencial para crecer si cambian el enfoque.\n\nY porque queremos construir una red de hoteles seleccionados que representen lo mejor de Hotel-Living.\n\n________________________________________\n\n¿Cómo solicitarlo?\n\nSi le interesa participar, puede solicitar la visita a través del siguiente formulario.\n\nTodas las solicitudes serán evaluadas cuidadosamente y se dará prioridad a los hoteles con mayor nivel de afinidad temática o potencial estratégico.",
+          features: [],
           formTitle: "Solicite su estudio gratuito",
           formDescription: "Complete el formulario y nos pondremos en contacto con usted para programar la visita",
           nameLabel: "Nombre completo",
@@ -135,34 +128,50 @@ export default function ProfessionalStudy() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-            {/* Information Section */}
-            <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
-              <CardHeader>
-                <CardTitle className="text-white text-2xl md:text-3xl font-bold">
-                  {content.formTitle}
-                </CardTitle>
-                <CardDescription className="text-fuchsia-200 text-lg">
-                  {content.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <h3 className="text-white text-xl font-semibold mb-4 flex items-center">
-                    <CheckCircle className="mr-2 text-fuchsia-400" />
-                    What's included:
-                  </h3>
-                  <ul className="space-y-3">
-                    {content.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-white">
-                        <CheckCircle className="mr-2 mt-1 text-fuchsia-400 flex-shrink-0 w-5 h-5" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Information Section - Full Width for Spanish */}
+          {language === 'es' ? (
+            <div className="max-w-7xl mx-auto mb-16">
+              <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
+                <CardContent className="pt-8">
+                  <div className="text-white text-lg leading-relaxed whitespace-pre-line">
+                    {content.description}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : null}
+
+          {/* Original layout for non-Spanish or Spanish form section */}
+          <div className={language === 'es' ? "max-w-3xl mx-auto" : "grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto"}>
+            {/* Information Section for non-Spanish languages */}
+            {language !== 'es' && (
+              <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
+                <CardHeader>
+                  <CardTitle className="text-white text-2xl md:text-3xl font-bold">
+                    {content.formTitle}
+                  </CardTitle>
+                  <CardDescription className="text-fuchsia-200 text-lg">
+                    {content.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <h3 className="text-white text-xl font-semibold mb-4 flex items-center">
+                      <CheckCircle className="mr-2 text-fuchsia-400" />
+                      What's included:
+                    </h3>
+                    <ul className="space-y-3">
+                      {content.features.map((feature, index) => (
+                        <li key={index} className="flex items-start text-white">
+                          <CheckCircle className="mr-2 mt-1 text-fuchsia-400 flex-shrink-0 w-5 h-5" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Contact Form */}
             <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">

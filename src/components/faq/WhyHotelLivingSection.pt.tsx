@@ -9,13 +9,13 @@ export function WhyHotelLivingSectionPT() {
 
   const accordionOptions = [
     { id: "still-renting", label: "AINDA\nALUGA?" },
-    { id: "retired", label: "APOSENTADO" },
+    { id: "retired", label: "APOSENTADO?" },
     { id: "airbnb", label: "¿AIRBNB?" },
-    { id: "online-worker", label: "TRABALHADOR\nONLINE" },
-    { id: "commuter", label: "VIAJANTE\nDIÁRIO" },
-    { id: "free-soul", label: "ALMA\nLIVRE" },
-    { id: "hotel", label: "HOTEL" },
-    { id: "society", label: "SOCIEDADE" }
+    { id: "online-worker", label: "TRABALHADOR\nONLINE?" },
+    { id: "commuter", label: "VIAJANTE\nDIÁRIO?" },
+    { id: "free-soul", label: "ALMA\nLIVRE?" },
+    { id: "hotel", label: "HOTEL?" },
+    { id: "society", label: "SOCIEDADE?" }
   ];
 
   const handleAccordionTabChange = (value: string) => {

@@ -24,8 +24,8 @@ export default function ProfessionalStudy() {
       case 'es':
         return {
           title: "ESTUDIO PROFESIONAL GRATUITO",
-          subtitle: "Obtenga un completo estudio profesional, técnico y presencial sobre su hotel y sus posibilidades de desarrollo",
-          description: "Una oportunidad única para analizar su hotel desde una nueva perspectiva\n\nEn el marco de nuestro programa de expansión, y en colaboración con la firma Bridgepoint Global Consulting, especializada en análisis técnico y consultoría hotelera, ofrecemos la posibilidad única de realizar un estudio integral y personalizado de su establecimiento, completamente in situ.\n\nEsta consultoría incluye:\n• ✅ Un estudio de mercado contextualizado con datos reales de su entorno y competidores\n• ✅ Análisis SWOT, benchmarking, proyecciones de rentabilidad y plan de acción inicial\n• ✅ Diagnóstico de fortalezas, debilidades y elementos diferenciadores\n• ✅ Recomendaciones para su integración en el modelo Hotel-Living\n• ✅ Informe técnico-profesional completo, con métricas, estrategias y observaciones detalladas\n• ✅ En caso de que el establecimiento cumpla con estándares básicos de atractivo, se realizará un reportaje audiovisual profesional, que será incorporado en la sección de \"Hoteles Recomendados\" del portal, con visibilidad destacada durante un periodo de seis meses.\n\nAdemás, durante la visita, le presentaremos un análisis de las nuevas tendencias en soluciones habitacionales, como el co-living, el housing as a service o los modelos temáticos de larga estancia. Este contexto le permitirá evaluar con mayor claridad su potencial dentro de una transformación global en el sector alojamiento.\n\n________________________________________\n\nDuración y coste\n\nSe trata de una visita presencial de 5 a 7 días, realizada por dos especialistas de nuestro equipo.\n\nNo existe ningún coste por el estudio ni la elaboración del informe.\n\nÚnicamente se solicitará la cobertura de los gastos básicos de viaje y estancia para los profesionales desplazados.\n\nNo hay compromiso comercial ni vinculación posterior.\n\n________________________________________\n\n¿Qué buscamos?\n\nEste programa está diseñado para hoteles que:\n– Valoren una mirada externa, profesional y seria sobre su oferta actual\n– Desean explorar nuevas formas de rentabilidad mediante estancias largas y, en general, estén interesados en repensar su estrategia de ocupación\n– Tengan interés en diferenciarse a través de afinidades temáticas\n\n________________________________________\n\n¿POR QUÉ LO HACEMOS?\n\nPorque creemos en este modelo.\n\nPorque sabemos que muchos hoteles tienen potencial para crecer si cambian el enfoque.\n\nY porque queremos construir una red de hoteles seleccionados que representen lo mejor de Hotel-Living.\n\n________________________________________\n\n¿Cómo solicitarlo?\n\nSi le interesa participar, puede solicitar la visita a través del siguiente formulario.\n\nTodas las solicitudes serán evaluadas cuidadosamente y se dará prioridad a los hoteles con mayor nivel de afinidad temática o potencial estratégico.",
+          subtitle: "Obtenga un completo estudio profesional, técnico\ny presencial sobre su hotel y sus posibilidades de desarrollo",
+          description: "Una oportunidad única para analizar su hotel desde una nueva perspectiva\n\nEn el marco de nuestro programa de expansión, y en colaboración con la firma Bridgepoint Global Consulting, especializada en análisis técnico y consultoría hotelera, ofrecemos la posibilidad única de realizar un estudio integral y personalizado de su establecimiento, completamente in situ.\n\nESTA CONSULTORÍA INCLUYE:\n• ✅ Un estudio de mercado contextualizado con datos reales de su entorno y competidores\n• ✅ Análisis SWOT, benchmarking, proyecciones de rentabilidad y plan de acción inicial\n• ✅ Diagnóstico de fortalezas, debilidades y elementos diferenciadores\n• ✅ Recomendaciones para su integración en el modelo Hotel-Living\n• ✅ Informe técnico-profesional completo, con métricas, estrategias y observaciones detalladas\n• ✅ En caso de que el establecimiento cumpla con estándares básicos de atractivo, se realizará un reportaje audiovisual profesional, que será incorporado en la sección de \"Hoteles Recomendados\" del portal, con visibilidad destacada durante un periodo de seis meses.\n\nAdemás, durante la visita, le presentaremos un análisis de las nuevas tendencias en soluciones habitacionales, como el co-living, el housing as a service o los modelos temáticos de larga estancia. Este contexto le permitirá evaluar con mayor claridad su potencial dentro de una transformación global en el sector alojamiento.\n\n________________________________________\n\nDURACIÓN Y COSTE\n\nSe trata de una visita presencial de 5 a 7 días, realizada por dos especialistas de nuestro equipo.\n\nNo existe ningún coste por el estudio ni la elaboración del informe.\n\nÚnicamente se solicitará la cobertura de los gastos básicos de viaje y estancia para los profesionales desplazados.\n\nNo hay compromiso comercial ni vinculación posterior.\n\n________________________________________\n\n¿QUÉ BUSCAMOS?\n\nEste programa está diseñado para hoteles que:\n– Valoren una mirada externa, profesional y seria sobre su oferta actual\n– Desean explorar nuevas formas de rentabilidad mediante estancias largas y, en general, estén interesados en repensar su estrategia de ocupación\n– Tengan interés en diferenciarse a través de afinidades temáticas\n\n________________________________________\n\n¿POR QUÉ LO HACEMOS?\n\nPorque creemos en este modelo.\n\nPorque sabemos que muchos hoteles tienen potencial para crecer si cambian el enfoque.\n\nY porque queremos construir una red de hoteles seleccionados que representen lo mejor de Hotel-Living.\n\n________________________________________\n\nCÓMO SOLICITARLO\n\nSi le interesa participar, puede solicitar la visita a través del siguiente formulario.\n\nTodas las solicitudes serán evaluadas cuidadosamente.",
           features: [],
           formTitle: "Solicite su estudio gratuito",
           formDescription: "Complete el formulario y nos pondremos en contacto con usted para programar la visita",
@@ -40,7 +40,7 @@ export default function ProfessionalStudy() {
       case 'pt':
         return {
           title: "ESTUDO PROFISSIONAL GRATUITO",
-          subtitle: "Obtenha um estudo profissional, técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento",
+          subtitle: "Obtenha um estudo profissional, técnico\ne presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento",
           description: "A nossa equipa de especialistas realizará uma análise exaustiva da sua propriedade para identificar oportunidades de crescimento e otimização.",
           features: [
             "Análise técnica completa das instalações",
@@ -63,7 +63,7 @@ export default function ProfessionalStudy() {
       case 'ro':
         return {
           title: "STUDIU PROFESIONAL GRATUIT",
-          subtitle: "Obțineți un studiu profesional complet, tehnic și în persoană despre hotelul dvs. și posibilitățile sale de dezvoltare",
+          subtitle: "Obțineți un studiu profesional complet, tehnic\nși în persoană despre hotelul dvs. și posibilitățile sale de dezvoltare",
           description: "Echipa noastră de experți va efectua o analiză cuprinzătoare a proprietății dvs. pentru a identifica oportunități de creștere și optimizare.",
           features: [
             "Analiza tehnică completă a instalațiilor",
@@ -86,7 +86,7 @@ export default function ProfessionalStudy() {
       default: // English
         return {
           title: "FREE PROFESSIONAL STUDY",
-          subtitle: "Get a complete professional, technical and in-person study about your hotel and its development possibilities",
+          subtitle: "Get a complete professional, technical\nand in-person study about your hotel and its development possibilities",
           description: "Our team of experts will conduct a comprehensive analysis of your property to identify growth and optimization opportunities.",
           features: [
             "Complete technical analysis of facilities",
@@ -120,10 +120,10 @@ export default function ProfessionalStudy() {
         <div className="container mx-auto px-4 py-8">
           {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 drop-shadow-lg">
               {content.title}
             </h1>
-            <p className="text-xl md:text-2xl text-fuchsia-200 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-fuchsia-200 max-w-4xl mx-auto leading-relaxed whitespace-pre-line">
               {content.subtitle}
             </p>
           </div>
@@ -131,7 +131,7 @@ export default function ProfessionalStudy() {
           {/* Information Section - Full Width for Spanish */}
           {language === 'es' ? (
             <div className="max-w-7xl mx-auto mb-16">
-              <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
+              <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
                 <CardContent className="pt-8">
                   <div className="text-white text-lg leading-relaxed whitespace-pre-line">
                     {content.description}
@@ -145,7 +145,7 @@ export default function ProfessionalStudy() {
           <div className={language === 'es' ? "max-w-3xl mx-auto" : "grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto"}>
             {/* Information Section for non-Spanish languages */}
             {language !== 'es' && (
-              <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
+              <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
                 <CardHeader>
                   <CardTitle className="text-white text-2xl md:text-3xl font-bold">
                     {content.formTitle}
@@ -174,7 +174,7 @@ export default function ProfessionalStudy() {
             )}
 
             {/* Contact Form */}
-            <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2">
+            <Card className="backdrop-blur-sm border-2" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
               <CardHeader>
                 <CardTitle className="text-white text-2xl font-bold">
                   {content.formTitle}
@@ -194,7 +194,8 @@ export default function ProfessionalStudy() {
                         id="name"
                         type="text"
                         required
-                        className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                        className="bg-white/10 text-white placeholder:text-white/60"
+                        style={{ borderColor: '#6C009E' }}
                       />
                     </div>
                     <div className="space-y-2">
@@ -205,7 +206,8 @@ export default function ProfessionalStudy() {
                         id="email"
                         type="email"
                         required
-                        className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                        className="bg-white/10 text-white placeholder:text-white/60"
+                        style={{ borderColor: '#6C009E' }}
                       />
                     </div>
                   </div>
@@ -219,7 +221,8 @@ export default function ProfessionalStudy() {
                         id="phone"
                         type="tel"
                         required
-                        className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                        className="bg-white/10 text-white placeholder:text-white/60"
+                        style={{ borderColor: '#6C009E' }}
                       />
                     </div>
                     <div className="space-y-2">
@@ -230,7 +233,8 @@ export default function ProfessionalStudy() {
                         id="hotel"
                         type="text"
                         required
-                        className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                        className="bg-white/10 text-white placeholder:text-white/60"
+                        style={{ borderColor: '#6C009E' }}
                       />
                     </div>
                   </div>
@@ -243,7 +247,8 @@ export default function ProfessionalStudy() {
                       id="location"
                       type="text"
                       required
-                      className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                      className="bg-white/10 text-white placeholder:text-white/60"
+                      style={{ borderColor: '#6C009E' }}
                     />
                   </div>
 
@@ -254,13 +259,17 @@ export default function ProfessionalStudy() {
                     <Textarea
                       id="message"
                       rows={4}
-                      className="bg-white/10 border-fuchsia-400/50 text-white placeholder:text-white/60"
+                      className="bg-white/10 text-white placeholder:text-white/60"
+                      style={{ borderColor: '#6C009E' }}
                     />
                   </div>
 
                   <Button
                     type="submit"
-                    className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold py-3 text-lg"
+                    className="w-full text-white font-bold py-3 text-lg"
+                    style={{ backgroundColor: '#1e3a8a', color: 'white' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1e40af'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1e3a8a'}
                   >
                     {content.submitButton}
                   </Button>
@@ -271,7 +280,7 @@ export default function ProfessionalStudy() {
 
           {/* Contact Information */}
           <div className="mt-16 text-center">
-            <Card className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-fuchsia-400 border-2 max-w-2xl mx-auto">
+            <Card className="backdrop-blur-sm border-2 max-w-2xl mx-auto" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
               <CardContent className="pt-6">
                 <h3 className="text-white text-xl font-bold mb-4">Contact Information</h3>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-white">

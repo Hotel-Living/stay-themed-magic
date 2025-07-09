@@ -6,7 +6,7 @@ import { HotelNewAccordionMenu } from "@/components/hotels/HotelNewAccordionMenu
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { HotelCards } from "@/components/hotels/HotelCards";
@@ -33,6 +33,7 @@ const HotelSignupButtons = ({
 export default function Hotels() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const {
     t,
     language
@@ -51,8 +52,7 @@ export default function Hotels() {
           {/* Professional Study Offer - Centered between blocks */}
           <div className="my-16 flex justify-center px-4">
             <div className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-2 border-fuchsia-400 rounded-2xl p-8 max-w-2xl cursor-pointer hover:border-fuchsia-300 hover:bg-gradient-to-br hover:from-purple-800/90 hover:via-fuchsia-800/70 hover:to-purple-700/90 transition-all duration-300 shadow-2xl hover:shadow-fuchsia-500/30 hover:scale-105" onClick={() => {
-            // TODO: Navigate to professional study page
-            console.log("Navigate to professional study page");
+            navigate('/professional-study');
           }}>
               <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold uppercase">
                 {language === 'en' && 'Get, at no cost, a complete professional, technical and in-person study about your hotel and its development possibilities'}

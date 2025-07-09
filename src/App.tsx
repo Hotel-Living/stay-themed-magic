@@ -58,6 +58,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import Prueba from "@/pages/Prueba";
 import ExcelGenerator from "@/pages/ExcelGenerator";
+import ProfessionalStudy from "@/pages/ProfessionalStudy";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -103,6 +104,7 @@ function App() {
               <Route path="/intellectual-property" element={<IntellectualProperty />} />
               <Route path="/our-team" element={<OurTeam />} />
               <Route path="/excel-generator" element={<ExcelGenerator />} />
+              <Route path="/professional-study" element={<ProfessionalStudy />} />
               
               {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />

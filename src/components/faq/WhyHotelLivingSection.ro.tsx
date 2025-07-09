@@ -102,6 +102,22 @@ export function WhyHotelLivingSectionRO() {
         </div>
       </div>
 
+      {/* Professional Study Offer */}
+      <div className="mb-16 flex justify-center">
+        <div 
+          className="bg-white/95 border border-gray-300 rounded-lg p-8 max-w-2xl cursor-pointer hover:bg-white/100 hover:shadow-lg transition-all duration-300"
+          onClick={() => {
+            // TODO: Navigate to professional study page
+            console.log("Navigate to professional study page");
+          }}
+        >
+          <p className="text-gray-800 text-center text-lg leading-relaxed font-medium">
+            Obțineți, fără costuri, un studiu profesional,<br />
+            tehnic și la fața locului complet despre hotelul dvs. și posibilitățile sale de dezvoltare.
+          </p>
+        </div>
+      </div>
+
       {/* First Horizontal Accordion Menu */}
       <div className="mb-24">
         <div className="w-full">

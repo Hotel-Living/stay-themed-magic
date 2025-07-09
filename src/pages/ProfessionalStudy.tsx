@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { CheckCircle, Mail, Phone, MapPin, Calendar, FileText, Users } from "lucide-react";
+import { CheckCircle, Mail, MapPin, Calendar, FileText, Users } from "lucide-react";
 
 export default function ProfessionalStudy() {
   const { t, language } = useTranslation();
@@ -35,7 +35,8 @@ export default function ProfessionalStudy() {
           hotelLabel: "Nombre del hotel",
           locationLabel: "Ubicación",
           messageLabel: "Mensaje adicional (opcional)",
-          submitButton: "SOLICITAR ESTUDIO GRATUITO"
+          submitButton: "SOLICITAR ESTUDIO GRATUITO",
+          contactTitle: "INFORMACIÓN DE CONTACTO"
         };
       case 'pt':
         return {
@@ -58,7 +59,8 @@ export default function ProfessionalStudy() {
           hotelLabel: "Nome do hotel",
           locationLabel: "Localização",
           messageLabel: "Mensagem adicional (opcional)",
-          submitButton: "SOLICITAR ESTUDO GRATUITO"
+          submitButton: "SOLICITAR ESTUDO GRATUITO",
+          contactTitle: "INFORMAÇÕES DE CONTACTO"
         };
       case 'ro':
         return {
@@ -81,7 +83,8 @@ export default function ProfessionalStudy() {
           hotelLabel: "Numele hotelului",
           locationLabel: "Locația",
           messageLabel: "Mesaj suplimentar (opțional)",
-          submitButton: "SOLICITAȚI STUDIUL GRATUIT"
+          submitButton: "SOLICITAȚI STUDIUL GRATUIT",
+          contactTitle: "INFORMAȚII DE CONTACT"
         };
       default: // English
         return {
@@ -104,7 +107,8 @@ export default function ProfessionalStudy() {
           hotelLabel: "Hotel name",
           locationLabel: "Location",
           messageLabel: "Additional message (optional)",
-          submitButton: "REQUEST FREE STUDY"
+          submitButton: "REQUEST FREE STUDY",
+          contactTitle: "CONTACT INFORMATION"
         };
     }
   };
@@ -282,15 +286,11 @@ export default function ProfessionalStudy() {
           <div className="mt-16 text-center">
             <Card className="backdrop-blur-sm border-2 max-w-2xl mx-auto" style={{ backgroundColor: '#6C009E', borderColor: '#6C009E' }}>
               <CardContent className="pt-6">
-                <h3 className="text-white text-xl font-bold mb-4">Contact Information</h3>
-                <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-white">
+                <h3 className="text-white text-xl font-bold mb-4">{content.contactTitle}</h3>
+                <div className="flex justify-center items-center text-white">
                   <div className="flex items-center">
                     <Mail className="mr-2 text-fuchsia-400" />
-                    <span>info@affinitystays.com</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Phone className="mr-2 text-fuchsia-400" />
-                    <span>+1 (555) 123-4567</span>
+                    <span>contact@hotel-living.com</span>
                   </div>
                 </div>
               </CardContent>

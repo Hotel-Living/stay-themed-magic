@@ -12,7 +12,7 @@ const Ambassador = () => {
       <Starfield />
       <div className="relative z-10">
         <Navbar />
-        <main className="min-h-screen" style={{ backgroundColor: "rgba(108, 0, 158, 0.9)" }}>
+        <main className="min-h-screen">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 text-white">
               <div className="space-y-6">

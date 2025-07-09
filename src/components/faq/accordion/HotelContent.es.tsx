@@ -88,6 +88,22 @@ export function HotelContentES() {
       {questionGroups.map((questions, index) => (
         <QuestionGroup key={index} questions={questions} />
       ))}
+      
+      {/* Professional Study Offer */}
+      <div className="mt-12 flex justify-center">
+        <div 
+          className="bg-white/95 border border-gray-300 rounded-lg p-8 max-w-2xl cursor-pointer hover:bg-white/100 hover:shadow-lg transition-all duration-300"
+          onClick={() => {
+            // TODO: Navigate to professional study page
+            console.log("Navigate to professional study page");
+          }}
+        >
+          <p className="text-gray-800 text-center text-lg leading-relaxed font-medium">
+            Obtenga, sin coste alguno, un completo estudio profesional,<br />
+            técnico y presencial, sobre su hotel y sus posibilidades de desarrollo.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

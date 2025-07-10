@@ -1,8 +1,77 @@
 {
-  "title": "Informações de Imprensa",
-  "subtitle": "Recursos de Mídia e Informações da Empresa",
-  "videoTitle": "Vídeo de Comunicado de Imprensa",
-  "content": {
-    "placeholder": "O conteúdo de imprensa será adicionado aqui em breve."
+  "header": {
+    "line1": "O futuro já está aqui",
+    "line2": "Viver em hotéis deixa de ser uma raridade",
+    "line3": "...e se torna uma nova forma de vida"
+  },
+  "video": {
+    "title": "Vídeo de Comunicado de Imprensa",
+    "placeholder": "TU_VIDEO_ID"
+  },
+  "headlines": {
+    "title": "Manchetes em Destaque",
+    "items": [
+      "Hilton lança LivSmart Studios: mais de 300 hotéis pensados para estadias de 20 noites ou mais",
+      "O mercado de extended-stay crescerá de $62,8B para $143,2B até 2034",
+      "Marriott, Hyatt e Wyndham competem para liderar o segmento com suas novas marcas",
+      "Milhares de aposentados, trabalhadores remotos e nômades digitais escolhem hotéis como lar permanente",
+      "Hotéis extended-stay alcançam maior ocupação com menos pessoal e mais rentabilidade",
+      "The Social Hub, Hoxton e Soho House misturam hotel, coworking e comunidade: o novo modelo híbrido",
+      "Em Hong Kong, hotéis tradicionais se transformam em coliving para garantir rentabilidade estável",
+      "O design hoteleiro evolui: quartos convertidos em espaços para viver, trabalhar e socializar"
+    ]
+  },
+  "keyFigures": {
+    "title": "Números-Chave",
+    "items": [
+      "+232.000 noites de extended-stay adicionadas nos EUA em 2024",
+      "+50% de crescimento no portfólio de extended-stay entre as principais redes hoteleiras na última década",
+      "+200 hotéis ECHO anunciados pela Wyndham",
+      "$9,31 → custo médio de mão de obra por quarto ocupado em hotéis extended-stay",
+      "$20,34 → equivalente em hotéis tradicionais",
+      "2.038 quartos de hotel convertidos para coliving em Hong Kong",
+      "+60% dos Millennials e Geração Z preferem estadias flexíveis com serviços incluídos"
+    ]
+  },
+  "brands": {
+    "title": "Marcas Hoteleiras",
+    "major": ["Hilton", "Marriott", "Hyatt", "Wyndham", "Accor", "WaterWalk"],
+    "specialized": ["The Manner", "The Social Hub", "StudioRes", "Gaiastays", "Echo", "LivSmart"]
+  },
+  "pressCoverage": {
+    "title": "Cobertura da Imprensa",
+    "items": [
+      {
+        "media": "New York Times",
+        "link": "https://www.nytimes.com/2023/11/12/style/hotel-living-nomads.html"
+      },
+      {
+        "media": "Financial Times",
+        "link": "https://www.ft.com/content/6ccdb850-53ea-4778-9383-73dd711c859d"
+      },
+      {
+        "media": "New York Post",
+        "link": "https://nypost.com/2024/12/05/business/amar-lalvani-is-pioneering-a-new-style-of-luxury-at-the-manner/"
+      },
+      {
+        "media": "Livingetc",
+        "link": "https://www.livingetc.com/features/resort-core"
+      },
+      {
+        "media": "HospitalityNet",
+        "link": "https://www.hospitalitynet.org/opinion/4127709.html"
+      },
+      {
+        "media": "EHL Insights",
+        "link": "https://hospitalityinsights.ehl.edu/hotel-guest-community-integration"
+      }
+    ]
+  },
+  "closing": {
+    "line1": "A indústria hoteleira não está simplesmente mudando...",
+    "line2": "está evoluindo para uma nova forma de habitar o mundo."
+  },
+  "legal": {
+    "disclaimer": "Todas as marcas, logotipos e referências citadas nesta página pertencem aos seus respectivos proprietários e são incluídas exclusivamente para fins informativos, editoriais ou comparativos. Hoteldiving não está afiliado nem endossado por tais entidades."
   }
 }

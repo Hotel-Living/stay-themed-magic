@@ -7,7 +7,7 @@ export const DisclaimerText: React.FC = () => {
   
   return (
     <p className="text-xs text-white/60 italic mb-4">
-      {t('dashboard.ratesCalculator.disclaimer')}
+      {t('ratesCalculator.disclaimer')}
     </p>
   );
 };

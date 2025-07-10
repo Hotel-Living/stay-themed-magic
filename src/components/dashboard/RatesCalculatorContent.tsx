@@ -117,17 +117,17 @@ export const RatesCalculatorContent: React.FC = () => {
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
         <h2 className="text-xl font-bold text-center">
-          {t('dashboard.standardEconomicModel')}
+          {t('standardEconomicModel')}
         </h2>
       </div>
 
       {mainMenuExpanded && <Tabs value={mainTab} onValueChange={() => {}} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
             <TabsTrigger value="costs-profits" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${costsExpanded ? "border border-white/40" : ""}`} onClick={handleCostsMainTabClick} aria-pressed={costsExpanded}>
-              {t('dashboard.costsAndProfits')}
+              {t('costsAndProfits')}
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              {t('dashboard.buildOwnModel')}
+              {t('buildOwnModel')}
             </TabsTrigger>
           </TabsList>
 
@@ -144,10 +144,10 @@ export const RatesCalculatorContent: React.FC = () => {
               <Tabs value={costsSubTab} onValueChange={() => {}} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
                   <TabsTrigger value="costs" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "costs" ? "border border-white/40" : ""}`} onClick={handleCostsSubTabClick} aria-pressed={costsSubTab === "costs"}>
-                    {t('dashboard.costs')}
+                    {t('costs')}
                   </TabsTrigger>
                   <TabsTrigger value="profits" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "profits" ? "border border-white/40" : ""}`} onClick={handleProfitsSubTabClick} aria-pressed={costsSubTab === "profits"}>
-                    {t('dashboard.profits')}
+                    {t('profits')}
                   </TabsTrigger>
                 </TabsList>
                 {/* COSTS TAB CONTENT */}
@@ -185,9 +185,9 @@ export const RatesCalculatorContent: React.FC = () => {
           {/* BUILD YOUR OWN MODEL & RATES Section */}
           {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
               <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
-                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">{t('dashboard.ratesCalculator.beforeStartingTitle')}</h3>
+                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">{t('ratesCalculator.beforeStartingTitle')}</h3>
                 <div className="text-[15px] leading-relaxed font-medium" dangerouslySetInnerHTML={{
-                  __html: t('dashboard.ratesCalculator.beforeStartingDescription')
+                  __html: t('ratesCalculator.beforeStartingDescription')
                 }} />
               </div>
               <ModelRatesTabs />

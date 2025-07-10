@@ -12,114 +12,64 @@ const CostItemsTab: React.FC = () => {
   const [activeOption, setActiveOption] = useState<string>("utilities");
   const menuOptions: MenuOption[] = [{
     id: "utilities",
-    labelKey: "dashboard.ratesCalculator.utilities",
+    labelKey: "ratesCalculator.utilities",
     contentKey: "utilities"
   }, {
     id: "cleaning",
-    labelKey: "dashboard.ratesCalculator.cleaning",
+    labelKey: "ratesCalculator.cleaning",
     contentKey: "cleaning"
   }, {
     id: "meal-plans",
-    labelKey: "dashboard.ratesCalculator.meals",
+    labelKey: "ratesCalculator.meals",
     contentKey: "meals"
   }, {
     id: "total-costs",
-    labelKey: "dashboard.ratesCalculator.totalCost"
+    labelKey: "ratesCalculator.totalCost"
   }];
   const getContentForOption = (optionId: string): string => {
     switch (optionId) {
       case "utilities":
-        return `**${t('dashboard.ratesCalculator.utilitiesTitle')}**
+        return `**${t('ratesCalculator.utilitiesTitle')}**
 
-⚙️ ${t('dashboard.ratesCalculator.utilitiesGuestsNotTransients')}
-${t('dashboard.ratesCalculator.utilitiesDescription1')}
+⚙️ ${t('ratesCalculator.utilitiesGuestsNotTransients')}
+${t('ratesCalculator.utilitiesDescription1')}
 
-🌿 ${t('dashboard.ratesCalculator.utilitiesSmartGuestsTitle')}
-${t('dashboard.ratesCalculator.utilitiesDescription2')}
-${t('dashboard.ratesCalculator.utilitiesDescription3')}
+🌿 ${t('ratesCalculator.utilitiesSmartGuestsTitle')}
+${t('ratesCalculator.utilitiesDescription2')}
+${t('ratesCalculator.utilitiesDescription3')}
 ________________________________________
-⚡ ${t('dashboard.ratesCalculator.utilitiesLowerConsumption')}
-💡 ${t('dashboard.ratesCalculator.utilitiesEnergyEfficiency')}
-🌱 ${t('dashboard.ratesCalculator.utilitiesConservativeHabits')}
+⚡ ${t('ratesCalculator.utilitiesLowerConsumption')}
+💡 ${t('ratesCalculator.utilitiesEnergyEfficiency')}
+🌱 ${t('ratesCalculator.utilitiesConservativeHabits')}
 ________________________________________
-💜 ${t('dashboard.ratesCalculator.utilitiesSharedResponsibility')}
-${t('dashboard.ratesCalculator.utilitiesResponsibilityDescription')}
+💜 ${t('ratesCalculator.utilitiesSharedResponsibility')}
+${t('ratesCalculator.utilitiesResponsibilityDescription')}
 ________________________________________
-🔄 ${t('dashboard.ratesCalculator.utilitiesOptimizedOperations')}
-${t('dashboard.ratesCalculator.utilitiesOptimizedDescription')}
+🔄 ${t('ratesCalculator.utilitiesOptimizedOperations')}
+${t('ratesCalculator.utilitiesOptimizedDescription')}
 ________________________________________`;
       case "cleaning":
-        return `**${t('dashboard.ratesCalculator.cleaningModelTitle')}**
+        return `**${t('ratesCalculator.cleaningModelTitle')}**
 
-🧼 ${t('dashboard.ratesCalculator.cleaningHotelLivingStandard')}
-🏡 ${t('dashboard.ratesCalculator.cleaningFeelsLikeHome')}
-${t('dashboard.ratesCalculator.cleaningDescription1')}
+🧼 ${t('ratesCalculator.cleaningHotelLivingStandard')}
+🏡 ${t('ratesCalculator.cleaningFeelsLikeHome')}
+${t('ratesCalculator.cleaningDescription1')}
 
-${t('dashboard.ratesCalculator.cleaningDescription2')}
+${t('ratesCalculator.cleaningDescription2')}
 ________________________________________
-🧹 ${t('dashboard.ratesCalculator.cleaningCompleteTitle')}
-${t('dashboard.ratesCalculator.cleaningCompleteDescription')}
+🧹 ${t('ratesCalculator.cleaningCompleteTitle')}
+${t('ratesCalculator.cleaningCompleteDescription')}
 ________________________________________
-🔄 ${t('dashboard.ratesCalculator.cleaningLightRefresh')}
-${t('dashboard.ratesCalculator.cleaningLightRefreshDescription')}
+🔄 ${t('ratesCalculator.cleaningLightRefresh')}
+${t('ratesCalculator.cleaningLightRefreshDescription')}
 ________________________________________
-🛏️ ${t('dashboard.ratesCalculator.cleaningBedChange')}
-${t('dashboard.ratesCalculator.cleaningBedChangeDescription')}
+🛏️ ${t('ratesCalculator.cleaningBedChange')}
+${t('ratesCalculator.cleaningBedChangeDescription')}
 ________________________________________
-💼 ${t('dashboard.ratesCalculator.cleaningOperationalBenefits')}
-${t('dashboard.ratesCalculator.cleaningOperationalDescription')}`;
+💼 ${t('ratesCalculator.cleaningOperationalBenefits')}
+${t('ratesCalculator.cleaningOperationalDescription')}`;
       case "meal-plans":
-        return `${t('dashboard.ratesCalculator.mealsModelTitle')}
-
-${t('dashboard.ratesCalculator.mealsModelDescription1')}
-
-${t('dashboard.ratesCalculator.mealsModelDescription2')}
-
-${t('dashboard.ratesCalculator.mealsModelDescription3')}
-
-${t('dashboard.ratesCalculator.mealsModelDescription4')}
-________________________________________
-🔧 ${t('dashboard.ratesCalculator.mealsOurModel')}
-
-✅ 🥗 ${t('dashboard.ratesCalculator.mealsBalanced')}
-
-✅ 🍎 ${t('dashboard.ratesCalculator.mealsModerate')}
-
-✅ 👨‍🍳 ${t('dashboard.ratesCalculator.mealsCompatible')}
-
-✅ ♻️ ${t('dashboard.ratesCalculator.mealsLowWaste')}
-________________________________________
-🍳 ${t('dashboard.ratesCalculator.mealsFlexiblePlans')}
-
-${t('dashboard.ratesCalculator.mealsFlexibleDescription')}
-________________________________________
-💼 ${t('dashboard.ratesCalculator.mealsOperationalAdvantages')}
-
-🧑‍🍳 ${t('dashboard.ratesCalculator.mealsLowerComplexity')}
-
-🧾 ${t('dashboard.ratesCalculator.mealsPredictableCosts')}
-
-😊 ${t('dashboard.ratesCalculator.mealsRelaxedExperience')}
-________________________________________
-📊 ${t('dashboard.ratesCalculator.mealsBudgetBenefits')}
-
-${t('dashboard.ratesCalculator.mealsBudgetDescription')}
-________________________________________
-🔁 ${t('dashboard.ratesCalculator.mealsKitchenStrategy')}
-
-${t('dashboard.ratesCalculator.mealsKitchenDescription')}
-
-🔄 ${t('dashboard.ratesCalculator.mealsRotatingMenus')}
-
-${t('dashboard.ratesCalculator.mealsRotatingDescription')}
-________________________________________
-🔑 ${t('dashboard.ratesCalculator.mealsResult')}
-
-🏨 ${t('dashboard.ratesCalculator.mealsResultHotel')}
-
-🏡 ${t('dashboard.ratesCalculator.mealsResultGuests')}
-
-🌍 ${t('dashboard.ratesCalculator.mealsResultExperience')}`;
+        return "**MEAL PLANS - BALANCED APPROACH**\n\nOur meal plans are designed to provide balanced, nutritious options that cater to long-stay guests while maintaining operational efficiency.\n\n**FLEXIBLE MEAL PLANS**\n\nGuests can choose from various meal plan options based on their preferences and dietary requirements.\n\n**OPERATIONAL BENEFITS**\n\n• Lower kitchen complexity\n• Predictable costs\n• Relaxed dining experience\n\n**RESULT**\n\n🏨 Hotels benefit from simplified operations\n🏡 Guests enjoy home-like dining flexibility\n🌍 Sustainable and cost-effective approach";
       default:
         return "";
     }
@@ -192,7 +142,7 @@ ________________________________________
         {/* Add disclaimer at the bottom */}
         <div className="mt-8 pt-4 border-t border-purple-500/30">
           <p className="text-sm text-white/60 italic text-center">
-            {t("dashboard.ratesCalculator.disclaimer")}
+            {t("ratesCalculator.disclaimer")}
           </p>
         </div>
       </div>

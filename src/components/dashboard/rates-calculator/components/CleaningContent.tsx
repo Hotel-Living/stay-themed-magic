@@ -7,7 +7,7 @@ export const CleaningContent: React.FC = () => {
   
   return (
     <div className="space-y-4 text-white/90">
-      <h3 className="text-lg font-bold text-center mb-6" dangerouslySetInnerHTML={{ __html: t('dashboard.ratesCalculator.cleaningModelTitle') }} />
+      <h3 className="text-lg font-bold text-center mb-6" dangerouslySetInnerHTML={{ __html: t('ratesCalculator.cleaningModelTitle') }} />
       
       <div className="space-y-4">
         <div>

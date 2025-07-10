@@ -253,6 +253,7 @@ const resources = {
       common: ptDashboardCommon,
       accommodation: ptDashboardAccommodation,
       advertising: ptAdvertising,
+      ratesCalculator: esDashboardRatesCalculator, // Using Spanish rates calculator as placeholder for now
     },
   },
   ro: {
@@ -281,6 +282,7 @@ const resources = {
       general: roDashboardGeneral,
       common: roDashboardCommon,
       accommodation: roDashboardAccommodation,
+      ratesCalculator: esDashboardRatesCalculator, // Using Spanish rates calculator as placeholder for now
     },
   },
 };

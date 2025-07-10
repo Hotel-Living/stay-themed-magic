@@ -9,12 +9,10 @@
     "ourMission": "Our mission is to revolutionize the way people live and travel"
   },
   "videosContent": {
-    "featuredTitle": "Featured: Themed Hotels Experience",
-    "featuredDescription": "Discover the magic of our themed hotels and experience a new way of hospitality.",
-    "comingSoonOwnerStories": "Coming Soon: Hotel Owner Stories",
-    "availableJune": "Available June 2025",
-    "comingSoonGuestExperiences": "Coming Soon: Guest Experiences",
-    "availableJuly": "Available July 2025"
+    "clientVideoTitle": "THE REAL LIFE",
+    "clientVideoUrl": "https://youtu.be/YOj4GGBdhEk",
+    "hotelVideoTitle": "HOTEL? GET 100% OCCUPANCY",
+    "hotelVideoUrl": "https://youtu.be/bkFCQ0KPSPE"
   },
   "featuredHotelsContent": {
     "pageTitle": "Featured Hotels",

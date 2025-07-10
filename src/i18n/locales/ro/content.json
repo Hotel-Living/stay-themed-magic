@@ -9,12 +9,10 @@
     "ourMission": "Misiunea noastră este să revoluționăm modul în care oamenii trăiesc și călătoresc"
   },
   "videosContent": {
-    "featuredTitle": "Recomandat: Experiența Hotelurilor Tematice",
-    "featuredDescription": "Descoperă magia hotelurilor noastre tematice și experimentează o nouă formă de ospitalitate.",
-    "comingSoonOwnerStories": "În Curând: Poveștile Proprietarilor de Hoteluri",
-    "availableJune": "Disponibil în iunie 2025",
-    "comingSoonGuestExperiences": "În Curând: Experiențele Oaspeților",
-    "availableJuly": "Disponibil în iulie 2025"
+    "clientVideoTitle": "VIAȚA REALĂ",
+    "clientVideoUrl": "https://youtu.be/YOj4GGBdhEk",
+    "hotelVideoTitle": "HOTEL? OBȚINEȚI 100% OCUPARE",
+    "hotelVideoUrl": "https://youtu.be/bkFCQ0KPSPE"
   },
   "featuredHotelsContent": {
     "pageTitle": "Hoteluri Recomandate",

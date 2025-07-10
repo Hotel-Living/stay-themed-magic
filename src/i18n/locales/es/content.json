@@ -8,12 +8,10 @@
     "ourMission": "Nuestra misión es revolucionar la forma en que las personas viven y viajan"
   },
   "videosContent": {
-    "featuredTitle": "Destacado: Experiencia de Hoteles Temáticos",
-    "featuredDescription": "Descubre la magia de nuestros hoteles temáticos y experimenta una nueva forma de hospitalidad.",
-    "comingSoonOwnerStories": "Próximamente: Historias de Propietarios de Hoteles",
-    "availableJune": "Disponible Junio 2025",
-    "comingSoonGuestExperiences": "Próximamente: Experiencias de Huéspedes",
-    "availableJuly": "Disponible Julio 2025"
+    "clientVideoTitle": "LA VIDA DE VERDAD",
+    "clientVideoUrl": "https://youtu.be/YOj4GGBdhEk",
+    "hotelVideoTitle": "¿HOTEL? OBTENGA 100% DE OCUPACIÓN",
+    "hotelVideoUrl": "https://youtu.be/bkFCQ0KPSPE"
   },
   "footer": {
     "links": {

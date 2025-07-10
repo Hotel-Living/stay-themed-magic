@@ -9,12 +9,10 @@
     "ourMission": "Nossa missão é revolucionar a forma como as pessoas vivem e viajam"
   },
   "videosContent": {
-    "featuredTitle": "Destaque: Experiência em Hotéis Temáticos",
-    "featuredDescription": "Descubra a magia dos nossos hotéis temáticos e experimente uma nova forma de hospitalidade.",
-    "comingSoonOwnerStories": "Em Breve: Histórias de Proprietários de Hotéis",
-    "availableJune": "Disponível em junho de 2025",
-    "comingSoonGuestExperiences": "Em Breve: Experiências dos Hóspedes",
-    "availableJuly": "Disponível em julho de 2025"
+    "clientVideoTitle": "A VIDA REAL",
+    "clientVideoUrl": "https://youtu.be/YOj4GGBdhEk",
+    "hotelVideoTitle": "HOTEL? OBTENHA 100% DE OCUPAÇÃO",
+    "hotelVideoUrl": "https://youtu.be/bkFCQ0KPSPE"
   },
   "featuredHotelsContent": {
     "pageTitle": "Hotéis em Destaque",

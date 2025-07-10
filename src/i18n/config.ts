@@ -109,6 +109,7 @@ import ptDashboardGeneral from './locales/pt/dashboard/general.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
+import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
 import ptAmbassador from './locales/pt/ambassador.json';
 import ptPress from './locales/pt/press.json';
 
@@ -134,6 +135,7 @@ import roHotels from './locales/ro/hotels.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
+import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
 import roAmbassador from './locales/ro/ambassador.json';
 import roPress from './locales/ro/press.json';
 
@@ -253,7 +255,7 @@ const resources = {
       common: ptDashboardCommon,
       accommodation: ptDashboardAccommodation,
       advertising: ptAdvertising,
-      ratesCalculator: esDashboardRatesCalculator, // Using Spanish rates calculator as placeholder for now
+      ratesCalculator: ptRatesCalculator,
     },
   },
   ro: {
@@ -282,7 +284,7 @@ const resources = {
       general: roDashboardGeneral,
       common: roDashboardCommon,
       accommodation: roDashboardAccommodation,
-      ratesCalculator: esDashboardRatesCalculator, // Using Spanish rates calculator as placeholder for now
+      ratesCalculator: roRatesCalculator,
     },
   },
 };

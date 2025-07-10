@@ -7,5 +7,9 @@
   "buildYourModel": {
     "title": "CONSTRUA SEU MODELO",
     "description": "Calcule tarifas e lucros para seu hotel"
-  }
+  },
+  "utilitiesTitle": "MODELO DE SERVIÇOS PÚBLICOS",
+  "cleaningModelTitle": "MODELO DE LIMPEZA",
+  "mealsModelTitle": "MODELO DE REFEIÇÕES",
+  "totalCostModelTitle": "CUSTO TOTAL"
 }

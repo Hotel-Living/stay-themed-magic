@@ -7,5 +7,9 @@
   "buildYourModel": {
     "title": "CONSTRUIR TU MODELO",
     "description": "Crea un modelo de precios personalizado para tu hotel"
-  }
+  },
+  "utilitiesTitle": "MODELO DE SERVICIOS PÚBLICOS",
+  "cleaningModelTitle": "MODELO DE LIMPIEZA",
+  "mealsModelTitle": "MODELO DE COMIDAS",
+  "totalCostModelTitle": "COSTO TOTAL"
 }

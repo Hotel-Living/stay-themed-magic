@@ -7,5 +7,9 @@
   "buildYourModel": {
     "title": "BUILD YOUR OWN MODEL",
     "description": "Create a custom pricing model for your hotel"
-  }
+  },
+  "utilitiesTitle": "UTILITIES MODEL",
+  "cleaningModelTitle": "CLEANING MODEL",
+  "mealsModelTitle": "MEALS MODEL",
+  "totalCostModelTitle": "TOTAL COST"
 }

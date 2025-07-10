@@ -27,7 +27,7 @@ export default function Videos() {
                   <iframe 
                     width="100%" 
                     height="100%" 
-                    src="https://www.youtube.com/embed/YOj4GGBdhEk" 
+                    src={`https://www.youtube.com/embed/${t('videosContent.clientVideoUrl').split('/').pop()}`}
                     frameBorder="0" 
                     allowFullScreen
                     className="rounded-lg"
@@ -44,7 +44,7 @@ export default function Videos() {
                   <iframe 
                     width="100%" 
                     height="100%" 
-                    src="https://www.youtube.com/embed/bkFCQ0KPSPE" 
+                    src={`https://www.youtube.com/embed/${t('videosContent.hotelVideoUrl').split('/').pop()}`}
                     frameBorder="0" 
                     allowFullScreen
                     className="rounded-lg"

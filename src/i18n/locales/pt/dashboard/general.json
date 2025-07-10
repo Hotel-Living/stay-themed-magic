@@ -1,7 +1,6 @@
 
 {
-  "dashboard": {
-    "title": "Painel de controle",
+  "title": "Painel de controle",
     "welcome": "Bem-vindo",
     "overview": "Visão geral",
     "statistics": "Estatísticas",
@@ -99,5 +98,4 @@
       "cleaningOperationalBenefits": "BENEFÍCIOS OPERACIONAIS",
       "cleaningOperationalDescription": "Este modelo reduz custos operacionais para hotéis, enquanto oferece aos hóspedes uma experiência residencial:\n\n•\tMenos interrupções\n•\tMais privacidade\n•\tA sensação de realmente pertencer — não apenas estar hospedado."
     }
-  }
 }

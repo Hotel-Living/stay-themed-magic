@@ -1,9 +1,11 @@
 {
-  "ratesCalculator": {
-    "utilities": "SERVICIOS PÚBLICOS",
-    "cleaning": "LIMPIEZA",
-    "meals": "COMIDAS",
-    "totalCost": "COSTO TOTAL",
-    "disclaimer": "Estas cifras representan un ejemplo de los costos incrementales promedio por habitación adicional ocupada en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costos reales pueden variar y deben ajustarse según la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel."
+  "utilities": "SERVICIOS PÚBLICOS",
+  "cleaning": "LIMPIEZA",
+  "meals": "COMIDAS",
+  "totalCost": "COSTO TOTAL",
+  "disclaimer": "Estas cifras representan un ejemplo de los costos incrementales promedio por habitación adicional ocupada en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costos reales pueden variar y deben ajustarse según la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel.",
+  "buildYourModel": {
+    "title": "CONSTRUIR TU MODELO",
+    "description": "Crea un modelo de precios personalizado para tu hotel"
   }
 }

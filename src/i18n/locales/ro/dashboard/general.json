@@ -1,7 +1,6 @@
 
 {
-  "dashboard": {
-    "title": "Tablou de bord",
+  "title": "Tablou de bord",
     "welcome": "Bun venit",
     "overview": "Prezentare generală",
     "statistics": "Statistici",
@@ -99,5 +98,4 @@
       "cleaningOperationalBenefits": "BENEFICII OPERAȚIONALE",
       "cleaningOperationalDescription": "Acest model reduce costurile operaționale pentru hoteluri, oferind în același timp oaspeților o experiență rezidențială:\n\n•\tMai puține întreruperi\n•\tMai multă intimitate\n•\tSentimentul de a aparține cu adevărat — nu doar de a sta temporar."
     }
-  }
 }

@@ -70,5 +70,9 @@
       "title": "NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO",
       "content": "Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business's unique seasonality and potential."
     }
+  },
+  "excelCalculator": {
+    "description": "You may download our Excel calculator below to test different service models, pricing structures, and potential profits.",
+    "buttonLabel": "Download it"
   }
 }

@@ -69,5 +69,9 @@
       "title": "NIMENI NU ÎȚI CUNOAȘTE HOTELUL MAI BINE DECÂT TINE",
       "content": "Folosește experiența ta aprofundată pentru a construi un model de ședere-locuință adaptat realității tale specifice, contextului cultural și clientelei. Nicio formulă generică nu întrece înțelegerea ta asupra sezonalității unice și potențialului afacerii tale."
     }
+  },
+  "excelCalculator": {
+    "description": "Poți descărca mai jos calculatorul Excel pentru a testa diferite modele de servicii, prețuri și profituri.",
+    "buttonLabel": "Descarcă"
   }
 }

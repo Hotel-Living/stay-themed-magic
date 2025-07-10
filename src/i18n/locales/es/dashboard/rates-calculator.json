@@ -69,5 +69,9 @@
       "title": "NADIE CONOCE TU HOTEL MEJOR QUE TÚ",
       "content": "Usa tu experiencia profunda para construir un modelo de estadía-vivienda adaptado a tu realidad específica, contexto cultural y clientela. Ninguna fórmula genérica supera tu comprensión de la estacionalidad única y potencial de tu negocio."
     }
+  },
+  "excelCalculator": {
+    "description": "Puede descargar aquí nuestra Calculadora Excel para probar distintos modelos de servicios, precios y beneficios.",
+    "buttonLabel": "Descargar"
   }
 }

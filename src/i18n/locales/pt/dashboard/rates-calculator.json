@@ -69,5 +69,9 @@
       "title": "NINGUÉM CONHECE SEU HOTEL MELHOR QUE VOCÊ",
       "content": "Use sua experiência profunda para construir um modelo de estadia-residência adaptado à sua realidade específica, contexto cultural e clientela. Nenhuma fórmula genérica supera sua compreensão da sazonalidade única e potencial do seu negócio."
     }
+  },
+  "excelCalculator": {
+    "description": "Você pode baixar nossa Calculadora Excel para testar diferentes modelos de serviços, preços e lucros.",
+    "buttonLabel": "Baixar"
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { CostItemsTab } from "./rates-calculator/CostItemsTab";
 import { DefaultCostsTab } from "./rates-calculator/DefaultCostsTab";
 import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
@@ -215,6 +216,24 @@ export const RatesCalculatorContent: React.FC = () => {
                   );
                 })}
               </Accordion>
+
+              {/* Excel Calculator Download Section */}
+              <div className="mt-8 p-6 rounded-lg bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 shadow-lg backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <p className="text-sm leading-relaxed text-white/90 font-medium">
+                    {t("ratesCalculator.excelCalculator.description")}
+                  </p>
+                  <Button 
+                    className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                    onClick={() => {
+                      // TODO: Replace with actual Excel file URL
+                      window.open("#", "_blank");
+                    }}
+                  >
+                    {t("ratesCalculator.excelCalculator.buttonLabel")}
+                  </Button>
+                </div>
+              </div>
             </TabsContent>}
         </Tabs>}
     </div>;

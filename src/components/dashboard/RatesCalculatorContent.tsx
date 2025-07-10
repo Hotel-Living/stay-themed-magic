@@ -190,7 +190,6 @@ export const RatesCalculatorContent: React.FC = () => {
                   __html: t('ratesCalculator.beforeStartingDescription')
                 }} />
               </div>
-              <ModelRatesTabs />
             </TabsContent>}
         </Tabs>}
     </div>;

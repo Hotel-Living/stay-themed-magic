@@ -11,8 +11,8 @@ export const RatesCalculatorTab: React.FC = () => {
     <div className="space-y-4">
       <RatesCalculatorCard>
         <RatesCalculatorHeader
-          title={t('ratesCalculator.buildYourModel.title')}
-          description={t('ratesCalculator.buildYourModel.description')}
+          title={t('ratesCalculator.beforeStartingTitle')}
+          description={t('ratesCalculator.beforeStartingDescription')}
         />
       </RatesCalculatorCard>
     </div>

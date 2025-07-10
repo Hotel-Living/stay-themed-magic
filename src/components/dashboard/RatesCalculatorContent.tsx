@@ -185,30 +185,23 @@ export const RatesCalculatorContent: React.FC = () => {
 
           {/* BUILD YOUR OWN MODEL & RATES Section */}
           {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
-              <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
-                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">{t('ratesCalculator.beforeStartingTitle')}</h3>
-                <div className="text-[15px] leading-relaxed font-medium" dangerouslySetInnerHTML={{
-                  __html: t('ratesCalculator.beforeStartingDescription')
-                }} />
-              </div>
-
               {/* Strategic Guidelines Accordion */}
-              <Accordion type="single" collapsible className="w-full space-y-3">
+              <Accordion type="single" collapsible className="w-full space-y-5">
                 {Array.from({ length: 8 }, (_, index) => {
                   const sectionKey = `section${index + 1}`;
                   return (
                     <AccordionItem 
                       key={sectionKey} 
                       value={sectionKey}
-                      className="border border-fuchsia-500/30 rounded-lg bg-gradient-to-r from-purple-900/40 to-fuchsia-900/40 backdrop-blur-sm"
+                      className="border-2 border-fuchsia-400/40 rounded-xl bg-gradient-to-r from-purple-900/50 to-fuchsia-900/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-fuchsia-300/60"
                     >
-                      <AccordionTrigger className="px-6 py-4 text-left hover:no-underline">
-                        <span className="text-white font-bold text-sm uppercase tracking-wide">
+                      <AccordionTrigger className="px-8 py-6 text-left hover:no-underline">
+                        <span className="text-white font-bold text-lg uppercase tracking-wide leading-tight">
                           {index + 1}. {t(`ratesCalculator.strategicGuidelines.${sectionKey}.title`)}
                         </span>
                       </AccordionTrigger>
-                      <AccordionContent className="px-6 pb-6 pt-0">
-                        <div className="text-white/90 text-sm leading-relaxed font-medium">
+                      <AccordionContent className="px-8 pb-8 pt-2">
+                        <div className="text-white/95 text-base leading-relaxed font-medium">
                           {t(`ratesCalculator.strategicGuidelines.${sectionKey}.content`)}
                         </div>
                       </AccordionContent>
@@ -218,13 +211,14 @@ export const RatesCalculatorContent: React.FC = () => {
               </Accordion>
 
               {/* Excel Calculator Download Section */}
-              <div className="mt-8 p-6 rounded-lg bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 shadow-lg backdrop-blur-sm">
-                <div className="text-center space-y-4">
-                  <p className="text-sm leading-relaxed text-white/90 font-medium">
+              <div className="mt-12 p-8 rounded-xl bg-gradient-to-br from-fuchsia-800/20 via-purple-800/30 to-fuchsia-800/20 border-2 border-fuchsia-400/40 shadow-2xl backdrop-blur-sm">
+                <div className="text-center space-y-6">
+                  <p className="text-lg font-bold tracking-wide text-white uppercase leading-relaxed">
                     {t("ratesCalculator.excelCalculator.description")}
                   </p>
                   <Button 
-                    className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                    size="lg"
+                    className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-bold px-10 py-5 shadow-2xl hover:shadow-3xl transition-all duration-300 text-xl uppercase tracking-wider rounded-xl border border-fuchsia-300/30"
                     onClick={() => {
                       // TODO: Replace with actual Excel file URL
                       window.open("#", "_blank");

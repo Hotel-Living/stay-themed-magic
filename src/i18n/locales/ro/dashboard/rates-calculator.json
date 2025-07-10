@@ -35,5 +35,39 @@
   "cleaningBedChange": "SCHIMBAREA LENJERIEI — LA FIECARE 5 ZILE",
   "cleaningBedChangeDescription": "Cearșafurile și prosoapele sunt reînnoite regulat, urmând standardele de confort casnic.",
   "cleaningOperationalBenefits": "BENEFICII OPERAȚIONALE",
-  "cleaningOperationalDescription": "Acest model reduce costurile operaționale pentru hoteluri, oferind în același timp oaspeților o experiență rezidențială:\n\n•\tMai puține întreruperi\n•\tMai multă intimitate\n•\tSentimentul de a aparține cu adevărat — nu doar de a sta temporar."
+  "cleaningOperationalDescription": "Acest model reduce costurile operaționale pentru hoteluri, oferind în același timp oaspeților o experiență rezidențială:\n\n•\tMai puține întreruperi\n•\tMai multă intimitate\n•\tSentimentul de a aparține cu adevărat — nu doar de a sta temporar.",
+  "strategicGuidelines": {
+    "section1": {
+      "title": "HOTELUL TĂU TREBUIE SĂ ÎNCHIDĂ PENTRU PERIOADE LUNGI ÎN FIECARE AN?",
+      "content": "Majoritatea hotelurilor au anumite perioade pe parcursul anului când cererea scade semnificativ, ducând la închideri parțiale sau totale. Prin adoptarea unui model de viață flexibil, vei menține camerele ocupate în aceste sezoane slabe, stabilizând veniturile și îmbunătățind eficiența operațională pe tot parcursul anului."
+    },
+    "section2": {
+      "title": "CONSTRUIEȘTE UN MODEL CARE GARANTEAZĂ OCUPAREA COMPLETĂ",
+      "content": "Cheia succesului susținut sunt veniturile stabile, previzibile și camerele pline—chiar și în lunile cu ocupare istoric scăzută. Structurează tarifele și pachetele astfel încât oaspeții \"rezidenți\" să umple golurile lăsate de oaspeții tranzitorii fără a submina prețurile obișnuite."
+    },
+    "section3": {
+      "title": "FOLOSEȘTE AFINITĂȚILE PENTRU A DIFERENȚIA ȘI VIZA AUDIENȚE",
+      "content": "Concentrează-te pe audiențe de nișă (artiști, nomazi digitali, pensionari, etc.) pentru a evita competiția directă cu ofertele hoteliere standard și OTA-urile. Folosește afinitățile pentru a construi grupuri de clienți loiali și recurenți adaptați categoriei tale (vezi secțiunea \"Teme\")."
+    },
+    "section4": {
+      "title": "ADAPTEAZĂ DURATA ȘEDERII LA MĂRIMEA ȘI DINAMICA HOTELULUI",
+      "content": "Hotelurile mai mici pot beneficia de șederi minime mai lungi (ex., 1–3 luni), reducând costurile de rotație. Hotelurile mai mari pot experimenta cu rotații—ex., \"clubul de 9 nopți pe lună\"—pentru a optimiza volumul mai mare și experiența oaspeților."
+    },
+    "section5": {
+      "title": "FOLOSEȘTE CONCEPTE BOUTIQUE PENTRU HOTELURI MICI DE ÎNALTĂ CALITATE",
+      "content": "Dacă gestionezi un hotel boutique sau de lux, proiectează experiențe personalizate (wellness, cultură, retrageri de afaceri) cu tarife premium. Acestea pot fi foarte atractive pentru profesioniștii care lucrează la distanță sau oaspeții care caută exclusivitate și valoare adăugată."
+    },
+    "section6": {
+      "title": "APLICĂ LOGICA VOLUMULUI PENTRU HOTELURI MAI MARI",
+      "content": "Proprietățile mai mari pot exploata logica \"trăirii la scară\"—reduceri pentru oaspeții recurenți, planuri flexibile (ex., săptămâni alternative), și parteneriate cu instituții sau companii pentru a umple eficient blocuri de camere."
+    },
+    "section7": {
+      "title": "ÎNȚELEGE PUTEREA ȘEDERII RECURENTE ȘI ROTAȚIA CLIENȚILOR",
+      "content": "Șederile lunare, multi-lunare sau în stil club (unde oaspeții se întorc în zile fixe în fiecare lună) cresc previzibilitatea oferind în același timp oaspeților statutul de \"acasă\". Acest lucru crește loialitatea și poate transforma modelul de afaceri al hotelului tău într-un mod previzibil și pozitiv."
+    },
+    "section8": {
+      "title": "NIMENI NU ÎȚI CUNOAȘTE HOTELUL MAI BINE DECÂT TINE",
+      "content": "Folosește experiența ta aprofundată pentru a construi un model de ședere-locuință adaptat realității tale specifice, contextului cultural și clientelei. Nicio formulă generică nu întrece înțelegerea ta asupra sezonalității unice și potențialului afacerii tale."
+    }
+  }
 }

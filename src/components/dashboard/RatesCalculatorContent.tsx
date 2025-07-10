@@ -190,6 +190,31 @@ export const RatesCalculatorContent: React.FC = () => {
                   __html: t('ratesCalculator.beforeStartingDescription')
                 }} />
               </div>
+
+              {/* Strategic Guidelines Accordion */}
+              <Accordion type="single" collapsible className="w-full space-y-3">
+                {Array.from({ length: 8 }, (_, index) => {
+                  const sectionKey = `section${index + 1}`;
+                  return (
+                    <AccordionItem 
+                      key={sectionKey} 
+                      value={sectionKey}
+                      className="border border-fuchsia-500/30 rounded-lg bg-gradient-to-r from-purple-900/40 to-fuchsia-900/40 backdrop-blur-sm"
+                    >
+                      <AccordionTrigger className="px-6 py-4 text-left hover:no-underline">
+                        <span className="text-white font-bold text-sm uppercase tracking-wide">
+                          {index + 1}. {t(`ratesCalculator.strategicGuidelines.${sectionKey}.title`)}
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-6 pt-0">
+                        <div className="text-white/90 text-sm leading-relaxed font-medium">
+                          {t(`ratesCalculator.strategicGuidelines.${sectionKey}.content`)}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
             </TabsContent>}
         </Tabs>}
     </div>;

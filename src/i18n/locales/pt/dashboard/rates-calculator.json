@@ -35,5 +35,39 @@
   "cleaningBedChange": "TROCA DE ROUPA DE CAMA — A CADA 5 DIAS",
   "cleaningBedChangeDescription": "Lençóis e toalhas são renovados regularmente, seguindo padrões de conforto doméstico.",
   "cleaningOperationalBenefits": "BENEFÍCIOS OPERACIONAIS",
-  "cleaningOperationalDescription": "Este modelo reduz custos operacionais para hotéis, enquanto oferece aos hóspedes uma experiência residencial:\n\n•\tMenos interrupções\n•\tMais privacidade\n•\tA sensação de realmente pertencer — não apenas estar hospedado."
+  "cleaningOperationalDescription": "Este modelo reduz custos operacionais para hotéis, enquanto oferece aos hóspedes uma experiência residencial:\n\n•\tMenos interrupções\n•\tMais privacidade\n•\tA sensação de realmente pertencer — não apenas estar hospedado.",
+  "strategicGuidelines": {
+    "section1": {
+      "title": "SEU HOTEL PRECISA FECHAR POR LONGOS PERÍODOS A CADA ANO?",
+      "content": "A maioria dos hotéis tem certos períodos durante o ano quando a demanda cai significativamente, levando a fechamentos parciais ou totais. Ao adotar um modelo de vida flexível, você manterá os quartos ocupados durante essas baixas temporadas, estabilizando a receita e melhorando a eficiência operacional durante todo o ano."
+    },
+    "section2": {
+      "title": "CONSTRUA UM MODELO QUE GARANTA OCUPAÇÃO TOTAL",
+      "content": "A chave para o sucesso sustentado é receita estável, previsível e quartos cheios—mesmo durante meses de ocupação historicamente baixa. Structure tarifas e pacotes para que hóspedes \"residentes\" preencham lacunas deixadas por hóspedes transitórios sem prejudicar sua precificação regular."
+    },
+    "section3": {
+      "title": "USE AFINIDADES PARA DIFERENCIAR E FOCAR AUDIÊNCIAS",
+      "content": "Foque em audiências de nicho (artistas, nômades digitais, aposentados, etc.) para evitar competir diretamente com ofertas hoteleiras padrão e OTAs. Use afinidades para construir grupos de clientes leais e recorrentes adaptados à sua categoria (veja seção \"Temas\")."
+    },
+    "section4": {
+      "title": "ADAPTE A DURAÇÃO DA ESTADIA AO TAMANHO E DINÂMICAS DO HOTEL",
+      "content": "Hotéis menores podem se beneficiar de estadias mínimas mais longas (ex., 1–3 meses), reduzindo custos de rotatividade. Hotéis maiores podem experimentar com rotações—ex., \"clube de 9 noites por mês\"—para otimizar maior volume e experiência do hóspede."
+    },
+    "section5": {
+      "title": "APROVEITE CONCEITOS BOUTIQUE PARA HOTÉIS PEQUENOS DE ALTA QUALIDADE",
+      "content": "Se você gerencia um hotel boutique ou de luxo, projete experiências personalizadas (bem-estar, cultura, retiros de negócios) com tarifas premium. Estas podem ser muito atrativas para profissionais remotos ou hóspedes que buscam exclusividade e valor agregado."
+    },
+    "section6": {
+      "title": "APLIQUE LÓGICA DE VOLUME PARA HOTÉIS MAIORES",
+      "content": "Propriedades maiores podem aproveitar a lógica de \"viver em escala\"—descontos para hóspedes recorrentes, planos flexíveis (ex., semanas alternadas), e parcerias com instituições ou empresas para preencher blocos de quartos eficientemente."
+    },
+    "section7": {
+      "title": "ENTENDA O PODER DAS ESTADIAS RECORRENTES E ROTAÇÃO DE CLIENTES",
+      "content": "Estadias mensais, multi-mensais, ou estilo clube (onde hóspedes retornam em dias fixos a cada mês) aumentam a previsibilidade enquanto dão aos hóspedes status de \"casa\". Isso aumenta a lealdade e pode transformar o modelo de negócio do seu hotel de forma previsível e positiva."
+    },
+    "section8": {
+      "title": "NINGUÉM CONHECE SEU HOTEL MELHOR QUE VOCÊ",
+      "content": "Use sua experiência profunda para construir um modelo de estadia-residência adaptado à sua realidade específica, contexto cultural e clientela. Nenhuma fórmula genérica supera sua compreensão da sazonalidade única e potencial do seu negócio."
+    }
+  }
 }

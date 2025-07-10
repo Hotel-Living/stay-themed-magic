@@ -5,7 +5,12 @@
   "totalCost": "COST TOTAL",
   "disclaimer": "Aceste cifre reprezintă un exemplu al costurilor incrementale medii per cameră suplimentară ocupată în hoteluri de 3, 4 și 5 stele din piețele occidentale. Costurile reale pot varia și ar trebui ajustate în funcție de categoria, nivelul de servicii, locația și modelul operațional al fiecărui hotel.",
   "beforeStartingTitle": "ÎNAINTE DE A ÎNCEPE: VĂ RUGĂM CITIȚI CU ATENȚIE",
-  "beforeStartingDescription": "Construirea modelului dumneavoastră personalizat este un pas crucial pentru a vă maximiza oportunitățile de venituri.<br />Vă recomandăm cu tărie să examinați mai întâi cu atenție secțiunea \"SFATURI ȘI GHIDURI STRATEGICE\".<br />Aceste recomandări vă vor ajuta să proiectați un model complet adaptat la categoria, capacitatea și profilul de audiență al hotelului dumneavoastră.<br /><b>După ce ați studiat ghidurile, puteți continua să descărcați și să utilizați Calculatorul Online situat în dreapta.</b>",
+  "beforeStartingDescription": "Construirea modelului dumneavoastră personalizat este un pas crucial pentru a vă maximiza oportunitățile de venituri.<br />Vă recomandăm cu tărie să examinați mai întâi cu atenție secțiunea \"SFATURI ȘI GHIDURI STRATEGICE\".<br />Aceste recomendări vă vor ajuta să proiectați un model complet adaptat la categoria, capacitatea și profilul de audiență al hotelului dumneavoastră.<br /><b>După ce ați studiat ghidurile, puteți continua să descărcați și să utilizați Calculatorul Online situat în dreapta.</b>",
+  "standardEconomicModel": "MODEL ECONOMIC STANDARD",
+  "costsAndProfits": "COSTURI ȘI PROFITURI",
+  "buildOwnModel": "CONSTRUIEȘTE-ȚI PROPRIUL MODEL ȘI TARIFE",
+  "costs": "COSTURI",
+  "profits": "PROFITURI",
   "buildYourModel": {
     "title": "CONSTRUIEȘTE-ȚI PROPRIUL MODEL",
     "description": "Creează un model de prețuri personalizat pentru hotelul tău"

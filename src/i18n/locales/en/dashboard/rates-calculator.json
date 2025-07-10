@@ -6,11 +6,6 @@
   "disclaimer": "These figures represent an example of the average incremental costs per additional occupied room in 3, 4 and 5-star hotels in Western markets. Actual costs may vary and should be adjusted according to each hotel's category, service level, location and operating model.",
   "beforeStartingTitle": "BEFORE STARTING: PLEASE READ CAREFULLY",
   "beforeStartingDescription": "Building your custom model is a crucial step to maximize your revenue opportunities.<br />We strongly recommend that you first carefully review the \"STRATEGIC TIPS AND GUIDELINES\" section.<br />These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br /><b>Once you have studied the guidelines, you can proceed to download and use the Online Calculator located to the right.</b>",
-  "standardEconomicModel": "STANDARD ECONOMIC MODEL",
-  "costsAndProfits": "COSTS & PROFITS",
-  "buildOwnModel": "BUILD YOUR OWN MODEL & RATES",
-  "costs": "COSTS",
-  "profits": "PROFITS",
   "buildYourModel": {
     "title": "BUILD YOUR OWN MODEL",
     "description": "Create a custom pricing model for your hotel"

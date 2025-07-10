@@ -53,10 +53,5 @@
     "noReviewsMessage": "As avaliações dos hóspedes aparecerão aqui",
     "recentBookings": "Reservas recentes",
     "noBookings": "Ainda não há reservas",
-    "noBookingsMessage": "As reservas para sua propriedade aparecerão aqui",
-    "standardEconomicModel": "MODELO ECONÔMICO PADRÃO",
-    "costsAndProfits": "CUSTOS E LUCROS",
-    "buildOwnModel": "CONSTRUA SEU PRÓPRIO MODELO E TARIFAS",
-    "costs": "CUSTOS",
-    "profits": "LUCROS",
+    "noBookingsMessage": "As reservas para sua propriedade aparecerão aqui"
 }

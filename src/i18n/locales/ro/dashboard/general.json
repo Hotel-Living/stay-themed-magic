@@ -53,10 +53,5 @@
     "noReviewsMessage": "Recenziile de la oaspeți vor apărea aici",
     "recentBookings": "Rezervări recente",
     "noBookings": "Încă nu există rezervări",
-    "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici",
-    "standardEconomicModel": "MODEL ECONOMIC STANDARD",
-    "costsAndProfits": "COSTURI ȘI PROFITURI",
-    "buildOwnModel": "CONSTRUIEȘTE-ȚI PROPRIUL MODEL ȘI TARIFE",
-    "costs": "COSTURI",
-    "profits": "PROFITURI",
+    "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici"
 }

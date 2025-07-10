@@ -11,36 +11,31 @@ export const CleaningContent: React.FC = () => {
       
       <div className="space-y-4">
         <div>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningHotelLivingStandard')}</p>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningFeelsLikeHome')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.cleaningApproachDescription')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningHotelLivingStandard')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningFeelsLikeHome')}</p>
         </div>
         
-        <p className="text-sm">{t('dashboard.ratesCalculator.cleaningLightHelp')}</p>
+        <p className="text-sm">{t('ratesCalculator.cleaningDescription1')}</p>
+        <p className="text-sm">{t('ratesCalculator.cleaningDescription2')}</p>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningCompleteCleaning')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.cleaningCompleteDescription')}</p>
-        </div>
-        
-        <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningLightRefresh')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.cleaningLightDescription')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningCompleteTitle')}</p>
+          <p className="text-sm">{t('ratesCalculator.cleaningCompleteDescription')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningBeddingChange')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.cleaningBeddingDescription')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningLightRefresh')}</p>
+          <p className="text-sm">{t('ratesCalculator.cleaningLightRefreshDescription')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.cleaningOperationalBenefits')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.cleaningBenefitsDescription')}</p>
-          <div className="ml-4 text-sm">
-            <p>{t('dashboard.ratesCalculator.cleaningFewerInterruptions')}</p>
-            <p>{t('dashboard.ratesCalculator.cleaningMorePrivacy')}</p>
-            <p>{t('dashboard.ratesCalculator.cleaningFeelingOfBelonging')}</p>
-          </div>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningBedChange')}</p>
+          <p className="text-sm">{t('ratesCalculator.cleaningBedChangeDescription')}</p>
+        </div>
+        
+        <div className="border-t border-white/20 pt-4">
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.cleaningOperationalBenefits')}</p>
+          <p className="text-sm">{t('ratesCalculator.cleaningOperationalDescription')}</p>
         </div>
       </div>
     </div>

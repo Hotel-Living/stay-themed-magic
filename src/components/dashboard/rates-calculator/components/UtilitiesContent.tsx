@@ -11,30 +11,30 @@ export const UtilitiesContent: React.FC = () => {
       
       <div className="space-y-4">
         <div>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesGuestsNotTransients')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription1')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesGuestsNotTransients')}</p>
+          <p className="text-sm">{t('ratesCalculator.utilitiesDescription1')}</p>
         </div>
         
         <div>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesSmartGuestsTitle')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription2')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesDescription3')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesSmartGuestsTitle')}</p>
+          <p className="text-sm">{t('ratesCalculator.utilitiesDescription2')}</p>
+          <p className="text-sm">{t('ratesCalculator.utilitiesDescription3')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesLowerConsumption')}</p>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesEnergyEfficiency')}</p>
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesConservativeHabits')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesLowerConsumption')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesEnergyEfficiency')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesConservativeHabits')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesSharedResponsibility')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesResponsibilityDescription')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesSharedResponsibility')}</p>
+          <p className="text-sm">{t('ratesCalculator.utilitiesResponsibilityDescription')}</p>
         </div>
         
         <div className="border-t border-white/20 pt-4">
-          <p className="font-semibold text-fuchsia-300">{t('dashboard.ratesCalculator.utilitiesOptimizedOperations')}</p>
-          <p className="text-sm">{t('dashboard.ratesCalculator.utilitiesOptimizedDescription')}</p>
+          <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.utilitiesOptimizedOperations')}</p>
+          <p className="text-sm">{t('ratesCalculator.utilitiesOptimizedDescription')}</p>
         </div>
       </div>
     </div>

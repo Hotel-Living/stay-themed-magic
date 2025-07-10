@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const DisclaimerText: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("dashboard");
   
   return (
     <p className="text-xs text-white/60 italic mb-4">

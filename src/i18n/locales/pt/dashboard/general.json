@@ -71,7 +71,33 @@
       "buildYourModel": {
         "title": "CONSTRUA SEU PRÓPRIO MODELO",
         "description": "Crie um modelo de preços personalizado para seu hotel"
-      }
+      },
+      "utilitiesTitle": "PREVISIBILIDADE – RESPONSABILIDADE – EFICIÊNCIA",
+      "utilitiesGuestsNotTransients": "HÓSPEDES DO HOTEL-LIVING NÃO SÃO TURISTAS TRANSITÓRIOS",
+      "utilitiesDescription1": "São residentes respeitosos de longa permanência que ficam por 8, 16, 24 ou 32 dias.",
+      "utilitiesSmartGuestsTitle": "HÓSPEDES MAIS INTELIGENTES, USO MAIS INTELIGENTE DE RECURSOS",
+      "utilitiesDescription2": "Devido à maior duração das estadias e ao relacionamento mais pessoal que estabelecem com sua propriedade, esses hóspedes tendem a ser mais conscientes no uso de recursos.",
+      "utilitiesDescription3": "Eles se sentem mais como inquilinos temporários do que visitantes de curta permanência — e isso faz toda a diferença.",
+      "utilitiesLowerConsumption": "O CONSUMO DE UTILIDADES É MENOR E MAIS ESTÁVEL",
+      "utilitiesEnergyEfficiency": "SISTEMAS DE EFICIÊNCIA ENERGÉTICA (como iluminação LED e controle moderado do clima) são ainda mais eficazes",
+      "utilitiesConservativeHabits": "SENTINDO-SE EM CASA, os hóspedes naturalmente adotam hábitos mais conservadores",
+      "utilitiesSharedResponsibility": "UM SENSO DE RESPONSABILIDADE COMPARTILHADA",
+      "utilitiesResponsibilityDescription": "Como o Hotel-Living oferece tarifas acessíveis, os hóspedes geralmente são conscientes e respeitosos da oportunidade que lhes é dada.\nEles sabem que este modelo depende de equilíbrio, cuidado e sustentabilidade — e a maioria age de acordo.",
+      "utilitiesOptimizedOperations": "OPERAÇÕES OTIMIZADAS = CONSUMO OTIMIZADO",
+      "utilitiesOptimizedDescription": "Graças à menor rotatividade de quartos e protocolos de limpeza simplificados, o uso de utilidades permanece constante e otimizado, com menos picos na demanda de eletricidade ou água.",
+      "cleaningModelTitle": "LIMPEZA ESTILO CASA – CONFORTO A LONGO PRAZO",
+      "cleaningHotelLivingStandard": "HOTEL-LIVING SIGNIFICA UM NOVO PADRÃO DE HOSPITALIDADE",
+      "cleaningFeelsLikeHome": "UM QUE SE SENTE MAIS COMO CASA.",
+      "cleaningDescription1": "Ao contrário dos hotéis tradicionais com limpeza diária, nossa abordagem reflete o ritmo da vida real.",
+      "cleaningDescription2": "Assim como alguém vivendo em casa pode receber ajuda leve algumas vezes por semana, nossos hóspedes desfrutam de cuidado atencioso e discreto que respeita sua independência e conforto.",
+      "cleaningCompleteTitle": "LIMPEZA COMPLETA — UMA VEZ POR SEMANA",
+      "cleaningCompleteDescription": "Uma limpeza completa do quarto a cada 7 dias garante higiene e frescor, com intrusão mínima.",
+      "cleaningLightRefresh": "RENOVAÇÃO LEVE DIÁRIA (MEDIANTE SOLICITAÇÃO)",
+      "cleaningLightRefreshDescription": "Pequenos retoques opcionais — 🗑️ remoção de lixo, 🧺 arrumação leve, 🌬️ ventilação — estão disponíveis, respeitando privacidade e estilo de vida.",
+      "cleaningBedChange": "TROCA DE ROUPA DE CAMA — A CADA 5 DIAS",
+      "cleaningBedChangeDescription": "Lençóis e toalhas são renovados regularmente, seguindo padrões de conforto doméstico.",
+      "cleaningOperationalBenefits": "BENEFÍCIOS OPERACIONAIS",
+      "cleaningOperationalDescription": "Este modelo reduz custos operacionais para hotéis, enquanto oferece aos hóspedes uma experiência residencial:\n\n•\tMenos interrupções\n•\tMais privacidade\n•\tA sensação de realmente pertencer — não apenas estar hospedado."
     }
   }
 }

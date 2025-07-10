@@ -10,7 +10,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 export const RatesCalculatorContent: React.FC = () => {
   const {
     t
-  } = useTranslation();
+  } = useTranslation("dashboard");
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
   const [costsSubTab, setCostsSubTab] = useState<string>("");

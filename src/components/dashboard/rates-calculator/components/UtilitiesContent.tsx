@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const UtilitiesContent: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("dashboard");
   
   return (
     <div className="space-y-4 text-white/90">

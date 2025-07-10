@@ -8,7 +8,7 @@ interface MenuOption {
 const CostItemsTab: React.FC = () => {
   const {
     t
-  } = useTranslation();
+  } = useTranslation("dashboard");
   const [activeOption, setActiveOption] = useState<string>("utilities");
   const menuOptions: MenuOption[] = [{
     id: "utilities",

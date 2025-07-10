@@ -5,7 +5,7 @@ import { RatesCalculatorCard } from "./components/RatesCalculatorCard";
 import { RatesCalculatorHeader } from "./components/RatesCalculatorHeader";
 
 export const RatesCalculatorTab: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("dashboard");
   
   return (
     <div className="space-y-4">

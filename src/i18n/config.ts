@@ -77,6 +77,7 @@ import esOurServices from './locales/es/ourServices.json';
 import esIntellectualProperty from './locales/es/intellectualProperty.json';
 import esOurValues from './locales/es/ourValues.json';
 import esPrivacy from './locales/es/privacy.json';
+import esDashboardGeneral from './locales/es/dashboard/general.json';
 import esDashboardHotel from './locales/es/dashboard/hotel.json';
 import esDashboardProfile from './locales/es/dashboard/profile.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
@@ -217,6 +218,7 @@ const resources = {
     ambassador: esAmbassador,
     press: esPress,
     dashboard: {
+      general: esDashboardGeneral,
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
       ratesCalculator: esDashboardRatesCalculator,

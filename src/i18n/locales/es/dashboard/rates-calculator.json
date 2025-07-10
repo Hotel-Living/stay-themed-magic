@@ -1,7 +1,9 @@
 {
-  "title": "Calculadora de tarifas",
-  "instruction": "Selecciona la categoría y duración de la estancia.",
-  "calculate": "Calcular",
-  "result": "Tarifa estimada:",
-  "note": "Estos valores son solo una estimación."
+  "ratesCalculator": {
+    "utilities": "SERVICIOS PÚBLICOS",
+    "cleaning": "LIMPIEZA",
+    "meals": "COMIDAS",
+    "totalCost": "COSTO TOTAL",
+    "disclaimer": "Estas cifras representan un ejemplo de los costos incrementales promedio por habitación adicional ocupada en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costos reales pueden variar y deben ajustarse según la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel."
+  }
 }

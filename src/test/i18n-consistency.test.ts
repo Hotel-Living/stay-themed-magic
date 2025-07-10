@@ -62,8 +62,8 @@ describe('i18n Spanish Translation Tests', () => {
     it('should have proper structure and content', () => {
       const keys = extractKeys(esDashboardRatesCalculator);
       expect(keys.length).toBeGreaterThan(0);
-      expect(esDashboardRatesCalculator.title).toBeDefined();
-      expect(esDashboardRatesCalculator.calculate).toBeDefined();
+      expect(esDashboardRatesCalculator.ratesCalculator).toBeDefined();
+      expect(esDashboardRatesCalculator.ratesCalculator.utilities).toBeDefined();
     });
 
     it('should not contain hardcoded translation keys', () => {

@@ -118,17 +118,17 @@ export const RatesCalculatorContent: React.FC = () => {
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
         <h2 className="text-xl font-bold text-center">
-          {t('standardEconomicModel')}
+          {t('general.standardEconomicModel')}
         </h2>
       </div>
 
       {mainMenuExpanded && <Tabs value={mainTab} onValueChange={() => {}} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
             <TabsTrigger value="costs-profits" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${costsExpanded ? "border border-white/40" : ""}`} onClick={handleCostsMainTabClick} aria-pressed={costsExpanded}>
-              {t('costsAndProfits')}
+              {t('general.costsAndProfits')}
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              {t('buildOwnModel')}
+              {t('general.buildOwnModel')}
             </TabsTrigger>
           </TabsList>
 

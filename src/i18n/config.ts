@@ -44,6 +44,7 @@ import enRatesCalculator from './locales/en/dashboard/rates-calculator.json';
 import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
 import enTerms from './locales/en/terms.json';
 import enAmbassador from './locales/en/ambassador.json';
+import enPress from './locales/en/press.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -82,6 +83,7 @@ import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.
 import esDashboardRates from './locales/es/dashboard/rates.json';
 import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esAmbassador from './locales/es/ambassador.json';
+import esPress from './locales/es/press.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -107,6 +109,7 @@ import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 import ptAmbassador from './locales/pt/ambassador.json';
+import ptPress from './locales/pt/press.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -131,6 +134,7 @@ import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
 import roAmbassador from './locales/ro/ambassador.json';
+import roPress from './locales/ro/press.json';
 
 const resources = {
   en: {
@@ -154,6 +158,7 @@ const resources = {
     terms: enTerms,
     hotels: enHotels,
     ambassador: enAmbassador,
+    press: enPress,
     dashboard: {
       general: enDashboardGeneral,
       welcome: enDashboardWelcome,
@@ -210,6 +215,7 @@ const resources = {
     ourValues: esOurValues,
     privacy: esPrivacy,
     ambassador: esAmbassador,
+    press: esPress,
     dashboard: {
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
@@ -239,6 +245,7 @@ const resources = {
     terms: { terms: { title: "Termos e Condições" } },
     hotels: ptHotels,
     ambassador: ptAmbassador,
+    press: ptPress,
     dashboard: {
       general: ptDashboardGeneral,
       common: ptDashboardCommon,
@@ -267,6 +274,7 @@ const resources = {
     terms: { terms: { title: "Termeni și Condiții" } },
     hotels: roHotels,
     ambassador: roAmbassador,
+    press: roPress,
     dashboard: {
       general: roDashboardGeneral,
       common: roDashboardCommon,

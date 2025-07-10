@@ -60,6 +60,7 @@ import Prueba from "@/pages/Prueba";
 import ExcelGenerator from "@/pages/ExcelGenerator";
 import ProfessionalStudy from "@/pages/ProfessionalStudy";
 import Ambassador from "@/pages/Ambassador";
+import Press from "@/pages/Press";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -107,6 +108,7 @@ function App() {
               <Route path="/excel-generator" element={<ExcelGenerator />} />
               <Route path="/professional-study" element={<ProfessionalStudy />} />
               <Route path="/ambassador" element={<Ambassador />} />
+              <Route path="/press" element={<Press />} />
               
               {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />

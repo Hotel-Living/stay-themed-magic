@@ -118,6 +118,13 @@ export function Navbar() {
             </div>
           </Link>
           
+          <Link to="/press" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+            <div className="text-center">
+              <div>{t('mainNavigationContent.press.line1')}</div>
+              <div>{t('mainNavigationContent.press.line2')}</div>
+            </div>
+          </Link>
+          
           <LanguageSwitcher />
         </div>
 
@@ -155,6 +162,9 @@ export function Navbar() {
           )}
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}
+          </Link>
+          <Link to="/press" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.press.mobile')}
           </Link>
         </nav>
       </div>

@@ -19,7 +19,8 @@
     "featuredHotels": "Hoteluri recomandate",
     "affinityStays": "Șederi prin afinități",
     "register": "Înregistrare",
-    "aboutUs": "Despre noi"
+    "aboutUs": "Despre noi",
+    "press": "Presă"
   },
   "mainNavigationContent": {
     "faq": {
@@ -61,6 +62,11 @@
     "hotelDashboard": "PANEL HOTEL",
     "adminDashboard": "PANEL ADMINISTRATOR",
     "logout": "Deconectare",
-    "myAccount": "CONTUL MEU"
+    "myAccount": "CONTUL MEU",
+    "press": {
+      "line1": "PRESĂ",
+      "line2": "",
+      "mobile": "PRESĂ"
+    }
   }
 }

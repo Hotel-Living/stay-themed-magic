@@ -18,7 +18,8 @@
     "featuredHotels": "Hoteles Destacados",
     "affinityStays": "Estancias por Afinidad",
     "register": "Registrar",
-    "aboutUs": "Acerca de Nosotros"
+    "aboutUs": "Acerca de Nosotros",
+    "press": "Prensa"
   },
   "mainNavigationContent": {
     "faq": {
@@ -59,6 +60,11 @@
     "featuredHotels": "HOTELES DESTACADOS",
     "hotelDashboard": "Panel de Hotel",
     "adminDashboard": "Panel de Admin",
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "press": {
+      "line1": "PRENSA",
+      "line2": "",
+      "mobile": "PRENSA"
+    }
   }
 }

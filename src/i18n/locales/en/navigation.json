@@ -19,7 +19,8 @@
     "featuredHotels": "Featured Hotels",
     "affinityStays": "Affinity Stays",
     "register": "Register",
-    "aboutUs": "About Us"
+    "aboutUs": "About Us",
+    "press": "Press"
   },
   "mainNavigationContent": {
     "faq": {
@@ -60,6 +61,11 @@
     "featuredHotels": "FEATURED HOTELS",
     "hotelDashboard": "Hotel Dashboard",
     "adminDashboard": "Admin Dashboard",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "press": {
+      "line1": "PRESS",
+      "line2": "",
+      "mobile": "PRESS"
+    }
   }
 }

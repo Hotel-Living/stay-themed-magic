@@ -296,24 +296,17 @@ i18n
     resources,
     fallbackLng: 'en',
     debug: false,
-    lng: 'en', // Force English language
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator', 'htmlTag', 'path', 'subdomain'],
+      order: ['path', 'navigator', 'htmlTag', 'subdomain'],
+      lookupFromPathIndex: 0,
       caches: [],  // Disable caching to force reload
     },
     react: {
       useSuspense: false,
     },
   });
-
-// Force reload the resources with updated translations and clear cache
-setTimeout(() => {
-  i18n.reloadResources(['en'], ['hotels']).then(() => {
-    console.log('Hotels translations reloaded');
-  });
-}, 100);
 
 export default i18n;

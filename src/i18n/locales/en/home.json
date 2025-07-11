@@ -17,13 +17,5 @@
   "bubbleCounter": {
     "home": "{{count}} people are exploring Hotel-Living right now!",
     "hotel": "{{count}} people are browsing this hotel right now!"
-  },
-  "avatars": {
-    "messages": {
-      "welcome": "Welcome to Hotel-Living! I'm here to help you discover your perfect hotel experience. Let's start exploring!",
-      "home-return": "Welcome back! Ready to find your next amazing hotel experience?",
-      "hotel-guide": "This looks like a great hotel! Need help with booking or have questions?",
-      "search-helper": "Great search! I can help you filter these results to find your perfect match."
-    }
   }
 }

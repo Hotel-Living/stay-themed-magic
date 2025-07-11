@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
+import BubbleCounter from "@/components/common/BubbleCounter";
 
 export default function Videos() {
   const { t } = useTranslation('content');
@@ -13,6 +14,7 @@ export default function Videos() {
     <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />
+      <BubbleCounter count={Math.max(150, Math.floor(Math.random() * 400))} type="home" />
       
       <main className="flex-1 pt-8">
         <div className="container max-w-6xl mx-auto px-4 py-8">

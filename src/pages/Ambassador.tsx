@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
+import BubbleCounter from "@/components/common/BubbleCounter";
 
 const Ambassador = () => {
   const { t } = useTranslation('ambassador');
@@ -12,6 +13,7 @@ const Ambassador = () => {
       <Starfield />
       <div className="relative z-10">
         <Navbar />
+        <BubbleCounter count={Math.max(150, Math.floor(Math.random() * 400))} type="home" />
         <main className="min-h-screen">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">

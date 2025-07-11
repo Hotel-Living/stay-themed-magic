@@ -13,5 +13,9 @@
   },
   "filters": {
     "search": "Search"
+  },
+  "bubbleCounter": {
+    "home": "{{count}} people are exploring Hotel-Living now!",
+    "hotel": "{{count}} people are browsing this hotel right now!"
   }
 }

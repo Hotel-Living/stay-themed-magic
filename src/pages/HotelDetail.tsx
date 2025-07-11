@@ -8,7 +8,7 @@ import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTranslations";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
-import LiveVisitorsTag from "@/components/common/LiveVisitorsTag";
+import BubbleCounter from "@/components/common/BubbleCounter";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +42,7 @@ export default function HotelDetail() {
   return (
     <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
       <Navbar />
-      <LiveVisitorsTag />
+      <BubbleCounter count={Math.max(8, Math.floor(Math.random() * 25))} type="hotel" />
       
       <main className="flex-1">
         {isLoading ? (

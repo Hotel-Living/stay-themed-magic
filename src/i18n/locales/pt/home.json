@@ -13,5 +13,9 @@
   },
   "filters": {
     "search": "Pesquisar"
+  },
+  "bubbleCounter": {
+    "home": "{{count}} pessoas estão explorando Hotel-Living agora!",
+    "hotel": "{{count}} pessoas estão vendo este hotel agora mesmo!"
   }
 }

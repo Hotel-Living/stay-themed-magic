@@ -139,10 +139,16 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                   src={avatar.gif} 
                   alt={avatar.name}
                   className="w-24 h-24 rounded-full object-cover shadow-lg"
-                  onLoad={() => console.log("🎭 Avatar loaded:", avatar.name)}
+                  onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
-                    console.error("🎭 Avatar failed to load:", avatar.name, e);
-                    e.currentTarget.style.border = "2px solid red";
+                    console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
+                    console.error("🎭 Error details:", e);
+                    // Fallback to a simple colored circle with initials
+                    e.currentTarget.style.display = "none";
+                    const fallback = document.createElement("div");
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.textContent = avatar.name.charAt(0);
+                    e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
                 <div className="absolute -right-2 top-1/2 transform -translate-y-1/2">
@@ -167,10 +173,16 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                   src={avatar.gif} 
                   alt={avatar.name}
                   className="w-24 h-24 rounded-full object-cover shadow-lg"
-                  onLoad={() => console.log("🎭 Avatar loaded:", avatar.name)}
+                  onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
-                    console.error("🎭 Avatar failed to load:", avatar.name, e);
-                    e.currentTarget.style.border = "2px solid red";
+                    console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
+                    console.error("🎭 Error details:", e);
+                    // Fallback to a simple colored circle with initials
+                    e.currentTarget.style.display = "none";
+                    const fallback = document.createElement("div");
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.textContent = avatar.name.charAt(0);
+                    e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
                 <div className="absolute -left-2 top-1/2 transform -translate-y-1/2">

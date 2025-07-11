@@ -128,11 +128,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
       {/* Left column avatars */}
-      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-6">
+      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-3">
         {avatarsData.slice(0, 4).map((avatar, index) => (
           visibleAvatars.includes(index) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="flex flex-col items-center space-y-1">
+              <div className="flex flex-col items-center">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
@@ -149,7 +149,7 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-2 py-1 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10">
+                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10 -mt-3">
                   {avatar.phrase}
                 </div>
               </div>
@@ -159,11 +159,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
       </div>
 
       {/* Right column avatars */}
-      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 space-y-6">
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 space-y-3">
         {avatarsData.slice(4).map((avatar, index) => (
           visibleAvatars.includes(index + 4) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="flex flex-col items-center space-y-1">
+              <div className="flex flex-col items-center">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
@@ -180,8 +180,14 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-2 py-1 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10">
-                  {avatar.phrase}
+                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10 -mt-3">
+                  {avatar.phrase === "Y yo soy Juan, ya no alquilo apartamentos turísticos" ? (
+                    <>Y yo soy Juan, ya no<br />alquilo apartamentos turísticos</>
+                  ) : avatar.phrase === "Y yo soy María, vivía afuera de la ciudad" ? (
+                    <>Y yo soy María,<br />vivía afuera de la ciudad</>
+                  ) : (
+                    avatar.phrase
+                  )}
                 </div>
               </div>
             </div>

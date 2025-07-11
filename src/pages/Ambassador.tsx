@@ -13,7 +13,7 @@ const Ambassador = () => {
       <Starfield />
       <div className="relative z-10">
         <Navbar />
-        <BubbleCounter count={Math.max(150, Math.floor(Math.random() * 400))} type="home" />
+        <BubbleCounter />
         <main className="min-h-screen">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">

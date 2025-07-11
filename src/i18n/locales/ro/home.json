@@ -15,7 +15,7 @@
     "search": "Căutare"
   },
   "bubbleCounter": {
-    "home": "{{count}} oameni explorează Hotel-Living acum!",
-    "hotel": "{{count}} oameni se uită la acest hotel chiar acum!"
+    "home": "{{count}} de persoane explorează Hotel-Living chiar acum!",
+    "hotel": "{{count}} de persoane vizualizează acest hotel chiar acum!"
   }
 }

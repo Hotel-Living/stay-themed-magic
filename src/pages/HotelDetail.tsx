@@ -42,7 +42,7 @@ export default function HotelDetail() {
   return (
     <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
       <Navbar />
-      <BubbleCounter count={Math.max(8, Math.floor(Math.random() * 25))} type="hotel" />
+      <BubbleCounter />
       
       <main className="flex-1">
         {isLoading ? (

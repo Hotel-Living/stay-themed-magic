@@ -60,7 +60,7 @@ export default function Index() {
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
       <HotelStarfield />
       <Navbar />
-      <BubbleCounter count={Math.max(150, Math.floor(Math.random() * 400))} type="home" />
+      <BubbleCounter />
       
       <main className="flex-1 w-full">
         <HeroSection />

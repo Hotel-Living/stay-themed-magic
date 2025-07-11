@@ -14,7 +14,7 @@ export default function Videos() {
     <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />
-      <BubbleCounter count={Math.max(150, Math.floor(Math.random() * 400))} type="home" />
+      <BubbleCounter />
       
       <main className="flex-1 pt-8">
         <div className="container max-w-6xl mx-auto px-4 py-8">

@@ -10,6 +10,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { BenefitsHeader } from "@/components/faq/BenefitsHeader";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { FAQAccordionWithAvatars } from "@/components/avatars/FAQAccordionWithAvatars";
 
 export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
@@ -47,6 +48,9 @@ export default function FAQ() {
             
             <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder={t('faq.search')} />
           </div>
+
+          {/* Phase 2: Avatar Accordion Section */}
+          <FAQAccordionWithAvatars />
 
           <FaqTabs 
             activeTab={activeTab} 

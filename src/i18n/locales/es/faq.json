@@ -14,6 +14,15 @@
       "account": "Cuenta",
       "support": "Soporte"
     },
+    "accordion": {
+      "stillRenting": "¿Aún alquilas?",
+      "hotel": "¿Hotel?",
+      "retired": "¿Jubilado?",
+      "commuter": "¿Viajero diario?",
+      "onlineWorker": "¿Trabajador online?",
+      "freeSoul": "¿Alma libre?",
+      "society": "¿Sociedad?"
+    },
     "generalQuestions": {
       "whatIsHotelLiving": {
         "question": "¿Qué es Hotel-Living?",

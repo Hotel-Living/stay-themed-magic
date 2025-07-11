@@ -47,12 +47,8 @@ export default defineConfig(async ({ mode }) => {
       outDir: 'dist',
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-toast'],
-            supabase: ['@supabase/supabase-js'],
-            router: ['react-router-dom'],
-          },
+          // Simplified chunk configuration to prevent race conditions
+          manualChunks: undefined,
         },
       },
     },

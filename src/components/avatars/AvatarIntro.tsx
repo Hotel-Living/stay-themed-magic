@@ -128,15 +128,15 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
       {/* Left column avatars */}
-      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-12">
+      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-6">
         {avatarsData.slice(0, 4).map((avatar, index) => (
           visibleAvatars.includes(index) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="flex flex-col items-center space-y-3">
+              <div className="flex flex-col items-center space-y-1">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -144,12 +144,12 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium text-gray-800 text-center max-w-xs">
+                <div className="bg-white rounded-lg px-2 py-1 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10">
                   {avatar.phrase}
                 </div>
               </div>
@@ -159,15 +159,15 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
       </div>
 
       {/* Right column avatars */}
-      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 space-y-12">
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 space-y-6">
         {avatarsData.slice(4).map((avatar, index) => (
           visibleAvatars.includes(index + 4) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="flex flex-col items-center space-y-3">
+              <div className="flex flex-col items-center space-y-1">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -175,12 +175,12 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium text-gray-800 text-center max-w-xs">
+                <div className="bg-white rounded-lg px-2 py-1 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10">
                   {avatar.phrase}
                 </div>
               </div>

@@ -15,7 +15,7 @@ export default function BubbleCounter() {
   const location = useLocation();
   const [visible, setVisible] = useState(false);
 
-  const isHotelPage = location.pathname.includes("/hotels/");
+  const isHotelPage = location.pathname.startsWith("/hotels/");
   const count = isHotelPage
     ? generateNonMultipleOfFive(6, 22)
     : generateNonMultipleOfFive(151, 499);

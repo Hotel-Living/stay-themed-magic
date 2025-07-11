@@ -10,6 +10,7 @@ import enAuth from './locales/en/auth.json';
 import enBooking from './locales/en/booking.json';
 import enFooter from './locales/en/footer.json';
 import enHome from './locales/en/home.json';
+import enAvatars from './locales/en/avatars.json';
 import enAffinity from './locales/en/affinity.json';
 import enFilters from './locales/en/filters.json';
 import enContact from './locales/en/contact.json';
@@ -54,6 +55,7 @@ import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
 import esFooter from './locales/es/footer.json';
 import esHome from './locales/es/home.json';
+import esAvatars from './locales/es/avatars.json';
 import esAffinity from './locales/es/affinity.json';
 import esContact from './locales/es/contact.json';
 import esFilters from './locales/es/filters.json';
@@ -148,6 +150,7 @@ const resources = {
     booking: enBooking,
     footer: enFooter,
     home: enHome,
+    avatars: enAvatars,
     affinity: enAffinity,
     filters: enFilters,
     contact: enContact,
@@ -194,6 +197,7 @@ const resources = {
     booking: esBooking,
     footer: esFooter,
     home: esHome,
+    avatars: esAvatars,
     affinity: esAffinity,
     contact: esContact,
     content: esContent,

@@ -3,8 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// NO importamos visualizer directamente aquí para evitar errores ESM
-
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -15,16 +13,17 @@ export default defineConfig(async ({ mode }) => {
     mode === 'development' && componentTagger()
   ];
 
-  if (!isCI && mode === 'production') {
-    const { visualizer } = await import("rollup-plugin-visualizer");
-    plugins.push(visualizer({
-      filename: 'dist/stats.html',
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-      template: 'treemap',
-    }));
-  }
+  // Temporarily disable visualizer to fix build issues
+  // if (!isCI && mode === 'production') {
+  //   const { visualizer } = await import("rollup-plugin-visualizer");
+  //   plugins.push(visualizer({
+  //     filename: 'dist/stats.html',
+  //     open: false,
+  //     gzipSize: true,
+  //     brotliSize: true,
+  //     template: 'treemap',
+  //   }));
+  // }
 
   return {
     server: {

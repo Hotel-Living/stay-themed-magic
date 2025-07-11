@@ -20,6 +20,8 @@
       "onlineWorker": "Online worker?",
       "freeSoul": "Free soul?",
       "society": "Society?"
-    }
+    },
+    "avatarMessage": "I'm staying here in case I can help you. You can ask me anything you want.",
+    "identifyHeader": "Which one do you identify with? Click on your situation to learn more"
   }
 }

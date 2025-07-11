@@ -23,6 +23,8 @@
       "freeSoul": "¿Alma libre?",
       "society": "¿Sociedad?"
     },
+    "avatarMessage": "Me quedo aquí por si te puedo ayudar. Puedes preguntarme lo que desees.",
+    "identifyHeader": "¿Con cuál te identificas? Haz clic en tu situación para conocer más",
     "generalQuestions": {
       "whatIsHotelLiving": {
         "question": "¿Qué es Hotel-Living?",

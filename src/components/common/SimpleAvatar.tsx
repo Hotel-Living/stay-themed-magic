@@ -41,7 +41,7 @@ export const SimpleAvatar: React.FC<SimpleAvatarProps> = ({ onDismiss }) => {
 
   if (!isVisible) return null;
 
-  const avatarUrl = `https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatars/${avatarType}.gif`;
+  const avatarUrl = `https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/User%20Avatars/${avatarType}.gif`;
   
   const messages = {
     'welcome': 'Welcome to Hotel-Living! Ready to explore amazing hotels?',

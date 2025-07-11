@@ -52,7 +52,8 @@ export default function Index() {
   };
 
   const handleAvatarIntroInteraction = () => {
-    // This handles user interaction with avatars
+    console.log("🎭 User interacted with avatars - hiding avatar intro");
+    setShowAvatarIntro(false);
   };
 
   // Extract theme names for the filter dropdown

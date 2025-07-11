@@ -67,6 +67,9 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  
+  // Debug logging
+  console.log("🎭 AvatarIntro render:", { visibleAvatars, currentIndex, isComplete, isPaused });
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -92,15 +95,26 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   }, [onUserInteraction]);
 
   useEffect(() => {
-    if (isPaused || isComplete || currentIndex >= avatarsData.length) return;
+    if (isPaused || isComplete || currentIndex >= avatarsData.length) {
+      console.log("🎭 Avatar timer stopped:", { isPaused, isComplete, currentIndex, avatarsLength: avatarsData.length });
+      return;
+    }
 
+    console.log("🎭 Setting avatar timer for index:", currentIndex);
     const timer = setTimeout(() => {
-      setVisibleAvatars(prev => [...prev, currentIndex]);
+      console.log("🎭 Timer fired! Adding avatar at index:", currentIndex);
+      setVisibleAvatars(prev => {
+        const newVisible = [...prev, currentIndex];
+        console.log("🎭 Updated visible avatars:", newVisible);
+        return newVisible;
+      });
       setCurrentIndex(prev => prev + 1);
       
       if (currentIndex + 1 >= avatarsData.length) {
+        console.log("🎭 All avatars shown, auto-fading after 3 seconds");
         // All avatars shown, auto-fade after 3 seconds
         setTimeout(() => {
+          console.log("🎭 Setting isComplete to true");
           setIsComplete(true);
         }, 3000);
       }
@@ -114,7 +128,7 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10">
+    <div className="fixed inset-0 pointer-events-none z-50">
       {/* Left column avatars */}
       <div className="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-8">
         {avatarsData.slice(0, 4).map((avatar, index) => (
@@ -125,6 +139,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                   src={avatar.gif} 
                   alt={avatar.name}
                   className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  onLoad={() => console.log("🎭 Avatar loaded:", avatar.name)}
+                  onError={(e) => {
+                    console.error("🎭 Avatar failed to load:", avatar.name, e);
+                    e.currentTarget.style.border = "2px solid red";
+                  }}
                 />
                 <div className="absolute -right-2 top-1/2 transform -translate-y-1/2">
                   <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium whitespace-nowrap">
@@ -148,6 +167,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                   src={avatar.gif} 
                   alt={avatar.name}
                   className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  onLoad={() => console.log("🎭 Avatar loaded:", avatar.name)}
+                  onError={(e) => {
+                    console.error("🎭 Avatar failed to load:", avatar.name, e);
+                    e.currentTarget.style.border = "2px solid red";
+                  }}
                 />
                 <div className="absolute -left-2 top-1/2 transform -translate-y-1/2">
                   <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium whitespace-nowrap">

@@ -28,6 +28,7 @@ export function TabAvatar({ avatarId, gif, message, onClose }: TabAvatarProps) {
           src={gif} 
           alt={avatarId}
           className="w-16 h-16 rounded-full object-cover shadow-lg border-2 border-white"
+          style={{ objectPosition: 'center' }}
         />
         
         {/* Close button */}

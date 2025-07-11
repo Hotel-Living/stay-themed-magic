@@ -72,27 +72,25 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
   console.log("🎭 AvatarIntro render:", { visibleAvatars, currentIndex, isComplete, isPaused });
 
   useEffect(() => {
-    const handleInteraction = () => {
-      setIsPaused(true);
-      onUserInteraction();
-      
-      // Resume after 5 seconds if no further interaction
-      setTimeout(() => {
-        setIsPaused(false);
-      }, 5000);
+    const handleManualDismiss = () => {
+      // Only allow dismissal after sequence is complete
+      if (isComplete) {
+        console.log("🎭 Manual dismissal after sequence completion");
+        onUserInteraction();
+      }
     };
 
-    const handleScroll = () => handleInteraction();
-    const handleClick = () => handleInteraction();
+    const handleClick = () => handleManualDismiss();
+    const handleScroll = () => handleManualDismiss();
 
-    window.addEventListener('scroll', handleScroll);
     window.addEventListener('click', handleClick);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('click', handleClick);
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [onUserInteraction]);
+  }, [onUserInteraction, isComplete]);
 
   useEffect(() => {
     if (isPaused || isComplete || currentIndex >= avatarsData.length) {
@@ -134,11 +132,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
         {avatarsData.slice(0, 4).map((avatar, index) => (
           visibleAvatars.includes(index) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="relative">
+              <div className="relative flex flex-col items-center">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -146,15 +144,14 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="absolute -right-2 top-1/2 transform -translate-y-1/2">
-                  <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium whitespace-nowrap">
+                <div className="mt-2 relative z-10">
+                  <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium text-center max-w-xs">
                     {avatar.phrase}
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white"></div>
                   </div>
                 </div>
               </div>
@@ -168,11 +165,11 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
         {avatarsData.slice(4).map((avatar, index) => (
           visibleAvatars.includes(index + 4) && (
             <div key={avatar.id} className="animate-fade-in">
-              <div className="relative">
+              <div className="relative flex flex-col items-center">
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -180,15 +177,14 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="absolute -left-2 top-1/2 transform -translate-y-1/2">
-                  <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium whitespace-nowrap">
+                <div className="mt-2 relative z-10">
+                  <div className="bg-white rounded-lg px-3 py-2 shadow-md text-sm font-medium text-center max-w-xs">
                     {avatar.phrase}
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-l-white"></div>
                   </div>
                 </div>
               </div>

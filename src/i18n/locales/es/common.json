@@ -183,5 +183,6 @@
     "cannot": "no puede",
     "may": "puede",
     "might": "podría"
-  }
+  },
+  "liveVisitors": "{{count}} personas están viendo ahora"
 }

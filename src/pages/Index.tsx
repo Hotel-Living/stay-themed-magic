@@ -9,6 +9,7 @@ import { useThemes } from '@/hooks/useThemes';
 import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
+import LiveVisitorsTag from '@/components/common/LiveVisitorsTag';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -59,6 +60,7 @@ export default function Index() {
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
       <HotelStarfield />
       <Navbar />
+      <LiveVisitorsTag />
       
       <main className="flex-1 w-full">
         <HeroSection />

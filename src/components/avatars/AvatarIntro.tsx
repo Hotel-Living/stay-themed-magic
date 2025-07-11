@@ -136,7 +136,7 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-10"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -144,12 +144,12 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-10";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10 -mt-3">
+                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-20 -mt-6">
                   {avatar.phrase}
                 </div>
               </div>
@@ -167,7 +167,7 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                 <img 
                   src={avatar.gif} 
                   alt={avatar.name}
-                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-20"
+                  className="w-24 h-24 rounded-full object-cover shadow-lg relative z-10"
                   onLoad={() => console.log("🎭 Avatar loaded successfully:", avatar.name, avatar.gif)}
                   onError={(e) => {
                     console.error("🎭 Avatar failed to load:", avatar.name, avatar.gif);
@@ -175,12 +175,12 @@ export function AvatarIntro({ onUserInteraction }: AvatarIntroProps) {
                     // Fallback to a simple colored circle with initials
                     e.currentTarget.style.display = "none";
                     const fallback = document.createElement("div");
-                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-20";
+                    fallback.className = "w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg relative z-10";
                     fallback.textContent = avatar.name.charAt(0);
                     e.currentTarget.parentNode?.appendChild(fallback);
                   }}
                 />
-                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-10 -mt-3">
+                <div className="bg-white rounded-lg px-2 py-0.5 shadow-md text-xs font-medium text-gray-800 text-center max-w-xs relative z-20 -mt-6">
                   {avatar.phrase === "Y yo soy Juan, ya no alquilo apartamentos turísticos" ? (
                     <>Y yo soy Juan, ya no<br />alquilo apartamentos turísticos</>
                   ) : avatar.phrase === "Y yo soy María, vivía afuera de la ciudad" ? (

@@ -10,8 +10,7 @@ import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
-// Import avatar system
-import { AvatarManager } from '@/components/common/AnimatedAvatars/AvatarManager';
+import { SimpleAvatar } from '@/components/common/SimpleAvatar';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -63,7 +62,7 @@ export default function Index() {
       <HotelStarfield />
       <Navbar />
       <BubbleCounter />
-      <AvatarManager />
+      <SimpleAvatar />
       
       <main className="flex-1 w-full">
         <HeroSection />

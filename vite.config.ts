@@ -44,7 +44,7 @@ export default defineConfig(async ({ mode }) => {
     },
     build: {
       target: 'es2015',
-      outDir: 'dist',
+      outDir: 'build',
       rollupOptions: {
         output: {
           // Simplified chunk configuration to prevent race conditions

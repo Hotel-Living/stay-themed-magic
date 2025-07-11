@@ -15,11 +15,11 @@ export default defineConfig(async ({ mode }) => {
     mode === 'development' && componentTagger()
   ];
 
-  if (!isCI) {
+  if (!isCI && mode === 'production') {
     const { visualizer } = await import("rollup-plugin-visualizer");
     plugins.push(visualizer({
       filename: 'dist/stats.html',
-      open: true,
+      open: false,
       gzipSize: true,
       brotliSize: true,
       template: 'treemap',

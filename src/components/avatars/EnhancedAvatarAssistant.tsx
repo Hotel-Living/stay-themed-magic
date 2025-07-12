@@ -38,18 +38,9 @@ export function EnhancedAvatarAssistant({
   const displayMessage = message || getDefaultMessage();
 
   const handleAvatarClick = () => {
-    if (position === 'content') {
-      // Move to bottom-right and activate
-      moveAvatarToActivePosition(avatarId, gif);
-      setShowChat(true);
-    } else if (isActiveAvatar && showChat) {
-      // If already active and chat is open, just ensure chat stays open
-      setShowChat(true);
-    } else {
-      // Activate this avatar
-      moveAvatarToActivePosition(avatarId, gif);
-      setShowChat(true);
-    }
+    // Always move to bottom-right and activate when clicked
+    moveAvatarToActivePosition(avatarId, gif);
+    setShowChat(true);
   };
 
   const handleDismiss = () => {
@@ -67,17 +58,21 @@ export function EnhancedAvatarAssistant({
     }
   };
 
-  // If another avatar is active and this one is not in bottom-right position, hide it
-  if (activeAvatar && activeAvatar.id !== avatarId && position !== 'bottom-right') {
+  // If another avatar is active and this one is not active, hide it (unless it's bottom-right)
+  if (activeAvatar && activeAvatar.id !== avatarId && !isActiveAvatar) {
     return null;
   }
+
+  // If this avatar is active, always show it in bottom-right position
+  const shouldShowInBottomRight = isActiveAvatar;
+  const effectivePosition = shouldShowInBottomRight ? 'bottom-right' : position;
 
   if (isDismissed) {
     return null;
   }
 
   const getPositionStyles = () => {
-    switch (position) {
+    switch (effectivePosition) {
       case 'bottom-left':
         return 'fixed bottom-4 left-4 z-50';
       case 'bottom-right':
@@ -103,8 +98,8 @@ export function EnhancedAvatarAssistant({
             />
           </button>
 
-          {/* Speech bubble - only show if not in bottom-right active position */}
-          {showMessage && !isBottomRightPosition && (
+          {/* Speech bubble - only show if not active and has message */}
+          {showMessage && !isActiveAvatar && (
             <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md text-xs whitespace-nowrap z-10 border border-fuchsia-200">
               <span className="text-gray-800">{displayMessage}</span>
               <button 

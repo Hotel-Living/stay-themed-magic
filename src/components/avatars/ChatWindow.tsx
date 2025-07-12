@@ -97,9 +97,14 @@ interface ChatWindowProps {
 }
 
 export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
-  const [messages, setMessages] = useState([
-    { from: "avatar", text: "¿Sobre qué quieres que hablemos?" }
-  ]);
+  const [messages, setMessages] = useState(() => {
+    const lang = navigator.language;
+    let initialMessage = "¿Sobre qué quieres que hablemos?";
+    if (lang.startsWith("en")) initialMessage = "What would you like to talk about?";
+    if (lang.startsWith("pt")) initialMessage = "Sobre o que gostaria de conversar?";
+    if (lang.startsWith("ro")) initialMessage = "Despre ce ai vrea să vorbim?";
+    return [{ from: "avatar", text: initialMessage }];
+  });
   const [input, setInput] = useState("");
   const persona = avatarKnowledgeBase[activeAvatar] || "Responde como un experto en Hotel-Living.";
 
@@ -110,7 +115,21 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     setInput("");
 
     setTimeout(() => {
-      const response = `(${activeAvatar.toUpperCase()}) ${persona} Tú preguntaste: "${userMessage}".`;
+      // Generate more conversational response for Martín
+      let response = "";
+      if (activeAvatar === "martin") {
+        if (userMessage.toLowerCase().includes("negocio") || userMessage.toLowerCase().includes("business")) {
+          response = "Soy hotelero, tengo dos propiedades familiares. ¿Te interesa saber algo específico del sector?";
+        } else if (userMessage.toLowerCase().includes("hotel-living") || userMessage.toLowerCase().includes("funciona")) {
+          response = persona.split("Puntos clave")[1] || "Te explico cómo funciona Hotel-Living desde mi experiencia como hotelero.";
+        } else {
+          response = "Hola, soy Martín. Soy hotelero y trabajo con Hotel-Living. ¿En qué puedo ayudarte?";
+        }
+      } else {
+        // For other avatars, use shorter persona intro + user question
+        const shortPersona = persona.split("Puntos clave")[0].split(".")[0] + ".";
+        response = `${shortPersona} Sobre tu pregunta: "${userMessage}"...`;
+      }
       setMessages((prev) => [...prev, { from: "avatar", text: response }]);
     }, 1000);
   };
@@ -145,10 +164,36 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     return "Asistente Hotel-Living";
   };
 
+  // Dynamic positioning based on available space
+  const [position, setPosition] = useState({ bottom: '20px', right: '16px', left: 'auto' });
+  
+  useEffect(() => {
+    const updatePosition = () => {
+      const screenWidth = window.innerWidth;
+      const chatWidth = 224; // w-56 in pixels (reduced size)
+      
+      // If there's not enough space on the right, position on the left
+      if (screenWidth < chatWidth + 80) {
+        setPosition({ bottom: '20px', left: '16px', right: 'auto' });
+      } else {
+        setPosition({ bottom: '20px', right: '16px', left: 'auto' });
+      }
+    };
+    
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, []);
+
   return (
     <div 
-      className="fixed bottom-20 right-4 rounded-xl shadow-2xl w-80 max-h-[70vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
-      style={{ backgroundColor: '#7B4194' }}
+      className="fixed rounded-xl shadow-2xl w-56 max-h-[50vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      style={{ 
+        backgroundColor: '#7B4194',
+        bottom: position.bottom,
+        right: position.right,
+        left: position.left
+      }}
     >
       <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-white/20">
         <span className="text-white">{getHeaderText()}</span>

@@ -27,6 +27,7 @@ export function TabAvatar({ avatarId, gif, message, onClose }: TabAvatarProps) {
         <img 
           src={gif} 
           alt={avatarId}
+          data-avatar-id={avatarId}
           className="w-20 h-20 rounded-full object-cover shadow-lg border-2 border-white"
           style={{ objectPosition: 'center' }}
         />

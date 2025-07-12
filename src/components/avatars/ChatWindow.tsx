@@ -41,20 +41,48 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   // Calculate position immediately when component mounts
   useEffect(() => {
     const calculatePosition = () => {
-      const avatarElement = document.getElementById(`avatar-${avatarId}`);
+      // Try multiple strategies to find the avatar element
+      let avatarElement = document.getElementById(`avatar-${avatarId}`);
+      
+      // If not found by ID, try other selectors for FAQ page context
+      if (!avatarElement) {
+        avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
+      }
+      
+      // If still not found, try finding by image src containing the avatar gif
+      if (!avatarElement) {
+        const images = document.querySelectorAll('img');
+        for (const img of images) {
+          if (img.alt === avatarId || img.src.includes(avatarId)) {
+            avatarElement = img.closest('div') || img;
+            break;
+          }
+        }
+      }
+      
       if (avatarElement) {
         const rect = avatarElement.getBoundingClientRect();
-        const newX = Math.min(rect.right + 10, window.innerWidth - 270); // Ensure chat stays on screen
-        const newY = Math.max(10, Math.min(rect.top, window.innerHeight - 300));
+        // Position to the right of the avatar with proper screen boundaries
+        const newX = Math.min(rect.right + 20, window.innerWidth - 280);
+        const newY = Math.max(20, Math.min(rect.top, window.innerHeight - 320));
         setPosition({ x: newX, y: newY });
+      } else {
+        // Smart fallback: center-right of viewport instead of arbitrary position
+        const fallbackX = Math.max(20, window.innerWidth - 300);
+        const fallbackY = Math.max(20, (window.innerHeight - 320) / 2);
+        setPosition({ x: fallbackX, y: fallbackY });
       }
     };
 
-    // Try immediately and with small delay for DOM rendering
+    // Try immediately and with multiple delays for complex DOM structures
     calculatePosition();
-    const timer = setTimeout(calculatePosition, 50);
+    const timer1 = setTimeout(calculatePosition, 100);
+    const timer2 = setTimeout(calculatePosition, 300);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, [avatarId]);
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);

@@ -157,13 +157,6 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
     return "Enviar";
   };
 
-  const getHeaderText = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "Hotel-Living Assistant";
-    if (lang.startsWith("pt")) return "Assistente Hotel-Living"; 
-    if (lang.startsWith("ro")) return "Asistent Hotel-Living";
-    return "Asistente Hotel-Living";
-  };
 
   // Dynamic positioning based on avatar position (40% smaller chat)
   const getPosition = () => {
@@ -214,7 +207,7 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
 
   return (
     <div 
-      className="fixed rounded-xl shadow-2xl w-36 max-h-[30vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      className="fixed rounded-xl shadow-2xl w-32 max-h-[25vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
       style={{ 
         backgroundColor: '#7B4194',
         bottom: position.bottom,
@@ -223,19 +216,18 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
         top: position.top
       }}
     >
-      <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-white/20">
-        <span className="text-white">{getHeaderText()}</span>
+      <div className="px-2 py-2 flex justify-end border-b border-white/20">
         <button onClick={onClose} className="text-white/80 hover:text-white transition-colors">
-          <X size={16} />
+          <X size={14} />
         </button>
       </div>
-      <div className="flex-1 p-3 overflow-y-auto text-sm">
+      <div className="flex-1 p-2 overflow-y-auto text-xs">
         {messages.map((m, i) => (
-          <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
+          <div key={i} className={`mb-2 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
             <span 
-              className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
+              className={`inline-block px-2 py-1 rounded-lg max-w-[90%] shadow-sm text-xs ${
                 m.from === "avatar" 
-                  ? (i === 0 ? "bg-white text-gray-800" : "text-gray-800")
+                  ? (i === 0 ? "bg-white text-gray-800" : "text-white")
                   : "bg-white text-gray-800"
               }`}
               style={m.from === "avatar" && i > 0 ? { backgroundColor: '#8b5dc9' } : {}}
@@ -250,12 +242,12 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-3 py-2 text-sm outline-none bg-white/10 text-white placeholder-white/60 border-none"
+          className="flex-1 px-2 py-1 text-xs outline-none bg-white/10 text-white placeholder-white/60 border-none"
           placeholder={getPlaceholderText()}
         />
         <button 
           onClick={handleSend} 
-          className="px-4 text-sm text-white hover:bg-white/10 transition-colors font-medium"
+          className="px-2 text-xs text-white hover:bg-white/10 transition-colors font-medium"
         >
           {getSendButtonText()}
         </button>

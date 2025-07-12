@@ -13,7 +13,7 @@ export function WhyHotelLivingSectionEN() {
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation('faq');
-  const { activeAvatars } = useAvatarManager();
+  const { activeAvatar } = useAvatarManager();
 
   // Avatar mapping according to specifications
   const avatarMapping: Record<string, { id: string; gif: string }[]> = {
@@ -228,7 +228,7 @@ export function WhyHotelLivingSectionEN() {
                           gif={avatar.gif}
                           position="content"
                           showMessage={showMessage}
-                          message={`I'm ${avatar.id}, ask me anything you wish.`}
+                          message={t('faq.avatarMessage')}
                           onClose={handleAvatarClose}
                         />
                       </div>

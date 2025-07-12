@@ -36,19 +36,19 @@ const avatarPool = [
 export function RandomAvatarAssistant() {
   const [currentRandomAvatar, setCurrentRandomAvatar] = useState<{ id: string; gif: string } | null>(null);
   const [showRandomAvatar, setShowRandomAvatar] = useState(false);
-  const { activeAvatars } = useAvatarManager();
+  const { activeAvatar } = useAvatarManager();
 
   const getMessage = () => {
     const lang = navigator.language;
-    if (lang.startsWith("en")) return "I'm here if you need me — I won't interrupt.";
-    if (lang.startsWith("pt")) return "Estou aqui se precisar — não incomodo."; 
-    if (lang.startsWith("ro")) return "Sunt aici dacă ai nevoie — nu deranjez.";
-    return "Estoy aquí si me necesitas, no molesto.";
+    if (lang.startsWith("en")) return "Need help?";
+    if (lang.startsWith("pt")) return "Precisa de ajuda?"; 
+    if (lang.startsWith("ro")) return "Ai nevoie de ajutor?";
+    return "¿Necesitas ayuda?";
   };
 
   const showRandomAvatarPopup = useCallback(() => {
-    // Don't show if there are already active avatars
-    if (activeAvatars.length > 0) return;
+    // Don't show if there's already an active avatar
+    if (activeAvatar) return;
     
     const randomIndex = Math.floor(Math.random() * avatarPool.length);
     const randomAvatar = avatarPool[randomIndex];
@@ -61,7 +61,7 @@ export function RandomAvatarAssistant() {
       setShowRandomAvatar(false);
       setCurrentRandomAvatar(null);
     }, 10000);
-  }, [activeAvatars]);
+  }, [activeAvatar]);
 
   useEffect(() => {
     // Start the 30-second interval for random avatar popup
@@ -77,8 +77,8 @@ export function RandomAvatarAssistant() {
     setCurrentRandomAvatar(null);
   };
 
-  // Don't show random avatar if there are active avatars
-  if (activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
+  // Don't show random avatar if there's an active avatar
+  if (activeAvatar || !showRandomAvatar || !currentRandomAvatar) {
     return null;
   }
 

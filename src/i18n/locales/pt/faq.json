@@ -22,8 +22,6 @@
       "society": "Sociedade?"
     },
     "avatarMessage": "Estou aqui.\nSe precisar de mim,\npergunte o que quiser.",
-    "passiveAvatarMessage": "Estou aqui se precisar — não incomodo.",
-    "profileAvatarMessageTemplate": "Sou {name}, pergunte-me o que quiser.",
     "identifyHeader": "COM QUEM VOCÊ SE IDENTIFICA?\nCLIQUE PARA SABER MAIS"
   }
 }

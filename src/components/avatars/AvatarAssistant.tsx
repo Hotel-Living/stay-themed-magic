@@ -81,7 +81,7 @@ export function AvatarAssistant({ avatarId, gif, isVisible, onClose }: AvatarAss
 
       {/* Chat Window */}
       {showChat && (
-        <ChatWindow activeAvatar={avatarId} avatarPosition="bottom-right" onClose={handleChatClose} />
+        <ChatWindow activeAvatar={avatarId} onClose={handleChatClose} />
       )}
     </>
   );

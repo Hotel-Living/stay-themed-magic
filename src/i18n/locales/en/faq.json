@@ -22,8 +22,6 @@
       "society": "Society?"
     },
     "avatarMessage": "I'm here.\nIf you need me,\nask me anything.",
-    "passiveAvatarMessage": "I'm here if you need me — I won't interrupt.",
-    "profileAvatarMessageTemplate": "I'm {name}, ask me anything you wish.",
     "identifyHeader": "WHO DO YOU IDENTIFY WITH?\nCLICK TO LEARN MORE"
   }
 }

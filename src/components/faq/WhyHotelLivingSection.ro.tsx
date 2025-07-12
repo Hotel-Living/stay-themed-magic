@@ -4,16 +4,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
 import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 import { TabAvatar } from "./TabAvatar";
-import { EnhancedAvatarAssistant } from "../avatars/EnhancedAvatarAssistant";
-import { useAvatarManager } from "@/contexts/AvatarManager";
 
 export function WhyHotelLivingSectionRO() {
   const [activeAccordionTab, setActiveAccordionTab] = useState("");
-  const [activeTabAvatar, setActiveTabAvatar] = useState<string | null>(null);
+  const [activeAvatar, setActiveAvatar] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation('faq');
-  const { activeAvatars } = useAvatarManager();
 
   // Avatar mapping according to specifications
   const avatarMapping: Record<string, { id: string; gif: string }[]> = {
@@ -93,26 +90,26 @@ export function WhyHotelLivingSectionRO() {
   const handleAccordionTabChange = (value: string) => {
     if (value === activeAccordionTab) {
       setActiveAccordionTab("");
-      setActiveTabAvatar(null);
+      setActiveAvatar(null);
     } else {
       setActiveAccordionTab(value);
       // Check if this tab has avatars
       const displayAvatars = getDisplayAvatars(value);
       if (displayAvatars.length > 0) {
-        setActiveTabAvatar(value);
+        setActiveAvatar(value);
         setShowMessage(true);
         // Hide message after 7 seconds but keep avatar visible
         setTimeout(() => {
           setShowMessage(false);
         }, 7000);
       } else {
-        setActiveTabAvatar(null);
+        setActiveAvatar(null);
       }
     }
   };
 
   const handleAvatarClose = () => {
-    setActiveTabAvatar(null);
+    setActiveAvatar(null);
     setShowMessage(false);
   };
 
@@ -202,13 +199,13 @@ export function WhyHotelLivingSectionRO() {
       </div>
 
       {/* First Horizontal Accordion Menu */}
-      <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
+      <div className={`mb-24 transition-all duration-300 ${activeAvatar ? 'mt-20' : ''}`}>
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>
               {accordionOptions.map((option) => {
                 const displayAvatars = getDisplayAvatars(option.id);
-                const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
+                const showAvatars = activeAvatar === option.id && displayAvatars.length > 0;
                 
                 return (
                   <div key={option.id} className="relative">
@@ -220,15 +217,13 @@ export function WhyHotelLivingSectionRO() {
                       <span className="text-xs">▼</span>
                     </button>
                     
-                    {/* Show enhanced avatar above the tab when active */}
+                    {/* Show avatar above the tab when active */}
                     {showAvatars && displayAvatars.map((avatar) => (
                       <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                        <EnhancedAvatarAssistant
+                        <TabAvatar
                           avatarId={avatar.id}
                           gif={avatar.gif}
-                          position="content"
-                          showMessage={showMessage}
-                          message={`Sunt ${avatar.id}, întreabă-mă orice dorești.`}
+                          message={t('faq.avatarMessage')}
                           onClose={handleAvatarClose}
                         />
                       </div>

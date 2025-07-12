@@ -117,14 +117,18 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   });
   const [input, setInput] = useState("");
   const [position, setPosition] = useState(() => {
-    // Position near the avatar instead of bottom-right
-    const avatarElement = document.getElementById(`avatar-${avatarId}`);
-    if (avatarElement) {
-      const rect = avatarElement.getBoundingClientRect();
-      return { x: rect.right + 10, y: rect.top };
-    }
-    // Fallback position
-    return { x: 100, y: 100 };
+    // Use a timeout to ensure the avatar element is rendered
+    setTimeout(() => {
+      const avatarElement = document.getElementById(`avatar-${avatarId}`);
+      if (avatarElement) {
+        const rect = avatarElement.getBoundingClientRect();
+        const newX = rect.right + 10;
+        const newY = Math.max(0, rect.top);
+        setPosition({ x: newX, y: newY });
+      }
+    }, 100);
+    // Initial fallback position
+    return { x: 200, y: 100 };
   });
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
@@ -209,9 +213,9 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      // Keep chat within screen bounds
-      const newX = Math.max(0, Math.min(window.innerWidth - size.width, e.clientX - dragStart.x));
-      const newY = Math.max(0, Math.min(window.innerHeight - size.height, e.clientY - dragStart.y));
+      // Allow free movement across the entire screen without restrictions
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
       setPosition({ x: newX, y: newY });
     }
   };

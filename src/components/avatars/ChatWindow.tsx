@@ -85,17 +85,17 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       }
     } catch (error) {
       console.error('Chat API error:', error);
-      // Fallback to persona-based response if API fails - in the correct language
+      // Contextual fallback responses without repeating the question
       const getFallbackResponse = () => {
         switch (cleanLanguage) {
           case 'en':
-            return `As ${activeAvatar}, I can tell you that "${userMessage}" is something I can help you understand better. What specific aspect interests you most about Hotel-Living?`;
+            return `Sorry, I'm having trouble connecting right now. Let me share something about Hotel-Living that might interest you! I'd love to tell you about our flexible stays and amazing community.`;
           case 'pt':
-            return `Como ${activeAvatar}, posso te dizer que "${userMessage}" é algo que posso te ajudar a entender melhor. Que aspecto específico do Hotel-Living te interessa mais?`;
+            return `Desculpe, estou com problemas de conexão agora. Deixe-me compartilhar algo sobre Hotel-Living que pode te interessar! Adoraria falar sobre nossas estadias flexíveis e comunidade incrível.`;
           case 'ro':
-            return `Ca ${activeAvatar}, îți pot spune că "${userMessage}" este ceva cu care te pot ajuta să înțelegi mai bine. Ce aspect specific despre Hotel-Living te interesează cel mai mult?`;
+            return `Îmi pare rău, am probleme de conexiune acum. Lasă-mă să îți spun ceva despre Hotel-Living care te-ar putea interesa! Mi-ar plăcea să îți vorbesc despre sejururile noastre flexibile și comunitatea minunată.`;
           default:
-            return `Como ${activeAvatar}, te puedo decir que "${userMessage}" es algo que puedo ayudarte a entender mejor. ¿Qué aspecto específico de Hotel-Living te interesa más?`;
+            return `Disculpa, tengo problemas de conexión ahora. ¡Déjame compartir algo sobre Hotel-Living que te puede interesar! Me encantaría hablarte de nuestras estancias flexibles y comunidad increíble.`;
         }
       };
       setMessages((prev) => [...prev, { from: "avatar", text: getFallbackResponse() }]);

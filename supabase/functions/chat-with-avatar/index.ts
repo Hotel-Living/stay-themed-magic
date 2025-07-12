@@ -485,35 +485,108 @@ serve(async (req) => {
 
     const instructions = strictInstructions[validatedLanguage as keyof typeof strictInstructions] || strictInstructions['es'];
     
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { 
-            role: 'system', 
-            content: `${systemPrompt}\n\n${instructions}`
-          },
-          { role: 'user', content: message }
-        ],
-        max_tokens: 150,
-        temperature: 0.7,
-      }),
-    });
+    let generatedResponse: string;
 
-    const data = await response.json();
-    let generatedResponse = data.choices[0].message.content;
+    try {
+      console.log('Making OpenAI API request...');
+      
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openAIApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            { 
+              role: 'system', 
+              content: `${systemPrompt}\n\n${instructions}`
+            },
+            { role: 'user', content: message }
+          ],
+          max_tokens: 150,
+          temperature: 0.7,
+        }),
+      });
 
-    // Only validate if response contains obvious violations
-    if (!validateResponse(generatedResponse)) {
-      console.log('Response validation failed, using fallback:', generatedResponse);
+      console.log('OpenAI API response status:', response.status);
+      console.log('OpenAI API response ok:', response.ok);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('OpenAI API error response:', response.status, errorText);
+        throw new Error(`OpenAI API request failed: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('OpenAI API response data structure:', JSON.stringify(data, null, 2));
+
+      // Comprehensive validation of OpenAI response structure
+      if (!data) {
+        console.error('OpenAI response is null or undefined');
+        throw new Error('OpenAI API returned null response');
+      }
+
+      if (!data.choices) {
+        console.error('OpenAI response missing choices array:', data);
+        throw new Error('OpenAI API response missing choices array');
+      }
+
+      if (!Array.isArray(data.choices)) {
+        console.error('OpenAI response choices is not an array:', typeof data.choices);
+        throw new Error('OpenAI API response choices is not an array');
+      }
+
+      if (data.choices.length === 0) {
+        console.error('OpenAI response choices array is empty');
+        throw new Error('OpenAI API response choices array is empty');
+      }
+
+      if (!data.choices[0]) {
+        console.error('OpenAI response first choice is undefined');
+        throw new Error('OpenAI API response first choice is undefined');
+      }
+
+      if (!data.choices[0].message) {
+        console.error('OpenAI response first choice missing message:', data.choices[0]);
+        throw new Error('OpenAI API response choice missing message');
+      }
+
+      if (!data.choices[0].message.content) {
+        console.error('OpenAI response message missing content:', data.choices[0].message);
+        throw new Error('OpenAI API response message missing content');
+      }
+
+      const rawResponse = data.choices[0].message.content;
+      console.log('Raw OpenAI response content:', rawResponse);
+
+      // Clean and validate the response
+      generatedResponse = rawResponse.trim();
+      
+      if (!generatedResponse || generatedResponse.length === 0) {
+        console.error('OpenAI response content is empty after trimming');
+        throw new Error('OpenAI API returned empty content');
+      }
+
+      console.log('Successfully extracted response from OpenAI:', generatedResponse);
+
+      // Validate response content - only reject obvious violations
+      if (!validateResponse(generatedResponse)) {
+        console.log('Response validation failed, using fallback. Original response:', generatedResponse);
+        generatedResponse = getFallbackResponse(validatedLanguage);
+      } else {
+        console.log('Response validation passed for:', generatedResponse);
+      }
+
+    } catch (openAiError) {
+      console.error('OpenAI API call failed with error:', openAiError);
+      console.error('Error details:', openAiError.message);
+      console.error('Error stack:', openAiError.stack);
+      
+      // Use fallback response when OpenAI API fails
       generatedResponse = getFallbackResponse(validatedLanguage);
-    } else {
-      console.log('Response validation passed:', generatedResponse);
+      console.log('Using fallback response due to OpenAI API error:', generatedResponse);
     }
 
     console.log(`Final response for ${avatarId} in ${validatedLanguage}:`, generatedResponse);

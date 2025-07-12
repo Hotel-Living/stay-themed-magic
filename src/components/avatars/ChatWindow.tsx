@@ -290,7 +290,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     document.addEventListener('mouseup', handleMouseUpResize);
   };
 
-  // Update initial message when language or path changes
+  // Update initial message when language changes - avoid infinite loops
   useEffect(() => {
     setMessages(prev => {
       if (prev.length === 1 && prev[0].from === "avatar") {
@@ -298,12 +298,15 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       }
       return prev;
     });
+  }, [currentLanguage]);
 
-    // Update i18n language to match URL if different
-    if (i18n.language !== currentLanguage) {
+  // Separate effect for i18n synchronization - only when language actually changes
+  useEffect(() => {
+    if (i18n.language !== currentLanguage && i18n.isInitialized) {
+      console.log(`ChatWindow: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
       i18n.changeLanguage(currentLanguage);
     }
-  }, [currentLanguage, location.pathname, i18n]);
+  }, [currentLanguage, i18n.isInitialized]);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);

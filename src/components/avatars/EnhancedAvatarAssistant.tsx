@@ -56,13 +56,13 @@ export function EnhancedAvatarAssistant({
     }
   };
 
-  // Update message when language or path changes
+  // Update i18n language when path changes - avoid infinite loops
   useEffect(() => {
-    // Update i18n language to match URL if different
-    if (i18n.language !== currentLanguage) {
+    if (i18n.language !== currentLanguage && i18n.isInitialized) {
+      console.log(`EnhancedAvatarAssistant: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
       i18n.changeLanguage(currentLanguage);
     }
-  }, [currentLanguage, location.pathname, i18n]);
+  }, [currentLanguage, i18n.isInitialized]);
 
   const displayMessage = message || getDefaultMessage();
 

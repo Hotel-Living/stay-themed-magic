@@ -95,7 +95,7 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     }));
   }, []);
 
-  // Update chat histories when language or path changes
+  // Update chat histories when language changes - avoid infinite loops
   useEffect(() => {
     const newInitialMessage = getInitialMessage(currentLanguage);
     
@@ -118,12 +118,15 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
         ? [{ from: 'avatar', text: newInitialMessage }]
         : avatar.chatHistory
     })));
+  }, [currentLanguage]);
 
-    // Update i18n language to match URL if different
-    if (i18n.language !== currentLanguage) {
+  // Separate effect for i18n synchronization - only when language actually changes
+  useEffect(() => {
+    if (i18n.language !== currentLanguage && i18n.isInitialized) {
+      console.log(`AvatarManager: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
       i18n.changeLanguage(currentLanguage);
     }
-  }, [currentLanguage, location.pathname, i18n]);
+  }, [currentLanguage, i18n.isInitialized]);
 
   return (
     <AvatarManagerContext.Provider value={{

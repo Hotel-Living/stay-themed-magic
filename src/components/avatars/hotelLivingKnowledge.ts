@@ -90,7 +90,12 @@ export const HOTEL_LIVING_KNOWLEDGE = {
       "Emprendimiento - networking y sesiones de mentoría",
       "Idiomas - intercambios lingüísticos y práctica conversacional"
     ],
-    availability: "Las afinidades están disponibles selectivamente según cada hotel asociado - no todos los hoteles ofrecen todas las afinidades, pero todos los huéspedes buscan conexión y comunidad"
+    availability: "Las afinidades están disponibles selectivamente según cada hotel asociado - no todos los hoteles ofrecen todas las afinidades, pero todos los huéspedes buscan conexión y comunidad",
+    suggestions: {
+      canSuggest: "Los usuarios siempre pueden sugerir nuevas afinidades o actividades al equipo de Hotel-Living",
+      howToSuggest: "Esto se puede hacer escribiendo directamente al equipo o usando el panel de sugerencias disponible en el dashboard de usuario",
+      communitySpirit: "Esta apertura es esencial para el espíritu comunitario del portal y refleja nuestro compromiso con la evolución constante"
+    }
   },
 
   // Community & Social Life

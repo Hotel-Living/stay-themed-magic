@@ -133,16 +133,34 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const chatRef = useRef<HTMLDivElement>(null);
   const persona = avatarKnowledgeBase[activeAvatar] || "Responde como un experto en Hotel-Living.";
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = input;
     setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
     setInput("");
 
-    setTimeout(() => {
-      const response = `(${activeAvatar.toUpperCase()}) ${persona} Tú preguntaste: "${userMessage}".`;
-      setMessages((prev) => [...prev, { from: "avatar", text: response }]);
-    }, 1000);
+    try {
+      const response = await fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/chat-with-avatar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: userMessage, 
+          avatarId: activeAvatar,
+          persona: persona 
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setMessages((prev) => [...prev, { from: "avatar", text: data.response }]);
+      } else {
+        throw new Error('Failed to get response');
+      }
+    } catch (error) {
+      // Fallback to persona-based response if API fails
+      const fallbackResponse = `Como ${activeAvatar}, te puedo decir que ${userMessage.toLowerCase()} es algo que puedo ayudarte a entender mejor. ¿Qué aspecto específico te interesa más?`;
+      setMessages((prev) => [...prev, { from: "avatar", text: fallbackResponse }]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -178,7 +196,9 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+    // Only start dragging if clicking on the header itself, not buttons
+    if (e.target === e.currentTarget || (e.target as HTMLElement).tagName === 'SPAN') {
+      e.preventDefault();
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,

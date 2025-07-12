@@ -123,7 +123,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   return (
     <div
       ref={chatRef}
-      className="fixed bottom-24 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+  className="fixed top-24 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
       style={{ backgroundColor: '#561C7B', width, height }}
     >
       <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300" style={{ backgroundColor: '#561C7B' }}>

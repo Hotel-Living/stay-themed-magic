@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { X, Move, CornerDownRight } from "lucide-react";
 
 const avatarKnowledgeBase: Record<string, string> = {
   "maria": `Soy María, tengo 63 años y soy una jubilada apasionada por el arte, el yoga y la filosofía. 
@@ -109,6 +109,90 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
   const [input, setInput] = useState("");
   const persona = avatarKnowledgeBase[activeAvatar] || "Responde como un experto en Hotel-Living.";
 
+  // Drag and resize state
+  const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [size, setSize] = useState({ width: 320, height: 450 });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const chatRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize position based on avatar location
+  useEffect(() => {
+    const getInitialPosition = () => {
+      const padding = 20;
+      const avatarSize = 80; // Avatar + some space
+      
+      switch (avatarPosition) {
+        case 'bottom-right':
+          return { x: window.innerWidth - size.width - padding, y: window.innerHeight - size.height - avatarSize - padding };
+        case 'bottom-left':
+          return { x: padding, y: window.innerHeight - size.height - avatarSize - padding };
+        case 'top-left':
+          return { x: padding, y: avatarSize + padding };
+        case 'top-right':
+          return { x: window.innerWidth - size.width - padding, y: avatarSize + padding };
+        default:
+          return { x: window.innerWidth - size.width - padding, y: window.innerHeight - size.height - avatarSize - padding };
+      }
+    };
+    
+    setPosition(getInitialPosition());
+  }, [avatarPosition, size.width, size.height]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('.resize-handle') || (e.target as HTMLElement).closest('button')) return;
+    
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging) {
+      const newX = Math.max(0, Math.min(e.clientX - dragStart.x, window.innerWidth - size.width));
+      const newY = Math.max(0, Math.min(e.clientY - dragStart.y, window.innerHeight - size.height));
+      setPosition({ x: newX, y: newY });
+    } else if (isResizing) {
+      const newWidth = Math.max(280, Math.min(resizeStart.width + (e.clientX - resizeStart.x), window.innerWidth - position.x));
+      const newHeight = Math.max(350, Math.min(resizeStart.height + (e.clientY - resizeStart.y), window.innerHeight - position.y));
+      setSize({ width: newWidth, height: newHeight });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsResizing(false);
+  };
+
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsResizing(true);
+    setResizeStart({ 
+      x: e.clientX, 
+      y: e.clientY, 
+      width: size.width, 
+      height: size.height 
+    });
+  };
+
+  useEffect(() => {
+    if (isDragging || isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, isResizing, dragStart, resizeStart, position, size]);
+
   const handleSend = () => {
     if (!input.trim()) return;
     const userMessage = input;
@@ -157,75 +241,39 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
     return "Enviar";
   };
 
-
-  // Dynamic positioning based on avatar position (40% smaller chat)
-  const getPosition = () => {
-    const chatWidth = 144; // w-36 in pixels (40% reduced from w-48)
-    const avatarSize = 64; // Avatar size
-    const gap = 8; // Gap between avatar and chat
-    
-    switch (avatarPosition) {
-      case 'bottom-left':
-        return { 
-          bottom: '88px', // Above avatar 
-          left: '16px', 
-          right: 'auto',
-          top: 'auto'
-        };
-      case 'bottom-right':
-        return { 
-          bottom: '88px', // Above avatar
-          right: '16px', 
-          left: 'auto',
-          top: 'auto'
-        };
-      case 'top-left':
-        return { 
-          top: '88px', // Below avatar
-          left: '16px', 
-          right: 'auto',
-          bottom: 'auto'
-        };
-      case 'top-right':
-        return { 
-          top: '88px', // Below avatar
-          right: '16px', 
-          left: 'auto',
-          bottom: 'auto'
-        };
-      default:
-        return { 
-          bottom: '88px', 
-          right: '16px', 
-          left: 'auto',
-          top: 'auto'
-        };
-    }
-  };
-  
-  const position = getPosition();
-
   return (
     <div 
-      className="fixed rounded-xl shadow-2xl w-32 max-h-[25vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      ref={chatRef}
+      className={`fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border border-fuchsia-400/30 ${isDragging ? 'cursor-move' : ''}`}
       style={{ 
         backgroundColor: '#7B4194',
-        bottom: position.bottom,
-        right: position.right,
-        left: position.left,
-        top: position.top
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        width: `${size.width}px`,
+        height: `${size.height}px`
       }}
+      onMouseDown={handleMouseDown}
     >
-      <div className="px-2 py-2 flex justify-end border-b border-white/20">
-        <button onClick={onClose} className="text-white/80 hover:text-white transition-colors">
-          <X size={14} />
+      {/* Header with drag handle */}
+      <div className="px-4 py-3 flex justify-between items-center border-b border-white/20 cursor-move select-none">
+        <div className="flex items-center gap-2 text-white">
+          <Move size={16} className="text-white/60" />
+          <span className="text-sm font-medium">Chat</span>
+        </div>
+        <button 
+          onClick={onClose} 
+          className="text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded"
+        >
+          <X size={16} />
         </button>
       </div>
-      <div className="flex-1 p-2 overflow-y-auto text-xs">
+      
+      {/* Messages area */}
+      <div className="flex-1 p-4 overflow-y-auto text-sm">
         {messages.map((m, i) => (
-          <div key={i} className={`mb-2 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
+          <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
             <span 
-              className={`inline-block px-2 py-1 rounded-lg max-w-[90%] shadow-sm text-xs ${
+              className={`inline-block px-3 py-2 rounded-lg max-w-[85%] shadow-sm ${
                 m.from === "avatar" 
                   ? (i === 0 ? "bg-white text-gray-800" : "text-white")
                   : "bg-white text-gray-800"
@@ -236,21 +284,36 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
             </span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="flex border-t border-white/20">
+      
+      {/* Input area */}
+      <div className="px-4 py-3 border-t border-white/20 flex gap-2">
         <input
+          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-2 py-1 text-xs outline-none bg-white/10 text-white placeholder-white/60 border-none"
+          className="flex-1 px-3 py-2 text-sm outline-none bg-white/10 text-white placeholder-white/60 border-none rounded"
           placeholder={getPlaceholderText()}
         />
         <button 
           onClick={handleSend} 
-          className="px-2 text-xs text-white hover:bg-white/10 transition-colors font-medium"
+          className="px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors font-medium rounded"
         >
           {getSendButtonText()}
         </button>
+      </div>
+      
+      {/* Resize handle */}
+      <div 
+        className="absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize resize-handle"
+        onMouseDown={handleResizeStart}
+      >
+        <CornerDownRight 
+          size={12} 
+          className="absolute bottom-1 right-1 text-white/40 rotate-90" 
+        />
       </div>
     </div>
   );

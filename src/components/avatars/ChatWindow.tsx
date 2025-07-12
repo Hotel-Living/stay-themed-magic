@@ -115,7 +115,12 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     return [{ from: "avatar", text: getInitialMessage() }];
   });
   const [input, setInput] = useState("");
-  const [position, setPosition] = useState({ x: window.innerWidth - 320, y: window.innerHeight - 450 });
+  const [position, setPosition] = useState(() => {
+    // Ensure chat stays within screen bounds
+    const maxX = Math.max(0, window.innerWidth - 320);
+    const maxY = Math.max(0, window.innerHeight - 450);
+    return { x: Math.min(maxX, window.innerWidth - 320), y: Math.min(maxY, 50) };
+  });
   const [size, setSize] = useState({ width: 280, height: 350 });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
@@ -179,10 +184,10 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      setPosition({
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
-      });
+      // Keep chat within screen bounds
+      const newX = Math.max(0, Math.min(window.innerWidth - size.width, e.clientX - dragStart.x));
+      const newY = Math.max(0, Math.min(window.innerHeight - size.height, e.clientY - dragStart.y));
+      setPosition({ x: newX, y: newY });
     }
   };
 
@@ -247,8 +252,9 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
   return (
     <div 
       ref={chatRef}
-      className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border border-gray-200 bg-white"
+      className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
       style={{ 
+        backgroundColor: '#561C7B',
         left: position.x, 
         top: position.y, 
         width: size.width, 
@@ -258,24 +264,25 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     >
       {/* Header - draggable area */}
       <div 
-        className="px-4 py-3 font-semibold flex justify-between items-center border-b border-gray-200 bg-gray-50 cursor-grab active:cursor-grabbing"
+        className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300 cursor-grab active:cursor-grabbing"
+        style={{ backgroundColor: '#561C7B' }}
         onMouseDown={handleMouseDown}
       >
-        <span className="text-gray-800 select-none">{activeAvatar}</span>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
+        <span className="text-white select-none capitalize">{activeAvatar}</span>
+        <button onClick={onClose} className="text-white hover:text-fuchsia-200 transition-colors">
           <X size={16} />
         </button>
       </div>
       
-      {/* Messages area with white background */}
-      <div className="flex-1 p-3 overflow-y-auto text-sm bg-white">
+      {/* Messages area */}
+      <div className="flex-1 p-3 overflow-y-auto text-sm" style={{ backgroundColor: '#561C7B' }}>
         {messages.map((m, i) => (
           <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
             <span 
               className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
                 m.from === "avatar" 
-                  ? "bg-gray-100 text-gray-800" 
-                  : "bg-blue-500 text-white"
+                  ? "bg-white text-gray-800" 
+                  : "bg-fuchsia-500 text-white"
               }`}
             >
               {m.text}
@@ -285,7 +292,7 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
       </div>
       
       {/* Input area */}
-      <div className="flex border-t border-gray-200 bg-white">
+      <div className="flex border-t border-fuchsia-300 bg-white">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -295,7 +302,7 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
         />
         <button 
           onClick={handleSend} 
-          className="px-4 text-sm text-blue-600 hover:bg-blue-50 transition-colors font-medium"
+          className="px-4 text-sm text-fuchsia-600 hover:bg-fuchsia-50 transition-colors font-medium"
         >
           {getSendButtonText()}
         </button>

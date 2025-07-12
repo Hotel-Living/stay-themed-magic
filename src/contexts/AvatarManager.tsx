@@ -23,7 +23,8 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
 
   const getInitialMessage = () => {
-    const lang = navigator.language;
+    // Use document.documentElement.lang to match the current app language
+    const lang = document.documentElement.lang || navigator.language;
     if (lang.startsWith("en")) return "What would you like to talk about?";
     if (lang.startsWith("pt")) return "Sobre o que gostaria de conversar?"; 
     if (lang.startsWith("ro")) return "Despre ce ai vrea să vorbim?";

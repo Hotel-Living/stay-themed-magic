@@ -300,9 +300,9 @@ i18n
       escapeValue: false,
     },
     detection: {
-      order: ['path', 'navigator', 'htmlTag', 'subdomain'],
+      order: ['navigator', 'localStorage', 'htmlTag', 'path', 'subdomain'],
       lookupFromPathIndex: 0,
-      caches: [],  // Disable caching to force reload
+      caches: ['localStorage'],
     },
     react: {
       useSuspense: false,

@@ -28,17 +28,8 @@ export function EnhancedAvatarAssistant({
   const { activeAvatars, addActiveAvatar, removeActiveAvatar } = useAvatarManager();
   const location = useLocation();
 
-  // Extract language from URL path - primary source of truth  
-  const getLanguageFromPath = () => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
-    const firstSegment = pathSegments[0];
-    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
-      return firstSegment;
-    }
-    return 'es'; // Default fallback
-  };
-
-  const currentLanguage = getLanguageFromPath();
+  // Use i18n.language as the primary source of truth for language detection
+  const currentLanguage = i18n.language || 'es';
 
   const isActiveAvatar = activeAvatars.some(avatar => avatar.id === avatarId);
   const isBottomRightPosition = position === 'bottom-right';
@@ -56,13 +47,8 @@ export function EnhancedAvatarAssistant({
     }
   };
 
-  // Update i18n language when path changes - avoid infinite loops
-  useEffect(() => {
-    if (i18n.language !== currentLanguage && i18n.isInitialized) {
-      console.log(`EnhancedAvatarAssistant: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
-      i18n.changeLanguage(currentLanguage);
-    }
-  }, [currentLanguage, i18n.isInitialized]);
+  // Remove redundant i18n synchronization to prevent infinite loops
+  // Language changes are now managed centrally by LanguageSwitcher
 
   const displayMessage = message || getDefaultMessage();
 

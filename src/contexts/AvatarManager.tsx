@@ -26,18 +26,8 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   const { language, i18n } = useTranslation();
   const location = useLocation();
 
-  // Extract language from URL path
-  const getLanguageFromPath = () => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
-    const firstSegment = pathSegments[0];
-    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
-      return firstSegment;
-    }
-    return 'es'; // Default fallback
-  };
-
-  // Use URL-based language detection as primary source
-  const currentLanguage = getLanguageFromPath();
+  // Use i18n.language as the primary source of truth for language detection
+  const currentLanguage = i18n.language || 'es';
 
   const getInitialMessage = (language: string) => {
     switch (language) {
@@ -120,13 +110,8 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     })));
   }, [currentLanguage]);
 
-  // Separate effect for i18n synchronization - only when language actually changes
-  useEffect(() => {
-    if (i18n.language !== currentLanguage && i18n.isInitialized) {
-      console.log(`AvatarManager: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
-      i18n.changeLanguage(currentLanguage);
-    }
-  }, [currentLanguage, i18n.isInitialized]);
+  // Remove redundant i18n synchronization to prevent infinite loops
+  // Language changes are now managed centrally by LanguageSwitcher
 
   return (
     <AvatarManagerContext.Provider value={{

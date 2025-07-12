@@ -103,17 +103,8 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  // Extract language from URL path - primary source of truth
-  const getLanguageFromPath = () => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
-    const firstSegment = pathSegments[0];
-    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
-      return firstSegment;
-    }
-    return 'es'; // Default fallback
-  };
-
-  const currentLanguage = getLanguageFromPath();
+  // Use i18n.language as the primary source of truth for language detection
+  const currentLanguage = i18n.language || 'es';
 
   const getInitialMessage = () => {
     switch (currentLanguage) {
@@ -300,13 +291,8 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     });
   }, [currentLanguage]);
 
-  // Separate effect for i18n synchronization - only when language actually changes
-  useEffect(() => {
-    if (i18n.language !== currentLanguage && i18n.isInitialized) {
-      console.log(`ChatWindow: Syncing i18n language from ${i18n.language} to ${currentLanguage}`);
-      i18n.changeLanguage(currentLanguage);
-    }
-  }, [currentLanguage, i18n.isInitialized]);
+  // Remove redundant i18n synchronization to prevent infinite loops
+  // Language changes are now managed centrally by LanguageSwitcher
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import ChatWindow from "./ChatWindow";
 import { useAvatarManager } from "@/contexts/AvatarManager";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface EnhancedAvatarAssistantProps {
   avatarId: string;
@@ -22,17 +23,23 @@ export function EnhancedAvatarAssistant({
 }: EnhancedAvatarAssistantProps) {
   const [showChat, setShowChat] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const { activeAvatar, moveAvatarToActivePosition, dismissActiveAvatar } = useAvatarManager();
+  const { i18n } = useTranslation();
+  const { activeAvatars, addActiveAvatar, removeActiveAvatar } = useAvatarManager();
 
-  const isActiveAvatar = activeAvatar?.id === avatarId;
+  const isActiveAvatar = activeAvatars.some(avatar => avatar.id === avatarId);
   const isBottomRightPosition = position === 'bottom-right';
 
   const getDefaultMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "I'm here if you need me.";
-    if (lang.startsWith("pt")) return "Estou aqui se precisar de mim."; 
-    if (lang.startsWith("ro")) return "Sunt aici dacă ai nevoie de mine.";
-    return "Estoy aquí si me necesitas.";
+    switch (i18n.language) {
+      case 'en':
+        return "I'm here if you need me.";
+      case 'pt':
+        return "Estou aqui se precisar de mim.";
+      case 'ro':
+        return "Sunt aici dacă ai nevoie de mine.";
+      default:
+        return "Estoy aquí si me necesitas.";
+    }
   };
 
   const displayMessage = message || getDefaultMessage();
@@ -40,14 +47,14 @@ export function EnhancedAvatarAssistant({
   const handleAvatarClick = () => {
     if (position === 'content') {
       // Move to bottom-right and activate
-      moveAvatarToActivePosition(avatarId, gif);
+      addActiveAvatar(avatarId, gif);
       setShowChat(true);
     } else if (isActiveAvatar && showChat) {
       // If already active and chat is open, just ensure chat stays open
       setShowChat(true);
     } else {
       // Activate this avatar
-      moveAvatarToActivePosition(avatarId, gif);
+      addActiveAvatar(avatarId, gif);
       setShowChat(true);
     }
   };
@@ -55,22 +62,15 @@ export function EnhancedAvatarAssistant({
   const handleDismiss = () => {
     setIsDismissed(true);
     if (isActiveAvatar) {
-      dismissActiveAvatar();
+      removeActiveAvatar(avatarId);
     }
     onClose?.();
   };
 
   const handleChatClose = () => {
     setShowChat(false);
-    if (position !== 'bottom-right') {
-      dismissActiveAvatar();
-    }
+    removeActiveAvatar(avatarId);
   };
-
-  // If another avatar is active and this one is not in bottom-right position, hide it
-  if (activeAvatar && activeAvatar.id !== avatarId && position !== 'bottom-right') {
-    return null;
-  }
 
   if (isDismissed) {
     return null;
@@ -105,13 +105,13 @@ export function EnhancedAvatarAssistant({
 
           {/* Speech bubble - only show if not in bottom-right active position */}
           {showMessage && !isBottomRightPosition && (
-            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md text-xs whitespace-nowrap z-10 border border-fuchsia-200">
-              <span className="text-gray-800">{displayMessage}</span>
+            <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200">
+              <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}
-                className="ml-2 text-gray-500 hover:text-gray-700"
+                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 bg-white rounded-full w-3 h-3 flex items-center justify-center border border-gray-300"
               >
-                <X size={12} />
+                <X size={6} />
               </button>
               {/* Bubble tail */}
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>

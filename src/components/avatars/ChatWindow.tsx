@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { X } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const avatarKnowledgeBase: Record<string, string> = {
   "maria": `Soy María, tengo 63 años y soy una jubilada apasionada por el arte, el yoga y la filosofía. 
@@ -97,10 +98,29 @@ interface ChatWindowProps {
 }
 
 export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
-  const [messages, setMessages] = useState([
-    { from: "avatar", text: "¿Sobre qué quieres que hablemos?" }
-  ]);
+  const { t, i18n } = useTranslation();
+  const [messages, setMessages] = useState(() => {
+    const getInitialMessage = () => {
+      switch (i18n.language) {
+        case 'en':
+          return "What would you like to talk about?";
+        case 'pt':
+          return "Sobre o que gostaria de conversar?";
+        case 'ro':
+          return "Despre ce ai vrea să vorbim?";
+        default:
+          return "¿Sobre qué quieres que hablemos?";
+      }
+    };
+    return [{ from: "avatar", text: getInitialMessage() }];
+  });
   const [input, setInput] = useState("");
+  const [position, setPosition] = useState({ x: window.innerWidth - 320, y: window.innerHeight - 450 });
+  const [size, setSize] = useState({ width: 280, height: 350 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const chatRef = useRef<HTMLDivElement>(null);
   const persona = avatarKnowledgeBase[activeAvatar] || "Responde como un experto en Hotel-Living.";
 
   const handleSend = () => {
@@ -122,70 +142,202 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
   };
 
   const getPlaceholderText = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "Type your question...";
-    if (lang.startsWith("pt")) return "Digite sua pergunta..."; 
-    if (lang.startsWith("ro")) return "Tastează întrebarea ta...";
-    return "Escribe tu pregunta...";
+    switch (i18n.language) {
+      case 'en':
+        return "Type your question...";
+      case 'pt':
+        return "Digite sua pergunta...";
+      case 'ro':
+        return "Tastează întrebarea ta...";
+      default:
+        return "Escribe tu pregunta...";
+    }
   };
 
   const getSendButtonText = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "Send";
-    if (lang.startsWith("pt")) return "Enviar"; 
-    if (lang.startsWith("ro")) return "Trimite";
-    return "Enviar";
+    switch (i18n.language) {
+      case 'en':
+        return "Send";
+      case 'pt':
+        return "Enviar";
+      case 'ro':
+        return "Trimite";
+      default:
+        return "Enviar";
+    }
   };
 
-  const getHeaderText = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "Hotel-Living Assistant";
-    if (lang.startsWith("pt")) return "Assistente Hotel-Living"; 
-    if (lang.startsWith("ro")) return "Asistent Hotel-Living";
-    return "Asistente Hotel-Living";
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
+    }
   };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsResizing(false);
+  };
+
+  const handleResize = (e: React.MouseEvent, direction: string) => {
+    e.preventDefault();
+    setIsResizing(true);
+    
+    const handleMouseMoveResize = (e: MouseEvent) => {
+      if (!isResizing) return;
+      
+      const rect = chatRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      
+      let newWidth = size.width;
+      let newHeight = size.height;
+      let newX = position.x;
+      let newY = position.y;
+      
+      if (direction.includes('right')) {
+        newWidth = Math.max(200, e.clientX - rect.left);
+      }
+      if (direction.includes('bottom')) {
+        newHeight = Math.max(250, e.clientY - rect.top);
+      }
+      if (direction.includes('left')) {
+        const deltaX = rect.left - e.clientX;
+        newWidth = Math.max(200, size.width + deltaX);
+        newX = position.x - deltaX;
+      }
+      if (direction.includes('top')) {
+        const deltaY = rect.top - e.clientY;
+        newHeight = Math.max(250, size.height + deltaY);
+        newY = position.y - deltaY;
+      }
+      
+      setSize({ width: newWidth, height: newHeight });
+      setPosition({ x: newX, y: newY });
+    };
+    
+    document.addEventListener('mousemove', handleMouseMoveResize);
+    document.addEventListener('mouseup', () => {
+      setIsResizing(false);
+      document.removeEventListener('mousemove', handleMouseMoveResize);
+    });
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragStart]);
 
   return (
     <div 
-      className="fixed bottom-20 right-4 rounded-xl shadow-2xl w-80 max-h-[70vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
-      style={{ backgroundColor: '#7B4194' }}
+      ref={chatRef}
+      className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border border-gray-200 bg-white"
+      style={{ 
+        left: position.x, 
+        top: position.y, 
+        width: size.width, 
+        height: size.height,
+        cursor: isDragging ? 'grabbing' : 'default'
+      }}
     >
-      <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-white/20">
-        <span className="text-white">{getHeaderText()}</span>
-        <button onClick={onClose} className="text-white/80 hover:text-white transition-colors">
+      {/* Header - draggable area */}
+      <div 
+        className="px-4 py-3 font-semibold flex justify-between items-center border-b border-gray-200 bg-gray-50 cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+      >
+        <span className="text-gray-800 select-none">{activeAvatar}</span>
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
           <X size={16} />
         </button>
       </div>
-      <div className="flex-1 p-3 overflow-y-auto text-sm">
+      
+      {/* Messages area with white background */}
+      <div className="flex-1 p-3 overflow-y-auto text-sm bg-white">
         {messages.map((m, i) => (
           <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
             <span 
               className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
                 m.from === "avatar" 
-                  ? "text-gray-800" 
-                  : "bg-white text-gray-800"
+                  ? "bg-gray-100 text-gray-800" 
+                  : "bg-blue-500 text-white"
               }`}
-              style={m.from === "avatar" ? { backgroundColor: '#8b5dc9' } : {}}
             >
               {m.text}
             </span>
           </div>
         ))}
       </div>
-      <div className="flex border-t border-white/20">
+      
+      {/* Input area */}
+      <div className="flex border-t border-gray-200 bg-white">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-3 py-2 text-sm outline-none bg-white/10 text-white placeholder-white/60 border-none"
+          className="flex-1 px-3 py-2 text-sm outline-none text-gray-800 placeholder-gray-400 border-none"
           placeholder={getPlaceholderText()}
         />
         <button 
           onClick={handleSend} 
-          className="px-4 text-sm text-white hover:bg-white/10 transition-colors font-medium"
+          className="px-4 text-sm text-blue-600 hover:bg-blue-50 transition-colors font-medium"
         >
           {getSendButtonText()}
         </button>
+      </div>
+
+      {/* Resize handles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Corner handles */}
+        <div 
+          className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'top-left')}
+        />
+        <div 
+          className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'top-right')}
+        />
+        <div 
+          className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'bottom-left')}
+        />
+        <div 
+          className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'bottom-right')}
+        />
+        
+        {/* Edge handles */}
+        <div 
+          className="absolute top-0 left-3 right-3 h-1 cursor-n-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'top')}
+        />
+        <div 
+          className="absolute bottom-0 left-3 right-3 h-1 cursor-s-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'bottom')}
+        />
+        <div 
+          className="absolute left-0 top-3 bottom-3 w-1 cursor-w-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'left')}
+        />
+        <div 
+          className="absolute right-0 top-3 bottom-3 w-1 cursor-e-resize pointer-events-auto"
+          onMouseDown={(e) => handleResize(e, 'right')}
+        />
       </div>
     </div>
   );

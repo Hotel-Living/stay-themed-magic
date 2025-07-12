@@ -42,7 +42,7 @@ export function TabAvatar({ avatarId, gif, message, onClose }: TabAvatarProps) {
 
       {/* Message bubble */}
       {showMessage && (
-        <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-lg text-xs font-medium text-gray-800 text-center max-w-xs whitespace-nowrap border border-gray-200">
+        <div className="absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[140px] leading-tight border border-gray-200">
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white"></div>
           {message}
         </div>

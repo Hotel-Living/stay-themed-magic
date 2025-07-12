@@ -10,7 +10,7 @@ export function WhyHotelLivingSectionEN() {
   const [activeAvatar, setActiveAvatar] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useIsMobile();
-  const { t } = useTranslation();
+  const { t } = useTranslation('faq');
 
   // Avatar mapping according to specifications
   const avatarMapping: Record<string, { id: string; gif: string }[]> = {

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface Avatar {
   id: string;
@@ -25,6 +26,7 @@ const AvatarManagerContext = createContext<AvatarManagerContextType | undefined>
 export function AvatarManagerProvider({ children }: { children: React.ReactNode }) {
   const [activeAvatars, setActiveAvatars] = useState<Avatar[]>([]);
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
+  const { t } = useTranslation('faq');
 
   const availablePositions: ('bottom-right' | 'bottom-left' | 'top-left' | 'top-right')[] = 
     ['bottom-right', 'bottom-left', 'top-left', 'top-right'];
@@ -106,11 +108,7 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   }, [activeAvatars]);
 
   const getInitialMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "What would you like to talk about?";
-    if (lang.startsWith("pt")) return "Sobre o que gostaria de conversar?"; 
-    if (lang.startsWith("ro")) return "Despre ce ai vrea să vorbim?";
-    return "¿Sobre qué quieres que hablemos?";
+    return t('avatarMessage').replace('\n', ' ');
   };
 
   return (

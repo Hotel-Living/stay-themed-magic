@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import ChatWindow from "./ChatWindow";
 import { useAvatarManager } from "@/contexts/AvatarManager";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface EnhancedAvatarAssistantProps {
   avatarId: string;
@@ -23,6 +24,7 @@ export function EnhancedAvatarAssistant({
   const [isDismissed, setIsDismissed] = useState(false);
   const [showBubble, setShowBubble] = useState(showMessage);
   const { activeAvatars, addActiveAvatar, removeActiveAvatar, toggleAvatarChat, isAvatarActive } = useAvatarManager();
+  const { t } = useTranslation('faq');
 
   // Auto-dismiss bubble after 10 seconds for passive avatars
   useEffect(() => {
@@ -39,11 +41,7 @@ export function EnhancedAvatarAssistant({
   const isActive = isAvatarActive(avatarId);
 
   const getDefaultMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "I'm here if you need me — I won't interrupt.";
-    if (lang.startsWith("pt")) return "Estou aqui se precisar — não incomodo."; 
-    if (lang.startsWith("ro")) return "Sunt aici dacă ai nevoie — nu deranjez.";
-    return "Estoy aquí si me necesitas, no molesto.";
+    return t('passiveAvatarMessage');
   };
 
   const displayMessage = message || getDefaultMessage();
@@ -53,7 +51,7 @@ export function EnhancedAvatarAssistant({
       // If already active, toggle chat
       toggleAvatarChat(avatarId);
     } else {
-      // If not active, add to active avatars but DON'T dismiss the avatar
+      // If not active, add to active avatars and move to bottom-right
       setShowBubble(false); // Only hide the bubble, not the avatar
       addActiveAvatar(avatarId, gif);
     }
@@ -113,13 +111,13 @@ export function EnhancedAvatarAssistant({
 
           {/* Speech bubble - only show if not active and has message */}
           {showBubble && !isActive && (
-            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[9px] max-w-[100px] z-10 border border-fuchsia-200">
-              <span className="text-gray-800 leading-tight block" style={{ lineHeight: '1.2', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{displayMessage}</span>
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] z-10 border border-fuchsia-200">
+              <span className="text-gray-800 leading-tight block text-center">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}
-                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] border border-gray-200"
+                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 bg-white rounded-full w-3 h-3 flex items-center justify-center text-[6px] border border-gray-200"
               >
-                <X size={8} />
+                <X size={6} />
               </button>
               {/* Bubble tail */}
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-white"></div>

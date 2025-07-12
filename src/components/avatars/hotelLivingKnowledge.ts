@@ -41,20 +41,74 @@ export const HOTEL_LIVING_KNOWLEDGE = {
     flexibility: "Máxima flexibilidad con estadías renovables según disponibilidad"
   },
 
+  // AFFINITIES - CORE FEATURE OF HOTEL-LIVING
+  affinities: {
+    definition: "Las Afinidades de Hotel-Living son un concepto registrado y único creado exclusivamente por hotel-living.com. Esta idea protegida por derechos de autor une a las personas en torno a intereses compartidos, facilitando conexiones humanas reales y rompiendo el aislamiento social.",
+    purpose: "Mucho más que viajes - es una nueva forma para que la sociedad se conecte y las personas conozcan a otros afines",
+    totalCategories: 17, // Main level-1 categories
+    totalThemes: 239, // Total themes across all levels
+    mainCategories: [
+      "ART - Arte y cultura, desde pintura hasta arquitectura",
+      "MUSIC - Géneros musicales, instrumentos y experiencias sonoras", 
+      "FOOD & DRINKS - Gastronomía mundial, cocteles y experiencias culinarias",
+      "HEALTH AND WELLNESS - Fitness, mindfulness, nutrición y bienestar integral",
+      "EDUCATION - Aprendizaje académico y desarrollo intelectual",
+      "SCIENCE AND KNOWLEDGE - Investigación, exploración científica y conocimiento",
+      "BUSINESS - Emprendimiento, finanzas y desarrollo profesional",
+      "LANGUAGES - Intercambio de idiomas, conversación y enseñanza",
+      "HOBBIES - Artes manuales, coleccionismo, juegos y actividades al aire libre",
+      "FANS - Admiradores de artistas, iconos musicales, leyendas del cine y figuras históricas",
+      "ENTERTAINMENT - Entretenimiento en vivo y medios digitales",
+      "LIFESTYLE - Viajes, movilidad y valores de bienestar",
+      "NATURE - Entornos naturales, vida silvestre y biología",
+      "PERSONAL DEVELOPMENT - Habilidades mentales y comunicación",
+      "RELATIONSHIPS - Relaciones personales y habilidades sociales",
+      "SCIENCE AND TECHNOLOGY - Innovación, futuro y exploración tecnológica",
+      "SPORTS - Todas las disciplinas deportivas y actividades físicas"
+    ],
+    howTheyWork: {
+      hotelSelection: "Los hoteles definen sus afinidades temáticas específicas",
+      guestMatching: "Los huéspedes se agrupan según intereses compartidos",
+      naturalConnections: "Las amistades surgen naturalmente cuando las personas se reúnen en torno a lo que aman",
+      flexibleParticipation: "Sin presión - puedes participar tanto o tan poco como desees",
+      organicActivities: "Las actividades pueden ser organizadas por el hotel o surgir espontáneamente entre huéspedes"
+    },
+    differentiators: [
+      "Evita conversaciones incómodas - conexión real desde el primer día",
+      "Encuentra tu tribu - personas que realmente te comprenden", 
+      "Rompe el aislamiento social a través de pasiones compartidas",
+      "Crea experiencias auténticas, no decorados temáticos",
+      "Permite explorar diferentes pasiones en diferentes ubicaciones"
+    ],
+    examples: [
+      "Jazz - músicos y amantes del jazz se reúnen para jam sessions",
+      "Fotografía - expediciones fotográficas grupales y talleres",
+      "Gastronomía - cenas temáticas y clases de cocina",
+      "Astronomía - noches de observación estelar y charlas científicas",
+      "Literatura - clubes de lectura y tertulias literarias",
+      "Senderismo - excursiones grupales y conexión con la naturaleza",
+      "Emprendimiento - networking y sesiones de mentoría",
+      "Idiomas - intercambios lingüísticos y práctica conversacional"
+    ],
+    availability: "Las afinidades están disponibles selectivamente según cada hotel asociado - no todos los hoteles ofrecen todas las afinidades, pero todos los huéspedes buscan conexión y comunidad"
+  },
+
   // Community & Social Life
   community: {
-    affinityBased: "Comunidades basadas en afinidades compartidas",
+    affinityBased: "Comunidades basadas en afinidades compartidas - el corazón de Hotel-Living",
     socialActivities: [
       "Cenas de bienvenida para nuevas llegadas",
-      "Mixers sociales",
-      "Salidas grupales a atracciones locales", 
+      "Mixers sociales temáticos según afinidades",
+      "Salidas grupales a atracciones locales relacionadas con las afinidades", 
       "Eventos de celebración especial",
-      "Sesiones de intercambio de habilidades",
-      "Grupos de discusión",
-      "Proyectos colaborativos"
+      "Sesiones de intercambio de habilidades entre huéspedes",
+      "Grupos de discusión sobre temas de interés común",
+      "Proyectos colaborativos y talleres prácticos",
+      "Actividades espontáneas organizadas por los propios huéspedes"
     ],
     communitySize: "Entre 15-50 huéspedes concurrentes participando en los mismos programas de afinidad",
-    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional"
+    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional",
+    connection: "Facilita conocer personas, compartir comidas, conversar y crear amistades duraderas"
   },
 
   // Hotel Categories & Types

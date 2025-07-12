@@ -26,6 +26,58 @@ const HOTEL_LIVING_KNOWLEDGE = {
     ]
   },
 
+  // AFFINITIES - CORE FEATURE OF HOTEL-LIVING
+  affinities: {
+    definition: "Las Afinidades de Hotel-Living son un concepto registrado y único creado exclusivamente por hotel-living.com. Esta idea protegida por derechos de autor une a las personas en torno a intereses compartidos, facilitando conexiones humanas reales y rompiendo el aislamiento social.",
+    purpose: "Mucho más que viajes - es una nueva forma para que la sociedad se conecte y las personas conozcan a otros afines",
+    totalCategories: 17, // Main level-1 categories
+    totalThemes: 239, // Total themes across all levels
+    mainCategories: [
+      "ART - Arte y cultura, desde pintura hasta arquitectura",
+      "MUSIC - Géneros musicales, instrumentos y experiencias sonoras", 
+      "FOOD & DRINKS - Gastronomía mundial, cocteles y experiencias culinarias",
+      "HEALTH AND WELLNESS - Fitness, mindfulness, nutrición y bienestar integral",
+      "EDUCATION - Aprendizaje académico y desarrollo intelectual",
+      "SCIENCE AND KNOWLEDGE - Investigación, exploración científica y conocimiento",
+      "BUSINESS - Emprendimiento, finanzas y desarrollo profesional",
+      "LANGUAGES - Intercambio de idiomas, conversación y enseñanza",
+      "HOBBIES - Artes manuales, coleccionismo, juegos y actividades al aire libre",
+      "FANS - Admiradores de artistas, iconos musicales, leyendas del cine y figuras históricas",
+      "ENTERTAINMENT - Entretenimiento en vivo y medios digitales",
+      "LIFESTYLE - Viajes, movilidad y valores de bienestar",
+      "NATURE - Entornos naturales, vida silvestre y biología",
+      "PERSONAL DEVELOPMENT - Habilidades mentales y comunicación",
+      "RELATIONSHIPS - Relaciones personales y habilidades sociales",
+      "SCIENCE AND TECHNOLOGY - Innovación, futuro y exploración tecnológica",
+      "SPORTS - Todas las disciplinas deportivas y actividades físicas"
+    ],
+    howTheyWork: {
+      hotelSelection: "Los hoteles definen sus afinidades temáticas específicas",
+      guestMatching: "Los huéspedes se agrupan según intereses compartidos",
+      naturalConnections: "Las amistades surgen naturalmente cuando las personas se reúnen en torno a lo que aman",
+      flexibleParticipation: "Sin presión - puedes participar tanto o tan poco como desees",
+      organicActivities: "Las actividades pueden ser organizadas por el hotel o surgir espontáneamente entre huéspedes"
+    },
+    differentiators: [
+      "Evita conversaciones incómodas - conexión real desde el primer día",
+      "Encuentra tu tribu - personas que realmente te comprenden", 
+      "Rompe el aislamiento social a través de pasiones compartidas",
+      "Crea experiencias auténticas, no decorados temáticos",
+      "Permite explorar diferentes pasiones en diferentes ubicaciones"
+    ],
+    examples: [
+      "Jazz - músicos y amantes del jazz se reúnen para jam sessions",
+      "Fotografía - expediciones fotográficas grupales y talleres",
+      "Gastronomía - cenas temáticas y clases de cocina",
+      "Astronomía - noches de observación estelar y charlas científicas",
+      "Literatura - clubes de lectura y tertulias literarias",
+      "Senderismo - excursiones grupales y conexión con la naturaleza",
+      "Emprendimiento - networking y sesiones de mentoría",
+      "Idiomas - intercambios lingüísticos y práctica conversacional"
+    ],
+    availability: "Las afinidades están disponibles selectivamente según cada hotel asociado - no todos los hoteles ofrecen todas las afinidades, pero todos los huéspedes buscan conexión y comunidad"
+  },
+
   included: {
     services: [
       "Limpieza diaria",
@@ -42,18 +94,20 @@ const HOTEL_LIVING_KNOWLEDGE = {
   },
 
   community: {
-    affinityBased: "Comunidades basadas en afinidades compartidas",
+    affinityBased: "Comunidades basadas en afinidades compartidas - el corazón de Hotel-Living",
     socialActivities: [
       "Cenas de bienvenida para nuevas llegadas",
-      "Mixers sociales",
-      "Salidas grupales a atracciones locales", 
+      "Mixers sociales temáticos según afinidades",
+      "Salidas grupales a atracciones locales relacionadas con las afinidades", 
       "Eventos de celebración especial",
-      "Sesiones de intercambio de habilidades",
-      "Grupos de discusión",
-      "Proyectos colaborativos"
+      "Sesiones de intercambio de habilidades entre huéspedes",
+      "Grupos de discusión sobre temas de interés común",
+      "Proyectos colaborativos y talleres prácticos",
+      "Actividades espontáneas organizadas por los propios huéspedes"
     ],
     communitySize: "Entre 15-50 huéspedes concurrentes participando en los mismos programas de afinidad",
-    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional"
+    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional",
+    connection: "Facilita conocer personas, compartir comidas, conversar y crear amistades duraderas"
   },
 
   digitalNomads: {
@@ -382,9 +436,11 @@ serve(async (req) => {
 4. Keep responses short (maximum 2-3 sentences).
 5. Stay durations are ONLY: 8, 15, 22, and 29 days.
 6. Payment: ALWAYS mention 15% when booking, 85% directly to hotel on arrival.
-7. If asked about anything outside Hotel-Living scope, politely redirect with fallback response.
-8. FORBIDDEN: "I don't have information", "I can't help", "consult with", "according to my general knowledge".
-9. Only discuss Hotel-Living services, experiences, and the specific knowledge provided.`,
+7. AFFINITIES ARE CORE: Questions about "affinities", "interests", "themes", "community" are ALWAYS about Hotel-Living's main feature.
+8. AFFINITY FACTS: 17 main categories, 239 total themes. Examples: Art, Music, Food & Drinks, Sports, Business, etc.
+9. If asked about anything outside Hotel-Living scope, politely redirect with fallback response.
+10. FORBIDDEN: "I don't have information", "I can't help", "consult with", "according to my general knowledge".
+11. Only discuss Hotel-Living services, experiences, and the specific knowledge provided.`,
       
       'es': `INSTRUCCIONES CRÍTICAS - SEGUIR EXACTAMENTE:
 1. Estás ESTRICTAMENTE LIMITADO solo al conocimiento de Hotel-Living.
@@ -393,9 +449,11 @@ serve(async (req) => {
 4. Mantén respuestas cortas (máximo 2-3 frases).
 5. Las duraciones de estancia son SOLO: 8, 15, 22 y 29 días.
 6. Pago: SIEMPRE menciona 15% al reservar, 85% directamente al hotel al llegar.
-7. Si preguntan sobre algo fuera del ámbito Hotel-Living, redirige educadamente con respuesta de respaldo.
-8. PROHIBIDO: "no tengo información", "no puedo ayudar", "consulta con", "según mi conocimiento general".
-9. Solo discute servicios Hotel-Living, experiencias y el conocimiento específico proporcionado.`,
+7. AFINIDADES SON CENTRALES: Preguntas sobre "afinidades", "intereses", "temas", "comunidad" son SIEMPRE sobre la característica principal de Hotel-Living.
+8. DATOS AFINIDADES: 17 categorías principales, 239 temas totales. Ejemplos: Arte, Música, Comida y Bebidas, Deportes, Negocios, etc.
+9. Si preguntan sobre algo fuera del ámbito Hotel-Living, redirige educadamente con respuesta de respaldo.
+10. PROHIBIDO: "no tengo información", "no puedo ayudar", "consulta con", "según mi conocimiento general".
+11. Solo discute servicios Hotel-Living, experiencias y el conocimiento específico proporcionado.`,
       'pt': 'IMPORTANTE: Sempre responda em primeira pessoa como o personagem. Mantenha respostas curtas (máximo 2-3 frases). Apenas fale sobre Hotel-Living e sua experiência pessoal. Quando mencionar durações, sempre especifique que são 8, 15, 22 e 29 dias. Quando perguntarem sobre pagamento, sempre mencione que você paga apenas 15% na reserva e 85% diretamente ao hotel na chegada. Não mencione outros serviços ou plataformas.',
       'ro': 'IMPORTANT: Răspunde întotdeauna în persoana întâi ca personajul. Păstrează răspunsurile scurte (maximum 2-3 propoziții). Vorbește doar despre Hotel-Living și experiența ta personală. Când menționezi duratele, specifică întotdeauna că sunt 8, 15, 22 și 29 de zile. Când întreabă despre plată, menționează întotdeauna că plătești doar 15% la rezervare și 85% direct la hotel la sosire. Nu menționa alte servicii sau platforme.'
     };

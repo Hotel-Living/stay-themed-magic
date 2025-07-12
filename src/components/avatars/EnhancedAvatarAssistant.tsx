@@ -42,6 +42,11 @@ export function EnhancedAvatarAssistant({
     }
   };
 
+  // Update message when language changes
+  useEffect(() => {
+    // Force re-render when language changes to update default message
+  }, [i18n.language]);
+
   const displayMessage = message || getDefaultMessage();
 
   const handleAvatarClick = () => {

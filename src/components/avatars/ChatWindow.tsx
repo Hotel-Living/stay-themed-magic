@@ -100,21 +100,20 @@ interface ChatWindowProps {
 
 export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWindowProps) {
   const { t, i18n } = useTranslation();
-  const [messages, setMessages] = useState(() => {
-    const getInitialMessage = () => {
-      switch (i18n.language) {
-        case 'en':
-          return "What would you like to talk about?";
-        case 'pt':
-          return "Sobre o que gostaria de conversar?";
-        case 'ro':
-          return "Despre ce ai vrea să vorbim?";
-        default:
-          return "¿Sobre qué quieres que hablemos?";
-      }
-    };
-    return [{ from: "avatar", text: getInitialMessage() }];
-  });
+  const getInitialMessage = () => {
+    switch (i18n.language) {
+      case 'en':
+        return "What would you like to talk about?";
+      case 'pt':
+        return "Sobre o que gostaria de conversar?";
+      case 'ro':
+        return "Despre ce ai vrea să vorbim?";
+      default:
+        return "¿Sobre qué quieres que hablemos?";
+    }
+  };
+
+  const [messages, setMessages] = useState([{ from: "avatar", text: getInitialMessage() }]);
   const [input, setInput] = useState("");
   const [position, setPosition] = useState(() => {
     // Use a timeout to ensure the avatar element is rendered
@@ -275,6 +274,16 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     document.addEventListener('mousemove', handleMouseMoveResize);
     document.addEventListener('mouseup', handleMouseUpResize);
   };
+
+  // Update initial message when language changes
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length === 1 && prev[0].from === "avatar") {
+        return [{ from: "avatar", text: getInitialMessage() }];
+      }
+      return prev;
+    });
+  }, [i18n.language]);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);

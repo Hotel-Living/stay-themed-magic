@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface Avatar {
   id: string;
@@ -21,14 +22,19 @@ const AvatarManagerContext = createContext<AvatarManagerContextType | undefined>
 export function AvatarManagerProvider({ children }: { children: React.ReactNode }) {
   const [activeAvatars, setActiveAvatars] = useState<Avatar[]>([]);
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
+  const { language, i18n } = useTranslation();
 
-  const getInitialMessage = () => {
-    // Use document.documentElement.lang to match the current app language
-    const lang = document.documentElement.lang || navigator.language;
-    if (lang.startsWith("en")) return "What would you like to talk about?";
-    if (lang.startsWith("pt")) return "Sobre o que gostaria de conversar?"; 
-    if (lang.startsWith("ro")) return "Despre ce ai vrea să vorbim?";
-    return "¿Sobre qué quieres que hablemos?";
+  const getInitialMessage = (language: string) => {
+    switch (language) {
+      case 'en':
+        return "What would you like to talk about?";
+      case 'pt':
+        return "Sobre o que gostaria de conversar?"; 
+      case 'ro':
+        return "Despre ce ai vrea să vorbim?";
+      default:
+        return "¿Sobre qué quieres que hablemos?";
+    }
   };
 
   const getNextPosition = (): Avatar['position'] => {
@@ -53,7 +59,7 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
         gif,
         position: nextPosition,
         isActive: true,
-        chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }]
+        chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(language) }]
       };
       return [...filtered, newAvatar];
     });
@@ -64,8 +70,8 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   }, []);
 
   const getChatHistory = useCallback((avatarId: string) => {
-    return chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }];
-  }, [chatHistories]);
+    return chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(language) }];
+  }, [chatHistories, language]);
 
   const updateChatHistory = useCallback((avatarId: string, messages: { from: 'user' | 'avatar'; text: string }[]) => {
     setChatHistories(prev => ({
@@ -74,6 +80,30 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     }));
   }, []);
 
+  // Update chat histories when language changes
+  useEffect(() => {
+    const newInitialMessage = getInitialMessage(language);
+    
+    // Update existing chat histories that only have the initial message
+    setChatHistories(prev => {
+      const updated = { ...prev };
+      Object.keys(updated).forEach(avatarId => {
+        const history = updated[avatarId];
+        if (history && history.length === 1 && history[0].from === 'avatar') {
+          updated[avatarId] = [{ from: 'avatar', text: newInitialMessage }];
+        }
+      });
+      return updated;
+    });
+
+    // Update active avatars
+    setActiveAvatars(prev => prev.map(avatar => ({
+      ...avatar,
+      chatHistory: avatar.chatHistory.length === 1 && avatar.chatHistory[0].from === 'avatar'
+        ? [{ from: 'avatar', text: newInitialMessage }]
+        : avatar.chatHistory
+    })));
+  }, [language]);
 
   return (
     <AvatarManagerContext.Provider value={{

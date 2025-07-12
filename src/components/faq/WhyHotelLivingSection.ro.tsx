@@ -197,7 +197,7 @@ export function WhyHotelLivingSectionRO() {
       </div>
 
       {/* First Horizontal Accordion Menu */}
-      <div className="mb-24">
+      <div className={`mb-24 transition-all duration-300 ${activeAvatar ? 'mt-20' : ''}`}>
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>

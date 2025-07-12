@@ -123,7 +123,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   return (
     <div
       ref={chatRef}
-      className="fixed top-0 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+      className="fixed bottom-24 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
       style={{ backgroundColor: '#561C7B', width, height }}
     >
       <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300" style={{ backgroundColor: '#561C7B' }}>
@@ -151,7 +151,6 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
           {getSendButtonText()}
         </button>
       </div>
-      {/* Handle bottom-right resize */}
       <div
         className="absolute bottom-0 right-0 w-3 h-3 cursor-nwse-resize bg-fuchsia-400 opacity-10 hover:opacity-40"
         onMouseDown={handleMouseDownResize}

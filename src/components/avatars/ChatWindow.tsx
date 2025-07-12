@@ -36,20 +36,26 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
 
   const [messages, setMessages] = useState([{ from: "avatar", text: getInitialMessage() }]);
   const [input, setInput] = useState("");
-  const [position, setPosition] = useState(() => {
-    // Use a timeout to ensure the avatar element is rendered
-    setTimeout(() => {
+  const [position, setPosition] = useState({ x: 200, y: 100 });
+
+  // Calculate position immediately when component mounts
+  useEffect(() => {
+    const calculatePosition = () => {
       const avatarElement = document.getElementById(`avatar-${avatarId}`);
       if (avatarElement) {
         const rect = avatarElement.getBoundingClientRect();
-        const newX = rect.right + 10;
-        const newY = Math.max(0, rect.top);
+        const newX = Math.min(rect.right + 10, window.innerWidth - 270); // Ensure chat stays on screen
+        const newY = Math.max(10, Math.min(rect.top, window.innerHeight - 300));
         setPosition({ x: newX, y: newY });
       }
-    }, 100);
-    // Initial fallback position
-    return { x: 200, y: 100 };
-  });
+    };
+
+    // Try immediately and with small delay for DOM rendering
+    calculatePosition();
+    const timer = setTimeout(calculatePosition, 50);
+    
+    return () => clearTimeout(timer);
+  }, [avatarId]);
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);

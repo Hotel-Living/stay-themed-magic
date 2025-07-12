@@ -40,10 +40,10 @@ export function RandomAvatarAssistant() {
 
   const getMessage = () => {
     const lang = navigator.language;
-    if (lang.startsWith("en")) return "Need help?";
-    if (lang.startsWith("pt")) return "Precisa de ajuda?"; 
-    if (lang.startsWith("ro")) return "Ai nevoie de ajutor?";
-    return "¿Necesitas ayuda?";
+    if (lang.startsWith("en")) return "I'm here if you need me — I won't interrupt.";
+    if (lang.startsWith("pt")) return "Estou aqui se precisar — não incomodo."; 
+    if (lang.startsWith("ro")) return "Sunt aici dacă ai nevoie — nu deranjez.";
+    return "Estoy aquí si me necesitas, no molesto.";
   };
 
   const showRandomAvatarPopup = useCallback(() => {

@@ -165,44 +165,44 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
     return "Asistente Hotel-Living";
   };
 
-  // Dynamic positioning based on avatar position
+  // Dynamic positioning based on avatar position (40% smaller chat)
   const getPosition = () => {
-    const chatWidth = 192; // w-48 in pixels (reduced size)
+    const chatWidth = 144; // w-36 in pixels (40% reduced from w-48)
     const avatarSize = 64; // Avatar size
     const gap = 8; // Gap between avatar and chat
     
     switch (avatarPosition) {
       case 'bottom-left':
         return { 
-          bottom: '20px', 
-          left: `${avatarSize + gap + 16}px`, 
+          bottom: '88px', // Above avatar 
+          left: '16px', 
           right: 'auto',
           top: 'auto'
         };
       case 'bottom-right':
         return { 
-          bottom: '20px', 
-          right: `${avatarSize + gap + 16}px`, 
+          bottom: '88px', // Above avatar
+          right: '16px', 
           left: 'auto',
           top: 'auto'
         };
       case 'top-left':
         return { 
-          top: `${avatarSize + gap + 16}px`, 
+          top: '88px', // Below avatar
           left: '16px', 
           right: 'auto',
           bottom: 'auto'
         };
       case 'top-right':
         return { 
-          top: `${avatarSize + gap + 16}px`, 
+          top: '88px', // Below avatar
           right: '16px', 
           left: 'auto',
           bottom: 'auto'
         };
       default:
         return { 
-          bottom: '20px', 
+          bottom: '88px', 
           right: '16px', 
           left: 'auto',
           top: 'auto'
@@ -214,7 +214,7 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
 
   return (
     <div 
-      className="fixed rounded-xl shadow-2xl w-48 max-h-[40vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      className="fixed rounded-xl shadow-2xl w-36 max-h-[30vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
       style={{ 
         backgroundColor: '#7B4194',
         bottom: position.bottom,
@@ -235,10 +235,10 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
             <span 
               className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
                 m.from === "avatar" 
-                  ? "text-gray-800" 
+                  ? (i === 0 ? "bg-white text-gray-800" : "text-gray-800")
                   : "bg-white text-gray-800"
               }`}
-              style={m.from === "avatar" ? { backgroundColor: '#8b5dc9' } : {}}
+              style={m.from === "avatar" && i > 0 ? { backgroundColor: '#8b5dc9' } : {}}
             >
               {m.text}
             </span>

@@ -22,6 +22,8 @@
       "society": "Societate?"
     },
     "avatarMessage": "Sunt aici.\nDacă ai nevoie de mine,\nîntreabă-mă orice.",
+    "passiveAvatarMessage": "Sunt aici dacă ai nevoie — nu deranjez.",
+    "profileAvatarMessageTemplate": "Sunt {name}, întreabă-mă orice dorești.",
     "identifyHeader": "CU CINE TE IDENTIFICI?\nAPASĂ PENTRU A AFLA MAI MULT"
   }
 }

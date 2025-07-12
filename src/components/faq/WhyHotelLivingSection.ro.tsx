@@ -228,7 +228,7 @@ export function WhyHotelLivingSectionRO() {
                           gif={avatar.gif}
                           position="content"
                           showMessage={showMessage}
-                          message={t('faq.avatarMessage')}
+                          message={`Sunt ${avatar.id}, întreabă-mă orice dorești.`}
                           onClose={handleAvatarClose}
                         />
                       </div>

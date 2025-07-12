@@ -104,7 +104,7 @@ export function EnhancedAvatarAssistant({
 
           {/* Speech bubble - positioned to not cover avatar head */}
           {showMessage && !isBottomRightPosition && (
-            <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200">
+            <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200">
               <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}

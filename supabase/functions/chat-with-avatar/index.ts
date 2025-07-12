@@ -160,14 +160,14 @@ const HOTEL_LIVING_KNOWLEDGE = {
 
 // Validation function to ensure responses stay within knowledge boundaries
 function validateResponse(response: string): boolean {
+  // Only reject responses that explicitly mention lack of information or redirect to external sources
   const forbiddenPhrases = [
-    "no tengo información",
-    "no puedo ayudar", 
-    "consulta con",
+    "no tengo información específica",
+    "no puedo proporcionar información",
     "busca en google",
-    "según mi conocimiento general",
-    "como IA",
-    "en general"
+    "según mi conocimiento general de chatgpt",
+    "como modelo de IA no tengo",
+    "consulta directamente con"
   ];
   
   return !forbiddenPhrases.some(phrase => 
@@ -425,7 +425,13 @@ serve(async (req) => {
     const { message, avatarId, persona, language = 'es' } = await req.json();
 
     if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
+      console.error('OpenAI API key not configured');
+      // Return a contextual response instead of error when API key is missing
+      const validatedLanguage = ['en', 'es', 'pt', 'ro'].includes(language) ? language : 'es';
+      const fallbackResponse = getFallbackResponse(validatedLanguage);
+      return new Response(JSON.stringify({ response: fallbackResponse }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     console.log(`Chat request for avatar: ${avatarId}, language: ${language}`);
@@ -502,10 +508,12 @@ serve(async (req) => {
     const data = await response.json();
     let generatedResponse = data.choices[0].message.content;
 
-    // Validate response to ensure it stays within Hotel-Living knowledge boundaries
+    // Only validate if response contains obvious violations
     if (!validateResponse(generatedResponse)) {
       console.log('Response validation failed, using fallback:', generatedResponse);
       generatedResponse = getFallbackResponse(validatedLanguage);
+    } else {
+      console.log('Response validation passed:', generatedResponse);
     }
 
     console.log(`Final response for ${avatarId} in ${validatedLanguage}:`, generatedResponse);

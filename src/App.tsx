@@ -5,6 +5,7 @@ import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/auth/AuthProvider";
+import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { SEOMetadata } from "@/components/SEOMetadata";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
@@ -79,15 +80,16 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AuthProvider>
-          <Router>
-            <SEOMetadata />
-            
-            {/* Intro Animation Overlay */}
-            {shouldShowIntro && (
-              <IntroAnimation onComplete={handleIntroComplete} />
-            )}
-            
-            <Routes>
+          <AvatarManagerProvider>
+            <Router>
+              <SEOMetadata />
+              
+              {/* Intro Animation Overlay */}
+              {shouldShowIntro && (
+                <IntroAnimation onComplete={handleIntroComplete} />
+              )}
+              
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
@@ -146,7 +148,8 @@ function App() {
               {/* Comparison Route */}
               <Route path="/compare" element={<Compare />} />
             </Routes>
-          </Router>
+            </Router>
+          </AvatarManagerProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

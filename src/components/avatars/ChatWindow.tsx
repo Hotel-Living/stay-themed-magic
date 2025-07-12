@@ -121,33 +121,70 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     }
   };
 
+  const getPlaceholderText = () => {
+    const lang = navigator.language;
+    if (lang.startsWith("en")) return "Type your question...";
+    if (lang.startsWith("pt")) return "Digite sua pergunta..."; 
+    if (lang.startsWith("ro")) return "Tastează întrebarea ta...";
+    return "Escribe tu pregunta...";
+  };
+
+  const getSendButtonText = () => {
+    const lang = navigator.language;
+    if (lang.startsWith("en")) return "Send";
+    if (lang.startsWith("pt")) return "Enviar"; 
+    if (lang.startsWith("ro")) return "Trimite";
+    return "Enviar";
+  };
+
+  const getHeaderText = () => {
+    const lang = navigator.language;
+    if (lang.startsWith("en")) return "Hotel-Living Assistant";
+    if (lang.startsWith("pt")) return "Assistente Hotel-Living"; 
+    if (lang.startsWith("ro")) return "Asistent Hotel-Living";
+    return "Asistente Hotel-Living";
+  };
+
   return (
-    <div className="fixed bottom-4 right-4 bg-white border rounded-xl shadow-lg w-80 max-h-[70vh] flex flex-col overflow-hidden z-50">
-      <div className="bg-gray-100 px-4 py-2 font-semibold flex justify-between items-center">
-        <span>Asistente Hotel-Living</span>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+    <div 
+      className="fixed bottom-20 right-4 rounded-xl shadow-2xl w-80 max-h-[70vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      style={{ backgroundColor: '#7B4194' }}
+    >
+      <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-white/20">
+        <span className="text-white">{getHeaderText()}</span>
+        <button onClick={onClose} className="text-white/80 hover:text-white transition-colors">
           <X size={16} />
         </button>
       </div>
       <div className="flex-1 p-3 overflow-y-auto text-sm">
         {messages.map((m, i) => (
-          <div key={i} className={`mb-2 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
-            <span className={`inline-block px-3 py-2 rounded-lg max-w-[90%] ${m.from === "avatar" ? "bg-purple-100 text-black" : "bg-blue-200"}`}>
+          <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
+            <span 
+              className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
+                m.from === "avatar" 
+                  ? "text-gray-800" 
+                  : "bg-white text-gray-800"
+              }`}
+              style={m.from === "avatar" ? { backgroundColor: '#8b5dc9' } : {}}
+            >
               {m.text}
             </span>
           </div>
         ))}
       </div>
-      <div className="flex border-t">
+      <div className="flex border-t border-white/20">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-3 py-2 text-sm outline-none"
-          placeholder="Escribe tu pregunta..."
+          className="flex-1 px-3 py-2 text-sm outline-none bg-white/10 text-white placeholder-white/60 border-none"
+          placeholder={getPlaceholderText()}
         />
-        <button onClick={handleSend} className="px-4 text-sm bg-purple-600 text-white hover:bg-purple-700">
-          Enviar
+        <button 
+          onClick={handleSend} 
+          className="px-4 text-sm text-white hover:bg-white/10 transition-colors font-medium"
+        >
+          {getSendButtonText()}
         </button>
       </div>
     </div>

@@ -13,6 +13,7 @@ import { HotelCards } from "@/components/hotels/HotelCards";
 import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { useTranslation } from "@/hooks/useTranslation";
+import { HotelPageAvatar } from "@/components/avatars/HotelPageAvatar";
 const orderedCategoryIds = ["benefits", "models", "revenue", "guests", "seniors", "affinities", "operation", "integration", "marketing", "payment"];
 const HotelSignupButtons = ({
   isMobile
@@ -92,5 +93,8 @@ export default function Hotels() {
       </main>
       
       <Footer />
+      
+      {/* Martin avatar for hotel partners */}
+      <HotelPageAvatar />
     </div>;
 }

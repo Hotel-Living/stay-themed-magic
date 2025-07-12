@@ -11,6 +11,7 @@ import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
 import { AvatarIntro } from '@/components/avatars/AvatarIntro';
+import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistant';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -80,6 +81,9 @@ export default function Index() {
       </main>
       
       <Footer />
+      
+      {/* Random Avatar Assistant - appears every 30 seconds */}
+      {!showAvatarIntro && <RandomAvatarAssistant />}
     </div>
   );
 }

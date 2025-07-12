@@ -8,6 +8,7 @@ import { DashboardTab } from "@/types/dashboard";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import TabContentSelector from "@/components/hotel-dashboard/TabContentSelector";
 import { Footer } from "@/components/Footer";
+import { EnhancedAvatarAssistant } from "@/components/avatars/EnhancedAvatarAssistant";
 
 export default function HotelDashboardRO() {
   const [activeTab, setActiveTab] = useState<string>("welcome-overview");
@@ -103,6 +104,14 @@ export default function HotelDashboardRO() {
         <TabContentSelector activeTab={activeTab} />
       </DashboardLayout>
       <Footer />
+      
+      {/* Persistent Martin avatar for hotel dashboard */}
+      <EnhancedAvatarAssistant
+        avatarId="martin"
+        gif="https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif"
+        position="bottom-right"
+        showMessage={false}
+      />
     </div>
   );
 }

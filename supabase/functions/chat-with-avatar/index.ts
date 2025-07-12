@@ -175,13 +175,47 @@ function validateResponse(response: string): boolean {
   );
 }
 
-// Function to generate fallback responses when outside knowledge scope
-function getFallbackResponse(language: string): string {
+// Function to generate contextual fallback responses
+function getFallbackResponse(language: string, message: string = ""): string {
+  // Detect question type for more contextual responses
+  const questionLower = message.toLowerCase();
+  
+  if (questionLower.includes("cuanto") || questionLower.includes("precio") || questionLower.includes("cost") || questionLower.includes("price") || questionLower.includes("quanto") || questionLower.includes("cât")) {
+    const priceFallbacks = {
+      es: "Nuestras estancias son de 8, 15, 22 y 29 días. Solo pagas el 15% al reservar, el 85% directamente al hotel. Los precios varían según el hotel y ubicación.",
+      en: "Our stays are 8, 15, 22, and 29 days long. You only pay 15% when booking, 85% directly to the hotel. Prices vary by hotel and location.",
+      pt: "Nossas estadias são de 8, 15, 22 e 29 dias. Você paga apenas 15% na reserva, 85% diretamente ao hotel. Os preços variam por hotel e localização.",
+      ro: "Sejururile noastre sunt de 8, 15, 22 și 29 de zile. Plătești doar 15% la rezervare, 85% direct la hotel. Prețurile variază în funcție de hotel și locație."
+    };
+    return priceFallbacks[language as keyof typeof priceFallbacks] || priceFallbacks.es;
+  }
+  
+  if (questionLower.includes("afinidad") || questionLower.includes("affinit") || questionLower.includes("interest") || questionLower.includes("theme") || questionLower.includes("actividad") || questionLower.includes("activity")) {
+    const affinityFallbacks = {
+      es: "Las afinidades son nuestro corazón: 17 categorías como Arte, Música, Gastronomía, Deportes, Negocios. Cada hotel tiene sus propias afinidades específicas.",
+      en: "Affinities are our heart: 17 categories like Art, Music, Food & Drinks, Sports, Business. Each hotel has its own specific affinities.",
+      pt: "As afinidades são nosso coração: 17 categorias como Arte, Música, Gastronomia, Esportes, Negócios. Cada hotel tem suas afinidades específicas.",
+      ro: "Afinitățile sunt inima noastră: 17 categorii cum ar fi Artă, Muzică, Gastronomie, Sport, Afaceri. Fiecare hotel are propriile afinități specifice."
+    };
+    return affinityFallbacks[language as keyof typeof affinityFallbacks] || affinityFallbacks.es;
+  }
+  
+  if (questionLower.includes("tiempo") || questionLower.includes("duration") || questionLower.includes("tiempo") || questionLower.includes("duración") || questionLower.includes("timp")) {
+    const durationFallbacks = {
+      es: "Las estancias en Hotel-Living son de 8, 15, 22 y 29 días exactamente. Son las únicas opciones disponibles, perfectas para flexibilidad sin compromisos largos.",
+      en: "Hotel-Living stays are exactly 8, 15, 22, and 29 days. These are the only available options, perfect for flexibility without long commitments.",
+      pt: "As estadias no Hotel-Living são exatamente de 8, 15, 22 e 29 dias. São as únicas opções disponíveis, perfeitas para flexibilidade sem compromissos longos.",
+      ro: "Sejururile Hotel-Living sunt exact de 8, 15, 22 și 29 de zile. Acestea sunt singurele opțiuni disponibile, perfecte pentru flexibilitate fără angajamente lungi."
+    };
+    return durationFallbacks[language as keyof typeof durationFallbacks] || durationFallbacks.es;
+  }
+  
+  // Default contextual fallbacks
   const fallbacks = {
-    es: "Me encanta hablar sobre Hotel-Living y mi experiencia viviendo así. ¿Hay algo específico sobre nuestro estilo de vida hotelero que te gustaría saber?",
-    en: "I love talking about Hotel-Living and my experience living this way. Is there something specific about our hotel lifestyle you'd like to know?",
-    pt: "Adoro falar sobre Hotel-Living e minha experiência vivendo assim. Há algo específico sobre nosso estilo de vida hoteleiro que gostaria de saber?",
-    ro: "Îmi place să vorbesc despre Hotel-Living și experiența mea de a trăi așa. Este ceva specific despre stilul nostru de viață hotelier pe care ai vrea să îl știi?"
+    es: "Vivo en hoteles con Hotel-Living: estancias de 8, 15, 22 y 29 días, todo incluido, comunidad con afinidades compartidas. ¿Qué te gustaría saber específicamente?",
+    en: "I live in hotels with Hotel-Living: 8, 15, 22, and 29-day stays, all-inclusive, community with shared affinities. What would you like to know specifically?",
+    pt: "Vivo em hotéis com Hotel-Living: estadias de 8, 15, 22 e 29 dias, tudo incluído, comunidade com afinidades compartilhadas. O que gostaria de saber especificamente?",
+    ro: "Trăiesc în hoteluri cu Hotel-Living: sejururi de 8, 15, 22 și 29 de zile, totul inclus, comunitate cu afinități comune. Ce ai vrea să știi în mod specific?"
   };
   
   return fallbacks[language as keyof typeof fallbacks] || fallbacks.es;
@@ -192,6 +226,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Simplified prompts focused on direct, knowledgeable responses
 const avatarPersonalities: Record<string, Record<string, string>> = {
   "maria": {
     "en": `I'm María, 63 years old, a retired woman passionate about art, yoga, and philosophy. My style is serene, clear, and reflective. I live from hotel to hotel thanks to Hotel-Living, surrounded by like-minded people.
@@ -428,7 +463,7 @@ serve(async (req) => {
       console.error('OpenAI API key not configured');
       // Return a contextual response instead of error when API key is missing
       const validatedLanguage = ['en', 'es', 'pt', 'ro'].includes(language) ? language : 'es';
-      const fallbackResponse = getFallbackResponse(validatedLanguage);
+      const fallbackResponse = getFallbackResponse(validatedLanguage, message);
       return new Response(JSON.stringify({ response: fallbackResponse }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -452,35 +487,15 @@ serve(async (req) => {
     
     console.log(`Using personality for ${avatarId} in ${validatedLanguage}:`, systemPrompt?.substring(0, 100) + '...');
     
-    // STRICT Knowledge-based instructions - ONLY source of truth
+    // Simplified, focused instructions 
     const strictInstructions = {
-      'en': `CRITICAL INSTRUCTIONS - FOLLOW EXACTLY:
-1. You are STRICTLY LIMITED to Hotel-Living knowledge only. 
-2. NEVER use general ChatGPT knowledge or internet information.
-3. Always respond in first person as the character.
-4. Keep responses short (maximum 2-3 sentences).
-5. Stay durations are ONLY: 8, 15, 22, and 29 days.
-6. Payment: ALWAYS mention 15% when booking, 85% directly to hotel on arrival.
-7. AFFINITIES ARE CORE: Questions about "affinities", "interests", "themes", "community" are ALWAYS about Hotel-Living's main feature.
-8. AFFINITY FACTS: 17 main categories, 239 total themes. Examples: Art, Music, Food & Drinks, Sports, Business, etc.
-9. If asked about anything outside Hotel-Living scope, politely redirect with fallback response.
-10. FORBIDDEN: "I don't have information", "I can't help", "consult with", "according to my general knowledge".
-11. Only discuss Hotel-Living services, experiences, and the specific knowledge provided.`,
+      'en': `Answer as the character in first person. Give specific, direct answers about Hotel-Living only. Stay durations: 8, 15, 22, 29 days. Payment: 15% booking, 85% at hotel. Affinities: 17 categories including Art, Music, Food & Drinks, Sports, Business. Keep responses short (2-3 sentences max). Never say "I don't have information" - always give direct answers from your Hotel-Living experience.`,
       
-      'es': `INSTRUCCIONES CRÍTICAS - SEGUIR EXACTAMENTE:
-1. Estás ESTRICTAMENTE LIMITADO solo al conocimiento de Hotel-Living.
-2. NUNCA uses conocimiento general de ChatGPT o información de internet.
-3. Responde siempre en primera persona como el personaje.
-4. Mantén respuestas cortas (máximo 2-3 frases).
-5. Las duraciones de estancia son SOLO: 8, 15, 22 y 29 días.
-6. Pago: SIEMPRE menciona 15% al reservar, 85% directamente al hotel al llegar.
-7. AFINIDADES SON CENTRALES: Preguntas sobre "afinidades", "intereses", "temas", "comunidad" son SIEMPRE sobre la característica principal de Hotel-Living.
-8. DATOS AFINIDADES: 17 categorías principales, 239 temas totales. Ejemplos: Arte, Música, Comida y Bebidas, Deportes, Negocios, etc.
-9. Si preguntan sobre algo fuera del ámbito Hotel-Living, redirige educadamente con respuesta de respaldo.
-10. PROHIBIDO: "no tengo información", "no puedo ayudar", "consulta con", "según mi conocimiento general".
-11. Solo discute servicios Hotel-Living, experiencias y el conocimiento específico proporcionado.`,
-      'pt': 'IMPORTANTE: Sempre responda em primeira pessoa como o personagem. Mantenha respostas curtas (máximo 2-3 frases). Apenas fale sobre Hotel-Living e sua experiência pessoal. Quando mencionar durações, sempre especifique que são 8, 15, 22 e 29 dias. Quando perguntarem sobre pagamento, sempre mencione que você paga apenas 15% na reserva e 85% diretamente ao hotel na chegada. Não mencione outros serviços ou plataformas.',
-      'ro': 'IMPORTANT: Răspunde întotdeauna în persoana întâi ca personajul. Păstrează răspunsurile scurte (maximum 2-3 propoziții). Vorbește doar despre Hotel-Living și experiența ta personală. Când menționezi duratele, specifică întotdeauna că sunt 8, 15, 22 și 29 de zile. Când întreabă despre plată, menționează întotdeauna că plătești doar 15% la rezervare și 85% direct la hotel la sosire. Nu menționa alte servicii sau platforme.'
+      'es': `Responde como el personaje en primera persona. Da respuestas específicas y directas solo sobre Hotel-Living. Duraciones: 8, 15, 22, 29 días. Pago: 15% reserva, 85% en hotel. Afinidades: 17 categorías incluyendo Arte, Música, Gastronomía, Deportes, Negocios. Respuestas cortas (máximo 2-3 frases). Nunca digas "no tengo información" - siempre da respuestas directas desde tu experiencia Hotel-Living.`,
+      
+      'pt': `Responda como o personagem em primeira pessoa. Dê respostas específicas e diretas apenas sobre Hotel-Living. Durações: 8, 15, 22, 29 dias. Pagamento: 15% reserva, 85% no hotel. Afinidades: 17 categorias incluindo Arte, Música, Gastronomia, Esportes, Negócios. Respostas curtas (máximo 2-3 frases). Nunca diga "não tenho informação" - sempre dê respostas diretas da sua experiência Hotel-Living.`,
+      
+      'ro': `Răspunde ca personajul în persoana întâi. Dă răspunsuri specifice și directe doar despre Hotel-Living. Durate: 8, 15, 22, 29 zile. Plată: 15% rezervare, 85% la hotel. Afinități: 17 categorii incluzând Artă, Muzică, Gastronomie, Sport, Afaceri. Răspunsuri scurte (maxim 2-3 propoziții). Nu spune niciodată "nu am informații" - întotdeauna dă răspunsuri directe din experiența ta Hotel-Living.`
     };
 
     const instructions = strictInstructions[validatedLanguage as keyof typeof strictInstructions] || strictInstructions['es'];
@@ -574,7 +589,7 @@ serve(async (req) => {
       // Validate response content - only reject obvious violations
       if (!validateResponse(generatedResponse)) {
         console.log('Response validation failed, using fallback. Original response:', generatedResponse);
-        generatedResponse = getFallbackResponse(validatedLanguage);
+        generatedResponse = getFallbackResponse(validatedLanguage, message);
       } else {
         console.log('Response validation passed for:', generatedResponse);
       }
@@ -584,9 +599,9 @@ serve(async (req) => {
       console.error('Error details:', openAiError.message);
       console.error('Error stack:', openAiError.stack);
       
-      // Use fallback response when OpenAI API fails
-      generatedResponse = getFallbackResponse(validatedLanguage);
-      console.log('Using fallback response due to OpenAI API error:', generatedResponse);
+      // Use contextual fallback response when OpenAI API fails
+      generatedResponse = getFallbackResponse(validatedLanguage, message);
+      console.log('Using contextual fallback response due to OpenAI API error:', generatedResponse);
     }
 
     console.log(`Final response for ${avatarId} in ${validatedLanguage}:`, generatedResponse);

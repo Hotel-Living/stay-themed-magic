@@ -531,11 +531,31 @@ serve(async (req) => {
       throw new Error('Missing required fields: message and avatarId');
     }
 
-    // Get the personality - prioritize the detailed persona from frontend over hardcoded personalities
-    const avatarData = avatarPersonalities[avatarId];
-    const systemPrompt = persona && persona.length > 50 ? persona : (avatarData ? avatarData[validatedLanguage] || avatarData['es'] : persona);
+    // Debug logging to understand what's happening
+    console.log(`=== PERSONA DEBUG for ${avatarId} ===`);
+    console.log(`Frontend persona received:`, persona ? `YES (${persona.length} chars)` : 'NO');
+    console.log(`Available avatarPersonalities keys:`, Object.keys(avatarPersonalities));
+    console.log(`Hardcoded personality exists for ${avatarId}:`, avatarPersonalities[avatarId] ? 'YES' : 'NO');
     
-    console.log(`Using personality for ${avatarId} in ${validatedLanguage}:`, systemPrompt?.substring(0, 100) + '...');
+    // PRIORITIZE FRONTEND PERSONA - it has the most detailed character information
+    let systemPrompt;
+    if (persona && persona.trim().length > 50) {
+      // Use detailed persona from ChatWindow (preferred)
+      systemPrompt = persona;
+      console.log(`✅ Using DETAILED frontend persona for ${avatarId}`);
+    } else if (avatarPersonalities[avatarId]) {
+      // Fallback to hardcoded personality if no frontend persona
+      const avatarData = avatarPersonalities[avatarId];
+      systemPrompt = avatarData[validatedLanguage] || avatarData['es'];
+      console.log(`⚠️ Using FALLBACK hardcoded personality for ${avatarId} in ${validatedLanguage}`);
+    } else {
+      // Last resort - use whatever persona was provided
+      systemPrompt = persona || `I'm a Hotel-Living assistant specializing in extended hotel stays.`;
+      console.log(`❌ Using GENERIC fallback for ${avatarId}`);
+    }
+    
+    console.log(`Final systemPrompt length: ${systemPrompt?.length || 0} characters`);
+    console.log(`System prompt preview:`, systemPrompt?.substring(0, 150) + '...');
     
     // Simplified, focused instructions 
     const strictInstructions = {

@@ -3,40 +3,87 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 interface Avatar {
   id: string;
   gif: string;
-  position: 'bottom-left' | 'bottom-right' | 'content';
+  position: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
   isActive: boolean;
   chatHistory: { from: 'user' | 'avatar'; text: string }[];
+  showChat: boolean;
 }
 
 interface AvatarManagerContextType {
-  activeAvatar: Avatar | null;
-  setActiveAvatar: (avatar: Avatar | null) => void;
-  moveAvatarToActivePosition: (avatarId: string, gif: string) => void;
-  dismissActiveAvatar: () => void;
+  activeAvatars: Avatar[];
+  addActiveAvatar: (avatarId: string, gif: string) => void;
+  removeActiveAvatar: (avatarId: string) => void;
+  toggleAvatarChat: (avatarId: string) => void;
   getChatHistory: (avatarId: string) => { from: 'user' | 'avatar'; text: string }[];
   updateChatHistory: (avatarId: string, messages: { from: 'user' | 'avatar'; text: string }[]) => void;
+  getAvatarByPosition: (position: string) => Avatar | null;
+  isAvatarActive: (avatarId: string) => boolean;
 }
 
 const AvatarManagerContext = createContext<AvatarManagerContextType | undefined>(undefined);
 
 export function AvatarManagerProvider({ children }: { children: React.ReactNode }) {
-  const [activeAvatar, setActiveAvatar] = useState<Avatar | null>(null);
+  const [activeAvatars, setActiveAvatars] = useState<Avatar[]>([]);
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
 
-  const moveAvatarToActivePosition = useCallback((avatarId: string, gif: string) => {
-    setActiveAvatar({
-      id: avatarId,
-      gif,
-      position: 'bottom-right',
-      isActive: true,
-      chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }]
+  const availablePositions: ('bottom-right' | 'bottom-left' | 'top-left' | 'top-right')[] = 
+    ['bottom-right', 'bottom-left', 'top-left', 'top-right'];
+
+  const addActiveAvatar = useCallback((avatarId: string, gif: string) => {
+    setActiveAvatars(prev => {
+      // Check if avatar is already active
+      const existingIndex = prev.findIndex(avatar => avatar.id === avatarId);
+      if (existingIndex >= 0) {
+        // Avatar exists, just toggle its chat
+        return prev.map(avatar => 
+          avatar.id === avatarId 
+            ? { ...avatar, showChat: true }
+            : avatar
+        );
+      }
+
+      // Find next available position
+      const usedPositions = prev.map(avatar => avatar.position);
+      const nextPosition = availablePositions.find(pos => !usedPositions.includes(pos));
+      
+      // If no position available, replace the oldest avatar
+      if (!nextPosition) {
+        const newAvatars = [...prev];
+        newAvatars.shift(); // Remove oldest
+        const position = availablePositions[0]; // Use first position
+        
+        return [...newAvatars, {
+          id: avatarId,
+          gif,
+          position,
+          isActive: true,
+          showChat: true,
+          chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }]
+        }];
+      }
+
+      // Add new avatar
+      return [...prev, {
+        id: avatarId,
+        gif,
+        position: nextPosition,
+        isActive: true,
+        showChat: true,
+        chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }]
+      }];
     });
-    localStorage.setItem('activeAvatar', avatarId);
   }, [chatHistories]);
 
-  const dismissActiveAvatar = useCallback(() => {
-    setActiveAvatar(null);
-    localStorage.removeItem('activeAvatar');
+  const removeActiveAvatar = useCallback((avatarId: string) => {
+    setActiveAvatars(prev => prev.filter(avatar => avatar.id !== avatarId));
+  }, []);
+
+  const toggleAvatarChat = useCallback((avatarId: string) => {
+    setActiveAvatars(prev => prev.map(avatar => 
+      avatar.id === avatarId 
+        ? { ...avatar, showChat: !avatar.showChat }
+        : avatar
+    ));
   }, []);
 
   const getChatHistory = useCallback((avatarId: string) => {
@@ -50,6 +97,14 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     }));
   }, []);
 
+  const getAvatarByPosition = useCallback((position: string) => {
+    return activeAvatars.find(avatar => avatar.position === position) || null;
+  }, [activeAvatars]);
+
+  const isAvatarActive = useCallback((avatarId: string) => {
+    return activeAvatars.some(avatar => avatar.id === avatarId);
+  }, [activeAvatars]);
+
   const getInitialMessage = () => {
     const lang = navigator.language;
     if (lang.startsWith("en")) return "What would you like to talk about?";
@@ -60,12 +115,14 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
 
   return (
     <AvatarManagerContext.Provider value={{
-      activeAvatar,
-      setActiveAvatar,
-      moveAvatarToActivePosition,
-      dismissActiveAvatar,
+      activeAvatars,
+      addActiveAvatar,
+      removeActiveAvatar,
+      toggleAvatarChat,
       getChatHistory,
-      updateChatHistory
+      updateChatHistory,
+      getAvatarByPosition,
+      isAvatarActive
     }}>
       {children}
     </AvatarManagerContext.Provider>

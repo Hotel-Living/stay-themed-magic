@@ -36,7 +36,7 @@ const avatarPool = [
 export function RandomAvatarAssistant() {
   const [currentRandomAvatar, setCurrentRandomAvatar] = useState<{ id: string; gif: string } | null>(null);
   const [showRandomAvatar, setShowRandomAvatar] = useState(false);
-  const { activeAvatar } = useAvatarManager();
+  const { activeAvatars } = useAvatarManager();
 
   const getMessage = () => {
     const lang = navigator.language;
@@ -47,8 +47,8 @@ export function RandomAvatarAssistant() {
   };
 
   const showRandomAvatarPopup = useCallback(() => {
-    // Don't show if there's already an active avatar
-    if (activeAvatar) return;
+    // Don't show if there are already active avatars
+    if (activeAvatars.length > 0) return;
     
     const randomIndex = Math.floor(Math.random() * avatarPool.length);
     const randomAvatar = avatarPool[randomIndex];
@@ -61,7 +61,7 @@ export function RandomAvatarAssistant() {
       setShowRandomAvatar(false);
       setCurrentRandomAvatar(null);
     }, 10000);
-  }, [activeAvatar]);
+  }, [activeAvatars]);
 
   useEffect(() => {
     // Start the 30-second interval for random avatar popup
@@ -77,8 +77,8 @@ export function RandomAvatarAssistant() {
     setCurrentRandomAvatar(null);
   };
 
-  // Don't show random avatar if there's an active avatar
-  if (activeAvatar || !showRandomAvatar || !currentRandomAvatar) {
+  // Don't show random avatar if there are active avatars
+  if (activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
     return null;
   }
 

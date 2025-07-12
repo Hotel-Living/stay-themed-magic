@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 import ChatWindow from "./ChatWindow";
 import { useAvatarManager } from "@/contexts/AvatarManager";
@@ -6,7 +6,7 @@ import { useAvatarManager } from "@/contexts/AvatarManager";
 interface EnhancedAvatarAssistantProps {
   avatarId: string;
   gif: string;
-  position?: 'bottom-left' | 'bottom-right' | 'content';
+  position?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'content';
   showMessage?: boolean;
   message?: string;
   onClose?: () => void;
@@ -20,12 +20,11 @@ export function EnhancedAvatarAssistant({
   message,
   onClose 
 }: EnhancedAvatarAssistantProps) {
-  const [showChat, setShowChat] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const { activeAvatar, moveAvatarToActivePosition, dismissActiveAvatar } = useAvatarManager();
+  const { activeAvatars, addActiveAvatar, removeActiveAvatar, toggleAvatarChat, isAvatarActive } = useAvatarManager();
 
-  const isActiveAvatar = activeAvatar?.id === avatarId;
-  const isBottomRightPosition = position === 'bottom-right';
+  const activeAvatar = activeAvatars.find(avatar => avatar.id === avatarId);
+  const isActive = isAvatarActive(avatarId);
 
   const getDefaultMessage = () => {
     const lang = navigator.language;
@@ -38,34 +37,29 @@ export function EnhancedAvatarAssistant({
   const displayMessage = message || getDefaultMessage();
 
   const handleAvatarClick = () => {
-    // Always move to bottom-right and activate when clicked
-    moveAvatarToActivePosition(avatarId, gif);
-    setShowChat(true);
+    if (isActive) {
+      // If already active, toggle chat
+      toggleAvatarChat(avatarId);
+    } else {
+      // If not active, add to active avatars
+      addActiveAvatar(avatarId, gif);
+    }
   };
 
   const handleDismiss = () => {
     setIsDismissed(true);
-    if (isActiveAvatar) {
-      dismissActiveAvatar();
+    if (isActive) {
+      removeActiveAvatar(avatarId);
     }
     onClose?.();
   };
 
   const handleChatClose = () => {
-    setShowChat(false);
-    if (position !== 'bottom-right') {
-      dismissActiveAvatar();
-    }
+    toggleAvatarChat(avatarId);
   };
 
-  // If another avatar is active and this one is not active, hide it (unless it's bottom-right)
-  if (activeAvatar && activeAvatar.id !== avatarId && !isActiveAvatar) {
-    return null;
-  }
-
-  // If this avatar is active, always show it in bottom-right position
-  const shouldShowInBottomRight = isActiveAvatar;
-  const effectivePosition = shouldShowInBottomRight ? 'bottom-right' : position;
+  // Determine effective position
+  const effectivePosition = isActive && activeAvatar ? activeAvatar.position : position;
 
   if (isDismissed) {
     return null;
@@ -77,6 +71,10 @@ export function EnhancedAvatarAssistant({
         return 'fixed bottom-4 left-4 z-50';
       case 'bottom-right':
         return 'fixed bottom-4 right-4 z-50';
+      case 'top-left':
+        return 'fixed top-4 left-4 z-50';
+      case 'top-right':
+        return 'fixed top-4 right-4 z-50';
       default:
         return 'relative';
     }
@@ -99,25 +97,29 @@ export function EnhancedAvatarAssistant({
           </button>
 
           {/* Speech bubble - only show if not active and has message */}
-          {showMessage && !isActiveAvatar && (
-            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md text-xs whitespace-nowrap z-10 border border-fuchsia-200">
-              <span className="text-gray-800">{displayMessage}</span>
+          {showMessage && !isActive && (
+            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[10px] max-w-[120px] z-10 border border-fuchsia-200">
+              <span className="text-gray-800 leading-tight line-clamp-2">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}
-                className="ml-2 text-gray-500 hover:text-gray-700"
+                className="ml-1 text-gray-500 hover:text-gray-700 float-right"
               >
-                <X size={12} />
+                <X size={10} />
               </button>
               {/* Bubble tail */}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-3 border-r-3 border-t-3 border-transparent border-t-white"></div>
             </div>
           )}
         </div>
       </div>
 
       {/* Chat Window - only show when this avatar is active and chat is open */}
-      {isActiveAvatar && showChat && (
-        <ChatWindow activeAvatar={avatarId} onClose={handleChatClose} />
+      {isActive && activeAvatar?.showChat && (
+        <ChatWindow 
+          activeAvatar={avatarId} 
+          avatarPosition={activeAvatar.position}
+          onClose={handleChatClose} 
+        />
       )}
     </>
   );

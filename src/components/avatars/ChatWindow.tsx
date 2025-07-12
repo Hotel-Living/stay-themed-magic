@@ -93,10 +93,11 @@ const avatarKnowledgeBase: Record<string, string> = {
 
 interface ChatWindowProps {
   activeAvatar: string;
+  avatarPosition: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
   onClose: () => void;
 }
 
-export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
+export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: ChatWindowProps) {
   const [messages, setMessages] = useState(() => {
     const lang = navigator.language;
     let initialMessage = "¿Sobre qué quieres que hablemos?";
@@ -164,35 +165,62 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
     return "Asistente Hotel-Living";
   };
 
-  // Dynamic positioning based on available space
-  const [position, setPosition] = useState({ bottom: '20px', right: '16px', left: 'auto' });
-  
-  useEffect(() => {
-    const updatePosition = () => {
-      const screenWidth = window.innerWidth;
-      const chatWidth = 224; // w-56 in pixels (reduced size)
-      
-      // If there's not enough space on the right, position on the left
-      if (screenWidth < chatWidth + 80) {
-        setPosition({ bottom: '20px', left: '16px', right: 'auto' });
-      } else {
-        setPosition({ bottom: '20px', right: '16px', left: 'auto' });
-      }
-    };
+  // Dynamic positioning based on avatar position
+  const getPosition = () => {
+    const chatWidth = 192; // w-48 in pixels (reduced size)
+    const avatarSize = 64; // Avatar size
+    const gap = 8; // Gap between avatar and chat
     
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
-    return () => window.removeEventListener('resize', updatePosition);
-  }, []);
+    switch (avatarPosition) {
+      case 'bottom-left':
+        return { 
+          bottom: '20px', 
+          left: `${avatarSize + gap + 16}px`, 
+          right: 'auto',
+          top: 'auto'
+        };
+      case 'bottom-right':
+        return { 
+          bottom: '20px', 
+          right: `${avatarSize + gap + 16}px`, 
+          left: 'auto',
+          top: 'auto'
+        };
+      case 'top-left':
+        return { 
+          top: `${avatarSize + gap + 16}px`, 
+          left: '16px', 
+          right: 'auto',
+          bottom: 'auto'
+        };
+      case 'top-right':
+        return { 
+          top: `${avatarSize + gap + 16}px`, 
+          right: '16px', 
+          left: 'auto',
+          bottom: 'auto'
+        };
+      default:
+        return { 
+          bottom: '20px', 
+          right: '16px', 
+          left: 'auto',
+          top: 'auto'
+        };
+    }
+  };
+  
+  const position = getPosition();
 
   return (
     <div 
-      className="fixed rounded-xl shadow-2xl w-56 max-h-[50vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
+      className="fixed rounded-xl shadow-2xl w-48 max-h-[40vh] flex flex-col overflow-hidden z-50 border border-fuchsia-400/30"
       style={{ 
         backgroundColor: '#7B4194',
         bottom: position.bottom,
         right: position.right,
-        left: position.left
+        left: position.left,
+        top: position.top
       }}
     >
       <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-white/20">

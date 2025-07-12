@@ -150,7 +150,8 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
         body: JSON.stringify({ 
           message: userMessage, 
           avatarId: activeAvatar,
-          persona: persona 
+          persona: persona,
+          language: i18n.language 
         })
       });
       

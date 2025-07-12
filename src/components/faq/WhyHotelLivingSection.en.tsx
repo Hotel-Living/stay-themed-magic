@@ -81,10 +81,16 @@ export function WhyHotelLivingSectionEN() {
     const avatars = avatarMapping[value];
     if (!avatars || avatars.length === 0) return [];
     
-    // For retired category, show only one random avatar
+    // For retired category, show only one random avatar per session
     if (value === "retired" && avatars.length > 1) {
-      const randomIndex = Math.floor(Math.random() * avatars.length);
-      return [avatars[randomIndex]];
+      // Use a stable random selection based on session
+      const sessionKey = `retired-avatar-${Date.now().toString().slice(-6)}`;
+      let selectedIndex = parseInt(sessionStorage.getItem(sessionKey) || '0');
+      if (isNaN(selectedIndex) || selectedIndex >= avatars.length) {
+        selectedIndex = Math.floor(Math.random() * avatars.length);
+        sessionStorage.setItem(sessionKey, selectedIndex.toString());
+      }
+      return [avatars[selectedIndex]];
     }
     
     return avatars;

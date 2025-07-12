@@ -428,9 +428,23 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
+    console.log(`Chat request for avatar: ${avatarId}, language: ${language}`);
+
+    // Validate language parameter and ensure it's supported
+    const supportedLanguages = ['en', 'es', 'pt', 'ro'];
+    const validatedLanguage = supportedLanguages.includes(language) ? language : 'es';
+    
+    console.log(`Validated language: ${validatedLanguage} (original: ${language})`);
+
+    if (!message || !avatarId) {
+      throw new Error('Missing required fields: message and avatarId');
+    }
+
     // Get the personality in the correct language
     const avatarData = avatarPersonalities[avatarId];
-    const systemPrompt = avatarData ? avatarData[language] || avatarData['es'] : persona;
+    const systemPrompt = avatarData ? avatarData[validatedLanguage] || avatarData['es'] : persona;
+    
+    console.log(`Using personality for ${avatarId} in ${validatedLanguage}:`, systemPrompt?.substring(0, 100) + '...');
     
     // STRICT Knowledge-based instructions - ONLY source of truth
     const strictInstructions = {
@@ -463,7 +477,7 @@ serve(async (req) => {
       'ro': 'IMPORTANT: Răspunde întotdeauna în persoana întâi ca personajul. Păstrează răspunsurile scurte (maximum 2-3 propoziții). Vorbește doar despre Hotel-Living și experiența ta personală. Când menționezi duratele, specifică întotdeauna că sunt 8, 15, 22 și 29 de zile. Când întreabă despre plată, menționează întotdeauna că plătești doar 15% la rezervare și 85% direct la hotel la sosire. Nu menționa alte servicii sau platforme.'
     };
 
-    const instructions = strictInstructions[language as keyof typeof strictInstructions] || strictInstructions['es'];
+    const instructions = strictInstructions[validatedLanguage as keyof typeof strictInstructions] || strictInstructions['es'];
     
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -491,11 +505,13 @@ serve(async (req) => {
     // Validate response to ensure it stays within Hotel-Living knowledge boundaries
     if (!validateResponse(generatedResponse)) {
       console.log('Response validation failed, using fallback:', generatedResponse);
-      generatedResponse = getFallbackResponse(language);
+      generatedResponse = getFallbackResponse(validatedLanguage);
     }
 
+    console.log(`Final response for ${avatarId} in ${validatedLanguage}:`, generatedResponse);
+
     // Log for monitoring purposes
-    console.log(`Avatar ${avatarId} (${language}): User: "${message}" | Response: "${generatedResponse}"`);
+    console.log(`Avatar ${avatarId} (${validatedLanguage}): User: "${message}" | Response: "${generatedResponse}"`);
 
     return new Response(JSON.stringify({ response: generatedResponse }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

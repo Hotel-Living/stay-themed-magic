@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import ChatWindow from "./ChatWindow";
 import { useAvatarManager } from "@/contexts/AvatarManager";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -25,12 +26,25 @@ export function EnhancedAvatarAssistant({
   const [isDismissed, setIsDismissed] = useState(false);
   const { i18n } = useTranslation();
   const { activeAvatars, addActiveAvatar, removeActiveAvatar } = useAvatarManager();
+  const location = useLocation();
+
+  // Extract language from URL path - primary source of truth  
+  const getLanguageFromPath = () => {
+    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const firstSegment = pathSegments[0];
+    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
+      return firstSegment;
+    }
+    return 'es'; // Default fallback
+  };
+
+  const currentLanguage = getLanguageFromPath();
 
   const isActiveAvatar = activeAvatars.some(avatar => avatar.id === avatarId);
   const isBottomRightPosition = position === 'bottom-right';
 
   const getDefaultMessage = () => {
-    switch (i18n.language) {
+    switch (currentLanguage) {
       case 'en':
         return "I'm here if you need me.";
       case 'pt':
@@ -42,10 +56,13 @@ export function EnhancedAvatarAssistant({
     }
   };
 
-  // Update message when language changes
+  // Update message when language or path changes
   useEffect(() => {
-    // Force re-render when language changes to update default message
-  }, [i18n.language]);
+    // Update i18n language to match URL if different
+    if (i18n.language !== currentLanguage) {
+      i18n.changeLanguage(currentLanguage);
+    }
+  }, [currentLanguage, location.pathname, i18n]);
 
   const displayMessage = message || getDefaultMessage();
 

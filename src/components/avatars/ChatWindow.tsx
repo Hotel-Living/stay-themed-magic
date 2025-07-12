@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const avatarKnowledgeBase: Record<string, string> = {
@@ -100,8 +101,22 @@ interface ChatWindowProps {
 
 export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWindowProps) {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+
+  // Extract language from URL path - primary source of truth
+  const getLanguageFromPath = () => {
+    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const firstSegment = pathSegments[0];
+    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
+      return firstSegment;
+    }
+    return 'es'; // Default fallback
+  };
+
+  const currentLanguage = getLanguageFromPath();
+
   const getInitialMessage = () => {
-    switch (i18n.language) {
+    switch (currentLanguage) {
       case 'en':
         return "What would you like to talk about?";
       case 'pt':
@@ -150,7 +165,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
           message: userMessage, 
           avatarId: activeAvatar,
           persona: persona,
-          language: i18n.language 
+          language: currentLanguage 
         })
       });
       
@@ -174,7 +189,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   };
 
   const getPlaceholderText = () => {
-    switch (i18n.language) {
+    switch (currentLanguage) {
       case 'en':
         return "Type your question...";
       case 'pt':
@@ -187,7 +202,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   };
 
   const getSendButtonText = () => {
-    switch (i18n.language) {
+    switch (currentLanguage) {
       case 'en':
         return "Send";
       case 'pt':
@@ -275,7 +290,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     document.addEventListener('mouseup', handleMouseUpResize);
   };
 
-  // Update initial message when language changes
+  // Update initial message when language or path changes
   useEffect(() => {
     setMessages(prev => {
       if (prev.length === 1 && prev[0].from === "avatar") {
@@ -283,7 +298,12 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       }
       return prev;
     });
-  }, [i18n.language]);
+
+    // Update i18n language to match URL if different
+    if (i18n.language !== currentLanguage) {
+      i18n.changeLanguage(currentLanguage);
+    }
+  }, [currentLanguage, location.pathname, i18n]);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);

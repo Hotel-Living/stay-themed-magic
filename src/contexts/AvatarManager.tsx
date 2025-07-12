@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
 
 interface Avatar {
@@ -23,6 +24,20 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   const [activeAvatars, setActiveAvatars] = useState<Avatar[]>([]);
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
   const { language, i18n } = useTranslation();
+  const location = useLocation();
+
+  // Extract language from URL path
+  const getLanguageFromPath = () => {
+    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const firstSegment = pathSegments[0];
+    if (['en', 'es', 'pt', 'ro'].includes(firstSegment)) {
+      return firstSegment;
+    }
+    return 'es'; // Default fallback
+  };
+
+  // Use URL-based language detection as primary source
+  const currentLanguage = getLanguageFromPath();
 
   const getInitialMessage = (language: string) => {
     switch (language) {
@@ -59,19 +74,19 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
         gif,
         position: nextPosition,
         isActive: true,
-        chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(language) }]
+        chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(currentLanguage) }]
       };
       return [...filtered, newAvatar];
     });
-  }, [chatHistories]);
+  }, [chatHistories, currentLanguage]);
 
   const removeActiveAvatar = useCallback((avatarId: string) => {
     setActiveAvatars(prev => prev.filter(avatar => avatar.id !== avatarId));
   }, []);
 
   const getChatHistory = useCallback((avatarId: string) => {
-    return chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(language) }];
-  }, [chatHistories, language]);
+    return chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage(currentLanguage) }];
+  }, [chatHistories, currentLanguage]);
 
   const updateChatHistory = useCallback((avatarId: string, messages: { from: 'user' | 'avatar'; text: string }[]) => {
     setChatHistories(prev => ({
@@ -80,9 +95,9 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     }));
   }, []);
 
-  // Update chat histories when language changes
+  // Update chat histories when language or path changes
   useEffect(() => {
-    const newInitialMessage = getInitialMessage(language);
+    const newInitialMessage = getInitialMessage(currentLanguage);
     
     // Update existing chat histories that only have the initial message
     setChatHistories(prev => {
@@ -103,7 +118,12 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
         ? [{ from: 'avatar', text: newInitialMessage }]
         : avatar.chatHistory
     })));
-  }, [language]);
+
+    // Update i18n language to match URL if different
+    if (i18n.language !== currentLanguage) {
+      i18n.changeLanguage(currentLanguage);
+    }
+  }, [currentLanguage, location.pathname, i18n]);
 
   return (
     <AvatarManagerContext.Provider value={{

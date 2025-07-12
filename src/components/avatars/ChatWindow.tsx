@@ -113,7 +113,7 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 320, height: 450 });
+  const [size, setSize] = useState({ width: 280, height: 350 });
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const chatRef = useRef<HTMLDivElement>(null);
@@ -122,16 +122,16 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
   // Initialize position based on avatar location
   useEffect(() => {
     const getInitialPosition = () => {
-      const padding = 20;
+      const padding = 16;
       const avatarSize = 80; // Avatar + some space
       
       switch (avatarPosition) {
         case 'bottom-right':
           return { x: window.innerWidth - size.width - padding, y: window.innerHeight - size.height - avatarSize - padding };
         case 'bottom-left':
-          return { x: padding, y: window.innerHeight - size.height - avatarSize - padding };
+          return { x: avatarSize + padding, y: window.innerHeight - size.height - avatarSize - padding };
         case 'top-left':
-          return { x: padding, y: avatarSize + padding };
+          return { x: avatarSize + padding, y: avatarSize + padding };
         case 'top-right':
           return { x: window.innerWidth - size.width - padding, y: avatarSize + padding };
         default:
@@ -160,8 +160,8 @@ export default function ChatWindow({ activeAvatar, avatarPosition, onClose }: Ch
       const newY = Math.max(0, Math.min(e.clientY - dragStart.y, window.innerHeight - size.height));
       setPosition({ x: newX, y: newY });
     } else if (isResizing) {
-      const newWidth = Math.max(280, Math.min(resizeStart.width + (e.clientX - resizeStart.x), window.innerWidth - position.x));
-      const newHeight = Math.max(350, Math.min(resizeStart.height + (e.clientY - resizeStart.y), window.innerHeight - position.y));
+      const newWidth = Math.max(240, Math.min(resizeStart.width + (e.clientX - resizeStart.x), window.innerWidth - position.x));
+      const newHeight = Math.max(300, Math.min(resizeStart.height + (e.clientY - resizeStart.y), window.innerHeight - position.y));
       setSize({ width: newWidth, height: newHeight });
     }
   };

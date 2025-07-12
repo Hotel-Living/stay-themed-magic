@@ -53,8 +53,8 @@ export function EnhancedAvatarAssistant({
       // If already active, toggle chat
       toggleAvatarChat(avatarId);
     } else {
-      // If not active, add to active avatars and dismiss any non-active message
-      setIsDismissed(true);
+      // If not active, add to active avatars but DON'T dismiss the avatar
+      setShowBubble(false); // Only hide the bubble, not the avatar
       addActiveAvatar(avatarId, gif);
     }
   };
@@ -75,7 +75,8 @@ export function EnhancedAvatarAssistant({
   // Determine effective position
   const effectivePosition = isActive && activeAvatar ? activeAvatar.position : position;
 
-  if (isDismissed) {
+  // Only return null if dismissed AND not active (so active avatars stay visible)
+  if (isDismissed && !isActive) {
     return null;
   }
 

@@ -10,6 +10,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { BenefitsHeader } from "@/components/faq/BenefitsHeader";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { RandomAvatarAssistant } from "@/components/avatars/RandomAvatarAssistant";
 
 
 export default function FAQ() {
@@ -65,6 +66,9 @@ export default function FAQ() {
       </main>
       
       <Footer />
+      
+      {/* Random Avatar Assistant */}
+      <RandomAvatarAssistant />
     </div>
   );
 }

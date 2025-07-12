@@ -531,9 +531,9 @@ serve(async (req) => {
       throw new Error('Missing required fields: message and avatarId');
     }
 
-    // Get the personality in the correct language
+    // Get the personality - prioritize the detailed persona from frontend over hardcoded personalities
     const avatarData = avatarPersonalities[avatarId];
-    const systemPrompt = avatarData ? avatarData[validatedLanguage] || avatarData['es'] : persona;
+    const systemPrompt = persona && persona.length > 50 ? persona : (avatarData ? avatarData[validatedLanguage] || avatarData['es'] : persona);
     
     console.log(`Using personality for ${avatarId} in ${validatedLanguage}:`, systemPrompt?.substring(0, 100) + '...');
     

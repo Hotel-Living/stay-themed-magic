@@ -261,18 +261,16 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   }, [isDragging, dragStart]);
 
   return (
-    <div 
-      ref={chatRef}
-      className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
-      style={{ 
-        backgroundColor: '#561C7B',
-        left: position.x, 
-        top: position.y, 
-        width: size.width, 
-        height: size.height,
-        cursor: isDragging ? 'grabbing' : 'default'
-      }}
-    >
+   <div 
+  ref={chatRef}
+  className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+  style={{ 
+    backgroundColor: '#561C7B',
+    width: size.width, 
+    height: size.height,
+    cursor: isDragging ? 'grabbing' : 'default'
+  }}
+>
       {/* Header - draggable area */}
       <div 
         className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300 cursor-grab active:cursor-grabbing"

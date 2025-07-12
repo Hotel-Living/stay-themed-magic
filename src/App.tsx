@@ -80,9 +80,12 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AuthProvider>
-          <AvatarManagerProvider>
-            <Router>
+          <Router>
+            <AvatarManagerProvider>
               <SEOMetadata />
+              <ScrollToTop />
+              <GoogleAnalytics />
+              <DashboardAccess />
               
               {/* Intro Animation Overlay */}
               {shouldShowIntro && (
@@ -148,8 +151,8 @@ function App() {
               {/* Comparison Route */}
               <Route path="/compare" element={<Compare />} />
             </Routes>
-            </Router>
-          </AvatarManagerProvider>
+            </AvatarManagerProvider>
+          </Router>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

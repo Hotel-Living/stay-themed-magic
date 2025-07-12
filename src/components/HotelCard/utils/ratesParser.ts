@@ -7,11 +7,11 @@ export const parseRatesData = (rates: Record<string, number>) => {
   const parsedRates: ParsedRates = {};
   
   Object.keys(rates).forEach(key => {
-    // Check for simple numeric keys (8, 16, 24, 32)
+    // Check for simple numeric keys (8, 15, 22, 29)
     if (/^\d+$/.test(key)) {
       parsedRates[key] = rates[key];
     }
-    // Check for complex keys like "8-breakfast-included" or "16-half-board"
+    // Check for complex keys like "8-breakfast-included" or "15-half-board"
     else if (key.includes('-')) {
       const parts = key.split('-');
       const stayLength = parts[0];

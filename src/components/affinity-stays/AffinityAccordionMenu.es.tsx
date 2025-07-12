@@ -34,7 +34,7 @@ export function AffinityAccordionMenuES() {
     },
     {
       question: "¿Cuánto duran las estancias?",
-      answer: "Las estancias, renovables según disponibilidad, son de 8, 16, 24 o 32 días, según el plan que elijas y el hotel."
+      answer: "Las estancias, renovables según disponibilidad, son de 8, 15, 22 o 29 días, según el plan que elijas y el hotel."
     },
     {
       question: "¿Puedo probar diferentes afinidades en distintos hoteles?",

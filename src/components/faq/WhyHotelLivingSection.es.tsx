@@ -74,6 +74,19 @@ export function WhyHotelLivingSectionES() {
     { id: "society", label: "¿SOCIEDAD?" }
   ];
 
+  const getDisplayAvatars = (value: string) => {
+    const avatars = avatarMapping[value];
+    if (!avatars || avatars.length === 0) return [];
+    
+    // For retired category, show only one random avatar
+    if (value === "retired" && avatars.length > 1) {
+      const randomIndex = Math.floor(Math.random() * avatars.length);
+      return [avatars[randomIndex]];
+    }
+    
+    return avatars;
+  };
+
   const handleAccordionTabChange = (value: string) => {
     if (value === activeAccordionTab) {
       setActiveAccordionTab("");
@@ -81,8 +94,8 @@ export function WhyHotelLivingSectionES() {
     } else {
       setActiveAccordionTab(value);
       // Check if this tab has avatars
-      const avatars = avatarMapping[value];
-      if (avatars && avatars.length > 0) {
+      const displayAvatars = getDisplayAvatars(value);
+      if (displayAvatars.length > 0) {
         setActiveAvatar(value);
         setShowMessage(true);
         // Hide message after 7 seconds but keep avatar visible
@@ -190,8 +203,8 @@ export function WhyHotelLivingSectionES() {
           <div className="flex justify-center mb-4">
             <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>
               {accordionOptions.map((option) => {
-                const avatars = avatarMapping[option.id];
-                const showAvatars = activeAvatar === option.id && avatars;
+                const displayAvatars = getDisplayAvatars(option.id);
+                const showAvatars = activeAvatar === option.id && displayAvatars.length > 0;
                 
                 return (
                   <div key={option.id} className="relative">
@@ -203,9 +216,9 @@ export function WhyHotelLivingSectionES() {
                       <span className="text-xs">▼</span>
                     </button>
                     
-                    {/* Show avatar(s) above the tab when active */}
-                    {showAvatars && avatars.map((avatar, index) => (
-                      <div key={avatar.id} className={`absolute ${index === 0 ? 'bottom-full mb-2' : 'bottom-full mb-20'} left-1/2 transform -translate-x-1/2 z-50`}>
+                    {/* Show avatar above the tab when active */}
+                    {showAvatars && displayAvatars.map((avatar) => (
+                      <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
                         <TabAvatar
                           avatarId={avatar.id}
                           gif={avatar.gif}

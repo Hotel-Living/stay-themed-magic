@@ -45,18 +45,9 @@ export function EnhancedAvatarAssistant({
   const displayMessage = message || getDefaultMessage();
 
   const handleAvatarClick = () => {
-    if (position === 'content') {
-      // Move to bottom-right and activate
-      addActiveAvatar(avatarId, gif);
-      setShowChat(true);
-    } else if (isActiveAvatar && showChat) {
-      // If already active and chat is open, just ensure chat stays open
-      setShowChat(true);
-    } else {
-      // Activate this avatar
-      addActiveAvatar(avatarId, gif);
-      setShowChat(true);
-    }
+    // Always activate avatar and show chat immediately
+    addActiveAvatar(avatarId, gif);
+    setShowChat(true);
   };
 
   const handleDismiss = () => {
@@ -89,7 +80,7 @@ export function EnhancedAvatarAssistant({
 
   return (
     <>
-      <div className={`${getPositionStyles()} animate-fade-in`}>
+      <div className={`${getPositionStyles()} animate-fade-in`} id={`avatar-${avatarId}`}>
         <div className="relative">
           {/* Avatar */}
           <button
@@ -122,7 +113,7 @@ export function EnhancedAvatarAssistant({
 
       {/* Chat Window - only show when this avatar is active and chat is open */}
       {isActiveAvatar && showChat && (
-        <ChatWindow activeAvatar={avatarId} onClose={handleChatClose} />
+        <ChatWindow activeAvatar={avatarId} onClose={handleChatClose} avatarId={avatarId} />
       )}
     </>
   );

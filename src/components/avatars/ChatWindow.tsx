@@ -95,9 +95,10 @@ const avatarKnowledgeBase: Record<string, string> = {
 interface ChatWindowProps {
   activeAvatar: string;
   onClose: () => void;
+  avatarId: string;
 }
 
-export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
+export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWindowProps) {
   const { t, i18n } = useTranslation();
   const [messages, setMessages] = useState(() => {
     const getInitialMessage = () => {
@@ -116,12 +117,16 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
   });
   const [input, setInput] = useState("");
   const [position, setPosition] = useState(() => {
-    // Ensure chat stays within screen bounds
-    const maxX = Math.max(0, window.innerWidth - 320);
-    const maxY = Math.max(0, window.innerHeight - 450);
-    return { x: Math.min(maxX, window.innerWidth - 320), y: Math.min(maxY, 50) };
+    // Position near the avatar instead of bottom-right
+    const avatarElement = document.getElementById(`avatar-${avatarId}`);
+    if (avatarElement) {
+      const rect = avatarElement.getBoundingClientRect();
+      return { x: rect.right + 10, y: rect.top };
+    }
+    // Fallback position
+    return { x: 100, y: 100 };
   });
-  const [size, setSize] = useState({ width: 280, height: 350 });
+  const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -198,45 +203,52 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
 
   const handleResize = (e: React.MouseEvent, direction: string) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsResizing(true);
     
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startWidth = size.width;
+    const startHeight = size.height;
+    const startPosX = position.x;
+    const startPosY = position.y;
+    
     const handleMouseMoveResize = (e: MouseEvent) => {
-      if (!isResizing) return;
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
       
-      const rect = chatRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      
-      let newWidth = size.width;
-      let newHeight = size.height;
-      let newX = position.x;
-      let newY = position.y;
+      let newWidth = startWidth;
+      let newHeight = startHeight;
+      let newX = startPosX;
+      let newY = startPosY;
       
       if (direction.includes('right')) {
-        newWidth = Math.max(200, e.clientX - rect.left);
+        newWidth = Math.max(200, startWidth + deltaX);
       }
       if (direction.includes('bottom')) {
-        newHeight = Math.max(250, e.clientY - rect.top);
+        newHeight = Math.max(200, startHeight + deltaY);
       }
       if (direction.includes('left')) {
-        const deltaX = rect.left - e.clientX;
-        newWidth = Math.max(200, size.width + deltaX);
-        newX = position.x - deltaX;
+        newWidth = Math.max(200, startWidth - deltaX);
+        newX = startPosX + deltaX;
       }
       if (direction.includes('top')) {
-        const deltaY = rect.top - e.clientY;
-        newHeight = Math.max(250, size.height + deltaY);
-        newY = position.y - deltaY;
+        newHeight = Math.max(200, startHeight - deltaY);
+        newY = startPosY + deltaY;
       }
       
       setSize({ width: newWidth, height: newHeight });
       setPosition({ x: newX, y: newY });
     };
     
-    document.addEventListener('mousemove', handleMouseMoveResize);
-    document.addEventListener('mouseup', () => {
+    const handleMouseUpResize = () => {
       setIsResizing(false);
       document.removeEventListener('mousemove', handleMouseMoveResize);
-    });
+      document.removeEventListener('mouseup', handleMouseUpResize);
+    };
+    
+    document.addEventListener('mousemove', handleMouseMoveResize);
+    document.addEventListener('mouseup', handleMouseUpResize);
   };
 
   useEffect(() => {
@@ -274,7 +286,7 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
         </button>
       </div>
       
-      {/* Messages area */}
+      {/* Messages area - smaller by default */}
       <div className="flex-1 p-3 overflow-y-auto text-sm" style={{ backgroundColor: '#561C7B' }}>
         {messages.map((m, i) => (
           <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
@@ -308,41 +320,41 @@ export default function ChatWindow({ activeAvatar, onClose }: ChatWindowProps) {
         </button>
       </div>
 
-      {/* Resize handles */}
+      {/* Resize handles - improved */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Corner handles */}
         <div 
-          className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize pointer-events-auto"
+          className="absolute top-0 left-0 w-4 h-4 cursor-nw-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
           onMouseDown={(e) => handleResize(e, 'top-left')}
         />
         <div 
-          className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize pointer-events-auto"
+          className="absolute top-0 right-0 w-4 h-4 cursor-ne-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
           onMouseDown={(e) => handleResize(e, 'top-right')}
         />
         <div 
-          className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize pointer-events-auto"
+          className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
           onMouseDown={(e) => handleResize(e, 'bottom-left')}
         />
         <div 
-          className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize pointer-events-auto"
+          className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
           onMouseDown={(e) => handleResize(e, 'bottom-right')}
         />
         
         {/* Edge handles */}
         <div 
-          className="absolute top-0 left-3 right-3 h-1 cursor-n-resize pointer-events-auto"
+          className="absolute top-0 left-4 right-4 h-2 cursor-n-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
           onMouseDown={(e) => handleResize(e, 'top')}
         />
         <div 
-          className="absolute bottom-0 left-3 right-3 h-1 cursor-s-resize pointer-events-auto"
+          className="absolute bottom-0 left-4 right-4 h-2 cursor-s-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
           onMouseDown={(e) => handleResize(e, 'bottom')}
         />
         <div 
-          className="absolute left-0 top-3 bottom-3 w-1 cursor-w-resize pointer-events-auto"
+          className="absolute left-0 top-4 bottom-4 w-2 cursor-w-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
           onMouseDown={(e) => handleResize(e, 'left')}
         />
         <div 
-          className="absolute right-0 top-3 bottom-3 w-1 cursor-e-resize pointer-events-auto"
+          className="absolute right-0 top-4 bottom-4 w-2 cursor-e-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
           onMouseDown={(e) => handleResize(e, 'right')}
         />
       </div>

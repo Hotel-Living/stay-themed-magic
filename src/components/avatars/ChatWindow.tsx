@@ -62,14 +62,14 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       
       if (avatarElement) {
         const rect = avatarElement.getBoundingClientRect();
-        // Position to the right of the avatar with proper screen boundaries
-        const newX = Math.min(rect.right + 20, window.innerWidth - 280);
-        const newY = Math.max(20, Math.min(rect.top, window.innerHeight - 320));
+        // Always center horizontally and position at top of screen
+        const newX = (window.innerWidth - 280) / 2;
+        const newY = 20;
         setPosition({ x: newX, y: newY });
       } else {
-        // Smart fallback: center-right of viewport instead of arbitrary position
-        const fallbackX = Math.max(20, window.innerWidth - 300);
-        const fallbackY = Math.max(20, (window.innerHeight - 320) / 2);
+        // Fallback: also center horizontally and position at top
+        const fallbackX = (window.innerWidth - 280) / 2;
+        const fallbackY = 20;
         setPosition({ x: fallbackX, y: fallbackY });
       }
     };

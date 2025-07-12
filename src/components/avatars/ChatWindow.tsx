@@ -28,8 +28,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [input, setInput] = useState("");
   const [width, setWidth] = useState(280);
   const [height, setHeight] = useState(500);
-  const [isResizingWidth, setIsResizingWidth] = useState(false);
-  const [isResizingHeight, setIsResizingHeight] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const [startWidth, setStartWidth] = useState(280);
@@ -74,34 +73,26 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     if (e.key === 'Enter') handleSend();
   };
 
-  const handleMouseDownResizeWidth = (e: React.MouseEvent) => {
-    setIsResizingWidth(true);
+  const handleMouseDownResize = (e: React.MouseEvent) => {
+    setIsResizing(true);
     setStartX(e.clientX);
-    setStartWidth(width);
-    e.preventDefault();
-  };
-
-  const handleMouseDownResizeHeight = (e: React.MouseEvent) => {
-    setIsResizingHeight(true);
     setStartY(e.clientY);
+    setStartWidth(width);
     setStartHeight(height);
     e.preventDefault();
   };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (isResizingWidth) {
+      if (isResizing) {
         const deltaX = e.clientX - startX;
-        setWidth(Math.max(250, startWidth + deltaX));
-      }
-      if (isResizingHeight) {
         const deltaY = e.clientY - startY;
-        setHeight(Math.max(350, startHeight + deltaY));
+        setWidth(Math.max(250, startWidth + deltaX));
+        setHeight(Math.max(300, startHeight + deltaY));
       }
     };
     const handleMouseUp = () => {
-      if (isResizingWidth) setIsResizingWidth(false);
-      if (isResizingHeight) setIsResizingHeight(false);
+      if (isResizing) setIsResizing(false);
     };
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -109,7 +100,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isResizingWidth, isResizingHeight, startX, startWidth, startY, startHeight]);
+  }, [isResizing, startX, startY, startWidth, startHeight]);
 
   const getPlaceholderText = () => {
     switch (cleanLanguage) {
@@ -132,7 +123,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   return (
     <div
       ref={chatRef}
-      className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+      className="fixed top-0 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
       style={{ backgroundColor: '#561C7B', width, height }}
     >
       <div className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300" style={{ backgroundColor: '#561C7B' }}>
@@ -160,15 +151,10 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
           {getSendButtonText()}
         </button>
       </div>
-      {/* Lateral resize */}
+      {/* Handle bottom-right resize */}
       <div
-        className="absolute top-0 bottom-0 right-0 w-2 cursor-e-resize bg-fuchsia-400 opacity-10 hover:opacity-40"
-        onMouseDown={handleMouseDownResizeWidth}
-      />
-      {/* Vertical resize */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-2 cursor-s-resize bg-fuchsia-400 opacity-10 hover:opacity-40"
-        onMouseDown={handleMouseDownResizeHeight}
+        className="absolute bottom-0 right-0 w-3 h-3 cursor-nwse-resize bg-fuchsia-400 opacity-10 hover:opacity-40"
+        onMouseDown={handleMouseDownResize}
       />
     </div>
   );

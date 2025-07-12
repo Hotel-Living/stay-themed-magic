@@ -3,6 +3,131 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
+// Hotel-Living Complete Knowledge Base - ONLY SOURCE OF TRUTH
+const HOTEL_LIVING_KNOWLEDGE = {
+  core: {
+    stayDurations: [8, 15, 22, 29], // ONLY valid durations
+    paymentStructure: {
+      bookingPayment: 15, // % paid when booking
+      arrivalPayment: 85, // % paid directly to hotel on arrival
+      description: "Solo pagas el 15% al reservar a través de Hotel-Living. El 85% restante se paga directamente al hotel al llegar."
+    },
+    serviceType: "Hospitalidad con propósito - estilo de vida hotelero",
+    targetAudience: [
+      "Mayores activos o semijubilados",
+      "Nómadas digitales", 
+      "Trabajadores hartos de alquileres, soledad y labores caseras",
+      "Estudiantes",
+      "Expatriados o retornados",
+      "Viajeros solos y parejas",
+      "Personas en transición",
+      "Aquellos que desean rentabilizar su propiedad",
+      "Todos cuantos buscan un entorno seguro"
+    ]
+  },
+
+  included: {
+    services: [
+      "Limpieza diaria",
+      "Servicios de recepción 24h",
+      "Desayuno incluido",
+      "WiFi de alta velocidad",
+      "Mantenimiento",
+      "Seguridad",
+      "Espacios comunes",
+      "Actividades sociales organizadas"
+    ],
+    noExtraFees: "No hay tarifas por publicación, fotografía, incorporación o marketing. Solo la comisión del 10% sobre las reservas netas para hoteles.",
+    flexibility: "Máxima flexibilidad con estadías renovables según disponibilidad"
+  },
+
+  community: {
+    affinityBased: "Comunidades basadas en afinidades compartidas",
+    socialActivities: [
+      "Cenas de bienvenida para nuevas llegadas",
+      "Mixers sociales",
+      "Salidas grupales a atracciones locales", 
+      "Eventos de celebración especial",
+      "Sesiones de intercambio de habilidades",
+      "Grupos de discusión",
+      "Proyectos colaborativos"
+    ],
+    communitySize: "Entre 15-50 huéspedes concurrentes participando en los mismos programas de afinidad",
+    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional"
+  },
+
+  digitalNomads: {
+    workFeatures: [
+      "Áreas de trabajo dedicadas",
+      "Internet de alta velocidad",
+      "Muebles ergonómicos", 
+      "Espacios de coworking",
+      "Centros de negocios"
+    ],
+    community: "Comunidad de apoyo de trabajadores remotos y emprendedores",
+    flexibility: "Flexibilidad para adaptar alojamiento a horario de trabajo y viaje"
+  },
+
+  seniors: {
+    benefits: [
+      "Servicios premium por fracción del coste de residencia de mayores",
+      "Sin necesidad de personal médico ni licencias especiales",
+      "Estancias más largas para mayores independientes", 
+      "Entorno hotelero con servicios flexibles",
+      "Comunidad de personas activas"
+    ],
+    notACareHome: "No es una residencia de mayores - es hospitalidad flexible para todas las edades",
+    independence: "Para jubilados independientes que buscan servicios, confort y comunidad"
+  },
+
+  booking: {
+    process: "Reserva a través de plataforma Hotel-Living",
+    cancellation: "Políticas de cancelación específicas por hotel",
+    extensions: "Posibilidad de extender estancias según disponibilidad",
+    consecutiveBookings: "Sistema permite planificar itinerarios en varias ciudades",
+    minimumAge: "Generalmente 18+ años"
+  },
+
+  responseGuidelines: {
+    onlyHotelLiving: "SOLO responder sobre Hotel-Living y experiencias personales",
+    noExternalInfo: "PROHIBIDO usar conocimiento general de ChatGPT o internet",
+    stayOnTopic: "Si pregunta está fuera del ámbito Hotel-Living, redirigir educadamente",
+    personalExperience: "Siempre responder en primera persona como el personaje",
+    shortResponses: "Mantener respuestas cortas (máximo 2-3 frases)",
+    specificDetails: "Cuando mencionar duraciones: SIEMPRE especificar 8, 15, 22 y 29 días",
+    paymentDetails: "Cuando hablar de pago: SIEMPRE mencionar 15% al reservar, 85% al llegar"
+  }
+};
+
+// Validation function to ensure responses stay within knowledge boundaries
+function validateResponse(response: string): boolean {
+  const forbiddenPhrases = [
+    "no tengo información",
+    "no puedo ayudar", 
+    "consulta con",
+    "busca en google",
+    "según mi conocimiento general",
+    "como IA",
+    "en general"
+  ];
+  
+  return !forbiddenPhrases.some(phrase => 
+    response.toLowerCase().includes(phrase.toLowerCase())
+  );
+}
+
+// Function to generate fallback responses when outside knowledge scope
+function getFallbackResponse(language: string): string {
+  const fallbacks = {
+    es: "Me encanta hablar sobre Hotel-Living y mi experiencia viviendo así. ¿Hay algo específico sobre nuestro estilo de vida hotelero que te gustaría saber?",
+    en: "I love talking about Hotel-Living and my experience living this way. Is there something specific about our hotel lifestyle you'd like to know?",
+    pt: "Adoro falar sobre Hotel-Living e minha experiência vivendo assim. Há algo específico sobre nosso estilo de vida hoteleiro que gostaria de saber?",
+    ro: "Îmi place să vorbesc despre Hotel-Living și experiența mea de a trăi așa. Este ceva specific despre stilul nostru de viață hotelier pe care ai vrea să îl știi?"
+  };
+  
+  return fallbacks[language as keyof typeof fallbacks] || fallbacks.es;
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -248,15 +373,34 @@ serve(async (req) => {
     const avatarData = avatarPersonalities[avatarId];
     const systemPrompt = avatarData ? avatarData[language] || avatarData['es'] : persona;
     
-    // Language-specific instructions
-    const languageInstructions = {
-      'en': 'IMPORTANT: Always respond in first person as the character. Keep responses short (maximum 2-3 sentences). Only talk about Hotel-Living and your personal experience. When mentioning durations, always specify they are 8, 15, 22, and 29 days. When asked about payment, always mention you only pay 15% when booking and 85% directly to the hotel on arrival. Do not mention other services or platforms.',
-      'es': 'IMPORTANTE: Responde siempre en primera persona como el personaje. Mantén respuestas cortas (máximo 2-3 frases). Solo habla sobre Hotel-Living y tu experiencia personal. Cuando menciones duraciones, siempre especifica que son 8, 15, 22 y 29 días. Cuando pregunten sobre pago, siempre menciona que solo pagas 15% al reservar y 85% directamente al hotel al llegar. No menciones otros servicios o plataformas.',
+    // STRICT Knowledge-based instructions - ONLY source of truth
+    const strictInstructions = {
+      'en': `CRITICAL INSTRUCTIONS - FOLLOW EXACTLY:
+1. You are STRICTLY LIMITED to Hotel-Living knowledge only. 
+2. NEVER use general ChatGPT knowledge or internet information.
+3. Always respond in first person as the character.
+4. Keep responses short (maximum 2-3 sentences).
+5. Stay durations are ONLY: 8, 15, 22, and 29 days.
+6. Payment: ALWAYS mention 15% when booking, 85% directly to hotel on arrival.
+7. If asked about anything outside Hotel-Living scope, politely redirect with fallback response.
+8. FORBIDDEN: "I don't have information", "I can't help", "consult with", "according to my general knowledge".
+9. Only discuss Hotel-Living services, experiences, and the specific knowledge provided.`,
+      
+      'es': `INSTRUCCIONES CRÍTICAS - SEGUIR EXACTAMENTE:
+1. Estás ESTRICTAMENTE LIMITADO solo al conocimiento de Hotel-Living.
+2. NUNCA uses conocimiento general de ChatGPT o información de internet.
+3. Responde siempre en primera persona como el personaje.
+4. Mantén respuestas cortas (máximo 2-3 frases).
+5. Las duraciones de estancia son SOLO: 8, 15, 22 y 29 días.
+6. Pago: SIEMPRE menciona 15% al reservar, 85% directamente al hotel al llegar.
+7. Si preguntan sobre algo fuera del ámbito Hotel-Living, redirige educadamente con respuesta de respaldo.
+8. PROHIBIDO: "no tengo información", "no puedo ayudar", "consulta con", "según mi conocimiento general".
+9. Solo discute servicios Hotel-Living, experiencias y el conocimiento específico proporcionado.`,
       'pt': 'IMPORTANTE: Sempre responda em primeira pessoa como o personagem. Mantenha respostas curtas (máximo 2-3 frases). Apenas fale sobre Hotel-Living e sua experiência pessoal. Quando mencionar durações, sempre especifique que são 8, 15, 22 e 29 dias. Quando perguntarem sobre pagamento, sempre mencione que você paga apenas 15% na reserva e 85% diretamente ao hotel na chegada. Não mencione outros serviços ou plataformas.',
       'ro': 'IMPORTANT: Răspunde întotdeauna în persoana întâi ca personajul. Păstrează răspunsurile scurte (maximum 2-3 propoziții). Vorbește doar despre Hotel-Living și experiența ta personală. Când menționezi duratele, specifică întotdeauna că sunt 8, 15, 22 și 29 de zile. Când întreabă despre plată, menționează întotdeauna că plătești doar 15% la rezervare și 85% direct la hotel la sosire. Nu menționa alte servicii sau platforme.'
     };
 
-    const instructions = languageInstructions[language] || languageInstructions['es'];
+    const instructions = strictInstructions[language as keyof typeof strictInstructions] || strictInstructions['es'];
     
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -279,7 +423,16 @@ serve(async (req) => {
     });
 
     const data = await response.json();
-    const generatedResponse = data.choices[0].message.content;
+    let generatedResponse = data.choices[0].message.content;
+
+    // Validate response to ensure it stays within Hotel-Living knowledge boundaries
+    if (!validateResponse(generatedResponse)) {
+      console.log('Response validation failed, using fallback:', generatedResponse);
+      generatedResponse = getFallbackResponse(language);
+    }
+
+    // Log for monitoring purposes
+    console.log(`Avatar ${avatarId} (${language}): User: "${message}" | Response: "${generatedResponse}"`);
 
     return new Response(JSON.stringify({ response: generatedResponse }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

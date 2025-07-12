@@ -22,6 +22,14 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
   const [activeAvatars, setActiveAvatars] = useState<Avatar[]>([]);
   const [chatHistories, setChatHistories] = useState<Record<string, { from: 'user' | 'avatar'; text: string }[]>>({});
 
+  const getInitialMessage = () => {
+    const lang = navigator.language;
+    if (lang.startsWith("en")) return "What would you like to talk about?";
+    if (lang.startsWith("pt")) return "Sobre o que gostaria de conversar?"; 
+    if (lang.startsWith("ro")) return "Despre ce ai vrea să vorbim?";
+    return "¿Sobre qué quieres que hablemos?";
+  };
+
   const getNextPosition = (): Avatar['position'] => {
     const positions: Avatar['position'][] = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
     const usedPositions = activeAvatars.map(avatar => avatar.position);
@@ -32,11 +40,17 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     setActiveAvatars(prev => {
       // Remove if already exists
       const filtered = prev.filter(avatar => avatar.id !== avatarId);
+      
+      // Get next available position
+      const positions: Avatar['position'][] = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
+      const usedPositions = filtered.map(avatar => avatar.position);
+      const nextPosition = positions.find(pos => !usedPositions.includes(pos)) || 'bottom-right';
+      
       // Add with new position
       const newAvatar: Avatar = {
         id: avatarId,
         gif,
-        position: getNextPosition(),
+        position: nextPosition,
         isActive: true,
         chatHistory: chatHistories[avatarId] || [{ from: 'avatar', text: getInitialMessage() }]
       };
@@ -59,13 +73,6 @@ export function AvatarManagerProvider({ children }: { children: React.ReactNode 
     }));
   }, []);
 
-  const getInitialMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "What would you like to talk about?";
-    if (lang.startsWith("pt")) return "Sobre o que gostaria de conversar?"; 
-    if (lang.startsWith("ro")) return "Despre ce ai vrea să vorbim?";
-    return "¿Sobre qué quieres que hablemos?";
-  };
 
   return (
     <AvatarManagerContext.Provider value={{

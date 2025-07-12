@@ -192,7 +192,9 @@ export function WhyHotelLivingSectionRO() {
       {/* Header above purple tabs */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-[#eedbf7] mb-2">
-          {t('faq.identifyHeader')}
+          {t('faq.identifyHeader').split('\n').map((line, index) => (
+            <div key={index}>{line}</div>
+          ))}
         </h2>
       </div>
 

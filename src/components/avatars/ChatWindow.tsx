@@ -38,52 +38,45 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [input, setInput] = useState("");
   const [position, setPosition] = useState({ x: 200, y: 100 });
 
-  // Calculate position immediately when component mounts
+  // FORCE position reset on every open - override any drag positions
   useEffect(() => {
-    const calculatePosition = () => {
-      // Try multiple strategies to find the avatar element
-      let avatarElement = document.getElementById(`avatar-${avatarId}`);
+    const forceResetPosition = () => {
+      // GUARANTEED center positioning - ignore any previous drag state
+      const centeredX = (window.innerWidth - 280) / 2;
+      const topY = 20;
       
-      // If not found by ID, try other selectors for FAQ page context
-      if (!avatarElement) {
-        avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
-      }
+      console.log(`🎯 FORCING chat window to center: x=${centeredX}, y=${topY}, avatarId=${avatarId}`);
       
-      // If still not found, try finding by image src containing the avatar gif
-      if (!avatarElement) {
-        const images = document.querySelectorAll('img');
-        for (const img of images) {
-          if (img.alt === avatarId || img.src.includes(avatarId)) {
-            avatarElement = img.closest('div') || img;
-            break;
-          }
-        }
-      }
-      
-      if (avatarElement) {
-        const rect = avatarElement.getBoundingClientRect();
-        // Always center horizontally and position at top of screen
-        const newX = (window.innerWidth - 280) / 2;
-        const newY = 20;
-        setPosition({ x: newX, y: newY });
-      } else {
-        // Fallback: also center horizontally and position at top
-        const fallbackX = (window.innerWidth - 280) / 2;
-        const fallbackY = 20;
-        setPosition({ x: fallbackX, y: fallbackY });
-      }
+      // Force immediate position reset
+      setPosition({ x: centeredX, y: topY });
     };
 
-    // Try immediately and with multiple delays for complex DOM structures
-    calculatePosition();
-    const timer1 = setTimeout(calculatePosition, 100);
-    const timer2 = setTimeout(calculatePosition, 300);
+    // Force reset immediately on mount/avatar change
+    forceResetPosition();
+    
+    // Additional safety resets with delays to handle DOM updates
+    const timer1 = setTimeout(forceResetPosition, 50);
+    const timer2 = setTimeout(forceResetPosition, 150);
+    const timer3 = setTimeout(forceResetPosition, 300);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
     };
-  }, [avatarId]);
+  }, [avatarId]); // Reset every time avatar changes
+
+  // Additional reset when window resizes to maintain center
+  useEffect(() => {
+    const handleResize = () => {
+      const centeredX = (window.innerWidth - 280) / 2;
+      const topY = 20;
+      setPosition({ x: centeredX, y: topY });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);

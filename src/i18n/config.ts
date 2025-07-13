@@ -223,7 +223,7 @@ const resources = {
     ambassador: esAmbassador,
     press: esPress,
     dashboard: {
-      ...esDashboard,
+      ...esDashboard.dashboard,
       general: esDashboardGeneral,
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
@@ -255,7 +255,7 @@ const resources = {
     ambassador: ptAmbassador,
     press: ptPress,
     dashboard: {
-      ...ptDashboard,
+      ...ptDashboard.dashboard,
       general: ptDashboardGeneral,
       common: ptDashboardCommon,
       accommodation: ptDashboardAccommodation,
@@ -286,7 +286,7 @@ const resources = {
     ambassador: roAmbassador,
     press: roPress,
     dashboard: {
-      ...roDashboard,
+      ...roDashboard.dashboard,
       general: roDashboardGeneral,
       common: roDashboardCommon,
       accommodation: roDashboardAccommodation,

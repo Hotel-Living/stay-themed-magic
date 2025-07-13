@@ -50,9 +50,9 @@ export const RatesCalculatorContent: React.FC = () => {
         ? 'CALCULADORA HOTEL-LIVING.xlsm'
         : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsx';
       
-      const filePath = `/excel-calculators/${fileName}`;
+      const filePath = `${window.location.origin}/excel-calculators/${fileName}`;
       
-      console.log('Attempting to download:', { language, fileName, filePath });
+      console.log('Attempting to download:', { language, fileName, filePath, origin: window.location.origin });
       
       // Fetch the file as a blob
       const response = await fetch(filePath);

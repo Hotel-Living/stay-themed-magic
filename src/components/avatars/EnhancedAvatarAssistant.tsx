@@ -106,6 +106,7 @@ export function EnhancedAvatarAssistant({
             <img 
               src={gif} 
               alt={`Avatar ${avatarId}`}
+              data-avatar-id={avatarId}
               className="w-full h-full object-cover"
             />
           </button>

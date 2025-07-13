@@ -38,64 +38,71 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [input, setInput] = useState("");
   const [position, setPosition] = useState({ x: 200, y: 100 });
 
-  // FORCE position reset on every open - with special positioning for edge avatars
+  // Position chat window below the avatar using relative positioning
   useEffect(() => {
-    const forceResetPosition = () => {
-      let positionX, positionY = 20;
+    const positionChatBelowAvatar = () => {
+      // Find the avatar element on the page
+      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`) || 
+                           document.querySelector(`img[alt*="${avatarId}"]`) ||
+                           document.querySelector(`#avatar-${avatarId}`);
       
-      // Special positioning for specific avatars near screen edges
-      if (avatarId === 'ion') {
-        // ¿AÚN ALQUILAS? - first tab on the far left
-        positionX = 0;
-      } else if (avatarId === 'antonio' || avatarId === 'luisa') {
-        // ¿JUBILADO? - second from the left
-        positionX = 0;
-      } else if (avatarId === 'martin') {
-        // ¿HOTEL? - second from the right, expand inward
-        positionX = Math.max(0, window.innerWidth - 360);
+      if (avatarElement) {
+        const avatarRect = avatarElement.getBoundingClientRect();
+        // Position chat directly below the avatar, centered horizontally
+        const chatX = Math.max(10, Math.min(
+          avatarRect.left + (avatarRect.width / 2) - 140, // Center on avatar, offset by half chat width
+          window.innerWidth - 290 // Ensure it doesn't go off right edge
+        ));
+        const chatY = avatarRect.bottom + 10; // 10px below avatar
+        
+        console.log(`🎯 Positioning chat below avatar ${avatarId}: x=${chatX}, y=${chatY}`);
+        setPosition({ x: chatX, y: chatY });
       } else {
-        // Default center positioning for all other avatars
-        positionX = Math.max(0, (window.innerWidth - 280) / 2);
+        // Fallback to center if avatar not found
+        console.log(`⚠️ Avatar element not found for ${avatarId}, using center position`);
+        const centeredX = (window.innerWidth - 280) / 2;
+        setPosition({ x: centeredX, y: 20 });
       }
-      
-      console.log(`🎯 FORCING chat window position: x=${positionX}, y=${positionY}, avatarId=${avatarId}`);
-      
-      // Force immediate position reset
-      setPosition({ x: positionX, y: positionY });
     };
 
-    // Force reset immediately on mount/avatar change
-    forceResetPosition();
+    // Position immediately
+    positionChatBelowAvatar();
     
-    // Additional safety resets with delays to handle DOM updates
-    const timer1 = setTimeout(forceResetPosition, 50);
-    const timer2 = setTimeout(forceResetPosition, 150);
-    const timer3 = setTimeout(forceResetPosition, 300);
+    // Additional positioning with delays to handle DOM updates
+    const timer1 = setTimeout(positionChatBelowAvatar, 50);
+    const timer2 = setTimeout(positionChatBelowAvatar, 150);
+    const timer3 = setTimeout(positionChatBelowAvatar, 300);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, [avatarId]); // Reset every time avatar changes
+  }, [avatarId]);
 
-  // Additional reset when window resizes to maintain special positioning
+  // Additional reset when window resizes to maintain proper positioning
   useEffect(() => {
     const handleResize = () => {
-      let positionX, positionY = 20;
+      const positionChatBelowAvatar = () => {
+        const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`) || 
+                             document.querySelector(`img[alt*="${avatarId}"]`) ||
+                             document.querySelector(`#avatar-${avatarId}`);
+        
+        if (avatarElement) {
+          const avatarRect = avatarElement.getBoundingClientRect();
+          const chatX = Math.max(10, Math.min(
+            avatarRect.left + (avatarRect.width / 2) - 140,
+            window.innerWidth - 290
+          ));
+          const chatY = avatarRect.bottom + 10;
+          setPosition({ x: chatX, y: chatY });
+        } else {
+          const centeredX = (window.innerWidth - 280) / 2;
+          setPosition({ x: centeredX, y: 20 });
+        }
+      };
       
-      // Apply same special positioning logic on resize
-      if (avatarId === 'ion') {
-        positionX = 0;
-      } else if (avatarId === 'antonio' || avatarId === 'luisa') {
-        positionX = 0;
-      } else if (avatarId === 'martin') {
-        positionX = Math.max(0, window.innerWidth - 360);
-      } else {
-        positionX = Math.max(0, (window.innerWidth - 280) / 2);
-      }
-      
-      setPosition({ x: positionX, y: positionY });
+      positionChatBelowAvatar();
     };
 
     window.addEventListener('resize', handleResize);

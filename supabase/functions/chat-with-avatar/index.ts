@@ -535,7 +535,7 @@ serve(async (req) => {
       
       console.log('Making OpenAI API request...');
       console.log('EMERGENCY DEBUG: Request payload:', JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4.1-2025-04-14',
         messages: [
           { role: 'system', content: systemPrompt?.substring(0, 100) + '...' },
           { role: 'user', content: message }
@@ -551,7 +551,7 @@ serve(async (req) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o', // PHASE 1: Use reliable GPT-4o model
+          model: 'gpt-4.1-2025-04-14', // Using current flagship OpenAI model
           messages: [
             { 
               role: 'system', 

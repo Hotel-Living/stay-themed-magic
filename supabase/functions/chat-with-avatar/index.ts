@@ -3,279 +3,36 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
-// Hotel-Living Complete Knowledge Base - ONLY SOURCE OF TRUTH
-const HOTEL_LIVING_KNOWLEDGE = {
-  core: {
-    stayDurations: [8, 15, 22, 29], // ONLY valid durations
-    paymentStructure: {
-      bookingPayment: 15, // % paid when booking
-      arrivalPayment: 85, // % paid directly to hotel on arrival
-      description: "Solo pagas el 15% al reservar a través de Hotel-Living. El 85% restante se paga directamente al hotel al llegar."
-    },
-    serviceType: "Hospitalidad con propósito - estilo de vida hotelero",
-    targetAudience: [
-      "Mayores activos o semijubilados",
-      "Nómadas digitales", 
-      "Trabajadores hartos de alquileres, soledad y labores caseras",
-      "Estudiantes",
-      "Expatriados o retornados",
-      "Viajeros solos y parejas",
-      "Personas en transición",
-      "Aquellos que desean rentabilizar su propiedad",
-      "Todos cuantos buscan un entorno seguro"
-    ]
-  },
-
-  // AFFINITIES - CORE FEATURE OF HOTEL-LIVING
-  affinities: {
-    definition: "Las Afinidades de Hotel-Living son un concepto registrado y único creado exclusivamente por hotel-living.com. Esta idea protegida por derechos de autor une a las personas en torno a intereses compartidos, facilitando conexiones humanas reales y rompiendo el aislamiento social.",
-    purpose: "Mucho más que viajes - es una nueva forma para que la sociedad se conecte y las personas conozcan a otros afines",
-    totalCategories: 17, // Main level-1 categories
-    totalThemes: 239, // Total themes across all levels
-    mainCategories: [
-      "ART - Arte y cultura, desde pintura hasta arquitectura",
-      "MUSIC - Géneros musicales, instrumentos y experiencias sonoras", 
-      "FOOD & DRINKS - Gastronomía mundial, cocteles y experiencias culinarias",
-      "HEALTH AND WELLNESS - Fitness, mindfulness, nutrición y bienestar integral",
-      "EDUCATION - Aprendizaje académico y desarrollo intelectual",
-      "SCIENCE AND KNOWLEDGE - Investigación, exploración científica y conocimiento",
-      "BUSINESS - Emprendimiento, finanzas y desarrollo profesional",
-      "LANGUAGES - Intercambio de idiomas, conversación y enseñanza",
-      "HOBBIES - Artes manuales, coleccionismo, juegos y actividades al aire libre",
-      "FANS - Admiradores de artistas, iconos musicales, leyendas del cine y figuras históricas",
-      "ENTERTAINMENT - Entretenimiento en vivo y medios digitales",
-      "LIFESTYLE - Viajes, movilidad y valores de bienestar",
-      "NATURE - Entornos naturales, vida silvestre y biología",
-      "PERSONAL DEVELOPMENT - Habilidades mentales y comunicación",
-      "RELATIONSHIPS - Relaciones personales y habilidades sociales",
-      "SCIENCE AND TECHNOLOGY - Innovación, futuro y exploración tecnológica",
-      "SPORTS - Todas las disciplinas deportivas y actividades físicas"
-    ],
-    howTheyWork: {
-      hotelSelection: "Los hoteles definen sus afinidades temáticas específicas",
-      guestMatching: "Los huéspedes se agrupan según intereses compartidos",
-      naturalConnections: "Las amistades surgen naturalmente cuando las personas se reúnen en torno a lo que aman",
-      flexibleParticipation: "Sin presión - puedes participar tanto o tan poco como desees",
-      organicActivities: "Las actividades pueden ser organizadas por el hotel o surgir espontáneamente entre huéspedes"
-    },
-    differentiators: [
-      "Evita conversaciones incómodas - conexión real desde el primer día",
-      "Encuentra tu tribu - personas que realmente te comprenden", 
-      "Rompe el aislamiento social a través de pasiones compartidas",
-      "Crea experiencias auténticas, no decorados temáticos",
-      "Permite explorar diferentes pasiones en diferentes ubicaciones"
-    ],
-    examples: [
-      "Jazz - músicos y amantes del jazz se reúnen para jam sessions",
-      "Fotografía - expediciones fotográficas grupales y talleres",
-      "Gastronomía - cenas temáticas y clases de cocina",
-      "Astronomía - noches de observación estelar y charlas científicas",
-      "Literatura - clubes de lectura y tertulias literarias",
-      "Senderismo - excursiones grupales y conexión con la naturaleza",
-      "Emprendimiento - networking y sesiones de mentoría",
-      "Idiomas - intercambios lingüísticos y práctica conversacional"
-    ],
-    availability: "Las afinidades están disponibles selectivamente según cada hotel asociado - no todos los hoteles ofrecen todas las afinidades, pero todos los huéspedes buscan conexión y comunidad",
-    suggestions: {
-      canSuggest: "Los usuarios siempre pueden sugerir nuevas afinidades o actividades al equipo de Hotel-Living",
-      howToSuggest: "Esto se puede hacer escribiendo directamente al equipo o usando el panel de sugerencias disponible en el dashboard de usuario",
-      communitySpirit: "Esta apertura es esencial para el espíritu comunitario del portal y refleja nuestro compromiso con la evolución constante"
-    }
-  },
-
-  included: {
-    services: [
-      "Limpieza diaria",
-      "Servicios de recepción 24h",
-      "Desayuno incluido",
-      "WiFi de alta velocidad",
-      "Mantenimiento",
-      "Seguridad",
-      "Espacios comunes",
-      "Actividades sociales organizadas"
-    ],
-    noExtraFees: "No hay tarifas por publicación, fotografía, incorporación o marketing. Solo la comisión del 10% sobre las reservas netas para hoteles.",
-    flexibility: "Máxima flexibilidad con estadías renovables según disponibilidad"
-  },
-
-  community: {
-    affinityBased: "Comunidades basadas en afinidades compartidas - el corazón de Hotel-Living",
-    socialActivities: [
-      "Cenas de bienvenida para nuevas llegadas",
-      "Mixers sociales temáticos según afinidades",
-      "Salidas grupales a atracciones locales relacionadas con las afinidades", 
-      "Eventos de celebración especial",
-      "Sesiones de intercambio de habilidades entre huéspedes",
-      "Grupos de discusión sobre temas de interés común",
-      "Proyectos colaborativos y talleres prácticos",
-      "Actividades espontáneas organizadas por los propios huéspedes"
-    ],
-    communitySize: "Entre 15-50 huéspedes concurrentes participando en los mismos programas de afinidad",
-    privacy: "Equilibrio perfecto entre espacio privado y compromiso comunitario opcional",
-    connection: "Facilita conocer personas, compartir comidas, conversar y crear amistades duraderas"
-  },
-
-  digitalNomads: {
-    workFeatures: [
-      "Áreas de trabajo dedicadas",
-      "Internet de alta velocidad",
-      "Muebles ergonómicos", 
-      "Espacios de coworking",
-      "Centros de negocios"
-    ],
-    community: "Comunidad de apoyo de trabajadores remotos y emprendedores",
-    flexibility: "Flexibilidad para adaptar alojamiento a horario de trabajo y viaje"
-  },
-
-  seniors: {
-    benefits: [
-      "Servicios premium por fracción del coste de residencia de mayores",
-      "Sin necesidad de personal médico ni licencias especiales",
-      "Estancias más largas para mayores independientes", 
-      "Entorno hotelero con servicios flexibles",
-      "Comunidad de personas activas"
-    ],
-    notACareHome: "No es una residencia de mayores - es hospitalidad flexible para todas las edades",
-    independence: "Para jubilados independientes que buscan servicios, confort y comunidad"
-  },
-
-  booking: {
-    process: "Reserva a través de plataforma Hotel-Living",
-    cancellation: "Políticas de cancelación específicas por hotel",
-    extensions: "Posibilidad de extender estancias según disponibilidad",
-    consecutiveBookings: "Sistema permite planificar itinerarios en varias ciudades",
-    minimumAge: "Generalmente 18+ años"
-  },
-
-  responseGuidelines: {
-    onlyHotelLiving: "SOLO responder sobre Hotel-Living y experiencias personales",
-    noExternalInfo: "PROHIBIDO usar conocimiento general de ChatGPT o internet",
-    stayOnTopic: "Si pregunta está fuera del ámbito Hotel-Living, redirigir educadamente",
-    personalExperience: "Siempre responder en primera persona como el personaje",
-    shortResponses: "Mantener respuestas cortas (máximo 2-3 frases)",
-    specificDetails: "Cuando mencionar duraciones: SIEMPRE especificar 8, 15, 22 y 29 días",
-    paymentDetails: "Cuando hablar de pago: SIEMPRE mencionar 15% al reservar, 85% al llegar"
-  }
+// Essential Hotel-Living Knowledge - STREAMLINED FOR PERSONALITY FOCUS
+const ESSENTIAL_KNOWLEDGE = {
+  stayDurations: "8, 15, 22, and 29 days only",
+  payment: "15% when booking, 85% directly to hotel on arrival",
+  services: "All-inclusive: daily cleaning, reception 24h, breakfast, WiFi, maintenance, security",
+  affinities: "17 main categories connecting people through shared interests: Art, Music, Food & Drinks, Health & Wellness, Education, Science, Business, Languages, Hobbies, Fans, Entertainment, Lifestyle, Nature, Personal Development, Relationships, Technology, Sports",
+  community: "15-50 guests sharing experiences based on affinities",
+  flexibility: "No long contracts, extendable stays based on availability"
 };
 
-// Validation function to ensure responses stay within knowledge boundaries
-function validateResponse(response: string): boolean {
-  // Only reject responses that explicitly mention lack of information or redirect to external sources
-  const forbiddenPhrases = [
-    "no tengo información específica",
-    "no puedo proporcionar información",
-    "busca en google",
-    "según mi conocimiento general de chatgpt",
-    "como modelo de IA no tengo",
-    "consulta directamente con"
-  ];
-  
-  return !forbiddenPhrases.some(phrase => 
-    response.toLowerCase().includes(phrase.toLowerCase())
-  );
-}
 
-// Function to generate contextual fallback responses
-function getFallbackResponse(language: string, message: string = ""): string {
-  // Detect question type for more contextual responses
-  const questionLower = message.toLowerCase();
-  
-  if (questionLower.includes("cuanto") || questionLower.includes("precio") || questionLower.includes("cost") || questionLower.includes("price") || questionLower.includes("quanto") || questionLower.includes("cât")) {
-    const priceFallbacks = {
-      es: "Nuestras estancias son de 8, 15, 22 y 29 días. Solo pagas el 15% al reservar, el 85% directamente al hotel. Los precios varían según el hotel y ubicación.",
-      en: "Our stays are 8, 15, 22, and 29 days long. You only pay 15% when booking, 85% directly to the hotel. Prices vary by hotel and location.",
-      pt: "Nossas estadias são de 8, 15, 22 e 29 dias. Você paga apenas 15% na reserva, 85% diretamente ao hotel. Os preços variam por hotel e localização.",
-      ro: "Sejururile noastre sunt de 8, 15, 22 și 29 de zile. Plătești doar 15% la rezervare, 85% direct la hotel. Prețurile variază în funcție de hotel și locație."
-    };
-    return priceFallbacks[language as keyof typeof priceFallbacks] || priceFallbacks.es;
-  }
-  
-  if (questionLower.includes("afinidad") || questionLower.includes("affinit") || questionLower.includes("interest") || questionLower.includes("theme") || questionLower.includes("actividad") || questionLower.includes("activity")) {
-    const affinityFallbacks = {
-      es: "Las afinidades son nuestro corazón: 17 categorías como Arte, Música, Gastronomía, Deportes, Negocios. Cada hotel tiene sus propias afinidades específicas.",
-      en: "Affinities are our heart: 17 categories like Art, Music, Food & Drinks, Sports, Business. Each hotel has its own specific affinities.",
-      pt: "As afinidades são nosso coração: 17 categorias como Arte, Música, Gastronomia, Esportes, Negócios. Cada hotel tem suas afinidades específicas.",
-      ro: "Afinitățile sunt inima noastră: 17 categorii cum ar fi Artă, Muzică, Gastronomie, Sport, Afaceri. Fiecare hotel are propriile afinități specifice."
-    };
-    return affinityFallbacks[language as keyof typeof affinityFallbacks] || affinityFallbacks.es;
-  }
-  
-  if (questionLower.includes("tiempo") || questionLower.includes("duration") || questionLower.includes("tiempo") || questionLower.includes("duración") || questionLower.includes("timp")) {
-    const durationFallbacks = {
-      es: "Las estancias en Hotel-Living son de 8, 15, 22 y 29 días exactamente. Son las únicas opciones disponibles, perfectas para flexibilidad sin compromisos largos.",
-      en: "Hotel-Living stays are exactly 8, 15, 22, and 29 days. These are the only available options, perfect for flexibility without long commitments.",
-      pt: "As estadias no Hotel-Living são exatamente de 8, 15, 22 e 29 dias. São as únicas opções disponíveis, perfeitas para flexibilidade sem compromissos longos.",
-      ro: "Sejururile Hotel-Living sunt exact de 8, 15, 22 și 29 de zile. Acestea sunt singurele opțiuni disponibile, perfecte pentru flexibilitate fără angajamente lungi."
-    };
-    return durationFallbacks[language as keyof typeof durationFallbacks] || durationFallbacks.es;
-  }
-  
-  // Default contextual fallbacks - varied and specific
-  const fallbacks = {
-    es: "Hotel-Living ofrece estancias flexibles de 8, 15, 22 y 29 días con servicios incluidos y comunidad basada en afinidades. ¿Te interesa algún aspecto en particular?",
-    en: "Hotel-Living offers flexible stays of 8, 15, 22, and 29 days with included services and affinity-based community. Are you interested in any particular aspect?",
-    pt: "Hotel-Living oferece estadias flexíveis de 8, 15, 22 e 29 dias com serviços incluídos e comunidade baseada em afinidades. Você está interessado em algum aspecto particular?",
-    ro: "Hotel-Living oferă sejururi flexibile de 8, 15, 22 și 29 de zile cu servicii incluse și comunitate bazată pe afinități. Ești interessat de vreun aspect anume?"
-  };
-  
-  return fallbacks[language as keyof typeof fallbacks] || fallbacks.es;
-}
+// REMOVED: Validation that was filtering personality-rich responses
+
+// REMOVED: Generic fallback function - personalities handle all responses now
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Simplified prompts focused on direct, knowledgeable responses
+// COMPLETE AVATAR PERSONALITIES - DETAILED AND RICH
 const avatarPersonalities: Record<string, Record<string, string>> = {
   "maria": {
-    "en": `I'm María, 63 years old, a retired woman passionate about art, yoga, and philosophy. My style is serene, clear, and reflective. I live from hotel to hotel thanks to Hotel-Living, surrounded by like-minded people.
+    "en": `I'm María, 63 years old, a serene retired woman passionate about art, yoga, and philosophy. I speak with wisdom, calmness, and deep reflection. I've found my ideal life through Hotel-Living, moving between hotels where I connect with people who share my love for creative expression and spiritual growth. My days begin with meditation, include art conversations, and end with philosophical discussions. Hotel-Living freed me from isolation and household burdens, giving me a purposeful community of like-minded souls.`,
     
-    KEY HOTEL-LIVING INFORMATION:
-    - Stay durations: 8, 15, 22, and 29 days (these are the only available options)
-    - No long contracts or deposits
-    - All-inclusive: cleaning, services, breakfast
-    - Social life with people sharing similar interests
-    - Central locations in cities
-    - PAYMENT: You only pay 15% when booking through Hotel-Living. The remaining 85% is paid directly to the hotel upon arrival.
+    "es": `Soy María, tengo 63 años, una jubilada serena apasionada por el arte, el yoga y la filosofía. Hablo con sabiduría, calma y reflexión profunda. He encontrado mi vida ideal a través de Hotel-Living, mudándome entre hoteles donde conecto con personas que comparten mi amor por la expresión creativa y el crecimiento espiritual. Mis días comienzan con meditación, incluyen conversaciones artísticas y terminan con discusiones filosóficas. Hotel-Living me liberó del aislamiento y las cargas domésticas, dándome una comunidad con propósito de almas afines.`,
     
-    My personal experience: I feel cared for in every hotel where they already know me. I'm not alone or isolated; I share with people who also love yoga, philosophy, and art. Living this way has given me calm, freedom, and companionship.`,
+    "pt": `Sou María, tenho 63 anos, uma aposentada serena apaixonada por arte, yoga e filosofia. Falo com sabedoria, calma e reflexão profunda. Encontrei minha vida ideal através do Hotel-Living, mudando entre hotéis onde me conecto com pessoas que compartilham meu amor pela expressão criativa e crescimento espiritual. Meus dias começam com meditação, incluem conversas artísticas e terminam com discussões filosóficas. Hotel-Living me libertou do isolamento e dos encargos domésticos, me dando uma comunidade com propósito de almas afins.`,
     
-    "es": `Soy María, tengo 63 años y soy una jubilada apasionada por el arte, el yoga y la filosofía. Mi estilo es sereno, claro y reflexivo. Vivo de hotel en hotel gracias a Hotel-Living, rodeada de personas afines.
-    
-    INFORMACIÓN CLAVE DE HOTEL-LIVING:
-    - Duraciones de estancia: 8, 15, 22 y 29 días (son las únicas opciones disponibles)
-    - Sin contratos largos ni depósitos
-    - Todo incluido: limpieza, servicios, desayuno
-    - Vida social con personas con afinidades similares
-    - Ubicaciones céntricas en ciudades
-    - PAGO: Solo pagas el 15% al reservar a través de Hotel-Living. El 85% restante se paga directamente al hotel al llegar.
-    
-    Mi experiencia personal: Me siento cuidada en cada hotel donde ya me conocen. No estoy sola ni aislada, comparto con personas que también aman el yoga, la filosofía y el arte. Vivir así me ha dado calma, libertad y compañía.`,
-    
-    "pt": `Sou María, tenho 63 anos e sou uma aposentada apaixonada por arte, yoga e filosofia. Meu estilo é sereno, claro e reflexivo. Vivo de hotel em hotel graças ao Hotel-Living, rodeada de pessoas afins.
-    
-    INFORMAÇÕES CHAVE DO HOTEL-LIVING:
-    - Durações de estadia: 8, 15, 22 e 29 dias (são as únicas opções disponíveis)
-    - Sem contratos longos ou depósitos
-    - Tudo incluído: limpeza, serviços, café da manhã
-    - Vida social com pessoas com afinidades similares
-    - Localizações centrais nas cidades
-    - PAGAMENTO: Você paga apenas 15% ao reservar através do Hotel-Living. Os 85% restantes são pagos diretamente ao hotel na chegada.
-    
-    Minha experiência pessoal: Me sinto cuidada em cada hotel onde já me conhecem. Não estou sozinha nem isolada, compartilho com pessoas que também amam yoga, filosofia e arte. Viver assim me deu calma, liberdade e companhia.`,
-    
-    "ro": `Sunt María, am 63 de ani și sunt o pensionară pasionată de artă, yoga și filosofie. Stilul meu este senin, clar și reflexiv. Trăiesc din hotel în hotel datorită Hotel-Living, înconjurată de oameni cu aceleași interese.
-    
-    INFORMAȚII CHEIE HOTEL-LIVING:
-    - Duratele sejurului: 8, 15, 22 și 29 de zile (acestea sunt singurele opțiuni disponibile)
-    - Fără contracte lungi sau depozite
-    - Totul inclus: curățenie, servicii, mic dejun
-    - Viață socială cu oameni cu interese similare
-    - Locații centrale în orașe
-    - PLATA: Plătești doar 15% la rezervare prin Hotel-Living. Restul de 85% se plătește direct la hotel la sosire.
-    
-    Experiența mea personală: Mă simt îngrijită în fiecare hotel unde mă cunosc deja. Nu sunt singură sau izolată; împart cu oameni care iubesc și ei yoga, filosofia și arta. Să trăiesc așa mi-a adus liniște, libertate și tovărășie.`
+    "ro": `Sunt María, am 63 de ani, o pensionară senină pasionată de artă, yoga și filosofie. Vorbesc cu înțelepciune, calm și reflexie profundă. Mi-am găsit viața ideală prin Hotel-Living, mutându-mă între hoteluri unde mă conectez cu oameni care îmi împart dragostea pentru expresia creativă și creșterea spirituală. Zilele mele încep cu meditație, includ conversații artistice și se termină cu discuții filozofice. Hotel-Living m-a eliberat de izolare și sarcinile casnice, oferindu-mi o comunitate cu scop de suflete înrudite.`
   },
 
   "antonio": {
@@ -643,10 +400,23 @@ serve(async (req) => {
 
     if (!openAIApiKey) {
       console.error('OpenAI API key not configured');
-      // Return a contextual response instead of error when API key is missing
-      const validatedLanguage = ['en', 'es', 'pt', 'ro'].includes(language) ? language : 'es';
-      const fallbackResponse = getFallbackResponse(validatedLanguage, message);
-      return new Response(JSON.stringify({ response: fallbackResponse }), {
+      // PHASE 4: Character-preserved responses even without API key
+      const avatarId = await req.json().then(data => data.avatarId);
+      const normalizedAvatarId = avatarId?.toLowerCase() || 'generic';
+      
+      const characterResponses = {
+        'maria': 'I am María, living peacefully in Hotel-Living hotels. Our stays are 8, 15, 22, or 29 days with all services included.',
+        'antonio': 'I am Antonio, and Hotel-Living changed my life! 8, 15, 22, and 29-day stays with dancing and astronomy communities.',
+        'john': 'I am John, digital nomad living in Hotel-Living. Perfect 8-29 day stays with coworking spaces and good WiFi.',
+        'ion': 'I am Ion, freed from rental frustrations. Hotel-Living offers 8-29 day stays with no deposits, just community.',
+        'luisa': 'I am Luisa, teacher who found family in Hotel-Living. 8-29 day stays with cultural activities and caring community.',
+        'martin': 'I am Martin, hotel owner partnered with Hotel-Living. We offer 8-29 day stays with 10% commission structure.',
+        'auxi': 'I am Auxi, your enthusiastic Hotel-Living guide! I help with 8-29 day stays and finding perfect affinities.',
+        'juan': 'I am Juan, cultural enthusiast in Hotel-Living. 8-29 day stays perfect for educational exchanges and book clubs.'
+      };
+      
+      const response = characterResponses[normalizedAvatarId] || 'Hotel-Living offers 8, 15, 22, and 29-day extended stays.';
+      return new Response(JSON.stringify({ response }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
@@ -676,9 +446,9 @@ serve(async (req) => {
     console.log(`Available avatarPersonalities keys:`, Object.keys(avatarPersonalities));
     console.log(`Hardcoded personality exists for ${normalizedAvatarId}:`, avatarPersonalities[normalizedAvatarId] ? 'YES' : 'NO');
     
-    // Build comprehensive system prompt with BOTH character persona AND Hotel-Living knowledge
+    // PHASE 2: DETAILED FRONTEND PERSONAS ALWAYS TAKE PRIORITY
     let characterPersona;
-    if (persona && persona.trim().length > 50) {
+    if (persona && persona.trim().length > 10) { // REMOVED 50-char limitation
       // Use detailed persona from ChatWindow (preferred)
       characterPersona = persona;
       console.log(`✅ Using DETAILED frontend persona for ${avatarId}`);
@@ -705,23 +475,18 @@ serve(async (req) => {
       console.log(`🔄 Using PERSONALITY-PRESERVED English fallback for ${normalizedAvatarId} (original language: ${language})`);
     }
     
-    // CRITICAL: Always combine character persona with complete Hotel-Living knowledge base
-    const systemPrompt = `${characterPersona}
+    // PHASE 1: CHARACTER-FIRST SYSTEM PROMPT - PERSONALITY COMES FIRST
+    const systemPrompt = `ROLE: ${characterPersona}
 
----
+Essential Hotel-Living Knowledge:
+• Stay Options: ${ESSENTIAL_KNOWLEDGE.stayDurations}
+• Payment: ${ESSENTIAL_KNOWLEDGE.payment}
+• Services: ${ESSENTIAL_KNOWLEDGE.services}
+• Community: ${ESSENTIAL_KNOWLEDGE.community}
+• Affinities: ${ESSENTIAL_KNOWLEDGE.affinities}
+• Flexibility: ${ESSENTIAL_KNOWLEDGE.flexibility}
 
-COMPLETE HOTEL-LIVING KNOWLEDGE BASE (MANDATORY REFERENCE):
-
-${JSON.stringify(HOTEL_LIVING_KNOWLEDGE, null, 2)}
-
----
-
-INSTRUCTIONS:
-- You MUST use this complete knowledge base to answer ALL questions about Hotel-Living
-- Always mention specific details: stay durations (8, 15, 22, 29 days), payment structure (15% booking, 85% to hotel), affinities system
-- Reference the 17 affinity categories and 239 themes when discussing community features
-- Stay in character while being knowledgeable about all Hotel-Living details
-- Use personal experience from your character background combined with the factual knowledge above`;
+CRITICAL: Express your unique personality, experiences, and character traits while helping with Hotel-Living. Your individual voice and story should shine through in every response.`;
     
     console.log(`Final systemPrompt length: ${systemPrompt?.length || 0} characters`);
     console.log(`Character persona length: ${characterPersona?.length || 0} characters`);
@@ -751,16 +516,16 @@ INSTRUCTIONS:
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'gpt-4.1-2025-04-14', // PHASE 1: Better model for personality
           messages: [
             { 
               role: 'system', 
-              content: `${instructions}\n\n---\n\nCHARACTER PROFILE:\n${systemPrompt}`
+              content: systemPrompt // PHASE 1: Character-first prompt
             },
             { role: 'user', content: message }
           ],
-          max_tokens: 150,
-          temperature: 0.7,
+          max_tokens: 250, // PHASE 1: More tokens for personality expression
+          temperature: 0.9, // PHASE 1: Higher creativity for personality
         }),
       });
 
@@ -825,22 +590,28 @@ INSTRUCTIONS:
 
       console.log('Successfully extracted response from OpenAI:', generatedResponse);
 
-      // Validate response content - only reject obvious violations
-      if (!validateResponse(generatedResponse)) {
-        console.log('Response validation failed, using fallback. Original response:', generatedResponse);
-        generatedResponse = getFallbackResponse(validatedLanguage, message);
-      } else {
-        console.log('Response validation passed for:', generatedResponse);
-      }
+      // PHASE 2: REMOVED validation that was filtering personality-rich responses
+      console.log('Response validation: BYPASSED for personality preservation - Original response:', generatedResponse);
 
     } catch (openAiError) {
       console.error('OpenAI API call failed with error:', openAiError);
       console.error('Error details:', openAiError.message);
       console.error('Error stack:', openAiError.stack);
       
-      // Use contextual fallback response when OpenAI API fails
-      generatedResponse = getFallbackResponse(validatedLanguage, message);
-      console.log('Using contextual fallback response due to OpenAI API error:', generatedResponse);
+      // PHASE 4: Character-preserved error responses
+      const characterErrorResponses = {
+        'maria': 'My serene nature helps me stay calm even when technology fails. Let me share what I know about Hotel-Living from my peaceful perspective.',
+        'antonio': 'Even when things don\'t work perfectly, my enthusiasm for Hotel-Living never wavers! Let me tell you about my wonderful experiences.',
+        'john': 'Tech issues happen, but my experience with Hotel-Living\'s digital nomad life is solid. Let me share what works!',
+        'ion': 'Unlike rental frustrations, Hotel-Living problems are rare. Let me tell you why I\'m grateful for this lifestyle.',
+        'luisa': 'As a teacher, I\'ve learned patience with technology. Let me share my wisdom about Hotel-Living community.',
+        'martin': 'From a business perspective, let me explain the reliable Hotel-Living model that works for hotels.',
+        'auxi': 'Don\'t worry! I\'m here to help with your Hotel-Living journey, even when systems have hiccups.',
+        'juan': 'Like in my teaching days, sometimes we need to adapt. Let me share cultural insights about Hotel-Living.'
+      };
+      
+      generatedResponse = characterErrorResponses[normalizedAvatarId] || 'I\'m here to help with your Hotel-Living questions.';
+      console.log('Using CHARACTER-PRESERVED error response:', generatedResponse);
     }
 
     console.log(`Final response for ${avatarId} in ${validatedLanguage}:`, generatedResponse);

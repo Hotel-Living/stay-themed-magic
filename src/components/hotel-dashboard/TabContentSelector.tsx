@@ -14,6 +14,7 @@ import { RatesCalculatorContent } from "@/components/dashboard/RatesCalculatorCo
 import { WelcomeOverviewContent } from "@/components/dashboard/WelcomeOverviewContent";
 import { TermsConditionsContent } from "@/components/dashboard/TermsConditionsContent";
 import AddProperty2Content from "@/components/dashboard/AddProperty2Content";
+import { HotelReferralsContent } from "@/components/dashboard/HotelReferralsContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -43,6 +44,8 @@ export default function TabContentSelector({ activeTab }: TabContentSelectorProp
       return <AdvertisingContent />;
     case "analytics":
       return <AnalyticsContent />;
+    case "referrals":
+      return <HotelReferralsContent />;
     case "settings":
       return <SettingsContent />;
     case "terms-conditions":

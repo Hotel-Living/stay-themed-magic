@@ -70,6 +70,37 @@
       "affinities": "My Affinities",
       "saveSuccess": "Preferences saved successfully",
       "saveError": "Failed to save preferences"
+    },
+    "referrals": {
+      "title": "🏨 Refer Hotels – Earn Commissions",
+      "description": "💬 Do you know hotels that could benefit from Hotel-Living? Add them here and earn up to 4% commission — without affecting their earnings. If the hotel joins us within a month, you'll be rewarded for 2.5 years!",
+      "hotelSubmission": "Hotel Submission",
+      "country": "Country",
+      "city": "City", 
+      "hotelName": "Hotel Name",
+      "addAnother": "Add Another Hotel",
+      "submittedHotels": "Submitted Hotels",
+      "paymentInfo": "Payment Information",
+      "paymentInfoDescription": "Where should we send your commissions?",
+      "fullName": "Full Name",
+      "bankName": "Bank Name",
+      "bankCountry": "Bank Country",
+      "ibanAccount": "IBAN / Account Number",
+      "swiftBic": "SWIFT/BIC (optional)",
+      "submitReferral": "Submit Hotel Referrals",
+      "confirmationTitle": "✅ Thank You!",
+      "confirmationMessage": "Your hotels have been recorded. If any of them joins us in the next 30 days, you'll be rewarded automatically.",
+      "removeHotel": "Remove",
+      "validation": {
+        "countryRequired": "Country is required",
+        "cityRequired": "City is required",
+        "hotelNameRequired": "Hotel name is required",
+        "fullNameRequired": "Full name is required",
+        "bankNameRequired": "Bank name is required",
+        "bankCountryRequired": "Bank country is required",
+        "ibanRequired": "IBAN/Account number is required",
+        "hotelsRequired": "At least one hotel must be added"
+      }
     }
   }
 }

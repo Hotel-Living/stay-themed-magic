@@ -70,6 +70,37 @@
       "affinities": "Afinitatile Mele",
       "saveSuccess": "Preferințele au fost salvate cu succes",
       "saveError": "Eroare la salvarea preferințelor"
+    },
+    "referrals": {
+      "title": "🏨 Recomandă Hoteluri – Câștigă Comisioane",
+      "description": "💬 Cunoști hoteluri care ar putea beneficia de Hotel-Living? Adaugă-le aici și câștigă până la 4% comision — fără a le afecta câștigurile. Dacă hotelul se alătură nouă într-o lună, vei fi răsplătit timp de 2,5 ani!",
+      "hotelSubmission": "Trimiterea Hotelurilor",
+      "country": "Țara",
+      "city": "Oraș",
+      "hotelName": "Numele Hotelului",
+      "addAnother": "Adaugă Alt Hotel",
+      "submittedHotels": "Hoteluri Trimise",
+      "paymentInfo": "Informații de Plată",
+      "paymentInfoDescription": "Unde să vă trimitem comisioanele?",
+      "fullName": "Nume Complet",
+      "bankName": "Numele Băncii",
+      "bankCountry": "Țara Băncii",
+      "ibanAccount": "IBAN / Numărul Contului",
+      "swiftBic": "SWIFT/BIC (opțional)",
+      "submitReferral": "Trimite Recomandări de Hoteluri",
+      "confirmationTitle": "✅ Mulțumesc!",
+      "confirmationMessage": "Hotelurile dumneavoastră au fost înregistrate. Dacă oricare dintre ele se alătură nouă în următoarele 30 de zile, veți fi răsplătit automat.",
+      "removeHotel": "Elimină",
+      "validation": {
+        "countryRequired": "Țara este obligatorie",
+        "cityRequired": "Orașul este obligatoriu",
+        "hotelNameRequired": "Numele hotelului este obligatoriu",
+        "fullNameRequired": "Numele complet este obligatoriu",
+        "bankNameRequired": "Numele băncii este obligatoriu",
+        "bankCountryRequired": "Țara băncii este obligatorie",
+        "ibanRequired": "IBAN/Numărul contului este obligatoriu",
+        "hotelsRequired": "Trebuie adăugat cel puțin un hotel"
+      }
     }
   }
 }

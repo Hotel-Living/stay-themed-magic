@@ -448,6 +448,48 @@ export type Database = {
         }
         Relationships: []
       }
+      hotel_referrals_submissions: {
+        Row: {
+          bank_country: string
+          bank_name: string
+          created_at: string
+          full_name: string
+          hotels: Json
+          iban_account: string
+          id: string
+          status: string
+          swift_bic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bank_country: string
+          bank_name: string
+          created_at?: string
+          full_name: string
+          hotels?: Json
+          iban_account: string
+          id?: string
+          status?: string
+          swift_bic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bank_country?: string
+          bank_name?: string
+          created_at?: string
+          full_name?: string
+          hotels?: Json
+          iban_account?: string
+          id?: string
+          status?: string
+          swift_bic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       hotel_themes: {
         Row: {
           hotel_id: string | null

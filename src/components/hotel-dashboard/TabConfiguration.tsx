@@ -1,5 +1,5 @@
 
-import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart } from "lucide-react";
+import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, UserPlus } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -67,6 +67,11 @@ export const getDashboardTabs = (): DashboardTab[] => {
       id: "analytics",
       label: t('dashboard.analytics'),
       icon: <BarChart3 className="w-5 h-5" />
+    },
+    {
+      id: "referrals",
+      label: t('dashboard.referrals.title'),
+      icon: <UserPlus className="w-5 h-5" />
     },
     {
       id: "settings",

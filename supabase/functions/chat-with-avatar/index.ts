@@ -655,9 +655,12 @@ serve(async (req) => {
 
     // Validate language parameter and ensure it's supported
     const supportedLanguages = ['en', 'es', 'pt', 'ro'];
-    const validatedLanguage = supportedLanguages.includes(language) ? language : 'es';
+    const validatedLanguage = supportedLanguages.includes(language) ? language : 'en';
     
     console.log(`Validated language: ${validatedLanguage} (original: ${language})`);
+    if (language !== validatedLanguage) {
+      console.log(`🌍 LANGUAGE FALLBACK: User used "${language}" → Responding in English with full personality`);
+    }
 
     if (!message || !avatarId) {
       throw new Error('Missing required fields: message and avatarId');
@@ -682,23 +685,24 @@ serve(async (req) => {
     } else if (avatarPersonalities[normalizedAvatarId]) {
       // Fallback to hardcoded personality using NORMALIZED ID
       const avatarData = avatarPersonalities[normalizedAvatarId];
-      characterPersona = avatarData[validatedLanguage] || avatarData['es'] || avatarData['en'];
+      // PRIORITY: Use validated language, then English, then Spanish as last resort
+      characterPersona = avatarData[validatedLanguage] || avatarData['en'] || avatarData['es'];
       console.log(`⚠️ Using FALLBACK hardcoded personality for ${normalizedAvatarId} in ${validatedLanguage}`);
     } else {
-      // Enhanced fallback with personality preservation
+      // Enhanced fallback with personality preservation - ALWAYS use English for unsupported languages
       const personalityFallbacks = {
-        'maria': 'I am María, a serene 63-year-old who loves philosophy, yoga, and art. I live peacefully from hotel to hotel.',
-        'antonio': 'I am Antonio, an enthusiastic 66-year-old who loves astronomy and dancing. I found love through Hotel-Living.',
-        'john': 'I am John, a modern 27-year-old digital nomad who works online and enjoys the freedom of hotel living.',
-        'ion': 'I am Ion, a former frustrated renter who now lives happily in hotels with all services included.',
-        'luisa': 'I am Luisa, a warm 68-year-old retired teacher who found community and purpose in Hotel-Living.',
-        'martin': 'I am Martin, a hotel owner who partners with Hotel-Living and explains the business benefits.',
-        'auxi': 'I am Auxi, your enthusiastic Hotel-Living guide specializing in affinities and extended stays.',
-        'juan': 'I am Juan, a 65-year-old retired teacher passionate about history, literature, and cultural exchange.'
+        'maria': 'I am María, a serene 63-year-old who loves philosophy, yoga, and art. I live peacefully from hotel to hotel through Hotel-Living, surrounded by like-minded people.',
+        'antonio': 'I am Antonio, an enthusiastic 66-year-old who loves astronomy and dancing. I found love through Hotel-Living and live with freedom and happiness.',
+        'john': 'I am John, a modern 27-year-old digital nomad who works online and enjoys the freedom of hotel living without rental hassles.',
+        'ion': 'I am Ion, a former frustrated renter who now lives happily in hotels with all services included, no more deposits or isolation.',
+        'luisa': 'I am Luisa, a warm 68-year-old retired teacher who found community and purpose in Hotel-Living after loss.',
+        'martin': 'I am Martin, a hotel owner who partners with Hotel-Living and explains the business benefits to other hoteliers.',
+        'auxi': 'I am Auxi, your enthusiastic Hotel-Living guide specializing in affinities and helping with extended stays.',
+        'juan': 'I am Juan, a 65-year-old retired teacher passionate about history, literature, and cultural exchange through Hotel-Living.'
       };
       
       characterPersona = personalityFallbacks[normalizedAvatarId] || `I'm a Hotel-Living assistant specializing in extended hotel stays.`;
-      console.log(`🔄 Using PERSONALITY-PRESERVED fallback for ${normalizedAvatarId}`);
+      console.log(`🔄 Using PERSONALITY-PRESERVED English fallback for ${normalizedAvatarId} (original language: ${language})`);
     }
     
     // CRITICAL: Always combine character persona with complete Hotel-Living knowledge base
@@ -732,7 +736,8 @@ INSTRUCTIONS:
       'ro': `Amintește-ți: Ești acest personaj specific cu personalitatea ta unică, istoricul și modul de a vorbi. Rămâi fidel personajului tău în timp ce ești util despre Hotel-Living. Personalitatea ta trebuie să strălucească în fiecare răspuns.`
     };
     
-    const instructions = characterInstructions[validatedLanguage] || characterInstructions['es'];
+    // ALWAYS use English instructions for unsupported languages to maintain personality
+    const instructions = characterInstructions[validatedLanguage] || characterInstructions['en'];
     
     let generatedResponse: string;
 

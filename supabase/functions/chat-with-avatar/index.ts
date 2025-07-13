@@ -570,6 +570,29 @@ serve(async (req) => {
       if (!response.ok) {
         const errorText = await response.text();
         console.error('OpenAI API error response:', response.status, errorText);
+        
+        // Handle quota exceeded specifically
+        if (response.status === 429) {
+          console.error('OpenAI quota exceeded - returning informative fallback');
+          return new Response(JSON.stringify({
+            message: "I'm temporarily unavailable due to API usage limits. Our team has been notified and will resolve this shortly. Please try again later.",
+            quota_exceeded: true
+          }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
+        // Handle authentication errors
+        if (response.status === 401) {
+          console.error('OpenAI authentication failed - API key issue');
+          return new Response(JSON.stringify({
+            message: "I'm temporarily unavailable due to a configuration issue. Our team has been notified.",
+            auth_error: true
+          }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
         throw new Error(`OpenAI API request failed: ${response.status} - ${errorText}`);
       }
 

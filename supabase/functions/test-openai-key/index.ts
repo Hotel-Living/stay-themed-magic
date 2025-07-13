@@ -62,6 +62,35 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('EMERGENCY DEBUG: Error response body:', errorText);
+      
+      // Handle specific error cases
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ 
+          error: 'OpenAI API Quota Exceeded',
+          details: 'Your OpenAI account has reached its usage limit. Please check your billing and usage at https://platform.openai.com/usage',
+          quota_exceeded: true,
+          configured: true,
+          working: false,
+          message: '❌ OpenAI API quota exceeded - Please add credits to your OpenAI account'
+        }), {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      if (response.status === 401) {
+        return new Response(JSON.stringify({ 
+          error: 'OpenAI API Authentication Error',
+          details: 'Invalid API key or authentication failed',
+          configured: false,
+          working: false,
+          message: '❌ OpenAI API key is invalid or expired'
+        }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
       return new Response(JSON.stringify({ 
         error: `OpenAI API Error: ${response.status}`,
         details: errorText,

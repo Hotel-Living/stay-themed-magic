@@ -3,9 +3,6 @@ import { X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 
-// Global resize lock to prevent multiple chat windows from resizing simultaneously
-let globalResizeLock: string | null = null;
-
 // The edge function handles multilingual personas, so no hardcoded knowledge base needed here
 
 interface ChatWindowProps {
@@ -489,13 +486,15 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     e.preventDefault();
     e.stopPropagation();
     
-    // Check if another ChatWindow is already resizing
-    if (globalResizeLock && globalResizeLock !== instanceId.current) {
-      return; // Prevent this instance from resizing if another is active
+    // Validate that the resize event originated from this ChatWindow instance
+    const targetElement = e.currentTarget as HTMLElement;
+    const chatWindowElement = targetElement.closest(`[data-chat-instance="${instanceId.current}"]`);
+    
+    if (!chatWindowElement) {
+      console.log(`🚫 Resize event blocked - not from this ChatWindow instance (${instanceId.current})`);
+      return; // Event didn't originate from this ChatWindow's resize handles
     }
     
-    // Lock resize to this instance
-    globalResizeLock = instanceId.current;
     setIsResizing(true);
     
     const startMouseX = e.clientX;
@@ -505,18 +504,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     const startX = position.x;
     const startY = position.y;
     
-    // Store the target element to validate events come from the correct ChatWindow
-    const targetElement = e.currentTarget as HTMLElement;
-    const chatWindowElement = targetElement.closest(`[data-chat-instance="${instanceId.current}"]`);
-    
     // Calculate fixed anchor points for each direction
     const rightEdge = startX + startWidth;  // This should stay fixed when resizing left
     const bottomEdge = startY + startHeight; // This should stay fixed when resizing top
     
     const handleMouseMoveResize = (e: MouseEvent) => {
-      // Only process if this is the active resize instance
-      if (globalResizeLock !== instanceId.current) return;
-      
       e.preventDefault();
       e.stopPropagation();
       
@@ -590,11 +582,6 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     };
     
     const handleMouseUpResize = () => {
-      // Release the global lock only if this instance owns it
-      if (globalResizeLock === instanceId.current) {
-        globalResizeLock = null;
-      }
-      
       setIsResizing(false);
       document.removeEventListener('mousemove', handleMouseMoveResize);
       document.removeEventListener('mouseup', handleMouseUpResize);

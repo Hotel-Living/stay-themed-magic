@@ -10,6 +10,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { BenefitsHeader } from "@/components/faq/BenefitsHeader";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { TestOpenAI } from "@/components/TestOpenAI";
 
 
 export default function FAQ() {
@@ -40,6 +41,7 @@ export default function FAQ() {
       
       <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
         <div className="container max-w-5xl mx-auto px-4 py-6">
+          <TestOpenAI />
           <WhyHotelLivingSection />
           
           <BenefitsHeader />

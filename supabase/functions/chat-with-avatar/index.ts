@@ -3,6 +3,15 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
+// CRITICAL API KEY VALIDATION - PHASE 1 FIX
+if (!openAIApiKey) {
+  console.error('CRITICAL ERROR: OPENAI_API_KEY is not set in Supabase Edge Function secrets!');
+  console.error('Please configure the OpenAI API key in Supabase Dashboard > Settings > Functions > Secrets');
+} else {
+  console.log('OpenAI API key found, length:', openAIApiKey.length);
+  // Don't log the actual key for security
+}
+
 // Essential Hotel-Living Knowledge - STREAMLINED FOR PERSONALITY FOCUS
 const ESSENTIAL_KNOWLEDGE = {
   stayDurations: "8, 15, 22, and 29 days only",

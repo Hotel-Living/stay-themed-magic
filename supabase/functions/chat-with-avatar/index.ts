@@ -547,25 +547,45 @@ serve(async (req) => {
     console.log(`Available avatarPersonalities keys:`, Object.keys(avatarPersonalities));
     console.log(`Hardcoded personality exists for ${avatarId}:`, avatarPersonalities[avatarId] ? 'YES' : 'NO');
     
-    // PRIORITIZE FRONTEND PERSONA - it has the most detailed character information
-    let systemPrompt;
+    // Build comprehensive system prompt with BOTH character persona AND Hotel-Living knowledge
+    let characterPersona;
     if (persona && persona.trim().length > 50) {
       // Use detailed persona from ChatWindow (preferred)
-      systemPrompt = persona;
+      characterPersona = persona;
       console.log(`✅ Using DETAILED frontend persona for ${avatarId}`);
     } else if (avatarPersonalities[avatarId]) {
       // Fallback to hardcoded personality if no frontend persona
       const avatarData = avatarPersonalities[avatarId];
-      systemPrompt = avatarData[validatedLanguage] || avatarData['es'];
+      characterPersona = avatarData[validatedLanguage] || avatarData['es'];
       console.log(`⚠️ Using FALLBACK hardcoded personality for ${avatarId} in ${validatedLanguage}`);
     } else {
       // Last resort - use whatever persona was provided
-      systemPrompt = persona || `I'm a Hotel-Living assistant specializing in extended hotel stays.`;
+      characterPersona = persona || `I'm a Hotel-Living assistant specializing in extended hotel stays.`;
       console.log(`❌ Using GENERIC fallback for ${avatarId}`);
     }
     
+    // CRITICAL: Always combine character persona with complete Hotel-Living knowledge base
+    const systemPrompt = `${characterPersona}
+
+---
+
+COMPLETE HOTEL-LIVING KNOWLEDGE BASE (MANDATORY REFERENCE):
+
+${JSON.stringify(HOTEL_LIVING_KNOWLEDGE, null, 2)}
+
+---
+
+INSTRUCTIONS:
+- You MUST use this complete knowledge base to answer ALL questions about Hotel-Living
+- Always mention specific details: stay durations (8, 15, 22, 29 days), payment structure (15% booking, 85% to hotel), affinities system
+- Reference the 17 affinity categories and 239 themes when discussing community features
+- Stay in character while being knowledgeable about all Hotel-Living details
+- Use personal experience from your character background combined with the factual knowledge above`;
+    
     console.log(`Final systemPrompt length: ${systemPrompt?.length || 0} characters`);
-    console.log(`System prompt preview:`, systemPrompt?.substring(0, 150) + '...');
+    console.log(`Character persona length: ${characterPersona?.length || 0} characters`);
+    console.log(`Knowledge base injected: YES (${JSON.stringify(HOTEL_LIVING_KNOWLEDGE).length} characters)`);
+    console.log(`System prompt preview:`, systemPrompt?.substring(0, 200) + '...');
     
     // Character-supportive instructions that enhance rather than override personality
     const characterInstructions = {

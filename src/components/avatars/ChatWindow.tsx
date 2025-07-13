@@ -504,45 +504,57 @@ INFORMAȚII CHEIE HOTEL-LIVING:
       let newX = startPosX;
       let newY = startPosY;
       
-      // Handle each direction independently to prevent dual-expansion
+      // Handle each direction independently - CRITICAL: anchor points properly
       if (direction === 'right') {
+        // Right edge: expand right, keep left edge fixed
         newWidth = Math.max(200, startWidth + deltaX);
-        // Keep position unchanged
-        newX = startPosX;
+        newX = startPosX; // Left edge stays exactly where it is
       } else if (direction === 'left') {
-        newWidth = Math.max(200, startWidth - deltaX);
-        // Only adjust position if width actually changed
-        if (newWidth > 200) {
-          newX = startPosX + (startWidth - newWidth);
-        } else {
-          newX = startPosX;
-        }
+        // Left edge: expand left, keep right edge fixed
+        const proposedWidth = Math.max(200, startWidth - deltaX);
+        newWidth = proposedWidth;
+        // Right edge position = startPosX + startWidth (this stays fixed)
+        // New left edge = right edge - new width
+        newX = (startPosX + startWidth) - newWidth;
       } else if (direction === 'bottom') {
+        // Bottom edge: expand down, keep top edge fixed
         newHeight = Math.max(200, startHeight + deltaY);
-        newY = startPosY;
+        newY = startPosY; // Top edge stays exactly where it is
       } else if (direction === 'top') {
-        newHeight = Math.max(200, startHeight - deltaY);
-        if (newHeight > 200) {
-          newY = startPosY + (startHeight - newHeight);
-        } else {
-          newY = startPosY;
-        }
+        // Top edge: expand up, keep bottom edge fixed
+        const proposedHeight = Math.max(200, startHeight - deltaY);
+        newHeight = proposedHeight;
+        // Bottom edge position = startPosY + startHeight (this stays fixed)
+        // New top edge = bottom edge - new height
+        newY = (startPosY + startHeight) - newHeight;
       } else if (direction.includes('top') && direction.includes('left')) {
-        newHeight = Math.max(200, startHeight - deltaY);
-        newWidth = Math.max(200, startWidth - deltaX);
-        if (newHeight > 200) newY = startPosY + (startHeight - newHeight);
-        if (newWidth > 200) newX = startPosX + (startWidth - newWidth);
+        // Top-left corner
+        const proposedHeight = Math.max(200, startHeight - deltaY);
+        const proposedWidth = Math.max(200, startWidth - deltaX);
+        newHeight = proposedHeight;
+        newWidth = proposedWidth;
+        newY = (startPosY + startHeight) - newHeight;
+        newX = (startPosX + startWidth) - newWidth;
       } else if (direction.includes('top') && direction.includes('right')) {
-        newHeight = Math.max(200, startHeight - deltaY);
+        // Top-right corner
+        const proposedHeight = Math.max(200, startHeight - deltaY);
+        newHeight = proposedHeight;
         newWidth = Math.max(200, startWidth + deltaX);
-        if (newHeight > 200) newY = startPosY + (startHeight - newHeight);
+        newY = (startPosY + startHeight) - newHeight;
+        newX = startPosX;
       } else if (direction.includes('bottom') && direction.includes('left')) {
+        // Bottom-left corner
         newHeight = Math.max(200, startHeight + deltaY);
-        newWidth = Math.max(200, startWidth - deltaX);
-        if (newWidth > 200) newX = startPosX + (startWidth - newWidth);
+        const proposedWidth = Math.max(200, startWidth - deltaX);
+        newWidth = proposedWidth;
+        newY = startPosY;
+        newX = (startPosX + startWidth) - newWidth;
       } else if (direction.includes('bottom') && direction.includes('right')) {
+        // Bottom-right corner
         newHeight = Math.max(200, startHeight + deltaY);
         newWidth = Math.max(200, startWidth + deltaX);
+        newY = startPosY;
+        newX = startPosX;
       }
       
       setSize({ width: newWidth, height: newHeight });

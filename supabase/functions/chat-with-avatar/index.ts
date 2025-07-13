@@ -514,7 +514,26 @@ serve(async (req) => {
     let generatedResponse: string;
 
     try {
+      // PHASE 1: EMERGENCY API DEBUGGING - Check API key first
+      if (!openAIApiKey) {
+        console.error('CRITICAL ERROR: OpenAI API key is missing!');
+        throw new Error('OpenAI API key not configured');
+      }
+      
+      console.log('EMERGENCY DEBUG: OpenAI API key present:', openAIApiKey ? 'YES' : 'NO');
+      console.log('EMERGENCY DEBUG: API key length:', openAIApiKey?.length || 0);
+      console.log('EMERGENCY DEBUG: API key starts with sk-:', openAIApiKey?.startsWith('sk-') || false);
+      
       console.log('Making OpenAI API request...');
+      console.log('EMERGENCY DEBUG: Request payload:', JSON.stringify({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: systemPrompt?.substring(0, 100) + '...' },
+          { role: 'user', content: message }
+        ],
+        max_tokens: 250,
+        temperature: 0.7
+      }, null, 2));
       
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -605,16 +624,23 @@ serve(async (req) => {
       console.error('Error details:', openAiError.message);
       console.error('Error stack:', openAiError.stack);
       
-      // PHASE 4: Character-preserved error responses
+      // PHASE 2: CHARACTER-SPECIFIC ERROR RESPONSES - Rich personalities even during failures
       const characterErrorResponses = {
-        'maria': 'My serene nature helps me stay calm even when technology fails. Let me share what I know about Hotel-Living from my peaceful perspective.',
-        'antonio': 'Even when things don\'t work perfectly, my enthusiasm for Hotel-Living never wavers! Let me tell you about my wonderful experiences.',
-        'john': 'Tech issues happen, but my experience with Hotel-Living\'s digital nomad life is solid. Let me share what works!',
-        'ion': 'Unlike rental frustrations, Hotel-Living problems are rare. Let me tell you why I\'m grateful for this lifestyle.',
-        'luisa': 'As a teacher, I\'ve learned patience with technology. Let me share my wisdom about Hotel-Living community.',
-        'martin': 'From a business perspective, let me explain the reliable Hotel-Living model that works for hotels.',
-        'auxi': 'Don\'t worry! I\'m here to help with your Hotel-Living journey, even when systems have hiccups.',
-        'juan': 'Like in my teaching days, sometimes we need to adapt. Let me share cultural insights about Hotel-Living.'
+        'maria': `As María, even when technology challenges us, I remain centered. Let me share from my 63 years of wisdom: Hotel-Living transformed my retirement from isolation to community. Through art discussions and yoga sessions, I've found my tribe. The 8-29 day stays give me flexibility to follow my spiritual journey while having all services included. My serene perspective: this lifestyle freed me from household burdens to focus on what truly matters - connection and growth.`,
+        
+        'antonio': `¡Hola! I'm Antonio, and my enthusiasm for Hotel-Living never dims! Even when systems hiccup, I remember how this lifestyle gave me love and freedom at 66. Through hotel dancing events and astronomy clubs, I met my partner and found my community. The 15% booking payment system is so simple - no complex contracts like my old apartment. My painter's eye sees beauty in this flexible life: 8, 15, 22, or 29 days of pure joy, activities, and companionship!`,
+        
+        'john': `Hey! John here - as a digital nomad, I know tech issues happen, but Hotel-Living's infrastructure is solid! High-speed WiFi, coworking spaces, and the freedom to move every 8-29 days without rental deposits? That's my dream setup. No more apartment hunting or utility hassles. I pay 15% upfront, 85% at check-in, and I'm free to work from anywhere with like-minded remote workers. It's the modern lifestyle I always wanted!`,
+        
+        'ion': `I'm Ion, and unlike those frustrating rental experiences I had, Hotel-Living issues are rare and quickly resolved. Remember my old life? Searching for keys in lockboxes, paying hefty deposits, living alone... Now I have 24/7 reception, daily cleaning, breakfast included, and most importantly - community! The 8-29 day flexibility means I'm never stuck in isolation again. Even during technical moments like this, I'm grateful for escaping the rental trap.`,
+        
+        'luisa': `Dear, I'm Luisa, and as a retired teacher, I've learned patience with technology. What matters is the human connection Hotel-Living provides. After losing my husband, I thought loneliness was my fate. Instead, I found book clubs, art classes, and caring friends. The 24/7 security gives me peace, the cultural programs give me purpose, and the 8-29 day stays let me explore while staying safe. It's like having a caring extended family wherever I go.`,
+        
+        'martin': `I'm Martín, and from a business perspective, let me explain why Hotel-Living's model works reliably for hotels. Even during system hiccups, the partnership benefits remain strong: guaranteed occupancy during off-seasons, professional guest management, and revenue optimization. Hotels get consistent bookings while guests enjoy extended stays with all services included. The 15% advance, 85% direct payment structure protects everyone. It's a win-win business model that transforms traditional hospitality.`,
+        
+        'auxi': `¡Hola! I'm Auxi, your enthusiastic Hotel-Living guide! Even when technology has moments, my passion for helping you discover your perfect affinity match never wavers! Whether you love Art, Music, Food & Drinks, Health & Wellness, or any of our 17 affinity categories, I'll help you find your tribe. The 8-29 day stays let you explore different communities until you find your perfect fit. Don't worry about this hiccup - let's focus on your amazing Hotel-Living journey!`,
+        
+        'juan': `Greetings! I'm Juan, and like in my teaching days, adaptability is key. Even during technical moments, my passion for cultural exchange through Hotel-Living remains strong. At 65, I've discovered that shared interests transcend borders - whether discussing literature over breakfast or exploring historical sites with fellow guests. The flexible 8-29 day stays allow deep cultural immersion while maintaining comfort. Education never stops, and Hotel-Living is my classroom for life's greatest lessons.`
       };
       
       generatedResponse = characterErrorResponses[normalizedAvatarId] || 'I\'m here to help with your Hotel-Living questions.';

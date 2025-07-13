@@ -41,25 +41,21 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   // FORCE position reset on every open - with special positioning for edge avatars
   useEffect(() => {
     const forceResetPosition = () => {
-      let positionX, positionY;
+      let positionX, positionY = 20;
       
       // Special positioning for specific avatars near screen edges
       if (avatarId === 'ion') {
         // ¿AÚN ALQUILAS? - first tab on the far left
         positionX = 0;
-        positionY = 20;
       } else if (avatarId === 'antonio' || avatarId === 'luisa') {
         // ¿JUBILADO? - second from the left
         positionX = 0;
-        positionY = 20;
       } else if (avatarId === 'martin') {
-        // ¿HOTEL? - second from the right
+        // ¿HOTEL? - second from the right, expand inward
         positionX = Math.max(0, window.innerWidth - 360);
-        positionY = 20;
       } else {
-        // Default center positioning for other avatars
-        positionX = (window.innerWidth - 280) / 2;
-        positionY = 20;
+        // Default center positioning for all other avatars
+        positionX = Math.max(0, (window.innerWidth - 280) / 2);
       }
       
       console.log(`🎯 FORCING chat window position: x=${positionX}, y=${positionY}, avatarId=${avatarId}`);
@@ -86,21 +82,17 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   // Additional reset when window resizes to maintain special positioning
   useEffect(() => {
     const handleResize = () => {
-      let positionX, positionY;
+      let positionX, positionY = 20;
       
       // Apply same special positioning logic on resize
       if (avatarId === 'ion') {
         positionX = 0;
-        positionY = 20;
       } else if (avatarId === 'antonio' || avatarId === 'luisa') {
         positionX = 0;
-        positionY = 20;
       } else if (avatarId === 'martin') {
         positionX = Math.max(0, window.innerWidth - 360);
-        positionY = 20;
       } else {
-        positionX = (window.innerWidth - 280) / 2;
-        positionY = 20;
+        positionX = Math.max(0, (window.innerWidth - 280) / 2);
       }
       
       setPosition({ x: positionX, y: positionY });

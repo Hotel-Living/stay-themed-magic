@@ -15,7 +15,7 @@ export default function Login() {
   const location = useLocation();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, isReady } = useTranslation('auth');
 
   // Handle tab selection from URL parameter
   useEffect(() => {
@@ -38,6 +38,20 @@ export default function Login() {
     }
   }, [user, navigate]);
 
+  // Show loading until i18n is ready
+  if (!isReady) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Starfield />
+        <Navbar />
+        <main className="flex-1 pt-16 flex items-center justify-center">
+          <div className="text-white text-lg">Loading...</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Starfield />
@@ -48,20 +62,20 @@ export default function Login() {
           <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-[#8017B0]">
               <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
-                Traveler
+                {t('travelerLogin') || 'Traveler'}
               </TabsTrigger>
               <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
-                Hotel Partner
+                {t('hotelPartnerLogin') || 'Hotel Partner'}
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="traveler">
               <AuthCard 
-                title={t('auth.travelerLogin')} 
-                subtitle={t('auth.signInToAccount')} 
+                title={t('travelerLogin')} 
+                subtitle={t('signInToAccount')} 
                 footerLinks={[{
-                  text: t('auth.dontHaveAccount'),
-                  linkText: t('auth.createTravelerAccountLink'),
+                  text: t('dontHaveAccount'),
+                  linkText: t('createTravelerAccountLink'),
                   linkUrl: "/signup"
                 }]}
               >
@@ -71,11 +85,11 @@ export default function Login() {
             
             <TabsContent value="hotel">
               <AuthCard 
-                title={t('auth.hotelPartnerLogin')} 
-                subtitle={t('auth.signInToPartnerAccount')} 
+                title={t('hotelPartnerLogin')} 
+                subtitle={t('signInToPartnerAccount')} 
                 footerLinks={[{
-                  text: t('auth.dontHavePartnerAccount'),
-                  linkText: t('auth.registerAsHotelPartner'),
+                  text: t('dontHavePartnerAccount'),
+                  linkText: t('registerAsHotelPartner'),
                   linkUrl: "/hotel-signup"
                 }]}
               >

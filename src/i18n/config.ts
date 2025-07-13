@@ -305,18 +305,21 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    debug: false,
+    debug: true,
+    lng: 'en', // Force English as default
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator', 'localStorage', 'htmlTag', 'path', 'subdomain'],
+      order: ['localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
       lookupFromPathIndex: 0,
       caches: ['localStorage'],
     },
     react: {
       useSuspense: false,
     },
+    // Add initialization callback to ensure proper loading
+    initImmediate: false,
   });
 
 export default i18n;

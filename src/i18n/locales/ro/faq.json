@@ -1,27 +1,25 @@
 
 {
-  "faq": {
-    "title": "Întrebări Frecvente",
-    "subtitle": "Găsiți răspunsuri la cele mai comune întrebări despre Hotel-Living",
-    "search": "Căutați întrebări frecvente...",
-    "categories": {
-      "general": "General",
-      "booking": "Rezervări",
-      "payment": "Plăți",
-      "accommodation": "Cazare",
-      "cancellation": "Anulare",
-      "support": "Suport"
-    },
-    "accordion": {
-      "stillRenting": "Încă închiriezi?",
-      "hotel": "Hotel?",
-      "retired": "Pensionar?",
-      "commuter": "Navetist?",
-      "onlineWorker": "Lucrător online?",
-      "freeSoul": "Suflet liber?",
-      "society": "Societate?"
-    },
-    "avatarMessage": "Sunt aici.\nDacă ai nevoie de mine,\nîntreabă-mă orice.",
-    "identifyHeader": "CU CINE TE IDENTIFICI?\nAPASĂ PENTRU A AFLA MAI MULT"
-  }
+  "title": "Întrebări Frecvente",
+  "subtitle": "Găsiți răspunsuri la cele mai comune întrebări despre Hotel-Living",
+  "search": "Căutați întrebări frecvente...",
+  "categories": {
+    "general": "General",
+    "booking": "Rezervări",
+    "payment": "Plăți",
+    "accommodation": "Cazare",
+    "cancellation": "Anulare",
+    "support": "Suport"
+  },
+  "accordion": {
+    "stillRenting": "Încă închiriezi?",
+    "hotel": "Hotel?",
+    "retired": "Pensionar?",
+    "commuter": "Navetist?",
+    "onlineWorker": "Lucrător online?",
+    "freeSoul": "Suflet liber?",
+    "society": "Societate?"
+  },
+  "avatarMessage": "Sunt aici.\nDacă ai nevoie de mine,\nîntreabă-mă orice.",
+  "identifyHeader": "CU CINE TE IDENTIFICI?\nAPASĂ PENTRU A AFLA MAI MULT"
 }

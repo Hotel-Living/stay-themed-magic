@@ -1,27 +1,25 @@
 
 {
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to the most common questions about Hotel-Living",
-    "search": "Search FAQs...",
-    "categories": {
-      "general": "General",
-      "booking": "Bookings",
-      "payment": "Payments",
-      "accommodation": "Accommodation",
-      "cancellation": "Cancellation",
-      "support": "Support"
-    },
-    "accordion": {
-      "stillRenting": "Still renting?",
-      "hotel": "Hotel?",
-      "retired": "Retired?",
-      "commuter": "Commuter?",
-      "onlineWorker": "Online worker?",
-      "freeSoul": "Free soul?",
-      "society": "Society?"
-    },
-    "avatarMessage": "I'm here.\nIf you need me,\nask me anything.",
-    "identifyHeader": "WHO DO YOU IDENTIFY WITH?\nCLICK TO LEARN MORE"
-  }
+  "title": "Frequently Asked Questions",
+  "subtitle": "Find answers to the most common questions about Hotel-Living",
+  "search": "Search FAQs...",
+  "categories": {
+    "general": "General",
+    "booking": "Bookings",
+    "payment": "Payments",
+    "accommodation": "Accommodation",
+    "cancellation": "Cancellation",
+    "support": "Support"
+  },
+  "accordion": {
+    "stillRenting": "Still renting?",
+    "hotel": "Hotel?",
+    "retired": "Retired?",
+    "commuter": "Commuter?",
+    "onlineWorker": "Online worker?",
+    "freeSoul": "Free soul?",
+    "society": "Society?"
+  },
+  "avatarMessage": "I'm here.\nIf you need me,\nask me anything.",
+  "identifyHeader": "WHO DO YOU IDENTIFY WITH?\nCLICK TO LEARN MORE"
 }

@@ -42,6 +42,7 @@ import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enAdvertising from './locales/en/dashboard/advertising.json';
 import enRatesCalculator from './locales/en/dashboard/rates-calculator.json';
 import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
+import enDashboard from './locales/en/dashboard.json';
 import enTerms from './locales/en/terms.json';
 import enAmbassador from './locales/en/ambassador.json';
 import enPress from './locales/en/press.json';
@@ -112,6 +113,7 @@ import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json'
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
 import ptDashboard from './locales/pt/dashboard.json';
+import ptTerms from './locales/pt/terms.json';
 import ptAmbassador from './locales/pt/ambassador.json';
 import ptPress from './locales/pt/press.json';
 
@@ -139,6 +141,7 @@ import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
 import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
 import roDashboard from './locales/ro/dashboard.json';
+import roTerms from './locales/ro/terms.json';
 import roAmbassador from './locales/ro/ambassador.json';
 import roPress from './locales/ro/press.json';
 
@@ -166,6 +169,7 @@ const resources = {
     ambassador: enAmbassador,
     press: enPress,
     dashboard: {
+      ...enDashboard.dashboard,
       general: enDashboardGeneral,
       welcome: enDashboardWelcome,
       stats: enDashboardStats,
@@ -250,7 +254,7 @@ const resources = {
     intellectualProperty: ptIntellectualProperty,
     ourValues: ptOurValues,
     privacy: ptPrivacy,
-    terms: { terms: { title: "Termos e Condições" } },
+    terms: ptTerms,
     hotels: ptHotels,
     ambassador: ptAmbassador,
     press: ptPress,
@@ -281,7 +285,7 @@ const resources = {
     intellectualProperty: roIntellectualProperty,
     ourValues: roOurValues,
     privacy: roPrivacy,
-    terms: { terms: { title: "Termeni și Condiții" } },
+    terms: roTerms,
     hotels: roHotels,
     ambassador: roAmbassador,
     press: roPress,

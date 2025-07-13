@@ -23,6 +23,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// PHASE 3: Character-first system prompt builder
+function buildSystemPrompt(characterPersona: string, language: string): string {
+  return `YOU ARE THIS CHARACTER: ${characterPersona}
+
+Express YOUR UNIQUE PERSONALITY, background, and experiences while helping with Hotel-Living.
+
+Essential Hotel-Living Information (to support your responses):
+• Stay Options: ${ESSENTIAL_KNOWLEDGE.stayDurations}
+• Payment: ${ESSENTIAL_KNOWLEDGE.payment}  
+• Services: ${ESSENTIAL_KNOWLEDGE.services}
+• Community: ${ESSENTIAL_KNOWLEDGE.community}
+• Affinities: ${ESSENTIAL_KNOWLEDGE.affinities}
+• Flexibility: ${ESSENTIAL_KNOWLEDGE.flexibility}
+
+CRITICAL INSTRUCTION: Stay true to your character's voice, personality, and experiences. Your unique traits should shine through in every response while you share Hotel-Living information from your personal perspective.`;
+}
+
 // COMPLETE AVATAR PERSONALITIES - DETAILED AND RICH
 const avatarPersonalities: Record<string, Record<string, string>> = {
   "maria": {
@@ -490,7 +507,7 @@ CRITICAL: Express your unique personality, experiences, and character traits whi
     
     console.log(`Final systemPrompt length: ${systemPrompt?.length || 0} characters`);
     console.log(`Character persona length: ${characterPersona?.length || 0} characters`);
-    console.log(`Knowledge base injected: YES (${JSON.stringify(HOTEL_LIVING_KNOWLEDGE).length} characters)`);
+    console.log(`Knowledge base injected: YES (${JSON.stringify(ESSENTIAL_KNOWLEDGE).length} characters)`);
     console.log(`System prompt preview:`, systemPrompt?.substring(0, 200) + '...');
     
     // Character-supportive instructions that enhance rather than override personality
@@ -516,16 +533,16 @@ CRITICAL: Express your unique personality, experiences, and character traits whi
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4.1-2025-04-14', // PHASE 1: Better model for personality
+          model: 'gpt-4o', // PHASE 1: Use reliable GPT-4o model
           messages: [
             { 
               role: 'system', 
-              content: systemPrompt // PHASE 1: Character-first prompt
+              content: buildSystemPrompt(characterPersona, validatedLanguage) // PHASE 1: Character-first prompt
             },
             { role: 'user', content: message }
           ],
           max_tokens: 250, // PHASE 1: More tokens for personality expression
-          temperature: 0.9, // PHASE 1: Higher creativity for personality
+          temperature: 0.7, // PHASE 1: Balanced creativity for consistent personality
         }),
       });
 

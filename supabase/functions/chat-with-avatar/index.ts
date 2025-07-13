@@ -492,18 +492,8 @@ serve(async (req) => {
       console.log(`🔄 Using PERSONALITY-PRESERVED English fallback for ${normalizedAvatarId} (original language: ${language})`);
     }
     
-    // PHASE 1: CHARACTER-FIRST SYSTEM PROMPT - PERSONALITY COMES FIRST
-    const systemPrompt = `ROLE: ${characterPersona}
-
-Essential Hotel-Living Knowledge:
-• Stay Options: ${ESSENTIAL_KNOWLEDGE.stayDurations}
-• Payment: ${ESSENTIAL_KNOWLEDGE.payment}
-• Services: ${ESSENTIAL_KNOWLEDGE.services}
-• Community: ${ESSENTIAL_KNOWLEDGE.community}
-• Affinities: ${ESSENTIAL_KNOWLEDGE.affinities}
-• Flexibility: ${ESSENTIAL_KNOWLEDGE.flexibility}
-
-CRITICAL: Express your unique personality, experiences, and character traits while helping with Hotel-Living. Your individual voice and story should shine through in every response.`;
+    // EMERGENCY FIX: Use the proper buildSystemPrompt function
+    const systemPrompt = buildSystemPrompt(characterPersona, validatedLanguage);
     
     console.log(`Final systemPrompt length: ${systemPrompt?.length || 0} characters`);
     console.log(`Character persona length: ${characterPersona?.length || 0} characters`);
@@ -537,7 +527,7 @@ CRITICAL: Express your unique personality, experiences, and character traits whi
           messages: [
             { 
               role: 'system', 
-              content: buildSystemPrompt(characterPersona, validatedLanguage) // PHASE 1: Character-first prompt
+              content: systemPrompt // EMERGENCY: Use the already built system prompt
             },
             { role: 'user', content: message }
           ],

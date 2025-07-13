@@ -56,6 +56,9 @@ verify_jwt = true
 [functions.chat-with-avatar]
 verify_jwt = false
 
+[functions.test-openai-key]
+verify_jwt = false
+
 [db]
 enabled = true
 port = 54322

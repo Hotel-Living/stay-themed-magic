@@ -48,7 +48,7 @@ export const RatesCalculatorContent: React.FC = () => {
     try {
       const fileName = language === 'es' 
         ? 'CALCULADORA HOTEL-LIVING.xlsm'
-        : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsx';
+        : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsm';
       
       const filePath = `${window.location.origin}/excel-calculators/${fileName}`;
       

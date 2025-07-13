@@ -484,8 +484,6 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     e.stopPropagation();
     setIsResizing(true);
     
-    console.log(`Starting resize in direction: ${direction}`);
-    
     const startMouseX = e.clientX;
     const startMouseY = e.clientY;
     const startWidth = size.width;
@@ -497,7 +495,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     const rightEdge = startX + startWidth;  // This should stay fixed when resizing left
     const bottomEdge = startY + startHeight; // This should stay fixed when resizing top
     
+    const activeResize = { direction };
+    
     const handleMouseMoveResize = (e: MouseEvent) => {
+      if (!activeResize || activeResize.direction !== direction) return;
+      
       e.preventDefault();
       e.stopPropagation();
       
@@ -511,40 +513,30 @@ INFORMAȚII CHEIE HOTEL-LIVING:
       let newX = startX;
       let newY = startY;
       
-      console.log(`Resizing ${direction}: deltaX=${deltaX}, deltaY=${deltaY}`);
-      
       // Handle ONLY the specific direction - no compound movements
       switch (direction) {
         case 'left':
           // Left edge moves, right edge stays at rightEdge
           newWidth = Math.max(200, startWidth - deltaX);
           newX = rightEdge - newWidth; // Right edge fixed, calculate left position
-          newY = startY; // Y position unchanged
-          newHeight = startHeight; // Height unchanged
           break;
           
         case 'right':
           // Right edge moves, left edge stays at startX
           newWidth = Math.max(200, startWidth + deltaX);
           newX = startX; // Left edge fixed
-          newY = startY; // Y position unchanged
-          newHeight = startHeight; // Height unchanged
           break;
           
         case 'top':
           // Top edge moves, bottom edge stays at bottomEdge
           newHeight = Math.max(200, startHeight - deltaY);
           newY = bottomEdge - newHeight; // Bottom edge fixed, calculate top position
-          newX = startX; // X position unchanged
-          newWidth = startWidth; // Width unchanged
           break;
           
         case 'bottom':
           // Bottom edge moves, top edge stays at startY
           newHeight = Math.max(200, startHeight + deltaY);
           newY = startY; // Top edge fixed
-          newX = startX; // X position unchanged
-          newWidth = startWidth; // Width unchanged
           break;
           
         case 'top-left':
@@ -576,13 +568,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
           break;
       }
       
-      console.log(`New dimensions: width=${newWidth}, height=${newHeight}, x=${newX}, y=${newY}`);
       setSize({ width: newWidth, height: newHeight });
       setPosition({ x: newX, y: newY });
     };
     
     const handleMouseUpResize = () => {
-      console.log(`Finished resizing ${direction}`);
       setIsResizing(false);
       document.removeEventListener('mousemove', handleMouseMoveResize);
       document.removeEventListener('mouseup', handleMouseUpResize);

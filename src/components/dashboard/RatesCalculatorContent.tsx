@@ -52,28 +52,55 @@ export const RatesCalculatorContent: React.FC = () => {
       
       const filePath = `${window.location.origin}/excel-calculators/${fileName}`;
       
-      console.log('Attempting to download:', { language, fileName, filePath, origin: window.location.origin });
+      console.log('=== EXCEL DOWNLOAD DEBUG ===');
+      console.log('Language:', language);
+      console.log('Filename:', fileName);
+      console.log('File path:', filePath);
+      console.log('Window origin:', window.location.origin);
+      console.log('Full URL:', window.location.href);
+      
+      // Check if file exists first
+      console.log('Checking if file exists...');
+      const headResponse = await fetch(filePath, { method: 'HEAD' });
+      console.log('HEAD response status:', headResponse.status);
+      console.log('HEAD response headers:', Object.fromEntries(headResponse.headers.entries()));
+      
+      if (!headResponse.ok) {
+        console.error('File does not exist or is not accessible:', headResponse.status, headResponse.statusText);
+        throw new Error(`File not found: ${headResponse.status} ${headResponse.statusText}`);
+      }
+      
+      console.log('File exists, attempting download...');
       
       // Fetch the file as a blob
       const response = await fetch(filePath);
+      console.log('Fetch response status:', response.status);
+      console.log('Fetch response type:', response.type);
+      console.log('Fetch response headers:', Object.fromEntries(response.headers.entries()));
       
       if (!response.ok) {
+        console.error('Fetch failed:', response.status, response.statusText);
         throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
       }
       
       const blob = await response.blob();
+      console.log('Blob created:', { type: blob.type, size: blob.size });
       
       // Create download URL and trigger download
       const downloadUrl = URL.createObjectURL(blob);
+      console.log('Download URL created:', downloadUrl);
+      
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.download = fileName;
       document.body.appendChild(link);
+      console.log('Download link created and clicked');
       link.click();
       document.body.removeChild(link);
       
       // Clean up the URL object
       URL.revokeObjectURL(downloadUrl);
+      console.log('Download completed successfully');
       
       toast({
         title: "Download Started",
@@ -82,7 +109,11 @@ export const RatesCalculatorContent: React.FC = () => {
       });
       
     } catch (error) {
-      console.error('Download error:', error);
+      console.error('=== DOWNLOAD ERROR ===');
+      console.error('Error details:', error);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+      
       toast({
         title: "Download Failed",
         description: `Could not download the Excel calculator. Please try again.`,

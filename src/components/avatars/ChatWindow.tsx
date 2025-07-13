@@ -491,7 +491,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     const startPosX = position.x;
     const startPosY = position.y;
     
+    // Create unique event handlers for this specific chat window instance
     const handleMouseMoveResize = (e: MouseEvent) => {
+      // Prevent event from affecting other chat windows
+      e.stopPropagation();
+      
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
       
@@ -525,7 +529,8 @@ INFORMAȚII CHEIE HOTEL-LIVING:
       document.removeEventListener('mouseup', handleMouseUpResize);
     };
     
-    document.addEventListener('mousemove', handleMouseMoveResize);
+    // Add event listeners with proper cleanup
+    document.addEventListener('mousemove', handleMouseMoveResize, { passive: false });
     document.addEventListener('mouseup', handleMouseUpResize);
   };
 

@@ -83,6 +83,7 @@ import esDashboardProfile from './locales/es/dashboard/profile.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
 import esDashboardRates from './locales/es/dashboard/rates.json';
 import esDashboardSettings from './locales/es/dashboard/settings.json';
+import esDashboard from './locales/es/dashboard.json';
 import esAmbassador from './locales/es/ambassador.json';
 import esPress from './locales/es/press.json';
 
@@ -110,6 +111,7 @@ import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
+import ptDashboard from './locales/pt/dashboard.json';
 import ptAmbassador from './locales/pt/ambassador.json';
 import ptPress from './locales/pt/press.json';
 
@@ -136,6 +138,7 @@ import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
 import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
+import roDashboard from './locales/ro/dashboard.json';
 import roAmbassador from './locales/ro/ambassador.json';
 import roPress from './locales/ro/press.json';
 
@@ -220,6 +223,7 @@ const resources = {
     ambassador: esAmbassador,
     press: esPress,
     dashboard: {
+      ...esDashboard,
       general: esDashboardGeneral,
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
@@ -251,6 +255,7 @@ const resources = {
     ambassador: ptAmbassador,
     press: ptPress,
     dashboard: {
+      ...ptDashboard,
       general: ptDashboardGeneral,
       common: ptDashboardCommon,
       accommodation: ptDashboardAccommodation,
@@ -281,6 +286,7 @@ const resources = {
     ambassador: roAmbassador,
     press: roPress,
     dashboard: {
+      ...roDashboard,
       general: roDashboardGeneral,
       common: roDashboardCommon,
       accommodation: roDashboardAccommodation,

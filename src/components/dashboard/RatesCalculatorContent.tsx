@@ -10,7 +10,8 @@ import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
 import { useTranslation } from "@/hooks/useTranslation";
 export const RatesCalculatorContent: React.FC = () => {
   const {
-    t
+    t,
+    language
   } = useTranslation("dashboard");
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
@@ -33,6 +34,23 @@ export const RatesCalculatorContent: React.FC = () => {
 
   // For the Build Model section tabs
   const [modelTab, setModelTab] = useState<string>("read-this"); // default
+
+  // Handle Excel calculator download based on language
+  const handleExcelDownload = () => {
+    const fileName = language === 'es' 
+      ? 'CALCULADORA HOTEL-LIVING.xlsm'
+      : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsx';
+    
+    const filePath = `/excel-calculators/${fileName}`;
+    
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Single-click to toggle top-level main menu
   const handleHeaderClick = () => {
@@ -219,10 +237,7 @@ export const RatesCalculatorContent: React.FC = () => {
                   <Button 
                     size="lg"
                     className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-bold px-10 py-5 shadow-2xl hover:shadow-3xl transition-all duration-300 text-xl uppercase tracking-wider rounded-xl border border-fuchsia-300/30"
-                    onClick={() => {
-                      // TODO: Replace with actual Excel file URL
-                      window.open("#", "_blank");
-                    }}
+                    onClick={handleExcelDownload}
                   >
                     {t("ratesCalculator.excelCalculator.buttonLabel")}
                   </Button>

@@ -8,17 +8,21 @@ import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 export const RatesCalculatorContent: React.FC = () => {
   const {
     t,
     language
   } = useTranslation("dashboard");
+  const { toast } = useToast();
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
   const [costsSubTab, setCostsSubTab] = useState<string>("");
   const [profitsSubTab, setProfitsSubTab] = useState<string>("");
   const [modelExpanded, setModelExpanded] = useState(false);
   const [costsExpanded, setCostsExpanded] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   // New: States for the two submenus in the "BUILD YOUR OWN MODEL & RATES" section
   const [tipsExpanded, setTipsExpanded] = useState(false);
@@ -36,20 +40,57 @@ export const RatesCalculatorContent: React.FC = () => {
   const [modelTab, setModelTab] = useState<string>("read-this"); // default
 
   // Handle Excel calculator download based on language
-  const handleExcelDownload = () => {
-    const fileName = language === 'es' 
-      ? 'CALCULADORA HOTEL-LIVING.xlsm'
-      : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsx';
+  const handleExcelDownload = async () => {
+    if (isDownloading) return;
     
-    const filePath = `/excel-calculators/${fileName}`;
+    setIsDownloading(true);
     
-    // Create a temporary anchor element to trigger download
-    const link = document.createElement('a');
-    link.href = filePath;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const fileName = language === 'es' 
+        ? 'CALCULADORA HOTEL-LIVING.xlsm'
+        : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsx';
+      
+      const filePath = `/excel-calculators/${fileName}`;
+      
+      console.log('Attempting to download:', { language, fileName, filePath });
+      
+      // Fetch the file as a blob
+      const response = await fetch(filePath);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      
+      // Create download URL and trigger download
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the URL object
+      URL.revokeObjectURL(downloadUrl);
+      
+      toast({
+        title: "Download Started",
+        description: `${fileName} is being downloaded`,
+        variant: "success"
+      });
+      
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: "Download Failed",
+        description: `Could not download the Excel calculator. Please try again.`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   // Single-click to toggle top-level main menu
@@ -236,10 +277,18 @@ export const RatesCalculatorContent: React.FC = () => {
                   </p>
                   <Button 
                     size="lg"
-                    className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-bold px-10 py-5 shadow-2xl hover:shadow-3xl transition-all duration-300 text-xl uppercase tracking-wider rounded-xl border border-fuchsia-300/30"
+                    className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-bold px-10 py-5 shadow-2xl hover:shadow-3xl transition-all duration-300 text-xl uppercase tracking-wider rounded-xl border border-fuchsia-300/30 disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={handleExcelDownload}
+                    disabled={isDownloading}
                   >
-                    {t("ratesCalculator.excelCalculator.buttonLabel")}
+                    {isDownloading ? (
+                      <>
+                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                        Downloading...
+                      </>
+                    ) : (
+                      t("ratesCalculator.excelCalculator.buttonLabel")
+                    )}
                   </Button>
                 </div>
               </div>

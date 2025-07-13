@@ -484,90 +484,110 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     e.stopPropagation();
     setIsResizing(true);
     
-    const startX = e.clientX;
-    const startY = e.clientY;
+    console.log(`Starting resize in direction: ${direction}`);
+    
+    const startMouseX = e.clientX;
+    const startMouseY = e.clientY;
     const startWidth = size.width;
     const startHeight = size.height;
-    const startPosX = position.x;
-    const startPosY = position.y;
+    const startX = position.x;
+    const startY = position.y;
     
-    // Create unique event handlers for this specific chat window instance
+    // Calculate fixed anchor points for each direction
+    const rightEdge = startX + startWidth;  // This should stay fixed when resizing left
+    const bottomEdge = startY + startHeight; // This should stay fixed when resizing top
+    
     const handleMouseMoveResize = (e: MouseEvent) => {
-      // Prevent event from affecting other chat windows
+      e.preventDefault();
       e.stopPropagation();
       
-      const deltaX = e.clientX - startX;
-      const deltaY = e.clientY - startY;
+      const currentMouseX = e.clientX;
+      const currentMouseY = e.clientY;
+      const deltaX = currentMouseX - startMouseX;
+      const deltaY = currentMouseY - startMouseY;
       
       let newWidth = startWidth;
       let newHeight = startHeight;
-      let newX = startPosX;
-      let newY = startPosY;
+      let newX = startX;
+      let newY = startY;
       
-      // Handle each direction independently - CRITICAL: anchor points properly
-      if (direction === 'right') {
-        // Right edge: expand right, keep left edge fixed
-        newWidth = Math.max(200, startWidth + deltaX);
-        newX = startPosX; // Left edge stays exactly where it is
-      } else if (direction === 'left') {
-        // Left edge: expand left, keep right edge fixed
-        const proposedWidth = Math.max(200, startWidth - deltaX);
-        newWidth = proposedWidth;
-        // Right edge position = startPosX + startWidth (this stays fixed)
-        // New left edge = right edge - new width
-        newX = (startPosX + startWidth) - newWidth;
-      } else if (direction === 'bottom') {
-        // Bottom edge: expand down, keep top edge fixed
-        newHeight = Math.max(200, startHeight + deltaY);
-        newY = startPosY; // Top edge stays exactly where it is
-      } else if (direction === 'top') {
-        // Top edge: expand up, keep bottom edge fixed
-        const proposedHeight = Math.max(200, startHeight - deltaY);
-        newHeight = proposedHeight;
-        // Bottom edge position = startPosY + startHeight (this stays fixed)
-        // New top edge = bottom edge - new height
-        newY = (startPosY + startHeight) - newHeight;
-      } else if (direction.includes('top') && direction.includes('left')) {
-        // Top-left corner
-        const proposedHeight = Math.max(200, startHeight - deltaY);
-        const proposedWidth = Math.max(200, startWidth - deltaX);
-        newHeight = proposedHeight;
-        newWidth = proposedWidth;
-        newY = (startPosY + startHeight) - newHeight;
-        newX = (startPosX + startWidth) - newWidth;
-      } else if (direction.includes('top') && direction.includes('right')) {
-        // Top-right corner
-        const proposedHeight = Math.max(200, startHeight - deltaY);
-        newHeight = proposedHeight;
-        newWidth = Math.max(200, startWidth + deltaX);
-        newY = (startPosY + startHeight) - newHeight;
-        newX = startPosX;
-      } else if (direction.includes('bottom') && direction.includes('left')) {
-        // Bottom-left corner
-        newHeight = Math.max(200, startHeight + deltaY);
-        const proposedWidth = Math.max(200, startWidth - deltaX);
-        newWidth = proposedWidth;
-        newY = startPosY;
-        newX = (startPosX + startWidth) - newWidth;
-      } else if (direction.includes('bottom') && direction.includes('right')) {
-        // Bottom-right corner
-        newHeight = Math.max(200, startHeight + deltaY);
-        newWidth = Math.max(200, startWidth + deltaX);
-        newY = startPosY;
-        newX = startPosX;
+      console.log(`Resizing ${direction}: deltaX=${deltaX}, deltaY=${deltaY}`);
+      
+      // Handle ONLY the specific direction - no compound movements
+      switch (direction) {
+        case 'left':
+          // Left edge moves, right edge stays at rightEdge
+          newWidth = Math.max(200, startWidth - deltaX);
+          newX = rightEdge - newWidth; // Right edge fixed, calculate left position
+          newY = startY; // Y position unchanged
+          newHeight = startHeight; // Height unchanged
+          break;
+          
+        case 'right':
+          // Right edge moves, left edge stays at startX
+          newWidth = Math.max(200, startWidth + deltaX);
+          newX = startX; // Left edge fixed
+          newY = startY; // Y position unchanged
+          newHeight = startHeight; // Height unchanged
+          break;
+          
+        case 'top':
+          // Top edge moves, bottom edge stays at bottomEdge
+          newHeight = Math.max(200, startHeight - deltaY);
+          newY = bottomEdge - newHeight; // Bottom edge fixed, calculate top position
+          newX = startX; // X position unchanged
+          newWidth = startWidth; // Width unchanged
+          break;
+          
+        case 'bottom':
+          // Bottom edge moves, top edge stays at startY
+          newHeight = Math.max(200, startHeight + deltaY);
+          newY = startY; // Top edge fixed
+          newX = startX; // X position unchanged
+          newWidth = startWidth; // Width unchanged
+          break;
+          
+        case 'top-left':
+          newHeight = Math.max(200, startHeight - deltaY);
+          newWidth = Math.max(200, startWidth - deltaX);
+          newY = bottomEdge - newHeight;
+          newX = rightEdge - newWidth;
+          break;
+          
+        case 'top-right':
+          newHeight = Math.max(200, startHeight - deltaY);
+          newWidth = Math.max(200, startWidth + deltaX);
+          newY = bottomEdge - newHeight;
+          newX = startX;
+          break;
+          
+        case 'bottom-left':
+          newHeight = Math.max(200, startHeight + deltaY);
+          newWidth = Math.max(200, startWidth - deltaX);
+          newY = startY;
+          newX = rightEdge - newWidth;
+          break;
+          
+        case 'bottom-right':
+          newHeight = Math.max(200, startHeight + deltaY);
+          newWidth = Math.max(200, startWidth + deltaX);
+          newY = startY;
+          newX = startX;
+          break;
       }
       
+      console.log(`New dimensions: width=${newWidth}, height=${newHeight}, x=${newX}, y=${newY}`);
       setSize({ width: newWidth, height: newHeight });
       setPosition({ x: newX, y: newY });
     };
     
     const handleMouseUpResize = () => {
+      console.log(`Finished resizing ${direction}`);
       setIsResizing(false);
       document.removeEventListener('mousemove', handleMouseMoveResize);
       document.removeEventListener('mouseup', handleMouseUpResize);
     };
     
-    // Add event listeners with proper cleanup
     document.addEventListener('mousemove', handleMouseMoveResize, { passive: false });
     document.addEventListener('mouseup', handleMouseUpResize);
   };

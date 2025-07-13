@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText } from "lucide-react";
+import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText, UserPlus } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 
 // Import refactored components
@@ -81,6 +81,11 @@ export default function HotelDashboardPT() {
       id: "analytics",
       label: "Análises",
       icon: <BarChart3 className="w-5 h-5" />
+    },
+    {
+      id: "referrals",
+      label: "🏨 Indicar Hotéis – Ganhar Comissões",
+      icon: <UserPlus className="w-5 h-5" />
     },
     {
       id: "settings",

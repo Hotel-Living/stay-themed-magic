@@ -576,52 +576,27 @@ serve(async (req) => {
       const data = await response.json();
       console.log('OpenAI API response data structure:', JSON.stringify(data, null, 2));
 
-      // Comprehensive validation of OpenAI response structure
-      if (!data) {
-        console.error('OpenAI response is null or undefined');
-        throw new Error('OpenAI API returned null response');
-      }
-
-      if (!data.choices) {
-        console.error('OpenAI response missing choices array:', data);
-        throw new Error('OpenAI API response missing choices array');
-      }
-
-      if (!Array.isArray(data.choices)) {
-        console.error('OpenAI response choices is not an array:', typeof data.choices);
-        throw new Error('OpenAI API response choices is not an array');
-      }
-
-      if (data.choices.length === 0) {
-        console.error('OpenAI response choices array is empty');
-        throw new Error('OpenAI API response choices array is empty');
-      }
-
-      if (!data.choices[0]) {
-        console.error('OpenAI response first choice is undefined');
-        throw new Error('OpenAI API response first choice is undefined');
-      }
-
-      if (!data.choices[0].message) {
-        console.error('OpenAI response first choice missing message:', data.choices[0]);
-        throw new Error('OpenAI API response choice missing message');
-      }
-
-      if (!data.choices[0].message.content) {
-        console.error('OpenAI response message missing content:', data.choices[0].message);
-        throw new Error('OpenAI API response message missing content');
+      // EMERGENCY FIX: Simplified validation to avoid rejecting valid OpenAI responses
+      console.log('EMERGENCY DEBUG: Full OpenAI response:', JSON.stringify(data, null, 2));
+      
+      if (!data || !data.choices || !data.choices[0] || !data.choices[0].message) {
+        console.error('CRITICAL: Invalid OpenAI response structure:', data);
+        throw new Error('OpenAI API returned invalid response structure');
       }
 
       const rawResponse = data.choices[0].message.content;
-      console.log('Raw OpenAI response content:', rawResponse);
+      console.log('EMERGENCY DEBUG: Raw OpenAI response content:', rawResponse);
+      console.log('EMERGENCY DEBUG: Content type:', typeof rawResponse);
+      console.log('EMERGENCY DEBUG: Content length:', rawResponse?.length);
 
-      // Clean and validate the response
-      generatedResponse = rawResponse.trim();
-      
-      if (!generatedResponse || generatedResponse.length === 0) {
-        console.error('OpenAI response content is empty after trimming');
-        throw new Error('OpenAI API returned empty content');
+      // EMERGENCY FIX: Accept any non-null content from OpenAI
+      if (rawResponse === null || rawResponse === undefined) {
+        console.error('CRITICAL: OpenAI returned null/undefined content');
+        throw new Error('OpenAI API returned null content');
       }
+
+      generatedResponse = String(rawResponse).trim();
+      console.log('EMERGENCY DEBUG: Final processed response:', generatedResponse);
 
       console.log('Successfully extracted response from OpenAI:', generatedResponse);
 

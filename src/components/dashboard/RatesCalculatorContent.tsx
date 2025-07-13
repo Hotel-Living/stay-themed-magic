@@ -10,6 +10,7 @@ import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 export const RatesCalculatorContent: React.FC = () => {
   const {
     t,
@@ -50,44 +51,30 @@ export const RatesCalculatorContent: React.FC = () => {
         ? 'CALCULADORA HOTEL-LIVING.xlsm'
         : 'HOTEL-LIVING CALCULATOR ENGLISH.xlsm';
       
-      const filePath = `${window.location.origin}/excel-calculators/${fileName}`;
-      
       console.log('=== EXCEL DOWNLOAD DEBUG ===');
       console.log('Language:', language);
       console.log('Filename:', fileName);
-      console.log('File path:', filePath);
-      console.log('Window origin:', window.location.origin);
-      console.log('Full URL:', window.location.href);
       
-      // Check if file exists first
-      console.log('Checking if file exists...');
-      const headResponse = await fetch(filePath, { method: 'HEAD' });
-      console.log('HEAD response status:', headResponse.status);
-      console.log('HEAD response headers:', Object.fromEntries(headResponse.headers.entries()));
+      // Use Supabase Storage to get the file
+      const { data, error } = await supabase.storage
+        .from('excel-calculators')
+        .download(fileName);
+        
+      console.log('Supabase storage response:', { data, error });
       
-      if (!headResponse.ok) {
-        console.error('File does not exist or is not accessible:', headResponse.status, headResponse.statusText);
-        throw new Error(`File not found: ${headResponse.status} ${headResponse.statusText}`);
+      if (error) {
+        console.error('Supabase storage error:', error);
+        throw new Error(`File not found in storage: ${error.message}`);
       }
       
-      console.log('File exists, attempting download...');
-      
-      // Fetch the file as a blob
-      const response = await fetch(filePath);
-      console.log('Fetch response status:', response.status);
-      console.log('Fetch response type:', response.type);
-      console.log('Fetch response headers:', Object.fromEntries(response.headers.entries()));
-      
-      if (!response.ok) {
-        console.error('Fetch failed:', response.status, response.statusText);
-        throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+      if (!data) {
+        throw new Error('No file data received from storage');
       }
       
-      const blob = await response.blob();
-      console.log('Blob created:', { type: blob.type, size: blob.size });
+      console.log('File downloaded from storage:', { type: data.type, size: data.size });
       
       // Create download URL and trigger download
-      const downloadUrl = URL.createObjectURL(blob);
+      const downloadUrl = URL.createObjectURL(data);
       console.log('Download URL created:', downloadUrl);
       
       const link = document.createElement('a');
@@ -112,7 +99,6 @@ export const RatesCalculatorContent: React.FC = () => {
       console.error('=== DOWNLOAD ERROR ===');
       console.error('Error details:', error);
       console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
       
       toast({
         title: "Download Failed",

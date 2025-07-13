@@ -24,27 +24,27 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
     handleSubmit
   } = useLoginForm(isHotelLogin);
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('auth');
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <InputField
         id={isHotelLogin ? "hotel-email" : "email"}
-        label={isHotelLogin ? t('auth.businessEmail') : t('auth.email')}
+        label={isHotelLogin ? t('businessEmail') : t('email')}
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder={t('auth.enterEmail')}
+        placeholder={t('enterEmail')}
         Icon={Mail}
         inputClassName="text-white placeholder:text-white/60"
       />
       
       <PasswordField
         id={isHotelLogin ? "hotel-password" : "password"}
-        label={t('auth.password')}
+        label={t('password')}
         value={password}
         onChange={e => setPassword(e.target.value)}
-        placeholder={t('auth.enterPassword')}
+        placeholder={t('enterPassword')}
         showPassword={showPassword}
         toggleShowPassword={() => setShowPassword(!showPassword)}
         inputClassName="text-white placeholder:text-white/60"
@@ -57,8 +57,8 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
       
       <SubmitButton
         isLoading={isLoading}
-        loadingText={t('auth.signingIn')}
-        text={isHotelLogin ? t('auth.signInAsHotelPartner') : t('auth.signInAsTraveler')}
+        loadingText={t('signingIn')}
+        text={isHotelLogin ? t('signInAsHotelPartner') : t('signInAsTraveler')}
       />
     </form>
   );

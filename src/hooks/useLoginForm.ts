@@ -10,7 +10,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, isLoading } = useAuth();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('auth');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +24,10 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     console.log(`Is preview: ${window.location.hostname.includes('lovable.app')}`);
     
     if (!email || !password) {
-      const errorMsg = t('auth.invalidCredentials');
+      const errorMsg = t('invalidCredentials');
       console.log(`Validation error: ${errorMsg}`);
       toast({
-        title: t('auth.invalidCredentials'),
+        title: t('invalidCredentials'),
         description: errorMsg,
         variant: "destructive"
       });
@@ -37,11 +37,11 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      const errorMsg = t('auth.invalidCredentials');
+      const errorMsg = t('invalidCredentials');
       console.log(`Email validation error: ${errorMsg}`);
       toast({
-        title: t('auth.invalidCredentials'),
-        description: t('auth.invalidCredentials'),
+        title: t('invalidCredentials'),
+        description: t('invalidCredentials'),
         variant: "destructive"
       });
       return;
@@ -52,8 +52,8 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     
     try {
       toast({
-        title: t('auth.signingIn'),
-        description: t('auth.signingIn')
+        title: t('signingIn'),
+        description: t('signingIn')
       });
       
       const result = await signIn(email.trim(), password, isHotelLogin);
@@ -65,7 +65,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
       if (result.error) {
         console.error("Login failed, showing error toast");
         toast({
-          title: t('auth.invalidCredentials'),
+          title: t('invalidCredentials'),
           description: result.error,
           variant: "destructive"
         });
@@ -76,8 +76,8 @@ export function useLoginForm(isHotelLogin: boolean = false) {
       console.error("=== LOGIN FORM EXCEPTION ===");
       console.error("Caught exception:", error);
       toast({
-        title: t('auth.invalidCredentials'),
-        description: error.message || t('auth.invalidCredentials'),
+        title: t('invalidCredentials'),
+        description: error.message || t('invalidCredentials'),
         variant: "destructive"
       });
     }

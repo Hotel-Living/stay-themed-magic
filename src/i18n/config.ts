@@ -320,6 +320,16 @@ i18n
     },
     // Add initialization callback to ensure proper loading
     initImmediate: false,
+  })
+  .then(() => {
+    console.log('✅ i18n initialized successfully');
+    console.log('📝 Available namespaces:', Object.keys(resources.en));
+    console.log('🌐 Current language:', i18n.language);
+    console.log('📚 Auth keys sample:', Object.keys(resources.en.auth || {}).slice(0, 5));
+    console.log('❓ FAQ keys sample:', Object.keys(resources.en.faq || {}).slice(0, 5));
+  })
+  .catch((error) => {
+    console.error('❌ i18n initialization failed:', error);
   });
 
 export default i18n;

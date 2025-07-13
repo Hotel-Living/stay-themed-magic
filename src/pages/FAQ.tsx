@@ -26,7 +26,7 @@ export default function FAQ() {
         <HotelStarfield />
         <Navbar />
         <main className="flex-1 pt-16 flex items-center justify-center">
-          <div className="text-white text-lg">Loading...</div>
+          <div className="text-white text-lg">Loading translations...</div>
         </main>
         <Footer />
       </div>

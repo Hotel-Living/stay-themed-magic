@@ -48,8 +48,17 @@ type HotelFormData = z.infer<typeof hotelSchema>;
 type ReferralFormData = z.infer<typeof referralSchema>;
 
 export function HotelReferralsContent() {
-  const { t } = useTranslation("dashboard");
+  const { t, language } = useTranslation("dashboard");
   const { profile } = useAuth();
+  
+  // Debug logging
+  console.log("🔍 HotelReferralsContent DEBUG:", {
+    language,
+    titleKey: 'referrals.title',
+    titleValue: t('referrals.title'),
+    descriptionKey: 'referrals.description', 
+    descriptionValue: t('referrals.description')
+  });
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

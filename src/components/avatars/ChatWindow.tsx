@@ -38,17 +38,34 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [input, setInput] = useState("");
   const [position, setPosition] = useState({ x: 200, y: 100 });
 
-  // FORCE position reset on every open - override any drag positions
+  // FORCE position reset on every open - with special positioning for edge avatars
   useEffect(() => {
     const forceResetPosition = () => {
-      // GUARANTEED center positioning - ignore any previous drag state
-      const centeredX = (window.innerWidth - 280) / 2;
-      const topY = 20;
+      let positionX, positionY;
       
-      console.log(`🎯 FORCING chat window to center: x=${centeredX}, y=${topY}, avatarId=${avatarId}`);
+      // Special positioning for specific avatars near screen edges
+      if (avatarId === 'ion') {
+        // ¿AÚN ALQUILAS? - first tab on the far left
+        positionX = 0;
+        positionY = 20;
+      } else if (avatarId === 'antonio' || avatarId === 'luisa') {
+        // ¿JUBILADO? - second from the left
+        positionX = 0;
+        positionY = 20;
+      } else if (avatarId === 'martin') {
+        // ¿HOTEL? - second from the right
+        positionX = Math.max(0, window.innerWidth - 360);
+        positionY = 20;
+      } else {
+        // Default center positioning for other avatars
+        positionX = (window.innerWidth - 280) / 2;
+        positionY = 20;
+      }
+      
+      console.log(`🎯 FORCING chat window position: x=${positionX}, y=${positionY}, avatarId=${avatarId}`);
       
       // Force immediate position reset
-      setPosition({ x: centeredX, y: topY });
+      setPosition({ x: positionX, y: positionY });
     };
 
     // Force reset immediately on mount/avatar change
@@ -66,17 +83,32 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [avatarId]); // Reset every time avatar changes
 
-  // Additional reset when window resizes to maintain center
+  // Additional reset when window resizes to maintain special positioning
   useEffect(() => {
     const handleResize = () => {
-      const centeredX = (window.innerWidth - 280) / 2;
-      const topY = 20;
-      setPosition({ x: centeredX, y: topY });
+      let positionX, positionY;
+      
+      // Apply same special positioning logic on resize
+      if (avatarId === 'ion') {
+        positionX = 0;
+        positionY = 20;
+      } else if (avatarId === 'antonio' || avatarId === 'luisa') {
+        positionX = 0;
+        positionY = 20;
+      } else if (avatarId === 'martin') {
+        positionX = Math.max(0, window.innerWidth - 360);
+        positionY = 20;
+      } else {
+        positionX = (window.innerWidth - 280) / 2;
+        positionY = 20;
+      }
+      
+      setPosition({ x: positionX, y: positionY });
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [avatarId]);
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
@@ -555,11 +587,13 @@ INFORMAȚII CHEIE HOTEL-LIVING:
   return (
    <div 
   ref={chatRef}
-  className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+  className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
   style={{ 
     backgroundColor: '#561C7B',
     width: size.width, 
     height: size.height,
+    left: position.x,
+    top: position.y,
     cursor: isDragging ? 'grabbing' : 'default'
   }}
 >

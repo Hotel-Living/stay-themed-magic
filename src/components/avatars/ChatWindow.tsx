@@ -3,6 +3,9 @@ import { X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 
+// Global resize lock to prevent multiple chat windows from resizing simultaneously
+let globalResizeLock: string | null = null;
+
 // The edge function handles multilingual personas, so no hardcoded knowledge base needed here
 
 interface ChatWindowProps {
@@ -14,6 +17,9 @@ interface ChatWindowProps {
 export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWindowProps) {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+
+  // Generate unique instance ID for this ChatWindow
+  const instanceId = useRef(`chatwindow-${avatarId}-${Date.now()}-${Math.random()}`);
 
   // Use i18n.language as the primary source of truth for language detection
   const currentLanguage = i18n.language || 'es';
@@ -482,6 +488,14 @@ INFORMAȚII CHEIE HOTEL-LIVING:
   const handleResize = (e: React.MouseEvent, direction: string) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Check if another ChatWindow is already resizing
+    if (globalResizeLock && globalResizeLock !== instanceId.current) {
+      return; // Prevent this instance from resizing if another is active
+    }
+    
+    // Lock resize to this instance
+    globalResizeLock = instanceId.current;
     setIsResizing(true);
     
     const startMouseX = e.clientX;
@@ -491,14 +505,17 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     const startX = position.x;
     const startY = position.y;
     
+    // Store the target element to validate events come from the correct ChatWindow
+    const targetElement = e.currentTarget as HTMLElement;
+    const chatWindowElement = targetElement.closest(`[data-chat-instance="${instanceId.current}"]`);
+    
     // Calculate fixed anchor points for each direction
     const rightEdge = startX + startWidth;  // This should stay fixed when resizing left
     const bottomEdge = startY + startHeight; // This should stay fixed when resizing top
     
-    const activeResize = { direction };
-    
     const handleMouseMoveResize = (e: MouseEvent) => {
-      if (!activeResize || activeResize.direction !== direction) return;
+      // Only process if this is the active resize instance
+      if (globalResizeLock !== instanceId.current) return;
       
       e.preventDefault();
       e.stopPropagation();
@@ -573,6 +590,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     };
     
     const handleMouseUpResize = () => {
+      // Release the global lock only if this instance owns it
+      if (globalResizeLock === instanceId.current) {
+        globalResizeLock = null;
+      }
+      
       setIsResizing(false);
       document.removeEventListener('mousemove', handleMouseMoveResize);
       document.removeEventListener('mouseup', handleMouseUpResize);
@@ -608,6 +630,7 @@ INFORMAȚII CHEIE HOTEL-LIVING:
   return (
    <div 
   ref={chatRef}
+  data-chat-instance={instanceId.current}
   className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
   style={{ 
     backgroundColor: '#561C7B',

@@ -504,19 +504,45 @@ INFORMAȚII CHEIE HOTEL-LIVING:
       let newX = startPosX;
       let newY = startPosY;
       
-      if (direction.includes('right')) {
+      // Handle each direction independently to prevent dual-expansion
+      if (direction === 'right') {
         newWidth = Math.max(200, startWidth + deltaX);
-      }
-      if (direction.includes('bottom')) {
-        newHeight = Math.max(200, startHeight + deltaY);
-      }
-      if (direction.includes('left')) {
+        // Keep position unchanged
+        newX = startPosX;
+      } else if (direction === 'left') {
         newWidth = Math.max(200, startWidth - deltaX);
-        newX = startPosX + deltaX;
-      }
-      if (direction.includes('top')) {
+        // Only adjust position if width actually changed
+        if (newWidth > 200) {
+          newX = startPosX + (startWidth - newWidth);
+        } else {
+          newX = startPosX;
+        }
+      } else if (direction === 'bottom') {
+        newHeight = Math.max(200, startHeight + deltaY);
+        newY = startPosY;
+      } else if (direction === 'top') {
         newHeight = Math.max(200, startHeight - deltaY);
-        newY = startPosY + deltaY;
+        if (newHeight > 200) {
+          newY = startPosY + (startHeight - newHeight);
+        } else {
+          newY = startPosY;
+        }
+      } else if (direction.includes('top') && direction.includes('left')) {
+        newHeight = Math.max(200, startHeight - deltaY);
+        newWidth = Math.max(200, startWidth - deltaX);
+        if (newHeight > 200) newY = startPosY + (startHeight - newHeight);
+        if (newWidth > 200) newX = startPosX + (startWidth - newWidth);
+      } else if (direction.includes('top') && direction.includes('right')) {
+        newHeight = Math.max(200, startHeight - deltaY);
+        newWidth = Math.max(200, startWidth + deltaX);
+        if (newHeight > 200) newY = startPosY + (startHeight - newHeight);
+      } else if (direction.includes('bottom') && direction.includes('left')) {
+        newHeight = Math.max(200, startHeight + deltaY);
+        newWidth = Math.max(200, startWidth - deltaX);
+        if (newWidth > 200) newX = startPosX + (startWidth - newWidth);
+      } else if (direction.includes('bottom') && direction.includes('right')) {
+        newHeight = Math.max(200, startHeight + deltaY);
+        newWidth = Math.max(200, startWidth + deltaX);
       }
       
       setSize({ width: newWidth, height: newHeight });

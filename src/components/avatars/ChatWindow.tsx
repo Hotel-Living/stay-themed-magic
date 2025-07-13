@@ -38,76 +38,45 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [input, setInput] = useState("");
   const [position, setPosition] = useState({ x: 200, y: 100 });
 
-  // Position chat window below the avatar using relative positioning
+  // FORCE position reset on every open - override any drag positions
   useEffect(() => {
-    const positionChatBelowAvatar = () => {
-      // Find the avatar element on the page
-      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`) || 
-                           document.querySelector(`img[alt*="${avatarId}"]`) ||
-                           document.querySelector(`#avatar-${avatarId}`);
+    const forceResetPosition = () => {
+      // GUARANTEED center positioning - ignore any previous drag state
+      const centeredX = (window.innerWidth - 280) / 2;
+      const topY = 20;
       
-      if (avatarElement) {
-        const avatarRect = avatarElement.getBoundingClientRect();
-        // Position chat directly below the avatar, centered horizontally
-        const chatX = Math.max(10, Math.min(
-          avatarRect.left + (avatarRect.width / 2) - 140, // Center on avatar, offset by half chat width
-          window.innerWidth - 290 // Ensure it doesn't go off right edge
-        ));
-        const chatY = avatarRect.bottom + 10; // 10px below avatar
-        
-        console.log(`🎯 Positioning chat below avatar ${avatarId}: x=${chatX}, y=${chatY}`);
-        setPosition({ x: chatX, y: chatY });
-      } else {
-        // Fallback to center if avatar not found
-        console.log(`⚠️ Avatar element not found for ${avatarId}, using center position`);
-        const centeredX = (window.innerWidth - 280) / 2;
-        setPosition({ x: centeredX, y: 20 });
-      }
+      console.log(`🎯 FORCING chat window to center: x=${centeredX}, y=${topY}, avatarId=${avatarId}`);
+      
+      // Force immediate position reset
+      setPosition({ x: centeredX, y: topY });
     };
 
-    // Position immediately
-    positionChatBelowAvatar();
+    // Force reset immediately on mount/avatar change
+    forceResetPosition();
     
-    // Additional positioning with delays to handle DOM updates
-    const timer1 = setTimeout(positionChatBelowAvatar, 50);
-    const timer2 = setTimeout(positionChatBelowAvatar, 150);
-    const timer3 = setTimeout(positionChatBelowAvatar, 300);
+    // Additional safety resets with delays to handle DOM updates
+    const timer1 = setTimeout(forceResetPosition, 50);
+    const timer2 = setTimeout(forceResetPosition, 150);
+    const timer3 = setTimeout(forceResetPosition, 300);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, [avatarId]);
+  }, [avatarId]); // Reset every time avatar changes
 
-  // Additional reset when window resizes to maintain proper positioning
+  // Additional reset when window resizes to maintain center
   useEffect(() => {
     const handleResize = () => {
-      const positionChatBelowAvatar = () => {
-        const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`) || 
-                             document.querySelector(`img[alt*="${avatarId}"]`) ||
-                             document.querySelector(`#avatar-${avatarId}`);
-        
-        if (avatarElement) {
-          const avatarRect = avatarElement.getBoundingClientRect();
-          const chatX = Math.max(10, Math.min(
-            avatarRect.left + (avatarRect.width / 2) - 140,
-            window.innerWidth - 290
-          ));
-          const chatY = avatarRect.bottom + 10;
-          setPosition({ x: chatX, y: chatY });
-        } else {
-          const centeredX = (window.innerWidth - 280) / 2;
-          setPosition({ x: centeredX, y: 20 });
-        }
-      };
-      
-      positionChatBelowAvatar();
+      const centeredX = (window.innerWidth - 280) / 2;
+      const topY = 20;
+      setPosition({ x: centeredX, y: topY });
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [avatarId]);
+  }, []);
   const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
@@ -586,13 +555,11 @@ INFORMAȚII CHEIE HOTEL-LIVING:
   return (
    <div 
   ref={chatRef}
-  className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+  className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
   style={{ 
     backgroundColor: '#561C7B',
     width: size.width, 
     height: size.height,
-    left: position.x,
-    top: position.y,
     cursor: isDragging ? 'grabbing' : 'default'
   }}
 >

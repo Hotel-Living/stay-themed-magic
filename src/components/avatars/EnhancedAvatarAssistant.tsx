@@ -86,14 +86,6 @@ export function EnhancedAvatarAssistant({
     }
   };
 
-  const getChatPositionClass = () => {
-    // Special positioning for specific avatars that appear near screen edges
-    if (avatarId === 'ion') return 'chat-left-edge'; // ¿AÚN ALQUILAS?
-    if (avatarId === 'antonio' || avatarId === 'luisa') return 'chat-left-edge'; // ¿JUBILADO?
-    if (avatarId === 'martin') return 'chat-right-edge'; // ¿HOTEL?
-    return '';
-  };
-
   return (
     <>
       <div className={`${getPositionStyles()} animate-fade-in`} id={`avatar-${avatarId}`}>
@@ -106,7 +98,6 @@ export function EnhancedAvatarAssistant({
             <img 
               src={gif} 
               alt={`Avatar ${avatarId}`}
-              data-avatar-id={avatarId}
               className="w-full h-full object-cover"
             />
           </button>

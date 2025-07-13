@@ -201,7 +201,7 @@ export function WhyHotelLivingSectionES() {
       {/* Header above purple tabs */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-[#eedbf7] mb-2">
-          {t('faq.identifyHeader').split('\n').map((line, index) => (
+          {t('identifyHeader').split('\n').map((line, index) => (
             <div key={index}>{line}</div>
           ))}
         </h2>
@@ -234,7 +234,7 @@ export function WhyHotelLivingSectionES() {
                           gif={avatar.gif}
                           position="content"
                           showMessage={showMessage}
-                          message={t('faq.avatarMessage')}
+                          message={t('avatarMessage')}
                           onClose={handleAvatarClose}
                         />
                       </div>

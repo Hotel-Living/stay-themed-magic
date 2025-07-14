@@ -6,11 +6,11 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 export const AnalyticsContent = () => {
   const { bookingsCount, completedStaysCount, savedHotelsCount, isLoading } = useDashboardData();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/general');
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t('dashboard.analyticsTitle')}</h2>
+      <h2 className="text-2xl font-bold">{t('analyticsTitle')}</h2>
       <DashboardStats
         bookingsCount={bookingsCount}
         completedStaysCount={completedStaysCount}

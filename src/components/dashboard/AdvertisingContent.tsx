@@ -37,22 +37,22 @@ type AdvertisingFormValues = z.infer<typeof advertisingFormSchema>;
 export default function AdvertisingContent() {
   const { toast: useToastRef } = useToast();
   const { profile, user } = useAuth();
-  const { t } = useTranslation();
+  const { t } = useTranslation('advertising');
   
   // Available months for selection
   const availableMonths = [
-    { key: "january", label: t('advertising.january') },
-    { key: "february", label: t('advertising.february') },
-    { key: "march", label: t('advertising.march') },
-    { key: "april", label: t('advertising.april') },
-    { key: "may", label: t('advertising.may') },
-    { key: "june", label: t('advertising.june') },
-    { key: "july", label: t('advertising.july') },
-    { key: "august", label: t('advertising.august') },
-    { key: "september", label: t('advertising.september') },
-    { key: "october", label: t('advertising.october') },
-    { key: "november", label: t('advertising.november') },
-    { key: "december", label: t('advertising.december') }
+    { key: "january", label: t('january') },
+    { key: "february", label: t('february') },
+    { key: "march", label: t('march') },
+    { key: "april", label: t('april') },
+    { key: "may", label: t('may') },
+    { key: "june", label: t('june') },
+    { key: "july", label: t('july') },
+    { key: "august", label: t('august') },
+    { key: "september", label: t('september') },
+    { key: "october", label: t('october') },
+    { key: "november", label: t('november') },
+    { key: "december", label: t('december') }
   ];
   
   // Set up the form
@@ -113,17 +113,17 @@ export default function AdvertisingContent() {
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
         <div className="flex items-center gap-3 mb-4">
           <Megaphone className="w-6 h-6 text-fuchsia-300" />
-          <h2 className="text-2xl font-bold">{t('advertising.title')}</h2>
+          <h2 className="text-2xl font-bold">{t('title')}</h2>
         </div>
       </div>
 
       {/* Slogans */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          t('advertising.headerSlogan1'),
-          t('advertising.headerSlogan2'),
-          t('advertising.headerSlogan3'),
-          t('advertising.headerSlogan4')
+          t('headerSlogan1'),
+          t('headerSlogan2'),
+          t('headerSlogan3'),
+          t('headerSlogan4')
         ].map((slogan, index) => (
           <div 
             key={index} 
@@ -136,18 +136,18 @@ export default function AdvertisingContent() {
 
       {/* Main Promotion Text */}
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-4 text-fuchsia-100">{t('advertising.promotionOfferTitle')}</h3>
+        <h3 className="text-xl font-semibold mb-4 text-fuchsia-100">{t('promotionOfferTitle')}</h3>
         
         <div className="space-y-4 text-fuchsia-100">
-          <p>{t('advertising.promotionOfferText1')}</p>
-          <p>{t('advertising.promotionOfferText2')}</p>
-          <p>{t('advertising.promotionOfferText3')}</p>
+          <p>{t('promotionOfferText1')}</p>
+          <p>{t('promotionOfferText2')}</p>
+          <p>{t('promotionOfferText3')}</p>
         </div>
       </div>
 
       {/* Signup Form */}
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-6">{t('advertising.joinPromotionTitle')}</h3>
+        <h3 className="text-xl font-semibold mb-6">{t('joinPromotionTitle')}</h3>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -157,9 +157,9 @@ export default function AdvertisingContent() {
               name="contactName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('advertising.contactName')}</FormLabel>
+                  <FormLabel>{t('contactName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('advertising.contactNamePlaceholder')} {...field} />
+                    <Input placeholder={t('contactNamePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -172,9 +172,9 @@ export default function AdvertisingContent() {
               name="contactEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('advertising.contactEmail')}</FormLabel>
+                  <FormLabel>{t('contactEmail')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('advertising.contactEmailPlaceholder')} {...field} />
+                    <Input placeholder={t('contactEmailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -188,9 +188,9 @@ export default function AdvertisingContent() {
               render={() => (
                 <FormItem>
                   <div className="mb-4">
-                    <FormLabel>{t('advertising.availableMonthsTitle')}</FormLabel>
+                    <FormLabel>{t('availableMonthsTitle')}</FormLabel>
                     <FormDescription className="text-fuchsia-300">
-                      {t('advertising.availableMonthsDescription')}
+                      {t('availableMonthsDescription')}
                     </FormDescription>
                   </div>
                   
@@ -248,7 +248,7 @@ export default function AdvertisingContent() {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      {t('advertising.termsAcceptance')}
+                      {t('termsAcceptance')}
                     </FormLabel>
                   </div>
                 </FormItem>
@@ -260,7 +260,7 @@ export default function AdvertisingContent() {
               type="submit" 
               className="w-full bg-fuchsia-600 hover:bg-fuchsia-700"
             >
-              <Check className="mr-2 h-4 w-4" /> {t('advertising.submitButton')}
+              <Check className="mr-2 h-4 w-4" /> {t('submitButton')}
             </Button>
           </form>
         </Form>

@@ -38,7 +38,7 @@ export default function Hotels() {
   const {
     t,
     language
-  } = useTranslation();
+  } = useTranslation('faq');
   const hotelFaqCategories = useHotelFaqCategories();
   const hotelFaqsByCategory = useHotelFaqsByCategory();
   const orderedFaqCategories = React.useMemo(() => orderedCategoryIds.map(id => hotelFaqCategories.find(cat => cat.id === id)).filter(Boolean) as typeof hotelFaqCategories, [hotelFaqCategories]);
@@ -74,7 +74,7 @@ export default function Hotels() {
           
           <div className="w-full max-w-4xl mt-10">
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10 bg-[#5f0276]">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">{t('faq.title')}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">{t('title')}</h2>
               
               <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" hideTabsList={false} />
               

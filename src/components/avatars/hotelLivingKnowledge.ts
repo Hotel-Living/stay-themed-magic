@@ -159,7 +159,7 @@ export const HOTEL_LIVING_KNOWLEDGE = {
   // Revenue & Pricing for Hotels
   hotelRevenue: {
     commission: "10% sobre las reservas netas",
-    deposit: "7.5% del precio total como depósito no reembolsable para el hotel",
+    deposit: "5% del precio total como depósito no reembolsable para el hotel",
     revenueImpact: "Aporta base estable de reservas y ayuda a llenar periodos de baja demanda",
     priceControl: "Hotel mantiene control total sobre precios y disponibilidad",
     dynamicPricing: "Precios pueden ajustarse según temporada y demanda"
@@ -168,7 +168,7 @@ export const HOTEL_LIVING_KNOWLEDGE = {
   // Integration & Operations for Hotels
   hotelIntegration: {
     currentChannels: "Complementa distribución existente - hotel gestiona asignación de inventario",
-    confirmationProcess: "Hotel notificado inmediatamente, recibe 7.5% como depósito",
+    confirmationProcess: "Hotel notificado inmediatamente, recibe 5% como depósito",
     paymentFlow: "15% inicial través de plataforma; 85% directamente al hotel en check-in",
     specialRequests: "Sistema de mensajería con cuestionarios previos a llegada",
     reporting: [

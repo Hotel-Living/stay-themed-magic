@@ -8,7 +8,7 @@ export const integrationFaqs: FaqItem[] = [
   },
   {
     question: "¿Cómo se confirman las reservas?",
-    answer: "El hotel es notificado de inmediato y recibe un 7.5% del precio total como depósito no reembolsable."
+    answer: "El hotel es notificado de inmediato y recibe un 5% del precio total como depósito no reembolsable."
   },
   {
     question: "¿Cómo se procesan los pagos?",

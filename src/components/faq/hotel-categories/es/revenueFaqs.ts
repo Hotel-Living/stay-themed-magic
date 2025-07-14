@@ -12,11 +12,11 @@ export const revenueFaqs: FaqItem[] = [
   },
   {
     question: "¿Cómo funciona la comisión por reserva?",
-    answer: "El huésped paga un 15% de depósito al reservar:\n• 7,5% es para el hotel, como ingreso inicial no reembolsable.\n• 7,5% es para Hotel-Living, como comisión por la reserva.\n\nEl 85% restante lo paga el huésped directamente al hotel en el check-in.\n\n👉 En total, el hotel recibe el 92,5% del precio neto:\n• 7,5% como anticipo (que Hotel-Living le transfiere al final de cada mes).\n• 85% directamente del huésped al llegar.\n\n💡 Ejemplo con precio neto $1,000:\n• El huésped paga $150 al reservar (15%).\n – $75 es para el hotel.\n – $75 es para Hotel-Living.\n\n• El huésped paga $850 al check-in.\n✅ El hotel recibe en total $925."
+    answer: "El huésped paga un 15% de depósito al reservar:\n• 5% es para el hotel, como ingreso inicial no reembolsable.\n• 10% es para Hotel-Living, como comisión por la reserva.\n\nEl 85% restante lo paga el huésped directamente al hotel en el check-in.\n\n👉 En total, el hotel recibe el 90% del precio neto:\n• 5% como anticipo (que Hotel-Living le transfiere al final de cada mes).\n• 85% directamente del huésped al llegar.\n\n💡 Ejemplo con precio neto $1,000:\n• El huésped paga $150 al reservar (15%).\n – $50 es para el hotel.\n – $100 es para Hotel-Living.\n\n• El huésped paga $850 al check-in.\n✅ El hotel recibe en total $900."
   },
   {
     question: "¿Qué pasa con las cancelaciones o no presentaciones?",
-    answer: "El hotel se queda con el 7,5% de la reserva, que es no reembolsable. Beneficio con cero riesgo y cero esfuerzo."
+    answer: "El hotel se queda con el 5% de la reserva, que es no reembolsable. Beneficio con cero riesgo y cero esfuerzo."
   },
   {
     question: "¿Puedo aplicar precios dinámicos para estancias largas?",

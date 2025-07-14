@@ -5,6 +5,15 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 // The edge function handles multilingual personas, so no hardcoded knowledge base needed here
 
+/**
+ * SECURITY CLAUSE - MARTIN'S COMMISSION SPEECH
+ * ⚠️ Do not change, simplify, replicate, or adapt Martín's message in any other context, 
+ * avatar, or user flow without explicit written authorization from the client.
+ * This content is intended exclusively for hotel-facing pages and interactions. 
+ * All other parts of the platform must continue using the simplified guest-facing message.
+ * No commission logic, breakdowns, nor OTA comparisons may appear outside of Martín's restricted scope.
+ */
+
 interface ChatWindowProps {
   activeAvatar: string;
   onClose: () => void;
@@ -399,11 +408,127 @@ INFORMAȚII CHEIE HOTEL-LIVING:
 
   const persona = getPersona(activeAvatar, cleanLanguage);
 
+  // Check if user is asking about commission or how Hotel Living works
+  const isCommissionQuestion = (message: string) => {
+    const lowercaseMessage = message.toLowerCase();
+    const commissionKeywords = [
+      'commission', 'comisión', 'comissão', 'comision',
+      'how hotel living works', 'como funciona hotel living', 'como hotel living funciona',
+      'how it works', 'como funciona', 'funciona',
+      'payment', 'pago', 'pagamento', 'pay',
+      'booking.com', 'expedia', 'ota', 'platforms',
+      'diferente', 'different', 'diferença', 'difference'
+    ];
+    return commissionKeywords.some(keyword => lowercaseMessage.includes(keyword));
+  };
+
+  // Get Martin's commission speech
+  const getMartinCommissionSpeech = () => {
+    const isHotelPage = location.pathname.includes('/hotels') || location.pathname.includes('/panel-fernando');
+    
+    if (activeAvatar === 'martin' && isHotelPage) {
+      switch (cleanLanguage) {
+        case 'en':
+          return `Unlike platforms like Booking.com or Expedia — which are simply commission-based agents — Hotel Living has created an entirely new system.
+
+Traditional OTAs have added no true value: they merely charge commissions and have, in many cases, dismantled the global network of travel agencies.
+
+We are different. Hotel Living does not compete with your direct bookings. We focus only on empty rooms, which are the biggest source of potential profit once your operational costs are covered.
+
+Guests pay 15% upfront. From this:
+• 10% is Hotel Living's commission
+• 5% goes directly to the hotel — non-refundable
+• The remaining 85% is paid at check-in
+
+In total, you collect 90% of the full stay, while gaining access to a revolutionary model tailored to modern long-stay travelers.
+
+This is not just another OTA — it's a platform built for you, with services, ideas, and value that are truly new. It's a new era.`;
+
+        case 'pt':
+          return `Ao contrário de plataformas como Booking.com ou Expedia — que são simplesmente agentes baseados em comissão — o Hotel Living criou um sistema totalmente novo.
+
+As OTAs tradicionais não agregaram valor real: apenas cobram comissões e, em muitos casos, desmontaram a rede global de agências de viagens.
+
+Somos diferentes. O Hotel Living não compete com suas reservas diretas. Focamos apenas em quartos vazios, que são a maior fonte de lucro potencial uma vez que seus custos operacionais estão cobertos.
+
+Os hóspedes pagam 15% antecipadamente. Disso:
+• 10% é comissão do Hotel Living
+• 5% vai diretamente para o hotel — não reembolsável
+• Os 85% restantes são pagos no check-in
+
+No total, você recebe 90% da estadia completa, enquanto ganha acesso a um modelo revolucionário adaptado para viajantes modernos de estadia longa.
+
+Isso não é apenas mais uma OTA — é uma plataforma construída para você, com serviços, ideias e valor que são verdadeiramente novos. É uma nova era.`;
+
+        case 'ro':
+          return `Spre deosebire de platforme precum Booking.com sau Expedia — care sunt pur și simplu agenți bazați pe comision — Hotel Living a creat un sistem complet nou.
+
+OTA-urile tradiționale nu au adăugat nicio valoare reală: doar percep comisioane și, în multe cazuri, au dezmembrat rețeaua globală de agenții de turism.
+
+Suntem diferiți. Hotel Living nu concurează cu rezervările tale directe. Ne concentrăm doar pe camerele goale, care sunt cea mai mare sursă de profit potențial odată ce costurile tale operaționale sunt acoperite.
+
+Oaspeții plătesc 15% în avans. Din aceștia:
+• 10% este comisionul Hotel Living
+• 5% merge direct la hotel — nerambursabil
+• Restul de 85% se plătește la check-in
+
+În total, colectezi 90% din întreaga ședere, în timp ce obții acces la un model revoluționar adaptat călătorilor moderni cu șederi lungi.
+
+Aceasta nu este doar încă o OTA — este o platformă construită pentru tine, cu servicii, idei și valoare care sunt cu adevărat noi. Este o nouă eră.`;
+
+        default:
+          return `A diferencia de plataformas como Booking.com o Expedia — que son simplemente agentes basados en comisiones — Hotel Living ha creado un sistema completamente nuevo.
+
+Las OTAs tradicionales no han agregado valor real: simplemente cobran comisiones y, en muchos casos, han desmantelado la red global de agencias de viajes.
+
+Somos diferentes. Hotel Living no compite con tus reservas directas. Nos enfocamos solo en habitaciones vacías, que son la mayor fuente de ganancia potencial una vez que tus costos operacionales están cubiertos.
+
+Los huéspedes pagan 15% por adelantado. De esto:
+• 10% es comisión de Hotel Living
+• 5% va directamente al hotel — no reembolsable
+• El 85% restante se paga al hacer check-in
+
+En total, recolectas 90% de la estancia completa, mientras obtienes acceso a un modelo revolucionario adaptado para viajeros modernos de estancias largas.
+
+Esto no es solo otra OTA — es una plataforma construida para ti, con servicios, ideas y valor que son verdaderamente nuevos. Es una nueva era.`;
+      }
+    }
+    return null;
+  };
+
+  // Get simplified payment message for other avatars
+  const getSimplifiedPaymentMessage = () => {
+    switch (cleanLanguage) {
+      case 'en':
+        return "You only pay 15% upfront — the rest is paid directly at the hotel upon arrival. That gives you full control and peace of mind.";
+      case 'pt':
+        return "Você paga apenas 15% antecipadamente — o resto é pago diretamente no hotel na chegada. Isso lhe dá controle total e tranquilidade.";
+      case 'ro':
+        return "Plătești doar 15% în avans — restul se plătește direct la hotel la sosire. Aceasta îți oferă control total și liniște sufletească.";
+      default:
+        return "Solo pagas 15% por adelantado — el resto se paga directamente en el hotel al llegar. Eso te da control total y tranquilidad.";
+    }
+  };
+
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = input;
     setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
     setInput("");
+
+    // Check for commission-related questions first
+    if (isCommissionQuestion(userMessage)) {
+      const commissionResponse = getMartinCommissionSpeech();
+      if (commissionResponse) {
+        // Martin's exclusive commission speech on hotel pages
+        setMessages((prev) => [...prev, { from: "avatar", text: commissionResponse }]);
+        return;
+      } else {
+        // Simplified message for all other avatars
+        setMessages((prev) => [...prev, { from: "avatar", text: getSimplifiedPaymentMessage() }]);
+        return;
+      }
+    }
 
     try {
       const response = await fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/chat-with-avatar', {

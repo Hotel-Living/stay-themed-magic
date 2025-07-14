@@ -59,7 +59,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         type="country"
         label={placeholders.country || "COUNTRY"}
         value={filters.country}
-        options={availableThemes} // This is intentional, the options are passed to renderOptions
+        options={[]} // Options are handled by renderDropdownOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "country"}
@@ -77,7 +77,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         type="month"
         label={placeholders.month || "MONTH"}
         value={filters.month}
-        options={availableThemes} // This is intentional, the options are passed to renderOptions
+        options={[]} // Options are handled by renderDropdownOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "month"}
@@ -122,7 +122,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         type="priceRange"
         label={placeholders.priceRange || "PRICE PER MONTH"}
         value={filters.priceRange}
-        options={availableThemes} // This is intentional, the options are passed to renderOptions
+        options={[]} // Options are handled by renderDropdownOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "priceRange"}

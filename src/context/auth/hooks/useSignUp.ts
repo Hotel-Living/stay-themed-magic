@@ -80,6 +80,29 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
           console.error("Failed to send admin notification:", notifyErr);
         }
         
+        // Send welcome email
+        try {
+          const { data: welcomeData, error: welcomeError } = await supabase.functions.invoke(
+            "send-welcome-email",
+            {
+              body: {
+                email: data.user.email,
+                firstName: userData?.first_name || "",
+                isHotelOwner: !!userData?.is_hotel_owner,
+                language: navigator.language.split('-')[0] || 'en'
+              }
+            }
+          );
+          
+          if (welcomeError) {
+            console.error("Welcome email error:", welcomeError);
+          } else {
+            console.log("Welcome email sent:", welcomeData);
+          }
+        } catch (welcomeErr) {
+          console.error("Failed to send welcome email:", welcomeErr);
+        }
+        
         // Email confirmation is required for all new users
         return { 
           success: true, 

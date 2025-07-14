@@ -29,7 +29,38 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    console.log("=== CHAT TRANSCRIPT REQUEST ===");
+    console.log("Method:", req.method);
+    console.log("Headers:", Object.fromEntries(req.headers.entries()));
+    
     const { email, messages, avatarName, language }: ChatTranscriptRequest = await req.json();
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      console.error("Invalid email provided:", email);
+      return new Response(
+        JSON.stringify({ error: "Valid email is required" }),
+        { 
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
+    
+    // Validate messages
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      console.error("Invalid messages provided:", messages);
+      return new Response(
+        JSON.stringify({ error: "Messages are required" }),
+        { 
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
+    
+    console.log(`Processing transcript for: ${email}, Messages: ${messages.length}, Avatar: ${avatarName}, Language: ${language}`);
 
     // Format the conversation transcript
     const formatTranscript = (messages: ChatMessage[], lang: string) => {

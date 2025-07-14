@@ -59,6 +59,24 @@ verify_jwt = false
 [functions.test-openai-key]
 verify_jwt = false
 
+[functions.send-chat-transcript]
+verify_jwt = false
+
+[functions.hotel-referral-webhook]
+verify_jwt = false
+
+[functions.resend-verification-email]
+verify_jwt = false
+
+[functions.send-hotel-referral-email]
+verify_jwt = false
+
+[functions.notify-admin-registration]
+verify_jwt = false
+
+[functions.send-welcome-email]
+verify_jwt = false
+
 [db]
 enabled = true
 port = 54322

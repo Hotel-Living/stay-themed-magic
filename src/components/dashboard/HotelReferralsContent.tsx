@@ -56,8 +56,8 @@ export function HotelReferralsContent() {
     language,
     titleKey: 'referrals.title',
     titleValue: t('referrals.title'),
-    descriptionKey: 'referrals.description', 
-    descriptionValue: t('referrals.description')
+    eligibilityKey: 'referrals.eligibilityText', 
+    eligibilityValue: t('referrals.eligibilityText')
   });
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -154,10 +154,29 @@ export function HotelReferralsContent() {
       <Card className="bg-[#5c0869] glass-card border-purple-500/20">
         <CardHeader>
           <CardTitle className="text-2xl text-white flex items-center gap-2">
-            💸💼🏨 {t('referrals.title')}
+            <span>{t('referrals.icon')}</span>
+            <span>{t('referrals.title')}</span>
           </CardTitle>
-          <CardDescription className="text-lg leading-relaxed text-white/80">
-            {t('referrals.description')}
+          <CardDescription className="text-lg leading-relaxed text-white/80 space-y-4">
+            <p className="flex items-start gap-3">
+              <span className="text-lg mt-0.5">{t('referrals.eligibilityIcon')}</span>
+              <span>{t('referrals.eligibilityText')}</span>
+            </p>
+            
+            <p className="flex items-start gap-3">
+              <span className="text-lg mt-0.5">{t('referrals.processIcon')}</span>
+              <span>{t('referrals.processText')}</span>
+            </p>
+            
+            <p className="flex items-start gap-3">
+              <span className="text-lg mt-0.5">{t('referrals.rewardsIcon')}</span>
+              <span>{t('referrals.rewardsText')}</span>
+            </p>
+            
+            <p className="flex items-start gap-3">
+              <span className="text-lg mt-0.5">{t('referrals.confidentialityIcon')}</span>
+              <span>{t('referrals.confidentialityText')}</span>
+            </p>
           </CardDescription>
         </CardHeader>
       </Card>

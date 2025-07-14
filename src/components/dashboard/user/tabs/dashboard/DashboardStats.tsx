@@ -17,7 +17,7 @@ export default function DashboardStats({
   savedHotelsCount,
   isLoading
 }: DashboardStatsProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/stats');
 
   if (isLoading) {
     return (
@@ -32,19 +32,19 @@ export default function DashboardStats({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <DashboardCard 
-        title={t('dashboard.upcomingStays')} 
+        title={t('upcomingStays')} 
         value={bookingsCount.toString()} 
         icon={<Calendar className="w-6 h-6" />} 
         color="fuchsia" 
       />
       <DashboardCard 
-        title={t('dashboard.completedStays')} 
+        title={t('completedStays')} 
         value={completedStaysCount.toString()} 
         icon={<CalendarCheck className="w-6 h-6" />} 
         color="cyan" 
       />
       <DashboardCard 
-        title={t('dashboard.savedHotels')} 
+        title={t('savedHotels')} 
         value={savedHotelsCount.toString()} 
         icon={<Building className="w-6 h-6" />} 
         color="amber" 

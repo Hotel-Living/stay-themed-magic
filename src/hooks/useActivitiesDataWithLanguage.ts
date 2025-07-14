@@ -35,28 +35,23 @@ export function useActivitiesDataWithLanguage() {
         
         // Transform data with translations
         return data?.map(item => {
-          let translatedName = item.value;
-          
-          // Apply translations for non-Spanish languages
-          if (language !== 'es') {
-            try {
-              // Try to get translation from activities.json using the Spanish value as key
-              translatedName = t(item.value, { ns: 'activities' }) || item.value;
-              // If translation returns the same key, use the original value
-              if (translatedName === item.value || translatedName.startsWith('activities.')) {
-                translatedName = item.value;
-              }
-            } catch (err) {
-              console.warn(`🎯 Translation not found for: ${item.value}`);
-              translatedName = item.value; // Fallback to original
-            }
+          try {
+            // Use the translation system with activities namespace
+            const translatedName = t(item.value, { ns: 'activities' });
+            
+            return {
+              id: item.id,
+              name: translatedName,
+              category: item.category
+            };
+          } catch (err) {
+            console.warn(`🎯 Translation error for: ${item.value}`, err);
+            return {
+              id: item.id,
+              name: item.value, // Fallback to original
+              category: item.category
+            };
           }
-          
-          return {
-            id: item.id,
-            name: translatedName,
-            category: item.category
-          };
         }) || [];
       } catch (error) {
         console.error('🎯 Error in useActivitiesDataWithLanguage:', error);

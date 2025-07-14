@@ -320,8 +320,37 @@ i18n
     // Add initialization callback to ensure proper loading
     initImmediate: false,
   })
-  .then(() => {
+  .then(async () => {
     console.log('✅ i18n initialized successfully');
+    
+    // Load activities and affinities translations dynamically
+    try {
+      const [enActivities, enAffinities, esActivities, esAffinities, ptActivities, ptAffinities, roActivities, roAffinities] = await Promise.all([
+        fetch('/locales/en/activities.json').then(r => r.json()),
+        fetch('/locales/en/affinities.json').then(r => r.json()),
+        fetch('/locales/es/activities.json').then(r => r.json()),
+        fetch('/locales/es/affinities.json').then(r => r.json()),
+        fetch('/locales/pt/activities.json').then(r => r.json()),
+        fetch('/locales/pt/affinities.json').then(r => r.json()),
+        fetch('/locales/ro/activities.json').then(r => r.json()),
+        fetch('/locales/ro/affinities.json').then(r => r.json()),
+      ]);
+
+      // Add the new namespaces to existing resources
+      i18n.addResourceBundle('en', 'activities', enActivities);
+      i18n.addResourceBundle('en', 'affinities', enAffinities);
+      i18n.addResourceBundle('es', 'activities', esActivities);
+      i18n.addResourceBundle('es', 'affinities', esAffinities);
+      i18n.addResourceBundle('pt', 'activities', ptActivities);
+      i18n.addResourceBundle('pt', 'affinities', ptAffinities);
+      i18n.addResourceBundle('ro', 'activities', roActivities);
+      i18n.addResourceBundle('ro', 'affinities', roAffinities);
+
+      console.log('✅ Activities and affinities translations loaded');
+    } catch (error) {
+      console.error('❌ Failed to load activities/affinities translations:', error);
+    }
+    
     console.log('📝 Available namespaces:', Object.keys(resources.en));
     console.log('🌐 Current language:', i18n.language);
     console.log('📚 Auth keys sample:', Object.keys(resources.en.auth || {}).slice(0, 5));

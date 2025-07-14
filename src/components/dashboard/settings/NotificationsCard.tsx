@@ -26,42 +26,42 @@ export const NotificationsCard = ({
   paymentNotifications,
   setPaymentNotifications
 }: NotificationsCardProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/settings');
   
   return (
     <Card>
       <CardHeader className="bg-[#7a0486] border border-white">
-        <CardTitle>{t('dashboard.notificationPreferences')}</CardTitle>
-        <CardDescription>{t('dashboard.notificationPreferencesDescription')}</CardDescription>
+        <CardTitle>{t('notificationPreferences')}</CardTitle>
+        <CardDescription>{t('notificationPreferencesDescription')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6 bg-[#860493] border-x border-b border-white">
         <div className="flex items-center justify-between">
           <div>
-            <Label className="text-base">{t('dashboard.emailNotifications')}</Label>
+            <Label className="text-base">{t('emailNotifications')}</Label>
           </div>
           <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
         </div>
         
         <div className="space-y-4 pt-4 border-t border-white">
-          <h4 className="font-medium">{t('dashboard.notificationTypes')}</h4>
+          <h4 className="font-medium">{t('notificationTypes')}</h4>
           
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm">{t('dashboard.newBookingConfirmations')}</Label>
+              <Label className="text-sm">{t('newBookingConfirmations')}</Label>
             </div>
             <Switch checked={bookingConfirmations} onCheckedChange={setBookingConfirmations} disabled={!emailNotifications} />
           </div>
           
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm">{t('dashboard.reviewAlerts')}</Label>
+              <Label className="text-sm">{t('reviewAlerts')}</Label>
             </div>
             <Switch checked={reviewAlerts} onCheckedChange={setReviewAlerts} disabled={!emailNotifications} />
           </div>
           
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm">{t('dashboard.paymentNotifications')}</Label>
+              <Label className="text-sm">{t('paymentNotifications')}</Label>
             </div>
             <Switch checked={paymentNotifications} onCheckedChange={setPaymentNotifications} disabled={!emailNotifications} />
           </div>

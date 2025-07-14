@@ -39,7 +39,7 @@ export const GuestsContent = () => {
   });
   const { user } = useAuth();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/general');
 
   useEffect(() => {
     const fetchGuestData = async () => {
@@ -219,7 +219,7 @@ export const GuestsContent = () => {
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
-        <GuestTableHeader title={t('dashboard.guestManagement')} />
+        <GuestTableHeader title={t('guestManagement')} />
         <div className="flex items-center justify-center p-12">
           <Loader2 className="w-6 h-6 animate-spin text-fuchsia-500" />
           <span className="ml-2">Loading guest data...</span>
@@ -230,7 +230,7 @@ export const GuestsContent = () => {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <GuestTableHeader title={t('dashboard.guestManagement')} />
+      <GuestTableHeader title={t('guestManagement')} />
       
       {guests.length > 0 ? (
         <>
@@ -250,8 +250,8 @@ export const GuestsContent = () => {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-fuchsia-950/30 flex items-center justify-center">
             <Users className="w-8 h-8 text-fuchsia-400" />
           </div>
-          <h3 className="text-lg font-bold mb-2">{t('dashboard.noGuestData')}</h3>
-          <p className="text-muted-foreground mb-6">{t('dashboard.noGuestDataMessage')}</p>
+          <h3 className="text-lg font-bold mb-2">{t('noGuestData')}</h3>
+          <p className="text-muted-foreground mb-6">{t('noGuestDataMessage')}</p>
         </div>
       )}
 

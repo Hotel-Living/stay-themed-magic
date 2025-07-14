@@ -5,12 +5,12 @@ import CheckInOutSection from '../PropertySteps/rooms/CheckInOutSection';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export const CheckInOutCard = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/settings');
   
   return (
     <Card>
       <CardHeader className="bg-[#7a0486] border border-white">
-        <CardTitle>{t('dashboard.checkinOutPolicy')}</CardTitle>
+        <CardTitle>{t('checkinOutPolicy')}</CardTitle>
       </CardHeader>
       <CardContent className="bg-[#860493] border-x border-b border-white">
         <CheckInOutSection />

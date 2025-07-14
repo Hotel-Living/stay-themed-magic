@@ -46,5 +46,11 @@
   "viewAnalytics": "View Analytics",
   "viewAnalyticsDescription": "Track your performance and insights",
   "manageReviews": "Manage Reviews",
-  "manageReviewsDescription": "Respond to guest reviews and feedback"
+  "manageReviewsDescription": "Respond to guest reviews and feedback",
+  "hotelSettings": "Hotel Settings",
+  "saveAllSettings": "Save All Settings",
+  "guestManagement": "Guest Management",
+  "noGuestData": "No Guest Data",
+  "noGuestDataMessage": "You haven't had any guests yet. Your guest data will appear here once you start receiving bookings.",
+  "addProperty2Title": "Add Your Property - Step 2"
 }

@@ -19,23 +19,23 @@ export const AutoPriceCard = ({
   priceIncreasePercent,
   setPriceIncreasePercent
 }: AutoPriceCardProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/settings');
   
   return (
     <Card>
       <CardHeader className="bg-[#7a0486] border border-white">
-        <CardTitle>{t('dashboard.progressivePriceIncrease')}</CardTitle>
+        <CardTitle>{t('progressivePriceIncrease')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493] border-x border-b border-white">
         <div className="flex items-center justify-between">
-          <Label htmlFor="auto-price-increase">{t('dashboard.enableAutoPriceIncrease')}</Label>
+          <Label htmlFor="auto-price-increase">{t('enableAutoPriceIncrease')}</Label>
           <Switch id="auto-price-increase" checked={enableAutoPrice} onCheckedChange={setEnableAutoPrice} />
         </div>
         
         {enableAutoPrice && (
           <div className="space-y-6">
             <div>
-              <Label className="block text-base mb-2">{t('dashboard.percentTotalIncrease')}</Label>
+              <Label className="block text-base mb-2">{t('percentTotalIncrease')}</Label>
               <div className="flex items-center">
                 <Input 
                   type="number" 

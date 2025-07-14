@@ -11,18 +11,18 @@ interface CurrencyCardProps {
 }
 
 export const CurrencyCard = ({ currency, setCurrency }: CurrencyCardProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/settings');
   
   return (
     <Card>
       <CardHeader className="bg-[#7a0486] border border-white">
-        <CardTitle>{t('dashboard.currencySettings')}</CardTitle>
-        <CardDescription>{t('dashboard.currencySettingsDescription')}</CardDescription>
+        <CardTitle>{t('currencySettings')}</CardTitle>
+        <CardDescription>{t('currencySettingsDescription')}</CardDescription>
       </CardHeader>
       <CardContent className="bg-[#860493] border-x border-b border-white">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="currency" className="block text-base mb-2">{t('dashboard.preferredCurrency')}</Label>
+            <Label htmlFor="currency" className="block text-base mb-2">{t('preferredCurrency')}</Label>
             <Select value={currency} onValueChange={setCurrency}>
               <SelectTrigger className="w-full bg-[#9b87f5] text-white h-12 border-white">
                 <SelectValue placeholder="Select currency" />

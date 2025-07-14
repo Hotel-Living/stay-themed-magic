@@ -2,13 +2,13 @@ import React from 'react';
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const AddProperty2Content = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/general');
 
   return (
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white mb-2">
-          {t('dashboard.addProperty2Title')}
+          {t('addProperty2Title')}
         </h1>
       </div>
       

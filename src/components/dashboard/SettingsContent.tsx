@@ -15,7 +15,7 @@ import { PoliciesCard } from './settings/PoliciesCard';
 
 export default function SettingsContent() {
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/general');
   
   const [currency, setCurrency] = useState('USD');
   const [enableAutoPrice, setEnableAutoPrice] = useState(false);
@@ -34,20 +34,20 @@ export default function SettingsContent() {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">{t('dashboard.hotelSettings')}</h2>
+        <h2 className="text-xl font-bold">{t('hotelSettings')}</h2>
         <Button onClick={handleSaveSettings} className="flex items-center gap-2 bg-[#9b87f5] hover:bg-[#7E69AB]">
           <Save className="h-4 w-4" />
-          {t('dashboard.saveAllSettings')}
+          {t('saveAllSettings')}
         </Button>
       </div>
       
       <Tabs defaultValue="checkin" className="w-full">
         <TabsList className="mb-6 bg-[#7a0486] border border-white">
-          <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">{t('dashboard.checkinOut')}</TabsTrigger>
-          <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">{t('dashboard.autoPriceIncrease')}</TabsTrigger>
-          <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">{t('dashboard.currency')}</TabsTrigger>
-          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">{t('dashboard.notificationPreferences')}</TabsTrigger>
-          <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">{t('dashboard.policies')}</TabsTrigger>
+          <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">{t('checkinOut', { ns: 'dashboard/settings' })}</TabsTrigger>
+          <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">{t('autoPriceIncrease', { ns: 'dashboard/settings' })}</TabsTrigger>
+          <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">{t('currency', { ns: 'dashboard/settings' })}</TabsTrigger>
+          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">{t('notificationPreferences', { ns: 'dashboard/settings' })}</TabsTrigger>
+          <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">{t('hotelPolicies', { ns: 'dashboard/settings' })}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="checkin">

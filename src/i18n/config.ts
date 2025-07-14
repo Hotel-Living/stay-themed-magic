@@ -110,6 +110,8 @@ import ptHotels from './locales/pt/hotels.json';
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
+import ptDashboardContent from './locales/pt/dashboard/content.json';
+import ptDashboardSettings from './locales/pt/dashboard/settings.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
 import ptDashboard from './locales/pt/dashboard.json';
@@ -139,6 +141,8 @@ import roHotels from './locales/ro/hotels.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
 import roDashboardAccommodation from './locales/ro/dashboard/accommodation.json';
+import roDashboardContent from './locales/ro/dashboard/content.json';
+import roDashboardSettings from './locales/ro/dashboard/settings.json';
 import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
 import roDashboard from './locales/ro/dashboard.json';
 import roTerms from './locales/ro/terms.json';
@@ -263,6 +267,8 @@ const resources = {
       general: ptDashboardGeneral,
       common: ptDashboardCommon,
       accommodation: ptDashboardAccommodation,
+      content: ptDashboardContent,
+      settings: ptDashboardSettings,
       advertising: ptAdvertising,
       ratesCalculator: ptRatesCalculator,
     },
@@ -294,6 +300,8 @@ const resources = {
       general: roDashboardGeneral,
       common: roDashboardCommon,
       accommodation: roDashboardAccommodation,
+      content: roDashboardContent,
+      settings: roDashboardSettings,
       ratesCalculator: roRatesCalculator,
     },
   },

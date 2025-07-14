@@ -317,6 +317,27 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
   const text = fieldText.toLowerCase()
   const id = qid.toLowerCase()
   
+  // CRITICAL FIX: Field-specific QID mapping for affinities and activities
+  // These are the exact JotForm field IDs that MUST be mapped correctly
+  
+  // Step 13 - Affinities (themes) - Field ID 19
+  if (qid === '19') {
+    console.log(`✅ AFFINITIES FIELD detected: QID=${qid}`)
+    return 'themes'
+  }
+  
+  // Step 14 - Indoor Activities - Field ID 20  
+  if (qid === '20') {
+    console.log(`✅ INDOOR ACTIVITIES FIELD detected: QID=${qid}`)
+    return 'activities'
+  }
+  
+  // Step 15 - Outdoor Activities - Field ID 41
+  if (qid === '41') {
+    console.log(`✅ OUTDOOR ACTIVITIES FIELD detected: QID=${qid}`)
+    return 'activities'
+  }
+  
   // PRIORITY 1: DIRECT SPANISH AMENITY DETECTION (Highest Priority)
   // These are the exact terms we see in JotForm that need to be categorized correctly
   

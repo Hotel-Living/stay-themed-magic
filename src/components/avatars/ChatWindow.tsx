@@ -448,20 +448,20 @@ INFORMAȚII CHEIE HOTEL-LIVING:
     if (activeAvatar === 'martin' && isHotelPage) {
       switch (cleanLanguage) {
         case 'en':
-          return `Unlike platforms like Booking.com or Expedia — which are simply commission-based agents — Hotel Living has created an entirely new system.
+          return `Unlike platforms like Booking.com or Expedia — which are simply commission-based agents — Hotel Living has introduced a completely new model.
 
-Traditional OTAs have added no true value: they merely charge commissions and have, in many cases, dismantled the global network of travel agencies.
+Traditional OTAs haven't added real value: they simply charge commissions and, in many cases, have dismantled the global travel agency network.
 
-We are different. Hotel Living does not compete with your direct bookings. We focus only on empty rooms, which are the biggest source of potential profit once your operational costs are covered.
+What Hotel Living is doing is different. It doesn't compete with your direct bookings — it focuses exclusively on empty rooms, which often represent the hotel's biggest source of untapped profit once operational costs are covered.
 
-Guests pay 15% upfront. From this:
-• 10% is Hotel Living's commission
-• 5% goes directly to the hotel — non-refundable
-• The remaining 85% is paid at check-in
+Guests pay 15% upfront. Of that:
+• 10% goes to the platform as commission
+• 5% goes directly to the hotel — and is non-refundable
+• The remaining 85% is paid upon check-in
 
-In total, you collect 90% of the full stay, while gaining access to a revolutionary model tailored to modern long-stay travelers.
+In total, the hotel receives 90% of the full stay value. And all of this is done through a revolutionary model designed for modern long-stay travelers and to maximize unused capacity.
 
-This is not just another OTA — it's a platform built for you, with services, ideas, and value that are truly new. It's a new era.`;
+Hotel Living isn't just another OTA — it's a new era for the hotel industry.`;
 
         case 'pt':
           return `Ao contrário de plataformas como Booking.com ou Expedia — que são simplesmente agentes baseados em comissão — o Hotel Living criou um sistema totalmente novo.
@@ -496,20 +496,20 @@ Oaspeții plătesc 15% în avans. Din aceștia:
 Aceasta nu este doar încă o OTA — este o platformă construită pentru tine, cu servicii, idei și valoare care sunt cu adevărat noi. Este o nouă eră.`;
 
         default:
-          return `A diferencia de plataformas como Booking.com o Expedia — que son simplemente agentes basados en comisiones — Hotel Living ha creado un sistema completamente nuevo.
+          return `A diferencia de plataformas como Booking.com o Expedia — que son simplemente agentes basados en comisiones — Hotel Living ha introducido un modelo completamente nuevo.
 
 Las OTAs tradicionales no han agregado valor real: simplemente cobran comisiones y, en muchos casos, han desmantelado la red global de agencias de viajes.
 
-Somos diferentes. Hotel Living no compite con tus reservas directas. Nos enfocamos solo en habitaciones vacías, que son la mayor fuente de ganancia potencial una vez que tus costos operacionales están cubiertos.
+Lo que Hotel Living está haciendo es diferente. No compite con tus reservas directas — se enfoca exclusivamente en habitaciones vacías, que a menudo representan la mayor fuente de ganancia no aprovechada del hotel una vez que los costos operacionales están cubiertos.
 
-Los huéspedes pagan 15% por adelantado. De esto:
-• 10% es comisión de Hotel Living
-• 5% va directamente al hotel — no reembolsable
+Los huéspedes pagan 15% por adelantado. De eso:
+• 10% va a la plataforma como comisión
+• 5% va directamente al hotel — y no es reembolsable
 • El 85% restante se paga al hacer check-in
 
-En total, recolectas 90% de la estancia completa, mientras obtienes acceso a un modelo revolucionario adaptado para viajeros modernos de estancias largas.
+En total, el hotel recibe 90% del valor de la estancia completa. Y todo esto se hace através de un modelo revolucionario diseñado para viajeros modernos de estancias largas y para maximizar la capacidad no utilizada.
 
-Esto no es solo otra OTA — es una plataforma construida para ti, con servicios, ideas y valor que son verdaderamente nuevos. Es una nueva era.`;
+Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera.`;
       }
     }
     return null;

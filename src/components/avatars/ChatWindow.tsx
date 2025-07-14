@@ -48,7 +48,26 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
 
   const [messages, setMessages] = useState([{ from: "avatar", text: getInitialMessage() }]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailCaptured, setEmailCaptured] = useState(false);
+  const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
   const [position, setPosition] = useState({ x: 200, y: 100 });
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+      }
+    };
+  }, [inactivityTimer]);
 
   // FORCE position reset on every open - override any drag positions
   useEffect(() => {
@@ -510,11 +529,79 @@ Esto no es solo otra OTA — es una plataforma construida para ti, con servicios
     }
   };
 
+  // Email transcript sending functionality
+  const sendTranscript = async () => {
+    if (!email || !emailCaptured || messages.length <= 1) return;
+
+    try {
+      const response = await fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/send-chat-transcript', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          messages,
+          avatarName: activeAvatar || 'Asistente',
+          language: cleanLanguage
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Chat transcript sent successfully');
+      }
+    } catch (error) {
+      console.error('Error sending chat transcript:', error);
+    }
+  };
+
+  // Reset inactivity timer
+  const resetInactivityTimer = () => {
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer);
+    }
+    
+    const timer = setTimeout(() => {
+      if (emailCaptured) {
+        sendTranscript();
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    setInactivityTimer(timer);
+  };
+
+  // Handle email submission
+  const handleEmailSubmit = () => {
+    if (email.includes('@')) {
+      setEmailCaptured(true);
+      resetInactivityTimer();
+    }
+  };
+
+  const handleClose = () => {
+    console.log("💬 Closing chat for avatar:", avatarId);
+    
+    // Send transcript if email was captured
+    if (emailCaptured) {
+      sendTranscript();
+    }
+    
+    // Clean up timer
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer);
+    }
+    
+    onClose();
+  };
+
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
+    
+    resetInactivityTimer();
     const userMessage = input;
     setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
     setInput("");
+    setIsLoading(true);
 
     // Check for commission-related questions first
     if (isCommissionQuestion(userMessage)) {
@@ -564,6 +651,8 @@ Esto no es solo otra OTA — es una plataforma construida para ti, con servicios
         }
       };
       setMessages((prev) => [...prev, { from: "avatar", text: getFallbackResponse() }]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -776,7 +865,7 @@ Esto no es solo otra OTA — es una plataforma construida para ti, con servicios
         onMouseDown={handleMouseDown}
       >
         <span className="text-white select-none capitalize">{activeAvatar}</span>
-        <button onClick={onClose} className="text-white hover:text-fuchsia-200 transition-colors">
+        <button onClick={handleClose} className="text-white hover:text-fuchsia-200 transition-colors">
           <X size={16} />
         </button>
       </div>
@@ -796,8 +885,41 @@ Esto no es solo otra OTA — es una plataforma construida para ti, con servicios
             </span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       
+      {/* Email capture section */}
+      {!emailCaptured && (
+        <div className="px-3 py-2 border-t border-fuchsia-200 bg-fuchsia-50">
+          <div className="flex items-center gap-2">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleEmailSubmit()}
+              className="flex-1 px-2 py-1 text-xs outline-none border border-fuchsia-200 rounded"
+              placeholder={cleanLanguage === 'en' ? "your.email@example.com" : 
+                          cleanLanguage === 'pt' ? "seu.email@exemplo.com" :
+                          cleanLanguage === 'ro' ? "email.tau@exemplu.com" :
+                          "tu.email@ejemplo.com"}
+            />
+            <button 
+              onClick={handleEmailSubmit}
+              disabled={!email.includes('@')}
+              className="px-2 py-1 text-xs text-fuchsia-600 hover:bg-fuchsia-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              ✓
+            </button>
+          </div>
+          <p className="text-xs text-fuchsia-600 mt-1">
+            {cleanLanguage === 'en' ? "Enter your email and we'll send you a copy of this conversation." :
+             cleanLanguage === 'pt' ? "Insira seu email e enviaremos uma cópia desta conversa." :
+             cleanLanguage === 'ro' ? "Introdu email-ul și îți vom trimite o copie a acestei conversații." :
+             "Introduce tu email y te enviaremos una copia de esta conversación."}
+          </p>
+        </div>
+      )}
+
       {/* Input area */}
       <div className="flex border-t border-fuchsia-300 bg-white">
         <input

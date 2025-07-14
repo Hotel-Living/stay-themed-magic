@@ -304,9 +304,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'es', // Spanish as primary fallback
     debug: true,
-    lng: 'en', // Force English as default
     interpolation: {
       escapeValue: false,
     },

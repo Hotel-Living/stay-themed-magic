@@ -58,5 +58,8 @@
     "noReviewsMessage": "Las reseñas de los huéspedes aparecerán aquí",
     "recentBookings": "Reservas recientes",
     "noBookings": "Aún no hay reservas",
-    "noBookingsMessage": "Las reservas de tu propiedad aparecerán aquí"
+    "noBookingsMessage": "Las reservas de tu propiedad aparecerán aquí",
+    "referrals": {
+      "submitReferral": "Enviar Referencia"
+    }
 }

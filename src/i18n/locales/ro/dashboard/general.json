@@ -59,5 +59,8 @@
     "noReviewsMessage": "Recenziile de la oaspeți vor apărea aici",
     "recentBookings": "Rezervări recente",
     "noBookings": "Încă nu există rezervări",
-    "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici"
+    "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici",
+    "referrals": {
+      "submitReferral": "Trimite Recomandare"
+    }
 }

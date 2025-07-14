@@ -174,7 +174,7 @@ const resources = {
     hotels: enHotels,
     ambassador: enAmbassador,
     press: enPress,
-    advertising: enAdvertising.advertising,
+    advertising: enAdvertising,
     dashboard: {
       ...enDashboard.dashboard,
       general: enDashboardGeneral,
@@ -232,7 +232,7 @@ const resources = {
     privacy: esPrivacy,
     ambassador: esAmbassador,
     press: esPress,
-    advertising: esAdvertising.advertising,
+    advertising: esAdvertising,
     dashboard: {
       ...esDashboard.dashboard,
       general: esDashboardGeneral,
@@ -265,7 +265,7 @@ const resources = {
     hotels: ptHotels,
     ambassador: ptAmbassador,
     press: ptPress,
-    advertising: ptAdvertising.advertising,
+    advertising: ptAdvertising,
     dashboard: {
       ...ptDashboard.dashboard,
       general: ptDashboardGeneral,
@@ -298,7 +298,7 @@ const resources = {
     hotels: roHotels,
     ambassador: roAmbassador,
     press: roPress,
-    advertising: roAdvertising.advertising,
+    advertising: roAdvertising,
     dashboard: {
       ...roDashboard.dashboard,
       general: roDashboardGeneral,

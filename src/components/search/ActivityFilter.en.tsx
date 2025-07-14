@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { FilterItem } from "./FilterItem";
-import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
+import { useActivitiesDataWithLanguage } from "@/hooks/useActivitiesDataWithLanguage";
 import { Search } from "lucide-react";
 
 interface ActivityFilterENProps {
@@ -14,6 +14,7 @@ export function ActivityFilterEN({
   onChange 
 }: ActivityFilterENProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: activityOptions = [], isLoading } = useActivitiesDataWithLanguage();
 
   const handleContainerClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -29,6 +30,16 @@ export function ActivityFilterEN({
   const handleSearchClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  // Filter activities based on search query
+  const filteredActivities = (activityOptions || []).filter(activity =>
+    activity.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleActivityToggle = (activityName: string) => {
+    const isCurrentlySelected = activeActivities.includes(activityName);
+    onChange(activityName, !isCurrentlySelected);
   };
 
   return (
@@ -52,13 +63,24 @@ export function ActivityFilterEN({
           </div>
         </div>
         
-        <HierarchicalActivitySelector
-          selectedActivities={activeActivities}
-          onActivitySelect={onChange}
-          allowMultiple={true}
-          className="space-y-1"
-          searchQuery={searchQuery}
-        />
+        {/* Activities List */}
+        <div className="p-2 space-y-1">
+          {isLoading ? (
+            <div className="text-fuchsia-300 text-sm p-2">Loading activities...</div>
+          ) : (
+            filteredActivities.map((activity) => (
+              <label key={activity.id} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+                <input
+                  type="checkbox"
+                  checked={activeActivities.includes(activity.name)}
+                  onChange={() => handleActivityToggle(activity.name)}
+                  className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
+                />
+                <span className="text-sm text-white">{activity.name}</span>
+              </label>
+            ))
+          )}
+        </div>
       </div>
     </FilterItem>
   );

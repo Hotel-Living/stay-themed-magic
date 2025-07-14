@@ -1,20 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useTranslation } from "@/hooks/useTranslation";
+import { useTranslation } from "./useTranslation";
 
-interface ActivityOption {
+interface AffinityOption {
   id: string;
   name: string;
   category?: string;
 }
 
-export function useActivitiesDataWithLanguage() {
+export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
   const { language, t } = useTranslation();
   
   return useQuery({
-    queryKey: ['activities-with-language', language],
-    queryFn: async (): Promise<ActivityOption[]> => {
-      console.log(`🎯 Fetching activities for language: ${language}`);
+    queryKey: ['affinities-with-language', language],
+    queryFn: async (): Promise<AffinityOption[]> => {
+      console.log(`🎯 Fetching affinities for language: ${language}`);
       
       try {
         // Always use the filters table as the single source of truth
@@ -22,7 +22,7 @@ export function useActivitiesDataWithLanguage() {
         const { data, error } = await supabase
           .from('filters')
           .select('id, value, category')
-          .eq('category', 'activities')
+          .eq('category', 'affinities')
           .eq('is_active', true)
           .order('value');
 
@@ -31,7 +31,7 @@ export function useActivitiesDataWithLanguage() {
           throw error;
         }
 
-        console.log(`🎯 Filters data:`, data);
+        console.log(`🎯 Affinities data:`, data);
         
         // Transform data with translations
         return data?.map(item => {
@@ -40,8 +40,8 @@ export function useActivitiesDataWithLanguage() {
           // Apply translations for non-Spanish languages
           if (language !== 'es') {
             try {
-              // Try to get translation from activities.json
-              translatedName = t(`activities.${item.value}`, { ns: 'activities' }) || item.value;
+              // Try to get translation from affinities.json
+              translatedName = t(`affinities.${item.value}`, { ns: 'affinities' }) || item.value;
             } catch (err) {
               console.warn(`🎯 Translation not found for: ${item.value}`);
               translatedName = item.value; // Fallback to original
@@ -55,7 +55,7 @@ export function useActivitiesDataWithLanguage() {
           };
         }) || [];
       } catch (error) {
-        console.error('🎯 Error in useActivitiesDataWithLanguage:', error);
+        console.error('🎯 Error in useAffinitiesDataWithLanguage:', error);
         throw error;
       }
     },

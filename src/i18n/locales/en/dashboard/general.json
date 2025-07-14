@@ -60,8 +60,8 @@
   "noBookings": "No bookings yet",
   "noBookingsMessage": "Bookings for your property will appear here",
   "referrals": {
-    "title": "Hotel Referrals",
-    "description": "Refer hotels to our platform and earn rewards",
+    "title": "🏨 Recommend a Hotel and Earn Rewards",
+    "description": "Anyone, regardless of their occupation, can earn rewards simply by referring hotels to our platform.\n\nThe process is simple: if you know a hotel that could benefit from being part of Hotel Living, just complete the form below, indicating the country, city and hotel name.\n\nIf that hotel joins our system within one month of your recommendation date, you will receive a reward of 4% of the gross total of all bookings they receive during the following 18 months, and an additional reward of 2% during the subsequent year.\n\nThese rewards are granted directly by Hotel Living. It is important to note that they do not affect the recommended hotel at all, nor does the hotel become aware of them, since they do not alter their conditions or generate any additional cost.",
     "hotelSubmission": "Hotel Submission",
     "country": "Country",
     "city": "City", 

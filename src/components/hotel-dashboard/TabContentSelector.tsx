@@ -18,16 +18,17 @@ import { HotelReferralsContent } from "@/components/dashboard/HotelReferralsCont
 
 interface TabContentSelectorProps {
   activeTab: string;
+  setActiveTab?: (tab: string) => void;
 }
 
-export default function TabContentSelector({ activeTab }: TabContentSelectorProps) {
+export default function TabContentSelector({ activeTab, setActiveTab }: TabContentSelectorProps) {
   switch (activeTab) {
     case "welcome-overview":
       return <WelcomeOverviewContent />;
     case "rates-calculator":
       return <RatesCalculatorContent />;
     case "dashboard":
-      return <DashboardContent />;
+      return <DashboardContent setActiveTab={setActiveTab} />;
     case "properties":
       return <PropertiesContent />;
     case "bookings":
@@ -53,6 +54,6 @@ export default function TabContentSelector({ activeTab }: TabContentSelectorProp
     case "add-property-2":
       return <AddProperty2Content />;
     default:
-      return <DashboardContent />;
+      return <DashboardContent setActiveTab={setActiveTab} />;
   }
 }

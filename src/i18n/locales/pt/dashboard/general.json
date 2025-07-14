@@ -60,9 +60,9 @@
     "recentBookings": "Reservas recentes",
     "noBookings": "Ainda não há reservas",
     "noBookingsMessage": "As reservas para sua propriedade aparecerão aqui",
-    "referrals": {
-      "title": "Indicações de Hotéis",
-      "description": "Indique hotéis para nossa plataforma e ganhe recompensas",
+  "referrals": {
+    "title": "🏨 Recomende um Hotel e Ganhe Recompensas",
+    "description": "Qualquer pessoa, independentemente de sua ocupação, pode ganhar recompensas simplesmente indicando hotéis para nossa plataforma.\n\nO funcionamento é simples: se você conhece um hotel que possa se beneficiar de fazer parte do Hotel Living, basta preencher o formulário abaixo, indicando o país, cidade e nome do hotel.\n\nSe esse hotel se juntar ao nosso sistema dentro de um mês a partir da data de sua recomendação, você receberá uma recompensa de 4% do total bruto de todas as reservas que eles receberem durante os próximos 18 meses, e uma recompensa adicional de 2% durante o ano seguinte.\n\nEssas recompensas são concedidas diretamente pelo Hotel Living. É importante destacar que elas não afetam em nada o hotel recomendado, nem este toma conhecimento delas, pois não alteram suas condições nem geram nenhum custo adicional.",
       "hotelSubmission": "Envio de Hotel",
       "country": "País",
       "city": "Cidade",

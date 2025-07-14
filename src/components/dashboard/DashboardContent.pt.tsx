@@ -1,14 +1,16 @@
 
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import StatCard from './StatCard';
 import ActionCard from './ActionCard';
 import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 import { Button } from '@/components/ui/button';
 
-export const DashboardContentPT = () => {
-  const navigate = useNavigate();
+interface DashboardContentPTProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export const DashboardContentPT = ({ setActiveTab }: DashboardContentPTProps = {}) => {
   const {
     notifications,
     newNotificationsCount,
@@ -45,24 +47,22 @@ export const DashboardContentPT = () => {
     title: 'Adicionar Propriedade',
     description: 'Liste uma nova propriedade em nossa plataforma',
     icon: <Building className="w-5 h-5" />,
-    onClick: () => navigate('/add-property')
+    onClick: () => setActiveTab?.('properties')
   }, {
     title: 'Ver Reservas',
     description: 'Gerencie suas reservas atuais',
     icon: <Calendar className="w-5 h-5" />,
-    onClick: () => navigate('/bookings')
+    onClick: () => setActiveTab?.('bookings')
   }, {
     title: 'Ver Análises',
     description: 'Acompanhe suas métricas de desempenho',
     icon: <BarChart2 className="w-5 h-5" />,
-    onClick: () => navigate('/analytics')
+    onClick: () => setActiveTab?.('analytics')
   }, {
     title: 'Gerenciar Avaliações',
     description: 'Responda ao feedback dos hóspedes',
     icon: <MessageSquare className="w-5 h-5" />,
-    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
-      bubbles: true
-    }))
+    onClick: () => setActiveTab?.('reviews')
   }];
   
   return <div className="space-y-8">

@@ -106,7 +106,7 @@ export default function HotelDashboardEN() {
         tabs={tabs}
         setActiveTab={setActiveTab}
       >
-        <TabContentSelector activeTab={activeTab} />
+        <TabContentSelector activeTab={activeTab} setActiveTab={setActiveTab} />
       </DashboardLayout>
       <Footer />
       

@@ -78,12 +78,12 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
 
       <div className="grid gap-6">
         {hotels.map((hotel) => (
-          <Card key={hotel.id} className="border-purple-200">
+          <Card key={hotel.id} className="border-purple-500/20 bg-[#380048]">
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle className="text-lg">{hotel.name}</CardTitle>
-                  <p className="text-sm text-gray-600">{hotel.city}, {hotel.country}</p>
+                  <CardTitle className="text-lg text-white">{hotel.name}</CardTitle>
+                  <p className="text-sm text-white/80">{hotel.city}, {hotel.country}</p>
                   <p className="text-sm font-medium mt-1">
                     Status: <span className={`px-2 py-1 rounded text-xs ${
                       hotel.status === 'approved' ? 'bg-green-100 text-green-800' :
@@ -130,10 +130,10 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
                   />
                 )}
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                  <p className="text-sm text-white/80 line-clamp-2">
                     {hotel.description || 'No description available'}
                   </p>
-                  <p className="text-sm font-medium mt-1">
+                  <p className="text-sm font-medium mt-1 text-white">
                     €{hotel.price_per_month}/month
                   </p>
                 </div>

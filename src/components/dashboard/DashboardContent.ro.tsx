@@ -1,14 +1,16 @@
 
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import StatCard from './StatCard';
 import ActionCard from './ActionCard';
 import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 import { Button } from '@/components/ui/button';
 
-export const DashboardContentRO = () => {
-  const navigate = useNavigate();
+interface DashboardContentROProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export const DashboardContentRO = ({ setActiveTab }: DashboardContentROProps = {}) => {
   const {
     notifications,
     newNotificationsCount,
@@ -45,24 +47,22 @@ export const DashboardContentRO = () => {
     title: 'Adaugă Proprietate',
     description: 'Listează o nouă proprietate pe platforma noastră',
     icon: <Building className="w-5 h-5" />,
-    onClick: () => navigate('/add-property')
+    onClick: () => setActiveTab?.('properties')
   }, {
     title: 'Vezi Rezervări',
     description: 'Gestionează rezervările tale actuale',
     icon: <Calendar className="w-5 h-5" />,
-    onClick: () => navigate('/bookings')
+    onClick: () => setActiveTab?.('bookings')
   }, {
     title: 'Vezi Analize',
     description: 'Urmărește-ți metricile de performanță',
     icon: <BarChart2 className="w-5 h-5" />,
-    onClick: () => navigate('/analytics')
+    onClick: () => setActiveTab?.('analytics')
   }, {
     title: 'Gestionează Recenzii',
     description: 'Răspunde la feedback-ul oaspeților',
     icon: <MessageSquare className="w-5 h-5" />,
-    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
-      bubbles: true
-    }))
+    onClick: () => setActiveTab?.('reviews')
   }];
   
   return <div className="space-y-8">

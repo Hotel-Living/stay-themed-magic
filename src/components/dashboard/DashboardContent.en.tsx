@@ -1,14 +1,16 @@
 
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import StatCard from './StatCard';
 import ActionCard from './ActionCard';
 import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 import { Button } from '@/components/ui/button';
 
-export const DashboardContentEN = () => {
-  const navigate = useNavigate();
+interface DashboardContentENProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export const DashboardContentEN = ({ setActiveTab }: DashboardContentENProps = {}) => {
   const {
     notifications,
     newNotificationsCount,
@@ -45,24 +47,22 @@ export const DashboardContentEN = () => {
     title: 'Add Property',
     description: 'List a new property on our platform',
     icon: <Building className="w-5 h-5" />,
-    onClick: () => navigate('/add-property')
+    onClick: () => setActiveTab?.('properties')
   }, {
     title: 'View Bookings',
     description: 'Manage your current reservations',
     icon: <Calendar className="w-5 h-5" />,
-    onClick: () => navigate('/bookings')
+    onClick: () => setActiveTab?.('bookings')
   }, {
     title: 'View Analytics',
     description: 'Track your performance metrics',
     icon: <BarChart2 className="w-5 h-5" />,
-    onClick: () => navigate('/analytics')
+    onClick: () => setActiveTab?.('analytics')
   }, {
     title: 'Manage Reviews',
     description: 'Respond to guest feedback',
     icon: <MessageSquare className="w-5 h-5" />,
-    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
-      bubbles: true
-    }))
+    onClick: () => setActiveTab?.('reviews')
   }];
   
   return <div className="space-y-8">

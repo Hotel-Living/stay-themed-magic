@@ -60,9 +60,9 @@
     "recentBookings": "Rezervări recente",
     "noBookings": "Încă nu există rezervări",
     "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici",
-    "referrals": {
-      "title": "Recomandări de Hoteluri",
-      "description": "Recomandă hoteluri pe platforma noastră și câștigă recompense",
+  "referrals": {
+    "title": "🏨 Recomandă un Hotel și Câștigă Recompense",
+    "description": "Oricine, indiferent de ocupația sa, poate câștiga recompense prin simpla recomandare de hoteluri pe platforma noastră.\n\nFuncționarea este simplă: dacă cunoști un hotel care ar putea beneficia de pe urma participării la Hotel Living, doar completează formularul de mai jos, indicând țara, orașul și numele hotelului.\n\nDacă acel hotel se alătură sistemului nostru în termen de o lună de la data recomandării tale, vei primi o recompensă de 4% din totalul brut al tuturor rezervărilor pe care le va primi în următoarele 18 luni, și o recompensă suplimentară de 2% în anul următor.\n\nAceste recompense sunt acordate direct de Hotel Living. Este important să subliniem că nu afectează deloc hotelul recomandat, iar acesta nu ia cunoștință de ele, deoarece nu le modifică condițiile și nu generează niciun cost suplimentar.",
       "hotelSubmission": "Înregistrare Hotel",
       "country": "Țară",
       "city": "Oraș",

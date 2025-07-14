@@ -40,8 +40,12 @@ export function useActivitiesDataWithLanguage() {
           // Apply translations for non-Spanish languages
           if (language !== 'es') {
             try {
-              // Try to get translation from activities.json
-              translatedName = t(`activities.${item.value}`, { ns: 'activities' }) || item.value;
+              // Try to get translation from activities.json using the Spanish value as key
+              translatedName = t(item.value, { ns: 'activities' }) || item.value;
+              // If translation returns the same key, use the original value
+              if (translatedName === item.value || translatedName.startsWith('activities.')) {
+                translatedName = item.value;
+              }
             } catch (err) {
               console.warn(`🎯 Translation not found for: ${item.value}`);
               translatedName = item.value; // Fallback to original

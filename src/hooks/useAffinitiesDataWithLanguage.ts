@@ -40,8 +40,12 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
           // Apply translations for non-Spanish languages
           if (language !== 'es') {
             try {
-              // Try to get translation from affinities.json
-              translatedName = t(`affinities.${item.value}`, { ns: 'affinities' }) || item.value;
+              // Try to get translation from affinities.json using the Spanish value as key
+              translatedName = t(item.value, { ns: 'affinities' }) || item.value;
+              // If translation returns the same key, use the original value
+              if (translatedName === item.value || translatedName.startsWith('affinities.')) {
+                translatedName = item.value;
+              }
             } catch (err) {
               console.warn(`🎯 Translation not found for: ${item.value}`);
               translatedName = item.value; // Fallback to original

@@ -1,27 +1,36 @@
 
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const RecommendationProgramInfo = () => {
+  const { t } = useTranslation('dashboard/general');
+  
   return (
     <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-      <h3 className="text-xl font-semibold mb-4">Recommend a Hotel</h3>
+      <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+        <span>{t('referrals.icon')}</span>
+        <span>{t('referrals.title')}</span>
+      </h3>
       
-      <div className="space-y-4">
-        <p>
-          Help us discover exceptional hotels for the Hotel Living community. If you know of a hotel that would be a perfect fit for our platform, share it with us below.
+      <div className="space-y-4 leading-relaxed">
+        <p className="flex items-start gap-3">
+          <span className="text-lg mt-0.5">{t('referrals.eligibilityIcon')}</span>
+          <span>{t('referrals.eligibilityText')}</span>
         </p>
         
-        <div className="bg-[#8a1a96]/30 p-4 rounded-lg">
-          <h4 className="font-medium mb-2">How it works:</h4>
-          <ol className="list-decimal list-inside space-y-2">
-            <li>Fill out the form below with information about the hotel you'd like to recommend</li>
-            <li>We'll reach out to the hotel with your personalized recommendation</li>
-            <li>The hotel will receive an invitation to join our platform</li>
-          </ol>
-        </div>
+        <p className="flex items-start gap-3">
+          <span className="text-lg mt-0.5">{t('referrals.processIcon')}</span>
+          <span>{t('referrals.processText')}</span>
+        </p>
         
-        <p className="text-sm">
-          We appreciate your recommendations! There's no limit to how many hotels you can suggest.
+        <p className="flex items-start gap-3">
+          <span className="text-lg mt-0.5">{t('referrals.rewardsIcon')}</span>
+          <span>{t('referrals.rewardsText')}</span>
+        </p>
+        
+        <p className="flex items-start gap-3">
+          <span className="text-lg mt-0.5">{t('referrals.confidentialityIcon')}</span>
+          <span>{t('referrals.confidentialityText')}</span>
         </p>
       </div>
     </div>

@@ -53,7 +53,12 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
   const [position, setPosition] = useState({ x: 200, y: 100 });
+  const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
+  const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -69,17 +74,27 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [inactivityTimer]);
 
-  // FORCE position reset on every open - override any drag positions
+  // Position reset on every open - with special logic for Ion
   useEffect(() => {
     const forceResetPosition = () => {
-      // GUARANTEED center positioning - ignore any previous drag state
-      const centeredX = (window.innerWidth - 280) / 2;
-      const topY = 20;
+      let targetX, targetY;
       
-      console.log(`🎯 FORCING chat window to center: x=${centeredX}, y=${topY}, avatarId=${avatarId}`);
+      if (avatarId === 'ion') {
+        // Ion-specific positioning: Start on the left side with space from edge
+        targetX = 20; // 20px from left edge
+        targetY = 100; // Good vertical position
+        
+        console.log(`🎯 POSITIONING Ion chat on left: x=${targetX}, y=${targetY}`);
+      } else {
+        // All other avatars: Center positioning
+        targetX = (window.innerWidth - 280) / 2;
+        targetY = 20;
+        
+        console.log(`🎯 CENTERING chat window for ${avatarId}: x=${targetX}, y=${targetY}`);
+      }
       
       // Force immediate position reset
-      setPosition({ x: centeredX, y: topY });
+      setPosition({ x: targetX, y: targetY });
     };
 
     // Force reset immediately on mount/avatar change
@@ -97,22 +112,24 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [avatarId]); // Reset every time avatar changes
 
-  // Additional reset when window resizes to maintain center
+  // Window resize handling with avatar-specific logic
   useEffect(() => {
     const handleResize = () => {
-      const centeredX = (window.innerWidth - 280) / 2;
-      const topY = 20;
-      setPosition({ x: centeredX, y: topY });
+      if (avatarId === 'ion') {
+        // Ion: Keep on left but ensure it doesn't exceed viewport
+        const maxX = window.innerWidth - size.width - 20;
+        const safeX = Math.min(20, maxX);
+        setPosition(prev => ({ x: safeX, y: prev.y }));
+      } else {
+        // Others: Re-center
+        const centeredX = (window.innerWidth - 280) / 2;
+        setPosition(prev => ({ x: centeredX, y: 20 }));
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const chatRef = useRef<HTMLDivElement>(null);
+  }, [avatarId, size.width]);
   
   // The edge function has multilingual personas, so we don't need the hardcoded Spanish ones
   // Complete personas for all 8 avatars with detailed backgrounds
@@ -702,9 +719,17 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      // Allow free movement across the entire screen without restrictions
-      const newX = e.clientX - dragStart.x;
-      const newY = e.clientY - dragStart.y;
+      // Calculate new position
+      let newX = e.clientX - dragStart.x;
+      let newY = e.clientY - dragStart.y;
+      
+      // Boundary checks to keep chat within viewport
+      const maxX = window.innerWidth - size.width;
+      const maxY = window.innerHeight - size.height;
+      
+      newX = Math.max(0, Math.min(newX, maxX));
+      newY = Math.max(0, Math.min(newY, maxY));
+      
       setPosition({ x: newX, y: newY });
     }
   };
@@ -847,14 +872,16 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
   }, [isDragging, dragStart]);
 
   return (
-   <div 
+    <div 
   ref={chatRef}
   data-chat-instance={instanceId.current}
-  className="fixed top-5 left-1/2 transform -translate-x-1/2 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
+  className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
   style={{ 
     backgroundColor: '#561C7B',
     width: size.width, 
     height: size.height,
+    left: position.x,
+    top: position.y,
     cursor: isDragging ? 'grabbing' : 'default'
   }}
 >

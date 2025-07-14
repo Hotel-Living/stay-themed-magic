@@ -175,6 +175,29 @@ const resources = {
     ambassador: enAmbassador,
     press: enPress,
     advertising: enAdvertising,
+    // Dashboard namespaces as separate resources
+    'dashboard/general': enDashboardGeneral,
+    'dashboard/welcome': enDashboardWelcome,
+    'dashboard/stats': enDashboardStats,
+    'dashboard/accommodation': enDashboardAccommodation,
+    'dashboard/location': enDashboardLocation,
+    'dashboard/pricing': enDashboardPricing,
+    'dashboard/images': enDashboardImages,
+    'dashboard/features': enDashboardFeatures,
+    'dashboard/contact': enDashboardContact,
+    'dashboard/terms': enDashboardTerms,
+    'dashboard/content': enDashboardContent,
+    'dashboard/settings': enDashboardSettings,
+    'dashboard/property': enDashboardProperty,
+    'dashboard/affinities': enDashboardAffinities,
+    'dashboard/property-steps': enDashboardPropertySteps,
+    'dashboard/property-form': enDashboardPropertyForm,
+    'dashboard/common': enDashboardCommon,
+    'dashboard/faq-terms': enDashboardFaqTerms,
+    'dashboard/rates-calculator': enRatesCalculator,
+    'dashboard/welcome-content': enWelcomeContent,
+    'dashboard/advertising': enAdvertising,
+    // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...enDashboard.dashboard,
       general: enDashboardGeneral,
@@ -233,6 +256,15 @@ const resources = {
     ambassador: esAmbassador,
     press: esPress,
     advertising: esAdvertising,
+    // Dashboard namespaces as separate resources
+    'dashboard/general': esDashboardGeneral,
+    'dashboard/hotel': esDashboardHotel,
+    'dashboard/profile': esDashboardProfile,
+    'dashboard/rates-calculator': esDashboardRatesCalculator,
+    'dashboard/rates': esDashboardRates,
+    'dashboard/settings': esDashboardSettings,
+    'dashboard/advertising': esAdvertising,
+    // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...esDashboard.dashboard,
       general: esDashboardGeneral,
@@ -266,6 +298,15 @@ const resources = {
     ambassador: ptAmbassador,
     press: ptPress,
     advertising: ptAdvertising,
+    // Dashboard namespaces as separate resources
+    'dashboard/general': ptDashboardGeneral,
+    'dashboard/common': ptDashboardCommon,
+    'dashboard/accommodation': ptDashboardAccommodation,
+    'dashboard/content': ptDashboardContent,
+    'dashboard/settings': ptDashboardSettings,
+    'dashboard/rates-calculator': ptRatesCalculator,
+    'dashboard/advertising': ptAdvertising,
+    // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...ptDashboard.dashboard,
       general: ptDashboardGeneral,
@@ -299,6 +340,15 @@ const resources = {
     ambassador: roAmbassador,
     press: roPress,
     advertising: roAdvertising,
+    // Dashboard namespaces as separate resources
+    'dashboard/general': roDashboardGeneral,
+    'dashboard/common': roDashboardCommon,
+    'dashboard/accommodation': roDashboardAccommodation,
+    'dashboard/content': roDashboardContent,
+    'dashboard/settings': roDashboardSettings,
+    'dashboard/rates-calculator': roRatesCalculator,
+    'dashboard/advertising': roAdvertising,
+    // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...roDashboard.dashboard,
       general: roDashboardGeneral,

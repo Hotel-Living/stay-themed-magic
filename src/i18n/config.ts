@@ -87,6 +87,7 @@ import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esDashboard from './locales/es/dashboard.json';
 import esAmbassador from './locales/es/ambassador.json';
 import esPress from './locales/es/press.json';
+import esAdvertising from './locales/es/dashboard/advertising.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -148,6 +149,7 @@ import roDashboard from './locales/ro/dashboard.json';
 import roTerms from './locales/ro/terms.json';
 import roAmbassador from './locales/ro/ambassador.json';
 import roPress from './locales/ro/press.json';
+import roAdvertising from './locales/ro/dashboard/advertising.json';
 
 const resources = {
   en: {
@@ -172,6 +174,7 @@ const resources = {
     hotels: enHotels,
     ambassador: enAmbassador,
     press: enPress,
+    advertising: enAdvertising.advertising,
     dashboard: {
       ...enDashboard.dashboard,
       general: enDashboardGeneral,
@@ -192,7 +195,6 @@ const resources = {
       propertyForm: enDashboardPropertyForm,
       common: enDashboardCommon,
       faqTerms: enDashboardFaqTerms,
-      advertising: enAdvertising,
       ratesCalculator: enRatesCalculator,
       welcomeContent: enWelcomeContent,
     },
@@ -230,6 +232,7 @@ const resources = {
     privacy: esPrivacy,
     ambassador: esAmbassador,
     press: esPress,
+    advertising: esAdvertising.advertising,
     dashboard: {
       ...esDashboard.dashboard,
       general: esDashboardGeneral,
@@ -262,6 +265,7 @@ const resources = {
     hotels: ptHotels,
     ambassador: ptAmbassador,
     press: ptPress,
+    advertising: ptAdvertising.advertising,
     dashboard: {
       ...ptDashboard.dashboard,
       general: ptDashboardGeneral,
@@ -269,7 +273,6 @@ const resources = {
       accommodation: ptDashboardAccommodation,
       content: ptDashboardContent,
       settings: ptDashboardSettings,
-      advertising: ptAdvertising,
       ratesCalculator: ptRatesCalculator,
     },
   },
@@ -295,6 +298,7 @@ const resources = {
     hotels: roHotels,
     ambassador: roAmbassador,
     press: roPress,
+    advertising: roAdvertising.advertising,
     dashboard: {
       ...roDashboard.dashboard,
       general: roDashboardGeneral,
@@ -363,6 +367,26 @@ i18n
     console.log('🌐 Current language:', i18n.language);
     console.log('📚 Auth keys sample:', Object.keys(resources.en.auth || {}).slice(0, 5));
     console.log('❓ FAQ keys sample:', Object.keys(resources.en.faq || {}).slice(0, 5));
+    
+    // ADVERTISING DEBUG LOGGING
+    console.log('🎯 ADVERTISING TRANSLATIONS DEBUG:');
+    console.log('EN advertising namespace loaded:', !!resources.en.advertising);
+    console.log('ES advertising namespace loaded:', !!resources.es.advertising);
+    console.log('PT advertising namespace loaded:', !!resources.pt.advertising);
+    console.log('RO advertising namespace loaded:', !!resources.ro.advertising);
+    
+    if (resources.en.advertising) {
+      console.log('EN advertising keys:', Object.keys(resources.en.advertising).slice(0, 10));
+    }
+    if (resources.es.advertising) {
+      console.log('ES advertising keys:', Object.keys(resources.es.advertising).slice(0, 10));
+    }
+    if (resources.pt.advertising) {
+      console.log('PT advertising keys:', Object.keys(resources.pt.advertising).slice(0, 10));
+    }
+    if (resources.ro.advertising) {
+      console.log('RO advertising keys:', Object.keys(resources.ro.advertising).slice(0, 10));
+    }
   })
   .catch((error) => {
     console.error('❌ i18n initialization failed:', error);

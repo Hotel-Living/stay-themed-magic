@@ -61,6 +61,33 @@
     "noBookings": "Ainda não há reservas",
     "noBookingsMessage": "As reservas para sua propriedade aparecerão aqui",
     "referrals": {
-      "submitReferral": "Enviar Indicação"
+      "title": "Indicações de Hotéis",
+      "description": "Indique hotéis para nossa plataforma e ganhe recompensas",
+      "hotelSubmission": "Envio de Hotel",
+      "country": "País",
+      "city": "Cidade",
+      "hotelName": "Nome do Hotel",
+      "addAnother": "Adicionar Outro Hotel",
+      "submittedHotels": "Hotéis Enviados",
+      "paymentInfo": "Informações de Pagamento",
+      "paymentInfoDescription": "Digite seus dados de pagamento para processamento de recompensas",
+      "fullName": "Nome Completo",
+      "bankName": "Nome do Banco",
+      "bankCountry": "País do Banco",
+      "ibanAccount": "IBAN/Número da Conta",
+      "swiftBic": "Código SWIFT/BIC (Opcional)",
+      "submitReferral": "Enviar Indicação",
+      "confirmationTitle": "Indicação Enviada",
+      "confirmationMessage": "Obrigado pela sua indicação! Vamos analisá-la e entrar em contato.",
+      "validation": {
+        "hotelsRequired": "Por favor adicione pelo menos um hotel",
+        "countryRequired": "País é obrigatório",
+        "cityRequired": "Cidade é obrigatória",
+        "hotelNameRequired": "Nome do hotel é obrigatório",
+        "fullNameRequired": "Nome completo é obrigatório",
+        "bankNameRequired": "Nome do banco é obrigatório",
+        "bankCountryRequired": "País do banco é obrigatório",
+        "ibanRequired": "IBAN/Número da conta é obrigatório"
+      }
     }
 }

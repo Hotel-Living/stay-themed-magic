@@ -60,6 +60,33 @@
   "noBookings": "No bookings yet",
   "noBookingsMessage": "Bookings for your property will appear here",
   "referrals": {
-    "submitReferral": "Submit Referral"
+    "title": "Hotel Referrals",
+    "description": "Refer hotels to our platform and earn rewards",
+    "hotelSubmission": "Hotel Submission",
+    "country": "Country",
+    "city": "City", 
+    "hotelName": "Hotel Name",
+    "addAnother": "Add Another Hotel",
+    "submittedHotels": "Submitted Hotels",
+    "paymentInfo": "Payment Information",
+    "paymentInfoDescription": "Enter your payment details for reward processing",
+    "fullName": "Full Name",
+    "bankName": "Bank Name", 
+    "bankCountry": "Bank Country",
+    "ibanAccount": "IBAN/Account Number",
+    "swiftBic": "SWIFT/BIC Code (Optional)",
+    "submitReferral": "Submit Referral",
+    "confirmationTitle": "Referral Submitted",
+    "confirmationMessage": "Thank you for your referral! We'll review it and get back to you.",
+    "validation": {
+      "hotelsRequired": "Please add at least one hotel",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required", 
+      "hotelNameRequired": "Hotel name is required",
+      "fullNameRequired": "Full name is required",
+      "bankNameRequired": "Bank name is required",
+      "bankCountryRequired": "Bank country is required",
+      "ibanRequired": "IBAN/Account number is required"
+    }
   }
 }

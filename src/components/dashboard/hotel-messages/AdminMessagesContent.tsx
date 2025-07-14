@@ -18,7 +18,7 @@ export const AdminMessagesContent = () => {
   const [messages, setMessages] = useState<AdminMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/content');
 
   useEffect(() => {
     if (!user) return;
@@ -64,7 +64,7 @@ export const AdminMessagesContent = () => {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold mb-6">{t('dashboard.messagesFromAdmin')}</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('messagesFromAdmin')}</h2>
         <div className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
           <span className="ml-3">Loading messages...</span>
@@ -77,15 +77,15 @@ export const AdminMessagesContent = () => {
     <div className="space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <MessageCircle className="w-6 h-6 text-fuchsia-400" />
-        <h2 className="text-2xl font-bold">{t('dashboard.messagesFromAdmin')}</h2>
+        <h2 className="text-2xl font-bold">{t('messagesFromAdmin')}</h2>
       </div>
 
       {messages.length === 0 ? (
         <Card className="p-8 bg-fuchsia-950/30 border-fuchsia-800/30 text-center">
           <MessageCircle className="w-12 h-12 text-fuchsia-400 mx-auto mb-4 opacity-50" />
-          <h3 className="text-lg font-medium text-white mb-2">{t('dashboard.noMessagesYet')}</h3>
+          <h3 className="text-lg font-medium text-white mb-2">{t('noMessagesYet')}</h3>
           <p className="text-white/70">
-            {t('dashboard.noMessagesMessage')}
+            {t('noMessagesMessage')}
           </p>
         </Card>
       ) : (

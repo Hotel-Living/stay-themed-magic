@@ -48,7 +48,7 @@ type HotelFormData = z.infer<typeof hotelSchema>;
 type ReferralFormData = z.infer<typeof referralSchema>;
 
 export function HotelReferralsContent() {
-  const { t, language } = useTranslation("dashboard");
+  const { t, language } = useTranslation("dashboard/general");
   const { profile } = useAuth();
   
   // Debug logging

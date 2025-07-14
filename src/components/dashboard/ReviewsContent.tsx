@@ -35,7 +35,7 @@ export const ReviewsContent = () => {
   const [submitting, setSubmitting] = useState<Record<string, boolean>>({});
   const { user, profile } = useAuth();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard/content');
 
   // Fetch reviews for hotels owned by the current user
   useEffect(() => {
@@ -160,8 +160,8 @@ export const ReviewsContent = () => {
     return (
       <EmptyState 
         icon={<MessageSquare className="w-8 h-8" />}
-        title={t('dashboard.noReviews')}
-        description={t('dashboard.noReviewsMessage')}
+        title={t('noReviews')}
+        description={t('noReviewsMessage')}
       />
     );
   }

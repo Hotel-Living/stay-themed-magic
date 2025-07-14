@@ -61,6 +61,33 @@
     "noBookings": "Încă nu există rezervări",
     "noBookingsMessage": "Rezervările pentru proprietatea ta vor apărea aici",
     "referrals": {
-      "submitReferral": "Trimite Recomandare"
+      "title": "Recomandări de Hoteluri",
+      "description": "Recomandă hoteluri pe platforma noastră și câștigă recompense",
+      "hotelSubmission": "Înregistrare Hotel",
+      "country": "Țară",
+      "city": "Oraș",
+      "hotelName": "Numele Hotelului",
+      "addAnother": "Adaugă Alt Hotel",
+      "submittedHotels": "Hoteluri Înregistrate",
+      "paymentInfo": "Informații de Plată",
+      "paymentInfoDescription": "Introdu detaliile de plată pentru procesarea recompenselor",
+      "fullName": "Nume Complet",
+      "bankName": "Numele Băncii",
+      "bankCountry": "Țara Băncii",
+      "ibanAccount": "IBAN/Numărul Contului",
+      "swiftBic": "Codul SWIFT/BIC (Opțional)",
+      "submitReferral": "Trimite Recomandare",
+      "confirmationTitle": "Recomandare Trimisă",
+      "confirmationMessage": "Mulțumim pentru recomandarea ta! O vom revizui și ne vom întoarce la tine.",
+      "validation": {
+        "hotelsRequired": "Te rugăm să adaugi cel puțin un hotel",
+        "countryRequired": "Țara este obligatorie",
+        "cityRequired": "Orașul este obligatoriu",
+        "hotelNameRequired": "Numele hotelului este obligatoriu",
+        "fullNameRequired": "Numele complet este obligatoriu",
+        "bankNameRequired": "Numele băncii este obligatoriu",
+        "bankCountryRequired": "Țara băncii este obligatorie",
+        "ibanRequired": "IBAN/Numărul contului este obligatoriu"
+      }
     }
 }

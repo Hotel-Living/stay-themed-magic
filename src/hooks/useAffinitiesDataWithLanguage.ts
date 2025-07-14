@@ -36,8 +36,22 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
         // Transform data with translations
         return data?.map(item => {
           try {
+            console.log(`🎯 Translating affinity: "${item.value}" for language: ${language}`);
+            
             // Use the translation system with affinities namespace
             const translatedName = t(item.value, { ns: 'affinities' });
+            
+            console.log(`🎯 Translation result: "${item.value}" -> "${translatedName}"`);
+            
+            // CRITICAL: Prevent Spanish fallback - if translation failed, show the original key
+            if (translatedName === item.value && language !== 'es') {
+              console.warn(`🎯 NO TRANSLATION FOUND for: "${item.value}" in ${language} - using original`);
+              return {
+                id: item.id,
+                name: item.value,
+                category: item.category
+              };
+            }
             
             return {
               id: item.id,
@@ -45,10 +59,10 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
               category: item.category
             };
           } catch (err) {
-            console.warn(`🎯 Translation error for: ${item.value}`, err);
+            console.error(`🎯 Translation error for: ${item.value}`, err);
             return {
               id: item.id,
-              name: item.value, // Fallback to original
+              name: item.value,
               category: item.category
             };
           }

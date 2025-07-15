@@ -445,9 +445,12 @@ function determineCategory(fieldText: string, qid: string, fieldType: string): s
   // Property Styles - Enhanced detection for style-related fields
   if (text.includes('style') || text.includes('design') || text.includes('decor') || text.includes('aesthetic') ||
       text.includes('estilo') || text.includes('diseño') || text.includes('decoración') || text.includes('aspecto') ||
+      text.includes('establecimientos') || text.includes('establecimiento') ||
       text.includes('classic') || text.includes('modern') || text.includes('luxury') || text.includes('minimalist') ||
       text.includes('clásico') || text.includes('moderno') || text.includes('lujo') || text.includes('minimalista') ||
-      text.includes('fusion') || text.includes('urban') || text.includes('rural') || text.includes('elegant')) {
+      text.includes('fusion') || text.includes('fusión') || text.includes('urban') || text.includes('rural') || text.includes('elegant') ||
+      text.includes('urbano') || text.includes('elegante') || qid === '12') {
+    console.log(`✅ PROPERTY STYLE detected: "${text}" (QID: ${qid})`)
     return 'property_styles'
   }
   

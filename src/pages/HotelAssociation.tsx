@@ -13,6 +13,21 @@ export default function HotelAssociation() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation('hotelAssociation');
 
+  // Helper function to safely get array translations
+  const getArrayTranslation = (key: string): string[] => {
+    const result = t(key, { returnObjects: true });
+    console.log(`Translation for ${key}:`, result);
+    
+    // Check if result is an array and all elements are strings
+    if (Array.isArray(result) && result.every(item => typeof item === 'string')) {
+      return result as string[];
+    }
+    
+    // If it's not an array of strings, return empty array
+    console.warn(`Translation key ${key} did not return an array of strings:`, typeof result, result);
+    return [];
+  };
+
   // Function to format association name from slug
   const formatAssociationName = (slug?: string): string => {
     if (!slug) {
@@ -136,7 +151,7 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-lg font-bold mb-3">📊 {t('accordionSection1.profitabilityTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      {(t('accordionSection1.profitabilityPoints', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                      {getArrayTranslation('accordionSection1.profitabilityPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
                     </ul>
@@ -145,7 +160,7 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-lg font-bold mb-3">📜 {t('accordionSection1.costsTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      {(t('accordionSection1.costsPoints', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                      {getArrayTranslation('accordionSection1.costsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
                     </ul>
@@ -154,7 +169,7 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-lg font-bold mb-3">💼 {t('accordionSection1.staffTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      {(t('accordionSection1.staffPoints', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                      {getArrayTranslation('accordionSection1.staffPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
                     </ul>
@@ -163,7 +178,7 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-lg font-bold mb-3">🪙 {t('accordionSection1.clientsTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      {(t('accordionSection1.clientsPoints', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                      {getArrayTranslation('accordionSection1.clientsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
                     </ul>
@@ -172,7 +187,7 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-lg font-bold mb-3">🤖 {t('accordionSection1.technologyTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm">
-                      {(t('accordionSection1.technologyPoints', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                      {getArrayTranslation('accordionSection1.technologyPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
                     </ul>
@@ -193,7 +208,7 @@ export default function HotelAssociation() {
                   <p className="text-lg">{t('accordionSection2.introduction')}</p>
                   <p className="text-lg font-bold">{t('accordionSection2.subtitle')}</p>
                   <ul className="list-disc list-inside space-y-1">
-                    {(t('accordionSection2.points', { returnObjects: true }) as string[] || []).map((point: string, index: number) => (
+                    {getArrayTranslation('accordionSection2.points').map((point: string, index: number) => (
                       <li key={index}>{point}</li>
                     ))}
                   </ul>
@@ -211,7 +226,7 @@ export default function HotelAssociation() {
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
                   <ul className="list-disc list-inside space-y-1">
-                    {(t('accordionSection3.clientTypes', { returnObjects: true }) as string[] || []).map((type: string, index: number) => (
+                    {getArrayTranslation('accordionSection3.clientTypes').map((type: string, index: number) => (
                       <li key={index}>{type}</li>
                     ))}
                   </ul>
@@ -223,7 +238,7 @@ export default function HotelAssociation() {
                     <p><strong>{t('accordionSection3.hotelLivingChanges')}</strong></p>
                   </div>
                   <ul className="list-disc list-inside space-y-1 mt-4">
-                    {(t('accordionSection3.features', { returnObjects: true }) as string[] || []).map((feature: string, index: number) => (
+                    {getArrayTranslation('accordionSection3.features').map((feature: string, index: number) => (
                       <li key={index}>{feature}</li>
                     ))}
                   </ul>
@@ -244,13 +259,13 @@ export default function HotelAssociation() {
                   <p><strong>{t('accordionSection4.occupancyReality')}</strong></p>
                   <p className="text-lg font-bold">{t('accordionSection4.emptyRooms')}</p>
                   <ul className="list-disc list-inside space-y-1">
-                    {(t('accordionSection4.consequences', { returnObjects: true }) as string[] || []).map((consequence: string, index: number) => (
+                    {getArrayTranslation('accordionSection4.consequences').map((consequence: string, index: number) => (
                       <li key={index}>{consequence}</li>
                     ))}
                   </ul>
                   <p className="text-lg font-bold">{t('accordionSection4.meanwhile')}</p>
                   <ul className="list-disc list-inside space-y-1">
-                    {(t('accordionSection4.desires', { returnObjects: true }) as string[] || []).map((desire: string, index: number) => (
+                    {getArrayTranslation('accordionSection4.desires').map((desire: string, index: number) => (
                       <li key={index}>{desire}</li>
                     ))}
                   </ul>

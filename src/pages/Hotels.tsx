@@ -78,6 +78,16 @@ export default function Hotels() {
               
               <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" hideTabsList={false} />
               
+              {/* Portrait of the Hotel Crisis Link */}
+              <div className="mt-6 flex justify-center">
+                <Link 
+                  to="/hotel-crisis" 
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/30"
+                >
+                  📊 {t('linkText', { defaultValue: 'Retrato de la Crisis Hotelera' })}
+                </Link>
+              </div>
+              
               <HotelSignupButtons isMobile={isMobile} />
             </div>
           </div>

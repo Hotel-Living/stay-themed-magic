@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Starfield } from "@/components/Starfield";
+import { AssociationProfitabilityCalculator } from "@/components/dashboard/rates-calculator/components/AssociationProfitabilityCalculator";
 import { 
   Accordion,
   AccordionContent,
@@ -132,8 +133,9 @@ export default function HotelAssociation() {
               <p className="text-lg">{t('whatWeOfferDescription')}</p>
             </div>
 
+            {/* Calculator Section */}
             <div>
-              <h3 className="text-xl font-bold mb-8">📈 {t('onlineCalculatorTitle')}</h3>
+              <AssociationProfitabilityCalculator />
             </div>
           </div>
 

@@ -14,6 +14,14 @@
   "whatWeOfferTitle": "¿QUÉ OFRECEMOS EN HOTEL-LIVING.COM?",
   "whatWeOfferDescription": "A LAS ASOCIACIONES HOTELERAS: un 4% del total de las reservas generadas por sus miembros, un porcentaje que no afecta en absoluto a sus hoteles, pues proviene de nuestro propio coste de gestión.",
   "onlineCalculatorTitle": "CALCULADORA ONLINE",
+  "calculator": {
+    "title": "BENEFICIO ESTIMADO PARA SU ASOCIACIÓN",
+    "hotelMembers": "¿Cuántos hoteles miembros tiene su asociación?",
+    "emptyRooms": "¿Cuántas habitaciones vacías tienen por día en promedio?",
+    "monthlyPrice": "Precio promedio del paquete mensual",
+    "commissionLabel": "Comisión del 4% para su asociación",
+    "disclaimer": "Las cifras mostradas en esta simulación son estimaciones indicativas basadas en el potencial máximo de ocupación. Los resultados reales pueden variar dependiendo de los paquetes realmente vendidos. El precio mensual promedio ($1,300) se refiere a una tarifa base sin comidas, ajustada a partir de una mezcla representativa de hoteles de 3 y 4 estrellas, y refleja una estimación equilibrada entre ocupación doble e individual."
+  },
   "accordionSection1": {
     "title": "BENEFICIOS INÉDITOS PARA LOS HOTELES",
     "profitabilityTitle": "RENTABILIDAD Y OCUPACIÓN",

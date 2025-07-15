@@ -56,50 +56,53 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
       <div className="bg-background/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-border/20">
         <div className="space-y-8">
           
-          {/* Input Fields */}
-          <div className="space-y-6">
-            {/* Hotel Members */}
-            <div className="space-y-2">
-              <Label htmlFor="hotel-members" className="text-base font-medium text-foreground uppercase tracking-wide">
-                {t('calculator.hotelMembers')}
-              </Label>
-              <Input
-                id="hotel-members"
-                type="number"
-                value={hotelMembers}
-                onChange={(e) => setHotelMembers(Number(e.target.value))}
-                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
-              />
-            </div>
+            {/* Input Fields */}
+            <div className="space-y-6">
+              {/* Hotel Members */}
+              <div className="space-y-2">
+                <Label htmlFor="hotel-members" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                  {t('calculator.hotelMembers')}
+                </Label>
+                <Input
+                  id="hotel-members"
+                  type="number"
+                  value={hotelMembers}
+                  onChange={(e) => setHotelMembers(Number(e.target.value))}
+                  className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                  placeholder="Número de hoteles"
+                />
+              </div>
 
-            {/* Empty Rooms Per Day */}
-            <div className="space-y-2">
-              <Label htmlFor="empty-rooms" className="text-base font-medium text-foreground uppercase tracking-wide">
-                {t('calculator.emptyRooms')}
-              </Label>
-              <Input
-                id="empty-rooms"
-                type="number"
-                value={emptyRoomsPerDay}
-                onChange={(e) => setEmptyRoomsPerDay(Number(e.target.value))}
-                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
-              />
-            </div>
+              {/* Empty Rooms Per Day */}
+              <div className="space-y-2">
+                <Label htmlFor="empty-rooms" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                  {t('calculator.emptyRooms')}
+                </Label>
+                <Input
+                  id="empty-rooms"
+                  type="number"
+                  value={emptyRoomsPerDay}
+                  onChange={(e) => setEmptyRoomsPerDay(Number(e.target.value))}
+                  className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                  placeholder="Habitaciones vacías por día"
+                />
+              </div>
 
-            {/* Monthly Price */}
-            <div className="space-y-2">
-              <Label htmlFor="monthly-price" className="text-base font-medium text-foreground uppercase tracking-wide">
-                {t('calculator.monthlyPrice')}
-              </Label>
-              <Input
-                id="monthly-price"
-                type="number"
-                value={monthlyPrice}
-                onChange={(e) => setMonthlyPrice(Number(e.target.value))}
-                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
-              />
+              {/* Monthly Price */}
+              <div className="space-y-2">
+                <Label htmlFor="monthly-price" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                  {t('calculator.monthlyPrice')}
+                </Label>
+                <Input
+                  id="monthly-price"
+                  type="number"
+                  value={monthlyPrice}
+                  onChange={(e) => setMonthlyPrice(Number(e.target.value))}
+                  className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                  placeholder="Precio promedio mensual"
+                />
+              </div>
             </div>
-          </div>
 
           {/* Results Section */}
           <div className="space-y-6 pt-6 border-t border-border/20">
@@ -113,10 +116,10 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
             {/* Final Commission Result */}
             <div className="bg-primary/10 rounded-xl p-6 border-2 border-primary/20">
               <div className="text-center">
-                <div className="text-sm font-medium text-foreground/70 uppercase tracking-wider mb-2">
+                <div className="text-base font-medium text-foreground/70 uppercase tracking-wider mb-2">
                   {t('calculator.commissionLabel')}
                 </div>
-                <div className="text-4xl md:text-5xl font-bold text-primary">
+                <div className="text-5xl md:text-6xl font-bold text-primary">
                   {formatCurrency(commission)}
                 </div>
               </div>

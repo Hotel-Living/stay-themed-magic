@@ -102,14 +102,14 @@ export default function HotelAssociation() {
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               HOTEL-LIVING
             </h1>
-            <p className="text-lg md:text-xl font-bold text-white">
+            <p className="text-base md:text-lg font-bold text-white uppercase">
               {t('slogan')}
             </p>
           </div>
 
           {/* Revolution Title */}
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 uppercase">
               💼 {t('revolutionTitle')}
             </h2>
             <p className="text-xl md:text-2xl mb-4 font-bold text-white">
@@ -126,18 +126,17 @@ export default function HotelAssociation() {
           {/* Static Content Blocks */}
           <div className="space-y-8 mb-12">
             <div>
-              <h3 className="text-xl font-bold mb-4">📊 {t('opportunityTitle')}</h3>
+              <h3 className="text-xl font-bold mb-4 uppercase">📊 {t('opportunityTitle')}</h3>
               <p className="text-lg">{t('opportunityDescription')}</p>
             </div>
 
             <div>
-              <h3 className="text-xl font-bold mb-4">🏨 {t('knownFactTitle')}</h3>
-              <p className="text-lg mb-4">{t('knownFactDescription')}</p>
+              <p className="text-lg mb-4">{t('knownFactTitle')} {t('knownFactDescription')}</p>
               <h4 className="text-lg font-bold mb-4">{t('onlyForBigChains')}</h4>
               <p className="text-lg">{t('smallHotelsDescription')}</p>
             </div>
 
-            <div>
+            <div className="mb-16">
               <h3 className="text-xl font-bold mb-4">{t('whatWeOfferTitle')}</h3>
               <p className="text-lg">{t('whatWeOfferDescription')}</p>
             </div>
@@ -153,7 +152,7 @@ export default function HotelAssociation() {
             {/* Section 1: Benefits for Hotels */}
             <AccordionItem value="benefits" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-2xl font-bold">
+                <span className="text-3xl font-bold">
                   ① {t('accordionSection1.title')}
                 </span>
               </AccordionTrigger>
@@ -161,7 +160,7 @@ export default function HotelAssociation() {
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-xl font-bold mb-3">📊 {t('accordionSection1.profitabilityTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-base">
+                    <ul className="list-disc list-inside space-y-1 text-lg">
                       {getArrayTranslation('accordionSection1.profitabilityPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -170,7 +169,7 @@ export default function HotelAssociation() {
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">📜 {t('accordionSection1.costsTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-base">
+                    <ul className="list-disc list-inside space-y-1 text-lg">
                       {getArrayTranslation('accordionSection1.costsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -179,7 +178,7 @@ export default function HotelAssociation() {
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">💼 {t('accordionSection1.staffTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-base">
+                    <ul className="list-disc list-inside space-y-1 text-lg">
                       {getArrayTranslation('accordionSection1.staffPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -188,7 +187,7 @@ export default function HotelAssociation() {
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">🪙 {t('accordionSection1.clientsTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-base">
+                    <ul className="list-disc list-inside space-y-1 text-lg">
                       {getArrayTranslation('accordionSection1.clientsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -197,7 +196,7 @@ export default function HotelAssociation() {
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">🤖 {t('accordionSection1.technologyTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-base">
+                    <ul className="list-disc list-inside space-y-1 text-lg">
                       {getArrayTranslation('accordionSection1.technologyPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -210,7 +209,7 @@ export default function HotelAssociation() {
             {/* Section 2: Millions of Clients Waiting */}
             <AccordionItem value="clients-waiting" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-2xl font-bold">
+                <span className="text-3xl font-bold">
                   ② {t('accordionSection2.title')}
                 </span>
               </AccordionTrigger>
@@ -218,7 +217,7 @@ export default function HotelAssociation() {
                 <div className="space-y-4">
                   <p className="text-xl">{t('accordionSection2.introduction')}</p>
                   <p className="text-xl font-bold">{t('accordionSection2.subtitle')}</p>
-                  <ul className="list-disc list-inside space-y-1 text-base">
+                  <ul className="list-disc list-inside space-y-1 text-lg">
                     {getArrayTranslation('accordionSection2.points').map((point: string, index: number) => (
                       <li key={index}>{point}</li>
                     ))}
@@ -230,25 +229,25 @@ export default function HotelAssociation() {
             {/* Section 3: Potential Clients */}
             <AccordionItem value="potential-clients" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-2xl font-bold">
+                <span className="text-3xl font-bold">
                   ③ {t('accordionSection3.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
-                  <ul className="list-disc list-inside space-y-1 text-base">
+                  <ul className="list-disc list-inside space-y-1 text-lg">
                     {getArrayTranslation('accordionSection3.clientTypes').map((type: string, index: number) => (
                       <li key={index}>{type}</li>
                     ))}
                   </ul>
                   <p className="text-xl font-bold">{t('accordionSection3.commonFactor')}</p>
-                  <div className="space-y-2 text-base">
+                  <div className="space-y-2 text-lg">
                     <p>{t('accordionSection3.notAboutRenting')}</p>
                     <p><strong>{t('accordionSection3.aboutLivingDifferent')}</strong></p>
                     <p>{t('accordionSection3.hotelSolution')}</p>
                     <p><strong>{t('accordionSection3.hotelLivingChanges')}</strong></p>
                   </div>
-                  <ul className="list-disc list-inside space-y-1 mt-4 text-base">
+                  <ul className="list-disc list-inside space-y-1 mt-4 text-lg">
                     {getArrayTranslation('accordionSection3.features').map((feature: string, index: number) => (
                       <li key={index}>{feature}</li>
                     ))}
@@ -260,27 +259,27 @@ export default function HotelAssociation() {
             {/* Section 4: Hotel Sector Crisis */}
             <AccordionItem value="sector-crisis" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-2xl font-bold">
+                <span className="text-3xl font-bold">
                   ④ {t('accordionSection4.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
                   <p className="text-xl">{t('accordionSection4.obsoleteModel')}</p>
-                  <p className="text-base"><strong>{t('accordionSection4.occupancyReality')}</strong></p>
+                  <p className="text-lg"><strong>{t('accordionSection4.occupancyReality')}</strong></p>
                   <p className="text-xl font-bold">{t('accordionSection4.emptyRooms')}</p>
-                  <ul className="list-disc list-inside space-y-1 text-base">
+                  <ul className="list-disc list-inside space-y-1 text-lg">
                     {getArrayTranslation('accordionSection4.consequences').map((consequence: string, index: number) => (
                       <li key={index}>{consequence}</li>
                     ))}
                   </ul>
                   <p className="text-xl font-bold">{t('accordionSection4.meanwhile')}</p>
-                  <ul className="list-disc list-inside space-y-1 text-base">
+                  <ul className="list-disc list-inside space-y-1 text-lg">
                     {getArrayTranslation('accordionSection4.desires').map((desire: string, index: number) => (
                       <li key={index}>{desire}</li>
                     ))}
                   </ul>
-                  <div className="space-y-2 mt-4 text-base">
+                  <div className="space-y-2 mt-4 text-lg">
                     <p><strong>{t('accordionSection4.emptyRoomOpportunity')}</strong></p>
                     <p>{t('accordionSection4.finalWarning')}</p>
                   </div>
@@ -288,6 +287,13 @@ export default function HotelAssociation() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+          
+          {/* Call to Action Button */}
+          <div className="text-center mt-12 mb-8">
+            <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg">
+              Registre su asociación
+            </button>
+          </div>
         </div>
       </div>
     </div>

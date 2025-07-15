@@ -3,27 +3,30 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Starfield } from "@/components/Starfield";
 import { AssociationProfitabilityCalculator } from "@/components/dashboard/rates-calculator/components/AssociationProfitabilityCalculator";
-import { 
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger 
-} from "@/components/ui/accordion";
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 export default function HotelAssociation() {
-  const { slug } = useParams<{ slug: string }>();
-  const { t, i18n } = useTranslation('hotelAssociation');
+  const {
+    slug
+  } = useParams<{
+    slug: string;
+  }>();
+  const {
+    t,
+    i18n
+  } = useTranslation('hotelAssociation');
 
   // Helper function to safely get array translations
   const getArrayTranslation = (key: string): string[] => {
-    const result = t(key, { returnObjects: true });
+    const result = t(key, {
+      returnObjects: true
+    });
     console.log(`Translation for ${key}:`, result);
-    
+
     // Check if result is an array and all elements are strings
     if (Array.isArray(result) && result.every(item => typeof item === 'string')) {
       return result as string[];
     }
-    
+
     // If it's not an array of strings, return empty array
     console.warn(`Translation key ${key} did not return an array of strings:`, typeof result, result);
     return [];
@@ -34,25 +37,18 @@ export default function HotelAssociation() {
     if (!slug) {
       return t('fallbackAssociation');
     }
-    
+
     // Replace hyphens with spaces and capitalize each word
-    const formatted = slug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-    
+    const formatted = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
     // Ensure "Asociación" is properly capitalized if present
     return formatted.replace(/asociacion/gi, 'Asociación');
   };
-
   const associationName = formatAssociationName(slug);
-
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-
-  return (
-    <div className="relative min-h-screen">
+  return <div className="relative min-h-screen">
       {/* Starfield Background */}
       <div className="fixed inset-0 z-0">
         <Starfield />
@@ -61,24 +57,10 @@ export default function HotelAssociation() {
       {/* Language Selector */}
       <div className="relative z-10 flex justify-end p-4">
         <div className="flex gap-2">
-          <button
-            onClick={() => changeLanguage('es')}
-            className={`px-3 py-1 rounded ${
-              i18n.language === 'es' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-background/80 hover:bg-background/90'
-            }`}
-          >
+          <button onClick={() => changeLanguage('es')} className={`px-3 py-1 rounded ${i18n.language === 'es' ? 'bg-primary text-primary-foreground' : 'bg-background/80 hover:bg-background/90'}`}>
             ES
           </button>
-          <button
-            onClick={() => changeLanguage('en')}
-            className={`px-3 py-1 rounded ${
-              i18n.language === 'en' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-background/80 hover:bg-background/90'
-            }`}
-          >
+          <button onClick={() => changeLanguage('en')} className={`px-3 py-1 rounded ${i18n.language === 'en' ? 'bg-primary text-primary-foreground' : 'bg-background/80 hover:bg-background/90'}`}>
             EN
           </button>
         </div>
@@ -91,17 +73,9 @@ export default function HotelAssociation() {
           {/* Centered Logo and Brand */}
           <div className="text-center mb-12">
             <div className="flex justify-center mb-4">
-              <img 
-                src="/lovable-uploads/950ed52a-c737-4637-9751-d6f1db78b7b4.png" 
-                alt="Hotel-Living Logo"
-                loading="eager"
-                fetchPriority="high"
-                className="h-16 md:h-20"
-              />
+              <img src="/lovable-uploads/950ed52a-c737-4637-9751-d6f1db78b7b4.png" alt="Hotel-Living Logo" loading="eager" fetchPriority="high" className="h-16 md:h-20" />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              HOTEL-LIVING
-            </h1>
+            
             <p className="text-base md:text-lg font-bold text-white uppercase">
               {t('slogan')}
             </p>
@@ -113,7 +87,9 @@ export default function HotelAssociation() {
               💼 {t('revolutionTitle')}
             </h2>
             <p className="text-xl md:text-2xl mb-4 font-bold text-white">
-              {t('greeting', { associationName })}
+              {t('greeting', {
+              associationName
+            })}
             </p>
             <p className="text-lg mb-4">
               {t('introduction')}
@@ -161,45 +137,35 @@ export default function HotelAssociation() {
                   <div>
                     <h4 className="text-xl font-bold mb-3">📊 {t('accordionSection1.profitabilityTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-lg">
-                      {getArrayTranslation('accordionSection1.profitabilityPoints').map((point: string, index: number) => (
-                        <li key={index}>{point}</li>
-                      ))}
+                      {getArrayTranslation('accordionSection1.profitabilityPoints').map((point: string, index: number) => <li key={index}>{point}</li>)}
                     </ul>
                   </div>
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">📜 {t('accordionSection1.costsTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-lg">
-                      {getArrayTranslation('accordionSection1.costsPoints').map((point: string, index: number) => (
-                        <li key={index}>{point}</li>
-                      ))}
+                      {getArrayTranslation('accordionSection1.costsPoints').map((point: string, index: number) => <li key={index}>{point}</li>)}
                     </ul>
                   </div>
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">💼 {t('accordionSection1.staffTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-lg">
-                      {getArrayTranslation('accordionSection1.staffPoints').map((point: string, index: number) => (
-                        <li key={index}>{point}</li>
-                      ))}
+                      {getArrayTranslation('accordionSection1.staffPoints').map((point: string, index: number) => <li key={index}>{point}</li>)}
                     </ul>
                   </div>
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">🪙 {t('accordionSection1.clientsTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-lg">
-                      {getArrayTranslation('accordionSection1.clientsPoints').map((point: string, index: number) => (
-                        <li key={index}>{point}</li>
-                      ))}
+                      {getArrayTranslation('accordionSection1.clientsPoints').map((point: string, index: number) => <li key={index}>{point}</li>)}
                     </ul>
                   </div>
 
                   <div>
                     <h4 className="text-xl font-bold mb-3">🤖 {t('accordionSection1.technologyTitle')}</h4>
                     <ul className="list-disc list-inside space-y-1 text-lg">
-                      {getArrayTranslation('accordionSection1.technologyPoints').map((point: string, index: number) => (
-                        <li key={index}>{point}</li>
-                      ))}
+                      {getArrayTranslation('accordionSection1.technologyPoints').map((point: string, index: number) => <li key={index}>{point}</li>)}
                     </ul>
                   </div>
                 </div>
@@ -218,9 +184,7 @@ export default function HotelAssociation() {
                   <p className="text-xl">{t('accordionSection2.introduction')}</p>
                   <p className="text-xl font-bold">{t('accordionSection2.subtitle')}</p>
                   <ul className="list-disc list-inside space-y-1 text-lg">
-                    {getArrayTranslation('accordionSection2.points').map((point: string, index: number) => (
-                      <li key={index}>{point}</li>
-                    ))}
+                    {getArrayTranslation('accordionSection2.points').map((point: string, index: number) => <li key={index}>{point}</li>)}
                   </ul>
                 </div>
               </AccordionContent>
@@ -236,9 +200,7 @@ export default function HotelAssociation() {
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
                   <ul className="list-disc list-inside space-y-1 text-lg">
-                    {getArrayTranslation('accordionSection3.clientTypes').map((type: string, index: number) => (
-                      <li key={index}>{type}</li>
-                    ))}
+                    {getArrayTranslation('accordionSection3.clientTypes').map((type: string, index: number) => <li key={index}>{type}</li>)}
                   </ul>
                   <p className="text-xl font-bold">{t('accordionSection3.commonFactor')}</p>
                   <div className="space-y-2 text-lg">
@@ -248,9 +210,7 @@ export default function HotelAssociation() {
                     <p><strong>{t('accordionSection3.hotelLivingChanges')}</strong></p>
                   </div>
                   <ul className="list-disc list-inside space-y-1 mt-4 text-lg">
-                    {getArrayTranslation('accordionSection3.features').map((feature: string, index: number) => (
-                      <li key={index}>{feature}</li>
-                    ))}
+                    {getArrayTranslation('accordionSection3.features').map((feature: string, index: number) => <li key={index}>{feature}</li>)}
                   </ul>
                 </div>
               </AccordionContent>
@@ -269,15 +229,11 @@ export default function HotelAssociation() {
                   <p className="text-lg"><strong>{t('accordionSection4.occupancyReality')}</strong></p>
                   <p className="text-xl font-bold">{t('accordionSection4.emptyRooms')}</p>
                   <ul className="list-disc list-inside space-y-1 text-lg">
-                    {getArrayTranslation('accordionSection4.consequences').map((consequence: string, index: number) => (
-                      <li key={index}>{consequence}</li>
-                    ))}
+                    {getArrayTranslation('accordionSection4.consequences').map((consequence: string, index: number) => <li key={index}>{consequence}</li>)}
                   </ul>
                   <p className="text-xl font-bold">{t('accordionSection4.meanwhile')}</p>
                   <ul className="list-disc list-inside space-y-1 text-lg">
-                    {getArrayTranslation('accordionSection4.desires').map((desire: string, index: number) => (
-                      <li key={index}>{desire}</li>
-                    ))}
+                    {getArrayTranslation('accordionSection4.desires').map((desire: string, index: number) => <li key={index}>{desire}</li>)}
                   </ul>
                   <div className="space-y-2 mt-4 text-lg">
                     <p><strong>{t('accordionSection4.emptyRoomOpportunity')}</strong></p>
@@ -296,6 +252,5 @@ export default function HotelAssociation() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

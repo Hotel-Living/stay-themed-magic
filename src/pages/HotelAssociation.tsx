@@ -88,12 +88,21 @@ export default function HotelAssociation() {
       <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="bg-background/90 backdrop-blur-sm rounded-lg p-6 md:p-8 lg:p-12 shadow-lg">
           
-          {/* Centered Slogan */}
+          {/* Centered Logo and Brand */}
           <div className="text-center mb-12">
+            <div className="flex justify-center mb-4">
+              <img 
+                src="/lovable-uploads/950ed52a-c737-4637-9751-d6f1db78b7b4.png" 
+                alt="Hotel-Living Logo"
+                loading="eager"
+                fetchPriority="high"
+                className="h-16 md:h-20"
+              />
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              🏨 HOTEL-LIVING
+              HOTEL-LIVING
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground">
+            <p className="text-lg md:text-xl font-bold text-white">
               {t('slogan')}
             </p>
           </div>
@@ -103,8 +112,8 @@ export default function HotelAssociation() {
             <h2 className="text-2xl md:text-3xl font-bold mb-6">
               💼 {t('revolutionTitle')}
             </h2>
-            <p className="text-lg mb-4">
-              <strong>{t('greeting', { associationName })}</strong>
+            <p className="text-xl md:text-2xl mb-4 font-bold text-white">
+              {t('greeting', { associationName })}
             </p>
             <p className="text-lg mb-4">
               {t('introduction')}
@@ -144,15 +153,15 @@ export default function HotelAssociation() {
             {/* Section 1: Benefits for Hotels */}
             <AccordionItem value="benefits" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-lg font-bold">
+                <span className="text-2xl font-bold">
                   ① {t('accordionSection1.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-lg font-bold mb-3">📊 {t('accordionSection1.profitabilityTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
+                    <h4 className="text-xl font-bold mb-3">📊 {t('accordionSection1.profitabilityTitle')}</h4>
+                    <ul className="list-disc list-inside space-y-1 text-base">
                       {getArrayTranslation('accordionSection1.profitabilityPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -160,8 +169,8 @@ export default function HotelAssociation() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold mb-3">📜 {t('accordionSection1.costsTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
+                    <h4 className="text-xl font-bold mb-3">📜 {t('accordionSection1.costsTitle')}</h4>
+                    <ul className="list-disc list-inside space-y-1 text-base">
                       {getArrayTranslation('accordionSection1.costsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -169,8 +178,8 @@ export default function HotelAssociation() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold mb-3">💼 {t('accordionSection1.staffTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
+                    <h4 className="text-xl font-bold mb-3">💼 {t('accordionSection1.staffTitle')}</h4>
+                    <ul className="list-disc list-inside space-y-1 text-base">
                       {getArrayTranslation('accordionSection1.staffPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -178,8 +187,8 @@ export default function HotelAssociation() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold mb-3">🪙 {t('accordionSection1.clientsTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
+                    <h4 className="text-xl font-bold mb-3">🪙 {t('accordionSection1.clientsTitle')}</h4>
+                    <ul className="list-disc list-inside space-y-1 text-base">
                       {getArrayTranslation('accordionSection1.clientsPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -187,8 +196,8 @@ export default function HotelAssociation() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold mb-3">🤖 {t('accordionSection1.technologyTitle')}</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
+                    <h4 className="text-xl font-bold mb-3">🤖 {t('accordionSection1.technologyTitle')}</h4>
+                    <ul className="list-disc list-inside space-y-1 text-base">
                       {getArrayTranslation('accordionSection1.technologyPoints').map((point: string, index: number) => (
                         <li key={index}>{point}</li>
                       ))}
@@ -201,15 +210,15 @@ export default function HotelAssociation() {
             {/* Section 2: Millions of Clients Waiting */}
             <AccordionItem value="clients-waiting" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-lg font-bold">
+                <span className="text-2xl font-bold">
                   ② {t('accordionSection2.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
-                  <p className="text-lg">{t('accordionSection2.introduction')}</p>
-                  <p className="text-lg font-bold">{t('accordionSection2.subtitle')}</p>
-                  <ul className="list-disc list-inside space-y-1">
+                  <p className="text-xl">{t('accordionSection2.introduction')}</p>
+                  <p className="text-xl font-bold">{t('accordionSection2.subtitle')}</p>
+                  <ul className="list-disc list-inside space-y-1 text-base">
                     {getArrayTranslation('accordionSection2.points').map((point: string, index: number) => (
                       <li key={index}>{point}</li>
                     ))}
@@ -221,25 +230,25 @@ export default function HotelAssociation() {
             {/* Section 3: Potential Clients */}
             <AccordionItem value="potential-clients" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-lg font-bold">
+                <span className="text-2xl font-bold">
                   ③ {t('accordionSection3.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
-                  <ul className="list-disc list-inside space-y-1">
+                  <ul className="list-disc list-inside space-y-1 text-base">
                     {getArrayTranslation('accordionSection3.clientTypes').map((type: string, index: number) => (
                       <li key={index}>{type}</li>
                     ))}
                   </ul>
-                  <p className="text-lg font-bold">{t('accordionSection3.commonFactor')}</p>
-                  <div className="space-y-2">
+                  <p className="text-xl font-bold">{t('accordionSection3.commonFactor')}</p>
+                  <div className="space-y-2 text-base">
                     <p>{t('accordionSection3.notAboutRenting')}</p>
                     <p><strong>{t('accordionSection3.aboutLivingDifferent')}</strong></p>
                     <p>{t('accordionSection3.hotelSolution')}</p>
                     <p><strong>{t('accordionSection3.hotelLivingChanges')}</strong></p>
                   </div>
-                  <ul className="list-disc list-inside space-y-1 mt-4">
+                  <ul className="list-disc list-inside space-y-1 mt-4 text-base">
                     {getArrayTranslation('accordionSection3.features').map((feature: string, index: number) => (
                       <li key={index}>{feature}</li>
                     ))}
@@ -251,27 +260,27 @@ export default function HotelAssociation() {
             {/* Section 4: Hotel Sector Crisis */}
             <AccordionItem value="sector-crisis" className="border rounded-lg">
               <AccordionTrigger className="px-6 py-4 text-left">
-                <span className="text-lg font-bold">
+                <span className="text-2xl font-bold">
                   ④ {t('accordionSection4.title')}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-4">
-                  <p className="text-lg">{t('accordionSection4.obsoleteModel')}</p>
-                  <p><strong>{t('accordionSection4.occupancyReality')}</strong></p>
-                  <p className="text-lg font-bold">{t('accordionSection4.emptyRooms')}</p>
-                  <ul className="list-disc list-inside space-y-1">
+                  <p className="text-xl">{t('accordionSection4.obsoleteModel')}</p>
+                  <p className="text-base"><strong>{t('accordionSection4.occupancyReality')}</strong></p>
+                  <p className="text-xl font-bold">{t('accordionSection4.emptyRooms')}</p>
+                  <ul className="list-disc list-inside space-y-1 text-base">
                     {getArrayTranslation('accordionSection4.consequences').map((consequence: string, index: number) => (
                       <li key={index}>{consequence}</li>
                     ))}
                   </ul>
-                  <p className="text-lg font-bold">{t('accordionSection4.meanwhile')}</p>
-                  <ul className="list-disc list-inside space-y-1">
+                  <p className="text-xl font-bold">{t('accordionSection4.meanwhile')}</p>
+                  <ul className="list-disc list-inside space-y-1 text-base">
                     {getArrayTranslation('accordionSection4.desires').map((desire: string, index: number) => (
                       <li key={index}>{desire}</li>
                     ))}
                   </ul>
-                  <div className="space-y-2 mt-4">
+                  <div className="space-y-2 mt-4 text-base">
                     <p><strong>{t('accordionSection4.emptyRoomOpportunity')}</strong></p>
                     <p>{t('accordionSection4.finalWarning')}</p>
                   </div>

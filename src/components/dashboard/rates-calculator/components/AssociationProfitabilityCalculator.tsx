@@ -60,7 +60,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
           <div className="space-y-6">
             {/* Hotel Members */}
             <div className="space-y-2">
-              <Label htmlFor="hotel-members" className="text-sm font-medium text-foreground/80 uppercase tracking-wide">
+              <Label htmlFor="hotel-members" className="text-base font-medium text-foreground uppercase tracking-wide">
                 {t('calculator.hotelMembers')}
               </Label>
               <Input
@@ -68,13 +68,13 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
                 type="number"
                 value={hotelMembers}
                 onChange={(e) => setHotelMembers(Number(e.target.value))}
-                className="text-lg font-semibold bg-background/50 border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
               />
             </div>
 
             {/* Empty Rooms Per Day */}
             <div className="space-y-2">
-              <Label htmlFor="empty-rooms" className="text-sm font-medium text-foreground/80 uppercase tracking-wide">
+              <Label htmlFor="empty-rooms" className="text-base font-medium text-foreground uppercase tracking-wide">
                 {t('calculator.emptyRooms')}
               </Label>
               <Input
@@ -82,13 +82,13 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
                 type="number"
                 value={emptyRoomsPerDay}
                 onChange={(e) => setEmptyRoomsPerDay(Number(e.target.value))}
-                className="text-lg font-semibold bg-background/50 border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
               />
             </div>
 
             {/* Monthly Price */}
             <div className="space-y-2">
-              <Label htmlFor="monthly-price" className="text-sm font-medium text-foreground/80 uppercase tracking-wide">
+              <Label htmlFor="monthly-price" className="text-base font-medium text-foreground uppercase tracking-wide">
                 {t('calculator.monthlyPrice')}
               </Label>
               <Input
@@ -96,7 +96,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
                 type="number"
                 value={monthlyPrice}
                 onChange={(e) => setMonthlyPrice(Number(e.target.value))}
-                className="text-lg font-semibold bg-background/50 border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
+                className="w-full text-lg font-semibold bg-white text-black border-2 border-border/30 rounded-lg p-4 focus:border-primary/50"
               />
             </div>
           </div>

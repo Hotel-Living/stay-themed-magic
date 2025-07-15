@@ -1,9 +1,11 @@
 
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelNewAccordionMenuRO() {
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const { t } = useTranslation('hotel-accordion');
   
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
@@ -508,6 +510,41 @@ export function HotelNewAccordionMenuRO() {
                 <p className="text-base text-[#FFF9B0] pl-4">
                   Completați pașii pentru „Adăugare proprietate nouă" și gestionați disponibilitatea și rezervările pe termen lung.
                 </p>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="calculator" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              12 - {t('calculator.title')}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-6 text-left py-6">
+              <div className="space-y-4 text-[#FFF9B0] text-base whitespace-pre-line">
+                {t('calculator.text')}
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="space-y-3">
+                  <h4 className="text-[#FFF9B0] font-bold text-lg">Versiunea în Engleză</h4>
+                  <img 
+                    src="/lovable-uploads/a434a2cc-c665-4c9b-828a-d5945a335947.png" 
+                    alt="Calculator Hotel-Living Versiunea Engleză" 
+                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
+                  />
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-[#FFF9B0] font-bold text-lg">Versiunea în Spaniolă</h4>
+                  <img 
+                    src="/lovable-uploads/132f46c4-4760-4907-bb8a-30ea52da9991.png" 
+                    alt="Calculator Hotel-Living Versiunea Spaniolă" 
+                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
+                  />
+                </div>
               </div>
             </div>
           </AccordionContent>

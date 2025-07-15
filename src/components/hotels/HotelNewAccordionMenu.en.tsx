@@ -1,9 +1,13 @@
 
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useTranslation } from "@/hooks/useTranslation";
+import calculatorSpanish from "@/assets/calculator-spanish.png";
+import calculatorEnglish from "@/assets/calculator-english.png";
 
 export function HotelNewAccordionMenuEN() {
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const { t } = useTranslation('hotel-accordion');
   
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
@@ -405,6 +409,41 @@ export function HotelNewAccordionMenuEN() {
                 <div className="space-y-2 text-white">
                   <p>Once you've defined your theme and pricing model, access your dashboard and complete the steps to "Add new property".</p>
                   <p>From there you can manage availability, visibility, and long-stay bookings.</p>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="calculator" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              12 - {t('calculator.title')}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-6 text-left py-6">
+              <div className="space-y-4 text-white whitespace-pre-line">
+                {t('calculator.text')}
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="space-y-3">
+                  <h4 className="text-[#FFF9B0] font-bold text-lg">English Version</h4>
+                  <img 
+                    src="/lovable-uploads/a434a2cc-c665-4c9b-828a-d5945a335947.png" 
+                    alt="Hotel-Living Calculator English Version" 
+                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
+                  />
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-[#FFF9B0] font-bold text-lg">Spanish Version</h4>
+                  <img 
+                    src="/lovable-uploads/132f46c4-4760-4907-bb8a-30ea52da9991.png" 
+                    alt="Hotel-Living Calculator Spanish Version" 
+                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
+                  />
                 </div>
               </div>
             </div>

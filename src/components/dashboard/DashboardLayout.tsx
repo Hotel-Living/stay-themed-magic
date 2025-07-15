@@ -80,18 +80,18 @@ export default function DashboardLayout({
             <aside className="lg:col-span-1">
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
                 <nav className="p-2 bg-[#5c0869]">
-                  {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
+                  {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-left", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
                       {tab.icon}
-                      {tab.label}
+                      <span className="text-left">{tab.label}</span>
                     </button>)}
                   
                   <div className="px-4 py-3">
                     <div className="h-px bg-fuchsia-900/20 my-2"></div>
                   </div>
                   
-                  <button onClick={handleLogout} className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors">
+                  <button onClick={handleLogout} className="w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors text-left">
                     <LogOut className="w-5 h-5" />
-                    {t('general.logOut')}
+                    <span className="text-left">{t('general.logOut')}</span>
                   </button>
                 </nav>
               </div>

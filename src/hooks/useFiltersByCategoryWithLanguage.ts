@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getTranslationKey, getTranslationPath } from "@/utils/filterTranslationMappings";
 
 interface FilterOption {
   id: string;
@@ -11,24 +12,13 @@ interface FilterOption {
 }
 
 export function useFiltersByCategoryWithLanguage(category: string) {
-  const { language } = useTranslation();
+  const { language, t } = useTranslation('filters');
   
   return useQuery({
-    queryKey: ['filters-with-mappings', category, language],
+    queryKey: ['filters-with-translations', category, language],
     queryFn: async (): Promise<FilterOption[]> => {
-      console.log(`🔍 Fetching filters with mappings for category: ${category}, language: ${language}`);
+      console.log(`🔍 Fetching filters with translations for category: ${category}, language: ${language}`);
       
-      // Get mappings for this category
-      const { data: mappings, error: mappingsError } = await supabase
-        .from('filter_value_mappings')
-        .select('spanish_value, english_value')
-        .eq('category', category)
-        .eq('is_active', true);
-
-      if (mappingsError) {
-        console.error(`❌ Error fetching mappings for category ${category}:`, mappingsError);
-      }
-
       // Get all filters for this category
       const { data: filters, error: filtersError } = await supabase
         .from('filters')
@@ -47,58 +37,41 @@ export function useFiltersByCategoryWithLanguage(category: string) {
         return [];
       }
 
-      // Create a mapping lookup for quick access
-      const mappingLookup = new Map<string, string>();
-      if (mappings) {
-        mappings.forEach(mapping => {
-          // Create bidirectional mapping
-          mappingLookup.set(mapping.spanish_value, mapping.english_value);
-          mappingLookup.set(mapping.english_value, mapping.spanish_value);
-        });
-      }
-
-      // Transform filters based on language preference and mappings
-      const languageFilteredData: FilterOption[] = [];
+      // Transform filters using proper i18n translations
+      const translationPath = getTranslationPath(category);
+      const translatedData: FilterOption[] = [];
       const processedValues = new Set<string>();
 
       filters.forEach(filter => {
-        const filterValue = filter.value;
-        let displayValue = filterValue;
+        const dbValue = filter.value;
+        let displayValue = dbValue;
         
-        // Apply language-specific transformation using mappings
-        if (language === 'es') {
-          // If it's already Spanish, use as-is
-          // If it's English and we have a Spanish mapping, use the Spanish version
-          if (mappingLookup.has(filterValue)) {
-            const mappedValue = mappingLookup.get(filterValue);
-            // Use Spanish value if this is English->Spanish mapping
-            if (mappings?.some(m => m.english_value === filterValue && m.spanish_value === mappedValue)) {
-              displayValue = mappedValue!;
-            }
-          }
-        } else {
-          // For English and other languages, prefer English values
-          if (mappingLookup.has(filterValue)) {
-            const mappedValue = mappingLookup.get(filterValue);
-            // Use English value if this is Spanish->English mapping  
-            if (mappings?.some(m => m.spanish_value === filterValue && m.english_value === mappedValue)) {
-              displayValue = mappedValue!;
-            }
+        // Get translation key for this database value
+        const translationKey = getTranslationKey(dbValue, category);
+        
+        if (translationKey && translationPath) {
+          // Use proper i18n translation
+          const fullTranslationKey = `${translationPath}.${translationKey}`;
+          const translatedValue = t(fullTranslationKey);
+          
+          // Only use translation if it's different from the key (i.e., translation exists)
+          if (translatedValue !== fullTranslationKey) {
+            displayValue = translatedValue;
           }
         }
 
-        // Avoid duplicates (e.g., both "Todo incluido" and "All Inclusive" in same language)
+        // Avoid duplicates
         if (!processedValues.has(displayValue)) {
           processedValues.add(displayValue);
-          languageFilteredData.push({
+          translatedData.push({
             ...filter,
             value: displayValue
           });
         }
       });
 
-      console.log(`✅ Found ${languageFilteredData.length} mapped filters for category ${category} (${language}):`, languageFilteredData.map(f => f.value));
-      return languageFilteredData;
+      console.log(`✅ Found ${translatedData.length} translated filters for category ${category} (${language}):`, translatedData.map(f => f.value));
+      return translatedData;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes

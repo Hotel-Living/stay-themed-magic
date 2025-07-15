@@ -47,7 +47,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto">
       {/* Title */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground">
+        <h2 className="text-xl md:text-xl font-bold uppercase tracking-wider text-foreground">
           {t('calculator.title')}
         </h2>
       </div>
@@ -60,7 +60,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
             <div className="space-y-6">
               {/* Hotel Members */}
               <div className="space-y-2">
-                <Label htmlFor="hotel-members" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                <Label htmlFor="hotel-members" className="text-xl font-medium text-foreground uppercase tracking-wide">
                   {t('calculator.hotelMembers')}
                 </Label>
                 <Input
@@ -75,7 +75,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
 
               {/* Empty Rooms Per Day */}
               <div className="space-y-2">
-                <Label htmlFor="empty-rooms" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                <Label htmlFor="empty-rooms" className="text-xl font-medium text-foreground uppercase tracking-wide">
                   {t('calculator.emptyRooms')}
                 </Label>
                 <Input
@@ -90,7 +90,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
 
               {/* Monthly Price */}
               <div className="space-y-2">
-                <Label htmlFor="monthly-price" className="text-lg font-medium text-foreground uppercase tracking-wide">
+                <Label htmlFor="monthly-price" className="text-xl font-medium text-foreground uppercase tracking-wide">
                   {t('calculator.monthlyPrice')}
                 </Label>
                 <Input
@@ -116,10 +116,10 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
             {/* Final Commission Result */}
             <div className="bg-primary/10 rounded-xl p-6 border-2 border-primary/20">
               <div className="text-center">
-                <div className="text-base font-medium text-foreground/70 uppercase tracking-wider mb-2">
+                <div className="text-xl font-medium text-foreground/70 uppercase tracking-wider mb-2">
                   {t('calculator.commissionLabel')}
                 </div>
-                <div className="text-5xl md:text-6xl font-bold text-primary">
+                <div className="text-6xl md:text-7xl font-bold text-primary">
                   {formatCurrency(commission)}
                 </div>
               </div>
@@ -129,7 +129,8 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
           {/* Disclaimer */}
           <div className="pt-4 border-t border-border/10">
             <p className="text-xs text-muted-foreground leading-relaxed">
-              {t('calculator.disclaimer')}
+              Figuras mostradas en esta simulación son estimaciones indicativas basadas en el potencial máximo de ocupación. Los resultados reales pueden variar dependiendo de los paquetes efectivamente vendidos.
+              El precio promedio mensual ($1,300) se refiere a una tarifa base sin comidas, ajustado a partir de una mezcla representativa de hoteles de 3 y 4 estrellas, y refleja un estimado equilibrado entre ocupación doble e individual.
             </p>
           </div>
         </div>

@@ -1,129 +1,127 @@
 {
-  "hotelAssociation": {
-    "fallbackAssociation": "sua associação hoteleira",
-    "slogan": "Uma nova fonte de renda para sua associação e mais reservas para seus hotéis",
-    "revolutionTitle": "UMA REVOLUÇÃO HOTELEIRA AO ALCANCE DE SUA ASSOCIAÇÃO",
-    "greeting": "Estimados representantes de {{associationName}}:",
-    "introduction": "Somos Hotel-Living.com, uma revolução hoteleira, criada por hoteleiros para hoteleiros.",
-    "expansion": "Estamos em plena expansão, e sempre que começamos em um país tentamos colaborar com os nossos: com as associações hoteleiras, para tentar que todos os benefícios se distribuam entre todos os membros do nosso setor.",
-    "opportunityTitle": "Somos uma oportunidade concreta e em andamento",
-    "opportunityDescription": "Um sistema que gera benefícios diretos tanto para a associação quanto para cada um de seus hotéis afiliados.",
-    "knownFactTitle": "Como é sabido",
-    "knownFactDescription": "As grandes cadeias hoteleiras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson e muitas mais) há anos vêm rentabilizando e ampliando o novo modelo social que nossa sociedade vem impondo: as estadias residenciais em hotéis, de média e longa duração.",
-    "onlyForBigChains": "APENAS PARA AS GRANDES CADEIAS HOTELEIRAS?",
-    "smallHotelsDescription": "Enquanto estas expandem sem cessar seus modelos residenciais, centenas de milhares de pequenos hotéis independentes e cadeias pequenas ou médias não conseguiram rentabilizar até agora este modelo, nem acessar seus imensos benefícios, por falta de uma ferramenta comum especializada e acessível.",
-    "whatWeOfferTitle": "O QUE OFERECEMOS NO HOTEL-LIVING.COM?",
-    "whatWeOfferDescription": "ÀS ASSOCIAÇÕES HOTELEIRAS: 4% do total das reservas geradas por seus membros, uma porcentagem que não afeta em absoluto seus hotéis, pois provém de nosso próprio custo de gestão.",
-    "onlineCalculatorTitle": "CALCULADORA ONLINE",
-    "accordionSection1": {
-      "title": "BENEFÍCIOS INÉDITOS PARA OS HOTÉIS",
-      "profitabilityTitle": "RENTABILIDADE E OCUPAÇÃO",
-      "profitabilityPoints": [
-        "Acabamos com as temporadas médias e baixas",
-        "Preenchemos seus quartos que ninguém preenche, tradicionalmente vazios",
-        "Rentabilizamos quartos com gastos já cobertos: o benefício puro perdido",
-        "Ativamos 100% da rentabilidade hoteleira",
-        "Trazemos clientes perfeitos, selecionados por afinidades",
-        "Adiantamos 5% de cada reserva: renda direta e não reembolsável",
-        "Comissão total justa: apenas 10%",
-        "Multiplicamos radicalmente seus benefícios",
-        "Estadias mais longas, rentáveis e previsíveis",
-        "Zero noites vazias",
-        "Coordenação de reservas sem lacunas",
-        "Maior renda com menos esforço"
-      ],
-      "costsTitle": "CUSTOS E EFICIÊNCIA",
-      "costsPoints": [
-        "Redução de custos operacionais",
-        "Menos limpezas, lavanderia e rotatividade",
-        "Menor carga para a recepção",
-        "Entradas/saídas unificadas em um dia semanal",
-        "Gestão diária mais simples e previsível",
-        "Sem assinaturas, subscrições ou taxas",
-        "Sem custos antecipados ou adaptações",
-        "Sem mudanças nos sistemas atuais"
-      ],
-      "staffTitle": "PESSOAL E EQUIPE",
-      "staffPoints": [
-        "Estabilidade total da equipe humana",
-        "Equipes motivadas, treináveis e estáveis o ano todo",
-        "Profissionalização real do pessoal operacional"
-      ],
-      "clientsTitle": "CLIENTES E COMUNIDADE",
-      "clientsPoints": [
-        "Recuperamos antigos clientes do Airbnb",
-        "Conectamos com uma nova geração de viajantes",
-        "Revolução das afinidades Hotel-Living",
-        "Cada hotel define seu tipo de hóspede ideal: nós o trazemos"
-      ],
-      "technologyTitle": "TECNOLOGIA E PLATAFORMA",
-      "technologyPoints": [
-        "Coordenamos entradas/saídas sem lacunas",
-        "Segmentamos por interesses e afinidades",
-        "Marketing para comunidades motivadas",
-        "Alcance global com targeting hiper-específico",
-        "Integração sem atritos",
-        "Nos adaptamos ao hotel, não o contrário",
-        "Complementamos o modelo tradicional"
-      ]
-    },
-    "accordionSection2": {
-      "title": "CENTENAS DE MILHÕES DE CLIENTES ESPERAM",
-      "introduction": "A sociedade mudou radicalmente nos últimos 50 anos. Mas o modelo hoteleiro... ainda não.",
-      "subtitle": "Centenas de milhões de pessoas querem deixar para trás:",
-      "points": [
-        "As tarefas domésticas: cozinhar, limpar, lavar...",
-        "As contas crescentes",
-        "O isolamento e a solidão",
-        "Os aluguéis impossíveis: avais, burocracias, preços altos",
-        "Os deslocamentos diários para o trabalho",
-        "O turismo sem alma: chaves em caixinhas, zero atenção, insegurança"
-      ]
-    },
-    "accordionSection3": {
-      "title": "SÃO CENTENAS DE MILHÕES DE CLIENTES POTENCIAIS",
-      "clientTypes": [
-        "Aposentados ativos que querem viver de verdade",
-        "Trabalhadores online e nômades digitais",
-        "Profissionais em cidades dormitório",
-        "Inquilinos fartos de dificuldades",
-        "Viajantes frequentes buscando alma",
-        "Usuários de apartamentos improvisados",
-        "Almas livres que querem tudo resolvido",
-        "Cidadãos que desejam quebrar a solidão e conhecer afins"
-      ],
-      "commonFactor": "Todos eles têm algo em comum: buscam um novo modo de habitar.",
-      "notAboutRenting": "Já não se trata de alugar. Já não se trata de viajar.",
-      "aboutLivingDifferent": "Trata-se de viver diferente.",
-      "hotelSolution": "E para tudo isso, o hotel é a solução natural.",
-      "hotelLivingChanges": "Hotel Living chega para mudá-lo.",
-      "features": [
-        "Modelo de longa duração",
-        "Implantado em fases com módulos revolucionários",
-        "Rentabiliza, posiciona e moderniza",
-        "Atualmente apenas 20% implantado"
-      ]
-    },
-    "accordionSection4": {
-      "title": "A GRANDE CRISE DO SETOR HOTELEIRO",
-      "obsoleteModel": "O modelo atual está obsoleto. Os índices oficiais falam de 50-55% de ocupação, mas a realidade é pior.",
-      "occupancyReality": "Se contarmos os hotéis fechados grande parte do ano, a ocupação real cai para 40%.",
-      "emptyRooms": "Isso significa mais de 5 bilhões de quartos vazios cada ano.",
-      "consequences": [
-        "Quartos e hotéis vazios",
-        "Receitas perdidas",
-        "Empregos perdidos"
-      ],
-      "meanwhile": "Enquanto isso, ao seu redor, centenas de milhões desejam:",
-      "desires": [
-        "Viver melhor",
-        "Sair da solidão",
-        "Conhecer pessoas",
-        "Viajar diferente",
-        "Habitar hotéis de forma contínua"
-      ],
-      "emptyRoomOpportunity": "Cada quarto vazio é uma oportunidade perdida.",
-      "finalWarning": "E cada noite vazia, um passo a mais rumo à decadência do hotel que não se adapta."
-    }
+  "fallbackAssociation": "sua associação hoteleira",
+  "slogan": "Uma nova fonte de renda para sua associação e mais reservas para seus hotéis",
+  "revolutionTitle": "UMA REVOLUÇÃO HOTELEIRA AO ALCANCE DE SUA ASSOCIAÇÃO",
+  "greeting": "Estimados representantes de {{associationName}}:",
+  "introduction": "Somos Hotel-Living.com, uma revolução hoteleira, criada por hoteleiros para hoteleiros.",
+  "expansion": "Estamos em plena expansão, e sempre que começamos em um país tentamos colaborar com os nossos: com as associações hoteleiras, para tentar que todos os benefícios se distribuam entre todos os membros do nosso setor.",
+  "opportunityTitle": "Somos uma oportunidade concreta e em andamento",
+  "opportunityDescription": "Um sistema que gera benefícios diretos tanto para a associação quanto para cada um de seus hotéis afiliados.",
+  "knownFactTitle": "Como é sabido",
+  "knownFactDescription": "As grandes cadeias hoteleiras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson e muitas mais) há anos vêm rentabilizando e ampliando o novo modelo social que nossa sociedade vem impondo: as estadias residenciais em hotéis, de média e longa duração.",
+  "onlyForBigChains": "APENAS PARA AS GRANDES CADEIAS HOTELEIRAS?",
+  "smallHotelsDescription": "Enquanto estas expandem sem cessar seus modelos residenciais, centenas de milhares de pequenos hotéis independentes e cadeias pequenas ou médias não conseguiram rentabilizar até agora este modelo, nem acessar seus imensos benefícios, por falta de uma ferramenta comum especializada e acessível.",
+  "whatWeOfferTitle": "O QUE OFERECEMOS NO HOTEL-LIVING.COM?",
+  "whatWeOfferDescription": "ÀS ASSOCIAÇÕES HOTELEIRAS: 4% do total das reservas geradas por seus membros, uma porcentagem que não afeta em absoluto seus hotéis, pois provém de nosso próprio custo de gestão.",
+  "onlineCalculatorTitle": "CALCULADORA ONLINE",
+  "accordionSection1": {
+    "title": "BENEFÍCIOS INÉDITOS PARA OS HOTÉIS",
+    "profitabilityTitle": "RENTABILIDADE E OCUPAÇÃO",
+    "profitabilityPoints": [
+      "Acabamos com as temporadas médias e baixas",
+      "Preenchemos seus quartos que ninguém preenche, tradicionalmente vazios",
+      "Rentabilizamos quartos com gastos já cobertos: o benefício puro perdido",
+      "Ativamos 100% da rentabilidade hoteleira",
+      "Trazemos clientes perfeitos, selecionados por afinidades",
+      "Adiantamos 5% de cada reserva: renda direta e não reembolsável",
+      "Comissão total justa: apenas 10%",
+      "Multiplicamos radicalmente seus benefícios",
+      "Estadias mais longas, rentáveis e previsíveis",
+      "Zero noites vazias",
+      "Coordenação de reservas sem lacunas",
+      "Maior renda com menos esforço"
+    ],
+    "costsTitle": "CUSTOS E EFICIÊNCIA",
+    "costsPoints": [
+      "Redução de custos operacionais",
+      "Menos limpezas, lavanderia e rotatividade",
+      "Menor carga para a recepção",
+      "Entradas/saídas unificadas em um dia semanal",
+      "Gestão diária mais simples e previsível",
+      "Sem assinaturas, subscrições ou taxas",
+      "Sem custos antecipados ou adaptações",
+      "Sem mudanças nos sistemas atuais"
+    ],
+    "staffTitle": "PESSOAL E EQUIPE",
+    "staffPoints": [
+      "Estabilidade total da equipe humana",
+      "Equipes motivadas, treináveis e estáveis o ano todo",
+      "Profissionalização real do pessoal operacional"
+    ],
+    "clientsTitle": "CLIENTES E COMUNIDADE",
+    "clientsPoints": [
+      "Recuperamos antigos clientes do Airbnb",
+      "Conectamos com uma nova geração de viajantes",
+      "Revolução das afinidades Hotel-Living",
+      "Cada hotel define seu tipo de hóspede ideal: nós o trazemos"
+    ],
+    "technologyTitle": "TECNOLOGIA E PLATAFORMA",
+    "technologyPoints": [
+      "Coordenamos entradas/saídas sem lacunas",
+      "Segmentamos por interesses e afinidades",
+      "Marketing para comunidades motivadas",
+      "Alcance global com targeting hiper-específico",
+      "Integração sem atritos",
+      "Nos adaptamos ao hotel, não o contrário",
+      "Complementamos o modelo tradicional"
+    ]
+  },
+  "accordionSection2": {
+    "title": "CENTENAS DE MILHÕES DE CLIENTES ESPERAM",
+    "introduction": "A sociedade mudou radicalmente nos últimos 50 anos. Mas o modelo hoteleiro... ainda não.",
+    "subtitle": "Centenas de milhões de pessoas querem deixar para trás:",
+    "points": [
+      "As tarefas domésticas: cozinhar, limpar, lavar...",
+      "As contas crescentes",
+      "O isolamento e a solidão",
+      "Os aluguéis impossíveis: avais, burocracias, preços altos",
+      "Os deslocamentos diários para o trabalho",
+      "O turismo sem alma: chaves em caixinhas, zero atenção, insegurança"
+    ]
+  },
+  "accordionSection3": {
+    "title": "SÃO CENTENAS DE MILHÕES DE CLIENTES POTENCIAIS",
+    "clientTypes": [
+      "Aposentados ativos que querem viver de verdade",
+      "Trabalhadores online e nômades digitais",
+      "Profissionais em cidades dormitório",
+      "Inquilinos fartos de dificuldades",
+      "Viajantes frequentes buscando alma",
+      "Usuários de apartamentos improvisados",
+      "Almas livres que querem tudo resolvido",
+      "Cidadãos que desejam quebrar a solidão e conhecer afins"
+    ],
+    "commonFactor": "Todos eles têm algo em comum: buscam um novo modo de habitar.",
+    "notAboutRenting": "Já não se trata de alugar. Já não se trata de viajar.",
+    "aboutLivingDifferent": "Trata-se de viver diferente.",
+    "hotelSolution": "E para tudo isso, o hotel é a solução natural.",
+    "hotelLivingChanges": "Hotel Living chega para mudá-lo.",
+    "features": [
+      "Modelo de longa duração",
+      "Implantado em fases com módulos revolucionários",
+      "Rentabiliza, posiciona e moderniza",
+      "Atualmente apenas 20% implantado"
+    ]
+  },
+  "accordionSection4": {
+    "title": "A GRANDE CRISE DO SETOR HOTELEIRO",
+    "obsoleteModel": "O modelo atual está obsoleto. Os índices oficiais falam de 50-55% de ocupação, mas a realidade é pior.",
+    "occupancyReality": "Se contarmos os hotéis fechados grande parte do ano, a ocupação real cai para 40%.",
+    "emptyRooms": "Isso significa mais de 5 bilhões de quartos vazios cada ano.",
+    "consequences": [
+      "Quartos e hotéis vazios",
+      "Receitas perdidas",
+      "Empregos perdidos"
+    ],
+    "meanwhile": "Enquanto isso, ao seu redor, centenas de milhões desejam:",
+    "desires": [
+      "Viver melhor",
+      "Sair da solidão",
+      "Conhecer pessoas",
+      "Viajar diferente",
+      "Habitar hotéis de forma contínua"
+    ],
+    "emptyRoomOpportunity": "Cada quarto vazio é uma oportunidade perdida.",
+    "finalWarning": "E cada noite vazia, um passo a mais rumo à decadência do hotel que não se adapta."
   }
 }

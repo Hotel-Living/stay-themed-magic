@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText, UserPlus } from "lucide-react";
+import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, FileText, UserPlus, Hotel, Megaphone, TrendingUp } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 
 // Import refactored components
@@ -11,91 +10,80 @@ import { Footer } from "@/components/Footer";
 import { EnhancedAvatarAssistant } from "@/components/avatars/EnhancedAvatarAssistant";
 
 export default function HotelDashboardES() {
-  const [activeTab, setActiveTab] = useState<string>("welcome-overview");
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
   const { profile } = useAuth();
   
-  // Create dashboard tabs configuration with Spanish labels
+  // Create dashboard tabs configuration with Spanish labels - NEW ORDER
   const tabs: DashboardTab[] = [
-    {
-      id: "welcome-overview",
-      label: "Resumen de Bienvenida",
-      icon: <Heart className="w-5 h-5" />
-    },
     {
       id: "dashboard",
       label: "Panel de Control",
-      icon: <BarChart3 className="w-5 h-5" />
+      icon: <BarChart3 className="w-5 h-5 text-blue-400" />
     },
     {
       id: "rates-calculator",
-      label: (
-        <>
-          Calcular Modelo
-          <br />
-          Tarifas y Ganancias
-        </>
-      ),
-      icon: <Calculator className="w-5 h-5" />
-    },
-    {
-      id: "properties",
-      label: "Propiedades",
-      icon: <Building className="w-5 h-5" />
+      label: "Calcule su Modelo de Tarifas y Ganancias",
+      icon: <Calculator className="w-5 h-5 text-green-400" />
     },
     {
       id: "add-property-2",
-      label: "Agregar Propiedad 2",
-      icon: <Building className="w-5 h-5" />
+      label: "Agregue Hotel",
+      icon: <Hotel className="w-5 h-5 text-orange-400" />
+    },
+    {
+      id: "referrals",
+      label: "Preséntenos Hoteles y Gane Comisiones",
+      icon: <UserPlus className="w-5 h-5 text-yellow-400" />
     },
     {
       id: "advertising",
-      label: "Publicidad",
-      icon: <BarChart3 className="w-5 h-5" />
+      label: "Obtenga Publicidad Gratuita",
+      icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
+    },
+    {
+      id: "properties",
+      label: "Mis Hoteles",
+      icon: <Building className="w-5 h-5 text-blue-600" />
     },
     {
       id: "bookings",
-      label: "Reservas",
-      icon: <Calendar className="w-5 h-5" />
+      label: "Mis Reservas",
+      icon: <Calendar className="w-5 h-5 text-teal-400" />
     },
     {
       id: "guests",
-      label: "Huéspedes",
-      icon: <Users className="w-5 h-5" />
+      label: "Mis Huéspedes",
+      icon: <Users className="w-5 h-5 text-violet-400" />
+    },
+    {
+      id: "finances",
+      label: "Mis Finanzas",
+      icon: <CreditCard className="w-5 h-5 text-green-600" />
+    },
+    {
+      id: "reviews",
+      label: "Mis Reseñas",
+      icon: <Star className="w-5 h-5 text-orange-300" />
+    },
+    {
+      id: "analytics",
+      label: "Mis Analíticas",
+      icon: <TrendingUp className="w-5 h-5 text-cyan-300" />
     },
     {
       id: "messages",
       label: "Mensajes de Admin",
-      icon: <MessageCircle className="w-5 h-5" />
-    },
-    {
-      id: "finances",
-      label: "Finanzas",
-      icon: <CreditCard className="w-5 h-5" />
-    },
-    {
-      id: "reviews",
-      label: "Reseñas",
-      icon: <Star className="w-5 h-5" />
-    },
-    {
-      id: "analytics",
-      label: "Analíticas",
-      icon: <BarChart3 className="w-5 h-5" />
-    },
-    {
-      id: "referrals",
-      label: "🏨 Referir Hoteles – Ganar Comisiones",
-      icon: <UserPlus className="w-5 h-5" />
+      icon: <MessageCircle className="w-5 h-5 text-red-400" />
     },
     {
       id: "settings",
       label: "Configuración",
-      icon: <Settings className="w-5 h-5" />
+      icon: <Settings className="w-5 h-5 text-slate-400" />
     },
     {
       id: "terms-conditions",
       label: "Términos y Condiciones",
-      icon: <FileText className="w-5 h-5" />
+      icon: <FileText className="w-5 h-5 text-amber-600" />
     }
   ];
   

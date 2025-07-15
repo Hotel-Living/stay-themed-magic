@@ -46,6 +46,7 @@ import enDashboard from './locales/en/dashboard.json';
 import enTerms from './locales/en/terms.json';
 import enAmbassador from './locales/en/ambassador.json';
 import enPress from './locales/en/press.json';
+import enHotelCrisis from './locales/en/hotel-crisis.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -88,6 +89,7 @@ import esDashboard from './locales/es/dashboard.json';
 import esAmbassador from './locales/es/ambassador.json';
 import esPress from './locales/es/press.json';
 import esAdvertising from './locales/es/dashboard/advertising.json';
+import esHotelCrisis from './locales/es/hotel-crisis.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -119,6 +121,7 @@ import ptDashboard from './locales/pt/dashboard.json';
 import ptTerms from './locales/pt/terms.json';
 import ptAmbassador from './locales/pt/ambassador.json';
 import ptPress from './locales/pt/press.json';
+import ptHotelCrisis from './locales/pt/hotel-crisis.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -150,6 +153,7 @@ import roTerms from './locales/ro/terms.json';
 import roAmbassador from './locales/ro/ambassador.json';
 import roPress from './locales/ro/press.json';
 import roAdvertising from './locales/ro/dashboard/advertising.json';
+import roHotelCrisis from './locales/ro/hotel-crisis.json';
 
 const resources = {
   en: {
@@ -175,6 +179,7 @@ const resources = {
     ambassador: enAmbassador,
     press: enPress,
     advertising: enAdvertising,
+    'hotel-crisis': enHotelCrisis,
     // Dashboard namespaces as separate resources
     'dashboard/general': enDashboardGeneral,
     'dashboard/welcome': enDashboardWelcome,
@@ -256,6 +261,7 @@ const resources = {
     ambassador: esAmbassador,
     press: esPress,
     advertising: esAdvertising,
+    'hotel-crisis': esHotelCrisis,
     // Dashboard namespaces as separate resources
     'dashboard/general': esDashboardGeneral,
     'dashboard/hotel': esDashboardHotel,
@@ -298,6 +304,7 @@ const resources = {
     ambassador: ptAmbassador,
     press: ptPress,
     advertising: ptAdvertising,
+    'hotel-crisis': ptHotelCrisis,
     // Dashboard namespaces as separate resources
     'dashboard/general': ptDashboardGeneral,
     'dashboard/common': ptDashboardCommon,
@@ -340,6 +347,7 @@ const resources = {
     ambassador: roAmbassador,
     press: roPress,
     advertising: roAdvertising,
+    'hotel-crisis': roHotelCrisis,
     // Dashboard namespaces as separate resources
     'dashboard/general': roDashboardGeneral,
     'dashboard/common': roDashboardCommon,

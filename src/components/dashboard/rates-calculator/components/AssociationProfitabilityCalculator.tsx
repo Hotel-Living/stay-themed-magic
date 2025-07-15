@@ -60,12 +60,12 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
           <div className="space-y-10">
             
             {/* Input Fields Grid */}
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 items-start">
               
               {/* Hotel Members */}
               <div className="space-y-4">
                 <label htmlFor="hotel-members" className="block text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-tight">
-                  {t('calculator.hotelMembers')}
+                  ¿CUÁNTOS HOTELES MIEMBROS TIENE SU ASOCIACIÓN?
                 </label>
                 <input
                   id="hotel-members"
@@ -80,7 +80,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
               {/* Empty Rooms Per Day */}
               <div className="space-y-4">
                 <label htmlFor="empty-rooms" className="block text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-tight">
-                  {t('calculator.emptyRooms')}
+                  ¿CUÁNTAS HABITACIONES VACÍAS TIENEN POR DÍA EN PROMEDIO?
                 </label>
                 <input
                   id="empty-rooms"
@@ -95,7 +95,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
               {/* Monthly Price */}
               <div className="space-y-4">
                 <label htmlFor="monthly-price" className="block text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-tight">
-                  {t('calculator.monthlyPrice')}
+                  PRECIO PROMEDIO DEL PAQUETE MENSUAL
                 </label>
                 <input
                   id="monthly-price"
@@ -123,7 +123,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
                   <div className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wider mb-6 drop-shadow-md">
                     {t('calculator.commissionLabel')}
                   </div>
-                  <div className="text-6xl md:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl mb-4">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-black text-white drop-shadow-2xl mb-4">
                     {formatCurrency(commission)}
                   </div>
                   <div className="inline-block bg-yellow-400/20 rounded-full px-6 py-2 border border-yellow-400/40">
@@ -138,8 +138,9 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
             {/* Disclaimer */}
             <div className="bg-white/5 rounded-xl p-6 border border-white/10">
               <p className="text-sm text-white/60 leading-relaxed text-center italic">
-                Figuras mostradas en esta simulación son estimaciones indicativas basadas en el potencial máximo de ocupación. Los resultados reales pueden variar dependiendo de los paquetes efectivamente vendidos.
-                El precio promedio mensual ($1,300) se refiere a una tarifa base sin comidas, ajustado a partir de una mezcla representativa de hoteles de 3 y 4 estrellas, y refleja un estimado equilibrado entre ocupación doble e individual.
+                Las cifras presentadas son estimaciones basadas en el potencial máximo de ocupación.
+                Los resultados reales pueden variar en función del número de paquetes efectivamente vendidos y del precio promedio mensual.
+                Este último —fijado en $1,300— representa una media ponderada que contempla estancias sin servicio de comidas, así como hoteles de distintas categorías, con ocupaciones tanto individuales como dobles.
               </p>
             </div>
           </div>

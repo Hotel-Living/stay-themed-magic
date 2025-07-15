@@ -78,23 +78,26 @@ export default function HotelAssociation() {
               </div>
               
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl">
-                <p className="text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-relaxed mb-8">
-                  {t('slogan')}
-                </p>
+                <div className="space-y-2 mb-8">
+                  <p className="text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-relaxed">
+                    UNA GRAN FUENTE DE INGRESOS PARA SU ASOCIACIÓN
+                  </p>
+                  <p className="text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-relaxed">
+                    POSIBLE OCUPACIÓN MASIVA PARA SUS HOTELES AFILIADOS
+                  </p>
+                </div>
                 
-                <h1 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide leading-tight mb-12 drop-shadow-md">
-                  💼 {t('revolutionTitle')}
+                <h1 className="text-base md:text-lg font-bold text-yellow-300 uppercase tracking-wide leading-tight mb-24 drop-shadow-md">
+                  💼 UNA REVOLUCIÓN HOTELERA QUE SU ASOCIACIÓN PUEDE INTRODUCIR EN PRIMICIA ENTRE SUS HOTELES
                 </h1>
                 
                 <div className="bg-white/5 rounded-xl p-6 border border-white/10">
                   <p className="text-xl md:text-2xl font-bold text-white mb-6 leading-relaxed">
                     {t('greeting', { associationName })}
                   </p>
-                  <p className="text-lg text-white/80 leading-relaxed mb-4">
-                    {t('introduction')}
-                  </p>
                   <p className="text-lg text-white/80 leading-relaxed">
-                    {t('expansion')}
+                    Somos Hotel-Living.com, revolución hotelera, creada por hoteleros para hoteleros.
+                    Estamos en plena expansión, y al entrar en un nuevo país intentamos lógicamente colaborar con los nuestros —las asociaciones hoteleras— con el objetivo de que todos los beneficios queden en lo posible en nuestro sector.
                   </p>
                 </div>
               </div>
@@ -106,12 +109,20 @@ export default function HotelAssociation() {
               {/* Opportunity Section */}
               <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 shadow-xl">
                 <div className="max-w-4xl mx-auto text-center">
-                  <h2 className="text-2xl md:text-3xl font-bold text-yellow-300 uppercase tracking-wide mb-8 drop-shadow-md">
-                    📊 {t('opportunityTitle')}
+                  <h2 className="text-lg md:text-xl font-bold text-yellow-300 uppercase tracking-wide mb-8 drop-shadow-md">
+                    📊 SOMOS UNA OPORTUNIDAD CONCRETA Y EN MARCHA
                   </h2>
-                  <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                    {t('opportunityDescription')}
-                  </p>
+                  <div className="space-y-2">
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      Un sistema que genera beneficios directos
+                    </p>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      tanto para la asociación
+                    </p>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      como para sus hoteles afiliados.
+                    </p>
+                  </div>
                 </div>
               </section>
 
@@ -119,14 +130,21 @@ export default function HotelAssociation() {
               <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 shadow-xl">
                 <div className="max-w-4xl mx-auto">
                   <div className="prose prose-lg prose-invert max-w-none">
+                    <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8">
+                      LA SOCIEDAD HA CAMBIADO. NUESTRO MODELO NO.
+                    </h3>
                     <p className="text-lg text-white/90 leading-relaxed mb-8">
-                      {t('knownFactTitle')} {t('knownFactDescription')}
+                      Como es sabido Las grandes cadenas hoteleras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson y muchas
+                      más) hace ya años que están rentabilizando y ampliando el nuevo modelo social que nuestra sociedad va
+                      imponiendo: las estancias residenciales en hoteles, de media y larga duración.
                     </p>
                     <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-6">
-                      {t('onlyForBigChains')}
+                      ¿SÓLO PARA LAS GRANDES CADENAS HOTELERAS?
                     </h3>
                     <p className="text-lg text-white/90 leading-relaxed">
-                      {t('smallHotelsDescription')}
+                      Mientras estas expanden sin cesar sus modelos residenciales, centenares de miles de pequeños hoteles
+                      independientes y cadenas pequeñas o medianas no han podido rentabilizar hasta ahora este modelo, ni
+                      acceder a sus inmensos beneficios, por falta de una herramienta común especializada y accesible.
                     </p>
                   </div>
                 </div>
@@ -136,11 +154,16 @@ export default function HotelAssociation() {
               <section className="bg-gradient-to-r from-purple-900/30 to-purple-800/30 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-purple-300/20 shadow-xl">
                 <div className="max-w-4xl mx-auto text-center">
                   <h2 className="text-2xl md:text-3xl font-bold text-yellow-300 uppercase tracking-wide mb-6">
-                    {t('whatWeOfferTitle')}
+                    ¿QUÉ OFRECEMOS EN HOTEL-LIVING.COM?
                   </h2>
-                  <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                    {t('whatWeOfferDescription')}
-                  </p>
+                  <div className="space-y-2">
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed font-semibold">
+                      A LAS ASOCIACIONES HOTELERAS:
+                    </p>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      Un 4% del total de las reservas generadas por sus miembros, un porcentaje que no afecta en absoluto a sus hoteles, pues proviene de nuestro propio coste de gestión.
+                    </p>
+                  </div>
                 </div>
               </section>
 
@@ -156,7 +179,7 @@ export default function HotelAssociation() {
                   {/* Section 1: Benefits for Hotels */}
                   <AccordionItem value="benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-                      <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
                         ① {t('accordionSection1.title')}
                       </span>
                     </AccordionTrigger>
@@ -225,7 +248,7 @@ export default function HotelAssociation() {
                   {/* Section 2: Millions of Clients Waiting */}
                   <AccordionItem value="clients-waiting" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-                      <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
                         ② {t('accordionSection2.title')}
                       </span>
                     </AccordionTrigger>
@@ -251,7 +274,7 @@ export default function HotelAssociation() {
                   {/* Section 3: Potential Clients */}
                   <AccordionItem value="potential-clients" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-                      <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
                         ③ {t('accordionSection3.title')}
                       </span>
                     </AccordionTrigger>
@@ -289,7 +312,7 @@ export default function HotelAssociation() {
                   {/* Section 4: Hotel Sector Crisis */}
                   <AccordionItem value="sector-crisis" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-                      <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
                         ④ {t('accordionSection4.title')}
                       </span>
                     </AccordionTrigger>

@@ -17,34 +17,22 @@ export default function Help() {
 
     // Wait for DOM to be ready, then load D-ID script
     const loadDIDScript = () => {
-      // Create the target container for D-ID
       const targetContainer = document.getElementById('did-avatar-container');
       if (!targetContainer) return;
 
-      // Create D-ID container element
-      const didContainer = document.createElement('div');
-      didContainer.setAttribute('data-did-container', 'true');
-      didContainer.setAttribute('id', 'did-agent-widget');
-      didContainer.style.width = '100%';
-      didContainer.style.height = '100%';
-      didContainer.style.minHeight = '250px';
-      
-      // Clear and append to target
+      // Clear the container and prepare for D-ID
       targetContainer.innerHTML = '';
-      targetContainer.appendChild(didContainer);
-
-      // Create and configure the script
+      
+      // Create and configure the script with simpler approach
       const script = document.createElement('script');
       script.type = 'module';
       script.src = 'https://agent.d-id.com/v2/index.js';
-      script.setAttribute('data-mode', 'widget');
+      script.setAttribute('data-mode', 'fabio');
       script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
       
-      // Use different agent IDs based on language - you need to replace 'v2_agt_ID_ES' with actual Spanish agent ID
-      const agentId = i18n.language === 'es' ? 'v2_agt_20pNgPtt' : 'v2_agt_20pNgPtt'; // Replace first one with your Spanish agent ID
-      
+      const agentId = 'v2_agt_20pNgPtt';
       script.setAttribute('data-agent-id', agentId);
-      script.setAttribute('data-target', '#did-agent-widget');
+      script.setAttribute('data-target', '#did-avatar-container');
       script.setAttribute('data-autostart', 'true');
       
       // Add loading and error handling

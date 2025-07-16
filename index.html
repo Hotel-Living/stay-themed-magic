@@ -4,67 +4,54 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/lovable-uploads/b2b167c7-d757-4e25-820e-b6b3f25d1af6.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" as="image" href="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-    <meta name="description" content="Hotel-Living - Extended stay hotels with flexible booking options" />
-
-    <!-- Hotel-Living Social Share Preview -->
-    <meta property="og:title" content="Hotel-Living" />
-    <meta property="og:description" content="Extended stay hotels with flexible booking options" />
-    <meta property="og:url" content="https://hotel-living.com/" />
-    <meta property="og:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    <meta property="og:image:secure_url" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    <meta property="og:image:url" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="Hotel-Living - Extended stay hotels with flexible booking options" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Hotel-Living" />
-
-    <!-- Twitter Card metadata -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Hotel-Living" />
-    <meta name="twitter:description" content="Extended stay hotels with flexible booking options" />
-    <meta name="twitter:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    <meta name="twitter:image:alt" content="Hotel-Living - Extended stay hotels with flexible booking options" />
-    <meta name="twitter:site" content="@HotelLiving" />
-    <meta name="twitter:creator" content="@HotelLiving" />
-
-    <!-- WhatsApp and general social media -->
-    <meta name="image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-
-    <!-- Additional metadata for better social sharing -->
-    <meta property="fb:app_id" content="hotel-living" />
-    <meta name="author" content="Hotel-Living" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://hotel-living.com/" />
-
     <title>Hotel-Living</title>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XBVTERBKV"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-2XBVTERBKV');
-    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Carga del motor principal de la app -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- D-ID Avatar Dynamic Loader -->
+    <!-- Contenedor para el avatar -->
     <div id="d-id-avatar" style="z-index: 999999;"></div>
 
+    <!-- Script para cargar avatar de D-ID dinámicamente según idioma -->
     <script>
       const script = document.createElement("script");
       script.src = "https://agent.d-id.com/v2/index.js";
       script.async = true;
 
       script.onload = () => {
-        const language = navigator.lan
+        const language = navigator.language || navigator.userLanguage;
+        const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";   // Agente en español
+        const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";   // Agente en inglés
+        const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
+
+        const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
+
+        if (window.DIDWidget && typeof window.DIDWidget.init === "function") {
+          window.DIDWidget.init({
+            clientKey,
+            agentId,
+            container: document.getElementById("d-id-avatar"),
+            enableSpeech: true,
+            enableMic: true,
+            alignment: "right",
+            position: "bottom",
+            avatarSize: "medium"
+          });
+          console.log(`✅ Avatar D-ID cargado para: ${language}`);
+        } else {
+          console.error("❌ No se pudo iniciar el widget de D-ID.");
+        }
+      };
+
+      script.onerror = () => {
+        console.error("❌ Error al cargar el script de D-ID.");
+      };
+
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

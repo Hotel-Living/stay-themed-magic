@@ -2,9 +2,71 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Starfield } from '@/components/Starfield';
+import { useEffect } from 'react';
 
 export default function Ayuda() {
-  const { t } = useTranslation('home');
+  const { t, i18n } = useTranslation('home');
+
+  useEffect(() => {
+    // Clean up any existing scripts and containers first
+    const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
+    existingScripts.forEach(script => script.remove());
+    
+    const existingContainers = document.querySelectorAll('[data-did-container]');
+    existingContainers.forEach(container => container.remove());
+
+    // Wait for DOM to be ready, then load D-ID script
+    const loadDIDScript = () => {
+      const targetContainer = document.getElementById('did-avatar-container');
+      if (!targetContainer) return;
+
+      // Clear the container and prepare for D-ID
+      targetContainer.innerHTML = '';
+      
+      // Create and configure the script with simpler approach
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://agent.d-id.com/v2/index.js';
+      script.setAttribute('data-mode', 'fabio');
+      script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+      
+      // CRITICAL: Replace with actual Spanish agent ID from D-ID dashboard
+      const agentId = 'YOUR_SPANISH_AGENT_ID'; 
+      script.setAttribute('data-agent-id', agentId);
+      script.setAttribute('data-target', '#did-avatar-container');
+      script.setAttribute('data-autostart', 'true');
+      
+      // Add loading and error handling
+      script.onload = () => {
+        console.log('D-ID script loaded successfully with agent ID:', agentId);
+      };
+      
+      script.onerror = (error) => {
+        console.error('Failed to load D-ID script:', error);
+        // Show fallback content
+        if (targetContainer) {
+          targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
+        }
+      };
+      
+      // Add script to document body
+      document.body.appendChild(script);
+    };
+
+    // Load script after ensuring DOM is ready
+    const timer = setTimeout(loadDIDScript, 200);
+    
+    return () => {
+      clearTimeout(timer);
+      // Clean up script and containers on unmount or language change
+      const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+      const containers = document.querySelectorAll('[data-did-container]');
+      containers.forEach(container => container.remove());
+    };
+  }, [i18n.language]); // Re-run when language changes
 
   const avatarsData = [
     {
@@ -61,17 +123,6 @@ export default function Ayuda() {
     <div className="flex flex-col min-h-screen relative">
       <Starfield />
       <Navbar />
-      
-      {/* Direct D-ID Script Embedding - Replace YOUR_SPANISH_AGENT_ID with actual Spanish agent ID */}
-      <script 
-        type="module"
-        src="https://agent.d-id.com/v2/index.js"
-        data-mode="fabio"
-        data-client-key="YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA=="
-        data-agent-id="YOUR_SPANISH_AGENT_ID"
-        data-target="#did-avatar-container"
-        data-autostart="true"
-      />
       
       <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         {/* Top Section - Main Avatar */}

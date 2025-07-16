@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { FilterSection, FilterState } from '@/components/filters';
-import { useThemesWithTranslations } from '@/hooks/useThemesWithTranslations';
+import { FilterState } from '@/components/filters';
+import { IndexPageFilters } from './IndexPageFilters';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -15,12 +15,11 @@ interface FilterSectionWrapperProps {
 
 export function FilterSectionWrapper({
   onFilterChange,
-  availableThemes = ["Art", "Business", "Culture", "Education", "Entertainment", "Food and Drinks", "Health and Wellness", "History", "Hobbies", "Languages", "Lifestyle", "Nature", "Personal Development", "Relationships", "Science and Technology", "Social Impact", "Sports"]
+  availableThemes = []
 }: FilterSectionWrapperProps) {
-  const { data: themes } = useThemesWithTranslations();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const { t, language } = useTranslation('filters');
+  const { t } = useTranslation('filters');
 
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     country: null,
@@ -29,28 +28,28 @@ export function FilterSectionWrapper({
     priceRange: null,
     searchTerm: null,
     location: null,
-    propertyType: null
+    propertyType: null,
+    minPrice: 0,
+    maxPrice: 1000,
+    stars: [],
+    propertyStyle: null,
+    activities: [],
+    roomTypes: [],
+    hotelFeatures: [],
+    roomFeatures: [],
+    mealPlans: [],
+    stayLengths: null,
+    atmosphere: null
   });
 
-  const handleFilterChange = (newFilters: FilterState) => {
-    console.log('🔄 FilterSectionWrapper: Filter change received', newFilters);
-    
-    // DEBUGGING: Special logging for month filter
-    if (newFilters.month) {
-      console.log('📅 MONTH FILTER SELECTED ON INDEX PAGE:', newFilters.month);
-      console.log('📅 Previous month filter value:', activeFilters.month);
-    }
+  const handleIndividualFilterChange = (key: keyof FilterState, value: any) => {
+    console.log(`🔄 FilterSectionWrapper: Individual filter change - ${key}:`, value);
     
     const updatedFilters = {
       ...activeFilters,
-      ...newFilters
+      [key]: value
     };
     console.log('📝 FilterSectionWrapper: Updated active filters', updatedFilters);
-    
-    // DEBUGGING: Log the month specifically in updated filters
-    if (updatedFilters.month) {
-      console.log('✅ MONTH FILTER NOW ACTIVE IN UPDATED FILTERS:', updatedFilters.month);
-    }
     
     setActiveFilters(updatedFilters);
     onFilterChange(updatedFilters);
@@ -117,45 +116,15 @@ export function FilterSectionWrapper({
     navigate(finalUrl);
   };
 
-  const getPlaceholders = () => {
-    if (language === 'es') {
-      return {
-        month: "¿" + t('filters.month') + "?",
-        country: "¿" + t('filters.country') + "?",
-        theme: "¿" + t('filters.affinity') + "?",
-        priceRange: "¿" + t('filters.pricePerMonth') + "?"
-      };
-    }
-    if (language === 'pt') {
-      return {
-        month: t('filters.month') + "?",
-        country: t('filters.country') + "?",
-        theme: t('filters.affinity') + "?",
-        priceRange: t('filters.pricePerMonth') + "?"
-      };
-    }
-    if (language === 'ro') {
-      return {
-        month: t('filters.month') + "?",
-        country: t('filters.country') + "?",
-        theme: t('filters.affinity') + "?",
-        priceRange: t('filters.pricePerMonth') + "?"
-      };
-    }
-    return {
-      month: t('filters.month') + "?",
-      country: t('filters.country') + "?",
-      theme: t('filters.affinity') + "?",
-      priceRange: t('filters.pricePerMonth') + "?"
-    };
-  };
-
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div style={{
         backgroundColor: "#996515"
       }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
-          <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={getPlaceholders()} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
+          <IndexPageFilters 
+            activeFilters={activeFilters} 
+            onFilterChange={handleIndividualFilterChange} 
+          />
           
           <div className="flex justify-center" style={{
           backgroundColor: "#996515"

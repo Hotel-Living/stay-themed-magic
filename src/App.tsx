@@ -13,8 +13,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
-import { DIDAvatar } from "@/components/avatars/DIDAvatar";
-import { AvatarConflictResolver } from "@/components/avatars/AvatarConflictResolver";
+// D-ID Avatar imports removed - now using dynamic script in index.html
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
 import IntroTest1 from "@/pages/IntroTest1";
@@ -90,8 +89,7 @@ function App() {
               <ScrollToTop />
               <GoogleAnalytics />
               <DashboardAccess />
-              <DIDAvatar />
-              <AvatarConflictResolver />
+              {/* D-ID Avatar now loads via dynamic script in index.html */}
               
               {/* Intro Animation Overlay */}
               {shouldShowIntro && (

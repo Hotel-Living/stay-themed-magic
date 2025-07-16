@@ -1,10 +1,9 @@
-// Core D-ID Avatar Implementation
-export { DIDAvatar } from './DIDAvatar';
+// D-ID Avatar components disabled - using dynamic script in index.html
+// export { DIDAvatar } from './DIDAvatar';
+// export { AvatarConflictResolver } from './AvatarConflictResolver';
+// export { SpanishDIDAvatar } from './SpanishDIDAvatar';
 
-// Conflict Detection and Management
-export { AvatarConflictResolver } from './AvatarConflictResolver';
-
-// Legacy avatar components (temporarily disabled to avoid conflicts)
+// Legacy avatar components (disabled to avoid conflicts)
 // export { RandomAvatarAssistant } from './RandomAvatarAssistant';
 // export { EnhancedAvatarAssistant } from './EnhancedAvatarAssistant';
 // export { AvatarAssistant } from './AvatarAssistant';

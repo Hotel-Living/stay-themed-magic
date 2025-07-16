@@ -8,53 +8,47 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Use setTimeout with 1000ms delay as specified to ensure DOM is fully ready
-    const timer = setTimeout(() => {
-      console.log('🔄 Injecting D-ID script after 1000ms delay...');
-      
-      const container = document.getElementById("did-avatar-container");
-      if (!container) {
-        console.error('❌ did-avatar-container not found');
-        return;
-      }
-
-      console.log('✅ Container found, creating script...');
-      
-      const script = document.createElement("script");
-      script.type = "module";
-      script.src = "https://agent.d-id.com/v2/index.js";
-      script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==");
-      script.setAttribute("data-agent-id", "v2_agt_JZ4Lnlqs");
-      script.setAttribute("data-name", "did-agent-es");
-      script.setAttribute("data-monitor", "true");
-      script.setAttribute("data-orientation", "horizontal");
-      script.setAttribute("data-position", "right");
-      
-      container.appendChild(script);
-      console.log('✅ D-ID script injected to container');
-      console.log('Script element in DOM:', document.querySelector('script[src*="agent.d-id.com"]'));
-      
-      // Verify script persistence after injection
-      setTimeout(() => {
-        const scriptExists = document.querySelector('script[src*="agent.d-id.com"]');
-        const iframe = container.querySelector('iframe');
-        console.log('🔍 Verification after 5 seconds:');
-        console.log('- Script exists in DOM:', !!scriptExists);
-        console.log('- Container children count:', container.children.length);
-        console.log('- Iframe created:', !!iframe);
-        
-        if (!scriptExists) {
-          console.error('❌ CRITICAL: Script was removed from DOM!');
-        } else {
-          console.log('✅ Script persisted in DOM');
-        }
-      }, 5000);
-    }, 1000);
-
+    console.log('🔄 Client-side D-ID script injection starting...');
     
-    return () => {
-      clearTimeout(timer);
-    };
+    const container = document.getElementById('did-avatar-container');
+    if (!container) {
+      console.error('❌ did-avatar-container not found');
+      return;
+    }
+
+    console.log('✅ Container found, creating client-side script...');
+    
+    const script = document.createElement('script');
+    script.src = 'https://agent.d-id.com/v2/index.js';
+    script.dataset.clientKey = 'YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==';
+    script.dataset.agentId = 'v2_agt_JZ4Lnlqs';
+    script.dataset.name = 'did-agent-es';
+    script.dataset.mode = 'fabio';
+    script.dataset.monitor = 'true';
+    script.dataset.orientation = 'horizontal';
+    script.dataset.position = 'right';
+    script.async = true;
+    
+    container.appendChild(script);
+    console.log('✅ D-ID script injected client-side');
+    console.log('Script src:', script.src);
+    console.log('Script agentId:', script.dataset.agentId);
+    
+    // Verify script persistence
+    setTimeout(() => {
+      const scriptExists = document.querySelector('script[src*="agent.d-id.com"]');
+      const iframe = container.querySelector('iframe');
+      console.log('🔍 Client-side verification:');
+      console.log('- Script in DOM:', !!scriptExists);
+      console.log('- Iframe created:', !!iframe);
+      console.log('- Container children:', container.children.length);
+      
+      if (!scriptExists) {
+        console.error('❌ Script was removed from DOM');
+      } else {
+        console.log('✅ Script persisted client-side');
+      }
+    }, 3000);
   }, []); // Remove language dependency since we're forcing Spanish
 
   const avatarsData = [

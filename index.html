@@ -59,5 +59,43 @@
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- D-ID Avatar Dynamic Loader -->
+    <div id="d-id-avatar" style="z-index: 999999;"></div>
+
+    <script type="module">
+      import "https://agent.d-id.com/v2/index.js";
+
+      const language = navigator.language || navigator.userLanguage;
+
+      // Agent IDs
+      const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";   // Agente en español
+      const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";   // Agente en inglés
+
+      const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
+
+      const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
+
+      // Espera a que el DOM esté listo antes de iniciar el avatar
+      window.addEventListener("DOMContentLoaded", () => {
+        // Elimina avatares anteriores si los hubiera
+        const existing = document.getElementById("d-id-container");
+        if (existing) existing.remove();
+
+        // Inicializa el widget
+        window.DIDWidget?.init({
+          clientKey,
+          agentId,
+          container: document.getElementById("d-id-avatar"),
+          enableSpeech: true,
+          enableMic: true,
+          alignment: "right",
+          position: "bottom",
+          avatarSize: "medium"
+        });
+
+        console.log(`✅ D-ID Avatar loaded for language: ${language}`);
+      });
+    </script>
   </body>
 </html>

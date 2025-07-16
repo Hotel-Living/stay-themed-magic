@@ -21,13 +21,13 @@ export function HelpAssistant() {
         <img
           src="/lovable-uploads/44fa6e36-177c-4ca2-aa87-fa818f7d26b7.png"
           alt="Help Assistant"
-          className="w-64 h-64 object-cover rounded-lg shadow-lg"
+          className="w-32 h-32 object-cover rounded-lg shadow-lg"
         />
         
-        {/* Overlay Text */}
-        <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <p className="text-lg font-semibold drop-shadow-lg">
+        {/* Overlay Text at Bottom */}
+        <div className="absolute bottom-0 left-0 right-0 bg-black/60 rounded-b-lg">
+          <div className="text-center text-white p-2">
+            <p className="text-sm font-semibold drop-shadow-lg">
               {t('helpAssistant.message')}
             </p>
           </div>

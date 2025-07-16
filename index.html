@@ -61,36 +61,35 @@
     <script type="module" src="/src/main.tsx"></script>
     
     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("🌐 Hotel-Living: D-ID initialization started");
+  (function() {
+    const lang = navigator.language.startsWith('es') ? 'es' : 'en';
+    const agentId = lang === 'es'
+      ? 'v2_agt_JZ4Lnlqs'  // Spanish Agent ID
+      : 'v2_agt_20pNgPtt';  // English Agent ID
 
-    if (document.querySelector('script[src*="agent.d-id.com"]')) {
-      console.warn("D-ID: Script already loaded. Aborting duplicate injection.");
-      return;
-    }
-
-    const userLang = navigator.language || 'en';
-    const isSpanish = userLang.toLowerCase().startsWith('es');
-    const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
-
-    console.log("🌐 Language detected:", userLang, "| Agent:", agentId);
-
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = "https://agent.d-id.com/v2/index.js";
-    script.type = "module";
-    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
-    script.setAttribute("data-agent-id", agentId);
-    script.setAttribute("data-name", "did-avatar");
-    script.setAttribute("data-position", "right");
-    script.setAttribute("data-mode", "fabio");
-    script.setAttribute("data-monitor", "true");
-    script.setAttribute("data-orientation", "bottom-right");
-
-    script.onload = () => console.log("✅ D-ID: Script loaded and avatar should now appear.");
-    script.onerror = (e) => console.error("❌ D-ID: Failed to load avatar script", e);
-
+    script.async = true;
+    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+    script.setAttribute('data-agent-id', agentId);
+    script.setAttribute('data-enable-microphone', 'true');
+    script.setAttribute('data-autostart', 'true');
+    script.setAttribute('data-language', lang);
     document.body.appendChild(script);
-  });
+
+    // Force visibility & prevent hiding behind layout
+    const style = document.createElement('style');
+    style.innerHTML = `
+      d-id-widget {
+        z-index: 99999 !important;
+        visibility: visible !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+      }
+    `;
+    document.head.appendChild(style);
+  })();
 </script>
   </body>
 </html>

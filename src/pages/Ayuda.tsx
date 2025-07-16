@@ -120,6 +120,7 @@ export default function Ayuda() {
           <div 
             id="did-avatar-container"
             className="w-96 h-64 mb-4 flex items-center justify-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden"
+            style={{ minHeight: '300px', width: '100%', maxWidth: '400px' }}
           >
             <div className="text-white/60 text-center">
               <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>

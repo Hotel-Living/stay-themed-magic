@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <meta name="description" content="Hotel-Living - Extended stay hotels with flexible booking options" />
-    
+
     <!-- Hotel-Living Social Share Preview -->
     <meta property="og:title" content="Hotel-Living" />
     <meta property="og:description" content="Extended stay hotels with flexible booking options" />
@@ -33,25 +32,24 @@
     <meta name="twitter:image:alt" content="Hotel-Living - Extended stay hotels with flexible booking options" />
     <meta name="twitter:site" content="@HotelLiving" />
     <meta name="twitter:creator" content="@HotelLiving" />
-    
+
     <!-- WhatsApp and general social media -->
     <meta name="image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    
+
     <!-- Additional metadata for better social sharing -->
     <meta property="fb:app_id" content="hotel-living" />
     <meta name="author" content="Hotel-Living" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hotel-living.com/" />
-    
+
     <title>Hotel-Living</title>
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XBVTERBKV"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-2XBVTERBKV');
     </script>
   </head>
@@ -59,43 +57,14 @@
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
-    
+
     <!-- D-ID Avatar Dynamic Loader -->
     <div id="d-id-avatar" style="z-index: 999999;"></div>
 
-    <script type="module">
-      import "https://agent.d-id.com/v2/index.js";
+    <script>
+      const script = document.createElement("script");
+      script.src = "https://agent.d-id.com/v2/index.js";
+      script.async = true;
 
-      const language = navigator.language || navigator.userLanguage;
-
-      // Agent IDs
-      const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";   // Agente en español
-      const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";   // Agente en inglés
-
-      const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
-
-      const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
-
-      // Espera a que el DOM esté listo antes de iniciar el avatar
-      window.addEventListener("DOMContentLoaded", () => {
-        // Elimina avatares anteriores si los hubiera
-        const existing = document.getElementById("d-id-container");
-        if (existing) existing.remove();
-
-        // Inicializa el widget
-        window.DIDWidget?.init({
-          clientKey,
-          agentId,
-          container: document.getElementById("d-id-avatar"),
-          enableSpeech: true,
-          enableMic: true,
-          alignment: "right",
-          position: "bottom",
-          avatarSize: "medium"
-        });
-
-        console.log(`✅ D-ID Avatar loaded for language: ${language}`);
-      });
-    </script>
-  </body>
-</html>
+      script.onload = () => {
+        const language = navigator.lan

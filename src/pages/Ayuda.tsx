@@ -8,45 +8,74 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Clean up any existing scripts first
+    // Clean up any existing scripts and containers first
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
     existingScripts.forEach(script => script.remove());
+    
+    const existingContainers = document.querySelectorAll('[data-did-container]');
+    existingContainers.forEach(container => container.remove());
 
     // Wait for DOM to be ready, then load D-ID script
     const loadDIDScript = () => {
+      // Create the target container for D-ID
+      const targetContainer = document.getElementById('did-avatar-container');
+      if (!targetContainer) return;
+
+      // Create D-ID container element
+      const didContainer = document.createElement('div');
+      didContainer.setAttribute('data-did-container', 'true');
+      didContainer.setAttribute('id', 'did-agent-widget');
+      didContainer.style.width = '100%';
+      didContainer.style.height = '100%';
+      didContainer.style.minHeight = '250px';
+      
+      // Clear and append to target
+      targetContainer.innerHTML = '';
+      targetContainer.appendChild(didContainer);
+
+      // Create and configure the script
       const script = document.createElement('script');
       script.type = 'module';
       script.src = 'https://agent.d-id.com/v2/index.js';
-      script.setAttribute('data-mode', 'fabio');
+      script.setAttribute('data-mode', 'widget');
       script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
       
-      // Use different agent IDs based on language
-      const agentId = i18n.language === 'es' ? 'v2_agt_ID_ES' : 'v2_agt_20pNgPtt';
-      const agentName = i18n.language === 'es' ? 'did-agent-es' : 'did-agent-en';
+      // Use different agent IDs based on language - you need to replace 'v2_agt_ID_ES' with actual Spanish agent ID
+      const agentId = i18n.language === 'es' ? 'v2_agt_20pNgPtt' : 'v2_agt_20pNgPtt'; // Replace first one with your Spanish agent ID
       
       script.setAttribute('data-agent-id', agentId);
-      script.setAttribute('data-name', agentName);
-      script.setAttribute('data-monitor', 'true');
-      script.setAttribute('data-orientation', 'horizontal');
-      script.setAttribute('data-position', 'right');
+      script.setAttribute('data-target', '#did-agent-widget');
+      script.setAttribute('data-autostart', 'true');
       
-      // Add script to head
-      document.head.appendChild(script);
+      // Add loading and error handling
+      script.onload = () => {
+        console.log('D-ID script loaded successfully with agent ID:', agentId);
+      };
       
-      // Log for debugging
-      console.log('D-ID script loaded with agent ID:', agentId);
+      script.onerror = (error) => {
+        console.error('Failed to load D-ID script:', error);
+        // Show fallback content
+        if (targetContainer) {
+          targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
+        }
+      };
+      
+      // Add script to document body
+      document.body.appendChild(script);
     };
 
-    // Load script after a small delay to ensure DOM is ready
-    const timer = setTimeout(loadDIDScript, 100);
+    // Load script after ensuring DOM is ready
+    const timer = setTimeout(loadDIDScript, 200);
     
     return () => {
       clearTimeout(timer);
-      // Clean up script on unmount or language change
+      // Clean up script and containers on unmount or language change
       const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
       if (existingScript) {
-        document.head.removeChild(existingScript);
+        existingScript.remove();
       }
+      const containers = document.querySelectorAll('[data-did-container]');
+      containers.forEach(container => container.remove());
     };
   }, [i18n.language]); // Re-run when language changes
 
@@ -109,8 +138,14 @@ export default function Ayuda() {
       <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
-          <div className="w-96 h-64 mb-4 flex items-center justify-center">
-            {/* D-ID Avatar will be automatically injected here by the script */}
+          <div 
+            id="did-avatar-container"
+            className="w-96 h-64 mb-4 flex items-center justify-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden"
+          >
+            <div className="text-white/60 text-center">
+              <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
+              <p className="text-sm">Cargando avatar...</p>
+            </div>
           </div>
           <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
             <p className="text-center text-white text-lg font-semibold">

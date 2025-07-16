@@ -53,16 +53,31 @@ export default function Index() {
 
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
-  // ✅ D-ID Avatar auto-carga según idioma del navegador
-  useEffect(() => {
-    const existing = document.getElementById("d-id-container");
-    if (existing) return;
-
-    const language = navigator.language || navigator.userLanguage;
-    const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";
-    const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";
-    const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
-    const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
-
-    // 💣 Eliminar cualquier avatar que ya esté flotando
-    const existingAvatar = document.querySelector("iframe[src*='agent.d-id.com']")*]()
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      
+      {showIntro && (
+        <IntroStarAnimation onComplete={handleIntroComplete} />
+      )}
+      
+      {showAvatarIntro && (
+        <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
+      )}
+      
+      <HeroSection />
+      
+      <FilterSectionWrapper 
+        onFilterChange={handleFilterChange}
+        availableThemes={themeNames}
+      />
+      
+      <HotelStarfield />
+      
+      <BubbleCounter />
+      <RandomAvatarAssistant />
+      
+      <Footer />
+    </div>
+  );
+}

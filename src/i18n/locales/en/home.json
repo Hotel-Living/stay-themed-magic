@@ -20,7 +20,7 @@
   },
   "helpAssistant": {
     "message": "Hi!\nI can help you?",
-    "mainMessage": "Hi! I'm here to help you.",
+    "mainMessage": "Speak or write your question to me.",
     "inputLabel": "Type your message here...",
     "avatars": {
       "antonio": { "name": "Antonio", "description": "Retired" },

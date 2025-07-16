@@ -19,7 +19,7 @@
   },
   "helpAssistant": {
     "message": "¡Hola!\nPuedo ayudarte?",
-    "mainMessage": "¡Hola! Aquí estoy para ayudarte.",
+    "mainMessage": "Háblame o escríbeme tu pregunta.",
     "inputLabel": "Escribe tu mensaje aquí...",
     "avatars": {
       "antonio": { "name": "Antonio", "description": "Jubilado" },

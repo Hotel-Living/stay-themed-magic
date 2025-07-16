@@ -8,11 +8,15 @@ export default function Help() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
+    // Clean up any existing scripts first
+    const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
+    existingScripts.forEach(script => script.remove());
+
     // Dynamic D-ID script loading based on language
     const script = document.createElement('script');
     script.type = 'module';
     script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-mode', 'fabio');
+    script.setAttribute('data-mode', 'live');
     script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
     
     // Use different agent IDs based on language
@@ -23,7 +27,7 @@ export default function Help() {
     script.setAttribute('data-name', agentName);
     script.setAttribute('data-monitor', 'true');
     script.setAttribute('data-orientation', 'horizontal');
-    script.setAttribute('data-position', 'right');
+    script.setAttribute('data-position', 'center');
     
     document.head.appendChild(script);
     
@@ -95,11 +99,10 @@ export default function Help() {
       <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
-          <img
-            src="/lovable-uploads/44fa6e36-177c-4ca2-aa87-fa818f7d26b7.png"
-            alt="Help Assistant"
-            className="w-32 h-32 object-cover rounded-lg shadow-lg mb-4"
-          />
+          <div className="w-48 h-48 mb-4 flex items-center justify-center">
+            {/* D-ID Avatar Container */}
+            <div id="did-agent-container" className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-gradient-to-br from-purple-600 to-pink-600"></div>
+          </div>
           <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
             <p className="text-center text-white text-lg font-semibold">
               {t('helpAssistant.mainMessage')}

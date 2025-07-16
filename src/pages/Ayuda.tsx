@@ -61,18 +61,11 @@ export default function Ayuda() {
       }, 3000);
     };
 
-    // Load avatar after ensuring DOM is ready
-    const timer = setTimeout(loadSpanishAvatar, 300);
+    // Add timing delay to ensure DOM is fully ready before D-ID script injection
+    const timer = setTimeout(loadSpanishAvatar, 200);
     
     return () => {
       clearTimeout(timer);
-      // Clean up on unmount
-      const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-      const avatars = document.querySelectorAll('[id^="avatar-"]');
-      avatars.forEach(avatar => avatar.remove());
     };
   }, []); // Remove language dependency since we're forcing Spanish
 
@@ -137,9 +130,15 @@ export default function Ayuda() {
         <div className="flex flex-col items-center mb-12">
           <div 
             id="did-avatar-container"
-            className="mb-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg"
+            style={{ 
+              minHeight: '400px', 
+              width: '100%', 
+              maxWidth: '400px',
+              position: 'relative',
+              overflow: 'visible'
+            }}
           >
-            <div className="text-white/60 text-center">
+            <div className="text-white/60 text-center p-4">
               <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
               <p className="text-sm">Cargando avatar...</p>
             </div>

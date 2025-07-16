@@ -15,7 +15,6 @@ export default function Ayuda() {
     const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
     existingAvatars.forEach(avatar => avatar.remove());
 
-    // Load Spanish avatar directly via DOM injection (force Spanish since this is /ayuda page)
     const loadSpanishAvatar = () => {
       const targetContainer = document.getElementById('did-avatar-container');
       if (!targetContainer) {
@@ -23,28 +22,18 @@ export default function Ayuda() {
         return;
       }
 
-      console.log('Loading Spanish avatar on /ayuda page');
-      console.log('Current language:', i18n.language);
-
       // Clear the container
       targetContainer.innerHTML = '';
       
-      // Force Spanish since this is the /ayuda page
-      const agentId = 'v2_agt_JZ4Lnlqs'; // Spanish agent ID
-      
-      console.log('Using Spanish agent ID:', agentId);
-      
-      // Create avatar container
-      const avatarDiv = document.createElement('div');
-      avatarDiv.id = 'avatar-es';
-      
-      // Create D-ID script directly in DOM to avoid CORS/proxy issues
-      const scriptHTML = `
-        <script type="module"
+      // Create the exact implementation as specified by the user
+      targetContainer.innerHTML = `
+        <div id="avatar-es" style="width: 100%; height: 400px; position: relative;"></div>
+        <script
+          type="module"
           src="https://agent.d-id.com/v2/index.js"
           data-mode="fabio"
-          data-client-key="YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA=="
-          data-agent-id="${agentId}"
+          data-client-key="YXV0aDB8Njg3MDc0MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnZpQUEzUWlpdTBXcA=="
+          data-agent-id="v2_agt_JZ4Lnlqs"
           data-name="did-agent-es"
           data-monitor="true"
           data-orientation="horizontal"
@@ -52,43 +41,7 @@ export default function Ayuda() {
         </script>
       `;
       
-      // Create caption
-      const captionHTML = `
-        <p style="text-align: center; font-size: 1.2rem; margin-top: 10px; color: white;">
-          Háblame o escríbeme tu pregunta.
-        </p>
-      `;
-      
-      // Insert HTML directly to avoid proxy issues
-      avatarDiv.innerHTML = scriptHTML + captionHTML;
-      
-      // Add avatar to container
-      targetContainer.appendChild(avatarDiv);
-      
-      console.log('✅ Spanish D-ID script injected directly into DOM');
-      console.log('Script element created with agent ID:', agentId);
-      
-      // Additional debugging - check if script is properly inserted after a delay
-      setTimeout(() => {
-        const insertedScript = targetContainer.querySelector('script[src*="agent.d-id.com"]');
-        console.log('Script verification after 2 seconds:', insertedScript);
-        console.log('Container contents:', targetContainer.innerHTML);
-        
-        if (!insertedScript) {
-          console.error('❌ Script not found in DOM after injection');
-          // Show fallback message
-          targetContainer.innerHTML = `
-            <div class="flex items-center justify-center h-full text-white">
-              <div class="text-center">
-                <div class="text-red-400 mb-2">⚠️ Error al cargar el avatar</div>
-                <div class="text-sm">Problema de CORS detectado. Por favor, actualiza la página.</div>
-              </div>
-            </div>
-          `;
-        } else {
-          console.log('✅ Script successfully found in DOM');
-        }
-      }, 2000);
+      console.log('✅ Spanish D-ID script loaded with exact user specifications');
     };
 
     // Load avatar after ensuring DOM is ready

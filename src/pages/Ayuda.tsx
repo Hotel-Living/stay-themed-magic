@@ -8,9 +8,9 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Use setTimeout with 500ms delay as specified to ensure DOM is fully ready
+    // Use setTimeout with 1000ms delay as specified to ensure DOM is fully ready
     const timer = setTimeout(() => {
-      console.log('🔄 Injecting avatar - Starting after 500ms delay...');
+      console.log('🔄 Injecting D-ID script after 1000ms delay...');
       
       const container = document.getElementById("did-avatar-container");
       if (!container) {
@@ -18,10 +18,7 @@ export default function Ayuda() {
         return;
       }
 
-      console.log('✅ Container found, clearing and preparing...');
-      container.innerHTML = ""; // Clean old scripts, if any
-      
-      console.log('🔄 Creating D-ID script element...');
+      console.log('✅ Container found, creating script...');
       
       const script = document.createElement("script");
       script.type = "module";
@@ -34,25 +31,25 @@ export default function Ayuda() {
       script.setAttribute("data-position", "right");
       
       container.appendChild(script);
-      console.log('✅ D-ID script injected and appended to container');
+      console.log('✅ D-ID script injected to container');
+      console.log('Script element in DOM:', document.querySelector('script[src*="agent.d-id.com"]'));
       
-      // Debug: Check for iframe creation after script execution
+      // Verify script persistence after injection
       setTimeout(() => {
+        const scriptExists = document.querySelector('script[src*="agent.d-id.com"]');
         const iframe = container.querySelector('iframe');
-        const hasChildren = container.children.length > 1; // script + other elements
-        console.log('🔍 Debug check after 3 seconds:');
+        console.log('🔍 Verification after 5 seconds:');
+        console.log('- Script exists in DOM:', !!scriptExists);
         console.log('- Container children count:', container.children.length);
-        console.log('- Iframe found:', !!iframe);
-        console.log('- Container HTML:', container.innerHTML.substring(0, 200) + '...');
+        console.log('- Iframe created:', !!iframe);
         
-        if (!iframe && !hasChildren) {
-          console.error('❌ No iframe or additional elements created by D-ID script');
-          console.error('This suggests the script did not execute properly or failed silently');
+        if (!scriptExists) {
+          console.error('❌ CRITICAL: Script was removed from DOM!');
         } else {
-          console.log('✅ D-ID script appears to have executed successfully');
+          console.log('✅ Script persisted in DOM');
         }
-      }, 3000);
-    }, 500);
+      }, 5000);
+    }, 1000);
 
     
     return () => {

@@ -1,15 +1,16 @@
 # netlify.toml - Configuration for Netlify deployments
 
 [build]
-command = "rm -rf .netlify dist .vite node_modules/.vite .next out build && npm ci --force --legacy-peer-deps && npm run build -- --force --no-cache"
+command = "rm -rf .netlify dist .vite node_modules/.vite .next out build && npm ci --force --legacy-peer-deps --no-cache && npm run build -- --force --no-cache"
 publish = "dist"
 ignore = ""
 
 [build.environment]
 NODE_VERSION = "18"
 SKIP_GO_INSTALL = "true"
-NPM_FLAGS = "--no-optional --force"
+NPM_FLAGS = "--no-optional --force --no-cache"
 NETLIFY_SKIP_CACHE = "true"
+NETLIFY_PURGE_CACHE = "true"
 
 [build.processing]
 skip_processing = true
@@ -21,28 +22,42 @@ pretty_urls = true
 bundle = true
 minify = true
 
+# Force correct MIME types for CSS files
 [[headers]]
-for = "/assets/*"
+for = "/assets/*.css"
 [headers.values]
-Cache-Control = "no-cache, no-store, must-revalidate"
+Content-Type = "text/css; charset=utf-8"
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
 Pragma = "no-cache"
 Expires = "0"
-Content-Type = "text/css; charset=utf-8"
 
 [[headers]]
 for = "*.css"
 [headers.values]
-Cache-Control = "no-cache, no-store, must-revalidate"
+Content-Type = "text/css; charset=utf-8"
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
 Pragma = "no-cache"
 Expires = "0"
-Content-Type = "text/css; charset=utf-8"
 
+# Block all Next.js static paths with 404
 [[headers]]
 for = "/_next/static/*"
 [headers.values]
 Cache-Control = "no-cache, no-store, must-revalidate"
-Status = "404"
 
+# Force browser cache invalidation for HTML
+[[headers]]
+for = "/*.html"
+[headers.values]
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+Pragma = "no-cache"
+Expires = "0"
+
+# Block Next.js paths and return 404
+[[redirects]]
+from = "/_next/static/*"
+to = "/404"
+status = 404
 
 [[redirects]]
 from = "/*"

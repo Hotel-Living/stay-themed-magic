@@ -25,23 +25,22 @@ export default function Ayuda() {
       // Clear the container
       targetContainer.innerHTML = '';
       
-      // Create the exact implementation as specified by the user
-      targetContainer.innerHTML = `
-        <div id="avatar-es" style="width: 100%; height: 400px; position: relative;"></div>
-        <script
-          type="module"
-          src="https://agent.d-id.com/v2/index.js"
-          data-mode="fabio"
-          data-client-key="YXV0aDB8Njg3MDc0MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnZpQUEzUWlpdTBXcA=="
-          data-agent-id="v2_agt_JZ4Lnlqs"
-          data-name="did-agent-es"
-          data-monitor="true"
-          data-orientation="horizontal"
-          data-position="right">
-        </script>
-      `;
+      // Create script element properly so it can execute natively
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src = "https://agent.d-id.com/v2/index.js";
+      script.setAttribute("data-mode", "fabio");
+      script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnZpQUEzUWlpdTBXcA==");
+      script.setAttribute("data-agent-id", "v2_agt_JZ4Lnlqs");
+      script.setAttribute("data-name", "did-agent-es");
+      script.setAttribute("data-monitor", "true");
+      script.setAttribute("data-orientation", "horizontal");
+      script.setAttribute("data-position", "right");
+
+      // Append script to container so it can execute natively
+      targetContainer.appendChild(script);
       
-      console.log('✅ Spanish D-ID script loaded with exact user specifications');
+      console.log('✅ Spanish D-ID script created and appended for native execution');
     };
 
     // Load avatar after ensuring DOM is ready

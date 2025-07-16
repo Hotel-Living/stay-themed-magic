@@ -60,127 +60,37 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- CSS fixes for D-ID Avatar visibility -->
-    <style>
-      /* Force D-ID Avatar visibility and positioning */
-      [data-name*="did"], 
-      iframe[src*="d-id.com"],
-      iframe[src*="liveperson"] {
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        z-index: 999999 !important;
-        width: 80px !important;
-        height: 80px !important;
-        min-width: 80px !important;
-        min-height: 80px !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        transform: none !important;
-        pointer-events: auto !important;
-        border: none !important;
-        background: transparent !important;
-      }
-      
-      /* Override any container hiding */
-      [data-name*="did"] > *,
-      iframe[src*="d-id.com"] + *,
-      [class*="did"] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-      }
-      
-      /* Ensure parent containers don't hide the avatar */
-      div:has([data-name*="did"]),
-      div:has(iframe[src*="d-id.com"]) {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        overflow: visible !important;
-      }
-    </style>
-    
-    <!-- Simple D-ID Avatar Implementation -->
     <script>
-      console.log('D-ID: Starting avatar initialization');
-      
-      // Simple function to load D-ID agent
-      function loadDIDAvatar() {
-        // Clean up any existing scripts first
-        document.querySelectorAll('script[src*="d-id.com"]').forEach(s => s.remove());
-        
-        // Get language preference
-        const userLang = navigator.language || 'en';
-        const isSpanish = userLang.startsWith('es');
-        const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
-        
-        console.log('D-ID: Loading agent for language:', userLang, 'Agent ID:', agentId);
-        
-        // Create and load the script
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'https://agent.d-id.com/v2/index.js';
-        script.setAttribute('data-mode', 'fabio');
-        script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
-        script.setAttribute('data-agent-id', agentId);
-        script.setAttribute('data-name', 'did-agent');
-        script.setAttribute('data-position', 'right');
-        
-        script.onload = () => console.log('D-ID: Script loaded successfully');
-        script.onerror = (e) => console.error('D-ID: Script failed to load', e);
-        
-        document.body.appendChild(script);
-        
-        // Monitor for avatar appearance
-        let attempts = 0;
-        const monitor = setInterval(() => {
-          attempts++;
-          const avatars = document.querySelectorAll('[data-name*="did"], iframe[src*="d-id.com"]');
-          
-          if (avatars.length > 0) {
-            console.log('D-ID: Avatar found!', avatars);
-            clearInterval(monitor);
-            
-            // Force visibility
-            avatars.forEach(avatar => {
-              avatar.style.cssText = `
-                position: fixed !important;
-                bottom: 20px !important;
-                right: 20px !important;
-                width: 80px !important;
-                height: 80px !important;
-                z-index: 999999 !important;
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                border: 2px solid red !important;
-              `;
-            });
-          } else if (attempts > 50) {
-            console.warn('D-ID: Avatar not found after 10 seconds');
-            clearInterval(monitor);
-            
-            // Show a debug button
-            const debugBtn = document.createElement('button');
-            debugBtn.innerHTML = 'No Avatar - Retry';
-            debugBtn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: red; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;';
-            debugBtn.onclick = () => {
-              debugBtn.remove();
-              loadDIDAvatar();
-            };
-            document.body.appendChild(debugBtn);
-          }
-        }, 200);
-      }
-      
-      // Start loading
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadDIDAvatar);
-      } else {
-        loadDIDAvatar();
-      }
-    </script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("🌐 Hotel-Living: D-ID initialization started");
+
+    if (document.querySelector('script[src*="agent.d-id.com"]')) {
+      console.warn("D-ID: Script already loaded. Aborting duplicate injection.");
+      return;
+    }
+
+    const userLang = navigator.language || 'en';
+    const isSpanish = userLang.toLowerCase().startsWith('es');
+    const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
+
+    console.log("🌐 Language detected:", userLang, "| Agent:", agentId);
+
+    const script = document.createElement("script");
+    script.src = "https://agent.d-id.com/v2/index.js";
+    script.type = "module";
+    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
+    script.setAttribute("data-agent-id", agentId);
+    script.setAttribute("data-name", "did-avatar");
+    script.setAttribute("data-position", "right");
+    script.setAttribute("data-mode", "fabio");
+    script.setAttribute("data-monitor", "true");
+    script.setAttribute("data-orientation", "bottom-right");
+
+    script.onload = () => console.log("✅ D-ID: Script loaded and avatar should now appear.");
+    script.onerror = (e) => console.error("❌ D-ID: Failed to load avatar script", e);
+
+    document.body.appendChild(script);
+  });
+</script>
   </body>
 </html>

@@ -1,9 +1,9 @@
 # netlify.toml - Configuration for Netlify deployments
 
 [build]
-command = "rm -rf dist .vite node_modules/.vite .netlify/functions-internal && npm ci --force --legacy-peer-deps && npm run build -- --force"
+command = "rm -rf .netlify dist .vite node_modules/.vite .next out build && npm ci --force --legacy-peer-deps && npm run build -- --force --no-cache"
 publish = "dist"
-ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':!netlify.toml'"
+ignore = ""
 
 [build.environment]
 NODE_VERSION = "18"

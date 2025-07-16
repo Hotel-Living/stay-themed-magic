@@ -9,7 +9,7 @@ interface AffinityOption {
 }
 
 export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
-  const { language, t } = useTranslation();
+  const { language, t } = useTranslation('affinities');
   
   return useQuery({
     queryKey: ['affinities-with-language', language],
@@ -39,7 +39,7 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
             console.log(`🎯 Translating affinity: "${item.value}" for language: ${language}`);
             
             // Use the translation system with affinities namespace
-            const translatedName = t(`affinities.${item.value}`);
+            const translatedName = t(item.value);
             
             console.log(`🎯 Translation result: "${item.value}" -> "${translatedName}"`);
             

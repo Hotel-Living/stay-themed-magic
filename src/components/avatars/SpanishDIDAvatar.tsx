@@ -1,13 +1,157 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export function SpanishDIDAvatar() {
   const { i18n, isReady } = useTranslation();
   const [status, setStatus] = useState<string>('initializing');
+  const [debugInfo, setDebugInfo] = useState<any>({});
+
+  // Network monitoring function
+  const monitorNetworkRequests = useCallback(() => {
+    const originalFetch = window.fetch;
+    window.fetch = function(...args) {
+      const url = args[0]?.toString();
+      if (url?.includes('d-id.com')) {
+        console.log('🌐 D-ID Network Request:', url);
+        return originalFetch.apply(this, args)
+          .then(response => {
+            console.log('📡 D-ID Response:', response.status, response.statusText);
+            if (!response.ok) {
+              console.error('❌ D-ID Request Failed:', response.status, response.statusText);
+            }
+            return response;
+          })
+          .catch(error => {
+            console.error('❌ D-ID Network Error:', error);
+            throw error;
+          });
+      }
+      return originalFetch.apply(this, args);
+    };
+  }, []);
+
+  // DOM mutation observer
+  const setupDOMMutationObserver = useCallback(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const element = node as Element;
+            if (element.tagName === 'IFRAME' || 
+                element.querySelector?.('iframe') || 
+                element.getAttribute?.('data-name')?.includes('did') ||
+                element.className?.includes?.('did')) {
+              console.log('🔍 D-ID DOM Mutation:', element);
+              setDebugInfo(prev => ({ ...prev, lastMutation: Date.now(), mutatedElement: element.tagName }));
+            }
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['src', 'data-name', 'class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Extended widget detection with periodic checks
+  const startPeriodicWidgetCheck = useCallback((language: string) => {
+    let attempts = 0;
+    const maxAttempts = 20;
+    
+    const checkWidget = () => {
+      attempts++;
+      const didWidget = document.querySelector('[data-name="did-agent"]');
+      const anyDidElement = document.querySelector('[class*="did"], [id*="did"]');
+      const allIframes = document.querySelectorAll('iframe');
+      const didIframes = Array.from(allIframes).filter(iframe => 
+        iframe.src.includes('d-id.com') || 
+        iframe.src.includes('liveperson') ||
+        iframe.className.includes('did')
+      );
+
+      console.log(`🔍 D-ID Widget Check #${attempts}:`, {
+        didWidget: !!didWidget,
+        anyDidElement: !!anyDidElement,
+        totalIframes: allIframes.length,
+        didIframes: didIframes.length,
+        allIframeSrcs: Array.from(allIframes).map(i => i.src).filter(s => s)
+      });
+
+      setDebugInfo(prev => ({
+        ...prev,
+        checkAttempts: attempts,
+        widgetFound: !!didWidget,
+        iframesFound: didIframes.length,
+        lastCheck: Date.now()
+      }));
+
+      if (didWidget || didIframes.length > 0) {
+        setStatus(`widget-found-${language.toLowerCase()}`);
+        console.log('✅ D-ID Widget found!', { didWidget, didIframes });
+        return;
+      }
+
+      if (attempts < maxAttempts) {
+        setTimeout(checkWidget, 1000);
+      } else {
+        setStatus(`widget-not-found-${language.toLowerCase()}`);
+        console.log('❌ D-ID Widget detection timeout after', maxAttempts, 'attempts');
+      }
+    };
+
+    setTimeout(checkWidget, 1000);
+  }, []);
+
+  // Manual trigger function for testing
+  const manualTrigger = useCallback(() => {
+    console.log('🔧 Manual D-ID trigger activated');
+    setStatus('manual-trigger');
+    
+    // Test with minimal config
+    const testScript = document.createElement('script');
+    testScript.type = 'module';
+    testScript.src = 'https://agent.d-id.com/v2/index.js';
+    testScript.setAttribute('data-mode', 'fabio');
+    testScript.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+    testScript.setAttribute('data-agent-id', 'v2_agt_20pNgPtt'); // Force English for test
+    testScript.setAttribute('data-name', 'did-agent-test');
+    
+    testScript.onload = () => {
+      console.log('✅ Manual test script loaded');
+      setStatus('manual-loaded');
+    };
+    
+    testScript.onerror = (error) => {
+      console.error('❌ Manual test script error:', error);
+      setStatus('manual-error');
+    };
+    
+    document.head.appendChild(testScript);
+  }, []);
 
   useEffect(() => {
     console.log('🤖 D-ID Avatar: Component mounted');
     
+    // Start network monitoring
+    monitorNetworkRequests();
+    
+    // Setup DOM mutation observer
+    const cleanupObserver = setupDOMMutationObserver();
+    
+    // Check for CSP errors
+    window.addEventListener('securitypolicyviolation', (e) => {
+      console.error('🚫 CSP Violation detected:', e.violatedDirective, e.blockedURI);
+      if (e.blockedURI?.includes('d-id.com')) {
+        setStatus('csp-blocked');
+      }
+    });
+
     // Wait for DOM to be ready
     const init = () => {
       // Remove any existing agent first
@@ -54,12 +198,8 @@ export function SpanishDIDAvatar() {
         console.log(`✅ D-ID Avatar: ${language} script loaded successfully`);
         setStatus(`loaded-${language.toLowerCase()}`);
         
-        // Check if widget actually rendered
-        setTimeout(() => {
-          const didWidget = document.querySelector('[data-name="did-agent"]');
-          const didIframe = document.querySelector('iframe[src*="d-id.com"]');
-          console.log('🔍 D-ID Avatar: Widget check', { didWidget, didIframe });
-        }, 2000);
+        // Start periodic widget detection
+        startPeriodicWidgetCheck(language);
       };
 
       script.onerror = (error) => {
@@ -91,30 +231,53 @@ export function SpanishDIDAvatar() {
         console.log('🗑️ D-ID Avatar: Cleanup - removing script');
         script.remove();
       }
+      cleanupObserver();
       setStatus('cleaned-up');
     };
-  }, [i18n.language, isReady]);
+  }, [i18n.language, isReady, monitorNetworkRequests, setupDOMMutationObserver, startPeriodicWidgetCheck]);
 
   // Debug status changes
   useEffect(() => {
     console.log('📊 D-ID Avatar Status:', status);
   }, [status]);
 
-  // Render debug info in development
+  // Render enhanced debug info in development
   if (import.meta.env.DEV) {
     return (
       <div style={{ 
         position: 'fixed', 
         bottom: '10px', 
         left: '10px', 
-        background: 'rgba(0,0,0,0.8)', 
+        background: 'rgba(0,0,0,0.9)', 
         color: 'white', 
-        padding: '8px', 
-        fontSize: '12px',
-        borderRadius: '4px',
-        zIndex: 9999
+        padding: '12px', 
+        fontSize: '11px',
+        borderRadius: '6px',
+        zIndex: 9999,
+        minWidth: '250px',
+        fontFamily: 'monospace'
       }}>
-        D-ID Status: {status}
+        <div><strong>D-ID Debug Panel</strong></div>
+        <div>Status: {status}</div>
+        {debugInfo.checkAttempts && <div>Checks: {debugInfo.checkAttempts}/20</div>}
+        {debugInfo.iframesFound !== undefined && <div>Iframes: {debugInfo.iframesFound}</div>}
+        {debugInfo.widgetFound !== undefined && <div>Widget: {debugInfo.widgetFound ? 'Found' : 'Not Found'}</div>}
+        {debugInfo.lastMutation && <div>Last DOM change: {new Date(debugInfo.lastMutation).toLocaleTimeString()}</div>}
+        <button 
+          onClick={manualTrigger}
+          style={{
+            marginTop: '8px',
+            padding: '4px 8px',
+            background: '#444',
+            color: 'white',
+            border: '1px solid #666',
+            borderRadius: '3px',
+            cursor: 'pointer',
+            fontSize: '10px'
+          }}
+        >
+          Manual Test
+        </button>
       </div>
     );
   }

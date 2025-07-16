@@ -47,24 +47,29 @@ export function RandomAvatarAssistant() {
   };
 
   const showRandomAvatarPopup = useCallback(() => {
-    // 🔒 Avatar aleatorio deshabilitado por decisión del usuario
-    return;
-
-    // Código original (neutralizado):
-    // if (activeAvatars.length > 0) return;
-    // const randomIndex = Math.floor(Math.random() * avatarPool.length);
-    // const randomAvatar = avatarPool[randomIndex];
-    // setCurrentRandomAvatar(randomAvatar);
-    // setShowRandomAvatar(true);
-    // setTimeout(() => {
-    //   setShowRandomAvatar(false);
-    //   setCurrentRandomAvatar(null);
-    // }, 10000);
+    // Don't show if there's already an active avatar
+    if (activeAvatars.length > 0) return;
+    
+    const randomIndex = Math.floor(Math.random() * avatarPool.length);
+    const randomAvatar = avatarPool[randomIndex];
+    
+    setCurrentRandomAvatar(randomAvatar);
+    setShowRandomAvatar(true);
+    
+    // Auto-dismiss after 10 seconds
+    setTimeout(() => {
+      setShowRandomAvatar(false);
+      setCurrentRandomAvatar(null);
+    }, 10000);
   }, [activeAvatars]);
 
   useEffect(() => {
-    // No iniciar intervalos si está desactivado
-    return () => {};
+    // Start the 30-second interval for random avatar popup
+    const interval = setInterval(() => {
+      showRandomAvatarPopup();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, [showRandomAvatarPopup]);
 
   const handleRandomAvatarClose = () => {
@@ -72,6 +77,19 @@ export function RandomAvatarAssistant() {
     setCurrentRandomAvatar(null);
   };
 
-  // Siempre retornar null para evitar renderizado
-  return null;
+  // Don't show random avatar if there's an active avatar
+  if (activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
+    return null;
+  }
+
+  return (
+    <EnhancedAvatarAssistant
+      avatarId={currentRandomAvatar.id}
+      gif={currentRandomAvatar.gif}
+      position="bottom-left"
+      showMessage={true}
+      message={getMessage()}
+      onClose={handleRandomAvatarClose}
+    />
+  );
 }

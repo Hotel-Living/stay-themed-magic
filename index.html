@@ -1,104 +1,63 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Aggressive Cache Control - Force Complete Refresh -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <meta http-equiv="Last-Modified" content="0" />
-    <meta http-equiv="If-Modified-Since" content="0" />
-    <meta name="cache-buster" content="vite-pure-clean-2025-01-16-final" />
-    
-    <!-- Content Security Policy to prevent script injection -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://d-id-public-bucket.s3.amazonaws.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com; img-src 'self' data: https:; frame-src 'none'; object-src 'none';" />
-    
-    <!-- Service Worker Unregistration Script -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for(let registration of registrations) {
-            registration.unregister();
-          }
-        });
-      }
-      // Clear all possible caches
-      if ('caches' in window) {
-        caches.keys().then(function(names) {
-          for (let name of names) {
-            caches.delete(name);
-          }
-        });
-      }
-    </script>
-    
     <link rel="icon" type="image/png" href="/lovable-uploads/b2b167c7-d757-4e25-820e-b6b3f25d1af6.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preload" as="image" href="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <meta name="description" content="Hotel-Living - Extended stay hotels with flexible booking options" />
+    
+    <!-- Hotel-Living Social Share Preview -->
     <meta property="og:title" content="Hotel-Living" />
     <meta property="og:description" content="Extended stay hotels with flexible booking options" />
     <meta property="og:url" content="https://hotel-living.com/" />
     <meta property="og:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
+    <meta property="og:image:secure_url" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
+    <meta property="og:image:url" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Hotel-Living - Extended stay hotels with flexible booking options" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hotel-Living" />
+
+    <!-- Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Hotel-Living" />
     <meta name="twitter:description" content="Extended stay hotels with flexible booking options" />
     <meta name="twitter:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
+    <meta name="twitter:image:alt" content="Hotel-Living - Extended stay hotels with flexible booking options" />
+    <meta name="twitter:site" content="@HotelLiving" />
+    <meta name="twitter:creator" content="@HotelLiving" />
+    
+    <!-- WhatsApp and general social media -->
+    <meta name="image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
+    
+    <!-- Additional metadata for better social sharing -->
+    <meta property="fb:app_id" content="hotel-living" />
+    <meta name="author" content="Hotel-Living" />
+    <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hotel-living.com/" />
-
+    
     <title>Hotel-Living</title>
-
-    <!-- Google Analytics -->
+    
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XBVTERBKV"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
       gtag('config', 'G-2XBVTERBKV');
     </script>
   </head>
   <body>
     <div id="root"></div>
-
-    <!-- Main app - Pure Vite only -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- D-ID Avatar -->
-    <div id="d-id-avatar" style="z-index: 999999;"></div>
-
-    <script type="module">
-      import("https://agent.d-id.com/v2/index.js").then(() => {
-        const language = navigator.language || navigator.userLanguage;
-
-        const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";
-        const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";
-        const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
-
-        const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
-
-        // Ensure container exists
-        const container = document.getElementById("d-id-avatar");
-        if (container) {
-          window.DIDWidget?.init({
-            clientKey,
-            agentId,
-            container,
-            enableSpeech: true,
-            enableMic: true,
-            alignment: "right",
-            position: "bottom",
-            avatarSize: "medium"
-          });
-
-          console.log(`✅ D-ID avatar initialized for language: ${language}`);
-        }
-      });
-    </script>
   </body>
 </html>

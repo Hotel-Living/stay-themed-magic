@@ -125,16 +125,8 @@ export function HotelStarfield() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[-1] pointer-events-none"
-      style={{ 
-        background: 'rgb(65, 15, 82)',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: -1
-      }}
+      className="fixed inset-0 z-[-1]"
+      style={{ background: 'rgb(65, 15, 82)', pointerEvents: 'none' }} // Slightly lighter background
     />
   );
 }

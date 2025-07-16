@@ -46,15 +46,8 @@ export default defineConfig(async ({ mode }) => {
     build: {
       target: 'es2015',
       outDir: 'dist',
-      assetsDir: 'assets',
-      sourcemap: false,
-      cssCodeSplit: false,
-      emptyOutDir: true, // Ensure clean build
       rollupOptions: {
         output: {
-          entryFileNames: 'assets/[name]-[hash].js',
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name]-[hash].[ext]',
           manualChunks: {
             vendor: ['react', 'react-dom'],
             ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-toast'],
@@ -62,8 +55,6 @@ export default defineConfig(async ({ mode }) => {
             router: ['react-router-dom'],
           },
         },
-        // Ensure no external references leak in
-        external: [],
       },
     },
     test: {

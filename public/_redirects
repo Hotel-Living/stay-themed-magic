@@ -1,6 +1,0 @@
-# Block all Next.js paths
-/_next/* /404 404
-/_next/static/* /404 404
-
-# SPA fallback
-/* /index.html 200

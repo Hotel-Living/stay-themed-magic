@@ -9,5 +9,10 @@
     "people": "CERQUE-SE DE PESSOAS\nCOM A MESMA ENERGIA",
     "passion": "FAÇA DE SUAS PAIXÕES\nSUA VIDA DIÁRIA"
   },
+  "noHotelsInCountry": {
+    "title": "Precisamos de hotéis neste país",
+    "description": "Conhece um ótimo hotel aqui? Ajude-nos a crescer! Você pode recomendar seus hotéis favoritos diretamente do seu painel de usuário e entraremos em contato com eles para enviar nossos clientes.",
+    "recommendButton": "Recomendar um hotel"
+  },
   "liveVisitors": "{{count}} pessoas estão visualizando agora"
 }

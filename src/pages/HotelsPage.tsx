@@ -113,6 +113,7 @@ export default function HotelsPage() {
                   hotels={hotels}
                   loading={loading}
                   error={error}
+                  filters={filters}
                 />
                 
                 <PaginationControls

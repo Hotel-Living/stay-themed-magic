@@ -184,5 +184,10 @@
     "may": "puede",
     "might": "podría"
   },
+  "noHotelsInCountry": {
+    "title": "Necesitamos hoteles en este país",
+    "description": "¿Conoces un buen hotel aquí? ¡Ayúdanos a crecer! Puedes recomendar tus hoteles favoritos directamente desde tu panel de usuario y nos pondremos en contacto con ellos para enviarles nuestros clientes.",
+    "recommendButton": "Recomendar un hotel"
+  },
   "liveVisitors": "{{count}} personas están viendo ahora"
 }

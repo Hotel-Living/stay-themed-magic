@@ -2,6 +2,8 @@
 import React from "react";
 import { HotelCards } from "./HotelCards";
 import { HotelFeatures } from "./HotelFeatures";
+import { NoHotelsInCountry } from "./NoHotelsInCountry";
+import { FilterState } from "@/components/filters/FilterTypes";
 
 interface Hotel {
   id: string;
@@ -16,9 +18,10 @@ interface HotelResultsGridProps {
   hotels: Hotel[];
   loading: boolean;
   error: Error | null;
+  filters?: FilterState;
 }
 
-export function HotelResultsGrid({ hotels, loading, error }: HotelResultsGridProps) {
+export function HotelResultsGrid({ hotels, loading, error, filters }: HotelResultsGridProps) {
   if (loading) {
     return (
       <div className="text-center py-12">
@@ -38,6 +41,21 @@ export function HotelResultsGrid({ hotels, loading, error }: HotelResultsGridPro
         >
           Try Again
         </button>
+      </div>
+    );
+  }
+
+  // Check if country filter is applied and results are empty or few
+  const shouldShowNoHotelsMessage = 
+    filters?.country && 
+    (hotels.length === 0 || hotels.length < 5);
+
+  if (shouldShowNoHotelsMessage) {
+    return (
+      <div className="space-y-12">
+        <NoHotelsInCountry countryName={filters.country} />
+        {/* Still show features section */}
+        <HotelFeatures />
       </div>
     );
   }

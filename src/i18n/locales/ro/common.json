@@ -9,5 +9,10 @@
     "people": "ÎNCONJOARĂ-TE CU OAMENI\nCA TINE",
     "passion": "FACEȚI DIN PASIUNILE VOASTRE\nVIAȚA VOASTRĂ ZILNICĂ"
   },
+  "noHotelsInCountry": {
+    "title": "Avem nevoie de hoteluri în această țară",
+    "description": "Cunoști un hotel grozav aici? Ajută-ne să creștem! Poți recomanda hotelurile tale preferate direct din panoul de utilizator și ne vom pune în legătură cu ei pentru a le trimite clienții noștri.",
+    "recommendButton": "Recomandă un hotel"
+  },
   "liveVisitors": "{{count}} persoane se uită acum"
 }

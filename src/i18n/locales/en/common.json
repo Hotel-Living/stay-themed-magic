@@ -9,5 +9,10 @@
     "people": "SURROUND YOURSELF\nWITH LIKE-MINDED PEOPLE",
     "passion": "MAKE YOUR PASSIONS\nYOUR DAILY LIFE"
   },
+  "noHotelsInCountry": {
+    "title": "We need hotels in this country",
+    "description": "Know a great hotel here? Help us grow! You can recommend your favorite hotels directly from your user panel and we'll get in touch with them to send them our customers.",
+    "recommendButton": "Recommend a hotel"
+  },
   "liveVisitors": "{{count}} people are browsing now"
 }

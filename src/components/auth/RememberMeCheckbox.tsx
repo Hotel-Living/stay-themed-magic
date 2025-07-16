@@ -19,7 +19,7 @@ export function RememberMeCheckbox({ isHotelLogin = false }: RememberMeCheckboxP
         htmlFor={isHotelLogin ? "hotel-remember" : "remember"} 
         className="ml-2 text-xs text-muted-foreground"
       >
-        {t('auth.rememberMe')}
+        {t('rememberMe')}
       </label>
     </div>
   );

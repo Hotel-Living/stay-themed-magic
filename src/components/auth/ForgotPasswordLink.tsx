@@ -10,7 +10,7 @@ export function ForgotPasswordLink() {
       to="/forgot-password" 
       className="text-xs text-fuchsia-400 hover:text-fuchsia-300 transition"
     >
-      {t('auth.forgotPassword')}
+      {t('forgotPassword')}
     </Link>
   );
 }

@@ -8,16 +8,6 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    console.log('🔄 Client-side D-ID script injection starting...');
-    
-    const container = document.getElementById('did-avatar-container');
-    if (!container) {
-      console.error('❌ did-avatar-container not found');
-      return;
-    }
-
-    console.log('✅ Container found, creating client-side script...');
-    
     const script = document.createElement('script');
     script.src = 'https://agent.d-id.com/v2/index.js';
     script.dataset.clientKey = 'YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==';
@@ -29,27 +19,10 @@ export default function Ayuda() {
     script.dataset.position = 'right';
     script.async = true;
     
-    container.appendChild(script);
-    console.log('✅ D-ID script injected client-side');
-    console.log('Script src:', script.src);
-    console.log('Script agentId:', script.dataset.agentId);
+    document.getElementById('did-avatar-container')?.appendChild(script);
     
-    // Verify script persistence
-    setTimeout(() => {
-      const scriptExists = document.querySelector('script[src*="agent.d-id.com"]');
-      const iframe = container.querySelector('iframe');
-      console.log('🔍 Client-side verification:');
-      console.log('- Script in DOM:', !!scriptExists);
-      console.log('- Iframe created:', !!iframe);
-      console.log('- Container children:', container.children.length);
-      
-      if (!scriptExists) {
-        console.error('❌ Script was removed from DOM');
-      } else {
-        console.log('✅ Script persisted client-side');
-      }
-    }, 3000);
-  }, []); // Remove language dependency since we're forcing Spanish
+    console.log('D-ID script injected:', script.src);
+  }, []);
 
   const avatarsData = [
     {

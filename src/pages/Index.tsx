@@ -64,50 +64,5 @@ export default function Index() {
     const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
     const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
 
-    const script = document.createElement('script');
-    script.src = "https://agent.d-id.com/v2/index.js";
-    script.async = true;
-    script.onload = () => {
-      window.DIDWidget?.init({
-        clientKey,
-        agentId,
-        container: document.getElementById("d-id-avatar"),
-        enableSpeech: true,
-        enableMic: true,
-        alignment: "right",
-        position: "bottom",
-        avatarSize: "medium"
-      });
-      console.log("✅ D-ID avatar initialized for:", language);
-    };
-    document.body.appendChild(script);
-  }, []);
-
-  if (showIntro) {
-    return <IntroStarAnimation onComplete={handleIntroComplete} />;
-  }
-
-  return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
-      <HotelStarfield />
-      <Navbar />
-      <BubbleCounter />
-
-      {/* Phase 1: Avatar Introduction */}
-      {showAvatarIntro && (
-        <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
-      )}
-
-      <main className="flex-1 w-full">
-        <HeroSection />
-        <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
-      </main>
-
-      <Footer />
-      {!showAvatarIntro && <RandomAvatarAssistant />}
-
-      {/* ✅ Contenedor para D-ID Avatar */}
-      <div id="d-id-avatar" style={{ zIndex: 999999 }}></div>
-    </div>
-  );
-}
+    // 💣 Eliminar cualquier avatar que ya esté flotando
+    const existingAvatar = document.querySelector("iframe[src*='agent.d-id.com']")*]()

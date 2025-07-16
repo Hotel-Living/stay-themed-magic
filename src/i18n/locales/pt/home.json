@@ -17,5 +17,8 @@
   "bubbleCounter": {
     "home": "{{count}} pessoas estão explorando o Hotel-Living neste momento!",
     "hotel": "{{count}} pessoas estão vendo este hotel agora mesmo!"
+  },
+  "helpAssistant": {
+    "message": "Olá! Estou aqui para ajudá-lo."
   }
 }

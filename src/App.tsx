@@ -64,6 +64,8 @@ import Ambassador from "@/pages/Ambassador";
 import Press from "@/pages/Press";
 import HotelCrisis from "@/pages/HotelCrisis";
 import HotelAssociation from "@/pages/HotelAssociation";
+import Help from "@/pages/Help";
+import Ayuda from "@/pages/Ayuda";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -117,9 +119,11 @@ function App() {
               <Route path="/excel-generator" element={<ExcelGenerator />} />
               <Route path="/professional-study" element={<ProfessionalStudy />} />
               <Route path="/ambassador" element={<Ambassador />} />
-              <Route path="/press" element={<Press />} />
-               <Route path="/hotel-crisis" element={<HotelCrisis />} />
-               <Route path="/asociacion/:slug" element={<HotelAssociation />} />
+               <Route path="/press" element={<Press />} />
+                <Route path="/hotel-crisis" element={<HotelCrisis />} />
+                <Route path="/asociacion/:slug" element={<HotelAssociation />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/ayuda" element={<Ayuda />} />
               
               {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />

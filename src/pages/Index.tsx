@@ -10,13 +10,11 @@ import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
-import { AvatarIntro } from '@/components/avatars/AvatarIntro';
-import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistant';
+import { HelpAssistant } from '@/components/help/HelpAssistant';
 
 export default function Index() {
   const { data: themes } = useThemes();
   const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
-  const [showAvatarIntro, setShowAvatarIntro] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -52,11 +50,6 @@ export default function Index() {
     setShowIntro(false);
   };
 
-  const handleAvatarIntroInteraction = () => {
-    console.log("🎭 User interacted with avatars - hiding avatar intro");
-    setShowAvatarIntro(false);
-  };
-
   // Extract theme names for the filter dropdown
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
@@ -70,11 +63,6 @@ export default function Index() {
       <Navbar />
       <BubbleCounter />
       
-      {/* Phase 1: Avatar Introduction */}
-      {showAvatarIntro && (
-        <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
-      )}
-      
       <main className="flex-1 w-full">
         <HeroSection />
         <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
@@ -82,8 +70,10 @@ export default function Index() {
       
       <Footer />
       
-      {/* Random Avatar Assistant - appears every 30 seconds */}
-      {!showAvatarIntro && <RandomAvatarAssistant />}
+      {/* Help Assistant */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <HelpAssistant />
+      </div>
     </div>
   );
 }

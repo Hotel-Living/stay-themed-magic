@@ -18,6 +18,18 @@
     "hotel": "¡{{count}} personas están viendo este hotel ahora mismo!"
   },
   "helpAssistant": {
-    "message": "¡Hola!\nPuedo ayudarte?"
+    "message": "¡Hola!\nPuedo ayudarte?",
+    "mainMessage": "¡Hola! Aquí estoy para ayudarte.",
+    "inputLabel": "Escribe tu mensaje aquí...",
+    "avatars": {
+      "antonio": { "name": "Antonio", "description": "Jubilado" },
+      "luisa": { "name": "Luisa", "description": "Jubilada" },
+      "john": { "name": "John", "description": "Trabajador Remoto" },
+      "auxi": { "name": "Auxi", "description": "Amante de Viajes" },
+      "juan": { "name": "Juan", "description": "Ex-Propietario" },
+      "ion": { "name": "Ion", "description": "Ex-Inquilino" },
+      "maria": { "name": "María", "description": "Residente Suburbano" },
+      "martin": { "name": "Martin", "description": "Dueño de Hotel" }
+    }
   }
 }

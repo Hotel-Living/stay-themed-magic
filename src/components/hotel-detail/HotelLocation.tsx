@@ -29,11 +29,32 @@ export function HotelLocation({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mapReady, setMapReady] = useState(false);
-  const [coordinates, setCoordinates] = useState<{lat: number; lng: number} | null>(
-    latitude && longitude && !isNaN(latitude) && !isNaN(longitude) 
-      ? { lat: latitude, lng: longitude } 
-      : null
-  );
+  // Function to validate if coordinates match the expected region for the address
+  const areCoordinatesValid = (lat: number, lng: number, country: string, city: string) => {
+    // Basic validation for common countries/regions
+    if (country.toLowerCase().includes('united states') || country.toLowerCase().includes('usa')) {
+      // US coordinates should be roughly between 24-49°N and 125-66°W
+      if (lat < 24 || lat > 49 || lng > -66 || lng < -125) {
+        console.warn(`Coordinates (${lat}, ${lng}) seem invalid for US address: ${city}, ${country}`);
+        return false;
+      }
+    }
+    // Add more validations for other countries as needed
+    return true;
+  };
+
+  const [coordinates, setCoordinates] = useState<{lat: number; lng: number} | null>(() => {
+    // Only use stored coordinates if they exist, are valid numbers, and are geographically reasonable
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      if (areCoordinatesValid(latitude, longitude, country, city)) {
+        return { lat: latitude, lng: longitude };
+      } else {
+        console.warn('Stored coordinates appear to be incorrect for this location, will re-geocode');
+        return null;
+      }
+    }
+    return null;
+  });
   // Geocode address to coordinates if needed
   const geocodeAddress = async (apiKey: string) => {
     if (coordinates) return; // Already have coordinates

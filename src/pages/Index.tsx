@@ -53,62 +53,30 @@ export default function Index() {
 
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
-  useEffect(() => {
-    const existing = document.getElementById("d-id-container");
-    if (existing) return;
-
-    const language = navigator.language || navigator.userLanguage;
-    const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";
-    const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";
-    const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
-    const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
-
-    const script = document.createElement('script');
-    script.src = "https://agent.d-id.com/v2/index.js";
-    script.async = true;
-    script.onload = () => {
-      window.DIDWidget?.init({
-        clientKey,
-        agentId,
-        container: document.getElementById("d-id-avatar"),
-        enableSpeech: true,
-        enableMic: true,
-        alignment: "right",
-        position: "bottom",
-        avatarSize: "medium"
-      });
-      console.log("✅ D-ID avatar initialized for:", language);
-    };
-    document.body.appendChild(script);
-  }, []);
-
   return (
-    <>
-      <div className="min-h-screen">
-        <HotelStarfield />
-        <Navbar />
-        
-        {showIntro && (
-          <IntroStarAnimation onComplete={handleIntroComplete} />
-        )}
-        
-        {showAvatarIntro && (
-          <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
-        )}
-        
-        <HeroSection />
-        
-        <FilterSectionWrapper 
-          onFilterChange={handleFilterChange}
-          availableThemes={themeNames}
-        />
-        
-        <BubbleCounter />
-        <Footer />
-      </div>
+    <div className="min-h-screen">
+      <HotelStarfield />
+      <Navbar />
 
-      {/* ✅ Contenedor para D-ID, fuera del layout principal */}
+      {showIntro && (
+        <IntroStarAnimation onComplete={handleIntroComplete} />
+      )}
+
+      {showAvatarIntro && (
+        <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
+      )}
+
+      <HeroSection />
+
+      <FilterSectionWrapper 
+        onFilterChange={handleFilterChange}
+        availableThemes={themeNames}
+      />
+
+      <BubbleCounter />
+      <RandomAvatarAssistant />
       <div id="d-id-avatar" style={{ zIndex: 999999 }}></div>
-    </>
+      <Footer />
+    </div>
   );
 }

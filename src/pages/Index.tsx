@@ -54,7 +54,7 @@ export default function Index() {
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <HotelStarfield />
       <Navbar />
       

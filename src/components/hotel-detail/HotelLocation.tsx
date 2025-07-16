@@ -31,48 +31,77 @@ export function HotelLocation({
   const [mapReady, setMapReady] = useState(false);
   // Function to validate if coordinates match the expected region for the address
   const areCoordinatesValid = (lat: number, lng: number, country: string, city: string) => {
+    console.log(`Validating coordinates (${lat}, ${lng}) for ${city}, ${country}`);
+    
     // Basic validation for common countries/regions
     if (country.toLowerCase().includes('united states') || country.toLowerCase().includes('usa')) {
-      // US coordinates should be roughly between 24-49°N and 125-66°W
-      if (lat < 24 || lat > 49 || lng > -66 || lng < -125) {
+      // More specific validation for major US states/cities
+      const cityLower = city.toLowerCase();
+      
+      // New York state coordinates: roughly 40.5-45°N, -79.5 to -71.5°W
+      if (cityLower.includes('new york') || cityLower.includes('brooklyn') || cityLower.includes('manhattan') || cityLower.includes('queens') || cityLower.includes('bronx')) {
+        if (lat < 40.4 || lat > 45.0 || lng > -71.0 || lng < -80.0) {
+          console.warn(`Coordinates (${lat}, ${lng}) are invalid for New York area. Expected: lat 40.4-45.0, lng -80.0 to -71.0`);
+          return false;
+        }
+      }
+      // General US bounds validation as fallback
+      else if (lat < 24 || lat > 49 || lng > -66 || lng < -125) {
         console.warn(`Coordinates (${lat}, ${lng}) seem invalid for US address: ${city}, ${country}`);
         return false;
       }
     }
-    // Add more validations for other countries as needed
+    
+    console.log(`Coordinates validation passed for ${city}, ${country}`);
     return true;
   };
 
   const [coordinates, setCoordinates] = useState<{lat: number; lng: number} | null>(() => {
+    console.log(`Initial coordinates check for hotel ${hotelId}: lat=${latitude}, lng=${longitude}, city=${city}, country=${country}`);
+    
     // Only use stored coordinates if they exist, are valid numbers, and are geographically reasonable
     if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      console.log(`Checking if stored coordinates are valid...`);
       if (areCoordinatesValid(latitude, longitude, country, city)) {
+        console.log(`Using stored coordinates: (${latitude}, ${longitude})`);
         return { lat: latitude, lng: longitude };
       } else {
-        console.warn('Stored coordinates appear to be incorrect for this location, will re-geocode');
+        console.warn(`Stored coordinates (${latitude}, ${longitude}) are invalid for ${city}, ${country}. Will force re-geocoding.`);
         return null;
       }
     }
+    
+    console.log(`No valid stored coordinates found. Will need to geocode.`);
     return null;
   });
   // Geocode address to coordinates if needed
   const geocodeAddress = async (apiKey: string) => {
-    if (coordinates) return; // Already have coordinates
+    console.log(`Geocoding check: coordinates=${coordinates ? 'present' : 'missing'}`);
+    
+    if (coordinates) {
+      console.log('Already have valid coordinates, skipping geocoding');
+      return; // Already have coordinates
+    }
     
     const fullAddress = [address, city, country].filter(Boolean).join(', ');
-    if (!fullAddress.trim()) return; // No address to geocode
+    if (!fullAddress.trim()) {
+      console.warn('No address available for geocoding');
+      return; // No address to geocode
+    }
 
     try {
-      console.log('Geocoding address:', fullAddress);
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(fullAddress)}&key=${apiKey}`
-      );
+      console.log(`Starting geocoding for address: "${fullAddress}"`);
+      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(fullAddress)}&key=${apiKey}`;
+      console.log('Geocoding URL:', geocodeUrl.replace(apiKey, 'API_KEY_HIDDEN'));
+      
+      const response = await fetch(geocodeUrl);
       
       if (!response.ok) {
         throw new Error(`Geocoding API error: ${response.status}`);
       }
       
       const data = await response.json();
+      console.log('Geocoding API response:', data);
       
       if (data.status !== 'OK' || !data.results || data.results.length === 0) {
         console.warn('Geocoding failed:', data.status, data.error_message);
@@ -82,11 +111,20 @@ export function HotelLocation({
       const location = data.results[0].geometry.location;
       const newCoordinates = { lat: location.lat, lng: location.lng };
       
-      console.log('Geocoded coordinates:', newCoordinates);
+      console.log(`Geocoded new coordinates: (${newCoordinates.lat}, ${newCoordinates.lng})`);
+      
+      // Validate the new coordinates before using them
+      if (!areCoordinatesValid(newCoordinates.lat, newCoordinates.lng, country, city)) {
+        console.error(`Geocoded coordinates are still invalid! This suggests an issue with the address or Google's geocoding.`);
+        return;
+      }
+      
+      console.log('Setting new valid coordinates in state');
       setCoordinates(newCoordinates);
       
       // Update hotel record with coordinates to avoid future geocoding
       try {
+        console.log(`Updating database with new coordinates for hotel ${hotelId}`);
         const { error: updateError } = await supabase
           .from('hotels')
           .update({
@@ -96,15 +134,15 @@ export function HotelLocation({
           .eq('id', hotelId);
           
         if (updateError) {
-          console.warn('Failed to update hotel coordinates:', updateError);
+          console.error('Failed to update hotel coordinates in database:', updateError);
         } else {
-          console.log('Hotel coordinates updated successfully');
+          console.log('Hotel coordinates successfully updated in database');
         }
       } catch (updateErr) {
-        console.warn('Error updating hotel coordinates:', updateErr);
+        console.error('Exception while updating hotel coordinates:', updateErr);
       }
     } catch (err) {
-      console.error('Geocoding error:', err);
+      console.error('Geocoding exception:', err);
     }
   };
 

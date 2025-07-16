@@ -102,10 +102,36 @@
       }
     </style>
     
-    <!-- Dynamic D-ID Avatar Loading Based on Browser Language -->
+    <!-- Enhanced D-ID Avatar Loading with Comprehensive Debug & Fallback -->
     <script>
-      // Function to load the D-ID agent script
-      function loadDIDAgent(agentId) {
+      // D-ID Avatar Debug & Fallback System
+      window.DIDDebug = {
+        logs: [],
+        retries: 0,
+        maxRetries: 3,
+        timeout: 10000,
+        loaded: false,
+        error: null
+      };
+
+      function log(message, data = null) {
+        const timestamp = new Date().toISOString();
+        const logEntry = { timestamp, message, data };
+        window.DIDDebug.logs.push(logEntry);
+        console.log(`[D-ID Debug ${timestamp}] ${message}`, data || '');
+      }
+
+      // Enhanced function to load the D-ID agent script with comprehensive error handling
+      function loadDIDAgent(agentId, attempt = 1) {
+        log(`Starting D-ID Agent load attempt ${attempt}/${window.DIDDebug.maxRetries}`, { agentId });
+        
+        // Clean up any existing scripts
+        const existingScripts = document.querySelectorAll('script[src*="d-id.com"]');
+        existingScripts.forEach(script => {
+          log('Removing existing D-ID script', script.src);
+          script.remove();
+        });
+
         const script = document.createElement('script');
         script.type = 'module';
         script.src = 'https://agent.d-id.com/v2/index.js';
@@ -116,22 +142,171 @@
         script.setAttribute('data-monitor', 'true');
         script.setAttribute('data-orientation', 'horizontal');
         script.setAttribute('data-position', 'right');
+
+        // Add comprehensive event handlers
+        script.onload = function() {
+          log('D-ID script loaded successfully');
+          window.DIDDebug.loaded = true;
+          
+          // Start monitoring for avatar appearance
+          monitorAvatarAppearance();
+        };
+
+        script.onerror = function(error) {
+          log('D-ID script failed to load', { error, attempt });
+          window.DIDDebug.error = error;
+          handleLoadError(agentId, attempt);
+        };
+
+        // Set timeout for script loading
+        const loadTimeout = setTimeout(() => {
+          log('D-ID script load timeout', { attempt });
+          handleLoadError(agentId, attempt);
+        }, window.DIDDebug.timeout);
+
+        // Clear timeout if script loads
+        script.onload = function() {
+          clearTimeout(loadTimeout);
+          log('D-ID script loaded successfully');
+          window.DIDDebug.loaded = true;
+          monitorAvatarAppearance();
+        };
+
+        log('Appending D-ID script to document', { src: script.src });
         document.body.appendChild(script);
       }
 
-      // Detect user language
+      // Handle load errors with retry logic
+      function handleLoadError(agentId, attempt) {
+        if (attempt < window.DIDDebug.maxRetries) {
+          window.DIDDebug.retries++;
+          log(`Retrying D-ID load in 2 seconds (${attempt + 1}/${window.DIDDebug.maxRetries})`);
+          setTimeout(() => {
+            loadDIDAgent(agentId, attempt + 1);
+          }, 2000);
+        } else {
+          log('All D-ID load attempts failed, showing fallback');
+          showFallbackMessage();
+        }
+      }
+
+      // Monitor for avatar appearance in the DOM
+      function monitorAvatarAppearance() {
+        log('Starting avatar appearance monitoring');
+        let checks = 0;
+        const maxChecks = 50; // 10 seconds of checking
+        
+        const monitor = setInterval(() => {
+          checks++;
+          const avatarElements = document.querySelectorAll('[data-name*="did"], iframe[src*="d-id.com"], [class*="did"]');
+          
+          if (avatarElements.length > 0) {
+            log('Avatar elements found in DOM', { count: avatarElements.length, elements: Array.from(avatarElements).map(el => ({ tag: el.tagName, src: el.src, className: el.className })) });
+            clearInterval(monitor);
+            
+            // Force visibility for found elements
+            avatarElements.forEach((el, index) => {
+              log(`Forcing visibility for avatar element ${index}`, { tag: el.tagName });
+              el.style.cssText = 'position: fixed !important; bottom: 20px !important; right: 20px !important; z-index: 999999 !important; width: 80px !important; height: 80px !important; display: block !important; visibility: visible !important; opacity: 1 !important;';
+            });
+            
+          } else if (checks >= maxChecks) {
+            log('Avatar monitoring timeout - no elements found');
+            clearInterval(monitor);
+            showFallbackMessage();
+          } else {
+            if (checks % 10 === 0) {
+              log(`Avatar monitoring progress: ${checks}/${maxChecks} checks completed`);
+            }
+          }
+        }, 200);
+      }
+
+      // Show fallback message if avatar fails to load
+      function showFallbackMessage() {
+        log('Showing fallback avatar message');
+        const fallback = document.createElement('div');
+        fallback.id = 'did-fallback';
+        fallback.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 8px; font-size: 12px; max-width: 200px;';
+        fallback.innerHTML = `
+          <div>Avatar unavailable</div>
+          <button onclick="retryAvatarLoad()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-top: 5px; cursor: pointer;">Retry</button>
+          <button onclick="showDebugInfo()" style="background: #6c757d; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-top: 5px; cursor: pointer;">Debug</button>
+        `;
+        document.body.appendChild(fallback);
+      }
+
+      // Global retry function
+      window.retryAvatarLoad = function() {
+        log('Manual retry triggered');
+        const fallback = document.getElementById('did-fallback');
+        if (fallback) fallback.remove();
+        
+        window.DIDDebug.retries = 0;
+        window.DIDDebug.loaded = false;
+        window.DIDDebug.error = null;
+        
+        const userLang = navigator.language || navigator.userLanguage;
+        const isSpanish = userLang.startsWith('es');
+        const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
+        
+        loadDIDAgent(agentId);
+      };
+
+      // Global debug info function
+      window.showDebugInfo = function() {
+        log('Showing debug information');
+        const debugInfo = document.createElement('div');
+        debugInfo.style.cssText = 'position: fixed; top: 10px; left: 10px; right: 10px; background: rgba(0,0,0,0.9); color: white; padding: 20px; border-radius: 8px; z-index: 1000000; font-family: monospace; font-size: 12px; max-height: 80vh; overflow-y: auto;';
+        debugInfo.innerHTML = `
+          <h3>D-ID Avatar Debug Information</h3>
+          <button onclick="this.parentElement.remove()" style="float: right; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Close</button>
+          <p><strong>Language:</strong> ${navigator.language}</p>
+          <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+          <p><strong>Loaded:</strong> ${window.DIDDebug.loaded}</p>
+          <p><strong>Retries:</strong> ${window.DIDDebug.retries}</p>
+          <p><strong>Error:</strong> ${window.DIDDebug.error || 'None'}</p>
+          <p><strong>Current Time:</strong> ${new Date().toISOString()}</p>
+          <h4>Debug Logs:</h4>
+          <div style="max-height: 300px; overflow-y: auto; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 4px;">
+            ${window.DIDDebug.logs.map(log => `<div>${log.timestamp}: ${log.message} ${log.data ? JSON.stringify(log.data) : ''}</div>`).join('')}
+          </div>
+        `;
+        document.body.appendChild(debugInfo);
+      };
+
+      // Detect user language and start loading
       const userLang = navigator.language || navigator.userLanguage;
       const isSpanish = userLang.startsWith('es');
+      
+      log('Browser language detection', { userLang, isSpanish });
 
       // Select the appropriate agent ID
       const agentId = isSpanish 
         ? 'v2_agt_JZ4Lnlqs'    // Spanish Agent – Maria Español
         : 'v2_agt_20pNgPtt';   // English Agent – Maria English
 
-      // Wait until DOM is ready before loading the script
-      window.addEventListener('DOMContentLoaded', () => {
+      log('Selected agent ID', { agentId });
+
+      // Start loading when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          log('DOM ready, starting D-ID agent load');
+          loadDIDAgent(agentId);
+        });
+      } else {
+        log('DOM already ready, starting D-ID agent load immediately');
         loadDIDAgent(agentId);
-      });
+      }
+
+      // Additional network monitoring
+      const originalFetch = window.fetch;
+      window.fetch = function(...args) {
+        if (args[0] && args[0].includes && args[0].includes('d-id.com')) {
+          log('D-ID network request detected', { url: args[0] });
+        }
+        return originalFetch.apply(this, args);
+      };
     </script>
   </body>
 </html>

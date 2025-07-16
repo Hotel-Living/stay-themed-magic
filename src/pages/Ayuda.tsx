@@ -12,11 +12,15 @@ export default function Ayuda() {
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
     existingScripts.forEach(script => script.remove());
 
+    // Remove any existing D-ID containers
+    const existingContainers = document.querySelectorAll('[data-name*="did-agent"]');
+    existingContainers.forEach(container => container.remove());
+
     // Dynamic D-ID script loading based on language
     const script = document.createElement('script');
     script.type = 'module';
     script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-mode', 'live');
+    script.setAttribute('data-mode', 'fabio');
     script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
     
     // Use different agent IDs based on language
@@ -29,14 +33,17 @@ export default function Ayuda() {
     script.setAttribute('data-orientation', 'horizontal');
     script.setAttribute('data-position', 'center');
     
-    document.head.appendChild(script);
+    document.body.appendChild(script);
     
     return () => {
       // Clean up script on unmount or language change
       const existingScript = document.querySelector(`script[data-name="${agentName}"]`);
       if (existingScript) {
-        document.head.removeChild(existingScript);
+        document.body.removeChild(existingScript);
       }
+      // Clean up D-ID containers
+      const containers = document.querySelectorAll('[data-name*="did-agent"]');
+      containers.forEach(container => container.remove());
     };
   }, [i18n.language]); // Re-run when language changes
 
@@ -99,9 +106,8 @@ export default function Ayuda() {
       <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
-          <div className="w-48 h-48 mb-4 flex items-center justify-center">
-            {/* D-ID Avatar Container */}
-            <div id="did-agent-container" className="w-full h-full rounded-full overflow-hidden shadow-2xl bg-gradient-to-br from-purple-600 to-pink-600"></div>
+          <div className="w-96 h-64 mb-4 flex items-center justify-center">
+            {/* D-ID Avatar will be automatically injected here by the script */}
           </div>
           <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
             <p className="text-center text-white text-lg font-semibold">

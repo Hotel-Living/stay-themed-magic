@@ -30,7 +30,7 @@ export default function Ayuda() {
       script.type = "module";
       script.src = "https://agent.d-id.com/v2/index.js";
       script.setAttribute("data-mode", "fabio");
-      script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnZpQUEzUWlpdTBXcA==");
+      script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==");
       script.setAttribute("data-agent-id", "v2_agt_JZ4Lnlqs");
       script.setAttribute("data-name", "did-agent-es");
       script.setAttribute("data-monitor", "true");

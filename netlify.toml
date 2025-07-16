@@ -11,7 +11,7 @@ SKIP_GO_INSTALL = "true"
 NPM_FLAGS = "--no-optional --force --no-cache"
 NETLIFY_SKIP_CACHE = "true"
 NETLIFY_PURGE_CACHE = "true"
-BUILD_ID = "vite-2025-01-16-v1"
+BUILD_ID = "vite-fresh-deploy-2025-01-16-complete-reset-v2"
 
 [build.processing]
 skip_processing = true
@@ -23,22 +23,42 @@ pretty_urls = true
 bundle = true
 minify = true
 
-# Force correct MIME types for CSS files
+# Force correct MIME types and complete cache invalidation
 [[headers]]
 for = "/assets/*.css"
 [headers.values]
 Content-Type = "text/css; charset=utf-8"
-Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate"
 Pragma = "no-cache"
 Expires = "0"
+Last-Modified = "0"
+ETag = ""
 
 [[headers]]
 for = "*.css"
 [headers.values]
 Content-Type = "text/css; charset=utf-8"
-Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate"
 Pragma = "no-cache"
 Expires = "0"
+Last-Modified = "0"
+ETag = ""
+
+# Aggressive cache invalidation for JS files
+[[headers]]
+for = "/assets/*.js"
+[headers.values]
+Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate"
+Pragma = "no-cache"
+Expires = "0"
+Last-Modified = "0"
+
+# Block any Next.js remnants with 404
+[[headers]]
+for = "/_next/*"
+[headers.values]
+Cache-Control = "no-cache, no-store, must-revalidate"
+Status = "404"
 
 # Block all Next.js static paths with 404
 [[headers]]
@@ -54,7 +74,12 @@ Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
 Pragma = "no-cache"
 Expires = "0"
 
-# Block Next.js paths and return 404
+# Block ALL Next.js paths and return 404
+[[redirects]]
+from = "/_next/*"
+to = "/404"
+status = 404
+
 [[redirects]]
 from = "/_next/static/*"
 to = "/404"

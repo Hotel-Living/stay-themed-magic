@@ -4,11 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Force complete cache invalidation -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
+    <!-- Aggressive Cache Control - Force Complete Refresh -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <meta name="cache-bust" content="vite-2025-01-16-v1" />
+    <meta http-equiv="Last-Modified" content="0" />
+    <meta http-equiv="If-Modified-Since" content="0" />
+    <meta name="cache-buster" content="vite-fresh-2025-01-16-complete-reset" />
+    
+    <!-- Service Worker Unregistration Script -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+          }
+        });
+      }
+      // Clear all possible caches
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+          }
+        });
+      }
+    </script>
     
     <link rel="icon" type="image/png" href="/lovable-uploads/b2b167c7-d757-4e25-820e-b6b3f25d1af6.png" />
     <link rel="preload" as="image" href="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" />

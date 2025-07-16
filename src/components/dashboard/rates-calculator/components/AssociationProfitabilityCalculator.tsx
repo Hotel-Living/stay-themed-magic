@@ -53,6 +53,11 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
           <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wider text-yellow-300 text-center drop-shadow-md">
             {t('calculator.title')}
           </h2>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-white/70 leading-relaxed max-w-4xl mx-auto">
+              Cifras estimativas basadas en un escenario de ocupación máxima. Los resultados reales variarán según el número de paquetes efectivamente vendidos, con un precio promedio mensual estimado en $1,300. Esta media considera estancias sin comidas, diversas categorías hoteleras y ocupaciones dobles e individuales.
+            </p>
+          </div>
         </div>
 
         {/* Calculator Content */}

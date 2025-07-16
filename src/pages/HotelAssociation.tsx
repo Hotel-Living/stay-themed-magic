@@ -120,7 +120,7 @@ export default function HotelAssociation() {
                       tanto para la asociación
                     </p>
                     <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                      como para sus hoteles afiliados.
+                      como para sus hoteles afiliados
                     </p>
                   </div>
                 </div>
@@ -156,12 +156,24 @@ export default function HotelAssociation() {
                   <h2 className="text-2xl md:text-3xl font-bold text-yellow-300 uppercase tracking-wide mb-6">
                     ¿QUÉ OFRECEMOS EN HOTEL-LIVING.COM?
                   </h2>
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-8">
                     <p className="text-lg md:text-xl text-white/90 leading-relaxed font-semibold">
                       A LAS ASOCIACIONES HOTELERAS:
                     </p>
                     <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                      Un 4% del total de las reservas generadas por sus miembros, un porcentaje que no afecta en absoluto a sus hoteles, pues proviene de nuestro propio coste de gestión.
+                      Un 4% del total de las reservas generadas por sus miembros,
+                    </p>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      un porcentaje que no afecta en absoluto a sus hoteles,
+                    </p>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                      pues proviene de nuestro propio coste de gestión.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-xl p-6">
+                    <p className="text-lg text-white/90 leading-relaxed font-medium">
+                      Su asociación recibirá cada mes el 4% de las reservas generadas por sus hoteles durante los primeros 18 meses, y el 2% durante los 12 siguientes. Este ingreso no afecta en nada a los hoteles —proviene de nuestro propio coste de gestión— y podrá ser reinvertido en beneficio de la asociación y sus miembros.
                     </p>
                   </div>
                 </div>

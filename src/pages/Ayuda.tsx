@@ -15,21 +15,30 @@ export default function Ayuda() {
     const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
     existingAvatars.forEach(avatar => avatar.remove());
 
-    // Detect language and load appropriate avatar
-    const detectAndLoadAvatar = () => {
+    // Load Spanish avatar (force Spanish since this is /ayuda page)
+    const loadSpanishAvatar = () => {
       const targetContainer = document.getElementById('did-avatar-container');
-      if (!targetContainer) return;
+      if (!targetContainer) {
+        console.error('did-avatar-container not found');
+        return;
+      }
+
+      console.log('Loading Spanish avatar on /ayuda page');
+      console.log('Current language:', i18n.language);
+      console.log('Navigator language:', navigator.language);
 
       // Clear the container
       targetContainer.innerHTML = '';
       
-      // Detect language
-      const lang = i18n.language || navigator.language || "en";
-      const isSpanish = lang.startsWith("es");
+      // Force Spanish since this is the /ayuda page
+      const isSpanish = true;
+      const agentId = 'v2_agt_JZ4Lnlqs'; // Spanish agent ID
+      
+      console.log('Using Spanish agent ID:', agentId);
       
       // Create avatar container
       const avatarDiv = document.createElement('div');
-      avatarDiv.id = isSpanish ? 'avatar-es' : 'avatar-en';
+      avatarDiv.id = 'avatar-es';
       
       // Create D-ID script
       const script = document.createElement('script');
@@ -37,14 +46,17 @@ export default function Ayuda() {
       script.src = 'https://agent.d-id.com/v2/index.js';
       script.setAttribute('data-mode', 'fabio');
       script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
-      
-      // Set agent ID based on language
-      const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
       script.setAttribute('data-agent-id', agentId);
-      script.setAttribute('data-name', isSpanish ? 'did-agent-es' : 'did-agent-en');
+      script.setAttribute('data-name', 'did-agent-es');
       script.setAttribute('data-monitor', 'true');
       script.setAttribute('data-orientation', 'horizontal');
       script.setAttribute('data-position', 'right');
+      
+      console.log('Script attributes set:', {
+        'data-agent-id': script.getAttribute('data-agent-id'),
+        'data-name': script.getAttribute('data-name'),
+        'data-mode': script.getAttribute('data-mode')
+      });
       
       // Create caption
       const caption = document.createElement('p');
@@ -52,7 +64,7 @@ export default function Ayuda() {
       caption.style.fontSize = '1.2rem';
       caption.style.marginTop = '10px';
       caption.style.color = 'white';
-      caption.textContent = isSpanish ? 'Háblame o escríbeme tu pregunta.' : 'Speak or write your question to me.';
+      caption.textContent = 'Háblame o escríbeme tu pregunta.';
       
       // Add script and caption to avatar div
       avatarDiv.appendChild(script);
@@ -61,23 +73,65 @@ export default function Ayuda() {
       // Add avatar to container
       targetContainer.appendChild(avatarDiv);
       
-      // Add loading and error handling
+      console.log('Avatar elements added to DOM');
+      
+      // Add comprehensive loading and error handling
       script.onload = () => {
-        console.log('D-ID script loaded successfully with agent ID:', agentId);
+        console.log('✅ D-ID script loaded successfully with Spanish agent ID:', agentId);
+        console.log('Script element:', script);
       };
       
       script.onerror = (error) => {
-        console.error('Failed to load D-ID script:', error);
-        targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
+        console.error('❌ Failed to load D-ID script:', error);
+        console.error('Agent ID attempted:', agentId);
+        
+        // Show fallback with English agent as backup
+        console.log('Attempting fallback to English agent...');
+        const fallbackAgentId = 'v2_agt_20pNgPtt';
+        
+        // Create fallback script
+        const fallbackScript = document.createElement('script');
+        fallbackScript.type = 'module';
+        fallbackScript.src = 'https://agent.d-id.com/v2/index.js';
+        fallbackScript.setAttribute('data-mode', 'fabio');
+        fallbackScript.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+        fallbackScript.setAttribute('data-agent-id', fallbackAgentId);
+        fallbackScript.setAttribute('data-name', 'did-agent-fallback');
+        fallbackScript.setAttribute('data-monitor', 'true');
+        fallbackScript.setAttribute('data-orientation', 'horizontal');
+        fallbackScript.setAttribute('data-position', 'right');
+        
+        // Replace failed script with fallback
+        avatarDiv.removeChild(script);
+        avatarDiv.insertBefore(fallbackScript, caption);
+        
+        // Update caption for fallback
+        caption.textContent = 'Háblame o escríbeme tu pregunta. (Modo de respaldo)';
+        
+        fallbackScript.onload = () => {
+          console.log('✅ Fallback English agent loaded successfully:', fallbackAgentId);
+        };
+        
+        fallbackScript.onerror = () => {
+          console.error('❌ Fallback also failed. Showing error message.');
+          targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white"><div class="text-center"><div class="text-red-400 mb-2">⚠️ Error al cargar el avatar</div><div class="text-sm">Por favor, actualiza la página</div></div></div>';
+        };
       };
+      
+      // Additional debugging - check if script is properly inserted
+      setTimeout(() => {
+        const insertedScript = targetContainer.querySelector('script[src*="agent.d-id.com"]');
+        console.log('Script in DOM after 1 second:', insertedScript);
+        console.log('Container contents:', targetContainer.innerHTML);
+      }, 1000);
     };
 
     // Load avatar after ensuring DOM is ready
-    const timer = setTimeout(detectAndLoadAvatar, 200);
+    const timer = setTimeout(loadSpanishAvatar, 200);
     
     return () => {
       clearTimeout(timer);
-      // Clean up on unmount or language change
+      // Clean up on unmount
       const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
       if (existingScript) {
         existingScript.remove();
@@ -85,7 +139,7 @@ export default function Ayuda() {
       const avatars = document.querySelectorAll('[id^="avatar-"]');
       avatars.forEach(avatar => avatar.remove());
     };
-  }, [i18n.language]); // Re-run when language changes
+  }, []); // Remove language dependency since we're forcing Spanish
 
   const avatarsData = [
     {

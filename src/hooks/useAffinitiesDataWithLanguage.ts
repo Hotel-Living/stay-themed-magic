@@ -39,7 +39,7 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
             console.log(`🎯 Translating affinity: "${item.value}" for language: ${language}`);
             
             // Use the translation system with affinities namespace
-            const translatedName = t(item.value, { ns: 'affinities' });
+            const translatedName = t(`affinities.${item.value}`);
             
             console.log(`🎯 Translation result: "${item.value}" -> "${translatedName}"`);
             

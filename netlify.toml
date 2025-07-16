@@ -11,6 +11,7 @@ SKIP_GO_INSTALL = "true"
 NPM_FLAGS = "--no-optional --force --no-cache"
 NETLIFY_SKIP_CACHE = "true"
 NETLIFY_PURGE_CACHE = "true"
+BUILD_ID = "vite-2025-01-16-v1"
 
 [build.processing]
 skip_processing = true

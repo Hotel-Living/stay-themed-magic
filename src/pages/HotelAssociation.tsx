@@ -176,11 +176,95 @@ export default function HotelAssociation() {
               <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10 shadow-xl">
                 <Accordion type="multiple" className="space-y-4">
                   
-                  {/* Section 1: Benefits for Hotels */}
+                  {/* Section 1: Hotel Crisis */}
+                  <AccordionItem value="crisis" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
+                    <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
+                        ① LA GRAN CRISIS DEL SECTOR HOTELERO
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-6 pb-6 bg-white/3">
+                      <div className="space-y-6 pt-4">
+                        <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                          <p className="text-lg text-white/90 leading-relaxed mb-4">
+                            El modelo actual está obsoleto. Los índices oficiales hablan de una ocupación del 50-55%, pero la realidad es mucho peor.
+                          </p>
+                          
+                          <p className="text-lg text-yellow-300 font-semibold leading-relaxed mb-4">
+                            Si incluimos los hoteles cerrados gran parte del año, la ocupación real cae al 40%.
+                          </p>
+                          
+                          <p className="text-lg text-yellow-300 font-semibold leading-relaxed mb-6">
+                            Eso representa más de 5.000 millones de noches de habitaciones vacías cada año.
+                          </p>
+                          
+                          <div className="grid md:grid-cols-2 gap-8 mt-8">
+                            <div>
+                              <p className="text-lg text-white/90 font-semibold mb-4">¿QUÉ IMPLICA ESTO?</p>
+                              <ul className="space-y-3">
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Instalaciones infrautilizadas</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Rentabilidad en caída libre</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Pérdida de empleos y oportunidades</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Decadencia progresiva del sector</span>
+                                </li>
+                              </ul>
+                            </div>
+                            
+                            <div>
+                              <p className="text-lg text-yellow-300 font-semibold mb-4">Mientras tanto, a su alrededor, millones de personas desean:</p>
+                              <ul className="space-y-3">
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Una forma de vida más libre y práctica</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Salir de la soledad y encontrar afinidades</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Conocer lugares y personas con autenticidad</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Viajar sin complicaciones</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <span className="text-white/70 mr-3">•</span>
+                                  <span className="text-white/90">Vivir en y entre hoteles, viajando y disfrutando de verdad de la vida, como una opción continua, no ocasional</span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          
+                          <p className="text-lg text-yellow-300 font-semibold leading-relaxed mt-6">
+                            Cada habitación vacía es una oportunidad perdida.
+                          </p>
+                          
+                          <p className="text-lg text-white/90 leading-relaxed">
+                            Y cada noche vacía, un paso más hacia la decadencia del hotel que no se adapta.
+                          </p>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  {/* Section 2: Benefits for Hotels */}
                   <AccordionItem value="benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ① {t('accordionSection1.title')}
+                        ② {t('accordionSection1.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -245,11 +329,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 2: Hotel Association Benefits */}
+                  {/* Section 3: Hotel Association Benefits */}
                   <AccordionItem value="association-benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ② ¿QUÉ VENTAJAS OBTIENEN SUS HOTELES ASOCIADOS POR REGISTRARSE A TRAVÉS DE SU ASOCIACIÓN?
+                        ③ ¿QUÉ VENTAJAS OBTIENEN SUS HOTELES ASOCIADOS POR REGISTRARSE A TRAVÉS DE SU ASOCIACIÓN?
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -341,11 +425,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 3: Millions of Clients Waiting */}
+                  {/* Section 4: Millions of Clients Waiting */}
                   <AccordionItem value="clients-waiting" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ③ {t('accordionSection2.title')}
+                        ④ {t('accordionSection2.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -367,11 +451,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 4: Potential Clients */}
+                  {/* Section 5: Potential Clients */}
                   <AccordionItem value="potential-clients" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ④ {t('accordionSection3.title')}
+                        ⑤ {t('accordionSection3.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -405,11 +489,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 5: Hotel Sector Crisis */}
+                  {/* Section 6: Hotel Sector Crisis */}
                   <AccordionItem value="sector-crisis" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ⑤ {t('accordionSection4.title')}
+                        ⑥ {t('accordionSection4.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">

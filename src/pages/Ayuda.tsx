@@ -8,8 +8,9 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const loadSpanishAvatar = () => {
-      console.log('🔄 Injecting avatar - Starting...');
+    // Use setTimeout with 500ms delay as specified to ensure DOM is fully ready
+    const timer = setTimeout(() => {
+      console.log('🔄 Injecting avatar - Starting after 500ms delay...');
       
       const container = document.getElementById("did-avatar-container");
       if (!container) {
@@ -20,26 +21,18 @@ export default function Ayuda() {
       console.log('✅ Container found, clearing and preparing...');
       container.innerHTML = ""; // Clean old scripts, if any
       
-      // Ensure container has proper styling for D-ID rendering
-      container.style.minHeight = '400px';
-      container.style.position = 'relative';
-      container.style.overflow = 'visible';
-      container.style.width = '100%';
-      container.style.maxWidth = '400px';
-      
       console.log('🔄 Creating D-ID script element...');
       
       const script = document.createElement("script");
       script.type = "module";
       script.src = "https://agent.d-id.com/v2/index.js";
-      script.setAttribute("data-mode", "fabio");
       script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==");
       script.setAttribute("data-agent-id", "v2_agt_JZ4Lnlqs");
       script.setAttribute("data-name", "did-agent-es");
       script.setAttribute("data-monitor", "true");
       script.setAttribute("data-orientation", "horizontal");
       script.setAttribute("data-position", "right");
-
+      
       container.appendChild(script);
       console.log('✅ D-ID script injected and appended to container');
       
@@ -59,10 +52,8 @@ export default function Ayuda() {
           console.log('✅ D-ID script appears to have executed successfully');
         }
       }, 3000);
-    };
+    }, 500);
 
-    // Add timing delay to ensure DOM is fully ready before D-ID script injection
-    const timer = setTimeout(loadSpanishAvatar, 200);
     
     return () => {
       clearTimeout(timer);

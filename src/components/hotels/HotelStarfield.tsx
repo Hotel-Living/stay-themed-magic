@@ -5,6 +5,7 @@ export function HotelStarfield() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   useEffect(() => {
+    console.log("🌟 HotelStarfield component mounting...");
     const canvas = canvasRef.current;
     if (!canvas) return;
     

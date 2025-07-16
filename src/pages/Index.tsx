@@ -55,6 +55,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
+      <HotelStarfield />
       <Navbar />
       
       {showIntro && (
@@ -71,8 +72,6 @@ export default function Index() {
         onFilterChange={handleFilterChange}
         availableThemes={themeNames}
       />
-      
-      <HotelStarfield />
       
       <BubbleCounter />
       <RandomAvatarAssistant />

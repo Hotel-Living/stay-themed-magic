@@ -1,12 +1,10 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { HeroSection } from '@/components/home/HeroSection';
 import { FilterState } from '@/components/filters';
 import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
 import { useThemes } from '@/hooks/useThemes';
-import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
@@ -15,8 +13,9 @@ import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistan
 
 export default function Index() {
   const { data: themes } = useThemes();
-  const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
+  const [showIntro, setShowIntro] = useState(false); // Temporarily disabled
   const [showAvatarIntro, setShowAvatarIntro] = useState(false); // Disabled avatar animations per user request
+
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -34,18 +33,13 @@ export default function Index() {
     hotelFeatures: [],
     roomFeatures: [],
     mealPlans: [],
-    stayLengths: null, // Single string, not array
+    stayLengths: null,
     atmosphere: null
   });
-
-  // Don't initialize useHotels hook here since we're just navigating to search
-  // const { updateFilters } = useHotels({ initialFilters: filters });
 
   const handleFilterChange = (newFilters: FilterState) => {
     console.log("🔄 Index page filter change:", newFilters);
     setFilters(newFilters);
-    // Note: We don't need to update any hotel results here since the Index page doesn't show results
-    // The FilterSectionWrapper handles navigation to /search with proper parameters
   };
 
   const handleIntroComplete = () => {
@@ -57,8 +51,37 @@ export default function Index() {
     setShowAvatarIntro(false);
   };
 
-  // Extract theme names for the filter dropdown
   const themeNames = themes ? themes.map(theme => theme.name) : [];
+
+  // ✅ D-ID Avatar auto-carga según idioma del navegador
+  useEffect(() => {
+    const existing = document.getElementById("d-id-container");
+    if (existing) return;
+
+    const language = navigator.language || navigator.userLanguage;
+    const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";
+    const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";
+    const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
+    const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
+
+    const script = document.createElement('script');
+    script.src = "https://agent.d-id.com/v2/index.js";
+    script.async = true;
+    script.onload = () => {
+      window.DIDWidget?.init({
+        clientKey,
+        agentId,
+        container: document.getElementById("d-id-avatar"),
+        enableSpeech: true,
+        enableMic: true,
+        alignment: "right",
+        position: "bottom",
+        avatarSize: "medium"
+      });
+      console.log("✅ D-ID avatar initialized for:", language);
+    };
+    document.body.appendChild(script);
+  }, []);
 
   if (showIntro) {
     return <IntroStarAnimation onComplete={handleIntroComplete} />;
@@ -69,21 +92,22 @@ export default function Index() {
       <HotelStarfield />
       <Navbar />
       <BubbleCounter />
-      
+
       {/* Phase 1: Avatar Introduction */}
       {showAvatarIntro && (
         <AvatarIntro onUserInteraction={handleAvatarIntroInteraction} />
       )}
-      
+
       <main className="flex-1 w-full">
         <HeroSection />
         <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
       </main>
-      
+
       <Footer />
-      
-      {/* Random Avatar Assistant - appears every 30 seconds */}
       {!showAvatarIntro && <RandomAvatarAssistant />}
+
+      {/* ✅ Contenedor para D-ID Avatar */}
+      <div id="d-id-avatar" style={{ zIndex: 999999 }}></div>
     </div>
   );
 }

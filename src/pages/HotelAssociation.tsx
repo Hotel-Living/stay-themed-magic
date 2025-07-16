@@ -257,11 +257,107 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 2: Millions of Clients Waiting */}
+                  {/* Section 2: Hotel Association Benefits */}
+                  <AccordionItem value="association-benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
+                    <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
+                      <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
+                        ② ¿QUÉ VENTAJAS OBTIENEN SUS HOTELES ASOCIADOS POR REGISTRARSE A TRAVÉS DE SU ASOCIACIÓN?
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-6 pb-6 bg-white/3">
+                      <div className="space-y-6 pt-4">
+                        <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                          <h4 className="text-lg font-bold text-yellow-300 mb-6">
+                            UNA SUMA IMPORTANTE DE BENEFICIOS
+                          </h4>
+                          <ul className="space-y-3 text-base text-white/90 leading-relaxed">
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Posicionamiento preferente en los resultados</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Publicación garantizada en 48 horas</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Ficha destacada visualmente</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Participación automática en campañas locales</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Etiqueta oficial de "hotel aliado"</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Derecho a feedback directo con el equipo de Hotel Living</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Inclusión en sorteos promocionales</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Onboarding asistido personalizado</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Revisión gratuita de su ficha</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Traducción prioritaria de su ficha a otros idiomas</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Beneficio acumulativo si refiere a otros hoteles (no pertenecientes a ninguna asociación)</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Acceso anticipado a nuevos módulos del sistema Hotel Living</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Para probar funciones antes de su lanzamiento oficial</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Atención prioritaria en soporte técnico y resolución de incidencias</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Acceso gratuito a formaciones exclusivas sobre optimización de estancias largas y revenue management para su equipo</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Una mención o publicación personalizada mensual (rotativa)</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Etiqueta de "Top Hotel Asociación" en su ficha durante los 3 primeros meses</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Mayor frecuencia de aparición en segmentos de afinidades personalizadas</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                              <span className="text-green-400 text-lg flex-shrink-0 mt-0.5">✅</span>
+                              <span>Convocatoria preferente a encuentros o mesas redondas con otros hoteles aliados</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  {/* Section 3: Millions of Clients Waiting */}
                   <AccordionItem value="clients-waiting" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ② {t('accordionSection2.title')}
+                        ③ {t('accordionSection2.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -283,11 +379,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 3: Potential Clients */}
+                  {/* Section 4: Potential Clients */}
                   <AccordionItem value="potential-clients" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ③ {t('accordionSection3.title')}
+                        ④ {t('accordionSection3.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -321,11 +417,11 @@ export default function HotelAssociation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Section 4: Hotel Sector Crisis */}
+                  {/* Section 5: Hotel Sector Crisis */}
                   <AccordionItem value="sector-crisis" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
                     <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
                       <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-                        ④ {t('accordionSection4.title')}
+                        ⑤ {t('accordionSection4.title')}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 bg-white/3">

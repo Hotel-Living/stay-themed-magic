@@ -8,24 +8,27 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Clean up any existing avatars first
-    const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
-    existingScripts.forEach(script => script.remove());
-    
-    const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
-    existingAvatars.forEach(avatar => avatar.remove());
-
     const loadSpanishAvatar = () => {
-      const targetContainer = document.getElementById('did-avatar-container');
-      if (!targetContainer) {
-        console.error('did-avatar-container not found');
+      console.log('🔄 Injecting avatar - Starting...');
+      
+      const container = document.getElementById("did-avatar-container");
+      if (!container) {
+        console.error('❌ did-avatar-container not found');
         return;
       }
 
-      // Clear the container
-      targetContainer.innerHTML = '';
+      console.log('✅ Container found, clearing and preparing...');
+      container.innerHTML = ""; // Clean old scripts, if any
       
-      // Create script element properly so it can execute natively
+      // Ensure container has proper styling for D-ID rendering
+      container.style.minHeight = '400px';
+      container.style.position = 'relative';
+      container.style.overflow = 'visible';
+      container.style.width = '100%';
+      container.style.maxWidth = '400px';
+      
+      console.log('🔄 Creating D-ID script element...');
+      
       const script = document.createElement("script");
       script.type = "module";
       script.src = "https://agent.d-id.com/v2/index.js";
@@ -37,10 +40,25 @@ export default function Ayuda() {
       script.setAttribute("data-orientation", "horizontal");
       script.setAttribute("data-position", "right");
 
-      // Append script to container so it can execute natively
-      targetContainer.appendChild(script);
+      container.appendChild(script);
+      console.log('✅ D-ID script injected and appended to container');
       
-      console.log('✅ Spanish D-ID script created and appended for native execution');
+      // Debug: Check for iframe creation after script execution
+      setTimeout(() => {
+        const iframe = container.querySelector('iframe');
+        const hasChildren = container.children.length > 1; // script + other elements
+        console.log('🔍 Debug check after 3 seconds:');
+        console.log('- Container children count:', container.children.length);
+        console.log('- Iframe found:', !!iframe);
+        console.log('- Container HTML:', container.innerHTML.substring(0, 200) + '...');
+        
+        if (!iframe && !hasChildren) {
+          console.error('❌ No iframe or additional elements created by D-ID script');
+          console.error('This suggests the script did not execute properly or failed silently');
+        } else {
+          console.log('✅ D-ID script appears to have executed successfully');
+        }
+      }, 3000);
     };
 
     // Load avatar after ensuring DOM is ready
@@ -119,8 +137,7 @@ export default function Ayuda() {
         <div className="flex flex-col items-center mb-12">
           <div 
             id="did-avatar-container"
-            className="w-96 h-64 mb-4 flex items-center justify-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden"
-            style={{ minHeight: '300px', width: '100%', maxWidth: '400px' }}
+            className="mb-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg"
           >
             <div className="text-white/60 text-center">
               <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>

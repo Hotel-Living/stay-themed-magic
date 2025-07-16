@@ -8,33 +8,58 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Clean up any existing scripts and containers first
+    // Clean up any existing avatars first
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
     existingScripts.forEach(script => script.remove());
     
-    const existingContainers = document.querySelectorAll('[data-did-container]');
-    existingContainers.forEach(container => container.remove());
+    const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
+    existingAvatars.forEach(avatar => avatar.remove());
 
-    // Wait for DOM to be ready, then load D-ID script
-    const loadDIDScript = () => {
+    // Detect language and load appropriate avatar
+    const detectAndLoadAvatar = () => {
       const targetContainer = document.getElementById('did-avatar-container');
       if (!targetContainer) return;
 
-      // Clear the container and prepare for D-ID
+      // Clear the container
       targetContainer.innerHTML = '';
       
-      // Create and configure the script with simpler approach
+      // Detect language
+      const lang = i18n.language || navigator.language || "en";
+      const isSpanish = lang.startsWith("es");
+      
+      // Create avatar container
+      const avatarDiv = document.createElement('div');
+      avatarDiv.id = isSpanish ? 'avatar-es' : 'avatar-en';
+      
+      // Create D-ID script
       const script = document.createElement('script');
       script.type = 'module';
       script.src = 'https://agent.d-id.com/v2/index.js';
       script.setAttribute('data-mode', 'fabio');
       script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
       
-      // CRITICAL: Replace with actual Spanish agent ID from D-ID dashboard
-      const agentId = 'YOUR_SPANISH_AGENT_ID'; 
+      // Set agent ID based on language
+      const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
       script.setAttribute('data-agent-id', agentId);
-      script.setAttribute('data-target', '#did-avatar-container');
-      script.setAttribute('data-autostart', 'true');
+      script.setAttribute('data-name', isSpanish ? 'did-agent-es' : 'did-agent-en');
+      script.setAttribute('data-monitor', 'true');
+      script.setAttribute('data-orientation', 'horizontal');
+      script.setAttribute('data-position', 'right');
+      
+      // Create caption
+      const caption = document.createElement('p');
+      caption.style.textAlign = 'center';
+      caption.style.fontSize = '1.2rem';
+      caption.style.marginTop = '10px';
+      caption.style.color = 'white';
+      caption.textContent = isSpanish ? 'Háblame o escríbeme tu pregunta.' : 'Speak or write your question to me.';
+      
+      // Add script and caption to avatar div
+      avatarDiv.appendChild(script);
+      avatarDiv.appendChild(caption);
+      
+      // Add avatar to container
+      targetContainer.appendChild(avatarDiv);
       
       // Add loading and error handling
       script.onload = () => {
@@ -43,28 +68,22 @@ export default function Ayuda() {
       
       script.onerror = (error) => {
         console.error('Failed to load D-ID script:', error);
-        // Show fallback content
-        if (targetContainer) {
-          targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
-        }
+        targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
       };
-      
-      // Add script to document body
-      document.body.appendChild(script);
     };
 
-    // Load script after ensuring DOM is ready
-    const timer = setTimeout(loadDIDScript, 200);
+    // Load avatar after ensuring DOM is ready
+    const timer = setTimeout(detectAndLoadAvatar, 200);
     
     return () => {
       clearTimeout(timer);
-      // Clean up script and containers on unmount or language change
+      // Clean up on unmount or language change
       const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
       if (existingScript) {
         existingScript.remove();
       }
-      const containers = document.querySelectorAll('[data-did-container]');
-      containers.forEach(container => container.remove());
+      const avatars = document.querySelectorAll('[id^="avatar-"]');
+      avatars.forEach(avatar => avatar.remove());
     };
   }, [i18n.language]); // Re-run when language changes
 

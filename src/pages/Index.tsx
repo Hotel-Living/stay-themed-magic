@@ -11,13 +11,12 @@ import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
 import { AvatarIntro } from '@/components/avatars/AvatarIntro';
-// Temporarily disabled to avoid conflicts with D-ID
-// import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistant';
+import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistant';
 
 export default function Index() {
   const { data: themes } = useThemes();
   const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
-  const [showAvatarIntro, setShowAvatarIntro] = useState(false); // DISABLED: Avatar animations disabled per user request
+  const [showAvatarIntro, setShowAvatarIntro] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -83,7 +82,8 @@ export default function Index() {
       
       <Footer />
       
-      {/* D-ID Avatar now loads via dynamic script in index.html */}
+      {/* Random Avatar Assistant - appears every 30 seconds */}
+      {!showAvatarIntro && <RandomAvatarAssistant />}
     </div>
   );
 }

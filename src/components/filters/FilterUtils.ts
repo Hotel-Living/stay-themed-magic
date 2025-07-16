@@ -3,32 +3,32 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 // Countries - Updated to use ISO codes that match the database
 export const availableCountries = [
-  { value: "ES", label: "Spain 🇪🇸", translationKey: "filters.countries.spain" },
-  { value: "FR", label: "France 🇫🇷", translationKey: "filters.countries.france" },
-  { value: "IT", label: "Italy 🇮🇹", translationKey: "filters.countries.italy" },
-  { value: "US", label: "USA 🇺🇸", translationKey: "filters.countries.usa" },
-  { value: "EG", label: "Egypt 🇪🇬", translationKey: "filters.countries.egypt" },
-  { value: "TR", label: "Turkey 🇹🇷", translationKey: "filters.countries.turkey" },
-  { value: "GB", label: "United Kingdom 🇬🇧", translationKey: "filters.countries.unitedKingdom" },
-  { value: "DE", label: "Germany 🇩🇪", translationKey: "filters.countries.germany" },
-  { value: "PT", label: "Portugal 🇵🇹", translationKey: "filters.countries.portugal" },
-  { value: "GR", label: "Greece 🇬🇷", translationKey: "filters.countries.greece" },
+  { value: "ES", label: "Spain 🇪🇸", translationKey: "countries.spain" },
+  { value: "FR", label: "France 🇫🇷", translationKey: "countries.france" },
+  { value: "IT", label: "Italy 🇮🇹", translationKey: "countries.italy" },
+  { value: "US", label: "USA 🇺🇸", translationKey: "countries.usa" },
+  { value: "EG", label: "Egypt 🇪🇬", translationKey: "countries.egypt" },
+  { value: "TR", label: "Turkey 🇹🇷", translationKey: "countries.turkey" },
+  { value: "GB", label: "United Kingdom 🇬🇧", translationKey: "countries.unitedKingdom" },
+  { value: "DE", label: "Germany 🇩🇪", translationKey: "countries.germany" },
+  { value: "PT", label: "Portugal 🇵🇹", translationKey: "countries.portugal" },
+  { value: "GR", label: "Greece 🇬🇷", translationKey: "countries.greece" },
 ];
 
 // Months with translation keys
 export const months = [
-  { value: "january", translationKey: "filters.months.january" },
-  { value: "february", translationKey: "filters.months.february" },
-  { value: "march", translationKey: "filters.months.march" },
-  { value: "april", translationKey: "filters.months.april" },
-  { value: "may", translationKey: "filters.months.may" },
-  { value: "june", translationKey: "filters.months.june" },
-  { value: "july", translationKey: "filters.months.july" },
-  { value: "august", translationKey: "filters.months.august" },
-  { value: "september", translationKey: "filters.months.september" },
-  { value: "october", translationKey: "filters.months.october" },
-  { value: "november", translationKey: "filters.months.november" },
-  { value: "december", translationKey: "filters.months.december" },
+  { value: "january", translationKey: "months.january" },
+  { value: "february", translationKey: "months.february" },
+  { value: "march", translationKey: "months.march" },
+  { value: "april", translationKey: "months.april" },
+  { value: "may", translationKey: "months.may" },
+  { value: "june", translationKey: "months.june" },
+  { value: "july", translationKey: "months.july" },
+  { value: "august", translationKey: "months.august" },
+  { value: "september", translationKey: "months.september" },
+  { value: "october", translationKey: "months.october" },
+  { value: "november", translationKey: "months.november" },
+  { value: "december", translationKey: "months.december" },
 ];
 
 // Theme categories
@@ -41,10 +41,10 @@ export const themeCategories = [
 
 // Price ranges with translation keys
 export const priceRanges = [
-  { value: 1000, label: "Up to 1.000 $", translationKey: "filters.priceRanges.upTo1000" },
-  { value: 1500, label: "1.000 $ to 1.500 $", translationKey: "filters.priceRanges.1000to1500" },
-  { value: 2000, label: "1.500 $ to 2.000 $", translationKey: "filters.priceRanges.1500to2000" },
-  { value: 3000, label: "More than 2.000 $", translationKey: "filters.priceRanges.moreThan2000" }
+  { value: 1000, label: "Up to 1.000 $", translationKey: "priceRanges.upTo1000" },
+  { value: 1500, label: "1.000 $ to 1.500 $", translationKey: "priceRanges.1000to1500" },
+  { value: 2000, label: "1.500 $ to 2.000 $", translationKey: "priceRanges.1500to2000" },
+  { value: 3000, label: "More than 2.000 $", translationKey: "priceRanges.moreThan2000" }
 ];
 
 // Length of stay options

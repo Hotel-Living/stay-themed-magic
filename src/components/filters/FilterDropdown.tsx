@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { useOnClickOutside } from "@/hooks/use-click-outside";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FilterDropdownProps {
   type: string;
@@ -41,6 +42,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { t } = useTranslation('filters');
   
   useOnClickOutside(dropdownRef, () => {
     if (isOpen) {
@@ -56,21 +58,21 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       return value.name;
     }
     
-    // Special handling for country codes - convert to country names
+    // Special handling for country codes - convert to country names using translation
     if (type === 'country' && typeof value === 'string') {
-      const countryNames: Record<string, string> = {
-        'ES': 'Spain 🇪🇸',
-        'FR': 'France 🇫🇷', 
-        'IT': 'Italy 🇮🇹',
-        'US': 'USA 🇺🇸',
-        'EG': 'Egypt 🇪🇬',
-        'TR': 'Turkey 🇹🇷',
-        'GB': 'United Kingdom 🇬🇧',
-        'DE': 'Germany 🇩🇪',
-        'PT': 'Portugal 🇵🇹',
-        'GR': 'Greece 🇬🇷'
+      const countryMapping: Record<string, string> = {
+        'ES': t('countries.spain'),
+        'FR': t('countries.france'), 
+        'IT': t('countries.italy'),
+        'US': t('countries.usa'),
+        'EG': t('countries.egypt'),
+        'TR': t('countries.turkey'),
+        'GB': t('countries.unitedKingdom'),
+        'DE': t('countries.germany'),
+        'PT': t('countries.portugal'),
+        'GR': t('countries.greece')
       };
-      return countryNames[value] || value;
+      return countryMapping[value] || value;
     }
     
     return value;

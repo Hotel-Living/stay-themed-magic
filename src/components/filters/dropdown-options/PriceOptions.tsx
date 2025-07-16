@@ -59,7 +59,7 @@ export const PriceOptions: React.FC<PriceOptionsProps> = ({ type, fontSize }) =>
           onClick={() => handlePriceSelection(price)}
           className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
         >
-          {t(price.translationKey.replace('filters.', ''))}
+          {t(price.translationKey)}
         </button>
       ))}
     </>

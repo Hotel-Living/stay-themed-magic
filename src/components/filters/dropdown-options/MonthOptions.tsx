@@ -22,7 +22,7 @@ export const MonthOptions: React.FC<MonthOptionsProps> = ({ type, fontSize }) =>
           }))}
           className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
         >
-          {t(month.translationKey.replace('filters.', ''))}
+          {t(month.translationKey)}
         </button>
       ))}
     </div>

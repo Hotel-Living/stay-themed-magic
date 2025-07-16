@@ -13,6 +13,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { IntroAnimation, useIntroAnimation } from "@/components/intro";
+import { SpanishDIDAvatar } from "@/components/avatars/SpanishDIDAvatar";
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
 import IntroTest1 from "@/pages/IntroTest1";
@@ -88,6 +89,7 @@ function App() {
               <ScrollToTop />
               <GoogleAnalytics />
               <DashboardAccess />
+              <SpanishDIDAvatar />
               
               {/* Intro Animation Overlay */}
               {shouldShowIntro && (

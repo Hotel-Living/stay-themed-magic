@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hotel-Living</title>
-
-    <!-- Icono y fuente -->
     <link rel="icon" type="image/png" href="/lovable-uploads/b2b167c7-d757-4e25-820e-b6b3f25d1af6.png" />
+    <link rel="preload" as="image" href="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- SEO & redes -->
     <meta name="description" content="Hotel-Living - Extended stay hotels with flexible booking options" />
     <meta property="og:title" content="Hotel-Living" />
     <meta property="og:description" content="Extended stay hotels with flexible booking options" />
-    <meta property="og:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
     <meta property="og:url" content="https://hotel-living.com/" />
+    <meta property="og:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Hotel-Living" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Hotel-Living" />
     <meta name="twitter:description" content="Extended stay hotels with flexible booking options" />
     <meta name="twitter:image" content="https://hotel-living.com/lovable-uploads/196fbc5f-2216-4260-8bf8-b2a995873de4.png" />
-    <meta name="twitter:site" content="@HotelLiving" />
-    <meta name="twitter:creator" content="@HotelLiving" />
-    <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hotel-living.com/" />
 
-    <!-- Google tag (gtag.js) -->
+    <title>Hotel-Living</title>
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XBVTERBKV"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -37,30 +32,30 @@
       gtag('config', 'G-2XBVTERBKV');
     </script>
   </head>
-
   <body>
     <div id="root"></div>
 
-    <!-- Scripts principales -->
+    <!-- Main app -->
     <script type="module" src="https://cdn.gpteng.co/gptengineer.js"></script>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Contenedor D-ID -->
-    <div id="d-id-avatar" style="z-index:999999;"></div>
+    <!-- D-ID Avatar -->
+    <div id="d-id-avatar" style="z-index: 999999;"></div>
 
-    <!-- Script de D-ID -->
     <script type="module">
-      import "https://agent.d-id.com/v2/index.js";
+      import("https://agent.d-id.com/v2/index.js").then(() => {
+        const language = navigator.language || navigator.userLanguage;
 
-      window.addEventListener("DOMContentLoaded", () => {
+        const SPANISH_AGENT_ID = "v2_agt_JZ4Lnlqs";
+        const ENGLISH_AGENT_ID = "v2_agt_20pNgPtt";
         const clientKey = "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==";
-        const agentId = navigator.language.startsWith("es")
-          ? "v2_agt_JZ4Lnlqs" // Español
-          : "v2_agt_20pNgPtt"; // Inglés
 
+        const agentId = language.startsWith("es") ? SPANISH_AGENT_ID : ENGLISH_AGENT_ID;
+
+        // Ensure container exists
         const container = document.getElementById("d-id-avatar");
-        if (container && window.DIDWidget) {
-          window.DIDWidget.init({
+        if (container) {
+          window.DIDWidget?.init({
             clientKey,
             agentId,
             container,
@@ -70,9 +65,8 @@
             position: "bottom",
             avatarSize: "medium"
           });
-          console.log(`✅ D-ID Avatar loaded for ${navigator.language}`);
-        } else {
-          console.error("❌ D-ID Widget not found or failed to load.");
+
+          console.log(`✅ D-ID avatar initialized for language: ${language}`);
         }
       });
     </script>

@@ -12,38 +12,41 @@ export default function Help() {
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
     existingScripts.forEach(script => script.remove());
 
-    // Remove any existing D-ID containers
-    const existingContainers = document.querySelectorAll('[data-name*="did-agent"]');
-    existingContainers.forEach(container => container.remove());
+    // Wait for DOM to be ready, then load D-ID script
+    const loadDIDScript = () => {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://agent.d-id.com/v2/index.js';
+      script.setAttribute('data-mode', 'fabio');
+      script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+      
+      // Use different agent IDs based on language
+      const agentId = i18n.language === 'es' ? 'v2_agt_ID_ES' : 'v2_agt_20pNgPtt';
+      const agentName = i18n.language === 'es' ? 'did-agent-es' : 'did-agent-en';
+      
+      script.setAttribute('data-agent-id', agentId);
+      script.setAttribute('data-name', agentName);
+      script.setAttribute('data-monitor', 'true');
+      script.setAttribute('data-orientation', 'horizontal');
+      script.setAttribute('data-position', 'right');
+      
+      // Add script to head
+      document.head.appendChild(script);
+      
+      // Log for debugging
+      console.log('D-ID script loaded with agent ID:', agentId);
+    };
 
-    // Dynamic D-ID script loading based on language
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-mode', 'fabio');
-    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
-    
-    // Use different agent IDs based on language
-    const agentId = i18n.language === 'es' ? 'v2_agt_ID_ES' : 'v2_agt_20pNgPtt';
-    const agentName = i18n.language === 'es' ? 'did-agent-es' : 'did-agent-en';
-    
-    script.setAttribute('data-agent-id', agentId);
-    script.setAttribute('data-name', agentName);
-    script.setAttribute('data-monitor', 'true');
-    script.setAttribute('data-orientation', 'horizontal');
-    script.setAttribute('data-position', 'center');
-    
-    document.body.appendChild(script);
+    // Load script after a small delay to ensure DOM is ready
+    const timer = setTimeout(loadDIDScript, 100);
     
     return () => {
+      clearTimeout(timer);
       // Clean up script on unmount or language change
-      const existingScript = document.querySelector(`script[data-name="${agentName}"]`);
+      const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
       if (existingScript) {
-        document.body.removeChild(existingScript);
+        document.head.removeChild(existingScript);
       }
-      // Clean up D-ID containers
-      const containers = document.querySelectorAll('[data-name*="did-agent"]');
-      containers.forEach(container => container.remove());
     };
   }, [i18n.language]); // Re-run when language changes
 

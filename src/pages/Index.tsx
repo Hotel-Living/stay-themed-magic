@@ -16,7 +16,7 @@ import { RandomAvatarAssistant } from '@/components/avatars/RandomAvatarAssistan
 export default function Index() {
   const { data: themes } = useThemes();
   const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
-  const [showAvatarIntro, setShowAvatarIntro] = useState(true);
+  const [showAvatarIntro, setShowAvatarIntro] = useState(false); // Disabled avatar animations per user request
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,

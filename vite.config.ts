@@ -49,6 +49,7 @@ export default defineConfig(async ({ mode }) => {
       assetsDir: 'assets',
       sourcemap: false,
       cssCodeSplit: false,
+      emptyOutDir: true, // Ensure clean build
       rollupOptions: {
         output: {
           entryFileNames: 'assets/[name]-[hash].js',
@@ -61,6 +62,8 @@ export default defineConfig(async ({ mode }) => {
             router: ['react-router-dom'],
           },
         },
+        // Ensure no external references leak in
+        external: [],
       },
     },
     test: {

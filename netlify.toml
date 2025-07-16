@@ -1,7 +1,7 @@
 # netlify.toml - Configuration for Netlify deployments
 
 [build]
-command = "rm -rf .netlify dist .vite node_modules/.vite .next out build && npm ci --force --legacy-peer-deps --no-cache && npm run build -- --force --no-cache"
+command = "rm -rf .next dist node_modules/.vite .netlify build && npm ci --force --legacy-peer-deps --no-cache && npm run build -- --force --no-cache"
 publish = "dist"
 ignore = ""
 
@@ -11,7 +11,7 @@ SKIP_GO_INSTALL = "true"
 NPM_FLAGS = "--no-optional --force --no-cache"
 NETLIFY_SKIP_CACHE = "true"
 NETLIFY_PURGE_CACHE = "true"
-BUILD_ID = "vite-fresh-deploy-2025-01-16-complete-reset-v2"
+BUILD_ID = "vite-pure-clean-2025-01-16-no-external-scripts"
 
 [build.processing]
 skip_processing = true

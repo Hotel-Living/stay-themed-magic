@@ -1,7 +1,7 @@
 # netlify.toml - Configuration for Netlify deployments
 
 [build]
-command = "rm -rf .next dist node_modules/.vite .netlify build && npm ci --force --legacy-peer-deps --no-cache && npm run build -- --force --no-cache"
+command = "rm -rf .next dist node_modules/.vite .netlify build && npm ci --force --legacy-peer-deps --no-cache && npm run build -- --force --no-cache && node scripts/verify-build.js"
 publish = "dist"
 ignore = ""
 
@@ -12,6 +12,12 @@ NPM_FLAGS = "--no-optional --force --no-cache"
 NETLIFY_SKIP_CACHE = "true"
 NETLIFY_PURGE_CACHE = "true"
 BUILD_ID = "vite-pure-clean-2025-01-16-no-external-scripts"
+
+# Disable ALL automatic Netlify injections
+NETLIFY_DISABLE_JAVASCRIPT_INJECTION = "true"
+NETLIFY_DISABLE_SNIPPET_INJECTION = "true"
+NETLIFY_DISABLE_ANALYTICS = "true"
+NETLIFY_DISABLE_IDENTITY = "true"
 
 [build.processing]
 skip_processing = true
@@ -84,6 +90,16 @@ status = 404
 from = "/_next/static/*"
 to = "/404"
 status = 404
+
+# Additional security headers to prevent injection
+[[headers]]
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
 [[redirects]]
 from = "/*"

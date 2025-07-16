@@ -59,5 +59,37 @@
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Dynamic D-ID Avatar Loading Based on Browser Language -->
+    <script>
+      // Function to load the D-ID agent script
+      function loadDIDAgent(agentId) {
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://agent.d-id.com/v2/index.js';
+        script.setAttribute('data-mode', 'fabio');
+        script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
+        script.setAttribute('data-agent-id', agentId);
+        script.setAttribute('data-name', 'did-agent');
+        script.setAttribute('data-monitor', 'true');
+        script.setAttribute('data-orientation', 'horizontal');
+        script.setAttribute('data-position', 'right');
+        document.body.appendChild(script);
+      }
+
+      // Detect user language
+      const userLang = navigator.language || navigator.userLanguage;
+      const isSpanish = userLang.startsWith('es');
+
+      // Select the appropriate agent ID
+      const agentId = isSpanish 
+        ? 'v2_agt_JZ4Lnlqs'    // Spanish Agent – Maria Español
+        : 'v2_agt_20pNgPtt';   // English Agent – Maria English
+
+      // Wait until DOM is ready before loading the script
+      window.addEventListener('DOMContentLoaded', () => {
+        loadDIDAgent(agentId);
+      });
+    </script>
   </body>
 </html>

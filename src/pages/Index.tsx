@@ -83,8 +83,7 @@ export default function Index() {
       
       <Footer />
       
-      {/* Random Avatar Assistant - temporarily disabled to avoid D-ID conflicts */}
-      {/* {!showAvatarIntro && <RandomAvatarAssistant />} */}
+      {/* D-ID Avatar now loads via dynamic script in index.html */}
     </div>
   );
 }

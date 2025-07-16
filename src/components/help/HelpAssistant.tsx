@@ -11,23 +11,23 @@ export function HelpAssistant() {
   };
 
   return (
-    <div className="relative">
+    <div className="flex flex-col items-center">
       <button
         onClick={handleClick}
-        className="relative group cursor-pointer transition-transform hover:scale-105 duration-300"
+        className="group cursor-pointer transition-transform hover:scale-105 duration-300 flex flex-col items-center"
         aria-label={t('helpAssistant.message')}
       >
         {/* Image */}
         <img
           src="/lovable-uploads/44fa6e36-177c-4ca2-aa87-fa818f7d26b7.png"
           alt="Help Assistant"
-          className="w-32 h-32 object-cover rounded-lg shadow-lg"
+          className="w-32 h-32 object-cover rounded-lg shadow-lg mb-2"
         />
         
-        {/* Overlay Text at Bottom */}
-        <div className="absolute bottom-0 left-0 right-0 bg-black/60 rounded-b-lg">
-          <div className="text-center text-white p-2">
-            <p className="text-sm font-semibold drop-shadow-lg">
+        {/* Text Below Image */}
+        <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-3 py-2">
+          <div className="text-center text-white">
+            <p className="text-sm font-semibold whitespace-pre-line">
               {t('helpAssistant.message')}
             </p>
           </div>

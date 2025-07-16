@@ -18,6 +18,6 @@
     "hotel": "¡{{count}} personas están viendo este hotel ahora mismo!"
   },
   "helpAssistant": {
-    "message": "¡Hola! Aquí estoy para ayudarte."
+    "message": "¡Hola!\nPuedo ayudarte?"
   }
 }

@@ -10,7 +10,7 @@ interface MonthOptionsProps {
 }
 
 export const MonthOptions: React.FC<MonthOptionsProps> = ({ type, fontSize }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   return (
     <div className="grid grid-cols-2">
@@ -22,7 +22,7 @@ export const MonthOptions: React.FC<MonthOptionsProps> = ({ type, fontSize }) =>
           }))}
           className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
         >
-          {t(month.translationKey)}
+          {t(month.translationKey.replace('filters.', ''))}
         </button>
       ))}
     </div>

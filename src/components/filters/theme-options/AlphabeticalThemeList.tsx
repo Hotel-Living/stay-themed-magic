@@ -15,7 +15,7 @@ export function AlphabeticalThemeList({
   onChange, 
   themeQuery 
 }: AlphabeticalThemeListProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   // These are the affinity categories with their translation keys
   const affinityCategories = [
@@ -49,7 +49,7 @@ export function AlphabeticalThemeList({
     
     const query = themeQuery.toLowerCase();
     const filtered = affinityCategories.filter(
-      affinity => t(affinity.translationKey).toLowerCase().includes(query)
+      affinity => t(affinity.translationKey.replace('filters.', '')).toLowerCase().includes(query)
     );
     
     setFilteredAffinities(filtered);
@@ -59,7 +59,7 @@ export function AlphabeticalThemeList({
   const handleThemeClick = (affinity: typeof affinityCategories[0]) => {
     onChange({ 
       id: affinity.key.toLowerCase(), 
-      name: t(affinity.translationKey),
+      name: t(affinity.translationKey.replace('filters.', '')),
       category: "GENERAL",
       level: 1
     });
@@ -80,11 +80,11 @@ export function AlphabeticalThemeList({
           key={affinity.key}
           theme={{ 
             id: affinity.key.toLowerCase(), 
-            name: t(affinity.translationKey), 
+            name: t(affinity.translationKey.replace('filters.', '')), 
             category: "GENERAL",
             level: 1
           }}
-          isActive={activeTheme?.name === t(affinity.translationKey)}
+          isActive={activeTheme?.name === t(affinity.translationKey.replace('filters.', ''))}
           onClick={() => handleThemeClick(affinity)}
         />
       ))}

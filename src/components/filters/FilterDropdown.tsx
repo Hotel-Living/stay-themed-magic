@@ -56,6 +56,23 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       return value.name;
     }
     
+    // Special handling for country codes - convert to country names
+    if (type === 'country' && typeof value === 'string') {
+      const countryNames: Record<string, string> = {
+        'ES': 'Spain 🇪🇸',
+        'FR': 'France 🇫🇷', 
+        'IT': 'Italy 🇮🇹',
+        'US': 'USA 🇺🇸',
+        'EG': 'Egypt 🇪🇬',
+        'TR': 'Turkey 🇹🇷',
+        'GB': 'United Kingdom 🇬🇧',
+        'DE': 'Germany 🇩🇪',
+        'PT': 'Portugal 🇵🇹',
+        'GR': 'Greece 🇬🇷'
+      };
+      return countryNames[value] || value;
+    }
+    
     return value;
   };
 

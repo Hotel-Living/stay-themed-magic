@@ -9,7 +9,7 @@ interface SimpleThemeOptionsProps {
 }
 
 export const SimpleThemeOptions: React.FC<SimpleThemeOptionsProps> = ({ type, fontSize }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('filters');
   
   const themeCategories = [
     { key: "art", translationKey: "filters.affinities.art" },
@@ -37,11 +37,11 @@ export const SimpleThemeOptions: React.FC<SimpleThemeOptionsProps> = ({ type, fo
         <button
           key={category.key}
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-            detail: { key: 'theme', value: { id: category.key.toLowerCase(), name: t(category.translationKey) } } 
+            detail: { key: 'theme', value: { id: category.key.toLowerCase(), name: t(category.translationKey.replace('filters.', '')) } } 
           }))}
           className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
         >
-          {t(category.translationKey)}
+          {t(category.translationKey.replace('filters.', ''))}
         </button>
       ))}
     </div>

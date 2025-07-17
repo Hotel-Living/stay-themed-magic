@@ -8,75 +8,49 @@ export default function Help() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    // Clean up any existing avatars first
-    const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
-    existingScripts.forEach(script => script.remove());
-    
-    const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
-    existingAvatars.forEach(avatar => avatar.remove());
+    const cleanUp = () => {
+      const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
+      existingScripts.forEach(script => script.remove());
 
-    // Detect language and load appropriate avatar
-    const detectAndLoadAvatar = () => {
+      const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
+      existingAvatars.forEach(avatar => avatar.remove());
+    };
+
+    const loadAvatar = () => {
       const targetContainer = document.getElementById('did-avatar-container');
-      if (!targetContainer) return;
+      if (!targetContainer) {
+        setTimeout(loadAvatar, 200); // Retry every 200ms until ready
+        return;
+      }
 
-      // Clear the container
+      cleanUp();
       targetContainer.innerHTML = '';
-      
-      // Detect language
-      const lang = i18n.language || navigator.language || "en";
-      const isSpanish = lang.startsWith("es");
-      
-      // Create avatar container
+
+      const lang = i18n.language || navigator.language || 'en';
+      const isSpanish = lang.startsWith('es');
+
       const avatarDiv = document.createElement('div');
       avatarDiv.id = isSpanish ? 'avatar-es' : 'avatar-en';
-      
-      // Create D-ID script
+
       const script = document.createElement('script');
       script.type = 'module';
       script.src = 'https://agent.d-id.com/v2/index.js';
       script.setAttribute('data-mode', 'fabio');
       script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
-      
-      // Set agent ID based on language
-      const agentId = isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt';
-      script.setAttribute('data-agent-id', agentId);
+      script.setAttribute('data-agent-id', isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt');
       script.setAttribute('data-name', isSpanish ? 'did-agent-es' : 'did-agent-en');
       script.setAttribute('data-monitor', 'true');
       script.setAttribute('data-orientation', 'horizontal');
       script.setAttribute('data-position', 'right');
-      
-      // Add script to avatar div
+
       avatarDiv.appendChild(script);
-      
-      // Add avatar to container
       targetContainer.appendChild(avatarDiv);
-      
-      // Add loading and error handling
-      script.onload = () => {
-        console.log('D-ID script loaded successfully with agent ID:', agentId);
-      };
-      
-      script.onerror = (error) => {
-        console.error('Failed to load D-ID script:', error);
-        targetContainer.innerHTML = '<div class="flex items-center justify-center h-full text-white">Avatar loading failed. Please refresh the page.</div>';
-      };
     };
 
-    // Load avatar after ensuring DOM is ready
-    const timer = setTimeout(detectAndLoadAvatar, 200);
-    
-    return () => {
-      clearTimeout(timer);
-      // Clean up on unmount or language change
-      const existingScript = document.querySelector('script[src*="agent.d-id.com"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-      const avatars = document.querySelectorAll('[id^="avatar-"]');
-      avatars.forEach(avatar => avatar.remove());
-    };
-  }, [i18n.language]); // Re-run when language changes
+    loadAvatar();
+
+    return () => cleanUp();
+  }, [i18n.language]);
 
   const avatarsData = [
     {

@@ -2,55 +2,11 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Starfield } from '@/components/Starfield';
-import { useEffect } from 'react';
+
 
 export default function Help() {
   const { t, i18n } = useTranslation('home');
 
-  useEffect(() => {
-    const cleanUp = () => {
-      const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
-      existingScripts.forEach(script => script.remove());
-
-      const existingAvatars = document.querySelectorAll('[id^="avatar-"]');
-      existingAvatars.forEach(avatar => avatar.remove());
-    };
-
-    const loadAvatar = () => {
-      const targetContainer = document.getElementById('did-avatar-container');
-      if (!targetContainer) {
-        setTimeout(loadAvatar, 200); // Retry every 200ms until ready
-        return;
-      }
-
-      cleanUp();
-      targetContainer.innerHTML = '';
-
-      const lang = i18n.language || navigator.language || 'en';
-      const isSpanish = lang.startsWith('es');
-
-      const avatarDiv = document.createElement('div');
-      avatarDiv.id = isSpanish ? 'avatar-es' : 'avatar-en';
-
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://agent.d-id.com/v2/index.js';
-      script.setAttribute('data-mode', 'fabio');
-      script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
-      script.setAttribute('data-agent-id', isSpanish ? 'v2_agt_JZ4Lnlqs' : 'v2_agt_20pNgPtt');
-      script.setAttribute('data-name', isSpanish ? 'did-agent-es' : 'did-agent-en');
-      script.setAttribute('data-monitor', 'true');
-      script.setAttribute('data-orientation', 'horizontal');
-      script.setAttribute('data-position', 'right');
-
-      avatarDiv.appendChild(script);
-      targetContainer.appendChild(avatarDiv);
-    };
-
-    loadAvatar();
-
-    return () => cleanUp();
-  }, [i18n.language]);
 
   const avatarsData = [
     {
@@ -109,18 +65,6 @@ export default function Help() {
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
-        {/* Top Section - Main Avatar */}
-        <div className="flex flex-col items-center mb-12">
-          <div 
-            id="did-avatar-container"
-            className="w-96 h-64 mb-4 flex items-center justify-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden"
-          >
-            <div className="text-white/60 text-center">
-              <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
-              <p className="text-sm">Loading avatar...</p>
-            </div>
-          </div>
-        </div>
 
         {/* Main Section - Avatar Group */}
         <div className="max-w-6xl mx-auto">

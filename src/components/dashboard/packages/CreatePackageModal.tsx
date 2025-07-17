@@ -146,11 +146,11 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md mx-auto">
+      <DialogContent className="max-w-md mx-auto bg-[#300047] text-white">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
+          <DialogTitle className="text-white flex items-center justify-between">
             Create Availability Package
-            <Button variant="ghost" size="sm" onClick={handleClose}>
+            <Button variant="ghost" size="sm" onClick={handleClose} className="text-white hover:text-white/80">
               <X className="h-4 w-4" />
             </Button>
           </DialogTitle>
@@ -172,9 +172,9 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
           )}
 
           <div className="space-y-3">
-            <Label htmlFor="hotel">Hotel</Label>
+            <Label htmlFor="hotel" className="text-white">Hotel</Label>
             <Select value={selectedHotelId} onValueChange={setSelectedHotelId}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/10 border-white/20">
                 <SelectValue placeholder="Select a hotel" />
               </SelectTrigger>
               <SelectContent>
@@ -186,32 +186,33 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
               </SelectContent>
             </Select>
             {selectedHotel && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/70">
                 Check-in day: {selectedHotel.check_in_weekday}
               </p>
             )}
           </div>
 
           <div className="space-y-3">
-            <Label htmlFor="startDate">Start Date</Label>
+            <Label htmlFor="startDate" className="text-white">Start Date</Label>
             <Input
               id="startDate"
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               min={format(new Date(), 'yyyy-MM-dd')}
+              className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
             />
             {endDate && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/70">
                 End Date: {format(new Date(endDate), 'MMM dd, yyyy')}
               </p>
             )}
           </div>
 
           <div className="space-y-3">
-            <Label htmlFor="duration">Duration (Days)</Label>
+            <Label htmlFor="duration" className="text-white">Duration (Days)</Label>
             <Select value={duration.toString()} onValueChange={(value) => setDuration(parseInt(value))}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/10 border-white/20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -225,7 +226,7 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
           </div>
 
           <div className="space-y-3">
-            <Label htmlFor="totalRooms">Total Rooms</Label>
+            <Label htmlFor="totalRooms" className="text-white">Total Rooms</Label>
             <Input
               id="totalRooms"
               type="number"
@@ -233,11 +234,12 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
               max="100"
               value={totalRooms}
               onChange={(e) => setTotalRooms(parseInt(e.target.value) || 1)}
+              className="bg-white/10 border-white/20 text-white"
             />
           </div>
 
           <div className="flex gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={handleClose} className="flex-1">
+            <Button type="button" variant="outline" onClick={handleClose} className="flex-1 border-white/20 text-white hover:text-white/80">
               Cancel
             </Button>
             <Button type="submit" disabled={loading} className="flex-1">

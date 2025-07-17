@@ -227,15 +227,17 @@ export function WhyHotelLivingSectionPT() {
                     
                     {/* Show enhanced avatar above the tab when active */}
                     {showAvatars && displayAvatars.map((avatar) => (
-                      <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                        <EnhancedAvatarAssistant
-                          avatarId={avatar.id}
-                          gif={avatar.gif}
-                          position="content"
-                          showMessage={showMessage}
-                          message={t('avatarMessage')}
-                          onClose={handleAvatarClose}
-                        />
+                      <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50 max-w-[calc(100vw-2rem)]" style={{ maxWidth: 'calc(100vw - 2rem)', right: 'auto' }}>
+                        <div className="flex justify-center w-full">
+                          <EnhancedAvatarAssistant
+                            avatarId={avatar.id}
+                            gif={avatar.gif}
+                            position="content"
+                            showMessage={showMessage}
+                            message={t('avatarMessage')}
+                            onClose={handleAvatarClose}
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>

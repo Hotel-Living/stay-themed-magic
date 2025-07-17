@@ -28,9 +28,11 @@ export default function FAQTravelers() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-6"> {/* Reduced padding */}
-          <BenefitsTravelersList benefits={benefitsTravelersList} />
+          <div className="mb-32">
+            <BenefitsTravelersList benefits={benefitsTravelersList} />
+          </div>
 
-          <div className="text-center mb-32"> {/* Doubled spacing from previous mb-16 to mb-32 */}
+          <div className="text-center mb-32 pt-32"> {/* Added substantial top padding for double distance */}
             <h1 className={`
               ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
               font-bold mb-4 text-gradient text-[#eedbf7] glow 

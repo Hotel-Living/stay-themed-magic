@@ -26,7 +26,7 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-4 py-3 uppercase whitespace-pre-line text-center bg-white/10 data-[state=active]:bg-white/25 data-[state=active]:text-white text-white/80 hover:bg-white/15 hover:text-white transition-all duration-200 rounded-xl text-[10px] font-bold tracking-wide backdrop-blur-sm flex-1 min-w-0 border border-white/5"
+              className="px-4 py-3 uppercase whitespace-pre-line text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl text-[10px] font-bold tracking-wide backdrop-blur-sm flex-1 min-w-0 border border-purple-600"
             >
               {displayName}
             </TabsTrigger>

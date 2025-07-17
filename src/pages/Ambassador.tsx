@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
@@ -18,6 +19,18 @@ const Ambassador = () => {
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">
               <div className="space-y-6">
+                
+                {/* Nuestros Embajadores Link */}
+                <div className="mb-8 text-center">
+                  <Link 
+                    to="/ambassadors" 
+                    className="inline-block bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-400/50 rounded-lg px-6 py-3 text-yellow-200 hover:text-yellow-100 transition-all duration-300 font-semibold"
+                  >
+                    👥 Nuestros Embajadores
+                  </Link>
+                </div>
+
+                <hr className="border-white/30 my-8" />
                 
                 {/* Title Section */}
                 <div className="mb-8">

@@ -67,6 +67,8 @@ import HotelCrisis from "@/pages/HotelCrisis";
 import HotelAssociation from "@/pages/HotelAssociation";
 import Help from "@/pages/Help";
 import Ayuda from "@/pages/Ayuda";
+import AmbassadorsList from "@/pages/AmbassadorsList";
+import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -119,12 +121,14 @@ function App() {
               <Route path="/our-team" element={<OurTeam />} />
               <Route path="/excel-generator" element={<ExcelGenerator />} />
               <Route path="/professional-study" element={<ProfessionalStudy />} />
-              <Route path="/ambassador" element={<Ambassador />} />
-               <Route path="/press" element={<Press />} />
-                <Route path="/hotel-crisis" element={<HotelCrisis />} />
-                <Route path="/asociacion/:slug" element={<HotelAssociation />} />
-                <Route path="/help" element={<Help />} />
-                <Route path="/ayuda" element={<Ayuda />} />
+                <Route path="/ambassador" element={<Ambassador />} />
+                <Route path="/ambassadors" element={<AmbassadorsList />} />
+                <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
+                <Route path="/press" element={<Press />} />
+                 <Route path="/hotel-crisis" element={<HotelCrisis />} />
+                 <Route path="/asociacion/:slug" element={<HotelAssociation />} />
+                 <Route path="/help" element={<Help />} />
+                 <Route path="/ayuda" element={<Ayuda />} />
               
               {/* Test Routes for Intro Animations */}
               <Route path="/intro-test" element={<IntroTest />} />

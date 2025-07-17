@@ -2,30 +2,64 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Starfield } from '@/components/Starfield';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
+  const [avatarError, setAvatarError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const language = i18n.language || navigator.language;
-
-    let agentId;
+    
+    // Set fallback agent ID to prevent undefined
+    let agentId = 'v2_agt_20pNgPtt'; // Default to English María
     if (language.startsWith('es')) {
       agentId = 'v2_agt_JZ4Lnlqs'; // Spanish María
     } else if (language.startsWith('en')) {
       agentId = 'v2_agt_20pNgPtt'; // English María
     }
 
+    // Clean up any existing scripts
+    const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
+    existingScripts.forEach(script => script.remove());
+
     const script = document.createElement('script');
     script.type = 'module';
     script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
+    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==');
     script.setAttribute('data-agent-id', agentId);
     script.setAttribute('data-mode', 'fabio');
-    document.head.appendChild(script);
+    script.setAttribute('data-name', 'did-agent');
+    script.setAttribute('data-monitor', 'true');
+    script.setAttribute('data-orientation', 'horizontal');
+    script.setAttribute('data-position', 'right');
+
+    // Error handling for script loading
+    script.onload = () => {
+      console.log('D-ID script loaded successfully');
+      setIsLoading(false);
+    };
+    
+    script.onerror = () => {
+      console.error('Failed to load D-ID script - possibly blocked by ad blocker');
+      setAvatarError(true);
+      setIsLoading(false);
+    };
+
+    // Timeout fallback
+    const timeout = setTimeout(() => {
+      if (isLoading) {
+        console.warn('D-ID avatar loading timeout - showing fallback');
+        setAvatarError(true);
+        setIsLoading(false);
+      }
+    }, 10000);
+
+    document.body.appendChild(script);
 
     return () => {
+      clearTimeout(timeout);
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
@@ -103,10 +137,20 @@ export default function Ayuda() {
               visibility: 'visible'
             }}
           >
-            <div className="text-white/60 text-center p-4">
-              <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
-              <p className="text-sm">Cargando avatar...</p>
-            </div>
+            {avatarError ? (
+              <div className="text-white/60 text-center p-4">
+                <div className="w-16 h-16 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl">🤖</span>
+                </div>
+                <p className="text-sm mb-2">Avatar unavailable</p>
+                <p className="text-xs text-white/40">Please disable your ad blocker or refresh the page</p>
+              </div>
+            ) : isLoading ? (
+              <div className="text-white/60 text-center p-4">
+                <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
+                <p className="text-sm">Cargando avatar...</p>
+              </div>
+            ) : null}
           </div>
           <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
             <p className="text-center text-white text-lg font-semibold">

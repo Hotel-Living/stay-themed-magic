@@ -30,9 +30,7 @@ export default defineConfig(async ({ mode }) => {
     server: {
       host: "::",
       port: 8080,
-      allowedHosts: [
-        "ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
-      ]
+      allowedHosts: ["all"]
     },
     plugins: plugins.filter(Boolean),
     resolve: {

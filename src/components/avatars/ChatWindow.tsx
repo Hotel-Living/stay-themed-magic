@@ -52,10 +52,19 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [email, setEmail] = useState("");
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
-  // Fixed position as approved - top-right corner
+  
+  // Draggable functionality
   const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState(() => {
+    // Adjust position for leftmost avatars
+    const isLeftmostAvatar = avatarId === "rental" || avatarId === "retired";
+    return {
+      top: 100,
+      right: isLeftmostAvatar ? -50 : 20, // Shift right for leftmost avatars
+      left: 'auto'
+    };
+  });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0, startTop: 0, startRight: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +82,46 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [inactivityTimer]);
 
-  // No positioning logic needed - using fixed position
+  // Draggable event handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget || (e.target as HTMLElement).closest('.drag-handle')) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX,
+        y: e.clientY,
+        startTop: position.top,
+        startRight: position.right
+      });
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - dragStart.x;
+    const deltaY = e.clientY - dragStart.y;
+    
+    setPosition({
+      top: Math.max(0, dragStart.startTop + deltaY),
+      right: Math.max(0, dragStart.startRight - deltaX),
+      left: 'auto'
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragStart]);
   
   // The edge function has multilingual personas, so we don't need the hardcoded Spanish ones
   // Complete personas for all 8 avatars with detailed backgrounds
@@ -570,10 +618,12 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
       if (commissionResponse) {
         // Martin's exclusive commission speech on hotel pages
         setMessages((prev) => [...prev, { from: "avatar", text: commissionResponse }]);
+        setIsLoading(false);
         return;
       } else {
         // Simplified message for all other avatars
         setMessages((prev) => [...prev, { from: "avatar", text: getSimplifiedPaymentMessage() }]);
+        setIsLoading(false);
         return;
       }
     }
@@ -649,24 +699,6 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
     }
   };
 
-  // Dragging disabled for fixed position
-  const handleMouseDown = (e: React.MouseEvent) => {
-    // Disabled for fixed position
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    // Disabled for fixed position
-  };
-
-  const handleMouseUp = () => {
-    // Disabled for fixed position
-  };
-
-  // Resize disabled for fixed position
-  const handleResize = (e: React.MouseEvent, direction: string) => {
-    // Disabled for fixed position
-  };
-
   // Update initial message when language changes - avoid infinite loops
   useEffect(() => {
     setMessages(prev => {
@@ -677,73 +709,57 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
     });
   }, [cleanLanguage]);
 
-  // Remove redundant i18n synchronization to prevent infinite loops
-  // Language changes are now managed centrally by LanguageSwitcher
-
-  useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, dragStart]);
-
   return (
-    <div 
-  ref={chatRef}
-  data-chat-instance={instanceId.current}
-  className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
-  style={{ 
-    backgroundColor: '#561C7B',
-    width: '250px', 
-    height: '280px',
-    top: '100px',
-    right: '20px',
-    zIndex: 1000
-  }}
->
+    <div
+      ref={chatRef}
+      className={`fixed bg-background border border-border rounded-lg shadow-lg z-[1000] ${isDragging ? 'cursor-grabbing' : ''}`}
+      style={{
+        top: `${position.top}px`,
+        right: `${position.right}px`,
+        width: '250px',
+        height: '280px'
+      }}
+    >
       {/* Header - draggable area */}
       <div 
-        className="px-4 py-3 font-semibold flex justify-between items-center border-b border-fuchsia-300 cursor-grab active:cursor-grabbing"
-        style={{ backgroundColor: '#561C7B' }}
+        className="flex items-center justify-between p-3 border-b border-border bg-muted/50 rounded-t-lg drag-handle cursor-grab"
         onMouseDown={handleMouseDown}
       >
-        <span className="text-white select-none capitalize">{activeAvatar}</span>
-        <button onClick={handleClose} className="text-white hover:text-fuchsia-200 transition-colors">
-          <X size={16} />
+        <h3 className="font-semibold text-sm">{activeAvatar}</h3>
+        <button
+          onClick={handleClose}
+          className="hover:bg-muted rounded-sm p-1 transition-colors cursor-pointer"
+        >
+          <X className="w-4 h-4" />
         </button>
       </div>
-      
-      {/* Messages area - smaller by default */}
-      <div className="flex-1 p-3 overflow-y-auto text-sm" style={{ backgroundColor: '#561C7B' }}>
-        {messages.map((m, i) => (
-          <div key={i} className={`mb-3 ${m.from === "avatar" ? "text-left" : "text-right"}`}>
-            <span 
-              className={`inline-block px-3 py-2 rounded-lg max-w-[90%] shadow-sm ${
-                m.from === "avatar" 
-                  ? "bg-white text-gray-800" 
-                  : "bg-fuchsia-500 text-white"
-              }`}
-            >
-              {m.text}
-            </span>
+
+      {/* Messages area */}
+      <div className="flex-1 p-3 overflow-y-auto text-sm h-[160px]">
+        {messages.map((message, index) => (
+          <div key={index} className={`mb-2 ${message.from === "user" ? "text-right" : "text-left"}`}>
+            <div className={`inline-block p-2 rounded-lg max-w-[85%] text-xs ${
+              message.from === "user" 
+                ? "bg-primary text-primary-foreground" 
+                : "bg-muted text-foreground"
+            }`}>
+              {message.text}
+            </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-      
+
       {/* Email capture section */}
       {!emailCaptured && (
-        <div className="px-3 py-2 border-t border-fuchsia-200 bg-fuchsia-50">
+        <div className="px-3 py-2 border-t border-border bg-muted/30">
           <div className="flex items-center gap-2">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleEmailSubmit()}
-              className="flex-1 px-2 py-1 text-xs outline-none border border-fuchsia-200 rounded"
+              className="flex-1 px-2 py-1 text-xs outline-none border border-border rounded bg-background"
               placeholder={cleanLanguage === 'en' ? "your.email@example.com" : 
                           cleanLanguage === 'pt' ? "seu.email@exemplo.com" :
                           cleanLanguage === 'ro' ? "email.tau@exemplu.com" :
@@ -752,12 +768,12 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
             <button 
               onClick={handleEmailSubmit}
               disabled={!email.includes('@')}
-              className="px-2 py-1 text-xs text-fuchsia-600 hover:bg-fuchsia-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-2 py-1 text-xs text-primary hover:bg-muted transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               ✓
             </button>
           </div>
-          <p className="text-xs text-fuchsia-600 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             {cleanLanguage === 'en' ? "Enter your email and we'll send you a copy of this conversation." :
              cleanLanguage === 'pt' ? "Insira seu email e enviaremos uma cópia desta conversa." :
              cleanLanguage === 'ro' ? "Introdu email-ul și îți vom trimite o copie a acestei conversații." :
@@ -767,59 +783,22 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
       )}
 
       {/* Input area */}
-      <div className="flex border-t border-fuchsia-300 bg-white">
+      <div className="flex border-t border-border bg-background rounded-b-lg">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-3 py-2 text-sm outline-none text-gray-800 placeholder-gray-400 border-none"
+          className="flex-1 px-3 py-2 text-sm outline-none bg-background rounded-bl-lg"
           placeholder={getPlaceholderText()}
+          disabled={isLoading}
         />
         <button 
           onClick={handleSend} 
-          className="px-4 text-sm text-fuchsia-600 hover:bg-fuchsia-50 transition-colors font-medium"
+          disabled={isLoading || !input.trim()}
+          className="px-4 text-sm text-primary hover:bg-muted transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed rounded-br-lg"
         >
-          {getSendButtonText()}
+          {isLoading ? "..." : getSendButtonText()}
         </button>
-      </div>
-
-      {/* Resize handles - improved */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Corner handles */}
-        <div 
-          className="absolute top-0 left-0 w-4 h-4 cursor-nw-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
-          onMouseDown={(e) => handleResize(e, 'top-left')}
-        />
-        <div 
-          className="absolute top-0 right-0 w-4 h-4 cursor-ne-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
-          onMouseDown={(e) => handleResize(e, 'top-right')}
-        />
-        <div 
-          className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
-          onMouseDown={(e) => handleResize(e, 'bottom-left')}
-        />
-        <div 
-          className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize pointer-events-auto bg-fuchsia-400 opacity-20 hover:opacity-40"
-          onMouseDown={(e) => handleResize(e, 'bottom-right')}
-        />
-        
-        {/* Edge handles */}
-        <div 
-          className="absolute top-0 left-4 right-4 h-2 cursor-n-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
-          onMouseDown={(e) => handleResize(e, 'top')}
-        />
-        <div 
-          className="absolute bottom-0 left-4 right-4 h-2 cursor-s-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
-          onMouseDown={(e) => handleResize(e, 'bottom')}
-        />
-        <div 
-          className="absolute left-0 top-4 bottom-4 w-2 cursor-w-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
-          onMouseDown={(e) => handleResize(e, 'left')}
-        />
-        <div 
-          className="absolute right-0 top-4 bottom-4 w-2 cursor-e-resize pointer-events-auto bg-fuchsia-400 opacity-10 hover:opacity-30"
-          onMouseDown={(e) => handleResize(e, 'right')}
-        />
       </div>
     </div>
   );

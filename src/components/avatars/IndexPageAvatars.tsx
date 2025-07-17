@@ -6,42 +6,42 @@ const avatarPool = [
   {
     id: "antonio",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/1_Soy_Antonio_Jubilado.gif.gif",
-    message: "¡Hola, soy Antonio!\nJubilado\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Antonio, jubilado!"
   },
   {
     id: "luisa",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/2_Y_yo_soy_Luisa_jubilada.gif.gif",
-    message: "¡Hola, soy Luisa!\nJubilada\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Luisa, jubilada!"
   },
   {
     id: "john",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/3_Y_yo_soy_John_trabajo_online.gif.gif",
-    message: "¡Hola, soy John!\nTrabajador online\n¿Te puedo ayudar?"
+    message: "¡Hola, soy John, trabajo online!"
   },
   {
     id: "teresa",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/4_Y_yo_soy_Auxi_amo_viajar.gif.gif",
-    message: "¡Hola, soy Teresa!\nJubilada\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Teresa, jubilada! Amo viajar."
   },
   {
     id: "juan",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/5_Y_yo_soy_Juan_ya_no_alquilo_apartamentos_turisticos.gif.gif",
-    message: "¡Hola, soy Juan!\nEx-Airbnb\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Juan! ¡Adiós apartamentos turísticos!"
   },
   {
     id: "ion",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/6_Y_yo_soy_Ion_vivia_de_alquiler.gif.gif",
-    message: "¡Hola, soy Ion!\nEx-inquilino\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Ion! Antes vivía de alquiler."
   },
   {
     id: "maria",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/7_Y_yo_soy_Maria_vivia_afuera_de_la_ciudad.gif.gif",
-    message: "¡Hola, soy María!\nEx-commuter\n¿Te puedo ayudar?"
+    message: "¡Hola, soy María! Vivía afuera de la ciudad."
   },
   {
     id: "martin",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif",
-    message: "¡Hola, soy Martín!\nHotelero\n¿Te puedo ayudar?"
+    message: "¡Hola, soy Martín! Soy hotelero."
   }
 ];
 

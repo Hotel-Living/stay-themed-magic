@@ -9,9 +9,11 @@ import { format, parseISO } from 'date-fns';
 interface AvailabilityPackageCardProps {
   package: AvailabilityPackage;
   onReserve: (packageData: AvailabilityPackage) => void;
+  onJoinWaitlist?: (packageData: AvailabilityPackage) => void;
+  hotelName?: string;
 }
 
-export function AvailabilityPackageCard({ package: pkg, onReserve }: AvailabilityPackageCardProps) {
+export function AvailabilityPackageCard({ package: pkg, onReserve, onJoinWaitlist, hotelName }: AvailabilityPackageCardProps) {
   const isAvailable = pkg.available_rooms > 0;
   const isSoldOut = pkg.available_rooms === 0;
 
@@ -90,8 +92,20 @@ export function AvailabilityPackageCard({ package: pkg, onReserve }: Availabilit
         </div>
         
         {isSoldOut && (
-          <div className="mt-3 p-2 bg-red-900/30 border border-red-700/50 rounded text-center">
-            <span className="text-red-200 text-sm font-medium">This package is fully booked</span>
+          <div className="mt-3 p-2 bg-red-900/30 border border-red-700/50 rounded">
+            <div className="flex items-center justify-between">
+              <span className="text-red-200 text-sm font-medium">This package is fully booked</span>
+              {onJoinWaitlist && (
+                <Button
+                  onClick={() => onJoinWaitlist(pkg)}
+                  variant="outline"
+                  size="sm"
+                  className="border-red-500/50 text-red-300 hover:bg-red-900/50 hover:text-red-200"
+                >
+                  Join Waitlist
+                </Button>
+              )}
+            </div>
           </div>
         )}
       </div>

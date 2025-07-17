@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,12 +7,26 @@ import { AvailabilityPackagesProps, AvailabilityPackage } from '@/types/availabi
 import { useRealTimeAvailability } from '@/hooks/useRealTimeAvailability';
 import { AvailabilityPackageCard } from './AvailabilityPackageCard';
 import { PackageBookingModal } from '@/components/booking/PackageBookingModal';
+import { WaitlistModal } from './WaitlistModal';
 import { format } from 'date-fns';
 
 export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, hotelName, pricePerMonth }: AvailabilityPackagesProps) {
   const [currentMonth, setCurrentMonth] = useState(selectedMonth || new Date().toISOString().slice(0, 7));
   const [selectedPackage, setSelectedPackage] = useState<AvailabilityPackage | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [waitlistPackage, setWaitlistPackage] = useState<AvailabilityPackage | null>(null);
+  const [isWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false);
+  const [showTwoMonths, setShowTwoMonths] = useState(false);
+  const [nextMonth, setNextMonth] = useState<string>("");
+  
+  // Effect to set next month when current month changes
+  useEffect(() => {
+    if (currentMonth) {
+      const currentDate = new Date(`${currentMonth}-01`);
+      const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      setNextMonth(nextMonthDate.toISOString().slice(0, 7));
+    }
+  }, [currentMonth]);
   
   const { 
     packages, 
@@ -22,7 +36,7 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
     refreshAvailability 
   } = useRealTimeAvailability({ 
     hotelId, 
-    selectedMonth: currentMonth 
+    selectedMonth: showTwoMonths ? undefined : currentMonth 
   });
 
   const handleReserve = (packageData: AvailabilityPackage) => {
@@ -36,6 +50,16 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedPackage(null);
+  };
+  
+  const handleJoinWaitlist = (packageData: AvailabilityPackage) => {
+    setWaitlistPackage(packageData);
+    setIsWaitlistModalOpen(true);
+  };
+  
+  const handleWaitlistClose = () => {
+    setIsWaitlistModalOpen(false);
+    setWaitlistPackage(null);
   };
 
   const getAvailableMonths = () => {
@@ -75,6 +99,15 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
           </div>
           
           <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowTwoMonths(!showTwoMonths)}
+              className="bg-purple-800/50 border-purple-600/50 text-white hover:bg-purple-700/50"
+            >
+              {showTwoMonths ? "Single Month" : "Two Months"}
+            </Button>
+            
             <span className="text-sm text-white/70">
               Updated: {format(lastUpdated, 'HH:mm')}
             </span>
@@ -133,6 +166,8 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
                 key={pkg.id}
                 package={pkg}
                 onReserve={handleReserve}
+                onJoinWaitlist={handleJoinWaitlist}
+                hotelName={hotelName}
               />
             ))}
             
@@ -155,14 +190,23 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
       </div>
       
       {hotelName && pricePerMonth && (
-        <PackageBookingModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          package={selectedPackage}
-          hotelName={hotelName}
-          hotelId={hotelId}
-          pricePerMonth={pricePerMonth}
-        />
+        <>
+          <PackageBookingModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            package={selectedPackage}
+            hotelName={hotelName}
+            hotelId={hotelId}
+            pricePerMonth={pricePerMonth}
+          />
+          
+          <WaitlistModal
+            isOpen={isWaitlistModalOpen}
+            onClose={handleWaitlistClose}
+            package={waitlistPackage}
+            hotelName={hotelName}
+          />
+        </>
       )}
     </Card>
   );

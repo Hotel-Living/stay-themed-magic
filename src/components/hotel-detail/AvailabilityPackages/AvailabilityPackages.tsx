@@ -6,17 +6,25 @@ import { Calendar, Package, AlertCircle } from 'lucide-react';
 import { AvailabilityPackagesProps, AvailabilityPackage } from '@/types/availability-package';
 import { useAvailabilityPackages } from '@/hooks/useAvailabilityPackages';
 import { AvailabilityPackageCard } from './AvailabilityPackageCard';
+import { PackageBookingModal } from '@/components/booking/PackageBookingModal';
 
-export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect }: AvailabilityPackagesProps) {
+export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, hotelName, pricePerMonth }: AvailabilityPackagesProps) {
   const [currentMonth, setCurrentMonth] = useState(selectedMonth || new Date().toISOString().slice(0, 7));
+  const [selectedPackage, setSelectedPackage] = useState<AvailabilityPackage | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { packages, isLoading, error } = useAvailabilityPackages(hotelId, currentMonth);
 
   const handleReserve = (packageData: AvailabilityPackage) => {
-    console.log('Package selected for reservation:', packageData);
+    setSelectedPackage(packageData);
+    setIsModalOpen(true);
     if (onPackageSelect) {
       onPackageSelect(packageData);
     }
-    // This will later open the booking modal with pre-filled package data
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedPackage(null);
   };
 
   const getAvailableMonths = () => {
@@ -119,6 +127,17 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect }
           </div>
         )}
       </div>
+      
+      {hotelName && pricePerMonth && (
+        <PackageBookingModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          package={selectedPackage}
+          hotelName={hotelName}
+          hotelId={hotelId}
+          pricePerMonth={pricePerMonth}
+        />
+      )}
     </Card>
   );
 }

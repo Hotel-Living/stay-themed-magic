@@ -78,9 +78,10 @@ export function HotelMainContentGrid({
         {/* Availability Packages Section */}
         <AvailabilityPackages 
           hotelId={hotel.id}
+          hotelName={hotel.name}
+          pricePerMonth={hotel.price_per_month}
           onPackageSelect={(packageData) => {
             console.log('Package selected:', packageData);
-            // This will later integrate with the booking modal
           }}
         />
         

@@ -19,4 +19,6 @@ export interface AvailabilityPackagesProps {
   hotelId: string;
   selectedMonth?: string;
   onPackageSelect?: (packageData: AvailabilityPackage) => void;
+  hotelName?: string;
+  pricePerMonth?: number;
 }

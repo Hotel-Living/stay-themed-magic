@@ -140,64 +140,6 @@ export function WhyHotelLivingSectionES() {
         </div>
       </div>
 
-      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
-      <div className="flex flex-col items-center gap-8 mb-16 relative">
-        {/* Top box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Los hoteles necesitan gente</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La gente necesita mejor vida</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad necesita actualización</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Todos necesitan Hotel-Living</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '5B noches de hotel por llenar' : '5.000 millones noches de hotel por llenar'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '400M personas necesitan mejor vida' : '400 millones personas necesitan mejor vida'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad repite el pasado</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living cambia eso</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
       {/* Header above purple tabs */}
       <div className="text-center mb-6">
         <div className="flex justify-center">

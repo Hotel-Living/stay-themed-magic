@@ -18,7 +18,7 @@ export function HeroSection() {
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
       </div>
-      <p className={`text-left font-bold ${isMobile ? "text-xl whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-lg sm:text-xl" : "text-base sm:text-lg"}`} style={{
+      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-base sm:text-lg" : "text-sm sm:text-base"}`} style={{
       fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif",
       color: "#FEF38F"
     }}>
@@ -65,24 +65,24 @@ export function HeroSection() {
           {/* Purple background */}
           <div className="relative bg-[#8017B0] rounded-lg">
             {/* For mobile: render all slogans in a single column */}
-            {isMobile ? <div className="pl-0 py-[6px] px-[8px]">
+            {isMobile ? <div className="pl-0 py-[4px] px-[8px]">
                 {slogans.map(renderSlogan)}
               </div> :
           // For desktop: Special layout for Spanish, English, Portuguese, and Romanian (2x2) vs other languages (2 columns with first 2 and last 2)
           ['es', 'en', 'pt', 'ro'].includes(language) ? <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
-              <div className="space-y-0.125 py-1.5">
+              <div className="space-y-0.125 py-1">
                 {renderSlogan(slogans[0], 0)}
                 {renderSlogan(slogans[2], 2)}
               </div>
-              <div className="space-y-0.125 py-1.5">
+              <div className="space-y-0.125 py-1">
                 {renderSlogan(slogans[1], 1)}
                 {renderSlogan(slogans[3], 3)}
               </div>
             </div> : <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
-              <div className="space-y-0.125 py-1.5">
+              <div className="space-y-0.125 py-1">
                 {slogans.slice(0, 2).map(renderSlogan)}
               </div>
-              <div className="space-y-0.125 py-1.5">
+              <div className="space-y-0.125 py-1">
                 {slogans.slice(2, 4).map(renderSlogan)}
               </div>
             </div>}

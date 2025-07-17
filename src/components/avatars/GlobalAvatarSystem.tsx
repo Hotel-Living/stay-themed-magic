@@ -65,11 +65,13 @@ export function GlobalAvatarSystem() {
   const isHomePage = location.pathname === '/';
   const isFAQPage = location.pathname === '/faq'; // FAQ page contains the "¿Por qué Hotel Living?" section
   const isHotelsPage = location.pathname === '/hotels';
+  const isHelpPage = location.pathname === '/help';
+  const isAyudaPage = location.pathname === '/ayuda';
 
-  // Global auto-trigger system (60 seconds, all pages except homepage and FAQ)
+  // Global auto-trigger system (60 seconds, all pages except homepage, FAQ, help, and ayuda)
   useEffect(() => {
-    // Don't run on homepage, FAQ page, or hotels page (has its own avatar)
-    if (isHomePage || isFAQPage || isHotelsPage) {
+    // Don't run on homepage, FAQ page, hotels page, help page, or ayuda page (they have their own avatars)
+    if (isHomePage || isFAQPage || isHotelsPage || isHelpPage || isAyudaPage) {
       return;
     }
 
@@ -100,7 +102,7 @@ export function GlobalAvatarSystem() {
       clearInterval(interval);
       clearTimeout(initialTimeout);
     };
-  }, [location.pathname, activeAvatars, isHomePage, isFAQPage, isHotelsPage]);
+  }, [location.pathname, activeAvatars, isHomePage, isFAQPage, isHotelsPage, isHelpPage, isAyudaPage]);
 
   const handleRandomAvatarClose = () => {
     setShowRandomAvatar(false);
@@ -108,7 +110,7 @@ export function GlobalAvatarSystem() {
   };
 
   // Don't show random avatar if there's an active avatar or on excluded pages
-  if (isHomePage || isFAQPage || isHotelsPage || activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
+  if (isHomePage || isFAQPage || isHotelsPage || isHelpPage || isAyudaPage || activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
     return null;
   }
 

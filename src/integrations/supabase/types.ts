@@ -165,6 +165,50 @@ export type Database = {
         }
         Relationships: []
       }
+      availability_packages: {
+        Row: {
+          available_rooms: number
+          created_at: string
+          duration_days: number
+          end_date: string
+          hotel_id: string
+          id: string
+          start_date: string
+          total_rooms: number
+          updated_at: string
+        }
+        Insert: {
+          available_rooms: number
+          created_at?: string
+          duration_days: number
+          end_date: string
+          hotel_id: string
+          id?: string
+          start_date: string
+          total_rooms: number
+          updated_at?: string
+        }
+        Update: {
+          available_rooms?: number
+          created_at?: string
+          duration_days?: number
+          end_date?: string
+          hotel_id?: string
+          id?: string
+          start_date?: string
+          total_rooms?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_packages_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           check_in: string
@@ -172,6 +216,7 @@ export type Database = {
           created_at: string
           hotel_id: string | null
           id: string
+          package_id: string | null
           status: string | null
           total_price: number
           updated_at: string
@@ -183,6 +228,7 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          package_id?: string | null
           status?: string | null
           total_price: number
           updated_at?: string
@@ -194,6 +240,7 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          package_id?: string | null
           status?: string | null
           total_price?: number
           updated_at?: string
@@ -205,6 +252,13 @@ export type Database = {
             columns: ["hotel_id"]
             isOneToOne: false
             referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "availability_packages"
             referencedColumns: ["id"]
           },
           {
@@ -1395,6 +1449,10 @@ export type Database = {
         Args: { user_email: string }
         Returns: undefined
       }
+      check_package_availability: {
+        Args: { p_package_id: string; p_rooms_needed: number }
+        Returns: boolean
+      }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1467,6 +1525,14 @@ export type Database = {
       }
       is_admin_user: {
         Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      reserve_package_rooms: {
+        Args: { p_package_id: string; p_rooms_to_reserve: number }
+        Returns: boolean
+      }
+      restore_package_availability: {
+        Args: { p_package_id: string; p_rooms_to_restore: number }
         Returns: boolean
       }
     }

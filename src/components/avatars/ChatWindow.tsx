@@ -55,14 +55,10 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   
   // Draggable functionality
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState(() => {
-    // Adjust position for leftmost avatars
-    const isLeftmostAvatar = avatarId === "rental" || avatarId === "retired";
-    return {
-      top: 100,
-      right: isLeftmostAvatar ? -50 : 20, // Shift right for leftmost avatars
-      left: 'auto'
-    };
+  const [position, setPosition] = useState({
+    top: 100,
+    right: 20,
+    left: 'auto'
   });
   const [dragStart, setDragStart] = useState({ x: 0, y: 0, startTop: 0, startRight: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);

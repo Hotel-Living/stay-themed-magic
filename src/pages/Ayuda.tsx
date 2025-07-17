@@ -4,8 +4,10 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Starfield } from '@/components/Starfield';
 import { EnhancedAvatarAssistant } from '@/components/avatars/EnhancedAvatarAssistant';
 
+
 export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
+
 
   const avatarsData = [
     {
@@ -70,22 +72,20 @@ export default function Ayuda() {
           <div className="grid grid-cols-4 gap-6 mb-8">
             {avatarsData.slice(0, 4).map((avatar) => (
               <div key={avatar.id} className="flex flex-col items-center">
-                {/* Speech bubble above avatar - 30% smaller text */}
-                <div className="relative mb-4 rounded-lg px-3 py-2 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[160px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                {/* Speech bubble above avatar */}
+                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
                   <div className="whitespace-pre-line">{avatar.greeting}</div>
                   {/* Bubble tail pointing down */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
                 </div>
                 
-                {/* Avatar using EnhancedAvatarAssistant for chat functionality - 50% bigger */}
-                <div className="scale-150">
-                  <EnhancedAvatarAssistant 
-                    avatarId={avatar.id}
-                    gif={avatar.gif}
-                    position="content"
-                    showMessage={false}
-                  />
-                </div>
+                {/* Avatar using EnhancedAvatarAssistant for chat functionality */}
+                <EnhancedAvatarAssistant 
+                  avatarId={avatar.id}
+                  gif={avatar.gif}
+                  position="content"
+                  showMessage={false}
+                />
               </div>
             ))}
           </div>
@@ -94,22 +94,20 @@ export default function Ayuda() {
           <div className="grid grid-cols-4 gap-6 mb-12">
             {avatarsData.slice(4, 8).map((avatar) => (
               <div key={avatar.id} className="flex flex-col items-center">
-                {/* Speech bubble above avatar - 30% smaller text */}
-                <div className="relative mb-4 rounded-lg px-3 py-2 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[160px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                {/* Speech bubble above avatar */}
+                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
                   <div className="whitespace-pre-line">{avatar.greeting}</div>
                   {/* Bubble tail pointing down */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
                 </div>
                 
-                {/* Avatar using EnhancedAvatarAssistant for chat functionality - 50% bigger */}
-                <div className="scale-150">
-                  <EnhancedAvatarAssistant 
-                    avatarId={avatar.id}
-                    gif={avatar.gif}
-                    position="content"
-                    showMessage={false}
-                  />
-                </div>
+                {/* Avatar using EnhancedAvatarAssistant for chat functionality */}
+                <EnhancedAvatarAssistant 
+                  avatarId={avatar.id}
+                  gif={avatar.gif}
+                  position="content"
+                  showMessage={false}
+                />
               </div>
             ))}
           </div>

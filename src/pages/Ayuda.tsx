@@ -196,12 +196,6 @@ export default function Ayuda() {
                   <h3 className="text-white font-semibold text-lg mb-1">{avatar.name}</h3>
                   <p className="text-white/80 text-sm mb-3">{avatar.description}</p>
                   
-                  {/* Input Label Box */}
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-3 min-h-[60px] flex items-center justify-center">
-                    <p className="text-white/60 text-xs text-center">
-                      {t('helpAssistant.inputLabel')}
-                    </p>
-                  </div>
                 </div>
               </div>
             ))}

@@ -8,22 +8,18 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const avatarContainer = document.createElement('div');
-    avatarContainer.id = 'avatar-container';
-    document.body.appendChild(avatarContainer);
-
-    const userLang = navigator.language.startsWith('es') ? 'es' : 'en';
-    const agentId = userLang === 'es'
+    const userLang = navigator.language || (navigator as any).userLanguage;
+    const isSpanish = userLang.startsWith('es');
+    const agentId = isSpanish
       ? 'v2_agt_JZ4Lnlqs'  // María Español
       : 'v2_agt_3CWGZBhD'; // María Inglés
 
     const script = document.createElement('script');
     script.type = 'module';
     script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
-    script.setAttribute('data-agent-id', agentId);
     script.setAttribute('data-mode', 'fabio');
-
+    script.setAttribute('data-agent-id', agentId);
+    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
     document.body.appendChild(script);
   }, []);
 

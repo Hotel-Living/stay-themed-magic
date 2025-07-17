@@ -41,6 +41,11 @@ export default function HotelDashboardRO() {
       icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
     },
     {
+      id: "packages",
+      label: "Pachete de Disponibilitate",
+      icon: <Calendar className="w-5 h-5 text-teal-400" />
+    },
+    {
       id: "properties",
       label: "Hotelurile Mele",
       icon: <Building className="w-5 h-5 text-blue-600" />

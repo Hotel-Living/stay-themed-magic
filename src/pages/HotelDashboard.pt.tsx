@@ -41,6 +41,11 @@ export default function HotelDashboardPT() {
       icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
     },
     {
+      id: "packages",
+      label: "Pacotes de Disponibilidade",
+      icon: <Calendar className="w-5 h-5 text-teal-400" />
+    },
+    {
       id: "properties",
       label: "Meus Hotéis",
       icon: <Building className="w-5 h-5 text-blue-600" />

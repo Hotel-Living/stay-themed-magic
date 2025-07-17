@@ -41,6 +41,11 @@ export default function HotelDashboardEN() {
       icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
     },
     {
+      id: "packages",
+      label: "Availability Packages",
+      icon: <Calendar className="w-5 h-5 text-teal-400" />
+    },
+    {
       id: "properties",
       label: "My Hotels",
       icon: <Building className="w-5 h-5 text-blue-600" />
@@ -48,7 +53,7 @@ export default function HotelDashboardEN() {
     {
       id: "bookings",
       label: "My Bookings",
-      icon: <Calendar className="w-5 h-5 text-teal-400" />
+      icon: <Calendar className="w-5 h-5 text-purple-400" />
     },
     {
       id: "guests",

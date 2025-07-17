@@ -30,7 +30,7 @@ export default function FAQTravelers() {
         <div className="container max-w-4xl mx-auto px-4 py-6"> {/* Reduced padding */}
           <BenefitsTravelersList benefits={benefitsTravelersList} />
 
-          <div className="text-center mb-16"> {/* Doubled margin from mb-8 to mb-16 */}
+          <div className="text-center mb-32"> {/* Doubled spacing from previous mb-16 to mb-32 */}
             <h1 className={`
               ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
               font-bold mb-4 text-gradient text-[#eedbf7] glow 

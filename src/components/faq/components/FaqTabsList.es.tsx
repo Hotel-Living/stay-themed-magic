@@ -10,7 +10,7 @@ interface FaqTabsListESProps {
 export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
   return (
     <div className="flex justify-center mb-6">
-      <TabsList className="flex flex-nowrap justify-center gap-1 p-3 bg-gradient-to-r from-violet-600/90 via-purple-600/90 to-fuchsia-600/90 rounded-full border border-violet-300/60 backdrop-blur-lg shadow-2xl shadow-violet-400/40 glow-effect w-4/5">
+      <TabsList className="flex flex-nowrap justify-center gap-2 p-2 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg w-4/5">
         {faqCategories.map(category => {
           // Add line breaks for long category names
           let displayName = category.name;
@@ -26,7 +26,7 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-3 py-2 uppercase whitespace-pre-line text-center bg-gradient-to-br from-white/20 to-white/10 data-[state=active]:from-white data-[state=active]:to-violet-50 data-[state=active]:text-violet-700 text-white shadow-md hover:shadow-violet-300/50 hover:scale-105 transition-all duration-300 border border-white/30 hover:border-white/60 rounded-2xl text-[10px] font-bold tracking-wide hover:from-white/30 hover:to-white/20 backdrop-blur-sm flex-1 min-w-0"
+              className="px-4 py-3 uppercase whitespace-pre-line text-center bg-white/10 data-[state=active]:bg-white/25 data-[state=active]:text-white text-white/80 hover:bg-white/15 hover:text-white transition-all duration-200 rounded-xl text-[10px] font-bold tracking-wide backdrop-blur-sm flex-1 min-w-0 border border-white/5"
             >
               {displayName}
             </TabsTrigger>

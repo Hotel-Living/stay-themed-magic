@@ -52,4 +52,20 @@
     @apply bg-background text-foreground antialiased;
     position: relative;
   }
+
+  /* Ensure all containers respect viewport boundaries */
+  .container {
+    @apply max-w-[100vw] overflow-x-hidden;
+  }
+
+  /* Constrain all positioned elements within viewport */
+  [style*="position: fixed"],
+  [style*="position: absolute"] {
+    max-width: 100vw !important;
+  }
+
+  /* Ensure all main content areas respect viewport */
+  main {
+    @apply max-w-[100vw] overflow-x-hidden;
+  }
 }

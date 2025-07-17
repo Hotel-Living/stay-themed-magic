@@ -53,14 +53,18 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
   
-  // Draggable functionality
+  // Draggable and Resizable functionality
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeDirection, setResizeDirection] = useState<string>('');
   const [position, setPosition] = useState({
     top: 100,
-    right: 20,
-    left: 'auto'
+    left: window.innerWidth - 270, // Convert from right position to left position
+    width: 250,
+    height: 280
   });
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0, startTop: 0, startRight: 0 });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0, startTop: 0, startLeft: 0 });
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, startWidth: 0, startHeight: 0, startTop: 0, startLeft: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -86,30 +90,71 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
         x: e.clientX,
         y: e.clientY,
         startTop: position.top,
-        startRight: position.right
+        startLeft: position.left
       });
     }
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-    
-    const deltaX = e.clientX - dragStart.x;
-    const deltaY = e.clientY - dragStart.y;
-    
-    setPosition({
-      top: Math.max(0, dragStart.startTop + deltaY),
-      right: Math.max(0, dragStart.startRight - deltaX),
-      left: 'auto'
+  // Resizable event handlers
+  const handleResizeMouseDown = (e: React.MouseEvent, direction: string) => {
+    e.stopPropagation();
+    setIsResizing(true);
+    setResizeDirection(direction);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      startWidth: position.width,
+      startHeight: position.height,
+      startTop: position.top,
+      startLeft: position.left
     });
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging) {
+      const deltaX = e.clientX - dragStart.x;
+      const deltaY = e.clientY - dragStart.y;
+      
+      setPosition(prev => ({
+        ...prev,
+        top: Math.max(0, dragStart.startTop + deltaY),
+        left: Math.max(0, dragStart.startLeft + deltaX)
+      }));
+    } else if (isResizing) {
+      const deltaX = e.clientX - resizeStart.x;
+      const deltaY = e.clientY - resizeStart.y;
+      
+      let newPosition = { ...position };
+      
+      if (resizeDirection.includes('right')) {
+        newPosition.width = Math.max(200, resizeStart.startWidth + deltaX);
+      }
+      if (resizeDirection.includes('left')) {
+        const newWidth = Math.max(200, resizeStart.startWidth - deltaX);
+        newPosition.width = newWidth;
+        newPosition.left = resizeStart.startLeft + (resizeStart.startWidth - newWidth);
+      }
+      if (resizeDirection.includes('bottom')) {
+        newPosition.height = Math.max(200, resizeStart.startHeight + deltaY);
+      }
+      if (resizeDirection.includes('top')) {
+        const newHeight = Math.max(200, resizeStart.startHeight - deltaY);
+        newPosition.height = newHeight;
+        newPosition.top = resizeStart.startTop + (resizeStart.startHeight - newHeight);
+      }
+      
+      setPosition(newPosition);
+    }
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setIsResizing(false);
+    setResizeDirection('');
   };
 
   useEffect(() => {
-    if (isDragging) {
+    if (isDragging || isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
       return () => {
@@ -117,7 +162,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, dragStart]);
+  }, [isDragging, isResizing, dragStart, resizeStart]);
   
   // The edge function has multilingual personas, so we don't need the hardcoded Spanish ones
   // Complete personas for all 8 avatars with detailed backgrounds
@@ -708,37 +753,78 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
   return (
     <div
       ref={chatRef}
-      className={`fixed bg-background border border-border rounded-lg shadow-lg z-[1000] ${isDragging ? 'cursor-grabbing' : ''}`}
+      className={`fixed rounded-lg shadow-lg z-[1000] select-none ${isDragging ? 'cursor-grabbing' : ''}`}
       style={{
         top: `${position.top}px`,
-        right: `${position.right}px`,
-        width: '250px',
-        height: '280px'
+        left: `${position.left}px`,
+        width: `${position.width}px`,
+        height: `${position.height}px`,
+        backgroundColor: '#6A2089',
+        border: '2px solid #6A2089'
       }}
     >
+      {/* Resize handles */}
+      <div 
+        className="absolute -top-1 left-2 right-2 h-2 cursor-n-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'top')}
+      />
+      <div 
+        className="absolute -bottom-1 left-2 right-2 h-2 cursor-s-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'bottom')}
+      />
+      <div 
+        className="absolute -left-1 top-2 bottom-2 w-2 cursor-w-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'left')}
+      />
+      <div 
+        className="absolute -right-1 top-2 bottom-2 w-2 cursor-e-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'right')}
+      />
+      <div 
+        className="absolute -top-1 -left-1 w-2 h-2 cursor-nw-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'top left')}
+      />
+      <div 
+        className="absolute -top-1 -right-1 w-2 h-2 cursor-ne-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'top right')}
+      />
+      <div 
+        className="absolute -bottom-1 -left-1 w-2 h-2 cursor-sw-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'bottom left')}
+      />
+      <div 
+        className="absolute -bottom-1 -right-1 w-2 h-2 cursor-se-resize"
+        onMouseDown={(e) => handleResizeMouseDown(e, 'bottom right')}
+      />
       {/* Header - draggable area */}
       <div 
-        className="flex items-center justify-between p-3 border-b border-border bg-muted/50 rounded-t-lg drag-handle cursor-grab"
+        className="flex items-center justify-between p-3 border-b rounded-t-lg drag-handle cursor-grab"
         onMouseDown={handleMouseDown}
+        style={{ 
+          borderColor: '#6A2089',
+          backgroundColor: '#6A2089'
+        }}
       >
-        <h3 className="font-semibold text-sm">{activeAvatar}</h3>
+        <h3 className="font-bold text-sm text-white">{activeAvatar}</h3>
         <button
           onClick={handleClose}
-          className="hover:bg-muted rounded-sm p-1 transition-colors cursor-pointer"
+          className="hover:bg-white/20 rounded-sm p-1 transition-colors cursor-pointer"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4 text-white" />
         </button>
       </div>
 
       {/* Messages area */}
-      <div className="flex-1 p-3 overflow-y-auto text-sm h-[160px]">
+      <div className="flex-1 p-3 overflow-y-auto text-sm" style={{ height: `${position.height - 120}px` }}>
         {messages.map((message, index) => (
           <div key={index} className={`mb-2 ${message.from === "user" ? "text-right" : "text-left"}`}>
-            <div className={`inline-block p-2 rounded-lg max-w-[85%] text-xs ${
-              message.from === "user" 
-                ? "bg-primary text-primary-foreground" 
-                : "bg-muted text-foreground"
-            }`}>
+            <div 
+              className="inline-block p-2 rounded-lg max-w-[85%] text-xs"
+              style={{
+                backgroundColor: '#FFFFFF',
+                color: '#6A2089'
+              }}
+            >
               {message.text}
             </div>
           </div>
@@ -748,14 +834,19 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
 
       {/* Email capture section */}
       {!emailCaptured && (
-        <div className="px-3 py-2 border-t border-border bg-muted/30">
+        <div className="px-3 py-2 border-t" style={{ borderColor: '#6A2089', backgroundColor: '#6A2089' }}>
           <div className="flex items-center gap-2">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleEmailSubmit()}
-              className="flex-1 px-2 py-1 text-xs outline-none border border-border rounded bg-background"
+              className="flex-1 px-2 py-1 text-xs outline-none rounded"
+              style={{
+                backgroundColor: '#FFFFFF',
+                color: '#6A2089',
+                border: '1px solid #6A2089'
+              }}
               placeholder={cleanLanguage === 'en' ? "your.email@example.com" : 
                           cleanLanguage === 'pt' ? "seu.email@exemplo.com" :
                           cleanLanguage === 'ro' ? "email.tau@exemplu.com" :
@@ -764,12 +855,16 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
             <button 
               onClick={handleEmailSubmit}
               disabled={!email.includes('@')}
-              className="px-2 py-1 text-xs text-primary hover:bg-muted transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-2 py-1 text-xs transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed rounded"
+              style={{
+                backgroundColor: '#FFFFFF',
+                color: '#6A2089'
+              }}
             >
               ✓
             </button>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs mt-1 text-white">
             {cleanLanguage === 'en' ? "Enter your email and we'll send you a copy of this conversation." :
              cleanLanguage === 'pt' ? "Insira seu email e enviaremos uma cópia desta conversa." :
              cleanLanguage === 'ro' ? "Introdu email-ul și îți vom trimite o copie a acestei conversații." :
@@ -779,19 +874,27 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
       )}
 
       {/* Input area */}
-      <div className="flex border-t border-border bg-background rounded-b-lg">
+      <div className="flex border-t rounded-b-lg" style={{ borderColor: '#6A2089' }}>
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 px-3 py-2 text-sm outline-none bg-background rounded-bl-lg"
+          className="flex-1 px-3 py-2 text-sm outline-none rounded-bl-lg"
+          style={{
+            backgroundColor: '#FFFFFF',
+            color: '#6A2089'
+          }}
           placeholder={getPlaceholderText()}
           disabled={isLoading}
         />
         <button 
           onClick={handleSend} 
           disabled={isLoading || !input.trim()}
-          className="px-4 text-sm text-primary hover:bg-muted transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed rounded-br-lg"
+          className="px-4 text-sm transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed rounded-br-lg"
+          style={{
+            backgroundColor: '#FFFFFF',
+            color: '#6A2089'
+          }}
         >
           {isLoading ? "..." : getSendButtonText()}
         </button>

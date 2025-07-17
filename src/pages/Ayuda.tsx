@@ -8,19 +8,32 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const userLang = navigator.language || (navigator as any).userLanguage;
-    const isSpanish = userLang.startsWith('es');
-    const agentId = isSpanish
-      ? 'v2_agt_JZ4Lnlqs'  // María Español
-      : 'v2_agt_3CWGZBhD'; // María Inglés
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "https://agent.d-id.com/v2/index.js";
+    script.setAttribute("data-mode", "fabio");
+    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
 
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = 'https://agent.d-id.com/v2/index.js';
-    script.setAttribute('data-mode', 'fabio');
-    script.setAttribute('data-agent-id', agentId);
-    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
+    // Language detection
+    const userLang = navigator.language || (navigator as any).userLanguage;
+    const isSpanish = userLang.toLowerCase().startsWith("es");
+
+    // Set agent ID based on language
+    const agentId = isSpanish
+      ? "v2_agt_JZ4Lnlqs" // María Español
+      : "v2_agt_3CWGZBhD"; // María Inglés
+
+    script.setAttribute("data-agent-id", agentId);
+    script.setAttribute("data-name", "did-agent");
+    script.setAttribute("data-monitor", "true");
+    script.setAttribute("data-orientation", "horizontal");
+    script.setAttribute("data-position", "right");
+
     document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   const avatarsData = [

@@ -78,11 +78,11 @@ export function EnhancedAvatarAssistant({
   const getPositionStyles = () => {
     switch (position) {
       case 'bottom-left':
-        return 'fixed bottom-4 left-4 z-50 max-w-[calc(100vw-2rem)]';
+        return 'fixed bottom-4 left-4 z-50';
       case 'bottom-right':
-        return 'fixed bottom-4 right-4 z-50 max-w-[calc(100vw-2rem)]';
+        return 'fixed bottom-4 right-4 z-50';
       default:
-        return 'relative max-w-full';
+        return 'relative';
     }
   };
 

@@ -115,14 +115,10 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       const deltaX = e.clientX - dragStart.x;
       const deltaY = e.clientY - dragStart.y;
       
-      // Calculate new position with viewport constraints
-      const newTop = Math.max(0, Math.min(window.innerHeight - position.height, dragStart.startTop + deltaY));
-      const newLeft = Math.max(0, Math.min(window.innerWidth - position.width, dragStart.startLeft + deltaX));
-      
       setPosition(prev => ({
         ...prev,
-        top: newTop,
-        left: newLeft
+        top: Math.max(0, dragStart.startTop + deltaY),
+        left: Math.max(0, dragStart.startLeft + deltaX)
       }));
     } else if (isResizing) {
       const deltaX = e.clientX - resizeStart.x;
@@ -131,24 +127,20 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       let newPosition = { ...position };
       
       if (resizeDirection.includes('right')) {
-        const maxWidth = window.innerWidth - position.left;
-        newPosition.width = Math.min(maxWidth, Math.max(200, resizeStart.startWidth + deltaX));
+        newPosition.width = Math.max(200, resizeStart.startWidth + deltaX);
       }
       if (resizeDirection.includes('left')) {
         const newWidth = Math.max(200, resizeStart.startWidth - deltaX);
-        const maxNewWidth = resizeStart.startLeft + resizeStart.startWidth;
-        newPosition.width = Math.min(maxNewWidth, newWidth);
-        newPosition.left = Math.max(0, resizeStart.startLeft + (resizeStart.startWidth - newPosition.width));
+        newPosition.width = newWidth;
+        newPosition.left = resizeStart.startLeft + (resizeStart.startWidth - newWidth);
       }
       if (resizeDirection.includes('bottom')) {
-        const maxHeight = window.innerHeight - position.top;
-        newPosition.height = Math.min(maxHeight, Math.max(200, resizeStart.startHeight + deltaY));
+        newPosition.height = Math.max(200, resizeStart.startHeight + deltaY);
       }
       if (resizeDirection.includes('top')) {
         const newHeight = Math.max(200, resizeStart.startHeight - deltaY);
-        const maxNewHeight = resizeStart.startTop + resizeStart.startHeight;
-        newPosition.height = Math.min(maxNewHeight, newHeight);
-        newPosition.top = Math.max(0, resizeStart.startTop + (resizeStart.startHeight - newPosition.height));
+        newPosition.height = newHeight;
+        newPosition.top = resizeStart.startTop + (resizeStart.startHeight - newHeight);
       }
       
       setPosition(newPosition);
@@ -761,12 +753,12 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
   return (
     <div
       ref={chatRef}
-      className={`fixed rounded-lg shadow-lg z-[1000] select-none max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] ${isDragging ? 'cursor-grabbing' : ''}`}
+      className={`fixed rounded-lg shadow-lg z-[1000] select-none ${isDragging ? 'cursor-grabbing' : ''}`}
       style={{
-        top: `${Math.min(position.top, window.innerHeight - position.height)}px`,
-        left: `${Math.min(position.left, window.innerWidth - position.width)}px`,
-        width: `${Math.min(position.width, window.innerWidth - 16)}px`,
-        height: `${Math.min(position.height, window.innerHeight - 16)}px`,
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+        width: `${position.width}px`,
+        height: `${position.height}px`,
         backgroundColor: '#6A2089',
         border: '2px solid #6A2089'
       }}

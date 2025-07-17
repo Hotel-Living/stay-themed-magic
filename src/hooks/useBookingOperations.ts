@@ -21,7 +21,34 @@ export const useBookingOperations = () => {
   const cancelBooking = async (bookingId: string) => {
     try {
       setLoading(true);
-      
+
+      // First, get the booking details to restore package availability
+      const { data: booking, error: fetchError } = await supabase
+        .from('bookings')
+        .select('package_id, hotel_id, check_in, check_out')
+        .eq('id', bookingId)
+        .single();
+
+      if (fetchError || !booking) {
+        throw new Error('Booking not found');
+      }
+
+      // Calculate rooms from booking (assume 1 room per booking for now)
+      const roomsToRestore = 1;
+
+      // Restore package availability atomically if package_id exists
+      if (booking.package_id) {
+        const { data: restoreSuccess } = await supabase.rpc('restore_package_availability', {
+          p_package_id: booking.package_id,
+          p_rooms_to_restore: roomsToRestore
+        });
+
+        if (!restoreSuccess) {
+          throw new Error('Failed to restore package availability');
+        }
+      }
+
+      // Update booking status
       const { error } = await supabase
         .from('bookings')
         .update({ 
@@ -31,6 +58,9 @@ export const useBookingOperations = () => {
         .eq('id', bookingId);
 
       if (error) throw error;
+
+      // Log the cancellation for audit purposes
+      console.log(`Booking ${bookingId} cancelled successfully. Package ${booking.package_id} availability restored with ${roomsToRestore} rooms.`);
 
       toast({
         title: t('booking.messages.cancelSuccess'),
@@ -54,7 +84,24 @@ export const useBookingOperations = () => {
   const modifyBooking = async (bookingId: string, newCheckIn: string, newCheckOut: string) => {
     try {
       setLoading(true);
-      
+
+      // Get current booking details
+      const { data: currentBooking, error: fetchError } = await supabase
+        .from('bookings')
+        .select('package_id, check_in, check_out')
+        .eq('id', bookingId)
+        .single();
+
+      if (fetchError || !currentBooking) {
+        throw new Error('Booking not found');
+      }
+
+      // If booking has package_id, prevent modifications to dates (package dates are fixed)
+      if (currentBooking.package_id) {
+        throw new Error('Cannot modify dates for package-based bookings. Package dates are fixed.');
+      }
+
+      // For non-package bookings, allow date modifications
       const { error } = await supabase
         .from('bookings')
         .update({ 
@@ -65,6 +112,9 @@ export const useBookingOperations = () => {
         .eq('id', bookingId);
 
       if (error) throw error;
+
+      // Log the modification for audit purposes
+      console.log(`Booking ${bookingId} modified: ${currentBooking.check_in}-${currentBooking.check_out} → ${newCheckIn}-${newCheckOut}`);
 
       toast({
         title: t('booking.messages.modifySuccess'),

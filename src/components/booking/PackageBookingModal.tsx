@@ -7,7 +7,7 @@ import { X, Calendar, Users, MapPin, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import { AvailabilityPackage } from "@/types/availability-package";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { usePackageBookingOperations } from "@/hooks/usePackageBookingOperations";
 
 interface PackageBookingModalProps {
   isOpen: boolean;
@@ -30,96 +30,27 @@ export function PackageBookingModal({
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { loading, createPackageBooking, validateBookingData } = usePackageBookingOperations();
 
   if (!selectedPackage) return null;
 
   const totalPrice = (pricePerMonth / 30) * selectedPackage.duration_days * roomsToReserve;
 
   const handleBookingSubmit = async () => {
-    if (!guestName || !guestEmail) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in your name and email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (roomsToReserve > selectedPackage.available_rooms) {
-      toast({
-        title: "Insufficient Availability",
-        description: `Only ${selectedPackage.available_rooms} rooms available.`,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      // First check package availability atomically
-      const { data: availabilityCheck } = await supabase.rpc('check_package_availability', {
-        p_package_id: selectedPackage.id,
-        p_rooms_needed: roomsToReserve
-      });
+      const bookingData = {
+        guestName,
+        guestEmail,
+        guestPhone,
+        roomsToReserve
+      };
 
-      if (!availabilityCheck) {
-        toast({
-          title: "Booking Failed",
-          description: "The selected rooms are no longer available.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
+      // Validate booking data
+      validateBookingData(bookingData, selectedPackage);
 
-      // Reserve the rooms atomically
-      const { data: reservationSuccess } = await supabase.rpc('reserve_package_rooms', {
-        p_package_id: selectedPackage.id,
-        p_rooms_to_reserve: roomsToReserve
-      });
-
-      if (!reservationSuccess) {
-        toast({
-          title: "Booking Failed",
-          description: "Unable to reserve the selected rooms. Please try again.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
-
-      // Create the booking record
-      const { data: booking, error: bookingError } = await supabase
-        .from('bookings')
-        .insert({
-          hotel_id: hotelId,
-          package_id: selectedPackage.id,
-          check_in: selectedPackage.start_date,
-          check_out: selectedPackage.end_date,
-          total_price: Math.round(totalPrice),
-          status: 'confirmed'
-        })
-        .select()
-        .single();
-
-      if (bookingError || !booking) {
-        // If booking creation fails, restore package availability
-        await supabase.rpc('restore_package_availability', {
-          p_package_id: selectedPackage.id,
-          p_rooms_to_restore: roomsToReserve
-        });
-
-        toast({
-          title: "Booking Failed",
-          description: "Unable to create booking record. Please try again.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
+      // Create the package booking
+      await createPackageBooking(selectedPackage, hotelId, bookingData, totalPrice);
 
       toast({
         title: "Booking Confirmed!",
@@ -133,15 +64,12 @@ export function PackageBookingModal({
       setGuestPhone("");
       onClose();
 
-    } catch (error) {
-      console.error('Booking error:', error);
+    } catch (error: any) {
       toast({
         title: "Booking Failed",
-        description: "An unexpected error occurred. Please try again.",
+        description: error.message || "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -56,6 +56,23 @@ export function useAvailabilityPackagesManagement() {
 
   const createPackage = async (packageData: Omit<AvailabilityPackage, 'id' | 'created_at' | 'updated_at'>) => {
     try {
+      // Validate business rules before creation
+      const allowedDurations = [8, 15, 22, 29];
+      if (!allowedDurations.includes(packageData.duration_days)) {
+        throw new Error(`Duration must be one of: ${allowedDurations.join(', ')} days`);
+      }
+
+      if (packageData.available_rooms > packageData.total_rooms) {
+        throw new Error('Available rooms cannot exceed total rooms');
+      }
+
+      if (packageData.available_rooms < 0 || packageData.total_rooms <= 0) {
+        throw new Error('Room counts must be positive numbers');
+      }
+
+      // Log creation attempt for audit purposes
+      console.log('Creating new package:', packageData);
+
       const { data, error } = await supabase
         .from('availability_packages')
         .insert(packageData)
@@ -66,6 +83,9 @@ export function useAvailabilityPackagesManagement() {
         throw error;
       }
 
+      // Log successful creation
+      console.log(`Package created successfully:`, data);
+
       toast({
         title: "Package Created",
         description: "Availability package has been created successfully.",
@@ -74,6 +94,7 @@ export function useAvailabilityPackagesManagement() {
       return data;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to create package';
+      console.error('Package creation error:', err);
       toast({
         title: "Error",
         description: message,
@@ -85,6 +106,57 @@ export function useAvailabilityPackagesManagement() {
 
   const updatePackage = async (id: string, updates: Partial<AvailabilityPackage>) => {
     try {
+      // Get current package and check for active bookings
+      const { data: currentPackage, error: fetchError } = await supabase
+        .from('availability_packages')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (fetchError || !currentPackage) {
+        throw new Error('Package not found');
+      }
+
+      // Check if there are any active bookings for this package
+      const { data: activeBookings, error: bookingsError } = await supabase
+        .from('bookings')
+        .select('id')
+        .eq('package_id', id)
+        .in('status', ['pending', 'confirmed']);
+
+      if (bookingsError) {
+        throw new Error('Failed to check active bookings');
+      }
+
+      const bookedRooms = activeBookings?.length || 0;
+
+      // Validate room count reduction constraints
+      if (updates.total_rooms !== undefined && updates.total_rooms < bookedRooms) {
+        throw new Error(`Cannot reduce total rooms below ${bookedRooms} (currently booked rooms)`);
+      }
+
+      if (updates.available_rooms !== undefined && updates.available_rooms < 0) {
+        throw new Error('Available rooms cannot be negative');
+      }
+
+      // If reducing available rooms, ensure it doesn't go below current bookings
+      if (updates.available_rooms !== undefined) {
+        const newTotalRooms = updates.total_rooms || currentPackage.total_rooms;
+        const maxAvailableRooms = newTotalRooms - bookedRooms;
+        
+        if (updates.available_rooms > maxAvailableRooms) {
+          updates.available_rooms = maxAvailableRooms;
+        }
+      }
+
+      // Log the update attempt for audit purposes
+      console.log(`Attempting to update package ${id}:`, {
+        currentPackage,
+        updates,
+        bookedRooms,
+        activeBookings: activeBookings?.length || 0
+      });
+
       const { data, error } = await supabase
         .from('availability_packages')
         .update(updates)
@@ -96,6 +168,9 @@ export function useAvailabilityPackagesManagement() {
         throw error;
       }
 
+      // Log successful update
+      console.log(`Package ${id} updated successfully:`, data);
+
       toast({
         title: "Package Updated",
         description: "Availability package has been updated successfully.",
@@ -104,6 +179,7 @@ export function useAvailabilityPackagesManagement() {
       return data;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update package';
+      console.error('Package update error:', err);
       toast({
         title: "Error",
         description: message,
@@ -115,6 +191,29 @@ export function useAvailabilityPackagesManagement() {
 
   const deletePackage = async (id: string) => {
     try {
+      // Check if there are any bookings for this package
+      const { data: bookings, error: bookingsError } = await supabase
+        .from('bookings')
+        .select('id, status')
+        .eq('package_id', id);
+
+      if (bookingsError) {
+        throw new Error('Failed to check package bookings');
+      }
+
+      if (bookings && bookings.length > 0) {
+        const activeBookings = bookings.filter(b => 
+          b.status === 'pending' || b.status === 'confirmed'
+        );
+        
+        if (activeBookings.length > 0) {
+          throw new Error(`Cannot delete package with ${activeBookings.length} active booking(s)`);
+        }
+      }
+
+      // Log deletion attempt for audit purposes
+      console.log(`Attempting to delete package ${id}. Found ${bookings?.length || 0} total bookings.`);
+
       const { error } = await supabase
         .from('availability_packages')
         .delete()
@@ -124,12 +223,16 @@ export function useAvailabilityPackagesManagement() {
         throw error;
       }
 
+      // Log successful deletion
+      console.log(`Package ${id} deleted successfully.`);
+
       toast({
         title: "Package Deleted",
         description: "Availability package has been deleted successfully.",
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete package';
+      console.error('Package deletion error:', err);
       toast({
         title: "Error",
         description: message,

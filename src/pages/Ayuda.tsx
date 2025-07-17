@@ -12,13 +12,14 @@ export default function Ayuda() {
   useEffect(() => {
     const language = i18n.language || navigator.language;
     
-    // Set fallback agent ID to prevent undefined
-    let agentId = 'v2_agt_20pNgPtt'; // Default to English María
+    // Ensure agentId is never undefined - default to Spanish
+    let agentId = 'v2_agt_JZ4Lnlqs'; // Default Spanish María
     if (language.startsWith('es')) {
       agentId = 'v2_agt_JZ4Lnlqs'; // Spanish María
     } else if (language.startsWith('en')) {
       agentId = 'v2_agt_20pNgPtt'; // English María
     }
+    // Any other language defaults to Spanish
 
     // Clean up any existing scripts
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
@@ -37,7 +38,7 @@ export default function Ayuda() {
 
     // Error handling for script loading
     script.onload = () => {
-      console.log('D-ID script loaded successfully');
+      console.log('D-ID script loaded successfully with agent:', agentId);
       setIsLoading(false);
     };
     
@@ -56,6 +57,7 @@ export default function Ayuda() {
       }
     }, 10000);
 
+    // Script must be appended to document.body
     document.body.appendChild(script);
 
     return () => {
@@ -64,7 +66,7 @@ export default function Ayuda() {
         script.parentNode.removeChild(script);
       }
     };
-  }, [i18n.language]);
+  }, [i18n.language]); // React to language changes only
 
   const avatarsData = [
     {

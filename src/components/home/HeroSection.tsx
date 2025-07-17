@@ -25,11 +25,11 @@ export function HeroSection() {
         {slogan}
       </p>
     </div>;
-  return <section className="py-0 px-4 overflow-hidden pt-3 w-full">
+  return <section className="py-0 px-4 overflow-hidden pt-1.5 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
           {/* New 1950s style neon sign slogan - with adjusted spacing: 50% bigger above, 50% smaller below */}
-          <div className={`flex justify-center ${isMobile ? "mb-6 mt-14" : "mb-3 mt-5"}`}>
+          <div className={`flex justify-center ${isMobile ? "mb-6 mt-7" : "mb-3 mt-2.5"}`}>
             <div className={`relative ${isMobile ? "w-[85%]" : "w-[26%]"} mx-auto`}>
               {/* Blue glow effect background - updated to #006EF5 */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#006EF5] via-[#006EF5] to-purple-600 rounded-lg blur-xl opacity-75"></div>

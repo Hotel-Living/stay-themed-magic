@@ -37,13 +37,13 @@ export function EnhancedAvatarAssistant({
   const getDefaultMessage = () => {
     switch (currentLanguage) {
       case 'en':
-        return "I'm here if you need me.";
+        return "Here if you need assistance.";
       case 'pt':
-        return "Estou aqui se precisar de mim.";
+        return "Aqui se precisar de ajuda.";
       case 'ro':
-        return "Sunt aici dacă ai nevoie de mine.";
+        return "Aici dacă ai nevoie de ajutor.";
       default:
-        return "Estoy aquí si me necesitas.";
+        return "Aquí estoy. Si me necesitas, pregunta lo que quieras.";
     }
   };
 

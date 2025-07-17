@@ -92,8 +92,14 @@ export function GlobalAvatarSystem() {
 
     // Start the 60-second interval for random avatar popup
     const interval = setInterval(showRandomAvatarPopup, 60000);
+    
+    // Also trigger immediately for testing (remove this in production)
+    const initialTimeout = setTimeout(showRandomAvatarPopup, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(initialTimeout);
+    };
   }, [location.pathname, activeAvatars, isHomePage, isFAQPage, isHotelsPage]);
 
   const handleRandomAvatarClose = () => {

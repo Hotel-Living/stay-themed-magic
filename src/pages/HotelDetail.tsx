@@ -9,6 +9,7 @@ import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTransl
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
 import BubbleCounter from "@/components/common/BubbleCounter";
+import { HotelPageAvatar } from "@/components/avatars/HotelPageAvatar";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
@@ -55,6 +56,7 @@ export default function HotelDetail() {
       </main>
       
       <Footer />
+      <HotelPageAvatar />
     </div>
   );
 }

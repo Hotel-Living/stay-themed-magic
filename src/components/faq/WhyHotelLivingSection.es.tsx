@@ -121,6 +121,20 @@ export function WhyHotelLivingSectionES() {
     setShowMessage(false);
   };
 
+  const getAvatarMessage = (avatarId: string) => {
+    const messages: Record<string, string> = {
+      "antonio": "¡Hola, soy Antonio!\nJubilado\n¿Te puedo ayudar?",
+      "luisa": "¡Hola, soy Luisa!\nJubilada\n¿Te puedo ayudar?",
+      "john": "¡Hola, soy John!\nTrabajo online\n¿Te puedo ayudar?",
+      "auxi": "¡Hola!\n¡Soy Teresa!\n¿Te puedo ayudar?",
+      "juan": "¡Hola, soy Juan!\n¡Adiós apartamentos turísticos!\n¿Te puedo ayudar?",
+      "ion": "¡Hola, soy Ion!\nYa no vivo de alquiler\n¿Te puedo ayudar?",
+      "maria": "¡Hola, soy María!\n¡Ya no vivo afuera de la ciudad!\n¿Te puedo ayudar?",
+      "martin": "¡Hola, soy Martín!\nHotelero\n¿Te puedo ayudar?"
+    };
+    return messages[avatarId] || "¡Hola!\n¿Te puedo ayudar?";
+  };
+
   return (
     <>
       {/* First title - WHY HOTEL-LIVING? */}
@@ -183,7 +197,7 @@ export function WhyHotelLivingSectionES() {
                             gif={avatar.gif}
                             position="content"
                             showMessage={showMessage}
-                            message={t('avatarMessage')}
+                            message={getAvatarMessage(avatar.id)}
                             onClose={handleAvatarClose}
                           />
                         </div>

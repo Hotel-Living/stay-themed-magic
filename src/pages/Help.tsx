@@ -68,9 +68,31 @@ export default function Help() {
       <main className="flex-1 container mx-auto px-4 py-4 relative z-10">
 
         {/* Main Section - Avatar Group */}
-        <div className="max-w-6xl mx-auto mt-8">
-          <div className="grid grid-cols-4 gap-8 mb-8">
-            {avatarsData.map((avatar) => (
+        <div className="max-w-6xl mx-auto mt-4">
+          <div className="grid grid-cols-4 gap-6 mb-8">
+            {avatarsData.slice(0, 4).map((avatar) => (
+              <div key={avatar.id} className="flex flex-col items-center">
+                {/* Speech bubble above avatar */}
+                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-sm font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                  <div className="whitespace-pre-line">{avatar.greeting}</div>
+                  {/* Bubble tail pointing down */}
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
+                </div>
+                
+                {/* Avatar using EnhancedAvatarAssistant for chat functionality */}
+                <EnhancedAvatarAssistant 
+                  avatarId={avatar.id}
+                  gif={avatar.gif}
+                  position="content"
+                  showMessage={false}
+                />
+              </div>
+            ))}
+          </div>
+          
+          {/* Second row */}
+          <div className="grid grid-cols-4 gap-6 mb-12">
+            {avatarsData.slice(4, 8).map((avatar) => (
               <div key={avatar.id} className="flex flex-col items-center">
                 {/* Speech bubble above avatar */}
                 <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-sm font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>

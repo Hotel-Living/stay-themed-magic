@@ -73,12 +73,7 @@
     box-sizing: border-box;
   }
 
-  /* Constrain all positioned elements within viewport with margin */
-  [style*="position: fixed"],
-  [style*="position: absolute"] {
-    max-width: calc(100vw - 20px) !important;
-    left: clamp(10px, var(--left, 0px), calc(100vw - var(--width, 250px) - 10px)) !important;
-  }
+  /* Allow avatars and positioned elements to position naturally */
 
   /* React Router containers */
   div[data-testid],

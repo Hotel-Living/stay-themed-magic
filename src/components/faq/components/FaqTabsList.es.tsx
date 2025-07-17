@@ -9,8 +9,8 @@ interface FaqTabsListESProps {
 
 export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
   return (
-    <div className="flex justify-center mb-8">
-      <TabsList className="flex flex-nowrap justify-center gap-6 p-4 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg w-full max-w-6xl">
+    <div className="flex justify-center mb-0">
+      <TabsList className="flex flex-nowrap justify-center gap-6 p-4 bg-[#6804A3] rounded-none border-none shadow-none w-full">
         {faqCategories.map(category => {
           // Add line breaks for long category names
           let displayName = category.name;
@@ -26,7 +26,7 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-5 py-4 uppercase whitespace-pre-line text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl text-xs font-bold tracking-wide backdrop-blur-sm flex-1 min-w-0 border border-purple-600"
+              className="px-5 py-4 uppercase whitespace-pre-line text-center bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-white text-white hover:bg-transparent hover:text-white transition-all duration-200 rounded-none text-xs font-bold tracking-wide flex-1 min-w-0 border-none"
             >
               {displayName}
             </TabsTrigger>

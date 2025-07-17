@@ -4,6 +4,7 @@ import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
 import { HotelLocation } from "../HotelLocation";
 import { RedesignedBookingSection } from "../RedesignedBookingSection";
 import { HotelNotificationButtons } from "../HotelNotificationButtons";
+import { AvailabilityPackages } from "../AvailabilityPackages";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 interface HotelMainContentGridProps {
@@ -73,6 +74,15 @@ export function HotelMainContentGrid({
             />
           </div>
         </Card>
+        
+        {/* Availability Packages Section */}
+        <AvailabilityPackages 
+          hotelId={hotel.id}
+          onPackageSelect={(packageData) => {
+            console.log('Package selected:', packageData);
+            // This will later integrate with the booking modal
+          }}
+        />
         
         {/* Google Map Section */}
         <Card className="bg-[#6000B3] border-border shadow-2xl">

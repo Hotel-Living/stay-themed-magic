@@ -12,11 +12,8 @@ export function HotelPageAvatar() {
   }, []);
 
   const getMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "I'm here if you need me.";
-    if (lang.startsWith("pt")) return "Estou aqui se precisar de mim."; 
-    if (lang.startsWith("ro")) return "Sunt aici dacă ai nevoie de mine.";
-    return "Estoy aquí si me necesitas.";
+    // Always return the full interactive message for Martín
+    return "¡Hola, soy Martín! Soy hotelero. ¿Te puedo ayudar?";
   };
 
   if (!showAvatar) return null;

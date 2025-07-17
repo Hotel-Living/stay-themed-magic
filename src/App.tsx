@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/auth/AuthProvider";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
+import { GlobalAvatarSystem } from "@/components/avatars/GlobalAvatarSystem";
 import { SEOMetadata } from "@/components/SEOMetadata";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
@@ -161,6 +162,9 @@ function App() {
               {/* Comparison Route */}
               <Route path="/compare" element={<Compare />} />
             </Routes>
+            
+            {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
+            <GlobalAvatarSystem />
             </AvatarManagerProvider>
           </Router>
         </AuthProvider>

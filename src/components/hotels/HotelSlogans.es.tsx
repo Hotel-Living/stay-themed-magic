@@ -7,11 +7,18 @@ export function HotelSlogansES() {
   return <>
       {/* Main slogans */}
       <div className="space-y-3 animate-fade-in px-8">
-        <h1 className="text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 max-w-xl mx-auto shadow-sm">
-          <span className="bg-gradient-to-r from-[#FEF7CD] to-white bg-clip-text text-transparent px-[8px] text-center text-[#8017B0] animate-text-slow uppercase">{t('slogans.mainTitle')}</span>
-        </h1>
+        {/* Blue glow wrapper for main title */}
+        <div className="relative group w-fit mx-auto">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <h1 className="relative text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 max-w-xl mx-auto shadow-sm">
+            <span className="bg-gradient-to-r from-[#FEF7CD] to-white bg-clip-text text-transparent px-[8px] text-center text-[#8017B0] animate-text-slow uppercase">{t('slogans.mainTitle')}</span>
+          </h1>
+        </div>
         
-        <div className="space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl mx-8 px-6 py-[13px] my-[17px]">
+        {/* Blue glow wrapper for slogans block */}
+        <div className="relative group mx-8">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-6 py-[13px] my-[17px]">
           <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl px-4">{t('slogans.slogan1')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('slogans.slogan2')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-4">{t('slogans.slogan3')}</p>
@@ -33,6 +40,7 @@ export function HotelSlogansES() {
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('slogans.slogan19')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-4">{t('slogans.slogan20')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-4">{t('slogans.slogan21')}</p>
+          </div>
         </div>
       </div>
     </>;

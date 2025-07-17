@@ -159,16 +159,13 @@ export function WhyHotelLivingSectionES() {
       </div>
 
       {/* First Horizontal Accordion Menu */}
-      <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
+      <div className="mb-12">
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
                 {accordionOptions.map((option) => {
-                  const displayAvatars = getDisplayAvatars(option.id);
-                  const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
-                  
                   return (
                     <div key={option.id} className="relative">
                       <button 
@@ -178,36 +175,40 @@ export function WhyHotelLivingSectionES() {
                         <span className="mb-1 leading-tight">{option.label}</span>
                         <span className="text-xs">▼</span>
                       </button>
-                      
-                      {/* Show enhanced avatar above the tab when active - using Help page structure */}
-                      {showAvatars && displayAvatars.map((avatar) => (
-                        <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                          <div className="flex flex-col items-center">
-                            {/* Speech bubble above avatar - exactly like Help page */}
-                            <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
-                              <div className="whitespace-pre-line">{getAvatarMessage(avatar.id)}</div>
-                              {/* Bubble tail pointing down */}
-                              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
-                            </div>
-                            
-                            {/* Avatar using same configuration as Help page */}
-                            <div className="transform scale-150">
-                              <EnhancedAvatarAssistant 
-                                avatarId={avatar.id}
-                                gif={avatar.gif}
-                                position="content"
-                                showMessage={false}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   );
                 })}
               </div>
             </div>
           </div>
+
+          {/* Dedicated avatar display area - only shown when tab with avatars is selected */}
+          {activeTabAvatar && getDisplayAvatars(activeTabAvatar).length > 0 && (
+            <div className="mb-8 flex justify-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl">
+                {getDisplayAvatars(activeTabAvatar).map((avatar) => (
+                  <div key={avatar.id} className="flex flex-col items-center">
+                    {/* Speech bubble above avatar - exactly like Help page */}
+                    <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                      <div className="whitespace-pre-line">{getAvatarMessage(avatar.id)}</div>
+                      {/* Bubble tail pointing down */}
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
+                    </div>
+                    
+                    {/* Avatar using same configuration as Help page */}
+                    <div className="transform scale-150">
+                      <EnhancedAvatarAssistant 
+                        avatarId={avatar.id}
+                        gif={avatar.gif}
+                        position="content"
+                        showMessage={false}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           
           {activeAccordionTab && (
             <div className="mt-4">

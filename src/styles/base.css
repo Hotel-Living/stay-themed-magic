@@ -44,6 +44,10 @@
     @apply overflow-x-hidden max-w-[100vw];
   }
 
+  #root {
+    @apply overflow-x-hidden max-w-[100vw];
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;

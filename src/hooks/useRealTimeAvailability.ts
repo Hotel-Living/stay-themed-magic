@@ -47,7 +47,14 @@ export function useRealTimeAvailability({ hotelId, selectedMonth }: UseRealTimeA
         throw queryError;
       }
 
-      setPackages(data || []);
+      // Process packages to add availability status
+      const processedPackages = (data || []).map((pkg) => ({
+        ...pkg,
+        isAvailable: pkg.available_rooms > 0,
+        isSoldOut: pkg.available_rooms === 0
+      }));
+
+      setPackages(processedPackages);
       setLastUpdated(new Date());
     } catch (err) {
       console.error('Error fetching packages:', err);

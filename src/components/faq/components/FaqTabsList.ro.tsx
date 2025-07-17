@@ -10,7 +10,7 @@ interface FaqTabsListROProps {
 export function FaqTabsListRO({ faqCategories }: FaqTabsListROProps) {
   return (
     <div className="flex justify-center mb-6">
-      <TabsList className="flex flex-wrap justify-center gap-2 p-2 bg-gradient-to-r from-[#6A2089]/80 to-[#8B3A9C]/80 rounded-2xl border border-purple-300/40 backdrop-blur-lg shadow-2xl shadow-purple-500/30">
+      <TabsList className="flex flex-nowrap justify-center gap-1 p-3 bg-gradient-to-r from-violet-600/90 via-purple-600/90 to-fuchsia-600/90 rounded-full border border-violet-300/60 backdrop-blur-lg shadow-2xl shadow-violet-400/40 glow-effect w-4/5">
         {faqCategories.map(category => {
           // Add line breaks for long category names
           let displayName = category.name;
@@ -18,13 +18,15 @@ export function FaqTabsListRO({ faqCategories }: FaqTabsListROProps) {
             displayName = "ÎN TIMPUL\nȘEDERII";
           } else if (category.name === "Nomazi Digitali?") {
             displayName = "NOMAZI\nDIGITALI";
+          } else if (category.name === "Detalii Practice?") {
+            displayName = "DETALII\nPRACTICE";
           }
           
           return (
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-4 py-2 uppercase whitespace-pre-line text-center bg-gradient-to-r from-[#6A2089] to-[#7A2499] data-[state=active]:from-purple-100 data-[state=active]:to-white data-[state=active]:text-[#6A2089] text-white shadow-lg hover:shadow-purple-400/40 hover:scale-105 transition-all duration-300 border border-purple-300/30 hover:border-purple-200/60 rounded-xl text-xs font-bold tracking-wide hover:from-[#7A2499] hover:to-[#8B3A9C] glow-on-hover"
+              className="px-3 py-2 uppercase whitespace-pre-line text-center bg-gradient-to-br from-white/20 to-white/10 data-[state=active]:from-white data-[state=active]:to-violet-50 data-[state=active]:text-violet-700 text-white shadow-md hover:shadow-violet-300/50 hover:scale-105 transition-all duration-300 border border-white/30 hover:border-white/60 rounded-2xl text-[10px] font-bold tracking-wide hover:from-white/30 hover:to-white/20 backdrop-blur-sm flex-1 min-w-0"
             >
               {displayName}
             </TabsTrigger>

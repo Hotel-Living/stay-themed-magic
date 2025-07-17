@@ -49,9 +49,9 @@ export default function FAQTravelers() {
             />
           </div>
 
-          <div className="w-4/5 mx-auto relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-fuchsia-500/20 to-purple-600/20 rounded-2xl blur-lg"></div>
-            <div className="relative bg-black/20 backdrop-blur-xl rounded-2xl border border-purple-300/30 p-6 shadow-2xl shadow-purple-500/20">
+          <div className="w-3/5 mx-auto relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/30 via-fuchsia-400/30 to-purple-500/30 rounded-3xl blur-xl"></div>
+            <div className="relative bg-gradient-to-br from-purple-900/40 via-purple-800/30 to-fuchsia-900/40 backdrop-blur-xl rounded-3xl border border-purple-300/40 p-8 shadow-2xl shadow-purple-400/30 glow-effect">
               <FaqTabs 
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}

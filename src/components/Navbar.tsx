@@ -9,6 +9,8 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DashboardSelector } from "./navigation/DashboardSelector";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import { User, LogOut } from "lucide-react";
 
 export function Navbar() {
@@ -37,6 +39,31 @@ export function Navbar() {
       console.error('Logout error:', error);
     }
   };
+
+  // Auth Dropdown Component
+  const AuthDropdown = () => (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
+          <User className="w-5 h-5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-40 bg-white shadow-lg rounded-xl border border-gray-200 z-50" align="end">
+        <div className="flex flex-col gap-2 p-2">
+          <Link to="/login" className="w-full">
+            <Button variant="outline" className="w-full text-sm font-medium">
+              {t('mainNavigationContent.login.mobile')}
+            </Button>
+          </Link>
+          <Link to="/signup" className="w-full">
+            <Button variant="outline" className="w-full text-sm font-medium">
+              {t('mainNavigationContent.signup.mobile')}
+            </Button>
+          </Link>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
 
   return (
     <header className="shadow-md" style={{ backgroundColor: "#996515" }}>
@@ -72,20 +99,7 @@ export function Navbar() {
           </Link>
           
           {!user ? (
-            <>
-              <Link to="/signup" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-                <div className="text-center">
-                  <div>{t('mainNavigationContent.signup.line1')}</div>
-                  <div>{t('mainNavigationContent.signup.line2')}</div>
-                </div>
-              </Link>
-              <Link to="/login" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-                <div className="text-center">
-                  <div>{t('mainNavigationContent.login.line1')}</div>
-                  <div>{t('mainNavigationContent.login.line2')}</div>
-                </div>
-              </Link>
-            </>
+            <AuthDropdown />
           ) : (
             <div className="flex items-center space-x-4">
               <DashboardSelector />
@@ -151,15 +165,10 @@ export function Navbar() {
             {t('mainNavigationContent.ambassador.mobile')}
           </Link>
            {!isLoggedIn && (
-            <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('mainNavigationContent.signup.mobile')}
-              </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('mainNavigationContent.login.mobile')}
-              </Link>
-            </>
-          )}
+            <div className="flex justify-center w-full mb-3">
+              <AuthDropdown />
+            </div>
+           )}
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}
           </Link>

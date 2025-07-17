@@ -86,19 +86,18 @@ function App() {
         <Toaster />
         <AuthProvider>
           <Router>
-            <div className="w-full max-w-[100vw] overflow-x-hidden">
-              <AvatarManagerProvider>
-                <SEOMetadata />
-                <ScrollToTop />
-                <GoogleAnalytics />
-                <DashboardAccess />
-                
-                {/* Intro Animation Overlay */}
-                {shouldShowIntro && (
-                  <IntroAnimation onComplete={handleIntroComplete} />
-                )}
-                
-                <Routes>
+            <AvatarManagerProvider>
+              <SEOMetadata />
+              <ScrollToTop />
+              <GoogleAnalytics />
+              <DashboardAccess />
+              
+              {/* Intro Animation Overlay */}
+              {shouldShowIntro && (
+                <IntroAnimation onComplete={handleIntroComplete} />
+              )}
+              
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
@@ -164,10 +163,9 @@ function App() {
               <Route path="/compare" element={<Compare />} />
             </Routes>
             
-                {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
-                <GlobalAvatarSystem />
-              </AvatarManagerProvider>
-            </div>
+            {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
+            <GlobalAvatarSystem />
+            </AvatarManagerProvider>
           </Router>
         </AuthProvider>
       </TooltipProvider>

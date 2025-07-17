@@ -10,7 +10,7 @@ import { useHotels } from '@/hooks/useHotels';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
-import { HelpAssistant } from '@/components/help/HelpAssistant';
+import { IndexPageAvatars } from '@/components/avatars/IndexPageAvatars';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -70,10 +70,9 @@ export default function Index() {
       
       <Footer />
       
-      {/* Help Assistant */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <HelpAssistant />
-      </div>
+      {/* Dual Avatar Animation - Index Page Only */}
+      <IndexPageAvatars />
+      
     </div>
   );
 }

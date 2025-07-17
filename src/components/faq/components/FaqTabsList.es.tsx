@@ -10,7 +10,7 @@ interface FaqTabsListESProps {
 export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
   return (
     <div className="flex justify-center mb-8">
-      <TabsList className="flex flex-nowrap justify-center gap-3 p-3 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg w-4/5">
+      <TabsList className="flex flex-nowrap justify-center gap-6 p-4 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg w-full max-w-6xl">
         {faqCategories.map(category => {
           // Add line breaks for long category names
           let displayName = category.name;

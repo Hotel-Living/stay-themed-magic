@@ -93,7 +93,7 @@ export function EnhancedAvatarAssistant({
           {/* Avatar */}
           <button
             onClick={handleAvatarClick}
-            className="w-16 h-16 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-fuchsia-400/50"
+            className="w-24 h-24 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-fuchsia-400/50"
           >
             <img 
               src={gif} 

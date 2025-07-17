@@ -200,48 +200,56 @@ export function WhyHotelLivingSectionES() {
 
       {/* Header above purple tabs */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-[#eedbf7] mb-2">
-          {t('identifyHeader').split('\n').map((line, index) => (
-            <div key={index}>{line}</div>
-          ))}
-        </h2>
+        <div className="flex justify-center">
+          <div className="relative group w-fit">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h2 className="relative text-2xl font-bold text-[#eedbf7] mb-2 bg-[#8017B0] py-2 px-4 rounded-lg">
+              {t('identifyHeader').split('\n').map((line, index) => (
+                <div key={index}>{line}</div>
+              ))}
+            </h2>
+          </div>
+        </div>
       </div>
 
       {/* First Horizontal Accordion Menu */}
       <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
         <div className="w-full">
           <div className="flex justify-center mb-4">
-            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>
-              {accordionOptions.map((option) => {
-                const displayAvatars = getDisplayAvatars(option.id);
-                const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
-                
-                return (
-                  <div key={option.id} className="relative">
-                    <button 
-                      onClick={() => handleAccordionTabChange(option.id)}
-                      className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
-                    >
-                      <span className="mb-1 leading-tight">{option.label}</span>
-                      <span className="text-xs">▼</span>
-                    </button>
-                    
-                    {/* Show enhanced avatar above the tab when active */}
-                    {showAvatars && displayAvatars.map((avatar) => (
-                      <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                        <EnhancedAvatarAssistant
-                          avatarId={avatar.id}
-                          gif={avatar.gif}
-                          position="content"
-                          showMessage={showMessage}
-                          message={t('avatarMessage')}
-                          onClose={handleAvatarClose}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
+                {accordionOptions.map((option) => {
+                  const displayAvatars = getDisplayAvatars(option.id);
+                  const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
+                  
+                  return (
+                    <div key={option.id} className="relative">
+                      <button 
+                        onClick={() => handleAccordionTabChange(option.id)}
+                        className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                      >
+                        <span className="mb-1 leading-tight">{option.label}</span>
+                        <span className="text-xs">▼</span>
+                      </button>
+                      
+                      {/* Show enhanced avatar above the tab when active */}
+                      {showAvatars && displayAvatars.map((avatar) => (
+                        <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
+                          <EnhancedAvatarAssistant
+                            avatarId={avatar.id}
+                            gif={avatar.gif}
+                            position="content"
+                            showMessage={showMessage}
+                            message={t('avatarMessage')}
+                            onClose={handleAvatarClose}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           

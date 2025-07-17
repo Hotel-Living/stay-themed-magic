@@ -10,20 +10,35 @@ export default function Ayuda() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const language = i18n.language || navigator.language;
-    
-    // Ensure agentId is never undefined - default to Spanish
-    let agentId = 'v2_agt_JZ4Lnlqs'; // Default Spanish María
-    if (language.startsWith('es')) {
-      agentId = 'v2_agt_JZ4Lnlqs'; // Spanish María
-    } else if (language.startsWith('en')) {
-      agentId = 'v2_agt_20pNgPtt'; // English María
-    }
-    // Any other language defaults to Spanish
+    // Wait for i18n to be initialized
+    if (!i18n.isInitialized) return;
 
-    // Clean up any existing scripts
+    const language = i18n.language || navigator.language || 'es';
+    
+    // Proper fallback logic - default to Spanish if no valid language detected
+    let agentId = 'v2_agt_JZ4Lnlqs'; // Default Spanish María
+    if (language.startsWith('en')) {
+      agentId = 'v2_agt_20pNgPtt'; // English María
+    } else if (language.startsWith('es')) {
+      agentId = 'v2_agt_JZ4Lnlqs'; // Spanish María
+    }
+    // All other languages default to Spanish
+
+    // Clean up any existing D-ID scripts and containers
     const existingScripts = document.querySelectorAll('script[src*="agent.d-id.com"]');
     existingScripts.forEach(script => script.remove());
+    
+    // Clear any existing D-ID content in container
+    const container = document.getElementById('did-avatar-container');
+    if (container) {
+      // Only clear if it has D-ID content, preserve React content
+      const didElements = container.querySelectorAll('[data-did], iframe[src*="d-id"], canvas');
+      didElements.forEach(el => el.remove());
+    }
+
+    // Reset states
+    setIsLoading(true);
+    setAvatarError(false);
 
     const script = document.createElement('script');
     script.type = 'module';
@@ -48,16 +63,16 @@ export default function Ayuda() {
       setIsLoading(false);
     };
 
-    // Timeout fallback
+    // Timeout fallback - increased for better loading
     const timeout = setTimeout(() => {
       if (isLoading) {
         console.warn('D-ID avatar loading timeout - showing fallback');
         setAvatarError(true);
         setIsLoading(false);
       }
-    }, 10000);
+    }, 15000);
 
-    // Script must be appended to document.body
+    // Script must be appended to document.body after language detection
     document.body.appendChild(script);
 
     return () => {
@@ -66,7 +81,7 @@ export default function Ayuda() {
         script.parentNode.removeChild(script);
       }
     };
-  }, [i18n.language]); // React to language changes only
+  }, [i18n.language, i18n.isInitialized]); // React to language changes and initialization
 
   const avatarsData = [
     {

@@ -46,17 +46,8 @@ export default function Help() {
       script.setAttribute('data-orientation', 'horizontal');
       script.setAttribute('data-position', 'right');
       
-      // Create caption
-      const caption = document.createElement('p');
-      caption.style.textAlign = 'center';
-      caption.style.fontSize = '1.2rem';
-      caption.style.marginTop = '10px';
-      caption.style.color = 'white';
-      caption.textContent = isSpanish ? 'Háblame o escríbeme tu pregunta.' : 'Speak or write your question to me.';
-      
-      // Add script and caption to avatar div
+      // Add script to avatar div
       avatarDiv.appendChild(script);
-      avatarDiv.appendChild(caption);
       
       // Add avatar to container
       targetContainer.appendChild(avatarDiv);
@@ -155,11 +146,6 @@ export default function Help() {
               <p className="text-sm">Loading avatar...</p>
             </div>
           </div>
-          <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
-            <p className="text-center text-white text-lg font-semibold">
-              {t('helpAssistant.mainMessage')}
-            </p>
-          </div>
         </div>
 
         {/* Main Section - Avatar Group */}
@@ -187,12 +173,6 @@ export default function Help() {
                   <h3 className="text-white font-semibold text-lg mb-1">{avatar.name}</h3>
                   <p className="text-white/80 text-sm mb-3">{avatar.description}</p>
                   
-                  {/* Input Label Box */}
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-3 min-h-[60px] flex items-center justify-center">
-                    <p className="text-white/60 text-xs text-center">
-                      {t('helpAssistant.inputLabel')}
-                    </p>
-                  </div>
                 </div>
               </div>
             ))}

@@ -36,27 +36,27 @@
       "john": { 
         "name": "John", 
         "description": "Remote Worker",
-        "greeting": "Hello, I'm John!\nI work online\nCan I help you?"
+        "greeting": "Hello, I'm John!\nOnline worker\nCan I help you?"
       },
       "teresa": { 
         "name": "Teresa", 
         "description": "Travel Lover",
-        "greeting": "Hello!\nI'm Teresa!\nCan I help you?"
+        "greeting": "Hello, I'm Teresa!\nRetired\nCan I help you?"
       },
       "juan": { 
         "name": "Juan", 
         "description": "Ex-Landlord",
-        "greeting": "Hello, I'm Juan!\nGoodbye tourist apartments!\nCan I help you?"
+        "greeting": "Hello, I'm Juan!\nEx-Airbnb\nCan I help you?"
       },
       "ion": { 
         "name": "Ion", 
         "description": "Former Renter",
-        "greeting": "Hello, I'm Ion!\nI no longer live on rent\nCan I help you?"
+        "greeting": "Hello, I'm Ion!\nEx-renter\nCan I help you?"
       },
       "maria": { 
         "name": "María", 
         "description": "Suburban Resident",
-        "greeting": "Hello, I'm María!\nI no longer live outside the city!\nCan I help you?"
+        "greeting": "Hello, I'm María!\nEx-commuter\nCan I help you?"
       },
       "martin": { 
         "name": "Martin", 

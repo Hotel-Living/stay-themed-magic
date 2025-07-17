@@ -6,42 +6,42 @@ const avatarPool = [
   {
     id: "antonio",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/1_Soy_Antonio_Jubilado.gif.gif",
-    message: "¡Hola, soy Antonio, jubilado!"
+    message: "¡Hola, soy Antonio!\nJubilado\n¿Te puedo ayudar?"
   },
   {
     id: "luisa",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/2_Y_yo_soy_Luisa_jubilada.gif.gif",
-    message: "¡Hola, soy Luisa, jubilada!"
+    message: "¡Hola, soy Luisa!\nJubilada\n¿Te puedo ayudar?"
   },
   {
     id: "john",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/3_Y_yo_soy_John_trabajo_online.gif.gif",
-    message: "¡Hola, soy John, trabajo online!"
+    message: "¡Hola, soy John!\nTrabajador online\n¿Te puedo ayudar?"
   },
   {
     id: "teresa",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/4_Y_yo_soy_Auxi_amo_viajar.gif.gif",
-    message: "¡Hola, soy Teresa, jubilada! Amo viajar."
+    message: "¡Hola, soy Teresa!\nJubilada\n¿Te puedo ayudar?"
   },
   {
     id: "juan",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/5_Y_yo_soy_Juan_ya_no_alquilo_apartamentos_turisticos.gif.gif",
-    message: "¡Hola, soy Juan! Ya no alquilo apartamentos turísticos."
+    message: "¡Hola, soy Juan!\nEx-Airbnb\n¿Te puedo ayudar?"
   },
   {
     id: "ion",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/6_Y_yo_soy_Ion_vivia_de_alquiler.gif.gif",
-    message: "¡Hola, soy Ion! Antes vivía de alquiler."
+    message: "¡Hola, soy Ion!\nEx-inquilino\n¿Te puedo ayudar?"
   },
   {
     id: "maria",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/7_Y_yo_soy_Maria_vivia_afuera_de_la_ciudad.gif.gif",
-    message: "¡Hola, soy María! Vivía afuera de la ciudad."
+    message: "¡Hola, soy María!\nEx-commuter\n¿Te puedo ayudar?"
   },
   {
     id: "martin",
     gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif",
-    message: "¡Hola, soy Martín! Soy hotelero."
+    message: "¡Hola, soy Martín!\nHotelero\n¿Te puedo ayudar?"
   }
 ];
 
@@ -64,10 +64,10 @@ function SimpleAvatar({ avatar, position }: { avatar: { id: string; gif: string;
         </div>
 
         {/* Speech bubble */}
-        <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200">
+        <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
           <span className="text-gray-800 leading-tight block">{avatar.message}</span>
-          {/* Bubble tail */}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
+           {/* Bubble tail */}
+           <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
         </div>
       </div>
     </div>

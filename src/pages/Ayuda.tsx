@@ -8,20 +8,32 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://agent.d-id.com/v2/index.js';
-    script.dataset.clientKey = 'YXV0aDB8Njg3MDc4MTcyYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpqQUEzUWlpdTBxcA==';
-    script.dataset.agentId = 'v2_agt_JZ4Lnlqs';
-    script.dataset.name = 'did-agent-es';
-    script.dataset.mode = 'fabio';
-    script.dataset.monitor = 'true';
-    script.dataset.orientation = 'horizontal';
-    script.dataset.position = 'right';
-    script.async = true;
-    
-    document.getElementById('did-avatar-container')?.appendChild(script);
-    
-    console.log('D-ID script injected:', script.src);
+    const language = navigator.language.startsWith('es') ? 'es' : 'en';
+
+    const agentConfig = {
+      es: {
+        name: "María Español",
+        agentId: "v2_agt_JZ4Lnlqs"
+      },
+      en: {
+        name: "María Inglés",
+        agentId: "v2_agt_3CWGZBhD"
+      }
+    };
+
+    const selectedAgent = agentConfig[language] || agentConfig["es"];
+
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "https://agent.d-id.com/v2/index.js";
+    script.setAttribute("data-mode", "full");
+    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
+    script.setAttribute("data-agent-id", selectedAgent.agentId);
+    script.setAttribute("data-name", "did-agent");
+    script.setAttribute("data-monitor", "true");
+    script.setAttribute("data-target-id", "avatar-container");
+
+    document.body.appendChild(script);
   }, []);
 
   const avatarsData = [
@@ -84,7 +96,7 @@ export default function Ayuda() {
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
           <div 
-            id="did-avatar-container"
+            id="avatar-container"
             style={{ 
               minHeight: '400px', 
               width: '100%', 

@@ -11,8 +11,7 @@ export default defineConfig(async ({ mode }) => {
   const isCI = process.env.CI === 'true';
 
   const plugins = [
-    react(),
-    mode === 'development' && componentTagger()
+    react()
   ];
 
   if (!isCI) {
@@ -23,7 +22,7 @@ export default defineConfig(async ({ mode }) => {
       gzipSize: true,
       brotliSize: true,
       template: 'treemap',
-    }));
+    }) as any);
   }
 
   return {

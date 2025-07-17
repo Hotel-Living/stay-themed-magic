@@ -55,7 +55,7 @@ export default function Hotels() {
             <div className="bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-2 border-fuchsia-400 rounded-2xl p-8 max-w-2xl cursor-pointer hover:border-fuchsia-300 hover:bg-gradient-to-br hover:from-purple-800/90 hover:via-fuchsia-800/70 hover:to-purple-700/90 transition-all duration-300 shadow-2xl hover:shadow-fuchsia-500/30 hover:scale-105" onClick={() => {
             navigate('/professional-study');
           }}>
-              <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold uppercase glow">
+              <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold uppercase blue-glow">
                 {language === 'en' && 'Get, at no cost, a complete professional, technical and in-person study about your hotel and its development possibilities'}
                 {language === 'es' && 'Obtenga, sin coste alguno, un completo estudio profesional, técnico y presencial, sobre su hotel y sus posibilidades de desarrollo'}
                 {language === 'pt' && 'Obtenha, sem qualquer custo, um estudo profissional, técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento'}
@@ -67,9 +67,9 @@ export default function Hotels() {
           {/* New accordion menu */}
           <HotelNewAccordionMenu />
           
-          <div className="w-full max-w-4xl mt-10">
-            <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10 bg-[#5f0276]">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6 glow">{t('title')}</h2>
+          <div className="w-full max-w-6xl mt-10">
+            <div className="glass-card rounded-lg overflow-hidden border-none p-6 mb-10 bg-[#5f0276]">
+              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6 blue-glow">{t('title')}</h2>
               
               <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-lg md:text-xl" answerTextSizeClass="text-sm md:text-base" hideTabsList={false} />
               

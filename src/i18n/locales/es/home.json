@@ -22,14 +22,46 @@
     "mainMessage": "Háblame o escríbeme tu pregunta.",
     "inputLabel": "Escribe tu mensaje aquí...",
     "avatars": {
-      "antonio": { "name": "Antonio", "description": "Jubilado" },
-      "luisa": { "name": "Luisa", "description": "Jubilada" },
-      "john": { "name": "John", "description": "Trabajador Remoto" },
-      "auxi": { "name": "Auxi", "description": "Amante de Viajes" },
-      "juan": { "name": "Juan", "description": "Ex-Propietario" },
-      "ion": { "name": "Ion", "description": "Ex-Inquilino" },
-      "maria": { "name": "María", "description": "Residente Suburbano" },
-      "martin": { "name": "Martin", "description": "Dueño de Hotel" }
+      "antonio": { 
+        "name": "Antonio", 
+        "description": "Jubilado",
+        "greeting": "¡Hola, soy Antonio!\nJubilado\n¿Te puedo ayudar?"
+      },
+      "luisa": { 
+        "name": "Luisa", 
+        "description": "Jubilada",
+        "greeting": "¡Hola, soy Luisa!\nJubilada\n¿Te puedo ayudar?"
+      },
+      "john": { 
+        "name": "John", 
+        "description": "Trabajador Remoto",
+        "greeting": "¡Hola, soy John!\nTrabajo online\n¿Te puedo ayudar?"
+      },
+      "teresa": { 
+        "name": "Teresa", 
+        "description": "Amante de Viajes",
+        "greeting": "¡Hola!\n¡Soy Teresa!\n¿Te puedo ayudar?"
+      },
+      "juan": { 
+        "name": "Juan", 
+        "description": "Ex-Propietario",
+        "greeting": "¡Hola, soy Juan!\n¡Adiós apartamentos turísticos!\n¿Te puedo ayudar?"
+      },
+      "ion": { 
+        "name": "Ion", 
+        "description": "Ex-Inquilino",
+        "greeting": "¡Hola, soy Ion!\nYa no vivo de alquiler\n¿Te puedo ayudar?"
+      },
+      "maria": { 
+        "name": "María", 
+        "description": "Residente Suburbano",
+        "greeting": "¡Hola, soy María!\n¡Ya no vivo afuera de la ciudad!\n¿Te puedo ayudar?"
+      },
+      "martin": { 
+        "name": "Martin", 
+        "description": "Dueño de Hotel",
+        "greeting": "¡Hola, soy Martín!\nHotelero\n¿Te puedo ayudar?"
+      }
     }
   }
 }

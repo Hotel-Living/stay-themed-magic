@@ -104,16 +104,16 @@ export function EnhancedAvatarAssistant({
 
           {/* Speech bubble - positioned to not cover avatar head */}
           {showMessage && !isBottomRightPosition && (
-            <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200">
+            <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
               <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}
-                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 bg-white rounded-full w-3 h-3 flex items-center justify-center border border-gray-300"
+                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 rounded-full w-3 h-3 flex items-center justify-center border border-gray-300" style={{ backgroundColor: '#FBF3B4' }}
               >
                 <X size={6} />
               </button>
               {/* Bubble tail */}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
             </div>
           )}
         </div>

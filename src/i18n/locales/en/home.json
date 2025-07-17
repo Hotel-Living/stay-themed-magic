@@ -23,14 +23,46 @@
     "mainMessage": "Speak or write your question to me.",
     "inputLabel": "Type your message here...",
     "avatars": {
-      "antonio": { "name": "Antonio", "description": "Retired" },
-      "luisa": { "name": "Luisa", "description": "Retired" },
-      "john": { "name": "John", "description": "Remote Worker" },
-      "auxi": { "name": "Auxi", "description": "Travel Lover" },
-      "juan": { "name": "Juan", "description": "Ex-Landlord" },
-      "ion": { "name": "Ion", "description": "Former Renter" },
-      "maria": { "name": "María", "description": "Suburban Resident" },
-      "martin": { "name": "Martin", "description": "Hotel Owner" }
+      "antonio": { 
+        "name": "Antonio", 
+        "description": "Retired",
+        "greeting": "Hello, I'm Antonio!\nRetired\nCan I help you?"
+      },
+      "luisa": { 
+        "name": "Luisa", 
+        "description": "Retired",
+        "greeting": "Hello, I'm Luisa!\nRetired\nCan I help you?"
+      },
+      "john": { 
+        "name": "John", 
+        "description": "Remote Worker",
+        "greeting": "Hello, I'm John!\nI work online\nCan I help you?"
+      },
+      "teresa": { 
+        "name": "Teresa", 
+        "description": "Travel Lover",
+        "greeting": "Hello!\nI'm Teresa!\nCan I help you?"
+      },
+      "juan": { 
+        "name": "Juan", 
+        "description": "Ex-Landlord",
+        "greeting": "Hello, I'm Juan!\nGoodbye tourist apartments!\nCan I help you?"
+      },
+      "ion": { 
+        "name": "Ion", 
+        "description": "Former Renter",
+        "greeting": "Hello, I'm Ion!\nI no longer live on rent\nCan I help you?"
+      },
+      "maria": { 
+        "name": "María", 
+        "description": "Suburban Resident",
+        "greeting": "Hello, I'm María!\nI no longer live outside the city!\nCan I help you?"
+      },
+      "martin": { 
+        "name": "Martin", 
+        "description": "Hotel Owner",
+        "greeting": "Hello, I'm Martin!\nHotelier\nCan I help you?"
+      }
     }
   }
 }

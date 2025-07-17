@@ -88,7 +88,7 @@ export function EnhancedAvatarAssistant({
 
   return (
     <>
-      <div className={`${getPositionStyles()} animate-fade-in`} id={`avatar-${avatarId}`}>
+      <div className={`${getPositionStyles()} animate-fade-in`} id={`avatar-${avatarId}`} data-avatar-id={avatarId}>
         <div className="relative">
           {/* Avatar */}
           <button

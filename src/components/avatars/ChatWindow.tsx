@@ -53,7 +53,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
   const [position, setPosition] = useState({ x: 200, y: 100 });
-  const [size, setSize] = useState({ width: 250, height: 280 }); // Smaller default size
+  const [size, setSize] = useState({ width: 500, height: 280 }); // Doubled width as requested
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -74,23 +74,34 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [inactivityTimer]);
 
-  // Position reset on every open - with special logic for Ion
+  // Position reset on every open - positioned directly below the avatar
   useEffect(() => {
     const forceResetPosition = () => {
+      // Find the active avatar element to position chat below it
+      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
       let targetX, targetY;
       
-      if (avatarId === 'ion') {
-        // Ion-specific positioning: Start on the left side with space from edge
-        targetX = 20; // 20px from left edge
-        targetY = 100; // Good vertical position
+      if (avatarElement) {
+        const avatarRect = avatarElement.getBoundingClientRect();
+        // Position chat directly below the avatar, centered horizontally
+        targetX = avatarRect.left + (avatarRect.width / 2) - (size.width / 2);
+        targetY = avatarRect.bottom + 10; // 10px gap below avatar
         
-        console.log(`🎯 POSITIONING Ion chat on left: x=${targetX}, y=${targetY}`);
+        // Ensure chat doesn't go off-screen horizontally
+        const maxX = window.innerWidth - size.width - 20;
+        targetX = Math.max(20, Math.min(targetX, maxX));
+        
+        // Ensure chat doesn't go off-screen vertically
+        const maxY = window.innerHeight - size.height - 20;
+        targetY = Math.max(20, Math.min(targetY, maxY));
+        
+        console.log(`🎯 POSITIONING ${avatarId} chat below avatar: x=${targetX}, y=${targetY}`);
       } else {
-        // All other avatars: Center positioning
-        targetX = (window.innerWidth - 280) / 2;
-        targetY = 20;
+        // Fallback: center on screen if avatar not found
+        targetX = (window.innerWidth - size.width) / 2;
+        targetY = 100;
         
-        console.log(`🎯 CENTERING chat window for ${avatarId}: x=${targetX}, y=${targetY}`);
+        console.log(`🎯 FALLBACK positioning for ${avatarId}: x=${targetX}, y=${targetY}`);
       }
       
       // Force immediate position reset
@@ -110,26 +121,36 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, [avatarId]); // Reset every time avatar changes
+  }, [avatarId, size.width, size.height]); // Reset when avatar or size changes
 
-  // Window resize handling with avatar-specific logic
+  // Window resize handling - maintain position below avatar
   useEffect(() => {
     const handleResize = () => {
-      if (avatarId === 'ion') {
-        // Ion: Keep on left but ensure it doesn't exceed viewport
+      // Re-calculate position to keep chat below the avatar
+      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
+      
+      if (avatarElement) {
+        const avatarRect = avatarElement.getBoundingClientRect();
+        let targetX = avatarRect.left + (avatarRect.width / 2) - (size.width / 2);
+        let targetY = avatarRect.bottom + 10;
+        
+        // Boundary checks
         const maxX = window.innerWidth - size.width - 20;
-        const safeX = Math.min(20, maxX);
-        setPosition(prev => ({ x: safeX, y: prev.y }));
-      } else {
-        // Others: Re-center
-        const centeredX = (window.innerWidth - 280) / 2;
-        setPosition(prev => ({ x: centeredX, y: 20 }));
+        const maxY = window.innerHeight - size.height - 20;
+        
+        targetX = Math.max(20, Math.min(targetX, maxX));
+        targetY = Math.max(20, Math.min(targetY, maxY));
+        
+        setPosition({ x: targetX, y: targetY });
       }
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [avatarId, size.width]);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [avatarId, size.width, size.height]);
   
   // The edge function has multilingual personas, so we don't need the hardcoded Spanish ones
   // Complete personas for all 8 avatars with detailed backgrounds

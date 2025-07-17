@@ -8,30 +8,21 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const language = navigator.language.startsWith('es') ? 'es' : 'en';
+    const avatarContainer = document.createElement('div');
+    avatarContainer.id = 'avatar-container';
+    document.body.appendChild(avatarContainer);
 
-    const agentConfig = {
-      es: {
-        name: "María Español",
-        agentId: "v2_agt_JZ4Lnlqs"
-      },
-      en: {
-        name: "María Inglés",
-        agentId: "v2_agt_3CWGZBhD"
-      }
-    };
+    const userLang = navigator.language.startsWith('es') ? 'es' : 'en';
+    const agentId = userLang === 'es'
+      ? 'v2_agt_JZ4Lnlqs'  // María Español
+      : 'v2_agt_3CWGZBhD'; // María Inglés
 
-    const selectedAgent = agentConfig[language] || agentConfig["es"];
-
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "https://agent.d-id.com/v2/index.js";
-    script.setAttribute("data-mode", "full");
-    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
-    script.setAttribute("data-agent-id", selectedAgent.agentId);
-    script.setAttribute("data-name", "did-agent");
-    script.setAttribute("data-monitor", "true");
-    script.setAttribute("data-target-id", "avatar-container");
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://agent.d-id.com/v2/index.js';
+    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
+    script.setAttribute('data-agent-id', agentId);
+    script.setAttribute('data-mode', 'fabio');
 
     document.body.appendChild(script);
   }, []);

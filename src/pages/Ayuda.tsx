@@ -96,13 +96,15 @@ export default function Ayuda() {
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
           <div 
-            id="avatar-container"
+            id="d-id-avatar"
             style={{ 
               minHeight: '400px', 
               width: '100%', 
               maxWidth: '400px',
               position: 'relative',
-              overflow: 'visible'
+              overflow: 'visible',
+              display: 'block',
+              visibility: 'visible'
             }}
           >
             <div className="text-white/60 text-center p-4">

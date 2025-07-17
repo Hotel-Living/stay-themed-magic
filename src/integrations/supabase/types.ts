@@ -1453,6 +1453,10 @@ export type Database = {
         Args: { p_package_id: string; p_rooms_needed: number }
         Returns: boolean
       }
+      check_package_availability_enhanced: {
+        Args: { p_package_id: string; p_rooms_needed: number }
+        Returns: boolean
+      }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1531,7 +1535,15 @@ export type Database = {
         Args: { p_package_id: string; p_rooms_to_reserve: number }
         Returns: boolean
       }
+      reserve_package_rooms_enhanced: {
+        Args: { p_package_id: string; p_rooms_to_reserve: number }
+        Returns: boolean
+      }
       restore_package_availability: {
+        Args: { p_package_id: string; p_rooms_to_restore: number }
+        Returns: boolean
+      }
+      restore_package_availability_enhanced: {
         Args: { p_package_id: string; p_rooms_to_restore: number }
         Returns: boolean
       }

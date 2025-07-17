@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Package, Plus, Edit2, Trash2, AlertTriangle, Info } from "lucide-react";
+import { Calendar, Package, Plus, Edit2, Trash2, AlertTriangle, Info, RefreshCw } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { useAvailabilityPackagesManagement } from "@/hooks/useAvailabilityPackagesManagement";
+import { useRealTimeAvailability } from "@/hooks/useRealTimeAvailability";
+import { useSecurePackageOperations } from "@/hooks/useSecurePackageOperations";
 import { CreatePackageModal } from "./packages/CreatePackageModal";
 import { EditPackageModal } from "./packages/EditPackageModal";
 import { DeletePackageModal } from "./packages/DeletePackageModal";
@@ -20,21 +21,27 @@ export function AvailabilityPackagesContent() {
   const [editingPackage, setEditingPackage] = useState<AvailabilityPackage | null>(null);
   const [deletingPackage, setDeletingPackage] = useState<AvailabilityPackage | null>(null);
 
+  // Use real-time availability and secure operations
   const { 
     packages, 
     isLoading, 
     error, 
-    refetch,
-    createPackage,
-    updatePackage,
-    deletePackage 
-  } = useAvailabilityPackagesManagement();
+    lastUpdated,
+    refreshAvailability 
+  } = useRealTimeAvailability({ hotelId: undefined });
+
+  const {
+    loading: operationLoading,
+    secureCreatePackage,
+    secureUpdatePackage,
+    secureDeletePackage
+  } = useSecurePackageOperations();
 
   const handleCreatePackage = async (packageData: Omit<AvailabilityPackage, 'id' | 'created_at' | 'updated_at'>) => {
     try {
-      await createPackage(packageData);
+      await secureCreatePackage(packageData);
       setIsCreateModalOpen(false);
-      refetch();
+      refreshAvailability();
     } catch (error) {
       console.error('Error creating package:', error);
     }
@@ -44,9 +51,9 @@ export function AvailabilityPackagesContent() {
     if (!editingPackage) return;
     
     try {
-      await updatePackage(editingPackage.id, packageData);
+      await secureUpdatePackage(editingPackage.id, packageData);
       setEditingPackage(null);
-      refetch();
+      refreshAvailability();
     } catch (error) {
       console.error('Error updating package:', error);
     }
@@ -56,9 +63,9 @@ export function AvailabilityPackagesContent() {
     if (!deletingPackage) return;
     
     try {
-      await deletePackage(deletingPackage.id);
+      await secureDeletePackage(deletingPackage.id);
       setDeletingPackage(null);
-      refetch();
+      refreshAvailability();
     } catch (error) {
       console.error('Error deleting package:', error);
     }
@@ -105,7 +112,8 @@ export function AvailabilityPackagesContent() {
           <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-red-200 mb-2">Error Loading Packages</h3>
           <p className="text-red-300/80">{error}</p>
-          <Button onClick={refetch} className="mt-4" variant="outline">
+          <Button onClick={refreshAvailability} className="mt-4" variant="outline">
+            <RefreshCw className="w-4 h-4 mr-2" />
             Try Again
           </Button>
         </div>
@@ -126,6 +134,19 @@ export function AvailabilityPackagesContent() {
         </div>
         
         <div className="flex gap-3">
+          <div className="flex items-center gap-2 text-white/70 text-sm">
+            <span>Last updated: {format(lastUpdated, 'HH:mm:ss')}</span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={refreshAvailability}
+              disabled={isLoading}
+              className="bg-purple-800/30 border-purple-600/50 text-white hover:bg-purple-700/50"
+            >
+              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
+          
           <div className="flex bg-purple-800/30 rounded-lg p-1">
             <Button
               variant={viewMode === 'table' ? 'default' : 'ghost'}
@@ -147,6 +168,7 @@ export function AvailabilityPackagesContent() {
           
           <Button
             onClick={() => setIsCreateModalOpen(true)}
+            disabled={operationLoading}
             className="bg-blue-600 hover:bg-blue-700"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -168,6 +190,8 @@ export function AvailabilityPackagesContent() {
                 <li>• Duration must be 8, 15, 22, or 29 days</li>
                 <li>• Packages with bookings cannot be edited or deleted</li>
                 <li>• Only future packages with no bookings can be deleted</li>
+                <li>• All modifications are secured with validation checks</li>
+                <li>• Real-time updates prevent stale data conflicts</li>
               </ul>
             </div>
           </div>

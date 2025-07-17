@@ -36,15 +36,15 @@ export const useBookingOperations = () => {
       // Calculate rooms from booking (assume 1 room per booking for now)
       const roomsToRestore = 1;
 
-      // Restore package availability atomically if package_id exists
+      // Restore package availability atomically if package_id exists using enhanced function
       if (booking.package_id) {
-        const { data: restoreSuccess } = await supabase.rpc('restore_package_availability', {
+        const { data: restoreSuccess, error: restoreError } = await supabase.rpc('restore_package_availability_enhanced', {
           p_package_id: booking.package_id,
           p_rooms_to_restore: roomsToRestore
         });
 
-        if (!restoreSuccess) {
-          throw new Error('Failed to restore package availability');
+        if (restoreError || !restoreSuccess) {
+          throw new Error(`Failed to restore package availability: ${restoreError?.message || 'Unknown error'}`);
         }
       }
 

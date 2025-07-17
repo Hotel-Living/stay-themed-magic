@@ -2,17 +2,28 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, Package, AlertCircle } from 'lucide-react';
+import { Calendar, Package, AlertCircle, RefreshCw } from 'lucide-react';
 import { AvailabilityPackagesProps, AvailabilityPackage } from '@/types/availability-package';
-import { useAvailabilityPackages } from '@/hooks/useAvailabilityPackages';
+import { useRealTimeAvailability } from '@/hooks/useRealTimeAvailability';
 import { AvailabilityPackageCard } from './AvailabilityPackageCard';
 import { PackageBookingModal } from '@/components/booking/PackageBookingModal';
+import { format } from 'date-fns';
 
 export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, hotelName, pricePerMonth }: AvailabilityPackagesProps) {
   const [currentMonth, setCurrentMonth] = useState(selectedMonth || new Date().toISOString().slice(0, 7));
   const [selectedPackage, setSelectedPackage] = useState<AvailabilityPackage | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { packages, isLoading, error } = useAvailabilityPackages(hotelId, currentMonth);
+  
+  const { 
+    packages, 
+    isLoading, 
+    error, 
+    lastUpdated, 
+    refreshAvailability 
+  } = useRealTimeAvailability({ 
+    hotelId, 
+    selectedMonth: currentMonth 
+  });
 
   const handleReserve = (packageData: AvailabilityPackage) => {
     setSelectedPackage(packageData);
@@ -63,22 +74,37 @@ export function AvailabilityPackages({ hotelId, selectedMonth, onPackageSelect, 
             <h2 className="text-2xl font-bold text-white">Available Stays</h2>
           </div>
           
-          <Select value={currentMonth} onValueChange={setCurrentMonth}>
-            <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600/50 text-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-purple-900 border-purple-600">
-              {getAvailableMonths().map(month => (
-                <SelectItem 
-                  key={month.value} 
-                  value={month.value}
-                  className="text-white hover:bg-purple-800 focus:bg-purple-800"
-                >
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-white/70">
+              Updated: {format(lastUpdated, 'HH:mm')}
+            </span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={refreshAvailability}
+              disabled={isLoading}
+              className="bg-purple-800/50 border-purple-600/50 text-white hover:bg-purple-700/50"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            </Button>
+            
+            <Select value={currentMonth} onValueChange={setCurrentMonth}>
+              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600/50 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-900 border-purple-600">
+                {getAvailableMonths().map(month => (
+                  <SelectItem 
+                    key={month.value} 
+                    value={month.value}
+                    className="text-white hover:bg-purple-800 focus:bg-purple-800"
+                  >
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {isLoading ? (

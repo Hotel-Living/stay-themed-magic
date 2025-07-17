@@ -31,8 +31,8 @@ export const usePackageBookingOperations = () => {
         guestEmail: bookingData.guestEmail
       });
 
-      // Step 1: Check package availability atomically
-      const { data: availabilityCheck, error: availabilityError } = await supabase.rpc('check_package_availability', {
+      // Step 1: Check package availability atomically using enhanced function
+      const { data: availabilityCheck, error: availabilityError } = await supabase.rpc('check_package_availability_enhanced', {
         p_package_id: selectedPackage.id,
         p_rooms_needed: bookingData.roomsToReserve
       });
@@ -45,8 +45,8 @@ export const usePackageBookingOperations = () => {
         throw new Error('The selected rooms are no longer available');
       }
 
-      // Step 2: Reserve the rooms atomically
-      const { data: reservationSuccess, error: reservationError } = await supabase.rpc('reserve_package_rooms', {
+      // Step 2: Reserve the rooms atomically using enhanced function
+      const { data: reservationSuccess, error: reservationError } = await supabase.rpc('reserve_package_rooms_enhanced', {
         p_package_id: selectedPackage.id,
         p_rooms_to_reserve: bookingData.roomsToReserve
       });
@@ -74,10 +74,10 @@ export const usePackageBookingOperations = () => {
         .single();
 
       if (bookingError || !booking) {
-        // Critical: If booking creation fails, restore package availability
+        // Critical: If booking creation fails, restore package availability using enhanced function
         console.error('Booking creation failed, restoring package availability:', bookingError);
         
-        const { error: restoreError } = await supabase.rpc('restore_package_availability', {
+        const { error: restoreError } = await supabase.rpc('restore_package_availability_enhanced', {
           p_package_id: selectedPackage.id,
           p_rooms_to_restore: bookingData.roomsToReserve
         });

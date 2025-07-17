@@ -52,8 +52,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [email, setEmail] = useState("");
   const [emailCaptured, setEmailCaptured] = useState(false);
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null);
-  const [position, setPosition] = useState({ x: 200, y: 100 });
-  const [size, setSize] = useState({ width: 250, height: 280 }); // Corrected width to half as requested
+  // Fixed position as approved - top-right corner
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -74,95 +73,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
     };
   }, [inactivityTimer]);
 
-  // Position reset on every open - centered directly below the avatar
-  useEffect(() => {
-    const forceResetPosition = () => {
-      // Find the specific avatar element using the avatar ID
-      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
-      let targetX, targetY;
-      
-      if (avatarElement) {
-        const avatarRect = avatarElement.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        
-        // Calculate center position below avatar
-        targetX = avatarRect.left + scrollLeft + (avatarRect.width / 2) - (size.width / 2);
-        targetY = avatarRect.bottom + scrollTop + 10; // 10px gap below avatar
-        
-        // Ensure chat doesn't go off-screen horizontally
-        const minX = 10;
-        const maxX = window.innerWidth - size.width - 10;
-        targetX = Math.max(minX, Math.min(targetX, maxX));
-        
-        // Ensure chat doesn't go off-screen vertically
-        const minY = 10;
-        const maxY = window.innerHeight - size.height - 10;
-        targetY = Math.max(minY, Math.min(targetY, maxY));
-        
-        console.log(`🎯 POSITIONING ${avatarId} chat centered below avatar: x=${targetX}, y=${targetY}, avatarRect:`, avatarRect);
-      } else {
-        // Fallback: center on screen if avatar not found
-        targetX = (window.innerWidth - size.width) / 2;
-        targetY = 100;
-        
-        console.log(`🎯 FALLBACK positioning for ${avatarId}: x=${targetX}, y=${targetY}`);
-      }
-      
-      // Force immediate position reset
-      setPosition({ x: targetX, y: targetY });
-    };
-
-    // Force reset immediately on mount/avatar change
-    forceResetPosition();
-    
-    // Additional resets to handle DOM updates and async rendering
-    const timer1 = setTimeout(forceResetPosition, 100);
-    const timer2 = setTimeout(forceResetPosition, 300);
-    const timer3 = setTimeout(forceResetPosition, 500);
-    
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
-  }, [avatarId, size.width, size.height]); // Reset when avatar or size changes
-
-  // Window resize handling - maintain centered position below avatar
-  useEffect(() => {
-    const handleResize = () => {
-      // Re-calculate position to keep chat centered below the avatar
-      const avatarElement = document.querySelector(`[data-avatar-id="${avatarId}"]`);
-      
-      if (avatarElement) {
-        const avatarRect = avatarElement.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        
-        let targetX = avatarRect.left + scrollLeft + (avatarRect.width / 2) - (size.width / 2);
-        let targetY = avatarRect.bottom + scrollTop + 10;
-        
-        // Boundary checks
-        const minX = 10;
-        const maxX = window.innerWidth - size.width - 10;
-        const minY = 10;
-        const maxY = window.innerHeight - size.height - 10;
-        
-        targetX = Math.max(minX, Math.min(targetX, maxX));
-        targetY = Math.max(minY, Math.min(targetY, maxY));
-        
-        setPosition({ x: targetX, y: targetY });
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleResize);
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleResize);
-    };
-  }, [avatarId, size.width, size.height]);
+  // No positioning logic needed - using fixed position
   
   // The edge function has multilingual personas, so we don't need the hardcoded Spanish ones
   // Complete personas for all 8 avatars with detailed backgrounds
@@ -738,147 +649,22 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
     }
   };
 
+  // Dragging disabled for fixed position
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Only start dragging if clicking on the header itself, not buttons
-    if (e.target === e.currentTarget || (e.target as HTMLElement).tagName === 'SPAN') {
-      e.preventDefault();
-      setIsDragging(true);
-      setDragStart({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y
-      });
-    }
+    // Disabled for fixed position
   };
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging) {
-      // Calculate new position
-      let newX = e.clientX - dragStart.x;
-      let newY = e.clientY - dragStart.y;
-      
-      // Boundary checks to keep chat within viewport
-      const maxX = window.innerWidth - size.width;
-      const maxY = window.innerHeight - size.height;
-      
-      newX = Math.max(0, Math.min(newX, maxX));
-      newY = Math.max(0, Math.min(newY, maxY));
-      
-      setPosition({ x: newX, y: newY });
-    }
+    // Disabled for fixed position
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    setIsResizing(false);
+    // Disabled for fixed position
   };
 
+  // Resize disabled for fixed position
   const handleResize = (e: React.MouseEvent, direction: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Validate that the resize event originated from this ChatWindow instance
-    const targetElement = e.currentTarget as HTMLElement;
-    const chatWindowElement = targetElement.closest(`[data-chat-instance="${instanceId.current}"]`);
-    
-    if (!chatWindowElement) {
-      console.log(`🚫 Resize event blocked - not from this ChatWindow instance (${instanceId.current})`);
-      return; // Event didn't originate from this ChatWindow's resize handles
-    }
-    
-    setIsResizing(true);
-    
-    const startMouseX = e.clientX;
-    const startMouseY = e.clientY;
-    const startWidth = size.width;
-    const startHeight = size.height;
-    const startX = position.x;
-    const startY = position.y;
-    
-    // Calculate fixed anchor points for each direction
-    const rightEdge = startX + startWidth;  // This should stay fixed when resizing left
-    const bottomEdge = startY + startHeight; // This should stay fixed when resizing top
-    
-    const handleMouseMoveResize = (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const currentMouseX = e.clientX;
-      const currentMouseY = e.clientY;
-      const deltaX = currentMouseX - startMouseX;
-      const deltaY = currentMouseY - startMouseY;
-      
-      let newWidth = startWidth;
-      let newHeight = startHeight;
-      let newX = startX;
-      let newY = startY;
-      
-      // Handle ONLY the specific direction - no compound movements
-      switch (direction) {
-        case 'left':
-          // Left edge moves, right edge stays at rightEdge
-          newWidth = Math.max(200, startWidth - deltaX);
-          newX = rightEdge - newWidth; // Right edge fixed, calculate left position
-          break;
-          
-        case 'right':
-          // Right edge moves, left edge stays at startX
-          newWidth = Math.max(200, startWidth + deltaX);
-          newX = startX; // Left edge fixed
-          break;
-          
-        case 'top':
-          // Top edge moves, bottom edge stays at bottomEdge
-          newHeight = Math.max(200, startHeight - deltaY);
-          newY = bottomEdge - newHeight; // Bottom edge fixed, calculate top position
-          break;
-          
-        case 'bottom':
-          // Bottom edge moves, top edge stays at startY
-          newHeight = Math.max(200, startHeight + deltaY);
-          newY = startY; // Top edge fixed
-          break;
-          
-        case 'top-left':
-          newHeight = Math.max(200, startHeight - deltaY);
-          newWidth = Math.max(200, startWidth - deltaX);
-          newY = bottomEdge - newHeight;
-          newX = rightEdge - newWidth;
-          break;
-          
-        case 'top-right':
-          newHeight = Math.max(200, startHeight - deltaY);
-          newWidth = Math.max(200, startWidth + deltaX);
-          newY = bottomEdge - newHeight;
-          newX = startX;
-          break;
-          
-        case 'bottom-left':
-          newHeight = Math.max(200, startHeight + deltaY);
-          newWidth = Math.max(200, startWidth - deltaX);
-          newY = startY;
-          newX = rightEdge - newWidth;
-          break;
-          
-        case 'bottom-right':
-          newHeight = Math.max(200, startHeight + deltaY);
-          newWidth = Math.max(200, startWidth + deltaX);
-          newY = startY;
-          newX = startX;
-          break;
-      }
-      
-      setSize({ width: newWidth, height: newHeight });
-      setPosition({ x: newX, y: newY });
-    };
-    
-    const handleMouseUpResize = () => {
-      setIsResizing(false);
-      document.removeEventListener('mousemove', handleMouseMoveResize);
-      document.removeEventListener('mouseup', handleMouseUpResize);
-    };
-    
-    document.addEventListener('mousemove', handleMouseMoveResize, { passive: false });
-    document.addEventListener('mouseup', handleMouseUpResize);
+    // Disabled for fixed position
   };
 
   // Update initial message when language changes - avoid infinite loops
@@ -911,11 +697,11 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
   className="fixed rounded-xl shadow-2xl flex flex-col overflow-hidden z-50 border-2 border-fuchsia-400"
   style={{ 
     backgroundColor: '#561C7B',
-    width: size.width, 
-    height: size.height,
-    left: position.x,
-    top: position.y,
-    cursor: isDragging ? 'grabbing' : 'default'
+    width: '250px', 
+    height: '280px',
+    top: '100px',
+    right: '20px',
+    zIndex: 1000
   }}
 >
       {/* Header - draggable area */}

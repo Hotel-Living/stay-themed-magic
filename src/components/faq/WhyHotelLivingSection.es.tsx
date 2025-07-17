@@ -9,7 +9,6 @@ import { useAvatarManager } from "@/contexts/AvatarManager";
 export function WhyHotelLivingSectionES() {
   const [activeAccordionTab, setActiveAccordionTab] = useState("");
   const [activeTabAvatar, setActiveTabAvatar] = useState<string | null>(null);
-  const [showMessage, setShowMessage] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation('faq');
   const { activeAvatars } = useAvatarManager();
@@ -105,21 +104,12 @@ export function WhyHotelLivingSectionES() {
       const displayAvatars = getDisplayAvatars(value);
       if (displayAvatars.length > 0) {
         setActiveTabAvatar(value);
-        setShowMessage(true);
-        // Hide message after 7 seconds but keep avatar visible
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 7000);
       } else {
         setActiveTabAvatar(null);
       }
     }
   };
 
-  const handleAvatarClose = () => {
-    setActiveTabAvatar(null);
-    setShowMessage(false);
-  };
 
   const getAvatarMessage = (avatarId: string) => {
     const messages: Record<string, string> = {
@@ -189,17 +179,27 @@ export function WhyHotelLivingSectionES() {
                         <span className="text-xs">▼</span>
                       </button>
                       
-                      {/* Show enhanced avatar above the tab when active */}
+                      {/* Show enhanced avatar above the tab when active - using Help page structure */}
                       {showAvatars && displayAvatars.map((avatar) => (
                         <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                          <EnhancedAvatarAssistant
-                            avatarId={avatar.id}
-                            gif={avatar.gif}
-                            position="content"
-                            showMessage={showMessage}
-                            message={getAvatarMessage(avatar.id)}
-                            onClose={handleAvatarClose}
-                          />
+                          <div className="flex flex-col items-center">
+                            {/* Speech bubble above avatar - exactly like Help page */}
+                            <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                              <div className="whitespace-pre-line">{getAvatarMessage(avatar.id)}</div>
+                              {/* Bubble tail pointing down */}
+                              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
+                            </div>
+                            
+                            {/* Avatar using same configuration as Help page */}
+                            <div className="transform scale-150">
+                              <EnhancedAvatarAssistant 
+                                avatarId={avatar.id}
+                                gif={avatar.gif}
+                                position="content"
+                                showMessage={false}
+                              />
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>

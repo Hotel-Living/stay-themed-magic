@@ -47,6 +47,9 @@ verify_jwt = false
 [functions.jotform-hotel-submission]
 verify_jwt = false
 
+[functions.jotform-sync-packages]
+verify_jwt = false
+
 [functions.send-notification]
 verify_jwt = true
 

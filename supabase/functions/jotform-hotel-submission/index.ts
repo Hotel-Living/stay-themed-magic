@@ -116,6 +116,35 @@ Deno.serve(async (req) => {
 
     console.log(`Successfully created hotel: ${hotel.name} (ID: ${hotel.id})`)
 
+    // Process availability packages if provided
+    const packages = parseAvailabilityPackages(submissionData, hotel.id, hotelData)
+    if (packages.length > 0) {
+      console.log(`Processing ${packages.length} availability packages for hotel ${hotel.id}`)
+      
+      for (const packageData of packages) {
+        try {
+          const { error: packageError } = await supabase
+            .from('availability_packages')
+            .insert({
+              hotel_id: hotel.id,
+              start_date: packageData.startDate,
+              end_date: packageData.endDate,
+              duration_days: packageData.durationDays,
+              total_rooms: packageData.totalRooms,
+              available_rooms: packageData.availableRooms
+            })
+
+          if (packageError) {
+            console.error('Error creating availability package:', packageError)
+          } else {
+            console.log(`Created package: ${packageData.startDate} - ${packageData.endDate} (${packageData.durationDays} days, ${packageData.totalRooms} rooms)`)
+          }
+        } catch (error) {
+          console.error('Error processing package:', error)
+        }
+      }
+    }
+
     // Insert hotel themes/affinities if provided
     if (hotelData.themes && hotelData.themes.length > 0) {
       const themeInserts = hotelData.themes.map(themeId => ({
@@ -460,4 +489,225 @@ async function applyFilterMappings(hotelData: any, supabase: any) {
 
   console.log('Applied mappings successfully')
   return mappedData
+}
+
+// Parse availability packages from JotForm submission
+function parseAvailabilityPackages(submission: JotFormSubmission, hotelId: string, hotelData: any) {
+  const packages: any[] = []
+  const answers = submission.answers
+  
+  console.log('Parsing availability packages from JotForm submission')
+
+  // Get check-in weekday preference (default to Monday)
+  let checkInWeekday = 'Monday'
+  
+  // Look for weekday preference field
+  Object.entries(answers).forEach(([qid, answer]) => {
+    const fieldText = answer.text?.toLowerCase() || answer.name?.toLowerCase() || ''
+    const answerValue = Array.isArray(answer.answer) ? answer.answer[0] : answer.answer
+    
+    if (fieldText.includes('día de entrada') || fieldText.includes('check-in day') || 
+        fieldText.includes('weekday') || fieldText.includes('preferred day')) {
+      checkInWeekday = parseWeekday(answerValue || 'Monday')
+    }
+  })
+
+  // Look for package-related fields
+  Object.entries(answers).forEach(([qid, answer]) => {
+    const fieldText = answer.text?.toLowerCase() || answer.name?.toLowerCase() || ''
+    const answerValue = Array.isArray(answer.answer) ? answer.answer : [answer.answer]
+    
+    // Look for package data patterns
+    const packageMatch = fieldText.match(/(paquete|package|bloque|block|disponibilidad)\s*(\d+)/i)
+    if (packageMatch) {
+      const packageNumber = parseInt(packageMatch[2])
+      console.log(`Found package ${packageNumber} field: ${fieldText}`)
+      
+      // Parse package data from answer
+      const packageData = parsePackageFromAnswer(answerValue, packageNumber, checkInWeekday)
+      if (packageData) {
+        packages.push(packageData)
+      }
+    }
+
+    // Look for date range fields that might contain package information
+    if (fieldText.includes('fechas disponibles') || fieldText.includes('available dates') ||
+        fieldText.includes('periodos') || fieldText.includes('periods')) {
+      const parsedPackages = parsePackagesFromDateField(answerValue, checkInWeekday)
+      packages.push(...parsedPackages)
+    }
+
+    // Look for structured package data in specific field formats
+    if (fieldText.includes('disponibilidad') || fieldText.includes('availability')) {
+      const structuredPackages = parseStructuredPackageData(answerValue, checkInWeekday)
+      packages.push(...structuredPackages)
+    }
+  })
+
+  console.log(`Parsed ${packages.length} availability packages`)
+  return packages.slice(0, 10) // Limit to 10 packages as per specification
+}
+
+function parseWeekday(weekdayStr: string): string {
+  const weekdays: { [key: string]: string } = {
+    'lunes': 'Monday', 'monday': 'Monday',
+    'martes': 'Tuesday', 'tuesday': 'Tuesday', 
+    'miércoles': 'Wednesday', 'wednesday': 'Wednesday',
+    'miercoles': 'Wednesday',
+    'jueves': 'Thursday', 'thursday': 'Thursday',
+    'viernes': 'Friday', 'friday': 'Friday',
+    'sábado': 'Saturday', 'saturday': 'Saturday',
+    'sabado': 'Saturday',
+    'domingo': 'Sunday', 'sunday': 'Sunday'
+  }
+  
+  const normalized = weekdayStr.toLowerCase().trim()
+  return weekdays[normalized] || 'Monday'
+}
+
+function parsePackageFromAnswer(answerValues: string[], packageNumber: number, checkInWeekday: string) {
+  if (!answerValues || answerValues.length === 0) return null
+  
+  const packageValue = answerValues[0]
+  
+  // Try to parse structured data (pipe-separated: startDate|duration|rooms)
+  if (packageValue.includes('|')) {
+    const parts = packageValue.split('|')
+    const startDate = parts[0]?.trim()
+    const duration = parseInt(parts[1]?.trim() || '0')
+    const rooms = parseInt(parts[2]?.trim() || '1')
+    
+    if (startDate && isValidDuration(duration)) {
+      return {
+        startDate: formatDate(startDate),
+        endDate: calculateEndDate(startDate, duration),
+        durationDays: duration,
+        totalRooms: rooms,
+        availableRooms: rooms
+      }
+    }
+  }
+  
+  // Try to parse as JSON
+  try {
+    const packageData = JSON.parse(packageValue)
+    if (packageData.startDate && packageData.duration && packageData.rooms) {
+      const duration = parseInt(packageData.duration)
+      if (isValidDuration(duration)) {
+        return {
+          startDate: formatDate(packageData.startDate),
+          endDate: calculateEndDate(packageData.startDate, duration),
+          durationDays: duration,
+          totalRooms: parseInt(packageData.rooms) || 1,
+          availableRooms: parseInt(packageData.rooms) || 1
+        }
+      }
+    }
+  } catch (e) {
+    // Not JSON, continue with other parsing methods
+  }
+  
+  return null
+}
+
+function parsePackagesFromDateField(answerValues: string[], checkInWeekday: string) {
+  const packages: any[] = []
+  
+  for (const value of answerValues) {
+    // Look for date ranges like "2024-06-01 to 2024-06-15 (15 days, 3 rooms)"
+    const rangeMatch = value.match(/(\d{4}-\d{2}-\d{2})\s*to\s*(\d{4}-\d{2}-\d{2})\s*\((\d+)\s*days?,\s*(\d+)\s*rooms?\)/i)
+    if (rangeMatch) {
+      const [, startDate, endDate, durationStr, roomsStr] = rangeMatch
+      const duration = parseInt(durationStr)
+      const rooms = parseInt(roomsStr)
+      
+      if (isValidDuration(duration)) {
+        packages.push({
+          startDate: formatDate(startDate),
+          endDate: formatDate(endDate),
+          durationDays: duration,
+          totalRooms: rooms,
+          availableRooms: rooms
+        })
+      }
+    }
+  }
+  
+  return packages
+}
+
+function parseStructuredPackageData(answerValues: string[], checkInWeekday: string) {
+  const packages: any[] = []
+  
+  for (const value of answerValues) {
+    // Try to parse multiple packages from a single field
+    // Format: "Package1:2024-06-01,15,3;Package2:2024-07-01,22,2"
+    if (value.includes(';')) {
+      const packageStrings = value.split(';')
+      
+      for (const packageStr of packageStrings) {
+        const colonIndex = packageStr.indexOf(':')
+        if (colonIndex > 0) {
+          const packageData = packageStr.substring(colonIndex + 1)
+          const parts = packageData.split(',')
+          
+          if (parts.length >= 3) {
+            const startDate = parts[0]?.trim()
+            const duration = parseInt(parts[1]?.trim() || '0')
+            const rooms = parseInt(parts[2]?.trim() || '1')
+            
+            if (startDate && isValidDuration(duration)) {
+              packages.push({
+                startDate: formatDate(startDate),
+                endDate: calculateEndDate(startDate, duration),
+                durationDays: duration,
+                totalRooms: rooms,
+                availableRooms: rooms
+              })
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  return packages
+}
+
+function isValidDuration(duration: number): boolean {
+  return [8, 15, 22, 29].includes(duration)
+}
+
+function formatDate(dateStr: string): string {
+  // Handle different date formats and convert to YYYY-MM-DD
+  const formats = [
+    /(\d{4})-(\d{2})-(\d{2})/, // YYYY-MM-DD
+    /(\d{2})\/(\d{2})\/(\d{4})/, // MM/DD/YYYY
+    /(\d{2})-(\d{2})-(\d{4})/, // MM-DD-YYYY
+  ]
+  
+  for (const format of formats) {
+    const match = dateStr.match(format)
+    if (match) {
+      if (format === formats[0]) {
+        // YYYY-MM-DD format
+        return dateStr
+      } else {
+        // Convert to YYYY-MM-DD
+        const [, part1, part2, year] = match
+        const month = part1.padStart(2, '0')
+        const day = part2.padStart(2, '0')
+        return `${year}-${month}-${day}`
+      }
+    }
+  }
+  
+  return dateStr // Return as-is if no pattern matches
+}
+
+function calculateEndDate(startDate: string, durationDays: number): string {
+  const start = new Date(startDate)
+  const end = new Date(start)
+  end.setDate(start.getDate() + durationDays - 1)
+  return end.toISOString().split('T')[0]
 }

@@ -10,12 +10,12 @@ export function HotelNewAccordionMenuES() {
   return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 py-[15px] my-[55px] px-[12px] bg-[#c1a0ff]">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         <AccordionItem value="los-beneficios" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               1 - LOS BENEFICIOS
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <Accordion type="single" collapsible className="w-full space-y-2">
               <AccordionItem value="ocupacion-100" className="border-b border-[#FFF9B0]/20">
                 <AccordionTrigger className="text-[#FFF9B0] font-semibold text-sm py-2">
@@ -67,12 +67,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="comparar-sistemas" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               2 - COMPARAR SISTEMAS
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h4 className="text-[#FFF9B0] font-bold text-lg mb-4">MODELO TRADICIONAL</h4>
@@ -109,12 +109,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="no-solo-llenamos" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               3 - NO SOLO LLENAMOS HABITACIONES
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• Personas agrupadas por afinidades</p>
               <p>• Cero azar. 100% conexiones</p>
@@ -125,12 +125,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="cuanto-beneficio" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               4 - ¿CUÁNTO BENEFICIO SE ESTÁ PERDIENDO?
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <Accordion type="single" collapsible className="w-full space-y-2">
               <AccordionItem value="hoteles-occidentales" className="border-b border-[#FFF9B0]/20">
                 <AccordionTrigger className="text-[#FFF9B0] font-semibold text-sm py-2">
@@ -170,12 +170,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="hoteles-afinidades" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               5 - ¿QUÉ SON LOS HOTELES POR AFINIDADES?
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-6 text-[#FFF9B0] text-sm">
               <div>
                 <h4 className="font-semibold mb-2">Ejemplo 1</h4>
@@ -201,12 +201,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="nuestra-tecnologia" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               6 - NUESTRA TECNOLOGÍA HACE LO QUE NINGUNA PUEDE
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• Conecta personas con intereses compartidos</p>
               <p>• Coordina entradas y salidas para cero huecos</p>
@@ -221,12 +221,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="redes-sociales" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               7 - HOTELES POR AFINIDADES = REDES SOCIALES PERFECTAS
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• Los intereses compartidos crean conexiones instantáneas</p>
               <p>• La psicología grupal impulsa estancias más largas y visitas de retorno</p>
@@ -237,12 +237,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="ellos-necesitan" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               8 - ELLOS NECESITAN SU HOTEL
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-6 text-[#FFF9B0] text-sm">
               <div>
                 <p className="font-semibold mb-3">PORQUE EL 40% DE LA POBLACIÓN OCCIDENTAL:</p>
@@ -290,12 +290,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="nueva-revolucion" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               9 - LAS AFINIDADES SON LA NUEVA REVOLUCIÓN SOCIAL
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• Los huéspedes no solo quieren habitaciones: quieren sentido</p>
               <p>• Los intereses conectan más rápido que los descuentos</p>
@@ -310,12 +310,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="integracion-perfecta" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               10 - SOMOS INTEGRACIÓN PERFECTA
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• No tiene que elegir entre sistemas</p>
               <p>• Combine ambos modelos como desee</p>
@@ -332,12 +332,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="pasos-unirse" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               11 - PASOS PARA UNIRSE A HOTEL-LIVING
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-3 text-[#FFF9B0] text-sm">
               <p>• Identifique habitaciones vacías (mínimo 8 días)</p>
               <p>• Defina un concepto basado en afinidades</p>
@@ -348,12 +348,12 @@ export function HotelNewAccordionMenuES() {
         </AccordionItem>
         
         <AccordionItem value="calculadora" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               12 - {t('calculator.title')}
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+          <AccordionContent className="px-6 py-4 bg-[#6804A3]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#9861FF]/50">
             <div className="space-y-6 text-left py-6">
               <div className="space-y-4 text-[#FFF9B0] text-sm whitespace-pre-line">
                 {t('calculator.text')}

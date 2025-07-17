@@ -19,7 +19,8 @@ export function IndexPageFilters({
     }
     return null;
   };
-  return <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 py-0 my-[8px] px-[8px]">
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-2">
       {/* COUNTRY */}
       <div className="min-w-0">
         <CountryFilter activeCountry={activeFilters.country} onChange={value => onFilterChange('country', value)} />
@@ -39,5 +40,6 @@ export function IndexPageFilters({
       <div className="min-w-0">
         <PriceRangeFilter activePrice={getPriceValue()} onChange={value => onFilterChange('priceRange', value)} />
       </div>
-    </div>;
+    </div>
+  );
 }

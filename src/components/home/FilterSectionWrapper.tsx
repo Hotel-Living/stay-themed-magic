@@ -101,24 +101,24 @@ export function FilterSectionWrapper({
     console.log("Has filters:", hasFilters);
     navigate(finalUrl);
   };
-  return <section className="py-0 px-2 mb-20 mt-4 w-full">
+  return (
+    <section className="py-0 px-2 mb-12 mt-2 w-full">
       <div className="container max-w-3xl mx-auto">
-        <div style={{
-        backgroundColor: "#996515"
-      }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
+        <div style={{ backgroundColor: "#996515" }} className="rounded-lg shadow-lg border-2 border-fuchsia-400/80 overflow-hidden">
           <IndexPageFilters activeFilters={activeFilters} onFilterChange={handleIndividualFilterChange} />
-          
-          <div className="flex justify-center" style={{
-          backgroundColor: "#996515"
-        }}>
-            <Button size="sm" onClick={handleSearch} style={{
-            backgroundColor: "#996515"
-          }} className="text-white w-full max-w-6xl flex items-center justify-center font-bold border-t-2 border-fuchsia-400/70 bg-[#996515] py-0">
-              <Search className="w-4 h-4 mr-2" />
-              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('filters.search')}</span>
-            </Button>
-          </div>
+          <Button
+            size="sm"
+            onClick={handleSearch}
+            style={{ backgroundColor: "#996515" }}
+            className="text-white w-full flex items-center justify-center font-bold border-t border-fuchsia-400/70 rounded-none h-10"
+          >
+            <Search className="w-4 h-4 mr-2" />
+            <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>
+              {t('filters.search')}
+            </span>
+          </Button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 }

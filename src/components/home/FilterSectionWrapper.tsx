@@ -116,11 +116,11 @@ export function FilterSectionWrapper({
     navigate(finalUrl);
   };
 
-  return <section className="py-0 px-2 mb-20 mt-4 w-full">
+  return <section className="py-0 px-2 mb-16 mt-2 w-full">
       <div className="container max-w-3xl mx-auto">
         <div style={{
         backgroundColor: "#996515"
-      }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
+      }} className="rounded-lg p-0.5 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
           <IndexPageFilters 
             activeFilters={activeFilters} 
             onFilterChange={handleIndividualFilterChange} 
@@ -131,7 +131,7 @@ export function FilterSectionWrapper({
         }}>
             <Button size="sm" onClick={handleSearch} style={{
             backgroundColor: "#996515"
-          }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
+          }} className="text-white w-full max-w-6xl flex items-center justify-center py-1 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
               <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('filters.search')}</span>
             </Button>

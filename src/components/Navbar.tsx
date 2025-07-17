@@ -46,25 +46,25 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/faq" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/faq" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.faq.line1')}</div>
               <div>{t('mainNavigationContent.faq.line2')}</div>
             </div>
           </Link>
-          <Link to="/affinity-stays" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/affinity-stays" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.affinityStays.line1')}</div>
               <div>{t('mainNavigationContent.affinityStays.line2')}</div>
             </div>
           </Link>
-          <Link to="/videos" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/videos" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.videos.line1')}</div>
               <div>{t('mainNavigationContent.videos.line2')}</div>
             </div>
           </Link>
-          <Link to="/ambassador" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/ambassador" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.ambassador.line1')}</div>
               <div>{t('mainNavigationContent.ambassador.line2')}</div>
@@ -73,13 +73,13 @@ export function Navbar() {
           
           {!user ? (
             <>
-              <Link to="/signup" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+              <Link to="/signup" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
                 <div className="text-center">
                   <div>{t('mainNavigationContent.signup.line1')}</div>
                   <div>{t('mainNavigationContent.signup.line2')}</div>
                 </div>
               </Link>
-              <Link to="/login" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+              <Link to="/login" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
                 <div className="text-center">
                   <div>{t('mainNavigationContent.login.line1')}</div>
                   <div>{t('mainNavigationContent.login.line2')}</div>
@@ -111,14 +111,14 @@ export function Navbar() {
             </div>
           )}
           
-          <Link to="/hotels" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/hotels" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.hotel.line1')}</div>
               <div>{t('mainNavigationContent.hotel.line2')}</div>
             </div>
           </Link>
           
-          <Link to="/press" className="text-white hover:text-white/80 transition-colors font-bold text-sm leading-tight">
+          <Link to="/press" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.press.line1')}</div>
               <div>{t('mainNavigationContent.press.line2')}</div>

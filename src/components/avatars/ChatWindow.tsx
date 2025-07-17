@@ -59,7 +59,7 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
   const [resizeDirection, setResizeDirection] = useState<string>('');
   const [position, setPosition] = useState({
     top: 100,
-    left: Math.max(0, Math.min(window.innerWidth - 270, window.innerWidth - 250)), // Ensure within viewport
+    left: Math.max(20, Math.min(window.innerWidth - 270, window.innerWidth - 270)), // 20px margin from edges
     width: 250,
     height: 280
   });
@@ -120,8 +120,8 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       
       setPosition(prev => ({
         ...prev,
-        top: Math.max(0, Math.min(newTop, window.innerHeight - prev.height)),
-        left: Math.max(0, Math.min(newLeft, window.innerWidth - prev.width))
+        top: Math.max(20, Math.min(newTop, window.innerHeight - prev.height - 20)),
+        left: Math.max(20, Math.min(newLeft, window.innerWidth - prev.width - 20))
       }));
     } else if (isResizing) {
       const deltaX = e.clientX - resizeStart.x;
@@ -130,24 +130,24 @@ export default function ChatWindow({ activeAvatar, onClose, avatarId }: ChatWind
       let newPosition = { ...position };
       
       if (resizeDirection.includes('right')) {
-        const maxWidth = window.innerWidth - newPosition.left;
+        const maxWidth = window.innerWidth - newPosition.left - 20; // 20px margin
         newPosition.width = Math.max(200, Math.min(resizeStart.startWidth + deltaX, maxWidth));
       }
       if (resizeDirection.includes('left')) {
         const newWidth = Math.max(200, resizeStart.startWidth - deltaX);
         const maxWidth = resizeStart.startLeft + resizeStart.startWidth;
         newPosition.width = Math.min(newWidth, maxWidth);
-        newPosition.left = Math.max(0, resizeStart.startLeft + (resizeStart.startWidth - newPosition.width));
+        newPosition.left = Math.max(20, resizeStart.startLeft + (resizeStart.startWidth - newPosition.width));
       }
       if (resizeDirection.includes('bottom')) {
-        const maxHeight = window.innerHeight - newPosition.top;
+        const maxHeight = window.innerHeight - newPosition.top - 20; // 20px margin
         newPosition.height = Math.max(200, Math.min(resizeStart.startHeight + deltaY, maxHeight));
       }
       if (resizeDirection.includes('top')) {
         const newHeight = Math.max(200, resizeStart.startHeight - deltaY);
         const maxHeight = resizeStart.startTop + resizeStart.startHeight;
         newPosition.height = Math.min(newHeight, maxHeight);
-        newPosition.top = Math.max(0, resizeStart.startTop + (resizeStart.startHeight - newPosition.height));
+        newPosition.top = Math.max(20, resizeStart.startTop + (resizeStart.startHeight - newPosition.height));
       }
       
       setPosition(newPosition);

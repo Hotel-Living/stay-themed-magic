@@ -42,30 +42,59 @@
 
   html, body {
     @apply overflow-x-hidden max-w-[100vw];
+    box-sizing: border-box;
   }
 
   #root {
     @apply overflow-x-hidden max-w-[100vw];
+    box-sizing: border-box;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
+    width: 100%;
+    max-width: 100vw;
   }
 
-  /* Ensure all containers respect viewport boundaries */
-  .container {
+  /* Enhanced container constraints */
+  * {
+    box-sizing: border-box;
+    max-width: 100vw;
+  }
+
+  /* Comprehensive overflow prevention */
+  .container,
+  main,
+  section,
+  div[class*="flex"],
+  div[class*="grid"] {
     @apply max-w-[100vw] overflow-x-hidden;
+    box-sizing: border-box;
   }
 
-  /* Constrain all positioned elements within viewport */
+  /* Constrain all positioned elements within viewport with margin */
   [style*="position: fixed"],
   [style*="position: absolute"] {
-    max-width: 100vw !important;
+    max-width: calc(100vw - 20px) !important;
+    left: clamp(10px, var(--left, 0px), calc(100vw - var(--width, 250px) - 10px)) !important;
   }
 
-  /* Ensure all main content areas respect viewport */
-  main {
+  /* React Router containers */
+  div[data-testid],
+  .router-container,
+  .page-container {
     @apply max-w-[100vw] overflow-x-hidden;
+  }
+
+  /* Ensure tables and wide content are responsive */
+  table {
+    @apply max-w-full overflow-x-auto;
+  }
+
+  /* Prevent images and media from overflowing */
+  img, video, iframe {
+    max-width: 100%;
+    height: auto;
   }
 }

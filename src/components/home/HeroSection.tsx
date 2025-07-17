@@ -1,21 +1,15 @@
-
-
-
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
-
 export function HeroSection() {
   const isMobile = useIsMobile();
-  const { t, language } = useTranslation('home');
+  const {
+    t,
+    language
+  } = useTranslation('home');
 
   // Common slogans data to avoid duplication
-  const slogans = [
-    t('heroSection.slogans.getRidOfChores'),
-    t('heroSection.slogans.selectHotelsByThemes'),
-    t('heroSection.slogans.boostSocialLife'),
-    t('heroSection.slogans.meetLikeMinded')
-  ];
+  const slogans = [t('heroSection.slogans.getRidOfChores'), t('heroSection.slogans.selectHotelsByThemes'), t('heroSection.slogans.boostSocialLife'), t('heroSection.slogans.meetLikeMinded')];
 
   // Render a single slogan item consistently
   const renderSlogan = (slogan: string, index: number) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{
@@ -31,7 +25,6 @@ export function HeroSection() {
         {slogan}
       </p>
     </div>;
-
   return <section className="py-0 px-4 overflow-hidden pt-3 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
@@ -51,15 +44,15 @@ export function HeroSection() {
           
           {/* LIVE IN HOTELS with blue glow effect only - updated to #006EF5 */}
           <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-2 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
-          }}>
+          filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
+        }}>
             {t('heroSection.liveInHotels')}
           </h1>
 
           {/* Boost Your Life! with 30% reduced size and updated color to #FFF7BD */}
           <h2 className={`${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFF7BD] via-[#FFF7BD] to-[#FFF7BD] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(255, 247, 189, 0.8)) drop-shadow(0 0 20px rgba(255, 247, 189, 0.6)) drop-shadow(0 0 30px rgba(255, 247, 189, 0.4))'
-          }}>
+          filter: 'drop-shadow(0 0 10px rgba(255, 247, 189, 0.8)) drop-shadow(0 0 20px rgba(255, 247, 189, 0.6)) drop-shadow(0 0 30px rgba(255, 247, 189, 0.4))'
+        }}>
             {t('heroSection.boostYourLife')}
           </h2>
         </div>
@@ -72,12 +65,11 @@ export function HeroSection() {
           {/* Purple background */}
           <div className="relative bg-[#8017B0] rounded-lg">
             {/* For mobile: render all slogans in a single column */}
-            {isMobile ? <div className="py-2.5 pl-0">
+            {isMobile ? <div className="pl-0 py-[6px] px-[8px]">
                 {slogans.map(renderSlogan)}
               </div> :
           // For desktop: Special layout for Spanish, English, Portuguese, and Romanian (2x2) vs other languages (2 columns with first 2 and last 2)
-          ['es', 'en', 'pt', 'ro'].includes(language) ? 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
+          ['es', 'en', 'pt', 'ro'].includes(language) ? <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
               <div className="space-y-0.125 py-1.5">
                 {renderSlogan(slogans[0], 0)}
                 {renderSlogan(slogans[2], 2)}
@@ -86,9 +78,7 @@ export function HeroSection() {
                 {renderSlogan(slogans[1], 1)}
                 {renderSlogan(slogans[3], 3)}
               </div>
-            </div>
-          :
-            <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
+            </div> : <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
               <div className="space-y-0.125 py-1.5">
                 {slogans.slice(0, 2).map(renderSlogan)}
               </div>
@@ -101,5 +91,3 @@ export function HeroSection() {
       </div>
     </section>;
 }
-
-

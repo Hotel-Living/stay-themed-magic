@@ -8,33 +8,29 @@ export default function Ayuda() {
   const { t, i18n } = useTranslation('home');
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "https://agent.d-id.com/v2/index.js";
-    script.setAttribute("data-mode", "fabio");
-    script.setAttribute("data-client-key", "YXV0aDB8Njg3MDc0MTcxYWMxODNkNTgzZDliNWNiOmZFamJkRm1kZnpzQUEzUWlpdTBxcA==");
+    const language = i18n.language || navigator.language;
 
-    // Language detection
-    const userLang = navigator.language || (navigator as any).userLanguage;
-    const isSpanish = userLang.toLowerCase().startsWith("es");
+    let agentId;
+    if (language.startsWith('es')) {
+      agentId = 'v2_agt_JZ4Lnlqs'; // Spanish María
+    } else if (language.startsWith('en')) {
+      agentId = 'v2_agt_20pNgPtt'; // English María
+    }
 
-    // Set agent ID based on language
-    const agentId = isSpanish
-      ? "v2_agt_JZ4Lnlqs" // María Español
-      : "v2_agt_3CWGZBhD"; // María Inglés
-
-    script.setAttribute("data-agent-id", agentId);
-    script.setAttribute("data-name", "did-agent");
-    script.setAttribute("data-monitor", "true");
-    script.setAttribute("data-orientation", "horizontal");
-    script.setAttribute("data-position", "right");
-
-    document.body.appendChild(script);
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://agent.d-id.com/v2/index.js';
+    script.setAttribute('data-client-key', 'YXV0aDB8Njg3MDc0MTcxYWMxODNkNT');
+    script.setAttribute('data-agent-id', agentId);
+    script.setAttribute('data-mode', 'fabio');
+    document.head.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
-  }, []);
+  }, [i18n.language]);
 
   const avatarsData = [
     {

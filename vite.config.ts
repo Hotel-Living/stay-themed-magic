@@ -11,7 +11,8 @@ export default defineConfig(async ({ mode }) => {
   const isCI = process.env.CI === 'true';
 
   const plugins = [
-    react()
+    react(),
+    mode === 'development' && componentTagger(),
   ];
 
   if (!isCI) {

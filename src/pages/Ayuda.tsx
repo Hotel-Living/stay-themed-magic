@@ -128,7 +128,7 @@ export default function Ayuda() {
         {/* Top Section - Main Avatar */}
         <div className="flex flex-col items-center mb-12">
           <div 
-            id="d-id-avatar"
+            id="did-avatar-container"
             style={{ 
               minHeight: '400px', 
               width: '100%', 
@@ -154,11 +154,15 @@ export default function Ayuda() {
               </div>
             ) : null}
           </div>
-          <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3">
-            <p className="text-center text-white text-lg font-semibold">
-              {t('helpAssistant.mainMessage')}
-            </p>
-          </div>
+          
+          {/* Show fallback message only when avatar fails to load */}
+          {avatarError && (
+            <div style={{ backgroundColor: '#581972' }} className="rounded-lg px-6 py-3 mt-4">
+              <p className="text-center text-white text-lg font-semibold">
+                {t('helpAssistant.mainMessage')}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Main Section - Avatar Group */}

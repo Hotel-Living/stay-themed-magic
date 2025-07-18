@@ -4,19 +4,17 @@ import { Toaster } from 'sonner';
 
 import Index from '@/pages/Index';
 import Search from '@/pages/Search';
-import Hotel from '@/pages/Hotel';
-import Blog from '@/pages/Blog';
-import Article from '@/pages/Article';
+import HotelDetail from '@/pages/HotelDetail';
 import Contact from '@/pages/Contact';
 import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
-import About from '@/pages/About';
+import AboutUs from '@/pages/AboutUs';
 import NotFound from '@/pages/NotFound';
 import { GlobalTestimonials } from '@/components/testimonials/GlobalTestimonials';
 import { GlobalEnglishTestimonials } from '@/components/testimonials/GlobalEnglishTestimonials';
 import { VideoTestimonialProvider } from '@/contexts/VideoTestimonialContext';
 import { EnglishVideoTestimonialProvider } from '@/contexts/EnglishVideoTestimonialContext';
-import { AvatarProvider } from '@/contexts/AvatarManager';
+import { AvatarManagerProvider } from '@/contexts/AvatarManager';
 
 function App() {
   const queryClient = new QueryClient({
@@ -34,17 +32,15 @@ function App() {
         <Toaster />
         <VideoTestimonialProvider>
           <EnglishVideoTestimonialProvider>
-            <AvatarProvider>
+            <AvatarManagerProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/hotel/:hotelId" element={<Hotel />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/article/:articleId" element={<Article />} />
+                <Route path="/hotel/:hotelId" element={<HotelDetail />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
-                <Route path="/about" element={<About />} />
+                <Route path="/about" element={<AboutUs />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               
@@ -53,7 +49,7 @@ function App() {
               
               {/* English Video Testimonials (new system) */}
               <GlobalEnglishTestimonials />
-            </AvatarProvider>
+            </AvatarManagerProvider>
           </EnglishVideoTestimonialProvider>
         </VideoTestimonialProvider>
       </BrowserRouter>

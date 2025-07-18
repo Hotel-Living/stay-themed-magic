@@ -35,13 +35,6 @@ export function GlobalVideoTestimonials() {
     } else {
       setCurrentVideo(testimonialVideos[0]);
     }
-
-    // Auto-hide after 30 seconds
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 30000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -91,12 +84,12 @@ export function GlobalVideoTestimonials() {
         ref={videoRef}
         autoPlay
         muted
-        loop
         playsInline
         preload="auto"
         onLoadStart={() => console.log('Video loading started:', currentVideo.videoUrl)}
         onCanPlay={() => console.log('Video can play')}
         onError={(e) => console.error('Video error:', e)}
+        onEnded={() => setIsVisible(false)}
         className="w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
         style={{
           objectFit: 'cover',

@@ -1,6 +1,6 @@
 
 import { useLocation } from 'react-router-dom';
-import { SpanishVideoTestimonials } from './SpanishVideoTestimonials';
+import { GlobalVideoTestimonials } from './GlobalVideoTestimonials';
 
 export function GlobalTestimonials() {
   const location = useLocation();
@@ -10,5 +10,5 @@ export function GlobalTestimonials() {
     return null;
   }
   
-  return <SpanishVideoTestimonials />;
+  return <GlobalVideoTestimonials />;
 }

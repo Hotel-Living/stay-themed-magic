@@ -11,28 +11,50 @@ interface VideoTestimonial {
   description: string;
 }
 
-const videoTestimonials: VideoTestimonial[] = [
-  {
-    id: '1',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    title: 'María José - Jubilada',
-    description: 'Testimonial de cliente satisfecha'
-  },
-  {
-    id: '2', 
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    title: 'Carlos - Empresario',
-    description: 'Experiencia con AffinityStays'
-  },
-  {
-    id: '3',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 
-    title: 'Ana - Profesora',
-    description: 'Recomendación personal'
-  }
-];
+const videoTestimonials = {
+  es: [
+    {
+      id: 'es-1',
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      title: 'María José - Jubilada',
+      description: 'Testimonial de cliente satisfecha'
+    },
+    {
+      id: 'es-2', 
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+      title: 'Carlos - Empresario',
+      description: 'Experiencia con AffinityStays'
+    },
+    {
+      id: 'es-3',
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 
+      title: 'Ana - Profesora',
+      description: 'Recomendación personal'
+    }
+  ],
+  en: [
+    {
+      id: 'en-1',
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      title: 'John - Retired',
+      description: 'Satisfied customer testimonial'
+    },
+    {
+      id: 'en-2',
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+      title: 'Sarah - Business Owner',
+      description: 'AffinityStays experience'
+    },
+    {
+      id: 'en-3',
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+      title: 'Michael - Teacher',
+      description: 'Personal recommendation'
+    }
+  ]
+};
 
-export function SpanishVideoTestimonials() {
+export function GlobalVideoTestimonials() {
   const { i18n } = useTranslation();
   const {
     isVisible,
@@ -47,9 +69,9 @@ export function SpanishVideoTestimonials() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Show video immediately for Spanish users, then every 2 minutes
+  // Show video immediately for all supported languages, then every 2 minutes
   useEffect(() => {
-    if (i18n.language === 'es') {
+    if (i18n.language === 'es' || i18n.language === 'en') {
       // Show immediately on page load
       if (!hasStarted) {
         setIsVisible(true);
@@ -57,7 +79,8 @@ export function SpanishVideoTestimonials() {
         
         // Set up interval for subsequent videos (every 2 minutes)
         intervalRef.current = setInterval(() => {
-          const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
+          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+          const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
           setCurrentVideoIndex(nextIndex);
           setIsVisible(true);
           setIsMuted(true); // Reset to muted for each new video
@@ -87,12 +110,13 @@ export function SpanishVideoTestimonials() {
     setIsMuted(!isMuted);
   };
 
-  // Don't render if not Spanish or not visible
-  if (i18n.language !== 'es' || !isVisible) {
+  // Don't render if language not supported or not visible
+  if ((i18n.language !== 'es' && i18n.language !== 'en') || !isVisible) {
     return null;
   }
 
-  const currentVideo = videoTestimonials[currentVideoIndex];
+  const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+  const currentVideo = currentLangVideos[currentVideoIndex];
 
   return (
     <div className="fixed bottom-4 left-4 z-50 w-80 h-48 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30">
@@ -127,7 +151,8 @@ export function SpanishVideoTestimonials() {
         onError={(e) => {
           console.error('Error loading video:', currentVideo.url, e);
           // Try next video on error
-          const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
+          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+          const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
           setCurrentVideoIndex(nextIndex);
         }}
         onLoadStart={() => {

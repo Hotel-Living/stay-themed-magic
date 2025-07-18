@@ -42,6 +42,10 @@ export function GlobalVideoTestimonials() {
       setCurrentVideo(testimonialVideos[0]);
       console.log('GlobalVideoTestimonials - Using fallback video:', testimonialVideos[0]);
     }
+    
+    // Start showing loading immediately
+    setIsLoading(true);
+    setHasError(false);
   }, []);
 
   useEffect(() => {
@@ -88,16 +92,24 @@ export function GlobalVideoTestimonials() {
     setIsVisible(false);
   };
 
-  // Test if we should show anything at all
-  if (!currentVideo || hasError) {
+  // Don't show anything if no video selected
+  if (!currentVideo) {
+    console.log('GlobalVideoTestimonials - No video selected, hiding');
     return null;
   }
 
-  // Show loading state
-  if (isLoading && !isVisible) {
+  // Hide completely if there's an error
+  if (hasError) {
+    console.log('GlobalVideoTestimonials - Video error, hiding component');
+    return null;
+  }
+
+  // Always show loading state first
+  if (isLoading) {
+    console.log('GlobalVideoTestimonials - Showing loading state');
     return (
       <div 
-        className="testimonial-video-container w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] flex items-center justify-center bg-black/80"
+        className="fixed bottom-6 left-6 z-50 w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] flex items-center justify-center bg-black/80 rounded-lg"
         style={{
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
         }}
@@ -112,9 +124,10 @@ export function GlobalVideoTestimonials() {
     return null;
   }
 
+  console.log('GlobalVideoTestimonials - Rendering video');
   return (
     <div 
-      className="testimonial-video-container w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
+      className="fixed bottom-6 left-6 z-50 w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] rounded-lg overflow-hidden bg-black"
       style={{
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       }}
@@ -137,15 +150,7 @@ export function GlobalVideoTestimonials() {
         onCanPlay={handleVideoLoad}
         onError={handleVideoError}
         onEnded={handleVideoEnd}
-        className="w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
-        style={{
-          objectFit: 'cover',
-          display: 'block',
-          pointerEvents: 'none',
-          position: 'absolute',
-          top: 0,
-          left: 0
-        }}
+        className="w-full h-full object-cover"
       >
         <source src={currentVideo.videoUrl} type="video/mp4" />
         Your browser does not support the video tag.

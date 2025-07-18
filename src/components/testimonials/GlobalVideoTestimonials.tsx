@@ -23,26 +23,27 @@ export function GlobalVideoTestimonials() {
     }
   }, []);
 
+  // Updated Spanish video URLs to match actual Supabase filenames
   const testimonials = [
     {
       id: 'testimonio1',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio-one.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio1.webm'
     },
     {
       id: 'testimonio2',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio-two.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio2.webm'
     },
     {
       id: 'testimonio3',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio-three.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio3.webm'
     },
     {
       id: 'testimonio4',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio-four.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio4.webm'
     },
     {
       id: 'testimonio5',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio-five.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoespanol/testimonio5.webm'
     }
   ];
 
@@ -52,9 +53,11 @@ export function GlobalVideoTestimonials() {
     const playCurrentVideo = async () => {
       if (videoRef.current) {
         try {
+          console.log('Attempting to play Spanish video:', testimonials[currentVideoIndex].src);
           await videoRef.current.play();
+          console.log('Spanish video playing successfully');
         } catch (error) {
-          console.log('Video autoplay prevented:', error);
+          console.error('Spanish video autoplay prevented:', error);
         }
       }
     };
@@ -119,6 +122,16 @@ export function GlobalVideoTestimonials() {
           muted
           playsInline
           preload="auto"
+          onError={(e) => {
+            console.error('Spanish video loading error:', e);
+            console.error('Failed video URL:', testimonials[currentVideoIndex].src);
+          }}
+          onLoadStart={() => {
+            console.log('Spanish video loading started:', testimonials[currentVideoIndex].src);
+          }}
+          onCanPlay={() => {
+            console.log('Spanish video can play:', testimonials[currentVideoIndex].src);
+          }}
         />
       </div>
     </div>

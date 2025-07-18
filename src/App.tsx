@@ -15,6 +15,7 @@ import { GlobalEnglishTestimonials } from '@/components/testimonials/GlobalEngli
 import { VideoTestimonialProvider } from '@/contexts/VideoTestimonialContext';
 import { EnglishVideoTestimonialProvider } from '@/contexts/EnglishVideoTestimonialContext';
 import { AvatarManagerProvider } from '@/contexts/AvatarManager';
+import { AuthProvider } from '@/context/AuthContext';
 
 function App() {
   const queryClient = new QueryClient({
@@ -30,7 +31,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Toaster />
-        <VideoTestimonialProvider>
+        <AuthProvider>
+          <VideoTestimonialProvider>
           <EnglishVideoTestimonialProvider>
             <AvatarManagerProvider>
               <Routes>
@@ -52,6 +54,7 @@ function App() {
             </AvatarManagerProvider>
           </EnglishVideoTestimonialProvider>
         </VideoTestimonialProvider>
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

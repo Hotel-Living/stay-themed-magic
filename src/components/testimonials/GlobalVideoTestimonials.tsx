@@ -1,233 +1,152 @@
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
-import { X, Volume2, VolumeX } from 'lucide-react';
 
-const videoTestimonials = [
-  {
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
-    id: 'testimonio1'
-  },
-  {
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
-    id: 'testimonio2'
-  },
-  {
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm',
-    id: 'testimonio3'
-  },
-  {
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio4.webm',
-    id: 'testimonio4'
-  },
-  {
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm',
-    id: 'testimonio5'
-  }
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { X, VolumeX, Volume2 } from 'lucide-react';
+
+interface Video {
+  id: string;
+  src: string;
+}
+
+const videos: Video[] = [
+  { id: 'testimonio1', src: '/lovable-uploads/2c7cc8c5-95e2-40e8-9ca7-da0d80c21e1e.mp4' },
+  { id: 'testimonio2', src: '/lovable-uploads/ee8c7b57-4c4c-4cb3-b49f-93bce5f8c21b.mp4' },
+  { id: 'testimonio3', src: '/lovable-uploads/12aaffd5-5c41-426b-937b-21f3e9a31e5f.mp4' },
+  { id: 'testimonio4', src: '/lovable-uploads/5ce6c8d1-0b38-4f7e-8d87-da4d9a1a60df.mp4' },
+  { id: 'testimonio5', src: '/lovable-uploads/3b4f7a09-0a2d-4e8f-9c1b-12345678abcd.mp4' },
 ];
 
 export function GlobalVideoTestimonials() {
   const location = useLocation();
-  const { i18n } = useTranslation();
-  const {
-    isVisible,
-    setIsVisible,
-    currentVideoIndex,
-    setCurrentVideoIndex,
-    isMuted,
-    setIsMuted,
-  } = useVideoTestimonial();
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isSequenceComplete, setIsSequenceComplete] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const hasStartedRef = useRef(false);
+  // Don't show on Index page
+  if (location.pathname === '/') {
+    return null;
+  }
 
-  const hasErrorRef = useRef(false);
-  const isLoadedRef = useRef(false);
+  const currentVideo = videos[currentVideoIndex];
 
-  // Only show on non-Index pages and Spanish language
-  const shouldShowVideos = location.pathname !== '/' && i18n.language === 'es';
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      if (cycleTimerRef.current) {
-        clearTimeout(cycleTimerRef.current);
-      }
-    };
-  }, []);
-
-  // Initial timer - start showing videos immediately
-  useEffect(() => {
-    if (!shouldShowVideos || hasStartedRef.current) {
-      return;
-    }
-
-    console.log('Starting testimonial video system');
-    hasStartedRef.current = true;
-
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-
-    timerRef.current = setTimeout(() => {
-      console.log('Initial timer - showing first video immediately');
-      setCurrentVideoIndex(0);
-      setIsVisible(true);
-      hasErrorRef.current = false;
-      isLoadedRef.current = false;
-    }, 1000); // Start immediately after 1 second
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [shouldShowVideos, setIsVisible, setCurrentVideoIndex]);
-
-  // Set up 60-second continuous cycling timer
-  useEffect(() => {
-    if (!shouldShowVideos) return;
-
-    console.log('Setting up 60-second continuous cycle timer');
-
-    if (cycleTimerRef.current) {
-      clearTimeout(cycleTimerRef.current);
-    }
-
-    cycleTimerRef.current = setTimeout(() => {
-      const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
-      console.log('60 seconds elapsed - showing next video:', nextIndex);
-      setCurrentVideoIndex(nextIndex);
-      setIsVisible(true);
-      hasErrorRef.current = false;
-      isLoadedRef.current = false;
-    }, 60000); // 60 seconds
-
-    return () => {
-      if (cycleTimerRef.current) {
-        clearTimeout(cycleTimerRef.current);
-      }
-    };
-  }, [shouldShowVideos, currentVideoIndex, setCurrentVideoIndex, setIsVisible]);
-
-  // Handle video loading and playback
-  useEffect(() => {
-    if (!isVisible || !videoRef.current) return;
-
-    const video = videoRef.current;
-    const currentVideo = videoTestimonials[currentVideoIndex];
-
-    console.log('Setting up video:', currentVideo.id);
-
-    const handleLoadedData = () => {
-      console.log('Video loaded successfully:', currentVideo.id);
-      isLoadedRef.current = true;
-      hasErrorRef.current = false;
-
-      // Auto-play the video
-      video.play().catch((error) => {
-        console.error('Error playing video:', error);
-        hasErrorRef.current = true;
-      });
-    };
-
-    const handleError = (error: any) => {
-      console.error('Video loading error:', error);
-      hasErrorRef.current = true;
-    };
-
-    const handleEnded = () => {
-      console.log('Video ended:', currentVideo.id);
-      // Hide video when it ends to prevent frozen frame
-      setIsVisible(false);
-    };
-
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('error', handleError);
-    video.addEventListener('ended', handleEnded);
-
-    // Set the video source
-    video.src = currentVideo.url;
-    video.load();
-
-    return () => {
-      video.removeEventListener('loadeddata', handleLoadedData);
-      video.removeEventListener('error', handleError);
-      video.removeEventListener('ended', handleEnded);
-    };
-  }, [isVisible, currentVideoIndex]);
-
-  const handleClose = () => {
-    console.log('Video manually closed');
+  const closeVideo = () => {
     setIsVisible(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
 
-  if (!shouldShowVideos || !isVisible) {
+  const moveToNextVideo = () => {
+    console.log('Moving to next video from index:', currentVideoIndex);
+    
+    if (currentVideoIndex < videos.length - 1) {
+      // Not the last video, move to next immediately
+      setCurrentVideoIndex(currentVideoIndex + 1);
+      setIsVisible(true);
+      console.log('Next video index:', currentVideoIndex + 1);
+    } else {
+      // Last video reached, complete the sequence
+      console.log('Sequence complete, waiting 60 seconds before restart');
+      setIsSequenceComplete(true);
+      setIsVisible(false);
+      
+      // Wait 60 seconds before restarting the cycle
+      setTimeout(() => {
+        console.log('Restarting cycle from first video');
+        setCurrentVideoIndex(0);
+        setIsSequenceComplete(false);
+        setIsVisible(true);
+      }, 60000);
+    }
+  };
+
+  const handleVideoError = (videoIndex: number) => {
+    console.log('Video loading error for:', videos[videoIndex].id);
+    // Skip the problematic video and move to next
+    if (videoIndex < videos.length - 1) {
+      setCurrentVideoIndex(videoIndex + 1);
+    } else {
+      // If it's the last video that failed, restart cycle
+      setCurrentVideoIndex(0);
+    }
+  };
+
+  useEffect(() => {
+    if (!isVisible || isSequenceComplete) return;
+
+    const video = document.getElementById(`testimonial-video-${currentVideo.id}`) as HTMLVideoElement;
+    if (!video) return;
+
+    const handleLoadedData = () => {
+      console.log('Video loaded successfully:', currentVideo.id);
+      video.muted = isMuted;
+      video.play().catch(error => {
+        console.log('Autoplay failed:', error);
+      });
+    };
+
+    const handleEnded = () => {
+      console.log('Video ended:', currentVideo.id);
+      // Hide video when it ends to prevent frozen frame
+      setIsVisible(false);
+      // Move to next video after a short delay
+      setTimeout(() => {
+        moveToNextVideo();
+      }, 1000);
+    };
+
+    const handleError = () => {
+      console.log('Video loading error:', currentVideo.id);
+      handleVideoError(currentVideoIndex);
+    };
+
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('ended', handleEnded);
+    video.addEventListener('error', handleError);
+
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener('error', handleError);
+    };
+  }, [currentVideo, isVisible, isMuted, currentVideoIndex, isSequenceComplete]);
+
+  // Update video mute state when isMuted changes
+  useEffect(() => {
+    const video = document.getElementById(`testimonial-video-${currentVideo.id}`) as HTMLVideoElement;
+    if (video) {
+      video.muted = isMuted;
+    }
+  }, [isMuted, currentVideo.id]);
+
+  if (!isVisible || isSequenceComplete) {
     return null;
   }
 
-  const currentVideo = videoTestimonials[currentVideoIndex];
-
   return (
-    <div
-      className="group"
-      style={{
-        position: 'fixed',
-        bottom: '24px',
-        left: '24px',
-        width: window.innerWidth <= 768 ? '65px' : '110px',
-        height: window.innerWidth <= 768 ? '115px' : '195px',
-        maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
-        maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
-        minWidth: window.innerWidth <= 768 ? '65px' : '110px',
-        minHeight: window.innerWidth <= 768 ? '115px' : '195px',
-        zIndex: 50,
-        borderRadius: '8px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        overflow: 'hidden',
-        backgroundColor: 'black',
-        flexShrink: 0,
-        pointerEvents: 'auto'
-      }}
-    >
+    <div className="group fixed bottom-6 left-6 z-50 rounded-lg shadow-2xl w-40 h-[65px] md:w-64 md:h-[115px]">
+      {/* Close button */}
+      <button
+        onClick={closeVideo}
+        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-colors z-10"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <X className="w-3 h-3" />
+      </button>
+
+      {/* Video element */}
       <video
-        ref={videoRef}
+        key={currentVideo.id}
+        id={`testimonial-video-${currentVideo.id}`}
+        src={currentVideo.src}
+        autoPlay
         muted={isMuted}
         playsInline
         preload="metadata"
-        style={{
-          width: window.innerWidth <= 768 ? '65px' : '110px',
-          height: window.innerWidth <= 768 ? '115px' : '195px',
-          maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
-          maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
-          minWidth: window.innerWidth <= 768 ? '65px' : '110px',
-          minHeight: window.innerWidth <= 768 ? '115px' : '195px',
-          objectFit: 'cover',
-          display: 'block',
-          pointerEvents: 'none'
-        }}
+        className="w-full h-full object-cover rounded-lg pointer-events-none"
       />
-
-      {/* Close button */}
-      <button
-        onClick={handleClose}
-        className="absolute top-2 right-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
-        style={{ pointerEvents: 'auto' }}
-      >
-        <X className="w-4 h-4 text-white" />
-      </button>
 
       {/* Volume toggle button */}
       <button

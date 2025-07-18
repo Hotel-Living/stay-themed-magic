@@ -13,7 +13,7 @@ import Contact from "./pages/Contact";
 import Hotels from "./pages/Hotels";
 import { GlobalAvatarSystem } from "./components/avatars/GlobalAvatarSystem";
 import { SpanishVideoTestimonials } from "./components/testimonials/SpanishVideoTestimonials";
-import './i18n/i18n';
+import './i18n/config';
 
 const queryClient = new QueryClient();
 

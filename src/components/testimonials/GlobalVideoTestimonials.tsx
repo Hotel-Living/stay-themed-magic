@@ -72,20 +72,25 @@ export function GlobalVideoTestimonials() {
   // Show video immediately for all supported languages, then every 2 minutes
   useEffect(() => {
     if (i18n.language === 'es' || i18n.language === 'en') {
-      // Show immediately on page load
+      // Clear any existing interval first
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      
+      // Show immediately on page load if not started
       if (!hasStarted) {
         setIsVisible(true);
         setHasStarted(true);
-        
-        // Set up interval for subsequent videos (every 2 minutes)
-        intervalRef.current = setInterval(() => {
-          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
-          const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
-          setCurrentVideoIndex(nextIndex);
-          setIsVisible(true);
-          setIsMuted(true); // Reset to muted for each new video
-        }, 120000); // 2 minutes
       }
+      
+      // Set up interval for subsequent videos (every 2 minutes)
+      intervalRef.current = setInterval(() => {
+        const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+        const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
+        setCurrentVideoIndex(nextIndex);
+        setIsVisible(true);
+        setIsMuted(true); // Reset to muted for each new video
+      }, 120000); // 2 minutes
     }
 
     return () => {
@@ -93,7 +98,7 @@ export function GlobalVideoTestimonials() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [i18n.language, hasStarted, currentVideoIndex, setIsVisible, setHasStarted, setCurrentVideoIndex, setIsMuted]);
+  }, [i18n.language, hasStarted, setIsVisible, setHasStarted, setCurrentVideoIndex, setIsMuted]);
 
   // Update video mute state when isMuted changes
   useEffect(() => {
@@ -119,7 +124,7 @@ export function GlobalVideoTestimonials() {
   const currentVideo = currentLangVideos[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 w-80 h-48 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30">
+    <div className="fixed bottom-4 left-4 z-50 w-72 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30 transition-all duration-300">
       {/* Close button - top right */}
       <button
         onClick={handleClose}
@@ -138,37 +143,38 @@ export function GlobalVideoTestimonials() {
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
 
-      {/* Video element - prevent clicks from closing the video */}
-      <video
-        ref={videoRef}
-        src={currentVideo.url}
-        autoPlay
-        loop
-        muted={isMuted}
-        playsInline
-        controls={false}
-        className="w-full h-full object-cover cursor-default"
-        onError={(e) => {
-          console.error('Error loading video:', currentVideo.url, e);
-          // Try next video on error
-          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
-          const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
-          setCurrentVideoIndex(nextIndex);
-        }}
-        onLoadStart={() => {
-          console.log('Video loading started:', currentVideo.url);
-        }}
-        onCanPlay={() => {
-          console.log('Video can play:', currentVideo.url);
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // Do nothing on video click to prevent disappearing
-        }}
-      >
-        Your browser does not support the video tag.
-      </video>
+      {/* Video container with proper aspect ratio */}
+      <div className="relative w-full aspect-video bg-black">
+        <video
+          ref={videoRef}
+          src={currentVideo.url}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          controls={false}
+          className="w-full h-full object-contain cursor-default"
+          onError={(e) => {
+            console.error('Error loading video:', currentVideo.url, e);
+            // Try next video on error
+            const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+            const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
+            setCurrentVideoIndex(nextIndex);
+          }}
+          onLoadStart={() => {
+            console.log('Video loading started:', currentVideo.url);
+          }}
+          onCanPlay={() => {
+            console.log('Video can play:', currentVideo.url);
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
       {/* Video title overlay */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 pb-8 pointer-events-none">

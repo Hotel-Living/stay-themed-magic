@@ -67,7 +67,7 @@ export function GlobalVideoTestimonials() {
 
   return (
     <div 
-      className="testimonial-video-container"
+      className="testimonial-video-container w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
       style={{
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       }}

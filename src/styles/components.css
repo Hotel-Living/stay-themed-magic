@@ -39,12 +39,13 @@
     animation: pulse 2s infinite;
   }
   
-  /* Video testimonial container - FORCE 130x230 dimensions */
+  /* Video testimonial container - Responsive dimensions */
   .testimonial-video-container,
   div[class*="testimonial-video-container"],
   [style*="testimonial-video-container"] {
-    --video-width: 130px;
-    --video-height: 230px;
+    /* Mobile dimensions (≤ 640px) */
+    --video-width: 50px;
+    --video-height: 90px;
     width: var(--video-width) !important;
     height: var(--video-height) !important;
     max-width: var(--video-width) !important;
@@ -60,6 +61,16 @@
     background-color: black !important;
     transform: scale(1) !important;
     transform-origin: bottom left !important;
+  }
+  
+  /* Desktop dimensions (> 640px) */
+  @media (min-width: 641px) {
+    .testimonial-video-container,
+    div[class*="testimonial-video-container"],
+    [style*="testimonial-video-container"] {
+      --video-width: 130px;
+      --video-height: 230px;
+    }
   }
   
   /* Video element - FORCE exact dimensions with multiple selectors */
@@ -80,12 +91,6 @@
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-  }
-  
-  /* Fallback with transform scaling if other methods fail */
-  .testimonial-video-container.force-scale {
-    transform: scale(0.5) !important;
-    transform-origin: bottom left !important;
   }
   
   @keyframes pulse {

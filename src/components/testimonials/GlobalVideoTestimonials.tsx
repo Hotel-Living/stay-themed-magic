@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 
@@ -22,18 +23,24 @@ export function GlobalVideoTestimonials() {
   ];
 
   const [currentVideo, setCurrentVideo] = useState<TestimonialVideo | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    console.log('GlobalVideoTestimonials - Component mounted');
+    
     const language = navigator.language.startsWith('es') ? 'es' : 'en';
     const availableVideos = testimonialVideos.filter(video => video.language === language);
     
     if (availableVideos.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableVideos.length);
       setCurrentVideo(availableVideos[randomIndex]);
+      console.log('GlobalVideoTestimonials - Selected video:', availableVideos[randomIndex]);
     } else {
       setCurrentVideo(testimonialVideos[0]);
+      console.log('GlobalVideoTestimonials - Using fallback video:', testimonialVideos[0]);
     }
   }, []);
 
@@ -44,7 +51,7 @@ export function GlobalVideoTestimonials() {
           videoRef.current.pause();
         }
       } else {
-        if (videoRef.current) {
+        if (videoRef.current && videoLoaded && !videoError) {
           videoRef.current.play();
         }
       }
@@ -55,13 +62,34 @@ export function GlobalVideoTestimonials() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [videoLoaded, videoError]);
 
   const handleClose = () => {
+    console.log('GlobalVideoTestimonials - Closing video');
     setIsVisible(false);
   };
 
-  if (!currentVideo || !isVisible) {
+  const handleVideoLoad = () => {
+    console.log('GlobalVideoTestimonials - Video loaded successfully');
+    setVideoLoaded(true);
+    setVideoError(false);
+    setIsVisible(true);
+  };
+
+  const handleVideoError = (e: any) => {
+    console.error('GlobalVideoTestimonials - Video error:', e);
+    setVideoError(true);
+    setVideoLoaded(false);
+    setIsVisible(false);
+  };
+
+  const handleVideoEnd = () => {
+    console.log('GlobalVideoTestimonials - Video ended, hiding');
+    setIsVisible(false);
+  };
+
+  // Don't render anything if no video is selected, there's an error, or it's not visible
+  if (!currentVideo || videoError || !isVisible) {
     return null;
   }
 
@@ -87,9 +115,9 @@ export function GlobalVideoTestimonials() {
         playsInline
         preload="auto"
         onLoadStart={() => console.log('Video loading started:', currentVideo.videoUrl)}
-        onCanPlay={() => console.log('Video can play')}
-        onError={(e) => console.error('Video error:', e)}
-        onEnded={() => setIsVisible(false)}
+        onCanPlay={handleVideoLoad}
+        onError={handleVideoError}
+        onEnded={handleVideoEnd}
         className="w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
         style={{
           objectFit: 'cover',

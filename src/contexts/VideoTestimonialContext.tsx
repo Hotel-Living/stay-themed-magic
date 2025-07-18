@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface VideoTestimonialContextType {
@@ -7,8 +8,6 @@ interface VideoTestimonialContextType {
   setCurrentVideoIndex: (index: number) => void;
   isMuted: boolean;
   setIsMuted: (muted: boolean) => void;
-  hasStarted: boolean;
-  setHasStarted: (started: boolean) => void;
 }
 
 const VideoTestimonialContext = createContext<VideoTestimonialContextType | undefined>(undefined);
@@ -25,7 +24,6 @@ export const VideoTestimonialProvider: React.FC<{ children: ReactNode }> = ({ ch
   const [isVisible, setIsVisible] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
 
   return (
     <VideoTestimonialContext.Provider
@@ -36,8 +34,6 @@ export const VideoTestimonialProvider: React.FC<{ children: ReactNode }> = ({ ch
         setCurrentVideoIndex,
         isMuted,
         setIsMuted,
-        hasStarted,
-        setHasStarted,
       }}
     >
       {children}

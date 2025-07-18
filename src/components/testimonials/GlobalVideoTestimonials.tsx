@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
 import { useTranslation } from 'react-i18next';
@@ -48,40 +49,47 @@ const videoTestimonials: VideoTestimonials = {
 };
 
 export function GlobalVideoTestimonials() {
-  const { isVisible, setIsVisible, currentVideoIndex, setCurrentVideoIndex, isMuted, setIsMuted, hasStarted, setHasStarted } = useVideoTestimonial();
+  const { isVisible, setIsVisible, currentVideoIndex, setCurrentVideoIndex, isMuted, setIsMuted } = useVideoTestimonial();
   const { i18n } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
+  // Automatic 2-minute timer for video display
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 't' && !hasStarted) {
-        setIsVisible(true);
-        setHasStarted(true);
-        event.preventDefault(); // Prevent 't' from being typed in any input field
-      }
-    };
+    if (hasPlayedOnce) return;
 
-    window.addEventListener('keydown', handleKeyDown);
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 120000); // 2 minutes = 120,000ms
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [setIsVisible, setHasStarted, hasStarted]);
+    return () => clearTimeout(timer);
+  }, [hasPlayedOnce, setIsVisible]);
 
+  // Handle video playback and cleanup
   useEffect(() => {
-    if (isVisible && videoRef.current) {
-      // Autoplay only on first play
-      if (!hasPlayedOnce) {
-        videoRef.current.play().then(() => {
-          setHasPlayedOnce(true);
-        }).catch(error => {
-          console.error("Autoplay failed:", error);
-          // Handle autoplay failure (e.g., show a play button)
-        });
-      }
+    if (isVisible && videoRef.current && !hasPlayedOnce) {
+      const video = videoRef.current;
+      
+      video.play().catch(error => {
+        console.error("Autoplay failed:", error);
+      });
+
+      const handleEnded = () => {
+        setHasPlayedOnce(true);
+        setIsVisible(false);
+        // Move to next video for next cycle
+        const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+        const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
+        setCurrentVideoIndex(nextIndex);
+      };
+
+      video.addEventListener('ended', handleEnded);
+
+      return () => {
+        video.removeEventListener('ended', handleEnded);
+      };
     }
-  }, [isVisible, hasPlayedOnce]);
+  }, [isVisible, hasPlayedOnce, currentVideoIndex, setCurrentVideoIndex, setIsVisible, i18n.language]);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -98,7 +106,7 @@ export function GlobalVideoTestimonials() {
   const currentVideo = currentLangVideos[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 max-h-60">
+    <div className="w-[260px] h-[460px] object-cover rounded-lg shadow-2xl fixed bottom-6 left-6 z-50" style={{ background: 'transparent' }}>
       {/* Mute/Unmute button - top right of video */}
       <button
         onClick={toggleMute}
@@ -108,24 +116,26 @@ export function GlobalVideoTestimonials() {
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
 
-      {/* Video - height constrained to 240px max, width adjusts automatically */}
+      {/* Video with exact dimensions and no user interaction */}
       <video
         ref={videoRef}
         src={currentVideo.url}
-        autoPlay
+        autoPlay={false}
+        loop={false}
         muted={isMuted}
         playsInline
         controls={false}
-        className="max-h-60 h-auto w-auto rounded-lg shadow-2xl"
+        className="w-[260px] h-[460px] object-cover rounded-lg"
+        style={{ 
+          pointerEvents: 'none',
+          userSelect: 'none',
+          outline: 'none'
+        }}
         onError={(e) => {
           console.error("Error loading video:", currentVideo.url, e);
           // Try next video on error
           const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
           setCurrentVideoIndex(nextIndex);
-        }}
-        onEnded={() => {
-          // Auto-close when video ends
-          setIsVisible(false);
         }}
         onLoadStart={() => {
           console.log("Video loading started:", currentVideo.url);

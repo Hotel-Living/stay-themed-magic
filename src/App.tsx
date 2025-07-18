@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
@@ -9,6 +10,8 @@ import Contact from '@/pages/Contact';
 import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
 import AboutUs from '@/pages/AboutUs';
+import FAQ from '@/pages/FAQ';
+import Hotels from '@/pages/Hotels';
 import NotFound from '@/pages/NotFound';
 import { GlobalTestimonials } from '@/components/testimonials/GlobalTestimonials';
 import { GlobalEnglishTestimonials } from '@/components/testimonials/GlobalEnglishTestimonials';
@@ -43,6 +46,8 @@ function App() {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/about" element={<AboutUs />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/hotels" element={<Hotels />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               

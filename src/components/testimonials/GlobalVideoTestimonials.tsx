@@ -31,29 +31,27 @@ const videoTestimonials: VideoTestimonial[] = [
 ];
 
 export function GlobalVideoTestimonials() {
+  const location = useLocation();
+
+  // Don't show testimonials on the homepage - early return to avoid hooks rule violation
+  if (location.pathname === '/') {
+    return null;
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [videoError, setVideoError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const location = useLocation();
-
-  // Don't show testimonials on the homepage
-  const shouldShow = location.pathname !== '/';
 
   useEffect(() => {
-    if (!shouldShow) {
-      setIsVisible(false);
-      return;
-    }
-
-    // Show testimonials after a short delay on non-homepage routes
+    // Show testimonials after a short delay (since we already checked we're not on homepage)
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [shouldShow, location.pathname]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!isVisible || videoTestimonials.length === 0) return;
@@ -130,7 +128,7 @@ export function GlobalVideoTestimonials() {
     };
   }, [currentIndex, isVisible, location.pathname]);
 
-  if (!shouldShow || !isVisible) {
+  if (!isVisible) {
     return null;
   }
 

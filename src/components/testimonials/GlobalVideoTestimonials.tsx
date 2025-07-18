@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const testimonials = [
-  { id: 'testimonio1', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio1.mp4' },
-  { id: 'testimonio2', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio2.mp4' },
-  { id: 'testimonio3', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio3.mp4' },
-  { id: 'testimonio4', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio4.mp4' },
-  { id: 'testimonio5', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio5.mp4' }
+  { id: 'testimonio1', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm' },
+  { id: 'testimonio2', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm' },
+  { id: 'testimonio3', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm' },
+  { id: 'testimonio4', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio4.webm' },
+  { id: 'testimonio5', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm' }
 ];
 
 export function GlobalVideoTestimonials() {

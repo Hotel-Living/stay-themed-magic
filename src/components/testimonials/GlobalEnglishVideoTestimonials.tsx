@@ -6,23 +6,15 @@ import { useTranslation } from '@/hooks/useTranslation';
 const englishTestimonials = [
   { 
     id: 'english-testimonio1', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/INGLeS%20TESTIMONIO%201.webm' 
+    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-1.webm' 
   },
   { 
     id: 'english-testimonio2', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/INGLeS%20TESTIMONIO%202.webm' 
+    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-2.webm' 
   },
   { 
     id: 'english-testimonio3', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/INGLeS%20TESTIMONIO%203.webm' 
-  },
-  { 
-    id: 'english-testimonio4', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/INGLeS%20TESTIMONIO%204.webm' 
-  },
-  { 
-    id: 'english-testimonio5', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/INGLeS%20TESTIMONIO%205.webm' 
+    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3.webm' 
   }
 ];
 
@@ -31,16 +23,37 @@ export function GlobalEnglishVideoTestimonials() {
   const { language } = useTranslation();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [sequenceCompleted, setSequenceCompleted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   console.log('🎥 GlobalEnglishVideoTestimonials mounted on:', location.pathname);
   console.log('🎥 Current video index:', currentVideoIndex);
+  console.log('🎥 Sequence completed:', sequenceCompleted);
   console.log('🎥 Current video:', englishTestimonials[currentVideoIndex]);
+
+  // Check session storage on mount to see if sequence was already completed
+  useEffect(() => {
+    const sessionCompleted = sessionStorage.getItem('english-testimonials-completed');
+    if (sessionCompleted === 'true') {
+      setSequenceCompleted(true);
+      console.log('🎥 English testimonial sequence already completed in this session');
+    }
+  }, []);
 
   const nextVideo = () => {
     console.log('🎥 Moving to next video from index:', currentVideoIndex);
-    setCurrentVideoIndex((prev) => (prev + 1) % englishTestimonials.length);
+    
+    // If we just finished the last video (index 2), mark sequence as completed
+    if (currentVideoIndex === englishTestimonials.length - 1) {
+      console.log('🎥 English testimonial sequence completed');
+      setSequenceCompleted(true);
+      sessionStorage.setItem('english-testimonials-completed', 'true');
+      return;
+    }
+    
+    // Move to next video
+    setCurrentVideoIndex(prev => prev + 1);
     setIsPlaying(false);
   };
 
@@ -78,6 +91,11 @@ export function GlobalEnglishVideoTestimonials() {
   };
 
   useEffect(() => {
+    // Don't start videos if sequence is completed
+    if (sequenceCompleted) {
+      return;
+    }
+
     console.log('🎥 Video index changed to:', currentVideoIndex);
     const video = videoRef.current;
     if (!video) {
@@ -116,7 +134,7 @@ export function GlobalEnglishVideoTestimonials() {
       video.removeEventListener('error', handleError);
       video.removeEventListener('ended', handleEnded);
     };
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, sequenceCompleted]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -128,7 +146,8 @@ export function GlobalEnglishVideoTestimonials() {
   }, []);
 
   // Don't show on Index page and only show for English/Portuguese/Romanian users
-  if (location.pathname === '/' || !['en', 'pt', 'ro'].includes(language)) {
+  // Also don't show if sequence is completed
+  if (location.pathname === '/' || !['en', 'pt', 'ro'].includes(language) || sequenceCompleted) {
     return null;
   }
 

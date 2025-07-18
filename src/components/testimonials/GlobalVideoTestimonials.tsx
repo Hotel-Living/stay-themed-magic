@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { Volume2, VolumeX, X } from 'lucide-react';
+import { useTranslation } from "@/hooks/useTranslation";
 
 const videoTestimonials = [
   {
@@ -19,8 +21,16 @@ const videoTestimonials = [
 export function GlobalVideoTestimonials() {
   const [showVideo, setShowVideo] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { i18n } = useTranslation();
+
+  // Only show videos if language is Spanish
+  if (i18n.language !== 'es') {
+    return null;
+  }
 
   // Reset video cycle when all videos have been shown
   const resetVideoIfNeeded = () => {
@@ -35,8 +45,11 @@ export function GlobalVideoTestimonials() {
   const startNextVideoTimer = () => {
     console.log('Starting 2-minute timer for next video...');
     timerRef.current = setTimeout(() => {
-      console.log('2 minutes passed, showing video...');
-      setShowVideo(true);
+      if (!hasError) {
+        console.log('2 minutes passed, showing video...');
+        setShowVideo(true);
+        setHasError(false);
+      }
     }, 120000); // 2 minutes
   };
 
@@ -48,10 +61,35 @@ export function GlobalVideoTestimonials() {
     startNextVideoTimer();
   };
 
+  // Handle video error
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.error('Video error occurred:', e);
+    setHasError(true);
+    setShowVideo(false);
+    // Don't immediately trigger next video on error
+  };
+
+  // Handle manual close
+  const handleClose = () => {
+    setShowVideo(false);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    startNextVideoTimer();
+  };
+
+  // Toggle mute/unmute
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
+  };
+
   // Initialize first video timer
   useEffect(() => {
-    console.log('Initializing video testimonial system...');
-    // Start first video after 10 seconds (to avoid immediate popup)
+    console.log('Initializing Spanish video testimonial system...');
+    // Start first video after 10 seconds
     timerRef.current = setTimeout(() => {
       console.log('Showing first video...');
       setShowVideo(true);
@@ -70,21 +108,20 @@ export function GlobalVideoTestimonials() {
       console.log(`Playing video ${currentVideoIndex + 1}...`);
       const video = videoRef.current;
       
-      // Reset video to start
+      // Reset video to start and ensure muted
       video.currentTime = 0;
+      video.muted = isMuted;
       
-      // Attempt to play
+      // Attempt to play (muted videos should autoplay)
       video.play().catch(error => {
         console.error('Autoplay failed:', error);
-        // If autoplay fails, hide the video and continue cycle
+        setHasError(true);
         setShowVideo(false);
-        resetVideoIfNeeded();
-        startNextVideoTimer();
       });
     }
-  }, [showVideo, currentVideoIndex]);
+  }, [showVideo, currentVideoIndex, isMuted]);
 
-  if (!showVideo) {
+  if (!showVideo || hasError) {
     return null;
   }
 
@@ -92,23 +129,39 @@ export function GlobalVideoTestimonials() {
 
   return (
     <div className="w-[260px] h-[460px] fixed bottom-6 left-6 z-50">
-      <video
-        ref={videoRef}
-        className="w-full h-full object-cover rounded-lg shadow-2xl"
-        muted
-        loop={false}
-        playsInline
-        preload="metadata"
-        onEnded={handleVideoEnd}
-        onError={(e) => {
-          console.error('Video error:', e);
-          handleVideoEnd(); // Move to next video on error
-        }}
-      >
-        <source src={currentVideo.videoUrl} type="video/webm" />
-        <source src={currentVideo.videoUrl.replace('.webm', '.mp4')} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div className="relative w-full h-full">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover rounded-lg shadow-2xl"
+          muted={isMuted}
+          loop={false}
+          playsInline
+          preload="metadata"
+          onEnded={handleVideoEnd}
+          onError={handleVideoError}
+        >
+          <source src={currentVideo.videoUrl} type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Close button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+          aria-label="Close video"
+        >
+          <X size={16} />
+        </button>
+        
+        {/* Mute/Unmute toggle */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-2 right-2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors"
+          aria-label={isMuted ? "Unmute" : "Mute"}
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      </div>
     </div>
   );
 }

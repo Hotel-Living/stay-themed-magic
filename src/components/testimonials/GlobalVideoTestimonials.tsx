@@ -12,16 +12,6 @@ export function GlobalVideoTestimonials() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout>();
 
-  // Only show for Spanish
-  if (language !== 'es') {
-    return null;
-  }
-
-  // Don't show on index page
-  if (location.pathname === '/') {
-    return null;
-  }
-
   // Check if already completed this session
   const sessionKey = 'spanishTestimonialsCompleted';
   
@@ -93,6 +83,16 @@ export function GlobalVideoTestimonials() {
     sessionStorage.setItem(sessionKey, 'true');
     setIsVisible(false);
   };
+
+  // Only show for Spanish
+  if (language !== 'es') {
+    return null;
+  }
+
+  // Don't show on index page
+  if (location.pathname === '/') {
+    return null;
+  }
 
   if (!isVisible) return null;
 

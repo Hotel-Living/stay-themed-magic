@@ -12,16 +12,6 @@ export function GlobalEnglishVideoTestimonials() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout>();
 
-  // Only show for English, Portuguese, and Romanian
-  if (!['en', 'pt', 'ro'].includes(language)) {
-    return null;
-  }
-
-  // Don't show on index page
-  if (location.pathname === '/') {
-    return null;
-  }
-
   // Check if already completed this session
   const sessionKey = 'englishTestimonialsCompleted';
   
@@ -85,6 +75,16 @@ export function GlobalEnglishVideoTestimonials() {
     sessionStorage.setItem(sessionKey, 'true');
     setIsVisible(false);
   };
+
+  // Only show for English, Portuguese, and Romanian
+  if (!['en', 'pt', 'ro'].includes(language)) {
+    return null;
+  }
+
+  // Don't show on index page
+  if (location.pathname === '/') {
+    return null;
+  }
 
   if (!isVisible) return null;
 

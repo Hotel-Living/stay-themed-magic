@@ -76,11 +76,9 @@ export function GlobalEnglishVideoTestimonials() {
   const setupContinuousTimer = () => {
     console.log('Setting up 60-second continuous cycle timer for English videos');
     timerRef.current = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % englishVideos.length;
-        console.log(`60 seconds elapsed - showing next English video: ${nextIndex}`);
-        return nextIndex;
-      });
+      const nextIndex = (currentVideoIndex + 1) % englishVideos.length;
+      console.log(`60 seconds elapsed - showing next English video: ${nextIndex}`);
+      setCurrentVideoIndex(nextIndex);
     }, 60000);
   };
 

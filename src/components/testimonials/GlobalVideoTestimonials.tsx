@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useRef } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface TestimonialVideo {
   id: string;
@@ -23,29 +22,43 @@ export function GlobalVideoTestimonials() {
   ];
 
   const [currentVideo, setCurrentVideo] = useState<TestimonialVideo | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    console.log('GlobalVideoTestimonials - Component mounted');
-    
     const language = navigator.language.startsWith('es') ? 'es' : 'en';
     const availableVideos = testimonialVideos.filter(video => video.language === language);
     
     if (availableVideos.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableVideos.length);
       setCurrentVideo(availableVideos[randomIndex]);
-      console.log('GlobalVideoTestimonials - Selected video:', availableVideos[randomIndex]);
+      setCurrentVideoIndex(randomIndex);
     } else {
       setCurrentVideo(testimonialVideos[0]);
-      console.log('GlobalVideoTestimonials - Using fallback video:', testimonialVideos[0]);
+      setCurrentVideoIndex(0);
     }
-    
-    // Start showing loading immediately
-    setIsLoading(true);
-    setHasError(false);
+
+    // Set up interval to switch videos every 2 minutes
+    intervalRef.current = setInterval(() => {
+      const language = navigator.language.startsWith('es') ? 'es' : 'en';
+      const availableVideos = testimonialVideos.filter(video => video.language === language);
+      
+      if (availableVideos.length > 1) {
+        setCurrentVideoIndex(prev => {
+          const nextIndex = (prev + 1) % availableVideos.length;
+          setCurrentVideo(availableVideos[nextIndex]);
+          return nextIndex;
+        });
+      }
+    }, 120000); // 2 minutes
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -55,7 +68,7 @@ export function GlobalVideoTestimonials() {
           videoRef.current.pause();
         }
       } else {
-        if (videoRef.current && !hasError) {
+        if (videoRef.current) {
           videoRef.current.play().catch(console.error);
         }
       }
@@ -66,72 +79,22 @@ export function GlobalVideoTestimonials() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [hasError]);
+  }, []);
 
   const handleClose = () => {
-    console.log('GlobalVideoTestimonials - Closing video');
     setIsVisible(false);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
   };
 
-  const handleVideoLoad = () => {
-    console.log('GlobalVideoTestimonials - Video loaded successfully');
-    setIsLoading(false);
-    setHasError(false);
-    setIsVisible(true);
-  };
-
-  const handleVideoError = (e: any) => {
-    console.error('GlobalVideoTestimonials - Video failed to load:', e, currentVideo?.videoUrl);
-    setIsLoading(false);
-    setHasError(true);
-    setIsVisible(false);
-  };
-
-  const handleVideoEnd = () => {
-    console.log('GlobalVideoTestimonials - Video ended, hiding');
-    setIsVisible(false);
-  };
-
-  // Don't show anything if no video selected
-  if (!currentVideo) {
-    console.log('GlobalVideoTestimonials - No video selected, hiding');
+  if (!currentVideo || !isVisible) {
     return null;
   }
 
-  // Hide completely if there's an error
-  if (hasError) {
-    console.log('GlobalVideoTestimonials - Video error, hiding component');
-    return null;
-  }
-
-  // Always show loading state first
-  if (isLoading) {
-    console.log('GlobalVideoTestimonials - Showing loading state');
-    return (
-      <div 
-        className="fixed bottom-6 left-6 z-50 w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] flex items-center justify-center bg-black/80 rounded-lg"
-        style={{
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-        }}
-      >
-        <Loader2 className="w-4 h-4 sm:w-6 sm:h-6 text-white animate-spin" />
-      </div>
-    );
-  }
-
-  // Show video only when loaded and visible
-  if (!isVisible) {
-    return null;
-  }
-
-  console.log('GlobalVideoTestimonials - Rendering video');
   return (
-    <div 
-      className="fixed bottom-6 left-6 z-50 w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] rounded-lg overflow-hidden bg-black"
-      style={{
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-      }}
-    >
+    <div className="fixed bottom-6 left-6 z-50 w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] rounded-lg overflow-hidden bg-black"
+         style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
       <button
         onClick={handleClose}
         className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-colors"
@@ -146,10 +109,6 @@ export function GlobalVideoTestimonials() {
         muted
         playsInline
         preload="auto"
-        onLoadStart={() => console.log('Video loading started:', currentVideo.videoUrl)}
-        onCanPlay={handleVideoLoad}
-        onError={handleVideoError}
-        onEnded={handleVideoEnd}
         className="w-full h-full object-cover"
       >
         <source src={currentVideo.videoUrl} type="video/mp4" />

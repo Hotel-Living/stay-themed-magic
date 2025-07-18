@@ -28,9 +28,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <AvatarManagerProvider>
-            <Toaster />
-            <BrowserRouter>
+          <Toaster />
+          <BrowserRouter>
+            <AvatarManagerProvider>
               <GlobalAvatarSystem />
               <SpanishVideoTestimonials />
               <Routes>
@@ -42,8 +42,8 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/hotels" element={<Hotels />} />
               </Routes>
-            </BrowserRouter>
-          </AvatarManagerProvider>
+            </AvatarManagerProvider>
+          </BrowserRouter>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

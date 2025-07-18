@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useLocation } from "react-router-dom";
@@ -46,9 +47,6 @@ export function EnhancedAvatarAssistant({
         return "Aquí estoy. Si me necesitas, pregunta lo que quieras.";
     }
   };
-
-  // Remove redundant i18n synchronization to prevent infinite loops
-  // Language changes are now managed centrally by LanguageSwitcher
 
   const displayMessage = message || getDefaultMessage();
 
@@ -102,8 +100,8 @@ export function EnhancedAvatarAssistant({
             />
           </button>
 
-          {/* Speech bubble - positioned to not cover avatar head */}
-          {showMessage && !isBottomRightPosition && (
+          {/* Speech bubble - show for all positions when showMessage is true */}
+          {showMessage && (
             <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
               <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 

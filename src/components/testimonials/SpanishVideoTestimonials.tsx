@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, X } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -31,7 +32,7 @@ const videoTestimonials: VideoTestimonial[] = [
 ];
 
 export function SpanishVideoTestimonials() {
-  const { language } = useTranslation();
+  const { i18n } = useTranslation();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -40,17 +41,15 @@ export function SpanishVideoTestimonials() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Show video every 2 minutes for Spanish users
+  // Show video immediately for Spanish users, then every 2 minutes
   useEffect(() => {
-    if (language === 'es') {
-      // Start the timer after component mounts
+    if (i18n.language === 'es') {
+      // Show immediately on page load
       if (!hasStarted) {
-        timeoutRef.current = setTimeout(() => {
-          setIsVisible(true);
-          setHasStarted(true);
-        }, 120000); // 2 minutes
-      } else {
-        // After first video, show every 2 minutes
+        setIsVisible(true);
+        setHasStarted(true);
+        
+        // Set up interval for subsequent videos (every 2 minutes)
         intervalRef.current = setInterval(() => {
           setCurrentVideoIndex((prev) => (prev + 1) % videoTestimonials.length);
           setIsVisible(true);
@@ -67,7 +66,7 @@ export function SpanishVideoTestimonials() {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [language, hasStarted]);
+  }, [i18n.language, hasStarted]);
 
   // Update video mute state when isMuted changes
   useEffect(() => {
@@ -85,14 +84,14 @@ export function SpanishVideoTestimonials() {
   };
 
   // Don't render if not Spanish or not visible
-  if (language !== 'es' || !isVisible) {
+  if (i18n.language !== 'es' || !isVisible) {
     return null;
   }
 
   const currentVideo = videoTestimonials[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-80 h-48 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30">
+    <div className="fixed bottom-4 left-4 z-50 w-80 h-48 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30">
       {/* Close button - top right */}
       <button
         onClick={handleClose}
@@ -111,7 +110,7 @@ export function SpanishVideoTestimonials() {
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
 
-      {/* Video element */}
+      {/* Video element - prevent clicks from closing the video */}
       <video
         ref={videoRef}
         src={currentVideo.url}
@@ -119,7 +118,7 @@ export function SpanishVideoTestimonials() {
         loop
         muted={isMuted}
         playsInline
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover pointer-events-none"
         onError={(e) => {
           console.error('Error loading video:', e);
           // Try next video on error
@@ -130,7 +129,7 @@ export function SpanishVideoTestimonials() {
       </video>
 
       {/* Video title overlay */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 pb-8">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 pb-8 pointer-events-none">
         <p className="text-white text-sm font-medium">{currentVideo.title}</p>
       </div>
     </div>

@@ -1,63 +1,75 @@
-
-import React, { useState, useEffect, useRef } from 'react';
-import { useVideoTestimonial } from '../../contexts/VideoTestimonialContext';
-import { useTranslation } from '../../hooks/useTranslation';
-import { Volume2, VolumeX, X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
+import { X, Volume2, VolumeX } from 'lucide-react';
 
 const videoTestimonials = [
   {
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
     id: 'testimonio1'
   },
   {
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
     id: 'testimonio2'
   },
   {
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm',
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm',
     id: 'testimonio3'
+  },
+  {
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio4.webm',
+    id: 'testimonio4'
+  },
+  {
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm',
+    id: 'testimonio5'
   }
 ];
 
 export function GlobalVideoTestimonials() {
+  const location = useLocation();
   const { i18n } = useTranslation();
-  const { 
-    isVisible, 
-    setIsVisible, 
-    currentVideoIndex, 
-    setCurrentVideoIndex, 
-    isMuted, 
-    setIsMuted 
+  const {
+    isVisible,
+    setIsVisible,
+    currentVideoIndex,
+    setCurrentVideoIndex,
+    isMuted,
+    setIsMuted,
   } = useVideoTestimonial();
-  
+
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hasStartedRef = useRef(false);
 
-  // Only show videos in Spanish
-  const shouldShowVideos = i18n.language === 'es';
+  const hasErrorRef = useRef(false);
+  const isLoadedRef = useRef(false);
 
-  console.log('GlobalVideoTestimonials render:', {
-    language: i18n.language,
-    shouldShowVideos,
-    isVisible,
-    currentVideoIndex,
-    hasError,
-    isLoaded
-  });
+  // Only show on non-Index pages and Spanish language
+  const shouldShowVideos = location.pathname !== '/' && i18n.language === 'es';
 
-  // Initialize first video after 10 seconds
   useEffect(() => {
-    if (!shouldShowVideos) {
-      console.log('Not showing videos - language is not Spanish');
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      if (cycleTimerRef.current) {
+        clearTimeout(cycleTimerRef.current);
+      }
+    };
+  }, []);
+
+  // Initial timer - start showing videos immediately
+  useEffect(() => {
+    if (!shouldShowVideos || hasStartedRef.current) {
       return;
     }
 
-    console.log('Setting up initial 10-second timer');
-    
-    // Clear any existing timer
+    console.log('Starting testimonial video system');
+    hasStartedRef.current = true;
+
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
@@ -66,8 +78,8 @@ export function GlobalVideoTestimonials() {
       console.log('Initial timer - showing first video immediately');
       setCurrentVideoIndex(0);
       setIsVisible(true);
-      setHasError(false);
-      setIsLoaded(false);
+      hasErrorRef.current = false;
+      isLoadedRef.current = false;
     }, 1000); // Start immediately after 1 second
 
     return () => {
@@ -92,8 +104,8 @@ export function GlobalVideoTestimonials() {
       console.log('60 seconds elapsed - showing next video:', nextIndex);
       setCurrentVideoIndex(nextIndex);
       setIsVisible(true);
-      setHasError(false);
-      setIsLoaded(false);
+      hasErrorRef.current = false;
+      isLoadedRef.current = false;
     }, 60000); // 60 seconds
 
     return () => {
@@ -105,45 +117,41 @@ export function GlobalVideoTestimonials() {
 
   // Handle video loading and playback
   useEffect(() => {
-    if (!isVisible || !videoRef.current || hasError) return;
+    if (!isVisible || !videoRef.current) return;
 
     const video = videoRef.current;
     const currentVideo = videoTestimonials[currentVideoIndex];
-    
-    console.log('Loading video:', currentVideo.src);
+
+    console.log('Setting up video:', currentVideo.id);
 
     const handleLoadedData = () => {
-      console.log('Video loaded successfully');
-      setIsLoaded(true);
-      setHasError(false);
+      console.log('Video loaded successfully:', currentVideo.id);
+      isLoadedRef.current = true;
+      hasErrorRef.current = false;
       
-      // Start playing muted
-      video.muted = isMuted;
-      video.play().catch(error => {
+      // Auto-play the video
+      video.play().catch((error) => {
         console.error('Error playing video:', error);
-        if (error.name !== 'AbortError') {
-          setHasError(true);
-        }
+        hasErrorRef.current = true;
       });
     };
 
-    const handleError = (e: Event) => {
-      console.error('Video loading error:', e);
-      setHasError(true);
-      setIsLoaded(false);
+    const handleError = (error: any) => {
+      console.error('Video loading error:', error);
+      hasErrorRef.current = true;
     };
 
     const handleEnded = () => {
-      console.log('Video playback ended - hiding video');
-      setIsVisible(false);
+      console.log('Video ended:', currentVideo.id);
+      // Video ended, but don't hide - let the cycle timer handle next video
     };
 
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('error', handleError);
     video.addEventListener('ended', handleEnded);
 
-    // Load the video
-    video.src = currentVideo.src;
+    // Set the video source
+    video.src = currentVideo.url;
     video.load();
 
     return () => {
@@ -151,10 +159,10 @@ export function GlobalVideoTestimonials() {
       video.removeEventListener('error', handleError);
       video.removeEventListener('ended', handleEnded);
     };
-  }, [isVisible, currentVideoIndex, isMuted, hasError]);
+  }, [isVisible, currentVideoIndex]);
 
   const handleClose = () => {
-    console.log('User closed video');
+    console.log('Video manually closed');
     setIsVisible(false);
     if (videoRef.current) {
       videoRef.current.pause();
@@ -162,64 +170,75 @@ export function GlobalVideoTestimonials() {
   };
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      const newMutedState = !isMuted;
-      setIsMuted(newMutedState);
-      videoRef.current.muted = newMutedState;
-      console.log('Toggled mute:', newMutedState);
-    }
+    setIsMuted(!isMuted);
   };
 
-  // Don't render if not in Spanish or not visible
   if (!shouldShowVideos || !isVisible) {
-    return null;
-  }
-
-  // Don't render if there's an error
-  if (hasError) {
-    console.log('Not rendering due to error');
     return null;
   }
 
   const currentVideo = videoTestimonials[currentVideoIndex];
 
   return (
-    <div className="w-[260px] h-[460px] fixed bottom-6 left-6 z-50 rounded-lg shadow-2xl overflow-hidden bg-black flex-shrink-0">
-      <div className="relative w-[260px] h-[460px]">
-        <video
-          ref={videoRef}
-          className="w-[260px] h-[460px] object-cover pointer-events-none"
-          muted={isMuted}
-          playsInline
-          preload="metadata"
-          style={{ maxWidth: '260px', maxHeight: '460px', minWidth: '260px', minHeight: '460px' }}
-        />
-        
-        {/* Close button */}
-        <button
-          onClick={handleClose}
-          className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-colors"
-          aria-label="Cerrar video"
-        >
-          <X size={16} />
-        </button>
+    <div 
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        left: '24px',
+        width: '260px !important',
+        height: '460px !important',
+        maxWidth: '260px !important',
+        maxHeight: '460px !important',
+        minWidth: '260px !important',
+        minHeight: '460px !important',
+        zIndex: 50,
+        borderRadius: '8px',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        overflow: 'hidden',
+        backgroundColor: 'black',
+        flexShrink: 0,
+        pointerEvents: 'auto'
+      }}
+    >
+      <video
+        ref={videoRef}
+        muted={isMuted}
+        playsInline
+        preload="metadata"
+        style={{
+          width: '260px !important',
+          height: '460px !important',
+          maxWidth: '260px !important',
+          maxHeight: '460px !important',
+          minWidth: '260px !important',
+          minHeight: '460px !important',
+          objectFit: 'cover',
+          display: 'block',
+          pointerEvents: 'none'
+        }}
+      />
+      
+      {/* Close button */}
+      <button
+        onClick={handleClose}
+        className="absolute top-2 right-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <X className="w-4 h-4 text-white" />
+      </button>
 
-        {/* Mute/Unmute toggle */}
-        <button
-          onClick={toggleMute}
-          className="absolute bottom-2 right-2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-          aria-label={isMuted ? "Activar sonido" : "Silenciar"}
-        >
-          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-        </button>
-
-        {/* Loading state */}
-        {!isLoaded && !hasError && (
-          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          </div>
+      {/* Volume toggle button */}
+      <button
+        onClick={toggleMute}
+        className="absolute top-2 left-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+        style={{ pointerEvents: 'auto' }}
+      >
+        {isMuted ? (
+          <VolumeX className="w-4 h-4 text-white" />
+        ) : (
+          <Volume2 className="w-4 h-4 text-white" />
         )}
-      </div>
+      </button>
     </div>
   );
 }

@@ -3,12 +3,14 @@ import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { HotelStarfield } from '@/components/hotels/HotelStarfield';
-import { FilterSection } from '@/components/hotels/FilterSection';
+import { FilterSection } from '@/components/filters/FilterSection';
 import { HotelResultsGrid } from '@/components/hotels/HotelResultsGrid';
 import { SpanishVideoTestimonials } from '@/components/testimonials/SpanishVideoTestimonials';
 import BubbleCounter from '@/components/common/BubbleCounter';
+import { useHotelSearchLogic } from '@/components/hotels/hooks/useHotelSearchLogic';
 
 export default function Search() {
+  const { hotels, loading, error, filters, onFiltersChange } = useHotelSearchLogic();
   return (
     <div className="min-h-screen flex flex-col">
       <HotelStarfield />
@@ -24,10 +26,10 @@ export default function Search() {
           </div>
           
           {/* Filter Section */}
-          <FilterSection />
+          <FilterSection onFilterChange={onFiltersChange} />
           
           {/* Results Grid */}
-          <HotelResultsGrid />
+          <HotelResultsGrid hotels={hotels} loading={loading} error={error} filters={filters} />
         </div>
       </main>
       

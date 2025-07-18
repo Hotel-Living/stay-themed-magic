@@ -11,6 +11,13 @@ import AmbassadorsList from "./pages/AmbassadorsList";
 import AmbassadorsUSA from "./pages/AmbassadorsUSA";
 import Contact from "./pages/Contact";
 import Hotels from "./pages/Hotels";
+import HotelDetail from "./pages/HotelDetail";
+import Compare from "./pages/Compare";
+import FAQ from "./pages/FAQ";
+import Videos from "./pages/Videos";
+import AffinityStays from "./pages/AffinityStays";
+import Search from "./pages/Search";
+import NotFound from "./pages/NotFound";
 import { GlobalAvatarSystem } from "./components/avatars/GlobalAvatarSystem";
 import { SpanishVideoTestimonials } from "./components/testimonials/SpanishVideoTestimonials";
 import { AuthProvider } from "./context/AuthContext";
@@ -41,6 +48,13 @@ function App() {
                 <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/hotels" element={<Hotels />} />
+                <Route path="/hotel/:id" element={<HotelDetail />} />
+                <Route path="/compare" element={<Compare />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/videos" element={<Videos />} />
+                <Route path="/affinity-stays" element={<AffinityStays />} />
+                <Route path="/search" element={<Search />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </AvatarManagerProvider>
           </BrowserRouter>

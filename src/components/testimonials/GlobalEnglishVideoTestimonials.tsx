@@ -28,15 +28,23 @@ export function GlobalEnglishVideoTestimonials() {
   const testimonials = [
     {
       id: 'testimonio1',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-1.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLES-TESTIMONIO-1.webm'
     },
     {
       id: 'testimonio2', 
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-2.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLES-TESTIMONIO-2.webm'
     },
     {
       id: 'testimonio3',
-      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3.webm'
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLES-TESTIMONIO-3.webm'
+    },
+    {
+      id: 'testimonio4',
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLES-TESTIMONIO-4.webm'
+    },
+    {
+      id: 'testimonio5',
+      src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLES-TESTIMONIO-5.webm'
     }
   ];
 

@@ -13,6 +13,8 @@ import Contact from "./pages/Contact";
 import Hotels from "./pages/Hotels";
 import { GlobalAvatarSystem } from "./components/avatars/GlobalAvatarSystem";
 import { SpanishVideoTestimonials } from "./components/testimonials/SpanishVideoTestimonials";
+import { AuthProvider } from "./context/AuthContext";
+import { AvatarManagerProvider } from "./contexts/AvatarManager";
 import './i18n/config';
 
 const queryClient = new QueryClient();
@@ -25,20 +27,24 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <BrowserRouter>
-          <GlobalAvatarSystem />
-          <SpanishVideoTestimonials />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/ambassador" element={<Ambassador />} />
-            <Route path="/ambassadors" element={<AmbassadorsList />} />
-            <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/hotels" element={<Hotels />} />
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <AvatarManagerProvider>
+            <Toaster />
+            <BrowserRouter>
+              <GlobalAvatarSystem />
+              <SpanishVideoTestimonials />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/ambassador" element={<Ambassador />} />
+                <Route path="/ambassadors" element={<AmbassadorsList />} />
+                <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/hotels" element={<Hotels />} />
+              </Routes>
+            </BrowserRouter>
+          </AvatarManagerProvider>
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

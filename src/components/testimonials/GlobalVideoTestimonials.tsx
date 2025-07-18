@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 
 interface TestimonialVideo {
   id: string;
@@ -23,7 +23,9 @@ export function GlobalVideoTestimonials() {
   ];
 
   const [currentVideo, setCurrentVideo] = useState<TestimonialVideo | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -49,8 +51,8 @@ export function GlobalVideoTestimonials() {
           videoRef.current.pause();
         }
       } else {
-        if (videoRef.current) {
-          videoRef.current.play();
+        if (videoRef.current && !hasError) {
+          videoRef.current.play().catch(console.error);
         }
       }
     };
@@ -60,10 +62,24 @@ export function GlobalVideoTestimonials() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [hasError]);
 
   const handleClose = () => {
     console.log('GlobalVideoTestimonials - Closing video');
+    setIsVisible(false);
+  };
+
+  const handleVideoLoad = () => {
+    console.log('GlobalVideoTestimonials - Video loaded successfully');
+    setIsLoading(false);
+    setHasError(false);
+    setIsVisible(true);
+  };
+
+  const handleVideoError = (e: any) => {
+    console.error('GlobalVideoTestimonials - Video failed to load:', e, currentVideo?.videoUrl);
+    setIsLoading(false);
+    setHasError(true);
     setIsVisible(false);
   };
 
@@ -72,7 +88,27 @@ export function GlobalVideoTestimonials() {
     setIsVisible(false);
   };
 
-  if (!currentVideo || !isVisible) {
+  // Test if we should show anything at all
+  if (!currentVideo || hasError) {
+    return null;
+  }
+
+  // Show loading state
+  if (isLoading && !isVisible) {
+    return (
+      <div 
+        className="testimonial-video-container w-[50px] h-[90px] sm:w-[130px] sm:h-[230px] flex items-center justify-center bg-black/80"
+        style={{
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+        }}
+      >
+        <Loader2 className="w-4 h-4 sm:w-6 sm:h-6 text-white animate-spin" />
+      </div>
+    );
+  }
+
+  // Show video only when loaded and visible
+  if (!isVisible) {
     return null;
   }
 
@@ -98,8 +134,8 @@ export function GlobalVideoTestimonials() {
         playsInline
         preload="auto"
         onLoadStart={() => console.log('Video loading started:', currentVideo.videoUrl)}
-        onCanPlay={() => console.log('Video can play')}
-        onError={(e) => console.error('Video error:', e)}
+        onCanPlay={handleVideoLoad}
+        onError={handleVideoError}
         onEnded={handleVideoEnd}
         className="w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
         style={{

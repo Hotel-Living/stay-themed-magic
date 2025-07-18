@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
+import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import Index from "./pages/Index";
 import Hotels from "./pages/Hotels";
 import Login from "./pages/Login";
@@ -34,6 +35,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
+          <AvatarManagerProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
@@ -75,6 +77,7 @@ function App() {
             <GlobalTestimonials />
             <GlobalEnglishTestimonials />
           </BrowserRouter>
+          </AvatarManagerProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

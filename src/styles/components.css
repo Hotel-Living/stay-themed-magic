@@ -39,6 +39,27 @@
     animation: pulse 2s infinite;
   }
   
+  .testimonial-video-container {
+    width: 130px !important;
+    height: 230px !important;
+    max-width: 130px !important;
+    max-height: 230px !important;
+    min-width: 130px !important;
+    min-height: 230px !important;
+    overflow: hidden !important;
+  }
+  
+  .testimonial-video-container video {
+    width: 130px !important;
+    height: 230px !important;
+    max-width: 130px !important;
+    max-height: 230px !important;
+    min-width: 130px !important;
+    min-height: 230px !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+  
   @keyframes pulse {
     0% {
       opacity: 0.8;

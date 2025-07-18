@@ -15,11 +15,6 @@ export function GlobalVideoTestimonials() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // No mostrar en Index
-  if (location.pathname === '/') {
-    return null;
-  }
-
   useEffect(() => {
     const startVideo = () => {
       const video = videoRef.current;
@@ -62,6 +57,11 @@ export function GlobalVideoTestimonials() {
       video.removeEventListener('error', handleError);
     };
   }, [currentVideoIndex]);
+
+  // No mostrar en Index
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 left-4 z-40">

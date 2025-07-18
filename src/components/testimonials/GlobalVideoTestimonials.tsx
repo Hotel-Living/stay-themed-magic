@@ -17,11 +17,6 @@ export function GlobalVideoTestimonials() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Don't show on Index page
-  if (location.pathname === '/') {
-    return null;
-  }
-
   console.log('🎥 GlobalVideoTestimonials mounted on:', location.pathname);
   console.log('🎥 Current video index:', currentVideoIndex);
   console.log('🎥 Current video:', testimonials[currentVideoIndex]);
@@ -114,6 +109,11 @@ export function GlobalVideoTestimonials() {
       }
     };
   }, []);
+
+  // Don't show on Index page
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-40">

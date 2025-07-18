@@ -124,62 +124,45 @@ export function GlobalVideoTestimonials() {
   const currentVideo = currentLangVideos[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 w-72 bg-black rounded-lg overflow-hidden shadow-2xl border border-fuchsia-400/30 transition-all duration-300">
-      {/* Close button - top right */}
-      <button
-        onClick={handleClose}
-        className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-colors"
-        aria-label="Close video"
-      >
-        <X size={16} />
-      </button>
-
-      {/* Mute/Unmute button - bottom right */}
+    <div className="fixed bottom-4 left-4 z-50 w-72">
+      {/* Mute/Unmute button - top right of video */}
       <button
         onClick={toggleMute}
-        className="absolute bottom-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+        className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
         aria-label={isMuted ? "Unmute video" : "Mute video"}
       >
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
 
-      {/* Video container with proper aspect ratio */}
-      <div className="relative w-full aspect-video bg-black">
-        <video
-          ref={videoRef}
-          src={currentVideo.url}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          controls={false}
-          className="w-full h-full object-contain cursor-default"
-          onError={(e) => {
-            console.error('Error loading video:', currentVideo.url, e);
-            // Try next video on error
-            const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
-            const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
-            setCurrentVideoIndex(nextIndex);
-          }}
-          onLoadStart={() => {
-            console.log('Video loading started:', currentVideo.url);
-          }}
-          onCanPlay={() => {
-            console.log('Video can play:', currentVideo.url);
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      {/* Video title overlay */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 pb-8 pointer-events-none">
-        <p className="text-white text-sm font-medium">{currentVideo.title}</p>
-      </div>
+      {/* Video - natural vertical aspect ratio */}
+      <video
+        ref={videoRef}
+        src={currentVideo.url}
+        autoPlay
+        muted={isMuted}
+        playsInline
+        controls={false}
+        className="w-full h-auto rounded-lg shadow-2xl"
+        onError={(e) => {
+          console.error("Error loading video:", currentVideo.url, e);
+          // Try next video on error
+          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
+          const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
+          setCurrentVideoIndex(nextIndex);
+        }}
+        onEnded={() => {
+          // Auto-close when video ends
+          setIsVisible(false);
+        }}
+        onLoadStart={() => {
+          console.log("Video loading started:", currentVideo.url);
+        }}
+        onCanPlay={() => {
+          console.log("Video can play:", currentVideo.url);
+        }}
+      >
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 }

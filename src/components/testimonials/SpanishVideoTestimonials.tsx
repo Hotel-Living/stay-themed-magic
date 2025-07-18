@@ -5,11 +5,11 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { X } from 'lucide-react';
 
 const testimonialVideos = [
-  "/videos/ESPAÑOL TESTIMONIO 1.mp4",
-  "/videos/ESPAÑOL TESTIMONIO 2.mp4", 
-  "/videos/ESPAÑOL TESTIMONIO 3.mp4",
-  "/videos/ESPAÑOL TESTIMONIO 5.mp4",
-  "/videos/ESPAÑOL TESTIMONIO 6.mp4"
+  "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm",
+  "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm",
+  "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm",
+  "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm",
+  "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio6.webm"
 ];
 
 export const SpanishVideoTestimonials: React.FC = () => {

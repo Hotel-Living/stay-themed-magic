@@ -1,8 +1,14 @@
 
+import { useLocation } from 'react-router-dom';
 import { GlobalVideoTestimonials } from './GlobalVideoTestimonials';
 
 export function GlobalTestimonials() {
-  // Remove the route checking logic since we want testimonials to show on all pages except index
-  // The route checking will be handled in GlobalVideoTestimonials itself
+  const location = useLocation();
+  
+  // Don't show on Index page
+  if (location.pathname === '/') {
+    return null;
+  }
+  
   return <GlobalVideoTestimonials />;
 }

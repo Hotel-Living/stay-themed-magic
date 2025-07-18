@@ -69,16 +69,7 @@ export function GlobalVideoTestimonials() {
     <div 
       className="testimonial-video-container"
       style={{
-        position: 'fixed',
-        bottom: '24px',
-        left: '24px',
-        width: '130px',
-        height: '230px',
-        zIndex: 50,
-        borderRadius: '8px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        backgroundColor: 'black',
-        overflow: 'hidden'
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       }}
     >
       <button

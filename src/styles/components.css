@@ -39,25 +39,53 @@
     animation: pulse 2s infinite;
   }
   
-  .testimonial-video-container {
-    width: 130px !important;
-    height: 230px !important;
-    max-width: 130px !important;
-    max-height: 230px !important;
-    min-width: 130px !important;
-    min-height: 230px !important;
+  /* Video testimonial container - FORCE 130x230 dimensions */
+  .testimonial-video-container,
+  div[class*="testimonial-video-container"],
+  [style*="testimonial-video-container"] {
+    --video-width: 130px;
+    --video-height: 230px;
+    width: var(--video-width) !important;
+    height: var(--video-height) !important;
+    max-width: var(--video-width) !important;
+    max-height: var(--video-height) !important;
+    min-width: var(--video-width) !important;
+    min-height: var(--video-height) !important;
     overflow: hidden !important;
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 24px !important;
+    z-index: 50 !important;
+    border-radius: 8px !important;
+    background-color: black !important;
+    transform: scale(1) !important;
+    transform-origin: bottom left !important;
   }
   
-  .testimonial-video-container video {
-    width: 130px !important;
-    height: 230px !important;
-    max-width: 130px !important;
-    max-height: 230px !important;
-    min-width: 130px !important;
-    min-height: 230px !important;
+  /* Video element - FORCE exact dimensions with multiple selectors */
+  .testimonial-video-container video,
+  .testimonial-video-container > video,
+  div[class*="testimonial-video-container"] video,
+  [style*="testimonial-video-container"] video {
+    width: var(--video-width) !important;
+    height: var(--video-height) !important;
+    max-width: var(--video-width) !important;
+    max-height: var(--video-height) !important;
+    min-width: var(--video-width) !important;
+    min-height: var(--video-height) !important;
     object-fit: cover !important;
     display: block !important;
+    pointer-events: none !important;
+    transform: scale(1) !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+  
+  /* Fallback with transform scaling if other methods fail */
+  .testimonial-video-container.force-scale {
+    transform: scale(0.5) !important;
+    transform-origin: bottom left !important;
   }
   
   @keyframes pulse {

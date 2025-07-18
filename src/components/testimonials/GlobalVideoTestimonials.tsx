@@ -1,122 +1,96 @@
-
-import React, { useEffect, useRef } from 'react';
-import { Volume2, VolumeX, X } from 'lucide-react';
-import { useTranslation } from '@/hooks/useTranslation';
+import React, { useState, useEffect, useRef } from 'react';
 import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
+import { useTranslation } from 'react-i18next';
+import { Volume2, VolumeX } from 'lucide-react';
 
 interface VideoTestimonial {
-  id: string;
   url: string;
-  title: string;
-  description: string;
 }
 
-const videoTestimonials = {
-  es: [
-    {
-      id: 'es-1',
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
-      title: 'Antonio - Jubilado',
-      description: 'Testimonial de cliente satisfecho'
-    },
-    {
-      id: 'es-2', 
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
-      title: 'Luisa - Jubilada',
-      description: 'Experiencia con AffinityStays'
-    },
-    {
-      id: 'es-3',
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm', 
-      title: 'María - Retirada',
-      description: 'Recomendación personal'
-    }
-  ],
+interface VideoTestimonials {
+  [key: string]: VideoTestimonial[];
+}
+
+const videoTestimonials: VideoTestimonials = {
   en: [
-    {
-      id: 'en-1',
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm',
-      title: 'John - Retired',
-      description: 'Satisfied customer testimonial'
-    },
-    {
-      id: 'en-2',
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio6.webm',
-      title: 'Antonio - Retired',
-      description: 'AffinityStays experience'
-    },
-    {
-      id: 'en-3',
-      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
-      title: 'Martin - Retired',
-      description: 'Personal recommendation'
-    }
-  ]
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20EN.mp4' },
+  ],
+  de: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20DE.mp4' },
+  ],
+  es: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20ES.mp4' },
+  ],
+  fr: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20FR.mp4' },
+  ],
+  it: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20IT.mp4' },
+  ],
+  nl: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20NL.mp4' },
+  ],
+  pl: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20PL.mp4' },
+  ],
+  pt: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20PT.mp4' },
+  ],
+  ru: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20RU.mp4' },
+  ],
+  tr: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20TR.mp4' },
+  ],
+  zh: [
+    { url: 'https://d29v1zwsqhk9mc.cloudfront.net/video/Hotel%20search%20testimonials%20-%20ZH.mp4' },
+  ],
 };
 
 export function GlobalVideoTestimonials() {
+  const { isVisible, setIsVisible, currentVideoIndex, setCurrentVideoIndex, isMuted, setIsMuted, hasStarted, setHasStarted } = useVideoTestimonial();
   const { i18n } = useTranslation();
-  const {
-    isVisible,
-    setIsVisible,
-    currentVideoIndex,
-    setCurrentVideoIndex,
-    isMuted,
-    setIsMuted,
-    hasStarted,
-    setHasStarted,
-  } = useVideoTestimonial();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
-  // Show video immediately for all supported languages, then every 2 minutes
   useEffect(() => {
-    if (i18n.language === 'es' || i18n.language === 'en') {
-      // Clear any existing interval first
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-      
-      // Show immediately on page load if not started
-      if (!hasStarted) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 't' && !hasStarted) {
         setIsVisible(true);
         setHasStarted(true);
-      }
-      
-      // Set up interval for subsequent videos (every 2 minutes)
-      intervalRef.current = setInterval(() => {
-        const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
-        const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
-        setCurrentVideoIndex(nextIndex);
-        setIsVisible(true);
-        setIsMuted(true); // Reset to muted for each new video
-      }, 120000); // 2 minutes
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        event.preventDefault(); // Prevent 't' from being typed in any input field
       }
     };
-  }, [i18n.language, hasStarted, setIsVisible, setHasStarted, setCurrentVideoIndex, setIsMuted]);
 
-  // Update video mute state when isMuted changes
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setIsVisible, setHasStarted, hasStarted]);
+
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = isMuted;
+    if (isVisible && videoRef.current) {
+      // Autoplay only on first play
+      if (!hasPlayedOnce) {
+        videoRef.current.play().then(() => {
+          setHasPlayedOnce(true);
+        }).catch(error => {
+          console.error("Autoplay failed:", error);
+          // Handle autoplay failure (e.g., show a play button)
+        });
+      }
     }
-  }, [isMuted]);
-
-  const handleClose = () => {
-    setIsVisible(false);
-  };
+  }, [isVisible, hasPlayedOnce]);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
   };
 
-  // Don't render if language not supported or not visible
-  if ((i18n.language !== 'es' && i18n.language !== 'en') || !isVisible) {
+  if (!isVisible) {
     return null;
   }
 
@@ -124,7 +98,7 @@ export function GlobalVideoTestimonials() {
   const currentVideo = currentLangVideos[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 w-72">
+    <div className="fixed bottom-4 left-4 z-50 max-h-60">
       {/* Mute/Unmute button - top right of video */}
       <button
         onClick={toggleMute}
@@ -134,7 +108,7 @@ export function GlobalVideoTestimonials() {
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
 
-      {/* Video - natural vertical aspect ratio */}
+      {/* Video - height constrained to 240px max, width adjusts automatically */}
       <video
         ref={videoRef}
         src={currentVideo.url}
@@ -142,11 +116,10 @@ export function GlobalVideoTestimonials() {
         muted={isMuted}
         playsInline
         controls={false}
-        className="w-full h-auto rounded-lg shadow-2xl"
+        className="max-h-60 h-auto w-auto rounded-lg shadow-2xl"
         onError={(e) => {
           console.error("Error loading video:", currentVideo.url, e);
           // Try next video on error
-          const currentLangVideos = videoTestimonials[i18n.language as keyof typeof videoTestimonials] || videoTestimonials.en;
           const nextIndex = (currentVideoIndex + 1) % currentLangVideos.length;
           setCurrentVideoIndex(nextIndex);
         }}

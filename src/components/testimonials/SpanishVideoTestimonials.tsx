@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
-import { X } from 'lucide-react';
+import { X, Volume2, VolumeX } from 'lucide-react';
 
 const testimonialVideos = [
   "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm",
@@ -17,8 +17,10 @@ export const SpanishVideoTestimonials: React.FC = () => {
   const location = useLocation();
   const [visibleVideoIndex, setVisibleVideoIndex] = useState(-1);
   const [shownVideos, setShownVideos] = useState<number[]>([]);
+  const [isMuted, setIsMuted] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout>();
   const currentVideoRef = useRef(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Check if we should show videos
   const shouldShowVideos = i18n.language === 'es' && location.pathname !== '/';
@@ -43,6 +45,7 @@ export const SpanishVideoTestimonials: React.FC = () => {
         if (currentVideoRef.current < testimonialVideos.length) {
           setVisibleVideoIndex(currentVideoRef.current);
           setShownVideos(prev => [...prev, currentVideoRef.current]);
+          setIsMuted(true); // Reset to muted for each new video
           currentVideoRef.current += 1;
         } else {
           // All videos shown, clear interval
@@ -65,8 +68,20 @@ export const SpanishVideoTestimonials: React.FC = () => {
     };
   }, [shouldShowVideos, shownVideos.length]);
 
+  // Update video mute state when isMuted changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
   const handleCloseVideo = () => {
     setVisibleVideoIndex(-1);
+    setIsMuted(true); // Reset mute state when closing
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
   };
 
   // Don't render anything if conditions aren't met
@@ -77,12 +92,13 @@ export const SpanishVideoTestimonials: React.FC = () => {
   return (
     <div 
       id="video-popup" 
-      className="fixed bottom-4 left-4 w-[180px] sm:w-[100px] z-50 rounded-xl shadow-lg overflow-hidden bg-black"
+      className="fixed bottom-4 left-4 w-[180px] sm:w-[200px] z-50 rounded-xl shadow-lg overflow-hidden bg-black"
     >
       <div className="relative">
         <video
+          ref={videoRef}
           autoPlay
-          muted
+          muted={isMuted}
           loop
           playsInline
           src={testimonialVideos[visibleVideoIndex]}
@@ -91,12 +107,27 @@ export const SpanishVideoTestimonials: React.FC = () => {
             console.error('Video failed to load:', testimonialVideos[visibleVideoIndex]);
           }}
         />
+        
+        {/* Close button */}
         <button
           onClick={handleCloseVideo}
-          className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors"
+          className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors"
           aria-label="Cerrar video"
         >
           <X className="w-3 h-3" />
+        </button>
+        
+        {/* Audio toggle button */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors"
+          aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+        >
+          {isMuted ? (
+            <VolumeX className="w-3 h-3" />
+          ) : (
+            <Volume2 className="w-3 h-3" />
+          )}
         </button>
       </div>
     </div>

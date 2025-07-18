@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -5,15 +6,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, MapPin, Calendar, Users } from 'lucide-react';
 
-export function HotelSearchAndResults() {
+// This is a placeholder component - DO NOT USE in production
+// The real search functionality is in the FilterSection and HotelResultsGrid components
+export function PlaceholderSearchComponent() {
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="text-center mb-8 p-4 bg-yellow-100 border border-yellow-400 rounded-lg">
+        <p className="text-yellow-800 font-semibold">
+          ⚠️ This is a placeholder component. Use FilterSection and HotelResultsGrid instead.
+        </p>
+      </div>
+      
       {/* Search Form */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="w-5 h-5" />
-            Search Hotels
+            Search Hotels (Placeholder)
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -60,7 +69,7 @@ export function HotelSearchAndResults() {
 
       {/* Results Section */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Search Results</h2>
+        <h2 className="text-2xl font-bold">Search Results (Placeholder)</h2>
         
         {/* Placeholder for results */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

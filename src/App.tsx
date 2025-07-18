@@ -6,7 +6,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/auth/AuthProvider";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
+import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { GlobalAvatarSystem } from "@/components/avatars/GlobalAvatarSystem";
+import { GlobalTestimonials } from "@/components/testimonials/GlobalTestimonials";
 import { SEOMetadata } from "@/components/SEOMetadata";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
@@ -88,7 +90,8 @@ function App() {
         <Toaster />
         <AuthProvider>
           <Router>
-            <AvatarManagerProvider>
+            <VideoTestimonialProvider>
+              <AvatarManagerProvider>
               <SEOMetadata />
               <ScrollToTop />
               <GoogleAnalytics />
@@ -169,7 +172,11 @@ function App() {
             
             {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
             <GlobalAvatarSystem />
+            
+            {/* Global Video Testimonials - appears on all pages except homepage */}
+            <GlobalTestimonials />
             </AvatarManagerProvider>
+            </VideoTestimonialProvider>
           </Router>
         </AuthProvider>
       </TooltipProvider>

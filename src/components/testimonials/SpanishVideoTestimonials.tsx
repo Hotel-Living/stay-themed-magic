@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Volume2, VolumeX, X } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
 
 interface VideoTestimonial {
   id: string;
@@ -13,33 +14,38 @@ interface VideoTestimonial {
 const videoTestimonials: VideoTestimonial[] = [
   {
     id: '1',
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonial-es-1.mp4',
-    title: 'Testimonial 1',
-    description: 'Customer testimonial in Spanish'
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    title: 'María José - Jubilada',
+    description: 'Testimonial de cliente satisfecha'
   },
   {
     id: '2', 
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonial-es-2.mp4',
-    title: 'Testimonial 2',
-    description: 'Customer testimonial in Spanish'
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    title: 'Carlos - Empresario',
+    description: 'Experiencia con AffinityStays'
   },
   {
     id: '3',
-    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonial-es-3.mp4', 
-    title: 'Testimonial 3',
-    description: 'Customer testimonial in Spanish'
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 
+    title: 'Ana - Profesora',
+    description: 'Recomendación personal'
   }
 ];
 
 export function SpanishVideoTestimonials() {
   const { i18n } = useTranslation();
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
+  const {
+    isVisible,
+    setIsVisible,
+    currentVideoIndex,
+    setCurrentVideoIndex,
+    isMuted,
+    setIsMuted,
+    hasStarted,
+    setHasStarted,
+  } = useVideoTestimonial();
   const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Show video immediately for Spanish users, then every 2 minutes
   useEffect(() => {
@@ -51,7 +57,8 @@ export function SpanishVideoTestimonials() {
         
         // Set up interval for subsequent videos (every 2 minutes)
         intervalRef.current = setInterval(() => {
-          setCurrentVideoIndex((prev) => (prev + 1) % videoTestimonials.length);
+          const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
+          setCurrentVideoIndex(nextIndex);
           setIsVisible(true);
           setIsMuted(true); // Reset to muted for each new video
         }, 120000); // 2 minutes
@@ -62,11 +69,8 @@ export function SpanishVideoTestimonials() {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
     };
-  }, [i18n.language, hasStarted]);
+  }, [i18n.language, hasStarted, currentVideoIndex, setIsVisible, setHasStarted, setCurrentVideoIndex, setIsMuted]);
 
   // Update video mute state when isMuted changes
   useEffect(() => {
@@ -118,11 +122,24 @@ export function SpanishVideoTestimonials() {
         loop
         muted={isMuted}
         playsInline
-        className="w-full h-full object-cover pointer-events-none"
+        controls={false}
+        className="w-full h-full object-cover cursor-default"
         onError={(e) => {
-          console.error('Error loading video:', e);
+          console.error('Error loading video:', currentVideo.url, e);
           // Try next video on error
-          setCurrentVideoIndex((prev) => (prev + 1) % videoTestimonials.length);
+          const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
+          setCurrentVideoIndex(nextIndex);
+        }}
+        onLoadStart={() => {
+          console.log('Video loading started:', currentVideo.url);
+        }}
+        onCanPlay={() => {
+          console.log('Video can play:', currentVideo.url);
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Do nothing on video click to prevent disappearing
         }}
       >
         Your browser does not support the video tag.

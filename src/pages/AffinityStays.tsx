@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { AffinityStaysSlogans } from "@/components/affinity-stays/AffinityStaysSlogans";
 import { AffinityAccordionMenu } from "@/components/affinity-stays/AffinityAccordionMenu";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-import { SpanishVideoTestimonials } from "@/components/testimonials/SpanishVideoTestimonials";
 
 export default function AffinityStays() {
   return (
@@ -24,9 +23,6 @@ export default function AffinityStays() {
       </main>
       
       <Footer />
-      
-      {/* Spanish Video Testimonials */}
-      <SpanishVideoTestimonials />
     </div>
   );
 }

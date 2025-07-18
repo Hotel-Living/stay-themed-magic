@@ -2,63 +2,62 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
+import { X, Mic } from 'lucide-react';
 
-const englishTestimonials = [
-  { 
-    id: 'english-testimonio1', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-1.webm' 
-  },
-  { 
-    id: 'english-testimonio2', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-2.webm' 
-  },
-  { 
-    id: 'english-testimonio3', 
-    src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3.webm' 
-  }
+const testimonials = [
+  { id: 'testimonio-one', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/testimonio-one.webm' },
+  { id: 'testimonio-two', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/testimonio-two.webm' },
+  { id: 'testimonio-three', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/testimonio-three.webm' }
 ];
 
 export function GlobalEnglishVideoTestimonials() {
   const location = useLocation();
   const { language } = useTranslation();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [sequenceCompleted, setSequenceCompleted] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [hasCompleted, setHasCompleted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   console.log('🎥 GlobalEnglishVideoTestimonials mounted on:', location.pathname);
   console.log('🎥 Current video index:', currentVideoIndex);
-  console.log('🎥 Sequence completed:', sequenceCompleted);
-  console.log('🎥 Current video:', englishTestimonials[currentVideoIndex]);
 
-  // Check session storage on mount to see if sequence was already completed
+  // Check session storage for completion status - allow restart on new page loads
   useEffect(() => {
-    const sessionCompleted = sessionStorage.getItem('english-testimonials-completed');
-    if (sessionCompleted === 'true') {
-      setSequenceCompleted(true);
-      console.log('🎥 English testimonial sequence already completed in this session');
+    const completed = sessionStorage.getItem('english-testimonials-completed');
+    const lastPageLoad = sessionStorage.getItem('english-testimonials-page-load');
+    const currentPageLoad = Date.now().toString();
+    
+    // If it's a new page load (different from last stored), reset the sequence
+    if (lastPageLoad !== currentPageLoad) {
+      sessionStorage.setItem('english-testimonials-page-load', currentPageLoad);
+      sessionStorage.removeItem('english-testimonials-completed');
+      setHasCompleted(false);
+      setIsVisible(true);
+      setCurrentVideoIndex(0);
+    } else if (completed === 'true') {
+      setHasCompleted(true);
+      setIsVisible(false);
     }
   }, []);
 
   const nextVideo = () => {
     console.log('🎥 Moving to next video from index:', currentVideoIndex);
     
-    // If we just finished the last video (index 2), mark sequence as completed
-    if (currentVideoIndex === englishTestimonials.length - 1) {
-      console.log('🎥 English testimonial sequence completed');
-      setSequenceCompleted(true);
+    // Stop after the last video (index 2 = 3rd video)
+    if (currentVideoIndex >= testimonials.length - 1) {
+      console.log('🎥 English sequence completed, hiding testimonials');
       sessionStorage.setItem('english-testimonials-completed', 'true');
+      setHasCompleted(true);
+      setIsVisible(false);
       return;
     }
     
-    // Move to next video
     setCurrentVideoIndex(prev => prev + 1);
-    setIsPlaying(false);
   };
 
-  const startVideo = () => {
-    console.log('🎥 Starting video at index:', currentVideoIndex);
+  const startVideoSequence = () => {
+    console.log('🎥 Starting English video sequence at index:', currentVideoIndex);
     const video = videoRef.current;
     if (!video) {
       console.log('🎥 No video element found');
@@ -71,57 +70,56 @@ export function GlobalEnglishVideoTestimonials() {
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          console.log('🎥 Video started playing successfully');
-          setIsPlaying(true);
-          // Set timer to switch to next video after 60 seconds
+          console.log('🎥 English video started playing successfully');
+          // Set timer for exactly 60 seconds regardless of video length
           if (timerRef.current) {
             clearTimeout(timerRef.current);
           }
           timerRef.current = setTimeout(() => {
-            console.log('🎥 Timer expired, switching to next video');
+            console.log('🎥 60-second timer expired, switching to next English video');
             nextVideo();
           }, 60000);
         })
         .catch((error) => {
-          console.error('🎥 Video play failed:', error);
+          console.error('🎥 English video play failed:', error);
           // Try next video after a short delay
           setTimeout(nextVideo, 1000);
         });
     }
   };
 
-  useEffect(() => {
-    // Don't start videos if sequence is completed
-    if (sequenceCompleted) {
-      return;
+  const handleClose = () => {
+    console.log('🎥 User closed English testimonials');
+    sessionStorage.setItem('english-testimonials-completed', 'true');
+    setIsVisible(false);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
     }
+  };
 
-    console.log('🎥 Video index changed to:', currentVideoIndex);
+  useEffect(() => {
+    if (hasCompleted || !isVisible) return;
+    
+    console.log('🎥 English video index changed to:', currentVideoIndex);
     const video = videoRef.current;
     if (!video) {
-      console.log('🎥 Video element not ready yet');
+      console.log('🎥 English video element not ready yet');
       return;
     }
 
     const handleLoadedData = () => {
-      console.log('🎥 Video loaded, starting playback');
-      startVideo();
+      console.log('🎥 English video loaded, starting sequence');
+      startVideoSequence();
     };
 
     const handleError = (e: Event) => {
-      console.error('🎥 Video loading error:', englishTestimonials[currentVideoIndex].id, e);
+      console.error('🎥 English video loading error:', testimonials[currentVideoIndex].id, e);
       // Try next video
       setTimeout(nextVideo, 1000);
     };
 
-    const handleEnded = () => {
-      console.log('🎥 Video ended naturally');
-      nextVideo();
-    };
-
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('error', handleError);
-    video.addEventListener('ended', handleEnded);
 
     // Load the video
     video.load();
@@ -132,9 +130,8 @@ export function GlobalEnglishVideoTestimonials() {
       }
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('error', handleError);
-      video.removeEventListener('ended', handleEnded);
     };
-  }, [currentVideoIndex, sequenceCompleted]);
+  }, [currentVideoIndex, hasCompleted, isVisible]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -145,23 +142,40 @@ export function GlobalEnglishVideoTestimonials() {
     };
   }, []);
 
-  // Don't show on Index page and only show for English/Portuguese/Romanian users
-  // Also don't show if sequence is completed
-  if (location.pathname === '/' || !['en', 'pt', 'ro'].includes(language) || sequenceCompleted) {
+  // Don't show on Index page, only show for English users, and don't show if completed or hidden
+  if (location.pathname === '/' || language !== 'en' || !isVisible || hasCompleted) {
     return null;
   }
 
   return (
     <div className="fixed bottom-4 left-4 z-40">
-      <div className="w-32 h-24 rounded-lg overflow-hidden shadow-lg bg-black">
+      <div className="relative w-40 h-32 rounded-lg overflow-hidden shadow-lg bg-black">
+        {/* Video element with proper scaling */}
         <video
           ref={videoRef}
-          src={englishTestimonials[currentVideoIndex].src}
-          className="w-full h-full object-cover"
+          src={testimonials[currentVideoIndex].src}
+          className="w-full h-full object-contain"
           muted
           playsInline
           preload="metadata"
         />
+        
+        {/* UI Controls Overlay */}
+        <div className="absolute top-2 right-2 flex gap-1 z-10">
+          {/* Microphone Icon */}
+          <div className="w-6 h-6 bg-black/50 rounded-full flex items-center justify-center">
+            <Mic size={12} className="text-white" />
+          </div>
+          
+          {/* Close Button */}
+          <button
+            onClick={handleClose}
+            className="w-6 h-6 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+            aria-label="Close testimonials"
+          >
+            <X size={12} className="text-white" />
+          </button>
+        </div>
       </div>
     </div>
   );

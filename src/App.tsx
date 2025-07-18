@@ -35,10 +35,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <AvatarManagerProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <AvatarManagerProvider>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/hotels" element={<Hotels />} />
@@ -76,8 +76,8 @@ function App() {
             </Routes>
             <GlobalTestimonials />
             <GlobalEnglishTestimonials />
+            </AvatarManagerProvider>
           </BrowserRouter>
-          </AvatarManagerProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

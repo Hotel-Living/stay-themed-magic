@@ -94,7 +94,7 @@ export function GlobalVideoTestimonials() {
     if (!shouldShowVideos) return;
 
     console.log('Setting up 60-second continuous cycle timer');
-    
+
     if (cycleTimerRef.current) {
       clearTimeout(cycleTimerRef.current);
     }
@@ -128,7 +128,7 @@ export function GlobalVideoTestimonials() {
       console.log('Video loaded successfully:', currentVideo.id);
       isLoadedRef.current = true;
       hasErrorRef.current = false;
-      
+
       // Auto-play the video
       video.play().catch((error) => {
         console.error('Error playing video:', error);
@@ -180,17 +180,17 @@ export function GlobalVideoTestimonials() {
   const currentVideo = videoTestimonials[currentVideoIndex];
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         bottom: '24px',
         left: '24px',
-width: '65px !important',
-height: '115px !important',
-maxWidth: '65px !important',
-maxHeight: '115px !important',
-minWidth: '65px !important',
-minHeight: '115px !important',
+        width: '65px',
+        height: '115px',
+        maxWidth: '65px',
+        maxHeight: '115px',
+        minWidth: '65px',
+        minHeight: '115px',
         zIndex: 50,
         borderRadius: '8px',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
@@ -206,18 +206,18 @@ minHeight: '115px !important',
         playsInline
         preload="metadata"
         style={{
-width: '65px !important',
-height: '115px !important',
-maxWidth: '65px !important',
-maxHeight: '115px !important',
-minWidth: '65px !important',
-minHeight: '115px !important',
+          width: '65px',
+          height: '115px',
+          maxWidth: '65px',
+          maxHeight: '115px',
+          minWidth: '65px',
+          minHeight: '115px',
           objectFit: 'cover',
           display: 'block',
           pointerEvents: 'none'
         }}
       />
-      
+
       {/* Close button */}
       <button
         onClick={handleClose}

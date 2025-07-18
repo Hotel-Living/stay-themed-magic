@@ -1,17 +1,19 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const testimonials = [
-  { id: 'testimonio1', src: '/lovable-uploads/testimonio1.mp4' },
-  { id: 'testimonio2', src: '/lovable-uploads/testimonio2.mp4' },
-  { id: 'testimonio3', src: '/lovable-uploads/testimonio3.mp4' },
-  { id: 'testimonio4', src: '/lovable-uploads/testimonio4.mp4' },
-  { id: 'testimonio5', src: '/lovable-uploads/testimonio5.mp4' }
+  { id: 'testimonio1', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio1.mp4' },
+  { id: 'testimonio2', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio2.mp4' },
+  { id: 'testimonio3', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio3.mp4' },
+  { id: 'testimonio4', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio4.mp4' },
+  { id: 'testimonio5', src: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/testimonials/testimonio5.mp4' }
 ];
 
 export function GlobalVideoTestimonials() {
   const location = useLocation();
+  const { language } = useTranslation();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -43,14 +45,14 @@ export function GlobalVideoTestimonials() {
         .then(() => {
           console.log('🎥 Video started playing successfully');
           setIsPlaying(true);
-          // Set timer to switch to next video after 8 seconds
+          // Set timer to switch to next video after 60 seconds
           if (timerRef.current) {
             clearTimeout(timerRef.current);
           }
           timerRef.current = setTimeout(() => {
             console.log('🎥 Timer expired, switching to next video');
             nextVideo();
-          }, 8000);
+          }, 60000);
         })
         .catch((error) => {
           console.error('🎥 Video play failed:', error);
@@ -110,13 +112,13 @@ export function GlobalVideoTestimonials() {
     };
   }, []);
 
-  // Don't show on Index page
-  if (location.pathname === '/') {
+  // Don't show on Index page and only show for Spanish users
+  if (location.pathname === '/' || language !== 'es') {
     return null;
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-40">
+    <div className="fixed bottom-4 left-4 z-40">
       <div className="w-32 h-24 rounded-lg overflow-hidden shadow-lg bg-black">
         <video
           ref={videoRef}

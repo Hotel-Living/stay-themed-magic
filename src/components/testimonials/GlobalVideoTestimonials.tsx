@@ -143,7 +143,8 @@ export function GlobalVideoTestimonials() {
 
     const handleEnded = () => {
       console.log('Video ended:', currentVideo.id);
-      // Video ended, but don't hide - let the cycle timer handle next video
+      // Hide video when it ends to prevent frozen frame
+      setIsVisible(false);
     };
 
     video.addEventListener('loadeddata', handleLoadedData);
@@ -181,16 +182,17 @@ export function GlobalVideoTestimonials() {
 
   return (
     <div
+      className="group"
       style={{
         position: 'fixed',
         bottom: '24px',
         left: '24px',
-        width: '65px',
-        height: '115px',
-        maxWidth: '65px',
-        maxHeight: '115px',
-        minWidth: '65px',
-        minHeight: '115px',
+        width: window.innerWidth <= 768 ? '65px' : '110px',
+        height: window.innerWidth <= 768 ? '115px' : '195px',
+        maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
+        maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
+        minWidth: window.innerWidth <= 768 ? '65px' : '110px',
+        minHeight: window.innerWidth <= 768 ? '115px' : '195px',
         zIndex: 50,
         borderRadius: '8px',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
@@ -206,12 +208,12 @@ export function GlobalVideoTestimonials() {
         playsInline
         preload="metadata"
         style={{
-          width: '65px',
-          height: '115px',
-          maxWidth: '65px',
-          maxHeight: '115px',
-          minWidth: '65px',
-          minHeight: '115px',
+          width: window.innerWidth <= 768 ? '65px' : '110px',
+          height: window.innerWidth <= 768 ? '115px' : '195px',
+          maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
+          maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
+          minWidth: window.innerWidth <= 768 ? '65px' : '110px',
+          minHeight: window.innerWidth <= 768 ? '115px' : '195px',
           objectFit: 'cover',
           display: 'block',
           pointerEvents: 'none'
@@ -230,13 +232,13 @@ export function GlobalVideoTestimonials() {
       {/* Volume toggle button */}
       <button
         onClick={toggleMute}
-        className="absolute top-2 left-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+        className="absolute top-2 left-2 w-6 h-6 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
         style={{ pointerEvents: 'auto' }}
       >
         {isMuted ? (
-          <VolumeX className="w-4 h-4 text-white" />
+          <VolumeX className="w-3 h-3 text-white" />
         ) : (
-          <Volume2 className="w-4 h-4 text-white" />
+          <Volume2 className="w-3 h-3 text-white" />
         )}
       </button>
     </div>

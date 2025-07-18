@@ -23,9 +23,7 @@ export function GlobalVideoTestimonials() {
   ];
 
   const [currentVideo, setCurrentVideo] = useState<TestimonialVideo | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -51,7 +49,7 @@ export function GlobalVideoTestimonials() {
           videoRef.current.pause();
         }
       } else {
-        if (videoRef.current && videoLoaded && !videoError) {
+        if (videoRef.current) {
           videoRef.current.play();
         }
       }
@@ -62,24 +60,10 @@ export function GlobalVideoTestimonials() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [videoLoaded, videoError]);
+  }, []);
 
   const handleClose = () => {
     console.log('GlobalVideoTestimonials - Closing video');
-    setIsVisible(false);
-  };
-
-  const handleVideoLoad = () => {
-    console.log('GlobalVideoTestimonials - Video loaded successfully');
-    setVideoLoaded(true);
-    setVideoError(false);
-    setIsVisible(true);
-  };
-
-  const handleVideoError = (e: any) => {
-    console.error('GlobalVideoTestimonials - Video error:', e);
-    setVideoError(true);
-    setVideoLoaded(false);
     setIsVisible(false);
   };
 
@@ -88,8 +72,7 @@ export function GlobalVideoTestimonials() {
     setIsVisible(false);
   };
 
-  // Don't render anything if no video is selected, there's an error, or it's not visible
-  if (!currentVideo || videoError || !isVisible) {
+  if (!currentVideo || !isVisible) {
     return null;
   }
 
@@ -115,8 +98,8 @@ export function GlobalVideoTestimonials() {
         playsInline
         preload="auto"
         onLoadStart={() => console.log('Video loading started:', currentVideo.videoUrl)}
-        onCanPlay={handleVideoLoad}
-        onError={handleVideoError}
+        onCanPlay={() => console.log('Video can play')}
+        onError={(e) => console.error('Video error:', e)}
         onEnded={handleVideoEnd}
         className="w-[50px] h-[90px] sm:w-[130px] sm:h-[230px]"
         style={{

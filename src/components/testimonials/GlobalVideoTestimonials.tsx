@@ -15,40 +15,40 @@ const videoTestimonials = {
   es: [
     {
       id: 'es-1',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      title: 'María José - Jubilada',
-      description: 'Testimonial de cliente satisfecha'
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
+      title: 'Antonio - Jubilado',
+      description: 'Testimonial de cliente satisfecho'
     },
     {
       id: 'es-2', 
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      title: 'Carlos - Empresario',
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
+      title: 'Luisa - Jubilada',
       description: 'Experiencia con AffinityStays'
     },
     {
       id: 'es-3',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 
-      title: 'Ana - Profesora',
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm', 
+      title: 'María - Retirada',
       description: 'Recomendación personal'
     }
   ],
   en: [
     {
       id: 'en-1',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm',
       title: 'John - Retired',
       description: 'Satisfied customer testimonial'
     },
     {
       id: 'en-2',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
-      title: 'Sarah - Business Owner',
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio6.webm',
+      title: 'Antonio - Retired',
       description: 'AffinityStays experience'
     },
     {
       id: 'en-3',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-      title: 'Michael - Teacher',
+      url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
+      title: 'Martin - Retired',
       description: 'Personal recommendation'
     }
   ]

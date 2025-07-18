@@ -2,7 +2,6 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './styles/index.css'
-import '@/i18n/config'
 import { supabase } from '@/integrations/supabase/client';
 
 // Enable enhanced realtime for reviews table

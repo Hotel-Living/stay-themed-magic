@@ -63,12 +63,12 @@ export function GlobalVideoTestimonials() {
     }
 
     timerRef.current = setTimeout(() => {
-      console.log('10 seconds elapsed - showing first video');
+      console.log('Initial timer - showing first video immediately');
       setCurrentVideoIndex(0);
       setIsVisible(true);
       setHasError(false);
       setIsLoaded(false);
-    }, 10000);
+    }, 1000); // Start immediately after 1 second
 
     return () => {
       if (timerRef.current) {
@@ -77,11 +77,11 @@ export function GlobalVideoTestimonials() {
     };
   }, [shouldShowVideos, setIsVisible, setCurrentVideoIndex]);
 
-  // Set up 2-minute cycling timer
+  // Set up 60-second continuous cycling timer
   useEffect(() => {
-    if (!shouldShowVideos || !isVisible) return;
+    if (!shouldShowVideos) return;
 
-    console.log('Setting up 2-minute cycle timer');
+    console.log('Setting up 60-second continuous cycle timer');
     
     if (cycleTimerRef.current) {
       clearTimeout(cycleTimerRef.current);
@@ -89,18 +89,19 @@ export function GlobalVideoTestimonials() {
 
     cycleTimerRef.current = setTimeout(() => {
       const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
-      console.log('2 minutes elapsed - cycling to next video:', nextIndex);
+      console.log('60 seconds elapsed - showing next video:', nextIndex);
       setCurrentVideoIndex(nextIndex);
+      setIsVisible(true);
       setHasError(false);
       setIsLoaded(false);
-    }, 120000); // 2 minutes
+    }, 60000); // 60 seconds
 
     return () => {
       if (cycleTimerRef.current) {
         clearTimeout(cycleTimerRef.current);
       }
     };
-  }, [shouldShowVideos, isVisible, currentVideoIndex, setCurrentVideoIndex]);
+  }, [shouldShowVideos, currentVideoIndex, setCurrentVideoIndex, setIsVisible]);
 
   // Handle video loading and playback
   useEffect(() => {
@@ -183,14 +184,15 @@ export function GlobalVideoTestimonials() {
   const currentVideo = videoTestimonials[currentVideoIndex];
 
   return (
-    <div className="w-[260px] h-[460px] fixed bottom-6 left-6 z-50 rounded-lg shadow-2xl overflow-hidden bg-black">
-      <div className="relative w-full h-full">
+    <div className="w-[260px] h-[460px] fixed bottom-6 left-6 z-50 rounded-lg shadow-2xl overflow-hidden bg-black flex-shrink-0">
+      <div className="relative w-[260px] h-[460px]">
         <video
           ref={videoRef}
-          className="w-full h-full object-cover"
+          className="w-[260px] h-[460px] object-cover pointer-events-none"
           muted={isMuted}
           playsInline
           preload="metadata"
+          style={{ maxWidth: '260px', maxHeight: '460px', minWidth: '260px', minHeight: '460px' }}
         />
         
         {/* Close button */}

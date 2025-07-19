@@ -10,6 +10,9 @@ import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
 import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
+import { ActivityFilter } from "./ActivityFilter";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { ThemeFilter } from "./ThemeFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -36,6 +39,18 @@ export function SecondFilterSidebar({
     handleArrayFilterChange('roomFeatures', value, isChecked);
   };
 
+  const handleActivitiesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('activities', value, isChecked);
+  };
+
+  const handleMealPlansChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('mealPlans', value, isChecked);
+  };
+
+  const handleThemeChange = (value: any) => {
+    handleFilterChange('theme', value);
+  };
+
   // Helper function to get price value as number for PriceRangeFilter
   const getPriceValue = (): number | null => {
     if (typeof activeFilters.priceRange === 'number') {
@@ -51,7 +66,7 @@ export function SecondFilterSidebar({
         <div className="p-4 border-b border-white/10">
           <button
             onClick={onResetAllFilters}
-            className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="w-full bg-[#1E5C3D] hover:bg-[#2A6B4A] text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             {t('filters.resetFilters')}
           </button>
@@ -78,22 +93,34 @@ export function SecondFilterSidebar({
           onChange={(value) => handleFilterChange('location', value)}
         />
 
+        {/* THEME/AFFINITY */}
+        <ThemeFilter
+          activeTheme={activeFilters.theme}
+          onChange={handleThemeChange}
+        />
+
+        {/* ACTIVITIES */}
+        <ActivityFilter
+          activeActivities={activeFilters.activities || []}
+          onChange={handleActivitiesChange}
+        />
+
         {/* STAY LENGTH */}
         <LengthOfStayFilter
           activeLength={activeFilters.stayLengths}
           onChange={(value) => handleFilterChange('stayLengths', value)}
         />
 
-        {/* CATEGORY */}
-        <CategoryFilter
-          activeCategory={activeFilters.atmosphere}
-          onChange={(value) => handleFilterChange('atmosphere', value)}
-        />
-
         {/* MONTH */}
         <MonthFilter
           activeMonth={activeFilters.month}
           onChange={(value) => handleFilterChange('month', value)}
+        />
+
+        {/* MEAL PLAN */}
+        <MealPlanFilter
+          activeMealPlans={activeFilters.mealPlans || []}
+          onChange={handleMealPlansChange}
         />
 
         {/* PROPERTY TYPE */}
@@ -106,6 +133,12 @@ export function SecondFilterSidebar({
         <PropertyStyleFilter
           activePropertyStyle={activeFilters.propertyStyle}
           onChange={(value) => handleFilterChange('propertyStyle', value)}
+        />
+
+        {/* CATEGORY */}
+        <CategoryFilter
+          activeCategory={activeFilters.atmosphere}
+          onChange={(value) => handleFilterChange('atmosphere', value)}
         />
 
         {/* HOTEL FEATURES */}
@@ -126,7 +159,7 @@ export function SecondFilterSidebar({
         <div className="p-4 border-t border-white/10">
           <button
             onClick={onResetAllFilters}
-            className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="w-full bg-[#1E5C3D] hover:bg-[#2A6B4A] text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             {t('filters.resetFilters')}
           </button>

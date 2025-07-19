@@ -50,18 +50,7 @@ export const useGoogleMaps = () => {
       
       if (fetchError) {
         console.error('Error from edge function:', fetchError);
-        
-        // Try fallback to environment variable
-        console.log('Falling back to environment variable API key');
-        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        
-        if (!envKey) {
-          throw new Error('Failed to fetch API key and no fallback available');
-        }
-        
-        console.log('Successfully retrieved API key from environment variable');
-        apiKeyRef.current = envKey;
-        return injectGoogleMapsScript(envKey);
+        throw new Error('Failed to fetch API key from server');
       }
       
       // Process the response from the edge function
@@ -76,17 +65,7 @@ export const useGoogleMaps = () => {
       
       if (!key) {
         console.error('No API key returned from edge function');
-        
-        // Try fallback to environment variable
-        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        
-        if (!envKey) {
-          throw new Error('API key not found in response and no fallback available');
-        }
-        
-        console.log('Successfully retrieved API key from environment variable');
-        apiKeyRef.current = envKey;
-        return injectGoogleMapsScript(envKey);
+        throw new Error('API key not found in server response');
       }
       
       console.log('Successfully retrieved API key from edge function');

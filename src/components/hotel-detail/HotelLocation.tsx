@@ -161,16 +161,9 @@ export function HotelLocation({
       
       if (error || !data || (!data.key && !data.apiKey)) {
         console.error('Error fetching map key:', error);
-        // Try fallback from environment variable
-        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        if (envKey) {
-          console.log('Using fallback API key from environment');
-          apiKey = envKey;
-        } else {
-          setError("Could not load map key");
-          setIsLoading(false);
-          return;
-        }
+        setError("Could not load map key from server");
+        setIsLoading(false);
+        return;
       } else {
         console.log('Successfully retrieved API key');
         apiKey = data.key || data.apiKey;

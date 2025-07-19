@@ -1,9 +1,22 @@
 
-import React, { useState } from 'react';
-import { X, Filter } from 'lucide-react';
-import { useTranslation } from '@/hooks/useTranslation';
-import { FilterState } from '@/components/filters/FilterTypes';
-import { SecondaryFilterPanel } from './SecondaryFilterPanel';
+import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { HotelFeaturesFilter } from "./HotelFeaturesFilter"; 
+import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
+import { FilterState } from "@/components/filters/FilterTypes";
+import { FilterItem } from "./FilterItem";
+import { PriceRangeFilter } from "./PriceRangeFilter";
+import { MonthFilter } from "./MonthFilter";
+import { CountryFilter } from "./CountryFilter";
+import { CategoryFilter } from "./CategoryFilter";
+import { LengthOfStayFilter } from "./LengthOfStayFilter";
+import { PropertyTypeFilter } from "./PropertyTypeFilter";
+import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { LocationFilter } from "./LocationFilter";
+import { ThemeFilter } from "./ThemeFilter";
+import { ActivityFilter } from "./ActivityFilter";
+import { CheckboxFilter } from "./CheckboxFilter";
 
 interface SecondFilterSidebarProps {
   activeFilters: FilterState;
@@ -18,60 +31,134 @@ export function SecondFilterSidebar({
   handleArrayFilterChange,
   onResetAllFilters
 }: SecondFilterSidebarProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { t, isReady } = useTranslation('filters');
-
+  const { t } = useTranslation('filters');
+  
   return (
-    <>
-      {/* Mobile Filter Toggle Button */}
-      <div className="lg:hidden fixed top-4 right-4 z-50">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg border border-gray-200 hover:bg-white transition-colors"
+    <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-6 shadow-2xl px-0 py-0 rounded-none my-0">
+      {/* Reset Button */}
+      <div className="mb-6">
+        <button 
+          onClick={onResetAllFilters} 
+          className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium px-0 whitespace-nowrap"
         >
-          <Filter className="w-5 h-5 text-gray-600" />
+          {t('resetFilters')}
         </button>
       </div>
 
-      {/* Mobile Sidebar Overlay */}
-      {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div 
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setIsOpen(false)}
-          />
-          <div className="relative ml-auto h-full w-80 bg-gradient-to-b from-[#460F54] to-[#300A38] shadow-xl">
-            <div className="flex items-center justify-between p-4 border-b border-white/10">
-              <h2 className="text-white font-semibold">Filters</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white/70 hover:text-white transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            <div className="p-4 space-y-4 overflow-y-auto max-h-[calc(100vh-120px)]">
-              <SecondaryFilterPanel
-                activeFilters={activeFilters}
-                handleFilterChange={handleFilterChange}
-                handleArrayFilterChange={handleArrayFilterChange}
-                onResetAllFilters={onResetAllFilters}
-              />
-              
-              <button
-                onClick={() => {
-                  onResetAllFilters();
-                  setIsOpen(false);
-                }}
-                className="w-full px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
-              >
-                {isReady ? t('resetFilters') : 'Reset Filters'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+      {/* 1. PRECIO POR MES */}
+      <div className="mb-6">
+        <PriceRangeFilter 
+          activePrice={activeFilters.maxPrice} 
+          onChange={value => handleFilterChange('maxPrice', value)} 
+        />
+      </div>
+
+      {/* 2. PAÍS */}
+      <div className="mb-6">
+        <CountryFilter 
+          activeCountry={activeFilters.country} 
+          onChange={value => handleFilterChange('country', value)} 
+        />
+      </div>
+
+      {/* 3. LOCATION */}
+      <div className="mb-6">
+        <LocationFilter 
+          activeLocation={activeFilters.location} 
+          onChange={value => handleFilterChange('location', value)} 
+        />
+      </div>
+
+      {/* 4. AFINIDADES */}
+      <div className="mb-6">
+        <ThemeFilter 
+          activeTheme={activeFilters.theme} 
+          onChange={value => handleFilterChange('theme', value)} 
+        />
+      </div>
+
+      {/* 5. ACTIVIDADES */}
+      <div className="mb-6">
+        <ActivityFilter 
+          activeActivities={activeFilters.activities} 
+          onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)} 
+        />
+      </div>
+
+      {/* 6. DURACIÓN */}
+      <div className="mb-6">
+        <LengthOfStayFilter 
+          activeLength={activeFilters.stayLengths} 
+          onChange={value => handleFilterChange('stayLengths', value)} 
+        />
+      </div>
+
+      {/* 7. MES */}
+      <div className="mb-6">
+        <MonthFilter 
+          activeMonth={activeFilters.month} 
+          onChange={value => handleFilterChange('month', value)} 
+        />
+      </div>
+
+      {/* 8. COMIDAS */}
+      <div className="mb-6">
+        <MealPlanFilter 
+          activeMealPlans={activeFilters.mealPlans} 
+          onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
+        />
+      </div>
+
+      {/* 9. TIPO DE HOTEL */}
+      <div className="mb-6">
+        <PropertyTypeFilter 
+          activePropertyType={activeFilters.propertyType} 
+          onChange={value => handleFilterChange('propertyType', value)} 
+        />
+      </div>
+
+      {/* 10. ESTILO DEL HOTEL */}
+      <div className="mb-6">
+        <PropertyStyleFilter 
+          activePropertyStyle={activeFilters.propertyStyle} 
+          onChange={value => handleFilterChange('propertyStyle', value)} 
+        />
+      </div>
+
+      {/* 11. CATEGORÍA */}
+      <div className="mb-6">
+        <CategoryFilter 
+          activeCategory={activeFilters.stars?.[0] || null} 
+          onChange={value => handleArrayFilterChange('stars', value, true)} 
+        />
+      </div>
+
+
+      {/* 12. SERVICIOS-HOTEL */}
+      <div className="mb-6">
+        <HotelFeaturesFilter 
+          activeHotelFeatures={activeFilters.hotelFeatures} 
+          onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} 
+        />
+      </div>
+
+      {/* 13. SERVICIOS-HABITACIÓN */}
+      <div className="mb-6">
+        <RoomFeaturesFilter 
+          activeRoomFeatures={activeFilters.roomFeatures} 
+          onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} 
+        />
+      </div>
+
+      {/* Bottom Reset Button */}
+      <div className="mt-6">
+        <button 
+          onClick={onResetAllFilters} 
+          className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium whitespace-nowrap"
+        >
+          {t('resetFilters')}
+        </button>
+      </div>
+    </div>
   );
 }

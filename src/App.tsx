@@ -47,7 +47,7 @@ import Videos from "@/pages/Videos";
 import AffinityStays from "@/pages/AffinityStays";
 import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
-import SearchPageWrapper from "@/components/search/SearchPageWrapper";
+import Search from "@/pages/Search";
 import JoinUs from "@/pages/JoinUs";
 import OurServices from "@/pages/OurServices";
 import OurValues from "@/pages/OurValues";
@@ -106,7 +106,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
-              <Route path="/search" element={<SearchPageWrapper />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/hotel-signup" element={<HotelRegistration />} />

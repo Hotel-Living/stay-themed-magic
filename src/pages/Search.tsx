@@ -205,6 +205,8 @@ export default function Search() {
                 handleFilterChange={handleFilterChange} 
                 handleArrayFilterChange={handleArrayFilterChange} 
                 onResetAllFilters={onResetAllFilters}
+                isOpen={true}
+                onClose={() => {}}
               />
             </div>
             

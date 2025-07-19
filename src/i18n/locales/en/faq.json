@@ -22,5 +22,39 @@
   },
   "avatarMessage": "I'm here.\nIf you need me,\nask me anything.",
   "identifyHeader": "WHO DO YOU IDENTIFY WITH?\nCLICK TO LEARN MORE",
-  "linkText": "Portrait of the Hotel Crisis"
+  "linkText": "Portrait of the Hotel Crisis",
+  "avatars": {
+    "antonio": {
+      "shortMessage": "Hi, I'm Antonio, retired!",
+      "fullMessage": "Hi, I'm Antonio, retired! Can I help you?"
+    },
+    "luisa": {
+      "shortMessage": "Hi, I'm Luisa, retired!",
+      "fullMessage": "Hi, I'm Luisa, retired! Can I help you?"
+    },
+    "john": {
+      "shortMessage": "Hi, I'm John, I work online!",
+      "fullMessage": "Hi, I'm John, I work online! Can I help you?"
+    },
+    "teresa": {
+      "shortMessage": "Hi, I'm Teresa, retired! I love traveling.",
+      "fullMessage": "Hi, I'm Teresa, retired! I love traveling. Can I help you?"
+    },
+    "juan": {
+      "shortMessage": "Hi, I'm Juan! No more tourist apartments!",
+      "fullMessage": "Hi, I'm Juan! I no longer rent tourist apartments. Can I help you?"
+    },
+    "ion": {
+      "shortMessage": "Hi, I'm Ion! I used to rent.",
+      "fullMessage": "Hi, I'm Ion! I used to live on rent. Can I help you?"
+    },
+    "maria": {
+      "shortMessage": "Hi, I'm María! I lived outside the city.",
+      "fullMessage": "Hi, I'm María! I lived outside the city. Can I help you?"
+    },
+    "martin": {
+      "shortMessage": "Hi, I'm Martín! I'm a hotelier.",
+      "fullMessage": "Hi, I'm Martín! I'm a hotelier. Can I help you?"
+    }
+  }
 }

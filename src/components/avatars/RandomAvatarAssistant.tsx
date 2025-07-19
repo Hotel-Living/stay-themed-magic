@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { EnhancedAvatarAssistant } from "./EnhancedAvatarAssistant";
 import { useAvatarManager } from "@/contexts/AvatarManager";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const avatarPool = [
   {
@@ -37,13 +38,11 @@ export function RandomAvatarAssistant() {
   const [currentRandomAvatar, setCurrentRandomAvatar] = useState<{ id: string; gif: string } | null>(null);
   const [showRandomAvatar, setShowRandomAvatar] = useState(false);
   const { activeAvatars } = useAvatarManager();
+  const { t } = useTranslation('faq');
 
   const getMessage = () => {
-    const lang = navigator.language;
-    if (lang.startsWith("en")) return "Need help?";
-    if (lang.startsWith("pt")) return "Precisa de ajuda?"; 
-    if (lang.startsWith("ro")) return "Ai nevoie de ajutor?";
-    return "¿Necesitas ayuda?";
+    // Use translation system instead of browser language detection
+    return t('avatarMessage', 'Aquí estoy.\nSi me necesitas,\npregunta lo que quieras.');
   };
 
   const showRandomAvatarPopup = useCallback(() => {

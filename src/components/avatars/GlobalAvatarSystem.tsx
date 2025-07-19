@@ -2,62 +2,48 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { EnhancedAvatarAssistant } from "./EnhancedAvatarAssistant";
 import { useAvatarManager } from "@/contexts/AvatarManager";
+import { useTranslation } from "@/hooks/useTranslation";
 
-// Complete avatar pool with correct IDs and messages
+// Complete avatar pool with correct IDs (messages now come from translations)
 const avatarPool = [
   {
     id: "antonio",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/1_Soy_Antonio_Jubilado.gif.gif",
-    fullMessage: "¡Hola, soy Antonio, jubilado! ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Antonio, jubilado!"
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/1_Soy_Antonio_Jubilado.gif.gif"
   },
   {
     id: "luisa",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/2_Y_yo_soy_Luisa_jubilada.gif.gif",
-    fullMessage: "¡Hola, soy Luisa, jubilada! ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Luisa, jubilada!"
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/2_Y_yo_soy_Luisa_jubilada.gif.gif"
   },
   {
     id: "john",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/3_Y_yo_soy_John_trabajo_online.gif.gif",
-    fullMessage: "¡Hola, soy John, trabajo online! ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy John, trabajo online!"
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/3_Y_yo_soy_John_trabajo_online.gif.gif"
   },
   {
     id: "teresa",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/4_Y_yo_soy_Auxi_amo_viajar.gif.gif",
-    fullMessage: "¡Hola, soy Teresa, jubilada! Amo viajar. ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Teresa, jubilada! Amo viajar."
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/4_Y_yo_soy_Auxi_amo_viajar.gif.gif"
   },
   {
     id: "juan",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/5_Y_yo_soy_Juan_ya_no_alquilo_apartamentos_turisticos.gif.gif",
-    fullMessage: "¡Hola, soy Juan! Ya no alquilo apartamentos turísticos. ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Juan! Ya no alquilo apartamentos turísticos."
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/5_Y_yo_soy_Juan_ya_no_alquilo_apartamentos_turisticos.gif.gif"
   },
   {
     id: "ion",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/6_Y_yo_soy_Ion_vivia_de_alquiler.gif.gif",
-    fullMessage: "¡Hola, soy Ion! Antes vivía de alquiler. ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Ion! Antes vivía de alquiler."
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/6_Y_yo_soy_Ion_vivia_de_alquiler.gif.gif"
   },
   {
     id: "maria",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/7_Y_yo_soy_Maria_vivia_afuera_de_la_ciudad.gif.gif",
-    fullMessage: "¡Hola, soy María! Vivía afuera de la ciudad. ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy María! Vivía afuera de la ciudad."
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/7_Y_yo_soy_Maria_vivia_afuera_de_la_ciudad.gif.gif"
   },
   {
     id: "martin",
-    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif",
-    fullMessage: "¡Hola, soy Martín! Soy hotelero. ¿Te puedo ayudar?",
-    shortMessage: "¡Hola, soy Martín! Soy hotelero."
+    gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif"
   }
 ];
 
 export function GlobalAvatarSystem() {
   const location = useLocation();
   const { activeAvatars } = useAvatarManager();
+  const { t } = useTranslation('faq');
   const [currentRandomAvatar, setCurrentRandomAvatar] = useState<typeof avatarPool[0] | null>(null);
   const [showRandomAvatar, setShowRandomAvatar] = useState(false);
 
@@ -109,6 +95,10 @@ export function GlobalAvatarSystem() {
     setCurrentRandomAvatar(null);
   };
 
+  const getAvatarMessage = (avatarId: string) => {
+    return t(`avatars.${avatarId}.fullMessage`, `¿Te puedo ayudar?`);
+  };
+
   // Don't show random avatar if there's an active avatar or on excluded pages
   if (isHomePage || isFAQPage || isHotelsPage || isHelpPage || isAyudaPage || activeAvatars.length > 0 || !showRandomAvatar || !currentRandomAvatar) {
     return null;
@@ -120,7 +110,7 @@ export function GlobalAvatarSystem() {
       gif={currentRandomAvatar.gif}
       position="bottom-right"
       showMessage={true}
-      message={currentRandomAvatar.fullMessage}
+      message={getAvatarMessage(currentRandomAvatar.id)}
       onClose={handleRandomAvatarClose}
     />
   );

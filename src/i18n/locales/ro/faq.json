@@ -22,5 +22,39 @@
   },
   "avatarMessage": "Sunt aici.\nDacă ai nevoie de mine,\nîntreabă-mă orice.",
   "identifyHeader": "CU CINE TE IDENTIFICI?\nAPASĂ PENTRU A AFLA MAI MULT",
-  "linkText": "Portretul Crizei Hoteliere"
+  "linkText": "Portretul Crizei Hoteliere",
+  "avatars": {
+    "antonio": {
+      "shortMessage": "Salut, sunt Antonio, pensionar!",
+      "fullMessage": "Salut, sunt Antonio, pensionar! Te pot ajuta?"
+    },
+    "luisa": {
+      "shortMessage": "Salut, sunt Luisa, pensionară!",
+      "fullMessage": "Salut, sunt Luisa, pensionară! Te pot ajuta?"
+    },
+    "john": {
+      "shortMessage": "Salut, sunt John, lucrez online!",
+      "fullMessage": "Salut, sunt John, lucrez online! Te pot ajuta?"
+    },
+    "teresa": {
+      "shortMessage": "Salut, sunt Teresa, pensionară! Îmi place să călătoresc.",
+      "fullMessage": "Salut, sunt Teresa, pensionară! Îmi place să călătoresc. Te pot ajuta?"
+    },
+    "juan": {
+      "shortMessage": "Salut, sunt Juan! Gata cu apartamentele turistice!",
+      "fullMessage": "Salut, sunt Juan! Nu mai închiriez apartamente turistice. Te pot ajuta?"
+    },
+    "ion": {
+      "shortMessage": "Salut, sunt Ion! Înainte stăteam în chirie.",
+      "fullMessage": "Salut, sunt Ion! Înainte stăteam în chirie. Te pot ajuta?"
+    },
+    "maria": {
+      "shortMessage": "Salut, sunt María! Locuiam în afara orașului.",
+      "fullMessage": "Salut, sunt María! Locuiam în afara orașului. Te pot ajuta?"
+    },
+    "martin": {
+      "shortMessage": "Salut, sunt Martín! Sunt hotelier.",
+      "fullMessage": "Salut, sunt Martín! Sunt hotelier. Te pot ajuta?"
+    }
+  }
 }

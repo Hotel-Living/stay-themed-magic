@@ -22,5 +22,39 @@
   },
   "avatarMessage": "Estou aqui.\nSe precisar de mim,\npergunte o que quiser.",
   "identifyHeader": "COM QUEM VOCÊ SE IDENTIFICA?\nCLIQUE PARA SABER MAIS",
-  "linkText": "Retrato da Crise Hoteleira"
+  "linkText": "Retrato da Crise Hoteleira",
+  "avatars": {
+    "antonio": {
+      "shortMessage": "Olá, sou Antonio, aposentado!",
+      "fullMessage": "Olá, sou Antonio, aposentado! Posso te ajudar?"
+    },
+    "luisa": {
+      "shortMessage": "Olá, sou Luisa, aposentada!",
+      "fullMessage": "Olá, sou Luisa, aposentada! Posso te ajudar?"
+    },
+    "john": {
+      "shortMessage": "Olá, sou John, trabalho online!",
+      "fullMessage": "Olá, sou John, trabalho online! Posso te ajudar?"
+    },
+    "teresa": {
+      "shortMessage": "Olá, sou Teresa, aposentada! Amo viajar.",
+      "fullMessage": "Olá, sou Teresa, aposentada! Amo viajar. Posso te ajudar?"
+    },
+    "juan": {
+      "shortMessage": "Olá, sou Juan! Chega de apartamentos turísticos!",
+      "fullMessage": "Olá, sou Juan! Não alugo mais apartamentos turísticos. Posso te ajudar?"
+    },
+    "ion": {
+      "shortMessage": "Olá, sou Ion! Antes vivia de aluguel.",
+      "fullMessage": "Olá, sou Ion! Antes vivia de aluguel. Posso te ajudar?"
+    },
+    "maria": {
+      "shortMessage": "Olá, sou María! Vivia fora da cidade.",
+      "fullMessage": "Olá, sou María! Vivia fora da cidade. Posso te ajudar?"
+    },
+    "martin": {
+      "shortMessage": "Olá, sou Martín! Sou hoteleiro.",
+      "fullMessage": "Olá, sou Martín! Sou hoteleiro. Posso te ajudar?"
+    }
+  }
 }

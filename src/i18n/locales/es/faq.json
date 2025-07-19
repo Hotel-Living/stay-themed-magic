@@ -26,6 +26,40 @@
   "avatarMessage": "Aquí estoy.\nSi me necesitas,\npregunta lo que quieras.",
   "identifyHeader": "¿CON QUIÉN TE IDENTIFICAS?\nHAZ CLIC PARA SABER MÁS",
   "linkText": "Retrato de la Crisis Hotelera",
+  "avatars": {
+    "antonio": {
+      "shortMessage": "¡Hola, soy Antonio, jubilado!",
+      "fullMessage": "¡Hola, soy Antonio, jubilado! ¿Te puedo ayudar?"
+    },
+    "luisa": {
+      "shortMessage": "¡Hola, soy Luisa, jubilada!",
+      "fullMessage": "¡Hola, soy Luisa, jubilada! ¿Te puedo ayudar?"
+    },
+    "john": {
+      "shortMessage": "¡Hola, soy John, trabajo online!",
+      "fullMessage": "¡Hola, soy John, trabajo online! ¿Te puedo ayudar?"
+    },
+    "teresa": {
+      "shortMessage": "¡Hola, soy Teresa, jubilada! Amo viajar.",
+      "fullMessage": "¡Hola, soy Teresa, jubilada! Amo viajar. ¿Te puedo ayudar?"
+    },
+    "juan": {
+      "shortMessage": "¡Hola, soy Juan! ¡Adiós apartamentos turísticos!",
+      "fullMessage": "¡Hola, soy Juan! Ya no alquilo apartamentos turísticos. ¿Te puedo ayudar?"
+    },
+    "ion": {
+      "shortMessage": "¡Hola, soy Ion! Antes vivía de alquiler.",
+      "fullMessage": "¡Hola, soy Ion! Antes vivía de alquiler. ¿Te puedo ayudar?"
+    },
+    "maria": {
+      "shortMessage": "¡Hola, soy María! Vivía afuera de la ciudad.",
+      "fullMessage": "¡Hola, soy María! Vivía afuera de la ciudad. ¿Te puedo ayudar?"
+    },
+    "martin": {
+      "shortMessage": "¡Hola, soy Martín! Soy hotelero.",
+      "fullMessage": "¡Hola, soy Martín! Soy hotelero. ¿Te puedo ayudar?"
+    }
+  },
   "generalQuestions": {
     "whatIsHotelLiving": {
       "question": "¿Qué es Hotel-Living?",

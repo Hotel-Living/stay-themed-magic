@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FilterState } from '@/components/filters/FilterTypes';
-import Search from '@/pages/Search';
+import SearchPage from '@/pages/Search';
 
 export default function SearchPageWrapper() {
   const [activeFilters, setActiveFilters] = useState<FilterState>({
@@ -73,7 +73,7 @@ export default function SearchPageWrapper() {
   };
 
   return (
-    <Search
+    <SearchPage
       activeFilters={activeFilters}
       handleFilterChange={handleFilterChange}
       handleArrayFilterChange={handleArrayFilterChange}

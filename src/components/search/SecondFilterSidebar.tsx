@@ -1,6 +1,5 @@
 
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { CountryFilter } from "./CountryFilter";
 import { LocationFilter } from "./LocationFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
@@ -11,9 +10,6 @@ import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
 import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
-import { ActivityFilter } from "./ActivityFilter";
-import { MealPlanFilter } from "./MealPlanFilter";
-import { ThemeFilter } from "./ThemeFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -40,18 +36,6 @@ export function SecondFilterSidebar({
     handleArrayFilterChange('roomFeatures', value, isChecked);
   };
 
-  const handleActivitiesChange = (value: string, isChecked: boolean) => {
-    handleArrayFilterChange('activities', value, isChecked);
-  };
-
-  const handleMealPlansChange = (value: string, isChecked: boolean) => {
-    handleArrayFilterChange('mealPlans', value, isChecked);
-  };
-
-  const handleThemeChange = (value: any) => {
-    handleFilterChange('theme', value);
-  };
-
   // Helper function to get price value as number for PriceRangeFilter
   const getPriceValue = (): number | null => {
     if (typeof activeFilters.priceRange === 'number') {
@@ -69,7 +53,7 @@ export function SecondFilterSidebar({
             onClick={onResetAllFilters}
             className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
-            {t('resetFilters')}
+            {t('filters.resetFilters')}
           </button>
         </div>
       )}
@@ -98,24 +82,6 @@ export function SecondFilterSidebar({
         <LengthOfStayFilter
           activeLength={activeFilters.stayLengths}
           onChange={(value) => handleFilterChange('stayLengths', value)}
-        />
-
-        {/* THEME/AFFINITY */}
-        <ThemeFilter
-          activeTheme={activeFilters.theme}
-          onChange={handleThemeChange}
-        />
-
-        {/* ACTIVITIES */}
-        <ActivityFilter
-          activeActivities={activeFilters.activities || []}
-          onChange={handleActivitiesChange}
-        />
-
-        {/* MEAL PLAN */}
-        <MealPlanFilter
-          activeMealPlans={activeFilters.mealPlans || []}
-          onChange={handleMealPlansChange}
         />
 
         {/* CATEGORY */}
@@ -162,11 +128,10 @@ export function SecondFilterSidebar({
             onClick={onResetAllFilters}
             className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
-            {t('resetFilters')}
+            {t('filters.resetFilters')}
           </button>
         </div>
       )}
     </div>
   );
 }
-

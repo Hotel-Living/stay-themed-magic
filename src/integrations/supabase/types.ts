@@ -298,6 +298,8 @@ export type Database = {
           english_value: string
           id: string
           is_active: boolean
+          portuguese_value: string | null
+          romanian_value: string | null
           spanish_value: string
           updated_at: string
         }
@@ -307,6 +309,8 @@ export type Database = {
           english_value: string
           id?: string
           is_active?: boolean
+          portuguese_value?: string | null
+          romanian_value?: string | null
           spanish_value: string
           updated_at?: string
         }
@@ -316,6 +320,8 @@ export type Database = {
           english_value?: string
           id?: string
           is_active?: boolean
+          portuguese_value?: string | null
+          romanian_value?: string | null
           spanish_value?: string
           updated_at?: string
         }

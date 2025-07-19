@@ -70,6 +70,40 @@ export function useFiltersByCategoryWithLanguage(category: string) {
         }
       });
 
+      // Custom ordering for meal_plans category
+      if (category === 'meal_plans') {
+        const mealPlanOrder = [
+          'Solo alojamiento',
+          'Desayuno incluido', 
+          'Media pensión',
+          'Pensión completa',
+          'Todo incluido',
+          'Lavandería incluida',
+          'Lavandería exterior'
+        ];
+        
+        translatedData.sort((a, b) => {
+          // Find the original database values to determine order
+          const aOriginal = filters.find(f => f.id === a.id)?.value || '';
+          const bOriginal = filters.find(f => f.id === b.id)?.value || '';
+          
+          const aIndex = mealPlanOrder.indexOf(aOriginal);
+          const bIndex = mealPlanOrder.indexOf(bOriginal);
+          
+          // If both items are in the predefined order, sort by that order
+          if (aIndex !== -1 && bIndex !== -1) {
+            return aIndex - bIndex;
+          }
+          
+          // If only one item is in the predefined order, prioritize it
+          if (aIndex !== -1) return -1;
+          if (bIndex !== -1) return 1;
+          
+          // If neither item is in the predefined order, sort alphabetically
+          return a.value.localeCompare(b.value);
+        });
+      }
+
       console.log(`✅ Found ${translatedData.length} translated filters for category ${category} (${language}):`, translatedData.map(f => f.value));
       return translatedData;
     },

@@ -48,8 +48,11 @@ export function GlobalVideoTestimonials() {
   const hasErrorRef = useRef(false);
   const isLoadedRef = useRef(false);
 
-  // Only show on non-Index pages and Spanish language
-  const shouldShowVideos = location.pathname !== '/' && i18n.language === 'es';
+  // Check if videos were closed in this session
+  const videosClosedInSession = sessionStorage.getItem('testimonialVideosClosed') === 'true';
+
+  // Only show on non-Index pages and Spanish language, and if not closed in session
+  const shouldShowVideos = location.pathname !== '/' && i18n.language === 'es' && !videosClosedInSession;
 
   useEffect(() => {
     return () => {
@@ -144,6 +147,8 @@ export function GlobalVideoTestimonials() {
 
   const handleClose = () => {
     console.log('Video manually closed');
+    // Set session storage flag to prevent videos from showing again
+    sessionStorage.setItem('testimonialVideosClosed', 'true');
     setIsVisible(false);
     if (videoRef.current) {
       videoRef.current.pause();

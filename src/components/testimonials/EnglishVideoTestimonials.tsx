@@ -23,8 +23,11 @@ export function EnglishVideoTestimonials() {
   const hasStartedRef = useRef(false);
   const startTimeRef = useRef<number>(0);
 
-  // Only show on non-Index pages and non-Spanish languages
-  const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es';
+  // Check if videos were closed in this session
+  const videosClosedInSession = sessionStorage.getItem('testimonialVideosClosed') === 'true';
+
+  // Only show on non-Index pages and non-Spanish languages, and if not closed in session
+  const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es' && !videosClosedInSession;
 
   // Maximum videos to show: 2 full loops (3 videos x 2 loops = 6 total)
   const maxVideosToShow = englishTestimonials.length * 2;
@@ -139,6 +142,8 @@ export function EnglishVideoTestimonials() {
 
   const handleClose = () => {
     console.log('English video manually closed');
+    // Set session storage flag to prevent videos from showing again
+    sessionStorage.setItem('testimonialVideosClosed', 'true');
     setIsVisible(false);
     setIsComplete(true);
     if (videoRef.current) {

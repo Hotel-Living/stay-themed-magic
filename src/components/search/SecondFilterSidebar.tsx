@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { CountryFilter } from "./CountryFilter";
 import { LocationFilter } from "./LocationFilter";
@@ -9,8 +10,11 @@ import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
 import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
+import { ActivityFilter } from "./ActivityFilter";
+import { MealPlanFilter } from "./MealPlanFilter";
+import { ThemeFilter } from "./ThemeFilter";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FilterSidebarProps {
   activeFilters: FilterState;
@@ -33,6 +37,18 @@ export function SecondFilterSidebar({
 
   const handleRoomFeaturesChange = (value: string, isChecked: boolean) => {
     handleArrayFilterChange('roomFeatures', value, isChecked);
+  };
+
+  const handleActivitiesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('activities', value, isChecked);
+  };
+
+  const handleMealPlansChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('mealPlans', value, isChecked);
+  };
+
+  const handleThemeChange = (value: any) => {
+    handleFilterChange('theme', value);
   };
 
   // Helper function to get price value as number for PriceRangeFilter
@@ -75,6 +91,24 @@ export function SecondFilterSidebar({
       <LengthOfStayFilter
         activeLength={activeFilters.stayLengths}
         onChange={(value) => handleFilterChange('stayLengths', value)}
+      />
+
+      {/* THEME/AFFINITY */}
+      <ThemeFilter
+        activeTheme={activeFilters.theme}
+        onChange={handleThemeChange}
+      />
+
+      {/* ACTIVITIES */}
+      <ActivityFilter
+        activeActivities={activeFilters.activities || []}
+        onChange={handleActivitiesChange}
+      />
+
+      {/* MEAL PLAN */}
+      <MealPlanFilter
+        activeMealPlans={activeFilters.mealPlans || []}
+        onChange={handleMealPlansChange}
       />
 
       {/* CATEGORY */}

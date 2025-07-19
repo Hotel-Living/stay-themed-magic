@@ -85,7 +85,7 @@ import esDashboardGeneral from './locales/es/dashboard/general.json';
 import esDashboardHotel from './locales/es/dashboard/hotel.json';
 import esDashboardProfile from './locales/es/dashboard/profile.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
-import esDashboardRates from './locales/es/dashboard/rates.json';
+
 import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esDashboard from './locales/es/dashboard.json';
 import esAmbassador from './locales/es/ambassador.json';
@@ -279,7 +279,6 @@ const resources = {
     'dashboard/hotel': esDashboardHotel,
     'dashboard/profile': esDashboardProfile,
     'dashboard/rates-calculator': esDashboardRatesCalculator,
-    'dashboard/rates': esDashboardRates,
     'dashboard/settings': esDashboardSettings,
     'dashboard/advertising': esAdvertising,
     // Legacy dashboard namespace for backwards compatibility
@@ -289,7 +288,6 @@ const resources = {
       hotel: esDashboardHotel,
       profile: esDashboardProfile,
       ratesCalculator: esDashboardRatesCalculator,
-      rates: esDashboardRates,
       settings: esDashboardSettings,
     },
   },

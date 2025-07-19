@@ -17,24 +17,29 @@ const Ambassador = () => {
         <BubbleCounter />
         <main className="min-h-screen">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">
-              <div className="space-y-6">
-                
-                {/* Nuestros Embajadores Link */}
-                <div className="mb-8 text-center">
-                  <Link 
-                    to="/ambassadors" 
-                    className="inline-block bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-400/50 rounded-lg px-6 py-3 text-yellow-200 hover:text-yellow-100 transition-all duration-300 font-semibold"
-                  >
-                    👥 Nuestros Embajadores
-                  </Link>
-                </div>
+            
+            {/* Buttons Section */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+              <Link 
+                to="/ambassadors" 
+                className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
+              >
+                📊 Nuestros Embajadores
+              </Link>
+              <Link 
+                to="/signup" 
+                className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
+              >
+                Hágase Embajador
+              </Link>
+            </div>
 
-                <hr className="border-white/30 my-8" />
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+              <div className="space-y-6">
                 
                 {/* Title Section */}
                 <div className="mb-8">
-                  <h1 className="text-3xl font-bold mb-4">{t('title')}</h1>
+                  <h1 className="text-3xl font-bold mb-4 glow">{t('title')}</h1>
                   <div className="space-y-4 text-lg leading-relaxed">
                     <p>{t('description.intro')}</p>
                     <p>{t('description.travelers')}</p>

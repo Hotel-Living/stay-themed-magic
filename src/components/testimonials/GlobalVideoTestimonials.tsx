@@ -62,65 +62,43 @@ export function GlobalVideoTestimonials() {
     };
   }, []);
 
-  // Initial timer - start showing videos immediately
+  // Main video scheduling logic with 2 full loops max
   useEffect(() => {
     if (!shouldShowVideos || hasStartedRef.current) {
       return;
     }
 
-    console.log('Starting testimonial video system');
+    console.log('Starting Spanish testimonial video sequence');
     hasStartedRef.current = true;
     startTimeRef.current = Date.now();
 
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+    // Maximum videos to show: 2 full loops (5 videos x 2 loops = 10 total)
+    const maxVideosToShow = videoTestimonials.length * 2;
 
-    timerRef.current = setTimeout(() => {
-      console.log('Initial timer - showing first video immediately');
-      setCurrentVideoIndex(0);
-      setIsVisible(true);
-      hasErrorRef.current = false;
-      isLoadedRef.current = false;
-    }, 1000); // Start immediately after 1 second
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+    const scheduleNextVideo = (videoNumber: number) => {
+      if (videoNumber >= maxVideosToShow) {
+        console.log('Spanish testimonial sequence complete after 2 loops');
+        return;
       }
+
+      const videoIndex = videoNumber % videoTestimonials.length;
+      const delay = videoNumber === 0 ? 1000 : (videoNumber * 45000) + 1000; // 1 second + 45 seconds per video
+
+      setTimeout(() => {
+        console.log(`Starting Spanish video ${videoNumber + 1} (index ${videoIndex}) at ${delay}ms`);
+        setCurrentVideoIndex(videoIndex);
+        setIsVisible(true);
+        hasErrorRef.current = false;
+        isLoadedRef.current = false;
+        
+        // Schedule next video
+        scheduleNextVideo(videoNumber + 1);
+      }, delay);
     };
-  }, [shouldShowVideos, setIsVisible, setCurrentVideoIndex]);
 
-  // Set up 45-second continuous cycling timer
-  useEffect(() => {
-    if (!shouldShowVideos || currentVideoIndex === 0) return;
-
-    console.log('Setting up 45-second continuous cycle timer');
-
-    if (cycleTimerRef.current) {
-      clearTimeout(cycleTimerRef.current);
-    }
-
-    // Calculate time elapsed since start
-    const elapsedTime = Date.now() - startTimeRef.current;
-    const targetTime = (currentVideoIndex + 1) * 45000; // 45 seconds per video
-    const delay = Math.max(0, targetTime - elapsedTime);
-
-    cycleTimerRef.current = setTimeout(() => {
-      const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
-      console.log('45 seconds elapsed - showing next video:', nextIndex);
-      setCurrentVideoIndex(nextIndex);
-      setIsVisible(true);
-      hasErrorRef.current = false;
-      isLoadedRef.current = false;
-    }, delay);
-
-    return () => {
-      if (cycleTimerRef.current) {
-        clearTimeout(cycleTimerRef.current);
-      }
-    };
-  }, [shouldShowVideos, currentVideoIndex, setCurrentVideoIndex, setIsVisible]);
+    // Start the sequence
+    scheduleNextVideo(0);
+  }, [shouldShowVideos, setCurrentVideoIndex, setIsVisible]);
 
   // Handle video loading and playback
   useEffect(() => {

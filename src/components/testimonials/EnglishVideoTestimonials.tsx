@@ -16,15 +16,18 @@ export function EnglishVideoTestimonials() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [totalVideosShown, setTotalVideosShown] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hasStartedRef = useRef(false);
   const startTimeRef = useRef<number>(0);
 
   // Only show on non-Index pages and non-Spanish languages
   const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es';
+
+  // Maximum videos to show: 2 full loops (3 videos x 2 loops = 6 total)
+  const maxVideosToShow = englishTestimonials.length * 2;
 
   // Cleanup timers
   useEffect(() => {
@@ -32,13 +35,10 @@ export function EnglishVideoTestimonials() {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
-      if (cycleTimerRef.current) {
-        clearTimeout(cycleTimerRef.current);
-      }
     };
   }, []);
 
-  // Start the video sequence
+  // Main video scheduling logic
   useEffect(() => {
     if (!shouldShowVideos || hasStartedRef.current || isComplete) {
       return;
@@ -48,50 +48,36 @@ export function EnglishVideoTestimonials() {
     hasStartedRef.current = true;
     startTimeRef.current = Date.now();
 
-    // Start first video at 1 second
-    timerRef.current = setTimeout(() => {
-      console.log('Starting first English video');
-      setCurrentVideoIndex(0);
-      setIsVisible(true);
-    }, 1000);
+    const scheduleNextVideo = (videoNumber: number) => {
+      if (videoNumber >= maxVideosToShow) {
+        console.log('English testimonial sequence complete after 2 loops');
+        setIsComplete(true);
+        return;
+      }
+
+      const videoIndex = videoNumber % englishTestimonials.length;
+      const delay = videoNumber === 0 ? 1000 : (videoNumber * 45000) + 1000; // 1 second + 45 seconds per video
+
+      timerRef.current = setTimeout(() => {
+        console.log(`Starting English video ${videoNumber + 1} (index ${videoIndex}) at ${delay}ms`);
+        setCurrentVideoIndex(videoIndex);
+        setIsVisible(true);
+        setTotalVideosShown(videoNumber + 1);
+        
+        // Schedule next video
+        scheduleNextVideo(videoNumber + 1);
+      }, delay);
+    };
+
+    // Start the sequence
+    scheduleNextVideo(0);
 
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
     };
-  }, [shouldShowVideos, isComplete]);
-
-  // Set up 45-second interval timer for subsequent videos
-  useEffect(() => {
-    if (!shouldShowVideos || isComplete || currentVideoIndex === 0) return;
-
-    if (cycleTimerRef.current) {
-      clearTimeout(cycleTimerRef.current);
-    }
-
-    // Calculate time elapsed since start
-    const elapsedTime = Date.now() - startTimeRef.current;
-    const targetTime = (currentVideoIndex + 1) * 45000; // 45 seconds per video
-    const delay = Math.max(0, targetTime - elapsedTime);
-
-    cycleTimerRef.current = setTimeout(() => {
-      if (currentVideoIndex < englishTestimonials.length - 1) {
-        console.log('45-second interval - showing next English video:', currentVideoIndex + 1);
-        setCurrentVideoIndex(currentVideoIndex + 1);
-        setIsVisible(true);
-      } else {
-        console.log('All English testimonial videos complete');
-        setIsComplete(true);
-      }
-    }, delay);
-
-    return () => {
-      if (cycleTimerRef.current) {
-        clearTimeout(cycleTimerRef.current);
-      }
-    };
-  }, [shouldShowVideos, currentVideoIndex, isComplete]);
+  }, [shouldShowVideos, isComplete, maxVideosToShow]);
 
   // Handle video playback and transitions
   useEffect(() => {
@@ -101,7 +87,9 @@ export function EnglishVideoTestimonials() {
 
     const handleLoadedData = () => {
       console.log('English video loaded:', currentVideoIndex);
-      // Auto-play the video (muted by default)
+      // Set audio state properly
+      video.muted = isMuted;
+      // Auto-play the video
       video.play().catch((error) => {
         console.error('Error playing English video:', error);
       });
@@ -109,7 +97,6 @@ export function EnglishVideoTestimonials() {
 
     const handleEnded = () => {
       console.log('English video ended:', currentVideoIndex);
-      
       // Hide video immediately after it ends
       setIsVisible(false);
     };
@@ -118,7 +105,14 @@ export function EnglishVideoTestimonials() {
       console.error('English video loading error:', error);
     };
 
+    const handleCanPlay = () => {
+      console.log('English video can play:', currentVideoIndex);
+      // Ensure proper video setup
+      video.muted = isMuted;
+    };
+
     video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
     video.addEventListener('ended', handleEnded);
 
@@ -128,16 +122,18 @@ export function EnglishVideoTestimonials() {
 
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('error', handleError);
       video.removeEventListener('ended', handleEnded);
     };
-  }, [isVisible, currentVideoIndex, isComplete]);
+  }, [isVisible, currentVideoIndex, isComplete, isMuted]);
 
   const handleToggleAudio = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-      console.log('Audio toggled:', videoRef.current.muted ? 'muted' : 'unmuted');
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+      console.log('Audio toggled:', newMutedState ? 'muted' : 'unmuted');
     }
   };
 
@@ -181,7 +177,7 @@ export function EnglishVideoTestimonials() {
     >
       <video
         ref={videoRef}
-        muted
+        muted={isMuted}
         playsInline
         preload="metadata"
         style={{

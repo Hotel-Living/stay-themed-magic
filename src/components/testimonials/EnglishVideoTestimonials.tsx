@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { X, Mic } from 'lucide-react';
 
 const englishTestimonials = [
-  'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-1_small.webm',
+  'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS%20TESTIMONIO%201.webm',
   'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-2_small.webm',
   'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3_small.webm'
 ];

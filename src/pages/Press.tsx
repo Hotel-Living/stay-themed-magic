@@ -12,9 +12,9 @@ export default function Press() {
       <div className="relative z-10">
         <Navbar />
         <main className="min-h-screen">
-          <div className="container mx-auto px-4 py-8 max-w-6xl">
-            <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">
-              <div className="space-y-12">
+          <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <div className="bg-[#7E00B3]/90 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] backdrop-blur-sm rounded-lg p-6 text-white">
+              <div className="space-y-8">
                 
                 {/* Header Section */}
                 <div className="text-center space-y-6">
@@ -30,11 +30,11 @@ export default function Press() {
                 </div>
 
                 {/* Video Section */}
-                <div className="space-y-6">
-                  <div className="w-full">
+                <div className="space-y-4">
+                  <div className="w-full scale-75 origin-center">
                     <iframe 
                       width="100%" 
-                      height="400" 
+                      height="280" 
                       src={`https://www.youtube.com/embed/${t('video.placeholder')}`}
                       title={t('video.title')}
                       frameBorder="0" 

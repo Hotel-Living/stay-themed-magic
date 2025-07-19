@@ -25,9 +25,27 @@ export function EnglishVideoTestimonials() {
 
   // Check if videos were closed in this session
   const videosClosedInSession = sessionStorage.getItem('testimonialVideosClosed') === 'true';
+  
+  // Clear session storage for testing - remove this in production
+  useEffect(() => {
+    sessionStorage.removeItem('testimonialVideosClosed');
+    console.log('Cleared testimonial videos session flag for testing');
+  }, []);
 
   // Only show on non-Index pages and non-Spanish languages, and if not closed in session
   const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es' && !videosClosedInSession;
+  
+  // Debug logging
+  console.log('English video testimonials debug:', {
+    pathname: location.pathname,
+    language: i18n.language,
+    videosClosedInSession,
+    shouldShowVideos,
+    isVisible,
+    currentVideoIndex,
+    isComplete,
+    totalVideosShown
+  });
 
   // Maximum videos to show: 2 full loops (3 videos x 2 loops = 6 total)
   const maxVideosToShow = englishTestimonials.length * 2;

@@ -1,3 +1,4 @@
+
 {
   "title": "Dashboard",
   "welcome": "Welcome",
@@ -22,9 +23,9 @@
   "reviews": "Reviews",
   "analytics": "Analytics",
   "settings": "Settings",
-  "standardEconomicModel": "CREATE YOUR OWN HOTEL-LIVING MODEL",
-  "costsAndProfits": "COSTS AND BENEFITS",
-  "buildOwnModel": "YOUR OWN MODEL",
+  "standardEconomicModel": "1. CREATE YOUR OWN HOTEL-LIVING MODEL",
+  "costsAndProfits": "2. COSTS AND BENEFITS",
+  "buildOwnModel": "3. YOUR OWN MODEL",
   "costs": "COSTS",
   "profits": "PROFITS",
   "selectAll": "Select All",

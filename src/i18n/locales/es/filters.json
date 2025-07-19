@@ -1,3 +1,4 @@
+
 {
   "filters": {
     "pricePerMonth": "PRECIO POR MES",
@@ -6,7 +7,7 @@
     "affinities": "AFINIDADES",
     "affinity": "AFINIDADES",
     "activities": "ACTIVIDADES",
-    "duration": "DURACIÓN DE ESTANCIA",
+    "duration": "DURACIÓN DE ESTADÍA",
     "mealPlan": "PLAN DE COMIDAS",
     "category": "CATEGORÍA",
     "month": "MES",
@@ -19,15 +20,16 @@
     "breakfastIncluded": "Desayuno incluido",
     "halfBoard": "Media pensión",
     "fullBoard": "Pensión completa",
-    "laundryServiceIncluded": "Servicio de lavandería incluido",
-    "externalLaundryService": "Servicio de lavandería externo",
+    "allInclusive": "Todo incluido",
+    "laundryServiceIncluded": "Lavandería incluida",
+    "externalLaundryService": "Lavandería exterior",
     "pool": "Piscina",
     "gym": "Gimnasio",
     "spa": "Spa",
     "restaurant": "Restaurante",
     "bar": "Bar",
     "wifi": "WiFi",
-    "parking": "Aparcamiento",
+    "parking": "Estacionamiento",
     "airConditioning": "Aire Acondicionado",
     "balcony": "Balcón",
     "kitchen": "Cocina",
@@ -40,7 +42,7 @@
       "resort": "Resort",
       "boutiqueHotel": "Hotel Boutique",
       "countryHouse": "Casa Rural",
-      "roadsideMotel": "Motel de Carretera"
+      "roadsideMotel": "Hostal"
     },
     "propertyStyles": {
       "classic": "Clásico",
@@ -87,7 +89,7 @@
       "insonorizado": "Insonorizado",
       "internetDeAltaVelocidad": "Internet de Alta Velocidad",
       "microondas": "Microondas",
-      "miniBar": "Mini Bar",
+      "miniBar": "Minibar",
       "plancha": "Plancha",
       "secadorDePelo": "Secador de Pelo",
       "televisor": "Televisor",
@@ -149,6 +151,15 @@
       "germany": "Alemania",
       "portugal": "Portugal",
       "greece": "Grecia"
+    },
+    "mealPlans": {
+      "accommodationOnly": "Solo alojamiento",
+      "breakfastIncluded": "Desayuno incluido",
+      "halfBoard": "Media pensión",
+      "fullBoard": "Pensión completa",
+      "allInclusive": "Todo incluido",
+      "laundryIncluded": "Lavandería incluida",
+      "externalLaundry": "Lavandería exterior"
     }
   }
 }

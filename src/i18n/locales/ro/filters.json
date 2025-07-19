@@ -1,3 +1,4 @@
+
 {
   "filters": {
     "pricePerMonth": "PREȚ PE LUNĂ",
@@ -19,8 +20,9 @@
     "breakfastIncluded": "Mic dejun inclus",
     "halfBoard": "Demipensiune",
     "fullBoard": "Pensiune completă",
-    "laundryServiceIncluded": "Serviciu spălătorie inclus",
-    "externalLaundryService": "Serviciu spălătorie extern",
+    "allInclusive": "All inclusive",
+    "laundryServiceIncluded": "Spălătorie inclusă",
+    "externalLaundryService": "Spălătorie externă",
     "pool": "Piscină",
     "gym": "Sală de Fitness",
     "spa": "Spa",
@@ -39,8 +41,8 @@
       "hotel": "Hotel",
       "resort": "Resort",
       "boutiqueHotel": "Hotel Boutique",
-      "countryHouse": "Casă de Țară",
-      "roadsideMotel": "Motel"
+      "countryHouse": "Casă rurală",
+      "roadsideMotel": "Pensiune turistică"
     },
     "propertyStyles": {
       "classic": "Clasic",
@@ -149,6 +151,15 @@
       "germany": "Germania",
       "portugal": "Portugalia",
       "greece": "Grecia"
+    },
+    "mealPlans": {
+      "accommodationOnly": "Doar cazare",
+      "breakfastIncluded": "Mic dejun inclus",
+      "halfBoard": "Demipensiune",
+      "fullBoard": "Pensiune completă",
+      "allInclusive": "All inclusive",
+      "laundryIncluded": "Spălătorie inclusă",
+      "externalLaundry": "Spălătorie externă"
     }
   }
 }

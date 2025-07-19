@@ -1,3 +1,4 @@
+
 {
   "filters": {
     "pricePerMonth": "PREÇO POR MÊS",
@@ -15,12 +16,13 @@
     "hotelFeatures": "COMODIDADES DO HOTEL",
     "roomFeatures": "COMODIDADES DO QUARTO",
     "resetFilters": "ELIMINAR FILTROS",
-    "accommodationOnly": "Apenas acomodação",
+    "accommodationOnly": "Apenas alojamento",
     "breakfastIncluded": "Café da manhã incluído",
     "halfBoard": "Meia pensão",
     "fullBoard": "Pensão completa",
-    "laundryServiceIncluded": "Serviço de lavanderia incluído",
-    "externalLaundryService": "Serviço de lavanderia externo",
+    "allInclusive": "Tudo incluído",
+    "laundryServiceIncluded": "Lavanderia incluída",
+    "externalLaundryService": "Lavanderia externa",
     "pool": "Piscina",
     "gym": "Academia",
     "spa": "Spa",
@@ -40,7 +42,7 @@
       "resort": "Resort",
       "boutiqueHotel": "Hotel Boutique",
       "countryHouse": "Casa de Campo",
-      "roadsideMotel": "Motel de Estrada"
+      "roadsideMotel": "Pousada"
     },
     "propertyStyles": {
       "classic": "Clássico",
@@ -149,6 +151,15 @@
       "germany": "Alemanha",
       "portugal": "Portugal",
       "greece": "Grécia"
+    },
+    "mealPlans": {
+      "accommodationOnly": "Apenas alojamento",
+      "breakfastIncluded": "Café da manhã incluído",
+      "halfBoard": "Meia pensão",
+      "fullBoard": "Pensão completa",
+      "allInclusive": "Tudo incluído",
+      "laundryIncluded": "Lavanderia incluída",
+      "externalLaundry": "Lavanderia externa"
     }
   }
 }

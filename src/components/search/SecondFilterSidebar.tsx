@@ -1,24 +1,18 @@
-
-import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
-import { MealPlanFilter } from "./MealPlanFilter";
-import { HotelFeaturesFilter } from "./HotelFeaturesFilter"; 
-import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
-import { FilterState } from "@/components/filters/FilterTypes";
-import { FilterItem } from "./FilterItem";
-import { PriceRangeFilter } from "./PriceRangeFilter";
-import { MonthFilter } from "./MonthFilter";
+import React, { useState, useEffect } from "react";
 import { CountryFilter } from "./CountryFilter";
-import { CategoryFilter } from "./CategoryFilter";
+import { LocationFilter } from "./LocationFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
+import { CategoryFilter } from "./CategoryFilter";
+import { MonthFilter } from "./MonthFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
-import { LocationFilter } from "./LocationFilter";
-import { ThemeFilter } from "./ThemeFilter";
-import { ActivityFilter } from "./ActivityFilter";
-import { CheckboxFilter } from "./CheckboxFilter";
+import { PriceRangeFilter } from "./PriceRangeFilter";
+import { HotelFeaturesFilter } from "./HotelFeaturesFilter";
+import { RoomFeaturesFilter } from "./RoomFeaturesFilter";
+import { FilterState } from "@/components/filters/FilterTypes";
+import { useTranslation } from "react-i18next";
 
-interface SecondFilterSidebarProps {
+interface FilterSidebarProps {
   activeFilters: FilterState;
   handleFilterChange: (key: keyof FilterState, value: any) => void;
   handleArrayFilterChange: (key: keyof FilterState, value: string, isSelected: boolean) => void;
@@ -30,135 +24,102 @@ export function SecondFilterSidebar({
   handleFilterChange,
   handleArrayFilterChange,
   onResetAllFilters
-}: SecondFilterSidebarProps) {
-  const { t } = useTranslation('filters');
-  
+}: FilterSidebarProps) {
+  const { t, isReady } = useTranslation('filters');
+
+  const handleHotelFeaturesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('hotelFeatures', value, isChecked);
+  };
+
+  const handleRoomFeaturesChange = (value: string, isChecked: boolean) => {
+    handleArrayFilterChange('roomFeatures', value, isChecked);
+  };
+
+  // Helper function to get price value as number for PriceRangeFilter
+  const getPriceValue = (): number | null => {
+    if (typeof activeFilters.priceRange === 'number') {
+      return activeFilters.priceRange;
+    }
+    return null;
+  };
+
   return (
-    <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-6 shadow-2xl px-0 py-0 rounded-none my-0">
-      {/* Reset Button */}
-      <div className="mb-6">
-        <button 
-          onClick={onResetAllFilters} 
-          className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium px-0 whitespace-nowrap"
-        >
-          {t('resetFilters')}
-        </button>
-      </div>
+    <div className="w-fit max-w-full bg-gradient-to-b from-[#460F54] to-[#300A38] p-4 space-y-4 overflow-y-auto max-h-screen">
+      {/* RESET BUTTON */}
+      <button
+        onClick={onResetAllFilters}
+        className="w-full py-2 px-4 text-sm rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors mb-4"
+      >
+        {isReady ? t('resetFilters') : 'Reset Filters'}
+      </button>
 
-      {/* 1. PRECIO POR MES */}
-      <div className="mb-6">
-        <PriceRangeFilter 
-          activePrice={activeFilters.maxPrice} 
-          onChange={value => handleFilterChange('maxPrice', value)} 
-        />
-      </div>
+      {/* PRICE PER MONTH */}
+      <PriceRangeFilter
+        activePrice={getPriceValue()}
+        onChange={(value) => handleFilterChange('priceRange', value)}
+      />
 
-      {/* 2. PAÍS */}
-      <div className="mb-6">
-        <CountryFilter 
-          activeCountry={activeFilters.country} 
-          onChange={value => handleFilterChange('country', value)} 
-        />
-      </div>
+      {/* COUNTRY */}
+      <CountryFilter
+        activeCountry={activeFilters.country}
+        onChange={(value) => handleFilterChange('country', value)}
+      />
 
-      {/* 3. LOCATION */}
-      <div className="mb-6">
-        <LocationFilter 
-          activeLocation={activeFilters.location} 
-          onChange={value => handleFilterChange('location', value)} 
-        />
-      </div>
+      {/* LOCATION */}
+      <LocationFilter
+        activeLocation={activeFilters.location}
+        onChange={(value) => handleFilterChange('location', value)}
+      />
 
-      {/* 4. AFINIDADES */}
-      <div className="mb-6">
-        <ThemeFilter 
-          activeTheme={activeFilters.theme} 
-          onChange={value => handleFilterChange('theme', value)} 
-        />
-      </div>
+      {/* STAY LENGTH */}
+      <LengthOfStayFilter
+        activeLength={activeFilters.stayLengths}
+        onChange={(value) => handleFilterChange('stayLengths', value)}
+      />
 
-      {/* 5. ACTIVIDADES */}
-      <div className="mb-6">
-        <ActivityFilter 
-          activeActivities={activeFilters.activities} 
-          onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)} 
-        />
-      </div>
+      {/* CATEGORY */}
+      <CategoryFilter
+        activeCategory={activeFilters.atmosphere}
+        onChange={(value) => handleFilterChange('atmosphere', value)}
+      />
 
-      {/* 6. DURACIÓN */}
-      <div className="mb-6">
-        <LengthOfStayFilter 
-          activeLength={activeFilters.stayLengths} 
-          onChange={value => handleFilterChange('stayLengths', value)} 
-        />
-      </div>
+      {/* MONTH */}
+      <MonthFilter
+        activeMonth={activeFilters.month}
+        onChange={(value) => handleFilterChange('month', value)}
+      />
 
-      {/* 7. MES */}
-      <div className="mb-6">
-        <MonthFilter 
-          activeMonth={activeFilters.month} 
-          onChange={value => handleFilterChange('month', value)} 
-        />
-      </div>
+      {/* PROPERTY TYPE */}
+      <PropertyTypeFilter
+        activePropertyType={activeFilters.propertyType}
+        onChange={(value) => handleFilterChange('propertyType', value)}
+      />
 
-      {/* 8. COMIDAS */}
-      <div className="mb-6">
-        <MealPlanFilter 
-          activeMealPlans={activeFilters.mealPlans} 
-          onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
-        />
-      </div>
+      {/* PROPERTY STYLE */}
+      <PropertyStyleFilter
+        activePropertyStyle={activeFilters.propertyStyle}
+        onChange={(value) => handleFilterChange('propertyStyle', value)}
+      />
 
-      {/* 9. TIPO DE HOTEL */}
-      <div className="mb-6">
-        <PropertyTypeFilter 
-          activePropertyType={activeFilters.propertyType} 
-          onChange={value => handleFilterChange('propertyType', value)} 
-        />
-      </div>
+      {/* HOTEL FEATURES */}
+      <HotelFeaturesFilter
+        activeHotelFeatures={activeFilters.hotelFeatures || []}
+        onChange={handleHotelFeaturesChange}
+      />
 
-      {/* 10. ESTILO DEL HOTEL */}
-      <div className="mb-6">
-        <PropertyStyleFilter 
-          activePropertyStyle={activeFilters.propertyStyle} 
-          onChange={value => handleFilterChange('propertyStyle', value)} 
-        />
-      </div>
+      {/* ROOM FEATURES */}
+      <RoomFeaturesFilter
+        activeRoomFeatures={activeFilters.roomFeatures || []}
+        onChange={handleRoomFeaturesChange}
+      />
 
-      {/* 11. CATEGORÍA */}
-      <div className="mb-6">
-        <CategoryFilter 
-          activeCategory={activeFilters.stars?.[0] || null} 
-          onChange={value => handleArrayFilterChange('stars', value, true)} 
-        />
-      </div>
-
-
-      {/* 12. SERVICIOS-HOTEL */}
-      <div className="mb-6">
-        <HotelFeaturesFilter 
-          activeHotelFeatures={activeFilters.hotelFeatures} 
-          onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} 
-        />
-      </div>
-
-      {/* 13. SERVICIOS-HABITACIÓN */}
-      <div className="mb-6">
-        <RoomFeaturesFilter 
-          activeRoomFeatures={activeFilters.roomFeatures} 
-          onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} 
-        />
-      </div>
-
-      {/* Bottom Reset Button */}
-      <div className="mt-6">
-        <button 
-          onClick={onResetAllFilters} 
-          className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium whitespace-nowrap"
-        >
-          {t('resetFilters')}
-        </button>
-      </div>
+      {/* BOTTOM RESET BUTTON */}
+      <button
+        onClick={onResetAllFilters}
+        className="w-full py-2 px-4 text-sm rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors mt-4"
+      >
+        {isReady ? t('resetFilters') : 'Reset Filters'}
+      </button>
     </div>
   );
 }

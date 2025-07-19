@@ -1,0 +1,28 @@
+
+{
+  "mealsModelTitle": "MODELUL MESELOR",
+  "mealsContent": {
+    "title": "MODELUL MESELOR",
+    "description": "Planurile de mese Hotel-Living sunt concepute pentru confort și șederi pe termen lung, nu pentru experiențe culinare de lux.",
+    "practicalApproach": {
+      "title": "ABORDARE SIMPLĂ ȘI PRACTICĂ A MESELOR",
+      "description": "Focalizare pe mese echilibrate și consistente pe care oaspeții le vor aprecia pe parcursul șederii lor."
+    },
+    "operationalAdvantages": {
+      "title": "AVANTAJE OPERAȚIONALE",
+      "items": [
+        "Complexitate redusă în operațiunile de bucătărie",
+        "Costuri previzibile și gestionarea inventarului",
+        "Atmosferă relaxată de luat masa"
+      ]
+    },
+    "costEfficiency": {
+      "title": "EFICIENȚA COSTURILOR",
+      "description": "Rezervările în avans permit o planificare și un control mai bun al costurilor.",
+      "items": [
+        "Preferințe cunoscute ale oaspeților și cerințe dietetice",
+        "Zero risipă de mâncare prin porții planificate"
+      ]
+    }
+  }
+}

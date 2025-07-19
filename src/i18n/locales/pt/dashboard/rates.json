@@ -1,0 +1,28 @@
+
+{
+  "mealsModelTitle": "MODELO DE REFEIÇÕES",
+  "mealsContent": {
+    "title": "MODELO DE REFEIÇÕES",
+    "description": "Os planos de refeições Hotel-Living são projetados para conforto e estadias de longo prazo, não para experiências gastronômicas de luxo.",
+    "practicalApproach": {
+      "title": "ABORDAGEM DE REFEIÇÕES SIMPLES E PRÁTICA",
+      "description": "Foco em refeições equilibradas e consistentes que os hóspedes apreciarão durante sua estadia."
+    },
+    "operationalAdvantages": {
+      "title": "VANTAGENS OPERACIONAIS",
+      "items": [
+        "Menor complexidade nas operações da cozinha",
+        "Custos previsíveis e gestão de inventário",
+        "Ambiente de jantar relaxado"
+      ]
+    },
+    "costEfficiency": {
+      "title": "EFICIÊNCIA DE CUSTOS",
+      "description": "Reservas antecipadas permitem melhor planejamento e controle de custos.",
+      "items": [
+        "Preferências conhecidas dos hóspedes e requisitos dietéticos",
+        "Zero desperdício de comida através de porções planejadas"
+      ]
+    }
+  }
+}

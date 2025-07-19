@@ -1,0 +1,28 @@
+
+{
+  "mealsModelTitle": "MEALS MODEL",
+  "mealsContent": {
+    "title": "MEALS MODEL",
+    "description": "Hotel-Living meal plans are designed for comfort and long-term stays, not luxury dining experiences.",
+    "practicalApproach": {
+      "title": "SIMPLE, PRACTICAL MEAL APPROACH",
+      "description": "Focus on balanced, consistent meals that residents will enjoy throughout their stay."
+    },
+    "operationalAdvantages": {
+      "title": "OPERATIONAL ADVANTAGES",
+      "items": [
+        "Lower complexity in kitchen operations",
+        "Predictable costs and inventory management",
+        "Relaxed dining atmosphere"
+      ]
+    },
+    "costEfficiency": {
+      "title": "COST EFFICIENCY",
+      "description": "Advance bookings allow for better planning and cost control.",
+      "items": [
+        "Known guest preferences and dietary requirements",
+        "Zero food waste through planned portions"
+      ]
+    }
+  }
+}

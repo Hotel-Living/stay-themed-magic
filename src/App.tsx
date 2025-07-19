@@ -8,9 +8,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
 import Index from "./pages/Index";
 import Hotels from "./pages/Hotels";
-import About from "./pages/About";
 import HotelDetail from "./pages/HotelDetail";
-import Dashboard from "./pages/Dashboard";
 import TestMaps from "./pages/TestMaps";
 
 const queryClient = new QueryClient();
@@ -25,9 +23,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/hotels" element={<Hotels />} />
-            <Route path="/about" element={<About />} />
             <Route path="/hotel/:id" element={<HotelDetail />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/test-maps" element={<TestMaps />} />
           </Routes>
         </BrowserRouter>

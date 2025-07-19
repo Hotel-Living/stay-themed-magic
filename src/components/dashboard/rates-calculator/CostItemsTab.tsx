@@ -69,7 +69,25 @@ ________________________________________
 💼 ${t('ratesCalculator.cleaningOperationalBenefits')}
 ${t('ratesCalculator.cleaningOperationalDescription')}`;
       case "meal-plans":
-        return "**MEAL PLANS - BALANCED APPROACH**\n\nOur meal plans are designed to provide balanced, nutritious options that cater to long-stay guests while maintaining operational efficiency.\n\n**FLEXIBLE MEAL PLANS**\n\nGuests can choose from various meal plan options based on their preferences and dietary requirements.\n\n**OPERATIONAL BENEFITS**\n\n• Lower kitchen complexity\n• Predictable costs\n• Relaxed dining experience\n\n**RESULT**\n\n🏨 Hotels benefit from simplified operations\n🏡 Guests enjoy home-like dining flexibility\n🌍 Sustainable and cost-effective approach";
+        return `**${t('ratesCalculator.mealPlansTitle')}**
+
+${t('ratesCalculator.mealPlansDescription')}
+
+**${t('ratesCalculator.flexibleMealPlansTitle')}**
+
+${t('ratesCalculator.flexibleMealPlansDescription')}
+
+**${t('ratesCalculator.operationalBenefitsTitle')}**
+
+• ${t('ratesCalculator.operationalBenefit1')}
+• ${t('ratesCalculator.operationalBenefit2')}
+• ${t('ratesCalculator.operationalBenefit3')}
+
+**${t('ratesCalculator.resultTitle')}**
+
+🏨 ${t('ratesCalculator.resultHotel')}
+🏡 ${t('ratesCalculator.resultGuests')}
+🌍 ${t('ratesCalculator.resultSustainable')}`;
       default:
         return "";
     }

@@ -1,0 +1,53 @@
+{
+  "dashboard": {
+    "ratesCalculator": {
+      "utilities": "UTILIDADES",
+      "cleaning": "LIMPIEZA", 
+      "meals": "COMIDAS",
+      "totalCost": "COSTO TOTAL",
+      "utilitiesTitle": "**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**",
+      "utilitiesGuestsNotTransients": "HUÉSPEDES DEL HOTEL-LIVING NO SON TURISTAS TRANSITORIOS",
+      "utilitiesDescription1": "Son residentes respetuosos de larga estancia que permanecen por 8, 16, 24 o 32 días.",
+      "utilitiesSmartGuestsTitle": "HUÉSPEDES MÁS INTELIGENTES, USO MÁS INTELIGENTE DE RECURSOS",
+      "utilitiesDescription2": "Debido a la mayor duración de las estancias y la relación más personal que establecen con su propiedad, estos huéspedes tienden a ser más conscientes en el uso de recursos.",
+      "utilitiesDescription3": "Se sienten más como inquilinos temporales que como visitantes de corta estancia — y eso marca toda la diferencia.",
+      "utilitiesLowerConsumption": "EL CONSUMO DE UTILIDADES ES MENOR Y MÁS ESTABLE",
+      "utilitiesEnergyEfficiency": "SISTEMAS DE EFICIENCIA ENERGÉTICA (como iluminación LED y control climático moderado) son aún más efectivos",
+      "utilitiesConservativeHabits": "SINTIÉNDOSE COMO EN CASA, los huéspedes naturalmente adoptan hábitos más conservadores",
+      "utilitiesSharedResponsibility": "UN SENTIDO DE RESPONSABILIDAD COMPARTIDA",
+      "utilitiesResponsibilityDescription": "Como Hotel-Living ofrece tarifas accesibles, los huéspedes generalmente están conscientes y son respetuosos de la oportunidad que se les brinda.\nSaben que este modelo depende del equilibrio, cuidado y sostenibilidad — y la mayoría actúa en consecuencia.",
+      "utilitiesOptimizedOperations": "OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO",
+      "utilitiesOptimizedDescription": "Gracias al menor recambio de habitaciones y protocolos de limpieza simplificados, el uso de utilidades se mantiene constante y optimizado, con menos picos en la demanda de electricidad o agua.",
+      "cleaningModelTitle": "**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**",
+      "cleaningHotelLivingStandard": "HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD",
+      "cleaningFeelsLikeHome": "UNO QUE SE SIENTE MÁS COMO HOGAR.",
+      "cleaningDescription1": "A diferencia de los hoteles tradicionales con limpieza diaria, nuestro enfoque refleja el ritmo de la vida real.",
+      "cleaningDescription2": "Así como alguien que vive en casa podría recibir ayuda ligera unas pocas veces por semana, nuestros huéspedes disfrutan de cuidado atento y discreto que respeta su independencia y comodidad.",
+      "cleaningCompleteTitle": "LIMPIEZA COMPLETA — UNA VEZ POR SEMANA",
+      "cleaningCompleteDescription": "Una limpieza completa de la habitación cada 7 días asegura higiene y frescura, con intrusión mínima.",
+      "cleaningLightRefresh": "REFRESCO LIGERO DIARIO (BAJO SOLICITUD)",
+      "cleaningLightRefreshDescription": "Pequeños retoques opcionales — 🗑️ remoción de basura, 🧺 arreglo ligero, 🌬️ ventilación — están disponibles, respetando la privacidad y el estilo de vida.",
+      "cleaningBedChange": "CAMBIO DE ROPA DE CAMA — CADA 5 DÍAS",
+      "cleaningBedChangeDescription": "Sábanas y toallas se renuevan regularmente, siguiendo estándares de comodidad hogareña.",
+      "cleaningOperationalBenefits": "BENEFICIOS OPERACIONALES",
+      "cleaningOperationalDescription": "Este modelo reduce costos operacionales para hoteles, mientras ofrece a los huéspedes una experiencia residencial:\n• Menos interrupciones\n• Más privacidad\n• La sensación de realmente pertenecer — no solo quedarse.",
+      "mealPlansTitle": "PLANES DE COMIDAS - ENFOQUE EQUILIBRADO",
+      "mealPlansDescription": "Nuestros planes de comidas están diseñados para proporcionar opciones equilibradas y nutritivas que satisfagan a huéspedes de larga estancia mientras mantienen la eficiencia operacional.",
+      "flexibleMealPlansTitle": "PLANES DE COMIDAS FLEXIBLES",
+      "flexibleMealPlansDescription": "Los huéspedes pueden elegir entre varias opciones de planes de comidas según sus preferencias y requisitos dietéticos.",
+      "operationalBenefitsTitle": "BENEFICIOS OPERACIONALES",
+      "operationalBenefit1": "Menor complejidad en la cocina",
+      "operationalBenefit2": "Costos predecibles",
+      "operationalBenefit3": "Experiencia gastronómica relajada",
+      "resultTitle": "RESULTADO",
+      "resultHotel": "Los hoteles se benefician de operaciones simplificadas",
+      "resultGuests": "Los huéspedes disfrutan de flexibilidad gastronómica como en casa",
+      "resultSustainable": "Enfoque sostenible y costo-efectivo",
+      "disclaimer": "Estas cifras representan un ejemplo de los costos incrementales promedio por habitación ocupada adicional en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costos reales pueden variar y deben ajustarse según la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel.",
+      "buildYourModel": {
+        "title": "Construye Tu Modelo",
+        "description": "Personaliza tarifas y calcula ganancias para las necesidades específicas de tu hotel."
+      }
+    }
+  }
+}

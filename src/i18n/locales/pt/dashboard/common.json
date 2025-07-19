@@ -1,98 +1,28 @@
 
 {
-  "dashboard": {
-    "ratesCalculator": {
-      "utilities": "UTILIDADES",
-      "cleaning": "LIMPEZA", 
-      "meals": "REFEIÇÕES",
-      "totalCost": "CUSTO TOTAL",
-      "utilitiesContent": {
-        "title": "**PREVISIBILIDADE – RESPONSABILIDADE – EFICIÊNCIA**",
-        "hotelLivingGuests": "⚙️ HÓSPEDES DO HOTEL-LIVING NÃO SÃO TURISTAS TRANSITÓRIOS",
-        "respectfulResidents": "São residentes respeitosos de longa permanência que ficam por 8, 16, 24 ou 32 dias.",
-        "smarterGuests": "🌿 HÓSPEDES MAIS INTELIGENTES, USO MAIS INTELIGENTE DE RECURSOS",
-        "consciousUse": "Devido à maior duração das estadias e ao relacionamento mais pessoal que estabelecem com sua propriedade, esses hóspedes tendem a ser mais conscientes no uso de recursos.",
-        "temporaryTenants": "Eles se sentem mais como inquilinos temporários do que visitantes de curta estadia — e isso faz toda a diferença.",
-        "utilityConsumption": "⚡ O CONSUMO DE UTILIDADES É MENOR E MAIS ESTÁVEL",
-        "energyEfficiency": "💡 SISTEMAS DE EFICIÊNCIA ENERGÉTICA (como iluminação LED e controle climático moderado) são ainda mais efetivos",
-        "feelingAtHome": "🌱 SENTINDO-SE EM CASA, os hóspedes naturalmente adotam hábitos mais conservadores",
-        "sharedResponsibility": "💜 UM SENSO DE RESPONSABILIDADE COMPARTILHADA",
-        "accessibleRates": "Como o Hotel-Living oferece tarifas acessíveis, os hóspedes geralmente estão cientes e são respeitosos da oportunidade que lhes é dada.",
-        "balanceAndCare": "Eles sabem que este modelo depende de equilíbrio, cuidado e sustentabilidade — e a maioria age de acordo.",
-        "optimizedOperations": "🔄 OPERAÇÕES OTIMIZADAS = CONSUMO OTIMIZADO",
-        "lowerTurnover": "Graças ao menor turnover de quartos e protocolos de limpeza simplificados, o uso de utilidades permanece constante e otimizado, com menos picos na demanda de eletricidade ou água."
-      },
-      "cleaningContent": {
-        "title": "**LIMPEZA ESTILO CASA – CONFORTO A LONGO PRAZO**",
-        "newStandard": "🧼 HOTEL-LIVING SIGNIFICA UM NOVO PADRÃO DE HOSPITALIDADE",
-        "feelsLikeHome": "🏡 UM QUE SE SENTE MAIS COMO CASA.",
-        "approachDescription": "Diferente dos hotéis tradicionais com limpeza diária, nossa abordagem reflete o ritmo da vida real.",
-        "lightHelp": "Assim como alguém vivendo em casa pode receber ajuda leve algumas vezes por semana, nossos hóspedes desfrutam de cuidado atento e discreto que respeita sua independência e conforto.",
-        "completeCleaning": "🧹 LIMPEZA COMPLETA — UMA VEZ POR SEMANA",
-        "completeCleaningDesc": "Uma limpeza completa do quarto a cada 7 dias garante higiene e frescor, com intrusão mínima.",
-        "lightRefresh": "🔄 REFRESCO LEVE DIÁRIO (SOB SOLICITAÇÃO)",
-        "lightRefreshDesc": "Pequenos retoques opcionais — 🗑️ remoção de lixo, 🧺 arrumação leve, 🌬️ ventilação — estão disponíveis, respeitando privacidade e estilo de vida.",
-        "beddingChange": "🛏️ TROCA DE ROUPA DE CAMA — A CADA 5 DIAS",
-        "beddingChangeDesc": "Lençóis e toalhas são renovados regularmente, seguindo padrões de conforto doméstico.",
-        "operationalBenefits": "💼 BENEFÍCIOS OPERACIONAIS",
-        "benefitsDescription": "Este modelo reduz custos operacionais para hotéis, enquanto oferece aos hóspedes uma experiência residencial:",
-        "fewerInterruptions": "• Menos interrupções",
-        "morePrivacy": "• Mais privacidade",
-        "feelingBelonging": "• A sensação de realmente pertencer — não apenas ficar."
-      },
-      "mealsContent": {
-        "title": "O MODELO DE REFEIÇÕES DO HOTEL-LIVING: SIMPLES, SAUDÁVEL, ESTILO CASA",
-        "luxuryException": "Exceto em hotéis de luxo, boutiques de alta categoria ou estadias curtas de 8 dias focadas em gastronomia ou experiências culinárias, o Hotel-Living não é baseado em culinária gourmet ou buffets luxuosos.",
-        "comfortBased": "Na maioria dos casos, a experiência Hotel-Living é baseada em conforto, simplicidade e sustentabilidade.",
-        "notForLuxury": "Nossos hóspedes não estão aqui por luxo.",
-        "residents": "Eles não são turistas. São residentes de longa permanência procurando uma rotina de refeições confiável, saudável e acessível — algo que se assemelha à vida real em casa.",
-        "foodModelTitle": "🔧 É POR ISSO QUE NOSSO MODELO DE COMIDA É:",
-        "balanced": "✅ 🥗 Equilibrado, estilo casa e fácil de preparar",
-        "moderation": "✅ 🍎 Projetado para moderação e bem-estar, não excesso",
-        "compatible": "✅ 👨‍🍳 Compatível com a cozinha e equipe existente do seu hotel",
-        "lowWaste": "✅ ♻️ Baixo desperdício e baixo custo — sem sacrificar qualidade ou cuidado",
-        "flexibleMeals": "🍳 PLANOS DE REFEIÇÕES FLEXÍVEIS",
-        "mealPlansDesc": "Seja oferecendo apenas café da manhã ou pensão completa, os planos de refeições do Hotel-Living são projetados para:",
-        "consistency": "• 🧘 Consistência",
-        "comfort": "• 🏡 Conforto",
-        "satisfaction": "• 🙂 Satisfação do hóspede — não exibições culinárias.",
-        "operationalAdvantages": "💼 VANTAGENS OPERACIONAIS:",
-        "lowerComplexity": "🧑‍🍳 Menor complexidade operacional",
-        "predictableCosts": "🧾 Custos previsíveis e controle de porções",
-        "relaxedDining": "😊 Uma experiência gastronômica relaxada e familiar que seus hóspedes realmente valorizam",
-        "budgetBenefits": "📊 BENEFÍCIOS DE ORÇAMENTO E PLANEJAMENTO:",
-        "advanceBookings": "Como todas as reservas são feitas com antecedência e com duração fixa:",
-        "knowGuests": "✅ 📅 Você saberá exatamente quantos hóspedes estão chegando — e por quanto tempo.",
-        "zeroWaste": "✅ 🚫 O desperdício de comida pode chegar praticamente a zero.",
-        "kitchenStrategy": "🔁 ESTRATÉGIA DE COZINHA SIMPLES E EFICIENTE:",
-        "strategyDesc": "Para cozinhas simples, existe uma estratégia comprovada e lucrativa:",
-        "rotatingMenus": "🔄 CARDÁPIOS SEMANAIS ROTATIVOS",
-        "fixedMenus": "Onde cada dia da semana tem um cardápio fixo que pode ser repetido semanalmente, permitindo:",
-        "bulkPurchasing": "• 🛒 Compras em volume",
-        "simplifiedPrep": "• 🍳 Preparação simplificada",
-        "costReduction": "• 💰 Redução adicional de custos",
-        "result": "🔑 O RESULTADO:",
-        "hotelSaves": "🏨 Seu hotel economiza",
-        "guestsAtHome": "🏡 Seus hóspedes se sentem em casa",
-        "scalableExperience": "🌍 E toda a experiência se torna escalável, sustentável e profundamente humana."
-      },
-      "mealPlansTitle": "PLANOS DE REFEIÇÕES - ABORDAGEM EQUILIBRADA",
-      "mealPlansDescription": "Nossos planos de refeições são projetados para fornecer opções equilibradas e nutritivas que atendem hóspedes de longa permanência mantendo a eficiência operacional.",
-      "flexibleMealPlansTitle": "PLANOS DE REFEIÇÕES FLEXÍVEIS",
-      "flexibleMealPlansDescription": "Os hóspedes podem escolher entre várias opções de planos de refeições com base em suas preferências e requisitos dietéticos.",
-      "operationalBenefitsTitle": "BENEFÍCIOS OPERACIONAIS",
-      "operationalBenefit1": "Menor complexidade na cozinha",
-      "operationalBenefit2": "Custos previsíveis",
-      "operationalBenefit3": "Experiência gastronômica relaxada",
-      "resultTitle": "RESULTADO",
-      "resultHotel": "Hotéis se beneficiam de operações simplificadas",
-      "resultGuests": "Hóspedes desfrutam de flexibilidade gastronômica como em casa",
-      "resultSustainable": "Abordagem sustentável e custo-efetiva",
-      "disclaimer": "Essas cifras representam um exemplo dos custos incrementais médios por quarto ocupado adicional em hotéis de 3, 4 e 5 estrelas nos mercados ocidentais. Os custos reais podem variar e devem ser ajustados de acordo com a categoria, nível de serviço, localização e modelo operacional de cada hotel.",
-      "buildYourModel": {
-        "title": "Construa Seu Modelo",
-        "description": "Personalize tarifas e calcule lucros para as necessidades específicas do seu hotel."
-      }
+  "mealsModelTitle": "MODELO DE REFEIÇÕES",
+  "mealsContent": {
+    "title": "MODELO DE REFEIÇÕES",
+    "description": "Os planos de refeições do Hotel-Living são projetados para conveniência e estadias de longa duração, não para experiências gastronômicas de luxo.",
+    "practicalApproach": {
+      "title": "ABORDAGEM DE REFEIÇÕES SIMPLES E PRÁTICA",
+      "description": "Foco em refeições equilibradas e consistentes que os hóspedes desfrutarão durante sua estadia."
+    },
+    "operationalAdvantages": {
+      "title": "VANTAGENS OPERACIONAIS",
+      "items": [
+        "Menor complexidade nas operações da cozinha",
+        "Custos previsíveis e gestão de inventário",
+        "Ambiente de jantar relaxado"
+      ]
+    },
+    "costEfficiency": {
+      "title": "EFICIÊNCIA DE CUSTOS",
+      "description": "Reservas antecipadas permitem melhor planejamento e controle de custos.",
+      "items": [
+        "Preferências conhecidas dos hóspedes e requisitos dietéticos",
+        "Zero desperdício de alimentos através de porções planejadas"
+      ]
     }
   }
 }

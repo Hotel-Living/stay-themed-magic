@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 const Press = () => {
   console.log("Press component: Starting to render");
   
-  const { t, isReady } = useTranslation('press');
+  const { t, ready: isReady } = useTranslation('press');
 
   useEffect(() => {
     console.log("Press component: useEffect triggered", { isReady });
@@ -75,11 +75,14 @@ const Press = () => {
                   {t('headlines.title', 'Featured Headlines')}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {Array.isArray(t('headlines.items', [])) && t('headlines.items', []).map((headline: string, index: number) => (
-                    <div key={index} className="p-6 bg-card rounded-lg border">
-                      <p className="text-lg leading-relaxed">{headline}</p>
-                    </div>
-                  ))}
+                  {(() => {
+                    const headlines = t('headlines.items', { returnObjects: true, defaultValue: [] });
+                    return Array.isArray(headlines) ? headlines.map((headline: string, index: number) => (
+                      <div key={index} className="p-6 bg-card rounded-lg border">
+                        <p className="text-lg leading-relaxed">{headline}</p>
+                      </div>
+                    )) : null;
+                  })()}
                 </div>
               </div>
             </section>
@@ -91,11 +94,14 @@ const Press = () => {
                   {t('keyFigures.title', 'Key Figures')}
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {Array.isArray(t('keyFigures.items', [])) && t('keyFigures.items', []).map((figure: string, index: number) => (
-                    <div key={index} className="p-6 bg-card rounded-lg border">
-                      <p className="text-lg leading-relaxed">{figure}</p>
-                    </div>
-                  ))}
+                  {(() => {
+                    const figures = t('keyFigures.items', { returnObjects: true, defaultValue: [] });
+                    return Array.isArray(figures) ? figures.map((figure: string, index: number) => (
+                      <div key={index} className="p-6 bg-card rounded-lg border">
+                        <p className="text-lg leading-relaxed">{figure}</p>
+                      </div>
+                    )) : null;
+                  })()}
                 </div>
               </div>
             </section>
@@ -111,9 +117,12 @@ const Press = () => {
                 <div className="mb-8">
                   <h3 className="text-2xl font-semibold mb-4 text-center">Major Brands</h3>
                   <div className="flex flex-wrap justify-center gap-4">
-                    {Array.isArray(t('brands.major', [])) && t('brands.major', []).map((brand: string, index: number) => (
-                      <span key={index} className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium">{brand}</span>
-                    ))}
+                    {(() => {
+                      const brands = t('brands.major', { returnObjects: true, defaultValue: [] });
+                      return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
+                        <span key={index} className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium">{brand}</span>
+                      )) : null;
+                    })()}
                   </div>
                 </div>
 
@@ -121,9 +130,12 @@ const Press = () => {
                 <div>
                   <h3 className="text-2xl font-semibold mb-4 text-center">Specialized Brands</h3>
                   <div className="flex flex-wrap justify-center gap-4">
-                    {Array.isArray(t('brands.specialized', [])) && t('brands.specialized', []).map((brand: string, index: number) => (
-                      <span key={index} className="px-4 py-2 rounded-full bg-secondary/10 text-secondary font-medium">{brand}</span>
-                    ))}
+                    {(() => {
+                      const brands = t('brands.specialized', { returnObjects: true, defaultValue: [] });
+                      return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
+                        <span key={index} className="px-4 py-2 rounded-full bg-secondary/10 text-secondary font-medium">{brand}</span>
+                      )) : null;
+                    })()}
                   </div>
                 </div>
               </div>
@@ -136,12 +148,15 @@ const Press = () => {
                   {t('pressCoverage.title', 'Press Coverage')}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {Array.isArray(t('pressCoverage.items', [])) && t('pressCoverage.items', []).map((item: any, index: number) => (
-                    <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="block p-6 bg-card rounded-lg border hover:bg-card/80 transition-colors">
-                      <h3 className="text-xl font-semibold mb-2">{item.media}</h3>
-                      <p className="text-foreground/80">Read more...</p>
-                    </a>
-                  ))}
+                  {(() => {
+                    const items = t('pressCoverage.items', { returnObjects: true, defaultValue: [] });
+                    return Array.isArray(items) ? items.map((item: any, index: number) => (
+                      <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="block p-6 bg-card rounded-lg border hover:bg-card/80 transition-colors">
+                        <h3 className="text-xl font-semibold mb-2">{item.media}</h3>
+                        <p className="text-foreground/80">Read more...</p>
+                      </a>
+                    )) : null;
+                  })()}
                 </div>
               </div>
             </section>

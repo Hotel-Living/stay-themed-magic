@@ -1,21 +1,18 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider as QueryClient } from "react-query";
-import { Index } from "@/pages/Index";
-import { Press } from "@/pages/Press";
-import { Terms } from "@/pages/Terms";
-import { Privacy } from "@/pages/Privacy";
-import { Contact } from "@/pages/Contact";
-import { Careers } from "@/pages/Careers";
-import { HotelSignup } from "@/pages/HotelSignup";
-import { HotelLogin } from "@/pages/HotelLogin";
-import { UserDashboard } from "@/pages/UserDashboard";
-import { HotelDashboard } from "@/pages/HotelDashboard";
-import { NotFound } from "@/pages/NotFound";
-import AuthContext, { AuthProvider } from "@/context/AuthContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Index from "@/pages/Index";
+import Press from "@/pages/Press";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import Contact from "@/pages/Contact";
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import NotFound from "@/pages/NotFound";
+import { AuthProvider } from "@/context/auth/AuthProvider";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
-import { AdminDashboard } from "@/pages/AdminDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DebugInfo } from "@/components/DebugInfo";
 
@@ -26,7 +23,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <QueryClient client={queryClient}>
+      <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
             <ErrorBoundary>
@@ -43,9 +40,6 @@ function App() {
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/careers" element={<Careers />} />
-                  <Route path="/hotel-signup" element={<HotelSignup />} />
-                  <Route path="/hotel-login" element={<HotelLogin />} />
                   
                   {/* User dashboard - protected for logged-in users */}
                   <Route
@@ -87,7 +81,7 @@ function App() {
             </ErrorBoundary>
           </AuthProvider>
         </BrowserRouter>
-      </QueryClient>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

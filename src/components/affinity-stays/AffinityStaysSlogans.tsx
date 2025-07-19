@@ -8,12 +8,11 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Updated Affinity Stays logo */}
+          {/* Dynamic multilingual title replacing the image */}
           <div className="flex justify-center mb-2 my-[19px] py-[23px]">
-            <img src="/lovable-uploads/0143058c-8fff-4da1-92a4-c00ad1b52595.png" alt="Affinity Stays Logo" style={{
-            width: '250px',
-            height: 'auto'
-          }} />
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white text-center leading-tight tracking-tight">
+              {t('affinity.affinityStaysTitle')}
+            </h1>
           </div>
           
           {/* "Created by" text and Hotel-Living logo were already removed */}

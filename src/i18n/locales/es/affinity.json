@@ -1,34 +1,16 @@
+
 {
   "affinity": {
-    "title": "Encuentra Tu Afinidad Perfecta",
-    "subtitle": "Descubre hoteles que se alinean con tus pasiones e intereses",
-    "selectAffinities": "Selecciona tus afinidades",
-    "searchByAffinity": "Buscar por afinidad",
-    "popularAffinities": "Afinidades populares",
-    "allAffinities": "Todas las afinidades",
-    "noAffinitiesSelected": "No hay afinidades seleccionadas",
-    "clearSelection": "Limpiar selección",
-    "applyFilters": "Aplicar filtros",
-    "resultsFound": "resultados encontrados",
-    "noResults": "No se encontraron resultados para las afinidades seleccionadas",
-    "tryDifferentAffinities": "Prueba con diferentes afinidades o ajusta tus filtros",
-    "affinityCategories": {
-      "arts": "Artes y Cultura",
-      "sports": "Deportes y Actividades",
-      "food": "Comida y Bebidas",
-      "technology": "Tecnología y Ciencia",
-      "nature": "Naturaleza y Aventura",
-      "wellness": "Bienestar y Salud",
-      "education": "Educación y Aprendizaje",
-      "entertainment": "Entretenimiento"
-    },
+    "affinityStaysTitle": "Estancias con afinidades",
+    "affinityDescription": "Elige hoteles basados en tus intereses y preferencias para compartir experiencias únicas con personas afines.",
+    "exploreThemes": "Explorar temas e intereses",
+    "joinAffinityGroups": "Únete a grupos temáticos",
+    "createAffinityExperience": "Crear experiencia temática",
+    "howardSchultzQuote": "«Cuando estás rodeado de personas que comparten un compromiso apasionado en torno a un propósito común, todo es posible»",
+    "howardSchultzAuthor": "Howard Schultz",
     "slogans": {
-      "mainTitle": "Vive Según Tus Pasiones",
-      "slogan1": "Hoteles que entienden tus intereses",
-      "slogan2": "Experiencias diseñadas para ti", 
-      "slogan3": "Donde la hospitalidad se encuentra con la afinidad",
       "notJustStay": "No es solo una estancia. Es un mundo compartido",
-      "meetShareBelong": "Conoce. Comparte. Pertenece",
+      "meetShareBelong": "Conocer. Compartir. Pertenecer",
       "stayWithThoseWhoGetYou": "Quédate con quienes te entienden",
       "tiredOfRandom": "¿Cansado de lo aleatorio? Elige a tu gente",
       "stayAndConnect": "Quédate y conecta a través de lo que amas"
@@ -36,59 +18,59 @@
     "faq": {
       "whatAreAffinityHotels": {
         "question": "¿Qué son las Afinidades de Hotel-Living?",
-        "answer": "Son un concepto registrado creado exclusivamente por hotel-living.com. Esta idea única —protegida por derechos de autor— ha sido diseñada por nosotros para unir a las personas en torno a intereses compartidos. Las Afinidades de Hotel-Living son mucho más que viajes: es una nueva forma para que la sociedad se conecte, para que las personas conozcan a otros afines, y para que muchos rompan el aislamiento social. Las Afinidades de Hotel-Living facilitan encontrar puntos en común, comunidad y conexiones humanas reales."
+        "answer": "Son temas o intereses comunes que permiten a los huéspedes conectarse entre sí y compartir experiencias durante su estancia."
       },
       "tiredOfTravelingAlone": {
-        "question": "¿Cansado de viajar solo? ¿Quieres conocer personas que realmente te comprendan?",
-        "answer": "Las Afinidades de Hotel-Living son la forma perfecta de conectar con otros que comparten tus pasiones: desde astronomía hasta ópera, desde salsa hasta filatelia. Sin conversaciones incómodas: solo conexión real desde el primer día."
+        "question": "¿Cansado de viajar solo? ¿Quieres conocer gente que realmente te entienda?",
+        "answer": "Hotel-Living facilita encontrar personas que comparten tus intereses, para que tu estancia sea más social y enriquecedora."
       },
       "whatExactlyIsAffinityHotel": {
         "question": "¿Qué es exactamente un Hotel de Afinidades?",
-        "answer": "Es un hotel asociado con Hotel-Living donde todos o la mayoría de huéspedes comparten uno o más intereses comunes. Ya sea jazz, jardinería, filosofía o fotografía, encontrarás personas que hablan tu idioma, sin importar de dónde vengas."
+        "answer": "Es un hotel que publica un tema e invita a clientes interesados en un tema específico, ayudando a huéspedes con afinidades similares a reunirse."
       },
       "willIMakeFriends": {
         "question": "¿Haré amigos?",
-        "answer": "Lo más probable es que sí. Cuando las personas se reúnen en torno a lo que aman, las amistades surgen naturalmente. Muchos huéspedes se van con nuevos amigos, y algunos incluso regresan juntos."
+        "answer": "Es muy posible. Los hoteles de afinidades están diseñados para fomentar la conexión entre personas con gustos e intereses afines."
       },
       "doesHotelOrganizeActivities": {
         "question": "¿El hotel organiza actividades?",
-        "answer": "Algunos sí, especialmente para intereses prácticos como baile o senderismo. Pero en la mayoría de casos, la magia ocurre naturalmente. El hotel establece el tema; tú y otros huéspedes crean la experiencia."
+        "answer": "Algunos hoteles pueden ofrecer actividades opcionales relacionadas con el tema de afinidad, pero no es obligatorio participar."
       },
       "isThereAlwaysGroupLeader": {
         "question": "¿Siempre hay un coordinador o anfitrión?",
-        "answer": "No necesariamente. Algunos hoteles pueden ofrecer un coordinador, otros son más libres. Depende del hotel y la afinidad. A menudo, los propios huéspedes organizan encuentros espontáneos, excursiones o cenas."
+        "answer": "No necesariamente. Algunos hoteles tienen un coordinador, pero otros simplemente crean el ambiente para que las conexiones fluyan naturalmente."
       },
       "isHotelDecoratedAroundTheme": {
-        "question": "¿El hotel está decorado según el tema?",
-        "answer": "Normalmente no. No se trata de un parque temático, sino de personas reales, no decorados temáticos. El enfoque está en la conexión humana a través de pasiones compartidas."
+        "question": "¿El hotel está decorado acorde al tema?",
+        "answer": "Generalmente no, pero en algunos casos la decoración y el ambiente del hotel pueden estar alineados con el tema de afinidad elegido."
       },
       "howLongAreStays": {
         "question": "¿Cuánto duran las estancias?",
-        "answer": "Puedes elegir estancias fijas de 8, 16, 24 o 32 días. Justo el tiempo necesario para conectar, relajarte y tal vez incluso cambiar tu perspectiva. Y siempre puedes renovarlas."
+        "answer": "Las estancias, renovables según disponibilidad, son de 8, 16, 24 o 32 días, dependiendo del plan que elijas y del hotel."
       },
       "canITryDifferentAffinities": {
-        "question": "¿Puedo probar diferentes afinidades en hoteles diferentes?",
-        "answer": "Por supuesto. Puedes explorar diferentes pasiones en diferentes ubicaciones, dentro de la red de Afinidades de Hotel-Living.com."
+        "question": "¿Puedo probar diferentes afinidades en diferentes hoteles?",
+        "answer": "Por supuesto. Puedes elegir afinidades diferentes en cada nueva estancia o incluso combinar varias en el mismo hotel si está disponible."
       },
       "whatIfJustWantToRelax": {
         "question": "¿Y si solo quiero relajarme?",
-        "answer": "No hay presión. Puedes asistir a cada cena o simplemente disfrutar del ambiente; tú defines la experiencia."
+        "answer": "No hay problema. Solo participas en lo que te guste. La tranquilidad y privacidad están garantizadas."
       },
       "isThisForSoloTravelers": {
         "question": "¿Esto es solo para viajeros solitarios?",
-        "answer": "Para nada. Puedes venir solo, con un amigo o en pareja. Las Afinidades de Hotel-Living son para cualquiera que quiera compartir tiempo significativo con otros que disfrutan las mismas cosas."
+        "answer": "No. Las afinidades son para todo tipo de viajeros: solos, en pareja, en grupo o en familia."
       },
       "whatIfDontFindTheme": {
-        "question": "¿Y si aún no encuentro un tema que se ajuste a mis intereses?",
-        "answer": "Las Afinidades de Hotel-Living.com apenas están comenzando, y se añadirán nuevas regularmente a medida que más hoteles se unan a la red. Incluso si tu tema ideal no está disponible todavía, cada estancia ya está diseñada para personas que quieren conocer a otros y compartir tiempo significativo."
+        "question": "¿Y si no encuentro un tema que se adapte a mis intereses?",
+        "answer": "Siempre puedes elegir un hotel sin afinidad específica y disfrutar igualmente de la experiencia Hotel-Living."
       },
       "areAffinityThemesAvailable": {
-        "question": "¿Las Afinidades, sean las que sean, están disponibles en todos los hoteles asociados?",
-        "answer": "No necesariamente. Los hoteles definen su propio enfoque. Pero, con o sin tema, encontrarás huéspedes abiertos y curiosos deseosos de conectar. Ese es el espíritu de Hotel-Living."
+        "question": "¿Las afinidades están disponibles en todos los hoteles asociados?",
+        "answer": "No en todos. Depende de la oferta de cada hotel, pero siempre tendrás opciones de afinidades en el portal."
       },
       "canIConnectWithoutTheme": {
         "question": "¿Puedo conectar aunque no haya un tema específico?",
-        "answer": "Por supuesto. Todos los que eligen una estancia de Hotel-Living lo hacen porque buscan algo más que solo un lugar para dormir. Es fácil conocer personas, compartir comidas, conversar y crear amistades, con o sin tema."
+        "answer": "Sí. Incluso sin un tema específico, el ambiente de Hotel-Living fomenta el encuentro y la conexión entre personas."
       }
     }
   }

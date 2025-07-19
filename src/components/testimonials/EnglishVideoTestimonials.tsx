@@ -38,7 +38,7 @@ export function EnglishVideoTestimonials() {
     };
   }, []);
 
-  // Main video scheduling logic
+  // Main video scheduling logic with absolute timing
   useEffect(() => {
     if (!shouldShowVideos || hasStartedRef.current || isComplete) {
       return;
@@ -48,29 +48,29 @@ export function EnglishVideoTestimonials() {
     hasStartedRef.current = true;
     startTimeRef.current = Date.now();
 
-    const scheduleNextVideo = (videoNumber: number) => {
-      if (videoNumber >= maxVideosToShow) {
-        console.log('English testimonial sequence complete after 2 loops');
-        setIsComplete(true);
-        return;
-      }
+    // Fixed start times: 1, 45, 90, 135 seconds (for 3 videos, 2 loops)
+    const absoluteStartTimes = [1, 45, 90, 135]; // 2 full loops for 3 videos
 
-      const videoIndex = videoNumber % englishTestimonials.length;
-      const delay = videoNumber === 0 ? 1000 : (videoNumber * 45000) + 1000; // 1 second + 45 seconds per video
+    absoluteStartTimes.forEach((startTime, absoluteIndex) => {
+      if (absoluteIndex >= maxVideosToShow) return;
+      
+      const videoIndex = absoluteIndex % englishTestimonials.length;
+      const delay = startTime * 1000; // Convert to milliseconds
 
       timerRef.current = setTimeout(() => {
-        console.log(`Starting English video ${videoNumber + 1} (index ${videoIndex}) at ${delay}ms`);
+        console.log(`Starting English video ${absoluteIndex + 1} (index ${videoIndex}) at absolute time ${startTime}s`);
         setCurrentVideoIndex(videoIndex);
         setIsVisible(true);
-        setTotalVideosShown(videoNumber + 1);
-        
-        // Schedule next video
-        scheduleNextVideo(videoNumber + 1);
+        setTotalVideosShown(absoluteIndex + 1);
       }, delay);
-    };
+    });
 
-    // Start the sequence
-    scheduleNextVideo(0);
+    // Set completion timer after last video completes
+    const completionDelay = (absoluteStartTimes[absoluteStartTimes.length - 1] + 60) * 1000; // 60s buffer for last video
+    setTimeout(() => {
+      console.log('English testimonial sequence complete after 2 loops');
+      setIsComplete(true);
+    }, completionDelay);
 
     return () => {
       if (timerRef.current) {

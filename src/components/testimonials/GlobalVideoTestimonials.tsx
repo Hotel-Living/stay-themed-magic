@@ -62,7 +62,7 @@ export function GlobalVideoTestimonials() {
     };
   }, []);
 
-  // Main video scheduling logic with 2 full loops max
+  // Main video scheduling logic with absolute timing - 2 full loops max
   useEffect(() => {
     if (!shouldShowVideos || hasStartedRef.current) {
       return;
@@ -72,32 +72,27 @@ export function GlobalVideoTestimonials() {
     hasStartedRef.current = true;
     startTimeRef.current = Date.now();
 
-    // Maximum videos to show: 2 full loops (5 videos x 2 loops = 10 total)
-    const maxVideosToShow = videoTestimonials.length * 2;
+    // Fixed start times: 1, 45, 90, 135, 180, 225, 270, 315, 360, 405 seconds (for 5 videos, 2 loops)
+    const absoluteStartTimes = [1, 45, 90, 135, 180, 225, 270, 315, 360, 405]; // 2 full loops for 5 videos
 
-    const scheduleNextVideo = (videoNumber: number) => {
-      if (videoNumber >= maxVideosToShow) {
-        console.log('Spanish testimonial sequence complete after 2 loops');
-        return;
-      }
-
-      const videoIndex = videoNumber % videoTestimonials.length;
-      const delay = videoNumber === 0 ? 1000 : (videoNumber * 45000) + 1000; // 1 second + 45 seconds per video
+    absoluteStartTimes.forEach((startTime, absoluteIndex) => {
+      const videoIndex = absoluteIndex % videoTestimonials.length;
+      const delay = startTime * 1000; // Convert to milliseconds
 
       setTimeout(() => {
-        console.log(`Starting Spanish video ${videoNumber + 1} (index ${videoIndex}) at ${delay}ms`);
+        console.log(`Starting Spanish video ${absoluteIndex + 1} (index ${videoIndex}) at absolute time ${startTime}s`);
         setCurrentVideoIndex(videoIndex);
         setIsVisible(true);
         hasErrorRef.current = false;
         isLoadedRef.current = false;
-        
-        // Schedule next video
-        scheduleNextVideo(videoNumber + 1);
       }, delay);
-    };
+    });
 
-    // Start the sequence
-    scheduleNextVideo(0);
+    // Set completion flag after last video completes
+    const completionDelay = (absoluteStartTimes[absoluteStartTimes.length - 1] + 60) * 1000; // 60s buffer for last video
+    setTimeout(() => {
+      console.log('Spanish testimonial sequence complete after 2 loops');
+    }, completionDelay);
   }, [shouldShowVideos, setCurrentVideoIndex, setIsVisible]);
 
   // Handle video loading and playback

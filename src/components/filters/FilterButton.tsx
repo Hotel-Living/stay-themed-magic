@@ -1,6 +1,6 @@
-
 import React from "react";
 import { Search } from "lucide-react";
+import { useTranslation } from '../hooks/useTranslation';
 
 interface FilterButtonProps {
   hasActiveFilters: boolean;
@@ -17,6 +17,8 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
   searchBgColor,
   searchHoverBgColor
 }) => {
+  const { t, isReady } = useTranslation('filters');
+
   // New method to handle theme category
   const handleAddThemeCategory = () => {
     // Open a dialog to add new theme category
@@ -49,7 +51,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
           onClick={onClearAllFilters} 
           className="px-4 py-2 rounded-lg bg-[#AACAFE]/80 text-[#3300B0] hover:bg-[#AACAFE]/60 text-sm transition-colors"
         >
-          Clear All
+          {isReady ? t('resetFilters') : 'Reset Filters'}
         </button>
       }
       

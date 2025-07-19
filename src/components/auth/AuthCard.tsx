@@ -17,12 +17,8 @@ export function AuthCard({
   children,
   footerLinks
 }: AuthCardProps) {
-  return <div style={{
-    background: 'linear-gradient(-45deg, #5d0083, #5d0083)',
-    backgroundSize: '200% 200%',
-    animation: 'text-shine 2s linear infinite'
-  }} className="glass-card rounded-2xl overflow-hidden">
-      <div className="p-6 backdrop-blur-sm bg-[#5d0083]">
+  return <div className="glass-card rounded-2xl overflow-hidden bg-[#7E00B3]/90 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+      <div className="p-6 backdrop-blur-sm">
         <div className="text-center mb-4">
           <h1 className="text-2xl font-bold mb-1">{title}</h1>
           <p className="text-muted-foreground text-sm">{subtitle}</p>

@@ -12,10 +12,37 @@ const AmbassadorsList = () => {
         <Navbar />
         <main className="min-h-screen">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="bg-purple-900/80 backdrop-blur-sm rounded-lg p-8 text-white">
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-6">Nuestros Embajadores</h1>
-                <p className="text-lg mb-8">Conoce a los embajadores de Hotel-Living alrededor del mundo</p>
+                <h1 className="text-3xl font-bold mb-6 glow">🤝 CINE SUNT AMBASADORII HOTEL-LIVING?</h1>
+                <div className="space-y-4 text-left max-w-4xl mx-auto">
+                  <p className="text-lg">Sunt gazde, profesioniști din sector, sau adevărați îndrăgostiți de bogăția culturală și personală pe care o oferă călătoriile și cunoașterea lumii.</p>
+                  
+                  <div className="flex items-start space-x-3">
+                    <span className="text-cyan-400 text-xl">🔵</span>
+                    <p className="text-lg">Persoane care simt fiecare deplasare ca o sursă de cunoaștere, frumusețe, transformare și conexiune cu noi culturi, locuri și oameni.</p>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <span className="text-yellow-400 text-xl">💡</span>
+                    <p className="text-lg">Care înțeleg valoarea unei vieți bogate în experiențe ca fiind cheia pentru bunăstare, relații sociale și împlinire personală.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+                <Link 
+                  to="/ambassadors/usa" 
+                  className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
+                >
+                  📊 Nuestros Embajadores
+                </Link>
+                <Link 
+                  to="/auth" 
+                  className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
+                >
+                  Hágase Embajador
+                </Link>
               </div>
 
               <div className="flex justify-center items-center space-x-6">

@@ -1,203 +1,147 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Navbar } from "@/components/Navbar";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ExternalLink } from "lucide-react";
 
-const Press = () => {
-  console.log("Press component: Starting to render");
-  
-  const { t, ready: isReady } = useTranslation('press');
+export default function Press() {
+  const { t } = useTranslation('press');
 
-  useEffect(() => {
-    console.log("Press component: useEffect triggered", { isReady });
-  }, [isReady]);
-
-  console.log("Press component: Translation state", { isReady, language: t ? 'loaded' : 'not loaded' });
-
-  if (!isReady) {
-    console.log("Press component: Translations not ready, showing loading");
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
-      </div>
-    );
-  }
-
-  console.log("Press component: Rendering full content");
-
-  try {
-    return (
-      <ErrorBoundary>
-        <div className="min-h-screen bg-background">
-          <Navbar />
-          
-          <main className="pt-16">
-            {/* Header Section */}
-            <section className="py-20 px-4">
-              <div className="container max-w-4xl mx-auto text-center">
-                <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gradient glow">
-                  {t('header.line1', 'The future is already here')}
-                </h1>
-                <h2 className="text-2xl md:text-3xl mb-4 text-foreground/90">
-                  {t('header.line2', 'Living in hotels is no longer a rarity')}
-                </h2>
-                <h3 className="text-xl md:text-2xl text-foreground/70">
-                  {t('header.line3', '...and becomes a new way of life')}
-                </h3>
-              </div>
-            </section>
-
-            {/* Video Section */}
-            <section className="py-16 px-4 bg-card/50">
-              <div className="container max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-8">
-                  {t('video.title', 'Press Release Video')}
-                </h2>
-                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${t('video.placeholder', 'MV6uoOWM4Oo')}`}
-                    title={t('video.title', 'Press Release Video')}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-            </section>
-
-            {/* Headlines Section */}
-            <section className="py-16 px-4">
-              <div className="container max-w-6xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-12">
-                  {t('headlines.title', 'Featured Headlines')}
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {(() => {
-                    const headlines = t('headlines.items', { returnObjects: true, defaultValue: [] });
-                    return Array.isArray(headlines) ? headlines.map((headline: string, index: number) => (
-                      <div key={index} className="p-6 bg-card rounded-lg border">
-                        <p className="text-lg leading-relaxed">{headline}</p>
-                      </div>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-            </section>
-
-            {/* Key Figures Section */}
-            <section className="py-16 px-4 bg-card/50">
-              <div className="container max-w-6xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-12">
-                  {t('keyFigures.title', 'Key Figures')}
-                </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {(() => {
-                    const figures = t('keyFigures.items', { returnObjects: true, defaultValue: [] });
-                    return Array.isArray(figures) ? figures.map((figure: string, index: number) => (
-                      <div key={index} className="p-6 bg-card rounded-lg border">
-                        <p className="text-lg leading-relaxed">{figure}</p>
-                      </div>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-            </section>
-
-            {/* Hotel Brands Section */}
-            <section className="py-16 px-4">
-              <div className="container max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-8">
-                  {t('brands.title', 'Hotel Brands')}
-                </h2>
+  return (
+    <div className="min-h-screen bg-[#170B3B] relative">
+      <div className="starfield absolute inset-0 w-full h-full opacity-50"></div>
+      
+      <div className="relative z-10">
+        <Navbar />
+        <main className="min-h-screen">
+          <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <div className="bg-[#7E00B3]/90 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] backdrop-blur-sm rounded-lg p-6 text-white">
+              <div className="space-y-8">
                 
-                {/* Major Brands */}
-                <div className="mb-8">
-                  <h3 className="text-2xl font-semibold mb-4 text-center">Major Brands</h3>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    {(() => {
-                      const brands = t('brands.major', { returnObjects: true, defaultValue: [] });
-                      return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
-                        <span key={index} className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium">{brand}</span>
-                      )) : null;
-                    })()}
+                {/* Header Section */}
+                <div className="text-center space-y-6">
+                  <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                    {t('header.line1')}
+                  </h1>
+                  <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">
+                    {t('header.line2')}
+                  </h2>
+                  <h3 className="text-xl md:text-3xl font-medium text-white/80 leading-relaxed">
+                    {t('header.line3')}
+                  </h3>
+                </div>
+
+                {/* Video Section */}
+                <div className="space-y-4">
+                  <div className="w-full scale-75 origin-center">
+                    <iframe 
+                      width="100%" 
+                      height="280" 
+                      src={`https://www.youtube.com/embed/${t('video.placeholder')}`}
+                      title={t('video.title')}
+                      frameBorder="0" 
+                      allowFullScreen
+                      className="rounded-lg shadow-xl"
+                    ></iframe>
                   </div>
                 </div>
 
-                {/* Specialized Brands */}
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-center">Specialized Brands</h3>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    {(() => {
-                      const brands = t('brands.specialized', { returnObjects: true, defaultValue: [] });
-                      return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
-                        <span key={index} className="px-4 py-2 rounded-full bg-secondary/10 text-secondary font-medium">{brand}</span>
-                      )) : null;
-                    })()}
+                {/* Headlines Section */}
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-center text-white mb-8">
+                    {t('headlines.title')}
+                  </h2>
+                  <div className="space-y-4">
+                    {(t('headlines.items', { returnObjects: true }) as string[]).map((headline, index) => (
+                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-l-4 border-fuchsia-400">
+                        <p className="text-lg text-white/90 leading-relaxed">
+                          "{headline}"
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </section>
 
-            {/* Press Coverage Section */}
-            <section className="py-16 px-4 bg-card/50">
-              <div className="container max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-8">
-                  {t('pressCoverage.title', 'Press Coverage')}
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {(() => {
-                    const items = t('pressCoverage.items', { returnObjects: true, defaultValue: [] });
-                    return Array.isArray(items) ? items.map((item: any, index: number) => (
-                      <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="block p-6 bg-card rounded-lg border hover:bg-card/80 transition-colors">
-                        <h3 className="text-xl font-semibold mb-2">{item.media}</h3>
-                        <p className="text-foreground/80">Read more...</p>
+                {/* Key Figures Section */}
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-center text-white mb-8">
+                    {t('keyFigures.title')}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(t('keyFigures.items', { returnObjects: true }) as string[]).map((figure, index) => (
+                      <div key={index} className="bg-gradient-to-br from-fuchsia-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 text-center border border-white/10">
+                        <p className="text-white font-semibold text-lg leading-relaxed">
+                          {figure}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hotel Brands Section */}
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-center text-white mb-8">
+                    {t('brands.title')}
+                  </h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+                    {(t('brands.major', { returnObjects: true }) as string[]).map((brand, index) => (
+                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <p className="text-white font-semibold text-sm">{brand}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    {(t('brands.specialized', { returnObjects: true }) as string[]).map((brand, index) => (
+                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <p className="text-white font-semibold text-sm">{brand}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Press Coverage Section */}
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-center text-white mb-8">
+                    {t('pressCoverage.title')}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(t('pressCoverage.items', { returnObjects: true }) as Array<{media: string, link: string}>).map((item, index) => (
+                      <a 
+                        key={index} 
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-fuchsia-400/50 group"
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <p className="text-white font-semibold text-lg">{item.media}</p>
+                          <ExternalLink className="w-4 h-4 text-white/70 group-hover:text-fuchsia-400 transition-colors" />
+                        </div>
                       </a>
-                    )) : null;
-                  })()}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </section>
 
-            {/* Closing Section */}
-            <section className="py-20 px-4">
-              <div className="container max-w-4xl mx-auto text-center">
-                <p className="text-2xl md:text-3xl font-medium mb-4 text-foreground/90">
-                  {t('closing.line1', 'The hotel industry is not simply changing...')}
-                </p>
-                <p className="text-3xl md:text-4xl font-bold text-gradient glow">
-                  {t('closing.line2', 'it\'s evolving into a new way of inhabiting the world.')}
-                </p>
-              </div>
-            </section>
+                {/* Inspirational Closing */}
+                <div className="space-y-4 text-center py-8">
+                  <p className="text-2xl md:text-3xl font-bold text-white leading-relaxed">
+                    {t('closing.line1')}
+                  </p>
+                  <p className="text-2xl md:text-3xl font-bold text-fuchsia-300 leading-relaxed">
+                    {t('closing.line2')}
+                  </p>
+                </div>
 
-            {/* Legal Disclaimer Section */}
-            <section className="py-12 px-4 bg-background/50">
-              <div className="container max-w-4xl mx-auto text-center">
-                <p className="text-sm text-foreground/60">
-                  {t('legal.disclaimer', 'All brands, logos and references cited on this page belong to their respective owners and are included exclusively for informational, editorial or comparative purposes. Hoteldiving is not affiliated with or endorsed by such entities.')}
-                </p>
+                {/* Legal Disclaimer */}
+                <div className="border-t border-white/20 pt-8">
+                  <p className="text-sm text-white/60 text-center leading-relaxed">
+                    {t('legal.disclaimer')}
+                  </p>
+                </div>
+
               </div>
-            </section>
-          </main>
-          
-          <Footer />
-        </div>
-      </ErrorBoundary>
-    );
-  } catch (error) {
-    console.error("Press component: Render error", error);
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center p-8">
-          <h1 className="text-xl font-bold text-red-600 mb-4">Press Page Error</h1>
-          <p className="text-gray-600">Unable to load press page content.</p>
-        </div>
+            </div>
+          </div>
+        </main>
       </div>
-    );
-  }
-};
-
-export default Press;
+    </div>
+  );
+}

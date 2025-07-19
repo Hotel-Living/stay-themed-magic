@@ -10,14 +10,11 @@ const corsHeaders = {
   "Content-Type": "application/json"
 };
 
-console.log("get-maps-key Edge Function initialized");
+console.log("Hello from get-maps-key Edge Function!");
 
 serve(async (req) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    console.log("Handling CORS preflight request");
     return new Response(null, { headers: corsHeaders });
   }
   
@@ -32,8 +29,7 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ 
           error: "API key not configured on server",
-          message: "Please configure the GOOGLE_MAPS_API_KEY in the Supabase Edge Function secrets",
-          timestamp: new Date().toISOString()
+          message: "Please configure the GOOGLE_MAPS_API_KEY in the Supabase Edge Function secrets"
         }),
         { 
           status: 500,
@@ -44,15 +40,11 @@ serve(async (req) => {
     
     // Return the API key with both naming conventions for maximum compatibility
     console.log("Successfully returning API key to client");
-    const response = {
-      key: apiKey,
-      apiKey: apiKey,
-      status: "success",
-      timestamp: new Date().toISOString()
-    };
-    
     return new Response(
-      JSON.stringify(response),
+      JSON.stringify({ 
+        key: apiKey,
+        apiKey: apiKey
+      }),
       { 
         status: 200,
         headers: corsHeaders
@@ -63,8 +55,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: "Internal server error retrieving API key",
-        details: error instanceof Error ? error.message : "Unknown error",
-        timestamp: new Date().toISOString()
+        details: error.message
       }),
       { 
         status: 500,

@@ -12,7 +12,7 @@
   },
   "utilitiesTitle": "PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA",
   "utilitiesGuestsNotTransients": "LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSEÚNTES",
-  "utilitiesDescription1": "Son residentes respetuosos de larga estadía que permanecen por 15, 22 y 29 días.",
+  "utilitiesDescription1": "Son residentes respetuosos de larga estadía que permanecen por 8, 16, 24 o 32 días.",
   "utilitiesSmartGuestsTitle": "HUÉSPEDES MÁS INTELIGENTES, USO MÁS INTELIGENTE DE RECURSOS",
   "utilitiesDescription2": "Debido a la mayor duración de las estadías y la relación más personal que establecen con tu propiedad, estos huéspedes tienden a ser más conscientes en su uso de recursos.",
   "utilitiesDescription3": "Se sienten más como inquilinos temporales que como visitantes de corta estadía — y eso marca toda la diferencia.",
@@ -73,13 +73,5 @@
   "excelCalculator": {
     "description": "PUEDE DESCARGAR AQUÍ NUESTRA CALCULADORA EXCEL PARA PROBAR DISTINTOS MODELOS DE SERVICIOS, PRECIOS Y BENEFICIOS.",
     "buttonLabel": "DESCARGAR"
-  },
-  "mealPlansTitle": "PLANES DE COMIDA - ENFOQUE EQUILIBRADO",
-  "mealPlansDescription1": "Nuestros planes de comida están diseñados para brindar opciones balanceadas y nutritivas que atienden a huéspedes de larga estadía (15, 22 y 29 días) mientras mantienen la eficiencia operacional.",
-  "mealPlansFlexibleTitle": "PLANES DE COMIDA FLEXIBLES",
-  "mealPlansFlexibleDescription": "Los huéspedes pueden elegir entre varias opciones de planes de comida basados en sus preferencias y requisitos dietéticos para estadías de 15, 22 y 29 días.",
-  "mealPlansOperationalTitle": "BENEFICIOS OPERACIONALES",
-  "mealPlansOperationalBenefits": "• Menor complejidad de cocina\n• Costos predecibles para estadías de 15, 22 y 29 días\n• Experiencia gastronómica relajada",
-  "mealPlansResultTitle": "RESULTADO",
-  "mealPlansResult": "🏨 Los hoteles se benefician de operaciones simplificadas\n🏡 Los huéspedes disfrutan de flexibilidad gastronómica como en casa\n🌍 Enfoque sostenible y rentable para estadías de 15, 22 y 29 días"
+  }
 }

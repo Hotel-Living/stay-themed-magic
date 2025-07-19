@@ -12,7 +12,7 @@
   },
   "utilitiesTitle": "PREDICTIBILITATE – RESPONSABILITATE – EFICIENȚĂ",
   "utilitiesGuestsNotTransients": "OASPEȚII HOTEL-LIVING NU SUNT TURIȘTI TRANZITORI",
-  "utilitiesDescription1": "Sunt rezidenți respectuoși pe termen lung care rămân pentru 15, 22 și 29 de zile.",
+  "utilitiesDescription1": "Sunt rezidenți respectuoși pe termen lung care rămân pentru 8, 16, 24 sau 32 de zile.",
   "utilitiesSmartGuestsTitle": "OASPEȚI MAI INTELIGENȚI, UTILIZARE MAI INTELIGENTĂ A RESURSELOR",
   "utilitiesDescription2": "Datorită duratei mai lungi a șederii și relației mai personale pe care o stabilesc cu proprietatea ta, acești oaspeți tind să fie mai conștienți în utilizarea resurselor.",
   "utilitiesDescription3": "Ei se simt mai mult ca chiriași temporari decât ca vizitatori pe termen scurt — și asta face toată diferența.",
@@ -73,13 +73,5 @@
   "excelCalculator": {
     "description": "POȚI DESCĂRCA MAI JOS CALCULATORUL EXCEL PENTRU A TESTA DIFERITE MODELE DE SERVICII, PREȚURI ȘI PROFITURI.",
     "buttonLabel": "DESCARCĂ"
-  },
-  "mealPlansTitle": "PLANURI DE MASĂ - ABORDARE ECHILIBRATĂ",
-  "mealPlansDescription1": "Planurile noastre de masă sunt concepute pentru a oferi opțiuni echilibrate și nutritive care se adresează oaspeților cu șederi lungi (15, 22 și 29 de zile) păstrând eficiența operațională.",
-  "mealPlansFlexibleTitle": "PLANURI DE MASĂ FLEXIBILE",
-  "mealPlansFlexibleDescription": "Oaspeții pot alege din diverse opțiuni de planuri de masă bazate pe preferințele și cerințele lor dietetice pentru șederi de 15, 22 și 29 de zile.",
-  "mealPlansOperationalTitle": "BENEFICII OPERAȚIONALE",
-  "mealPlansOperationalBenefits": "• Complexitate redusă în bucătărie\n• Costuri previzibile pentru șederi de 15, 22 și 29 de zile\n• Experiență culinară relaxată",
-  "mealPlansResultTitle": "REZULTAT",
-  "mealPlansResult": "🏨 Hotelurile beneficiază de operațiuni simplificate\n🏡 Oaspeții se bucură de flexibilitate culinară ca acasă\n🌍 Abordare sustenabilă și rentabilă pentru șederi de 15, 22 și 29 de zile"
+  }
 }

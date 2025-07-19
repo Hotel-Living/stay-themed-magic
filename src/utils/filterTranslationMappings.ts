@@ -1,3 +1,4 @@
+
 /**
  * Maps Spanish database values to translation keys for proper i18n handling
  */
@@ -61,6 +62,17 @@ export const roomFeatureMapping: Record<string, string> = {
   'WiFi': 'wifi'
 };
 
+// Meal Plans mapping - Spanish database value to translation key
+export const mealPlanMapping: Record<string, string> = {
+  'Solo alojamiento': 'accommodationOnly',
+  'Desayuno incluido': 'breakfastIncluded',
+  'Media pensión': 'halfBoard',
+  'Pensión completa': 'fullBoard',
+  'Todo incluido': 'allInclusive',
+  'Lavandería incluida': 'laundryIncluded',
+  'Lavandería exterior': 'externalLaundry'
+};
+
 /**
  * Get the translation key for a given database value and category
  */
@@ -72,6 +84,8 @@ export function getTranslationKey(dbValue: string, category: string): string | n
       return hotelFeatureMapping[dbValue] || null;
     case 'room_features':
       return roomFeatureMapping[dbValue] || null;
+    case 'meal_plans':
+      return mealPlanMapping[dbValue] || null;
     default:
       return null;
   }
@@ -88,6 +102,8 @@ export function getTranslationPath(category: string): string {
       return 'filters.hotelFeatureOptions';
     case 'room_features':
       return 'filters.roomFeatureOptions';
+    case 'meal_plans':
+      return 'filters.mealPlans';
     default:
       return '';
   }

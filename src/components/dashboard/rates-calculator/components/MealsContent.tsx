@@ -20,7 +20,7 @@ export const MealsContent: React.FC = () => {
         <div className="border-t border-white/20 pt-4">
           <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.mealsContent.operationalAdvantages.title')}</p>
           <div className="ml-4 text-sm space-y-1">
-            {t('ratesCalculator.mealsContent.operationalAdvantages.items', { returnObjects: true }).map((item: string, index: number) => (
+            {(t('ratesCalculator.mealsContent.operationalAdvantages.items', { returnObjects: true }) as string[]).map((item: string, index: number) => (
               <p key={index}>• {item}</p>
             ))}
           </div>
@@ -30,7 +30,7 @@ export const MealsContent: React.FC = () => {
           <p className="font-semibold text-fuchsia-300">{t('ratesCalculator.mealsContent.costEfficiency.title')}</p>
           <p className="text-sm">{t('ratesCalculator.mealsContent.costEfficiency.description')}</p>
           <div className="ml-4 text-sm space-y-1">
-            {t('ratesCalculator.mealsContent.costEfficiency.items', { returnObjects: true }).map((item: string, index: number) => (
+            {(t('ratesCalculator.mealsContent.costEfficiency.items', { returnObjects: true }) as string[]).map((item: string, index: number) => (
               <p key={index}>• {item}</p>
             ))}
           </div>

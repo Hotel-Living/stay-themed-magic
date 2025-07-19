@@ -8,11 +8,14 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Dynamic multilingual title replacing the image */}
+          {/* Dynamic multilingual title using exact WHY HOTEL-LIVING styling */}
           <div className="flex justify-center mb-2 my-[19px] py-[23px]">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white text-center leading-tight tracking-tight">
-              {t('affinity.affinityStaysTitle')}
-            </h1>
+            <div className="relative group w-fit">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#eedbf7] glow tracking-tight leading-tight bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative">
+                {t('affinity.affinityStaysTitle').toUpperCase()}
+              </h1>
+            </div>
           </div>
           
           {/* "Created by" text and Hotel-Living logo were already removed */}

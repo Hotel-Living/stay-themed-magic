@@ -26,7 +26,7 @@ export default defineConfig(async ({ mode }) => {
         template: 'treemap',
       }) as any);
     } catch (error) {
-      console.warn('Visualizer plugin not available:', error.message);
+      console.warn('Visualizer plugin not available:', error instanceof Error ? error.message : String(error));
     }
   }
 

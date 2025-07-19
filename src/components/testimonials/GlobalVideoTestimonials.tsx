@@ -1,211 +1,246 @@
-
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useVideoTestimonial } from '@/contexts/VideoTestimonialContext';
+import { X, Volume2, VolumeX } from 'lucide-react';
 
-interface VideoTestimonial {
-  id: string;
-  webm: string;
-}
-
-const videoTestimonials: VideoTestimonial[] = [
+const videoTestimonials = [
   {
-    id: 'testimonio1',
-    webm: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm'
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio1.webm',
+    id: 'testimonio1'
   },
   {
-    id: 'testimonio2', 
-    webm: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm'
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio2.webm',
+    id: 'testimonio2'
   },
   {
-    id: 'testimonio3',
-    webm: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm'
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio3.webm',
+    id: 'testimonio3'
   },
   {
-    id: 'testimonio4',
-    webm: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio4.webm'
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio4.webm',
+    id: 'testimonio4'
   },
   {
-    id: 'testimonio5',
-    webm: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm'
+    url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videos/testimonio5.webm',
+    id: 'testimonio5'
   }
 ];
 
 export function GlobalVideoTestimonials() {
   const location = useLocation();
+  const { i18n } = useTranslation();
+  const {
+    isVisible,
+    setIsVisible,
+    currentVideoIndex,
+    setCurrentVideoIndex,
+    isMuted,
+    setIsMuted,
+  } = useVideoTestimonial();
 
-  // Don't show testimonials on the homepage - early return to avoid hooks rule violation
-  if (location.pathname === '/') {
-    return null;
-  }
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [videoError, setVideoError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hasStartedRef = useRef(false);
+
+  const hasErrorRef = useRef(false);
+  const isLoadedRef = useRef(false);
+
+  // Only show on non-Index pages and Spanish language
+  const shouldShowVideos = location.pathname !== '/' && i18n.language === 'es';
 
   useEffect(() => {
-    // Show testimonials after a short delay (since we already checked we're not on homepage)
-    const timer = setTimeout(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      if (cycleTimerRef.current) {
+        clearTimeout(cycleTimerRef.current);
+      }
+    };
+  }, []);
+
+  // Initial timer - start showing videos immediately
+  useEffect(() => {
+    if (!shouldShowVideos || hasStartedRef.current) {
+      return;
+    }
+
+    console.log('Starting testimonial video system');
+    hasStartedRef.current = true;
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      console.log('Initial timer - showing first video immediately');
+      setCurrentVideoIndex(0);
       setIsVisible(true);
-    }, 1000);
+      hasErrorRef.current = false;
+      isLoadedRef.current = false;
+    }, 1000); // Start immediately after 1 second
 
-    return () => clearTimeout(timer);
-  }, [location.pathname]);
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [shouldShowVideos, setIsVisible, setCurrentVideoIndex]);
 
+  // Set up 60-second continuous cycling timer
   useEffect(() => {
-    if (!isVisible || videoTestimonials.length === 0) return;
+    if (!shouldShowVideos) return;
 
-    const interval = setInterval(() => {
-      console.log('🎥 Switching to next video after 60 seconds');
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % videoTestimonials.length);
-    }, 60000); // Switch every 60 seconds
+    console.log('Setting up 60-second continuous cycle timer');
 
-    return () => clearInterval(interval);
-  }, [isVisible]);
+    if (cycleTimerRef.current) {
+      clearTimeout(cycleTimerRef.current);
+    }
 
+    cycleTimerRef.current = setTimeout(() => {
+      const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
+      console.log('60 seconds elapsed - showing next video:', nextIndex);
+      setCurrentVideoIndex(nextIndex);
+      setIsVisible(true);
+      hasErrorRef.current = false;
+      isLoadedRef.current = false;
+    }, 60000); // 60 seconds
+
+    return () => {
+      if (cycleTimerRef.current) {
+        clearTimeout(cycleTimerRef.current);
+      }
+    };
+  }, [shouldShowVideos, currentVideoIndex, setCurrentVideoIndex, setIsVisible]);
+
+  // Handle video loading and playback
   useEffect(() => {
     if (!isVisible || !videoRef.current) return;
 
     const video = videoRef.current;
-    const currentTestimonial = videoTestimonials[currentIndex];
+    const currentVideo = videoTestimonials[currentVideoIndex];
 
-    console.log('🎥 GlobalVideoTestimonials: Initializing video', {
-      currentIndex,
-      testimonial: currentTestimonial,
-      pathname: location.pathname
-    });
-
-    setIsLoading(true);
-    setVideoError(null);
-
-    const handleLoadStart = () => {
-      console.log('🎥 Video load started:', currentTestimonial.id);
-      setIsLoading(true);
-    };
-
-    const handleCanPlay = () => {
-      console.log('🎥 Video can play:', currentTestimonial.id);
-      setIsLoading(false);
-      setVideoError(null);
-    };
-
-    const handleError = (e: Event) => {
-      const error = (e.target as HTMLVideoElement).error;
-      const errorMessage = `Failed to load video: ${currentTestimonial.id}`;
-      
-      console.error('🎥 Video load error:', {
-        testimonialId: currentTestimonial.id,
-        error: e,
-        videoSrc: video.src,
-        videoError: error
-      });
-      
-      setVideoError(errorMessage);
-      setIsLoading(false);
-    };
+    console.log('Setting up video:', currentVideo.id);
 
     const handleLoadedData = () => {
-      console.log('🎥 Video loaded successfully:', currentTestimonial.id);
-      setIsLoading(false);
-      setVideoError(null);
+      console.log('Video loaded successfully:', currentVideo.id);
+      isLoadedRef.current = true;
+      hasErrorRef.current = false;
+
+      // Auto-play the video
+      video.play().catch((error) => {
+        console.error('Error playing video:', error);
+        hasErrorRef.current = true;
+      });
     };
 
-    video.addEventListener('loadstart', handleLoadStart);
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('error', handleError);
-    video.addEventListener('loadeddata', handleLoadedData);
+    const handleError = (error: any) => {
+      console.error('Video loading error:', error);
+      hasErrorRef.current = true;
+    };
 
-    // Load the video
-    video.src = currentTestimonial.webm;
+    const handleEnded = () => {
+      console.log('Video ended:', currentVideo.id);
+      // Hide video when it ends to prevent frozen frame
+      setIsVisible(false);
+    };
+
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
+    video.addEventListener('ended', handleEnded);
+
+    // Set the video source
+    video.src = currentVideo.url;
     video.load();
 
     return () => {
-      video.removeEventListener('loadstart', handleLoadStart);
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('error', handleError);
       video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('ended', handleEnded);
     };
-  }, [currentIndex, isVisible, location.pathname]);
+  }, [isVisible, currentVideoIndex]);
 
-  if (!isVisible) {
+  const handleClose = () => {
+    console.log('Video manually closed');
+    setIsVisible(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  if (!shouldShowVideos || !isVisible) {
     return null;
   }
 
-  const currentTestimonial = videoTestimonials[currentIndex];
+  const currentVideo = videoTestimonials[currentVideoIndex];
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-xs">
-        <div className="relative">
-          {isLoading && (
-            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
-              <div className="flex flex-col items-center gap-2">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                <span className="text-sm text-gray-600">Loading video...</span>
-              </div>
-            </div>
-          )}
-          
-          {videoError && (
-            <div className="absolute inset-0 bg-red-50 flex items-center justify-center z-10 p-4">
-              <div className="text-center">
-                <div className="text-red-600 text-sm font-medium mb-2">Video Error</div>
-                <div className="text-red-500 text-xs">{videoError}</div>
-                <button 
-                  onClick={() => {
-                    setCurrentIndex((prev) => (prev + 1) % videoTestimonials.length);
-                  }}
-                  className="mt-2 text-xs bg-red-100 hover:bg-red-200 px-2 py-1 rounded"
-                >
-                  Try Next Video
-                </button>
-              </div>
-            </div>
-          )}
+    <div
+      className="group"
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        left: '24px',
+        width: window.innerWidth <= 768 ? '65px' : '110px',
+        height: window.innerWidth <= 768 ? '115px' : '195px',
+        maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
+        maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
+        minWidth: window.innerWidth <= 768 ? '65px' : '110px',
+        minHeight: window.innerWidth <= 768 ? '115px' : '195px',
+        zIndex: 50,
+        borderRadius: '8px',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        overflow: 'hidden',
+        backgroundColor: 'black',
+        flexShrink: 0,
+        pointerEvents: 'auto'
+      }}
+    >
+      <video
+        ref={videoRef}
+        muted={isMuted}
+        playsInline
+        preload="metadata"
+        style={{
+          width: window.innerWidth <= 768 ? '65px' : '110px',
+          height: window.innerWidth <= 768 ? '115px' : '195px',
+          maxWidth: window.innerWidth <= 768 ? '65px' : '110px',
+          maxHeight: window.innerWidth <= 768 ? '115px' : '195px',
+          minWidth: window.innerWidth <= 768 ? '65px' : '110px',
+          minHeight: window.innerWidth <= 768 ? '115px' : '195px',
+          objectFit: 'cover',
+          display: 'block',
+          pointerEvents: 'none'
+        }}
+      />
 
-          <video
-            ref={videoRef}
-            className="w-full h-48 object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            controls={false}
-            style={{ display: isLoading || videoError ? 'none' : 'block' }}
-          />
-          
-          <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
-            {currentIndex + 1}/{videoTestimonials.length}
-          </div>
-        </div>
-        
-        <div className="p-3">
-          <div className="text-sm font-medium text-gray-900 mb-1">
-            Customer Testimonial
-          </div>
-          <div className="text-xs text-gray-600">
-            Real experiences from our guests
-          </div>
-          
-          <div className="flex justify-between items-center mt-2">
-            <button
-              onClick={() => setCurrentIndex((prev) => prev === 0 ? videoTestimonials.length - 1 : prev - 1)}
-              className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
-              disabled={isLoading}
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % videoTestimonials.length)}
-              className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
-              disabled={isLoading}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Close button */}
+      <button
+        onClick={handleClose}
+        className="absolute top-2 right-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <X className="w-4 h-4 text-white" />
+      </button>
+
+      {/* Volume toggle button */}
+      <button
+        onClick={toggleMute}
+        className="absolute top-2 left-2 w-6 h-6 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+        style={{ pointerEvents: 'auto' }}
+      >
+        {isMuted ? (
+          <VolumeX className="w-3 h-3 text-white" />
+        ) : (
+          <Volume2 className="w-3 h-3 text-white" />
+        )}
+      </button>
     </div>
   );
 }

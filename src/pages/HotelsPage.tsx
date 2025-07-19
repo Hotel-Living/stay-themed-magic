@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
-
+import { GlobalVideoTestimonials } from "@/components/testimonials/GlobalVideoTestimonials";
 
 // Import refactored components
 import { HotelFilters } from "@/components/hotels/HotelFilters";
@@ -167,6 +167,8 @@ export default function HotelsPage() {
       
       <Footer />
       
+      {/* Spanish Video Testimonials */}
+      <GlobalVideoTestimonials />
     </div>
   );
 }

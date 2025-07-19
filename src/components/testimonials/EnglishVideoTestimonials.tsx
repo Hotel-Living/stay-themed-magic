@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Mic } from 'lucide-react';
+import { X, Mic, MicOff } from 'lucide-react';
 
 const englishTestimonials = [
   'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS%20TESTIMONIO%201.webm',
@@ -15,6 +15,7 @@ export function EnglishVideoTestimonials() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -72,6 +73,9 @@ export function EnglishVideoTestimonials() {
     const handleEnded = () => {
       console.log('English video ended:', currentVideoIndex);
       
+      // Hide video immediately after it ends
+      setIsVisible(false);
+      
       if (currentVideoIndex < englishTestimonials.length - 1) {
         // Move to next video based on timing
         const nextIndex = currentVideoIndex + 1;
@@ -80,11 +84,11 @@ export function EnglishVideoTestimonials() {
         timerRef.current = setTimeout(() => {
           console.log('Starting next English video:', nextIndex);
           setCurrentVideoIndex(nextIndex);
+          setIsVisible(true);
         }, delay);
       } else {
-        // All videos complete - hide component
+        // All videos complete - hide component permanently
         console.log('All English testimonial videos complete');
-        setIsVisible(false);
         setIsComplete(true);
       }
     };
@@ -107,6 +111,14 @@ export function EnglishVideoTestimonials() {
       video.removeEventListener('ended', handleEnded);
     };
   }, [isVisible, currentVideoIndex, isComplete]);
+
+  const handleToggleAudio = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+      console.log('Audio toggled:', videoRef.current.muted ? 'muted' : 'unmuted');
+    }
+  };
 
   const handleClose = () => {
     console.log('English video manually closed');
@@ -173,13 +185,19 @@ export function EnglishVideoTestimonials() {
         <X className="w-4 h-4 text-white" />
       </button>
 
-      {/* Microphone icon */}
-      <div
-        className="absolute top-2 left-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center"
-        style={{ pointerEvents: 'none' }}
+      {/* Audio toggle button */}
+      <button
+        onClick={handleToggleAudio}
+        className="absolute top-2 left-2 w-6 h-6 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+        style={{ pointerEvents: 'auto' }}
+        title={isMuted ? 'Unmute audio' : 'Mute audio'}
       >
-        <Mic className="w-3 h-3 text-white" />
-      </div>
+        {isMuted ? (
+          <MicOff className="w-3 h-3 text-white" />
+        ) : (
+          <Mic className="w-3 h-3 text-white" />
+        )}
+      </button>
     </div>
   );
 }

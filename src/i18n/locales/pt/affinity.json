@@ -9,11 +9,11 @@
     "howardSchultzQuote": "Quando te rodeias de pessoas que partilham um compromisso apaixonado em torno de um propósito comum, tudo é possível",
     "howardSchultzAuthor": "Howard Schultz",
     "slogans": {
-      "notJustStay": "Não é apenas uma estadia. É um mundo partilhado",
-      "meetShareBelong": "Conhecer. Partilhar. Pertencer",
-      "stayWithThoseWhoGetYou": "Fica com aqueles que te compreendem",
-      "tiredOfRandom": "Cansado do aleatório? Escolhe a tua gente",
-      "stayAndConnect": "Fica e conecta através do que amas"
+      "notJustStay": "Os teus estão à tua espera",
+      "meetShareBelong": "Aqueles com os mesmos gostos. A tua mentalidade.",
+      "stayWithThoseWhoGetYou": "As Afinidades Hotel Living ajudam-te a conhecê-los",
+      "tiredOfRandom": "Porque as melhores estadias começam com quem as partilhas",
+      "stayAndConnect": "Afinidades Hotel Living. A tua nova vida começa aqui"
     },
     "faq": {
       "whatAreAffinityHotels": {
@@ -66,7 +66,7 @@
       },
       "areAffinityThemesAvailable": {
         "question": "As afinidades estão disponíveis em todos os hotéis associados?",
-        "answer": "Não em todos. Depende da oferta de cada hotel, mas terás sempre opções de afinidades no portal."
+        "answer": "Nem todos. Depende da oferta de cada hotel, mas terás sempre opções de afinidades no portal."
       },
       "canIConnectWithoutTheme": {
         "question": "Posso conectar mesmo que não haja um tema específico?",

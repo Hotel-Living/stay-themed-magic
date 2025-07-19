@@ -3,7 +3,10 @@ import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const MealsContent: React.FC = () => {
-  const { t } = useTranslation("dashboard/rates");
+  const { t, language } = useTranslation("dashboard/rates");
+  
+  console.log("MealsContent rendering - Language:", language);
+  console.log("MealsContent title translation:", t('mealsContent.title'));
   
   return (
     <div className="space-y-4 text-white/90">

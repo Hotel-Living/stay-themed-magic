@@ -21,17 +21,6 @@ export function SecondFilterSidebar({
   const [isOpen, setIsOpen] = useState(false);
   const { t, isReady } = useTranslation('filters');
 
-  // Don't render until translations are ready
-  if (!isReady) {
-    return (
-      <div className="lg:hidden fixed top-4 right-4 z-50">
-        <button className="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg border border-gray-200">
-          <Filter className="w-5 h-5 text-gray-600" />
-        </button>
-      </div>
-    );
-  }
-
   return (
     <>
       {/* Mobile Filter Toggle Button */}
@@ -77,7 +66,7 @@ export function SecondFilterSidebar({
                 }}
                 className="w-full px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
               >
-                {t('resetFilters')}
+                {isReady ? t('resetFilters') : 'Reset Filters'}
               </button>
             </div>
           </div>

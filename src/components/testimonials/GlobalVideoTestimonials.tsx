@@ -43,6 +43,7 @@ export function GlobalVideoTestimonials() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hasStartedRef = useRef(false);
+  const startTimeRef = useRef<number>(0);
 
   const hasErrorRef = useRef(false);
   const isLoadedRef = useRef(false);
@@ -69,6 +70,7 @@ export function GlobalVideoTestimonials() {
 
     console.log('Starting testimonial video system');
     hasStartedRef.current = true;
+    startTimeRef.current = Date.now();
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -89,24 +91,29 @@ export function GlobalVideoTestimonials() {
     };
   }, [shouldShowVideos, setIsVisible, setCurrentVideoIndex]);
 
-  // Set up 60-second continuous cycling timer
+  // Set up 45-second continuous cycling timer
   useEffect(() => {
-    if (!shouldShowVideos) return;
+    if (!shouldShowVideos || currentVideoIndex === 0) return;
 
-    console.log('Setting up 60-second continuous cycle timer');
+    console.log('Setting up 45-second continuous cycle timer');
 
     if (cycleTimerRef.current) {
       clearTimeout(cycleTimerRef.current);
     }
 
+    // Calculate time elapsed since start
+    const elapsedTime = Date.now() - startTimeRef.current;
+    const targetTime = (currentVideoIndex + 1) * 45000; // 45 seconds per video
+    const delay = Math.max(0, targetTime - elapsedTime);
+
     cycleTimerRef.current = setTimeout(() => {
       const nextIndex = (currentVideoIndex + 1) % videoTestimonials.length;
-      console.log('60 seconds elapsed - showing next video:', nextIndex);
+      console.log('45 seconds elapsed - showing next video:', nextIndex);
       setCurrentVideoIndex(nextIndex);
       setIsVisible(true);
       hasErrorRef.current = false;
       isLoadedRef.current = false;
-    }, 60000); // 60 seconds
+    }, delay);
 
     return () => {
       if (cycleTimerRef.current) {

@@ -6,7 +6,7 @@ import { X, Mic, MicOff } from 'lucide-react';
 const englishTestimonials = [
   'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS%20TESTIMONIO%201.webm',
   'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-2_small.webm',
-  'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3_small.webm'
+  'https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/videoenglish/INGLeS-TESTIMONIO-3.mp4'
 ];
 
 export function EnglishVideoTestimonials() {
@@ -19,7 +19,9 @@ export function EnglishVideoTestimonials() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const cycleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hasStartedRef = useRef(false);
+  const startTimeRef = useRef<number>(0);
 
   // Only show on non-Index pages and non-Spanish languages
   const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es';
@@ -29,6 +31,9 @@ export function EnglishVideoTestimonials() {
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
+      }
+      if (cycleTimerRef.current) {
+        clearTimeout(cycleTimerRef.current);
       }
     };
   }, []);
@@ -41,6 +46,7 @@ export function EnglishVideoTestimonials() {
 
     console.log('Starting English testimonial video sequence');
     hasStartedRef.current = true;
+    startTimeRef.current = Date.now();
 
     // Start first video at 1 second
     timerRef.current = setTimeout(() => {
@@ -55,6 +61,37 @@ export function EnglishVideoTestimonials() {
       }
     };
   }, [shouldShowVideos, isComplete]);
+
+  // Set up 45-second interval timer for subsequent videos
+  useEffect(() => {
+    if (!shouldShowVideos || isComplete || currentVideoIndex === 0) return;
+
+    if (cycleTimerRef.current) {
+      clearTimeout(cycleTimerRef.current);
+    }
+
+    // Calculate time elapsed since start
+    const elapsedTime = Date.now() - startTimeRef.current;
+    const targetTime = (currentVideoIndex + 1) * 45000; // 45 seconds per video
+    const delay = Math.max(0, targetTime - elapsedTime);
+
+    cycleTimerRef.current = setTimeout(() => {
+      if (currentVideoIndex < englishTestimonials.length - 1) {
+        console.log('45-second interval - showing next English video:', currentVideoIndex + 1);
+        setCurrentVideoIndex(currentVideoIndex + 1);
+        setIsVisible(true);
+      } else {
+        console.log('All English testimonial videos complete');
+        setIsComplete(true);
+      }
+    }, delay);
+
+    return () => {
+      if (cycleTimerRef.current) {
+        clearTimeout(cycleTimerRef.current);
+      }
+    };
+  }, [shouldShowVideos, currentVideoIndex, isComplete]);
 
   // Handle video playback and transitions
   useEffect(() => {
@@ -75,22 +112,6 @@ export function EnglishVideoTestimonials() {
       
       // Hide video immediately after it ends
       setIsVisible(false);
-      
-      if (currentVideoIndex < englishTestimonials.length - 1) {
-        // Move to next video based on timing
-        const nextIndex = currentVideoIndex + 1;
-        const delay = nextIndex === 1 ? 59000 : 60000; // 59s for second video (since first already played for 1s), 60s for third
-        
-        timerRef.current = setTimeout(() => {
-          console.log('Starting next English video:', nextIndex);
-          setCurrentVideoIndex(nextIndex);
-          setIsVisible(true);
-        }, delay);
-      } else {
-        // All videos complete - hide component permanently
-        console.log('All English testimonial videos complete');
-        setIsComplete(true);
-      }
     };
 
     const handleError = (error: any) => {

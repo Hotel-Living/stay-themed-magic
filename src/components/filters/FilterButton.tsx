@@ -1,6 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface FilterButtonProps {
   hasActiveFilters: boolean;

@@ -12,7 +12,7 @@
   },
   "utilitiesTitle": "PREDICTABILITY – RESPONSIBILITY – EFFICIENCY",
   "utilitiesGuestsNotTransients": "HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS",
-  "utilitiesDescription1": "They are respectful long-term residents who stay for 8, 16, 24, or 32 days.",
+  "utilitiesDescription1": "They are respectful long-term residents who stay for 15, 22, and 29 days.",
   "utilitiesSmartGuestsTitle": "SMARTER GUESTS, SMARTER RESOURCE USE",
   "utilitiesDescription2": "Due to the longer stay duration and the more personal relationship they establish with your property, these guests tend to be more mindful in their resource usage.",
   "utilitiesDescription3": "They feel more like temporary tenants than short-stay visitors — and that makes all the difference.",
@@ -74,5 +74,13 @@
   "excelCalculator": {
     "description": "YOU MAY DOWNLOAD OUR EXCEL CALCULATOR BELOW TO TEST DIFFERENT SERVICE MODELS, PRICING STRUCTURES, AND POTENTIAL PROFITS.",
     "buttonLabel": "DOWNLOAD IT"
-  }
+  },
+  "mealPlansTitle": "MEAL PLANS - BALANCED APPROACH",
+  "mealPlansDescription1": "Our meal plans are designed to provide balanced, nutritious options that cater to long-stay guests (15, 22, and 29 days) while maintaining operational efficiency.",
+  "mealPlansFlexibleTitle": "FLEXIBLE MEAL PLANS",
+  "mealPlansFlexibleDescription": "Guests can choose from various meal plan options based on their preferences and dietary requirements for stays of 15, 22, and 29 days.",
+  "mealPlansOperationalTitle": "OPERATIONAL BENEFITS",
+  "mealPlansOperationalBenefits": "• Lower kitchen complexity\n• Predictable costs for 15, 22, and 29-day stays\n• Relaxed dining experience",
+  "mealPlansResultTitle": "RESULT",
+  "mealPlansResult": "🏨 Hotels benefit from simplified operations\n🏡 Guests enjoy home-like dining flexibility\n🌍 Sustainable and cost-effective approach for 15, 22, and 29-day stays"
 }

@@ -12,7 +12,7 @@
   },
   "utilitiesTitle": "PREVISIBILIDADE – RESPONSABILIDADE – EFICIÊNCIA",
   "utilitiesGuestsNotTransients": "HÓSPEDES DO HOTEL-LIVING NÃO SÃO TURISTAS TRANSITÓRIOS",
-  "utilitiesDescription1": "São residentes respeitosos de longa permanência que ficam por 8, 16, 24 ou 32 dias.",
+  "utilitiesDescription1": "São residentes respeitosos de longa permanência que ficam por 15, 22 e 29 dias.",
   "utilitiesSmartGuestsTitle": "HÓSPEDES MAIS INTELIGENTES, USO MAIS INTELIGENTE DE RECURSOS",
   "utilitiesDescription2": "Devido à maior duração das estadias e ao relacionamento mais pessoal que estabelecem com sua propriedade, esses hóspedes tendem a ser mais conscientes no uso de recursos.",
   "utilitiesDescription3": "Eles se sentem mais como inquilinos temporários do que visitantes de curta permanência — e isso faz toda a diferença.",
@@ -73,5 +73,13 @@
   "excelCalculator": {
     "description": "VOCÊ PODE BAIXAR NOSSA CALCULADORA EXCEL PARA TESTAR DIFERENTES MODELOS DE SERVIÇOS, PREÇOS E LUCROS.",
     "buttonLabel": "BAIXAR"
-  }
+  },
+  "mealPlansTitle": "PLANOS DE REFEIÇÃO - ABORDAGEM EQUILIBRADA",
+  "mealPlansDescription1": "Nossos planos de refeição são projetados para fornecer opções equilibradas e nutritivas que atendem hóspedes de longa permanência (15, 22 e 29 dias) mantendo a eficiência operacional.",
+  "mealPlansFlexibleTitle": "PLANOS DE REFEIÇÃO FLEXÍVEIS",
+  "mealPlansFlexibleDescription": "Os hóspedes podem escolher entre várias opções de planos de refeição baseados em suas preferências e requisitos dietéticos para estadias de 15, 22 e 29 dias.",
+  "mealPlansOperationalTitle": "BENEFÍCIOS OPERACIONAIS",
+  "mealPlansOperationalBenefits": "• Menor complexidade de cozinha\n• Custos previsíveis para estadias de 15, 22 e 29 dias\n• Experiência gastronômica relaxada",
+  "mealPlansResultTitle": "RESULTADO",
+  "mealPlansResult": "🏨 Hotéis se beneficiam de operações simplificadas\n🏡 Hóspedes desfrutam de flexibilidade gastronômica como em casa\n🌍 Abordagem sustentável e econômica para estadias de 15, 22 e 29 dias"
 }

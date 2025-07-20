@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Globe, Menu, X } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { LanguageSelector } from "./LanguageSelector";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { 
   NavigationMenu,
@@ -191,7 +191,7 @@ export function Navbar() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Globe className="w-4 h-4 text-white" />
-              <LanguageSelector />
+              <LanguageSwitcher />
             </div>
 
             {/* Mobile menu button */}
@@ -209,7 +209,7 @@ export function Navbar() {
         <MobileNavigation />
       </div>
 
-      <style jsx>{`
+      <style>{`
         .navbar-gradient {
           background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
           box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);

@@ -11,14 +11,7 @@ import { Starfield } from '@/components/Starfield';
 
 export const AssociationDashboard = () => {
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #7801AA 0%, #4c1d95 50%, #7801AA 100%)' }}>
-      {/* Enhanced Glow Effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-cyan-400/20 rounded-full blur-3xl"></div>
-      <div className="absolute top-10 right-10 w-64 h-64 bg-pink-400/25 rounded-full blur-2xl animate-pulse delay-500"></div>
-      <div className="absolute bottom-10 left-10 w-64 h-64 bg-blue-400/25 rounded-full blur-2xl animate-pulse delay-700"></div>
-      
+    <div className="min-h-screen relative">
       <Starfield />
       
       <div className="relative z-10 container mx-auto px-4 py-8">
@@ -27,7 +20,7 @@ export const AssociationDashboard = () => {
           <p className="text-slate-300 text-center text-lg">Gestione sus hoteles y comisiones</p>
         </div>
 
-        <Card className="glass-card border-blue-500/20 bg-slate-800/50 backdrop-blur-sm shadow-2xl shadow-blue-500/10">
+        <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
           <CardContent className="p-6">
             <Tabs defaultValue="hotels" className="w-full">
               <TabsList className="grid w-full grid-cols-5 bg-slate-700/50 border border-blue-500/20">

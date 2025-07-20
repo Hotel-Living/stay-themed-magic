@@ -87,34 +87,34 @@ export function Navbar() {
           </Link>
           
           <div className="relative group">
-            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer">
+            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer py-2">
               <div className="text-center">
                 <div>{t('mainNavigationContent.videos.line1')}</div>
                 <div>{t('mainNavigationContent.videos.line2')}</div>
               </div>
             </div>
-            <div className="absolute top-full left-0 mt-1 hidden group-hover:block bg-[#7801AA] shadow-lg rounded-lg border border-gray-200 z-50 min-w-max">
-              <Link to="/videos" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg">
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-[#7801AA] shadow-lg rounded-lg z-50 min-w-max">
+              <Link to="/videos" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors">
                 {t('mainNavigationContent.videosAndPress.videos')}
               </Link>
-              <Link to="/press" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg">
+              <Link to="/press" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors">
                 {t('mainNavigationContent.videosAndPress.press')}
               </Link>
             </div>
           </div>
 
           <div className="relative group">
-            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer">
+            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer py-2">
               <div className="text-center">
                 <div>{t('mainNavigationContent.ambassador.line1')}</div>
                 <div>{t('mainNavigationContent.ambassador.line2')}</div>
               </div>
             </div>
-            <div className="absolute top-full left-0 mt-1 hidden group-hover:block bg-[#7801AA] shadow-lg rounded-lg border border-gray-200 z-50 min-w-max">
-              <Link to="/ambassador" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg">
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-[#7801AA] shadow-lg rounded-lg z-50 min-w-max">
+              <Link to="/ambassador" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors">
                 {t('mainNavigationContent.growWithUs.ambassador')}
               </Link>
-              <Link to="/agentes" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg">
+              <Link to="/agentes" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors">
                 {t('mainNavigationContent.growWithUs.localPromoter')}
               </Link>
             </div>

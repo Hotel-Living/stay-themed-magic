@@ -85,16 +85,53 @@ export function Navbar() {
               <div>{t('mainNavigationContent.affinityStays.line2')}</div>
             </div>
           </Link>
-          <Link to="/videos" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+              <div className="text-center">
+                <div>{t('mainNavigationContent.videos.line1')}</div>
+                <div>{t('mainNavigationContent.videos.line2')}</div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white shadow-lg rounded-lg border border-gray-200 z-50">
+              <DropdownMenuItem asChild>
+                <Link to="/videos" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
+                  {t('mainNavigationContent.videosAndPress.videos')}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/press" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
+                  {t('mainNavigationContent.videosAndPress.press')}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+              <div className="text-center">
+                <div>{t('mainNavigationContent.ambassador.line1')}</div>
+                <div>{t('mainNavigationContent.ambassador.line2')}</div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white shadow-lg rounded-lg border border-gray-200 z-50">
+              <DropdownMenuItem asChild>
+                <Link to="/ambassador" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
+                  {t('mainNavigationContent.growWithUs.ambassador')}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/agentes" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
+                  {t('mainNavigationContent.growWithUs.localPromoter')}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Link to="/ayuda" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
-              <div>{t('mainNavigationContent.videos.line1')}</div>
-              <div>{t('mainNavigationContent.videos.line2')}</div>
-            </div>
-          </Link>
-          <Link to="/ambassador" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.ambassador.line1')}</div>
-              <div>{t('mainNavigationContent.ambassador.line2')}</div>
+              <div>{t('mainNavigationContent.frequentQuestions.line1')}</div>
+              <div>{t('mainNavigationContent.frequentQuestions.line2')}</div>
             </div>
           </Link>
           
@@ -132,19 +169,6 @@ export function Navbar() {
             </div>
           </Link>
           
-          <Link to="/press" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.press.line1')}</div>
-              <div>{t('mainNavigationContent.press.line2')}</div>
-            </div>
-          </Link>
-          
-          <Link to="/agentes" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.agents.line1')}</div>
-              <div>{t('mainNavigationContent.agents.line2')}</div>
-            </div>
-          </Link>
           
           <LanguageSwitcher />
         </div>
@@ -171,6 +195,9 @@ export function Navbar() {
           <Link to="/ambassador" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.ambassador.mobile')}
           </Link>
+          <Link to="/ayuda" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.frequentQuestions.mobile')}
+          </Link>
            {!isLoggedIn && (
             <div className="flex justify-center w-full mb-3">
               <AuthDropdown />
@@ -178,12 +205,6 @@ export function Navbar() {
            )}
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}
-          </Link>
-          <Link to="/press" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.press.mobile')}
-          </Link>
-          <Link to="/agentes" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.agents.mobile')}
           </Link>
         </nav>
       </div>

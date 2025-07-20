@@ -24,24 +24,29 @@
   },
   "mainNavigationContent": {
     "faq": {
-      "line1": "DE CE",
-      "line2": "HOTEL-LIVING?",
-      "mobile": "DE CE HOTEL-LIVING?"
+      "line1": "O LUME",
+      "line2": "DE AVANTAJE",
+      "mobile": "O LUME DE AVANTAJE"
     },
     "affinityStays": {
-      "line1": "AFINITĂȚI?",
-      "line2": "",
-      "mobile": "AFINITĂȚI?"
+      "line1": "AFINITĂȚI",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "AFINITĂȚI HOTEL-LIVING?"
     },
     "videos": {
       "line1": "VIDEOCLIPURI",
-      "line2": "",
-      "mobile": "VIDEOCLIPURI"
+      "line2": "ȘI PRESĂ",
+      "mobile": "VIDEOCLIPURI ȘI PRESĂ"
     },
     "ambassador": {
-      "line1": "DEVINO",
-      "line2": "AMBASADOR",
-      "mobile": "DEVINO AMBASADOR"
+      "line1": "CREȘTE",
+      "line2": "CU NOI!",
+      "mobile": "CREȘTE CU NOI!"
+    },
+    "frequentQuestions": {
+      "line1": "ÎNTREBĂRI",
+      "line2": "FRECVENTE",
+      "mobile": "ÎNTREBĂRI FRECVENTE"
     },
     "signup": {
       "line1": "DESCHIDE",
@@ -68,10 +73,13 @@
       "line2": "",
       "mobile": "PRESĂ"
     },
-    "agents": {
-      "line1": "DEVINO",
-      "line2": "AGENT",
-      "mobile": "DEVINO AGENT"
+    "growWithUs": {
+      "ambassador": "Ambasador",
+      "localPromoter": "Promotor Local"
+    },
+    "videosAndPress": {
+      "videos": "Videoclipuri",
+      "press": "Presă"
     }
   }
 }

@@ -24,24 +24,29 @@
   },
   "mainNavigationContent": {
     "faq": {
-      "line1": "POR QUE",
-      "line2": "HOTEL-LIVING?",
-      "mobile": "POR QUE HOTEL-LIVING?"
+      "line1": "UM MUNDO",
+      "line2": "DE VANTAGENS",
+      "mobile": "UM MUNDO DE VANTAGENS"
     },
     "affinityStays": {
-      "line1": "AFINIDADES?",
-      "line2": "",
-      "mobile": "AFINIDADES?"
+      "line1": "AFINIDADES",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "AFINIDADES HOTEL-LIVING?"
     },
     "videos": {
       "line1": "VÍDEOS",
-      "line2": "",
-      "mobile": "VÍDEOS"
+      "line2": "E IMPRENSA",
+      "mobile": "VÍDEOS E IMPRENSA"
     },
     "ambassador": {
-      "line1": "TORNE-SE",
-      "line2": "EMBAIXADOR",
-      "mobile": "TORNE-SE EMBAIXADOR"
+      "line1": "CRESÇA",
+      "line2": "CONOSCO!",
+      "mobile": "CRESÇA CONOSCO!"
+    },
+    "frequentQuestions": {
+      "line1": "PERGUNTAS",
+      "line2": "FREQUENTES",
+      "mobile": "PERGUNTAS FREQUENTES"
     },
     "signup": {
       "line1": "ABRIR",
@@ -68,10 +73,13 @@
       "line2": "",
       "mobile": "IMPRENSA"
     },
-    "agents": {
-      "line1": "TORNE-SE UM",
-      "line2": "AGENTE",
-      "mobile": "TORNE-SE UM AGENTE"
+    "growWithUs": {
+      "ambassador": "Embaixador",
+      "localPromoter": "Promotor Local"
+    },
+    "videosAndPress": {
+      "videos": "Vídeos",
+      "press": "Imprensa"
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Starfield } from "@/components/Starfield";
 import { AssociationProfitabilityCalculator } from "@/components/dashboard/rates-calculator/components/AssociationProfitabilityCalculator";
@@ -15,6 +15,7 @@ export default function HotelAssociation() {
     t,
     i18n
   } = useTranslation('hotelAssociation');
+  const navigate = useNavigate();
 
   // Helper function to safely get array translations
   const getArrayTranslation = (key: string): string[] => {
@@ -550,7 +551,10 @@ export default function HotelAssociation() {
               {/* Call to Action Section */}
               <section className="text-center py-16">
                 <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-                  <button className="bg-gradient-to-r from-purple-900 to-purple-800 hover:from-purple-800 hover:to-purple-700 text-white font-bold py-6 px-12 rounded-xl text-xl transition-all duration-300 shadow-2xl transform hover:scale-105 border border-purple-400/30">
+                  <button 
+                    onClick={() => navigate('/asociacion/registro')}
+                    className="bg-gradient-to-r from-purple-900 to-purple-800 hover:from-purple-800 hover:to-purple-700 text-white font-bold py-6 px-12 rounded-xl text-xl transition-all duration-300 shadow-2xl transform hover:scale-105 border border-purple-400/30"
+                  >
                     REGISTRE SU ASOCIACIÓN
                   </button>
                 </div>

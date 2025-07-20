@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -94,10 +93,10 @@ export function Navbar() {
               </div>
             </div>
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-[#7801AA] shadow-lg rounded-lg z-50 min-w-max">
-              <Link to="/videos" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors">
+              <Link to="/videos" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors text-xs">
                 {t('mainNavigationContent.videosAndPress.videos')}
               </Link>
-              <Link to="/press" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors">
+              <Link to="/press" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors text-xs">
                 {t('mainNavigationContent.videosAndPress.press')}
               </Link>
             </div>
@@ -111,10 +110,10 @@ export function Navbar() {
               </div>
             </div>
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-[#7801AA] shadow-lg rounded-lg z-50 min-w-max">
-              <Link to="/ambassador" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors">
+              <Link to="/ambassador" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg transition-colors text-xs">
                 {t('mainNavigationContent.growWithUs.ambassador')}
               </Link>
-              <Link to="/agentes" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors">
+              <Link to="/agentes" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg transition-colors text-xs">
                 {t('mainNavigationContent.growWithUs.localPromoter')}
               </Link>
             </div>

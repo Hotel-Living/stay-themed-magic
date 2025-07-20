@@ -36,7 +36,7 @@ export function Navbar() {
       <NavigationMenuList className="flex space-x-1">
         {/* UN MUNDO DE VENTAJAS */}
         <NavigationMenuItem>
-          <Link to="/faq" className="nav-item">
+          <Link to="/world-of-advantages" className="nav-item">
             <div className="nav-text">
               <div className="nav-line">{t('mainNavigationContent.worldOfAdvantages.line1')}</div>
               <div className="nav-line">{t('mainNavigationContent.worldOfAdvantages.line2')}</div>
@@ -133,7 +133,7 @@ export function Navbar() {
         : 'max-h-0 opacity-0 invisible overflow-hidden'
     }`}>
       <div className="mobile-menu">
-        <Link to="/faq" className="mobile-nav-item" onClick={closeMenu}>
+        <Link to="/world-of-advantages" className="mobile-nav-item" onClick={closeMenu}>
           {t('mainNavigationContent.worldOfAdvantages.mobile')}
         </Link>
         

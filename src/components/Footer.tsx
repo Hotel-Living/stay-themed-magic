@@ -20,21 +20,61 @@ export function Footer() {
             </div>
           </div>
           
-          {/* Extra spacing between logo and FAQ for mobile */}
+          {/* Extra spacing between logo and menu for mobile */}
           {isMobile && <div className="mb-8"></div>}
           
-          {/* First Line - Header links */}
-          
-          
-          {/* Separator between first and second line */}
-          <div className="w-full px-4 mb-2">
-            <Separator className={cn("bg-[#3300B0]/40")} />
+          {/* Footer Menu - 4 column layout */}
+          <div className={`w-full max-w-4xl ${isMobile ? "mb-6" : "mb-8"}`}>
+            <div className={`grid ${isMobile ? "grid-cols-2 gap-x-8 gap-y-6" : "grid-cols-4 gap-8"} text-center text-white text-sm font-bold`}>
+              
+              {/* Column 1: About Us */}
+              <div className="space-y-2">
+                <div className="text-white font-bold text-sm mb-2">{t('footer.sections.aboutUs')}</div>
+                <div className="space-y-1">
+                  <Link to="/our-team" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.ourTeam')}
+                  </Link>
+                  <Link to="/our-values" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.ourValues')}
+                  </Link>
+                  <Link to="/our-services" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.ourServices')}
+                  </Link>
+                </div>
+              </div>
+
+              {/* Column 2: Customer Service */}
+              <div className="space-y-2">
+                <Link to="/customer-service" className="block text-white hover:text-white/90 text-sm font-bold">
+                  {t('footer.links.customerService')}
+                </Link>
+              </div>
+
+              {/* Column 3: Contact */}
+              <div className="space-y-2">
+                <Link to="/contact" className="block text-white hover:text-white/90 text-sm font-bold">
+                  {t('footer.links.contact')}
+                </Link>
+              </div>
+
+              {/* Column 4: Legal */}
+              <div className="space-y-2">
+                <div className="text-white font-bold text-sm mb-2">{t('footer.sections.legal')}</div>
+                <div className="space-y-1">
+                  <Link to="/intellectual-property" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.intellectualProperty')}
+                  </Link>
+                  <Link to="/terms" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.terms')}
+                  </Link>
+                  <Link to="/privacy" className="block text-white hover:text-white/90 text-sm font-bold">
+                    {t('footer.links.privacy')}
+                  </Link>
+                </div>
+              </div>
+
+            </div>
           </div>
-          
-          {/* Second Line */}
-          
-          
-          {/* Third Line */}
           
           
           {/* Buttons - reduced size by 30% on mobile */}

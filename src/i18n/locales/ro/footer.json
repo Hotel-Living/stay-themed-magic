@@ -1,20 +1,19 @@
 
 {
   "footer": {
+    "sections": {
+      "aboutUs": "DESPRE NOI",
+      "legal": "LEGAL"
+    },
     "links": {
-      "faq": "AVANTAJE",
-      "affinityStays": "AFINITĂȚI?",
-      "hotel": "HOTEL?",
-      "videos": "VIDEOCLIPURI",
-      "featuredHotels": "RECOMANDATE",
-      "ourServices": "SERVICIILE NOASTRE",
+      "ourTeam": "ECHIPA NOASTRĂ",
       "ourValues": "VALORILE NOASTRE",
+      "ourServices": "SERVICIILE NOASTRE",
       "customerService": "SERVICII PENTRU CLIENȚI",
-      "contact": "CONTACT",
-      "terms": "TERMENI ȘI CONDIȚII",
-      "privacy": "CONFIDENȚIALITATE ȘI COOKIE-URI",
+      "contact": "CONTACT", 
       "intellectualProperty": "PROPRIETATE INTELECTUALĂ",
-      "ourTeam": "ECHIPA NOASTRĂ"
+      "terms": "TERMENI ȘI CONDIȚII",
+      "privacy": "CONFIDENȚIALITATE ȘI COOKIE-URI"
     },
     "buttons": {
       "register": "Înregistrare",

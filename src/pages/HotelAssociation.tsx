@@ -113,7 +113,7 @@ export default function HotelAssociation() {
             <div className="space-y-16">
               
               {/* Opportunity Section */}
-              <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 shadow-xl">
+              <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <div className="max-w-4xl mx-auto text-center">
                   <h2 className="text-lg md:text-xl font-bold text-yellow-300 uppercase tracking-wide mb-8 drop-shadow-md">
                     📊 SOMOS UNA OPORTUNIDAD CONCRETA Y EN MARCHA
@@ -133,7 +133,7 @@ export default function HotelAssociation() {
               </section>
 
               {/* Industry Context Section */}
-              <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 shadow-xl">
+              <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <div className="max-w-4xl mx-auto">
                   <div className="prose prose-lg prose-invert max-w-none">
                     <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8">
@@ -157,7 +157,7 @@ export default function HotelAssociation() {
               </section>
 
               {/* What We Offer Section */}
-              <section className="bg-gradient-to-r from-purple-900/30 to-purple-800/30 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-purple-300/20 shadow-xl">
+              <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <div className="max-w-4xl mx-auto text-center">
                   <h2 className="text-2xl md:text-3xl font-bold text-yellow-300 uppercase tracking-wide mb-6">
                     ¿QUÉ OFRECEMOS EN HOTEL-LIVING.COM?
@@ -179,7 +179,7 @@ export default function HotelAssociation() {
               </section>
 
               {/* Accordion Sections */}
-              <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10 shadow-xl">
+              <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <Accordion type="multiple" className="space-y-4">
                   
                   {/* Section 1: Hotel Crisis */}
@@ -549,7 +549,7 @@ export default function HotelAssociation() {
 
               {/* Call to Action Section */}
               <section className="text-center py-16">
-                <div className="bg-gradient-to-r from-purple-900/40 to-purple-800/40 backdrop-blur-sm rounded-2xl p-12 border border-purple-300/30 shadow-2xl">
+                <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                   <button className="bg-gradient-to-r from-purple-900 to-purple-800 hover:from-purple-800 hover:to-purple-700 text-white font-bold py-6 px-12 rounded-xl text-xl transition-all duration-300 shadow-2xl transform hover:scale-105 border border-purple-400/30">
                     REGISTRE SU ASOCIACIÓN
                   </button>

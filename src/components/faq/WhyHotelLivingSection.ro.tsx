@@ -98,21 +98,8 @@ export function WhyHotelLivingSectionRO() {
   const handleAccordionTabChange = (value: string) => {
     if (value === activeAccordionTab) {
       setActiveAccordionTab("");
-      setActiveTabAvatar(null);
     } else {
       setActiveAccordionTab(value);
-      // Check if this tab has avatars
-      const displayAvatars = getDisplayAvatars(value);
-      if (displayAvatars.length > 0) {
-        setActiveTabAvatar(value);
-        setShowMessage(true);
-        // Hide message after 7 seconds but keep avatar visible
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 7000);
-      } else {
-        setActiveTabAvatar(null);
-      }
     }
   };
 
@@ -123,98 +110,12 @@ export function WhyHotelLivingSectionRO() {
 
   return (
     <>
-      {/* First title - WHY HOTEL-LIVING? */}
-      <div className="text-center mb-8">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h1 className={`
-              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-4 text-[#eedbf7] glow 
-              tracking-tight leading-tight
-              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
-            `}>
-              DE CE HOTEL-LIVING?
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
-      <div className="flex flex-col items-center gap-8 mb-16 relative">
-        {/* Top box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotelurile au nevoie de oameni</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Oamenii au nevoie de viață mai bună</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea are nevoie de actualizare</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Toți au nevoie de Hotel-Living</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '5B nopți de hotel de umplut' : '5.000 milioane nopți de hotel de umplut'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '400M oameni au nevoie de viață mai bună' : '400 milioane oameni au nevoie de viață mai bună'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea repetă trecutul</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living schimbă asta</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Header above purple tabs */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-[#eedbf7] mb-2">
-          {t('identifyHeader').split('\n').map((line, index) => (
-            <div key={index}>{line}</div>
-          ))}
-        </h2>
-      </div>
-
       {/* First Horizontal Accordion Menu */}
-      <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
+      <div className="mb-24">
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>
               {accordionOptions.map((option) => {
-                const displayAvatars = getDisplayAvatars(option.id);
-                const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
-                
                 return (
                   <div key={option.id} className="relative">
                     <button 
@@ -224,20 +125,6 @@ export function WhyHotelLivingSectionRO() {
                       <span className="mb-1 leading-tight">{option.label}</span>
                       <span className="text-xs">▼</span>
                     </button>
-                    
-                    {/* Show enhanced avatar above the tab when active */}
-                    {showAvatars && displayAvatars.map((avatar) => (
-                      <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                        <EnhancedAvatarAssistant
-                          avatarId={avatar.id}
-                          gif={avatar.gif}
-                          position="content"
-                          showMessage={showMessage}
-                          message={t('avatarMessage')}
-                          onClose={handleAvatarClose}
-                        />
-                      </div>
-                    ))}
                   </div>
                 );
               })}

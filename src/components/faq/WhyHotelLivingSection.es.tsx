@@ -98,21 +98,8 @@ export function WhyHotelLivingSectionES() {
   const handleAccordionTabChange = (value: string) => {
     if (value === activeAccordionTab) {
       setActiveAccordionTab("");
-      setActiveTabAvatar(null);
     } else {
       setActiveAccordionTab(value);
-      // Check if this tab has avatars
-      const displayAvatars = getDisplayAvatars(value);
-      if (displayAvatars.length > 0) {
-        setActiveTabAvatar(value);
-        setShowMessage(true);
-        // Hide message after 7 seconds but keep avatar visible
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 7000);
-      } else {
-        setActiveTabAvatar(null);
-      }
     }
   };
 
@@ -137,47 +124,14 @@ export function WhyHotelLivingSectionES() {
 
   return (
     <>
-      {/* First title - WHY HOTEL-LIVING? */}
-      <div className="text-center mb-8">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h1 className={`
-              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-4 text-[#eedbf7] glow 
-              tracking-tight leading-tight
-              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
-            `}>
-              ¿POR QUÉ HOTEL-LIVING?
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      {/* Header above purple tabs */}
-      <div className="text-center mb-6">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h2 className="relative text-2xl font-bold text-[#eedbf7] mb-2 bg-[#8017B0] py-2 px-4 rounded-lg">
-              {t('identifyHeader').split('\n').map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
-            </h2>
-          </div>
-        </div>
-      </div>
-
       {/* First Horizontal Accordion Menu */}
-      <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
+      <div className="mb-24">
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
                 {accordionOptions.map((option) => {
-                  const displayAvatars = getDisplayAvatars(option.id);
-                  const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
                   
                   return (
                     <div key={option.id} className="relative">
@@ -188,20 +142,6 @@ export function WhyHotelLivingSectionES() {
                         <span className="mb-1 leading-tight">{option.label}</span>
                         <span className="text-xs">▼</span>
                       </button>
-                      
-                      {/* Show enhanced avatar above the tab when active */}
-                      {showAvatars && displayAvatars.map((avatar) => (
-                        <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                          <EnhancedAvatarAssistant
-                            avatarId={avatar.id}
-                            gif={avatar.gif}
-                            position="content"
-                            showMessage={showMessage}
-                            message={getAvatarMessage(avatar.id)}
-                            onClose={handleAvatarClose}
-                          />
-                        </div>
-                      ))}
                     </div>
                   );
                 })}

@@ -86,47 +86,39 @@ export function Navbar() {
             </div>
           </Link>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+          <div className="relative group">
+            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer">
               <div className="text-center">
                 <div>{t('mainNavigationContent.videos.line1')}</div>
                 <div>{t('mainNavigationContent.videos.line2')}</div>
               </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white shadow-lg rounded-lg border border-gray-200 z-50">
-              <DropdownMenuItem asChild>
-                <Link to="/videos" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
-                  {t('mainNavigationContent.videosAndPress.videos')}
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/press" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
-                  {t('mainNavigationContent.videosAndPress.press')}
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </div>
+            <div className="absolute top-full left-0 mt-1 hidden group-hover:block bg-[#7801AA] shadow-lg rounded-lg border border-gray-200 z-50 min-w-max">
+              <Link to="/videos" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg">
+                {t('mainNavigationContent.videosAndPress.videos')}
+              </Link>
+              <Link to="/press" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg">
+                {t('mainNavigationContent.videosAndPress.press')}
+              </Link>
+            </div>
+          </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+          <div className="relative group">
+            <div className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight cursor-pointer">
               <div className="text-center">
                 <div>{t('mainNavigationContent.ambassador.line1')}</div>
                 <div>{t('mainNavigationContent.ambassador.line2')}</div>
               </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white shadow-lg rounded-lg border border-gray-200 z-50">
-              <DropdownMenuItem asChild>
-                <Link to="/ambassador" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
-                  {t('mainNavigationContent.growWithUs.ambassador')}
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/agentes" className="text-gray-700 hover:bg-gray-100 px-3 py-2">
-                  {t('mainNavigationContent.growWithUs.localPromoter')}
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </div>
+            <div className="absolute top-full left-0 mt-1 hidden group-hover:block bg-[#7801AA] shadow-lg rounded-lg border border-gray-200 z-50 min-w-max">
+              <Link to="/ambassador" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-t-lg">
+                {t('mainNavigationContent.growWithUs.ambassador')}
+              </Link>
+              <Link to="/agentes" className="block text-white hover:bg-[#5D0080] px-4 py-2 rounded-b-lg">
+                {t('mainNavigationContent.growWithUs.localPromoter')}
+              </Link>
+            </div>
+          </div>
 
           <Link to="/ayuda" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">

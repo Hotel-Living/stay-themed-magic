@@ -1,223 +1,160 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useTranslation } from "@/hooks/useTranslation";
-import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
-import { EnhancedAvatarAssistant } from "../avatars/EnhancedAvatarAssistant";
-import { useAvatarManager } from "@/contexts/AvatarManager";
 
 export function WhyHotelLivingSectionES() {
-  const [activeAccordionTab, setActiveAccordionTab] = useState("");
-  const [activeTabAvatar, setActiveTabAvatar] = useState<string | null>(null);
-  const [showMessage, setShowMessage] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const isMobile = useIsMobile();
-  const { t } = useTranslation('faq');
-  const { activeAvatars } = useAvatarManager();
 
-  // Avatar mapping according to specifications
-  const avatarMapping: Record<string, { id: string; gif: string }[]> = {
-    "still-renting": [
-      {
-        id: "ion",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/6_Y_yo_soy_Ion_vivia_de_alquiler.gif.gif"
-      }
-    ],
-    "retired": [
-      {
-        id: "antonio",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/1_Soy_Antonio_Jubilado.gif.gif"
-      },
-      {
-        id: "luisa",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/2_Y_yo_soy_Luisa_jubilada.gif.gif"
-      }
-    ],
-    "airbnb": [
-      {
-        id: "juan",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/5_Y_yo_soy_Juan_ya_no_alquilo_apartamentos_turisticos.gif.gif"
-      }
-    ],
-    "online-worker": [
-      {
-        id: "john",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/3_Y_yo_soy_John_trabajo_online.gif.gif"
-      }
-    ],
-    "commuter": [
-      {
-        id: "maria",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/7_Y_yo_soy_Maria_vivia_afuera_de_la_ciudad.gif.gif"
-      }
-    ],
-    "free-soul": [
-      {
-        id: "auxi",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/4_Y_yo_soy_Auxi_amo_viajar.gif.gif"
-      }
-    ],
-    "hotel": [
-      {
-        id: "martin",
-        gif: "https://pgdzrvdwgoomjnnegkcn.supabase.co/storage/v1/object/public/avatar-gifs/8_Y_yo_soy_Martin_tengo_un_hotel.gif.gif"
-      }
-    ]
-    // "society" has no avatar as per specification
-  };
-
-  const accordionOptions = [
-    { id: "still-renting", label: "¿AÚN\nALQUILAS?" },
-    { id: "retired", label: "¿JUBILADO?" },
-    { id: "airbnb", label: "¿AIRBNB?" },
-    { id: "online-worker", label: "¿TRABAJADOR\nONLINE?" },
-    { id: "commuter", label: "¿VIAJERO\nDIARIO?" },
-    { id: "free-soul", label: "¿ALMA\nLIBRE?" },
-    { id: "hotel", label: "¿HOTEL?" },
-    { id: "society", label: "¿SOCIEDAD?" }
-  ];
-
-  const getDisplayAvatars = (value: string) => {
-    const avatars = avatarMapping[value];
-    if (!avatars || avatars.length === 0) return [];
-    
-    // For retired category, show only one random avatar per session
-    if (value === "retired" && avatars.length > 1) {
-      // Use a stable random selection based on session
-      const sessionKey = `retired-avatar-${Date.now().toString().slice(-6)}`;
-      let selectedIndex = parseInt(sessionStorage.getItem(sessionKey) || '0');
-      if (isNaN(selectedIndex) || selectedIndex >= avatars.length) {
-        selectedIndex = Math.floor(Math.random() * avatars.length);
-        sessionStorage.setItem(sessionKey, selectedIndex.toString());
-      }
-      return [avatars[selectedIndex]];
-    }
-    
-    return avatars;
-  };
-
-  const handleAccordionTabChange = (value: string) => {
-    if (value === activeAccordionTab) {
-      setActiveAccordionTab("");
-      setActiveTabAvatar(null);
-    } else {
-      setActiveAccordionTab(value);
-      // Check if this tab has avatars
-      const displayAvatars = getDisplayAvatars(value);
-      if (displayAvatars.length > 0) {
-        setActiveTabAvatar(value);
-        setShowMessage(true);
-        // Hide message after 7 seconds but keep avatar visible
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 7000);
-      } else {
-        setActiveTabAvatar(null);
-      }
-    }
-  };
-
-  const handleAvatarClose = () => {
-    setActiveTabAvatar(null);
-    setShowMessage(false);
-  };
-
-  const getAvatarMessage = (avatarId: string) => {
-    const messages: Record<string, string> = {
-      "antonio": "¡Hola, soy Antonio!\nJubilado\n¿Te puedo ayudar?",
-      "luisa": "¡Hola, soy Luisa!\nJubilada\n¿Te puedo ayudar?",
-      "john": "¡Hola, soy John!\nTrabajo online\n¿Te puedo ayudar?",
-      "auxi": "¡Hola!\n¡Soy Teresa!\n¿Te puedo ayudar?",
-      "juan": "¡Hola, soy Juan!\n¡Adiós apartamentos turísticos!\n¿Te puedo ayudar?",
-      "ion": "¡Hola, soy Ion!\nYa no vivo de alquiler\n¿Te puedo ayudar?",
-      "maria": "¡Hola, soy María!\n¡Ya no vivo afuera de la ciudad!\n¿Te puedo ayudar?",
-      "martin": "¡Hola, soy Martín!\nHotelero\n¿Te puedo ayudar?"
-    };
-    return messages[avatarId] || "¡Hola!\n¿Te puedo ayudar?";
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
-    <>
-      {/* First title - WHY HOTEL-LIVING? */}
-      <div className="text-center mb-8">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h1 className={`
-              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-4 text-[#eedbf7] glow 
-              tracking-tight leading-tight
-              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
-            `}>
-              ¿POR QUÉ HOTEL-LIVING?
-            </h1>
-          </div>
-        </div>
-      </div>
+    <div className="w-full max-w-4xl mx-auto px-4 py-8">
+      {/* Accordion Section - moved up to replace removed elements */}
+      <div className="mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-8">
+          {/* Button 1 */}
+          <Accordion type="single" collapsible className="border-0">
+            <AccordionItem value="item-1" className="border-0">
+              <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                <span className="text-center w-full">¿AÚN ALQUILAS?</span>
+              </AccordionTrigger>
+              <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                <p className="mb-2 text-yellow-300 font-semibold">¡Perfecto! Te ayudamos a dejar de alquilar.</p>
+                <p>Vivir en hoteles puede ser más económico que alquilar un apartamento. Calcula tus gastos mensuales actuales y compáralos con nuestras opciones hoteleras. Muchos de nuestros usuarios han reducido sus gastos de vivienda hasta un 40%.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
-      {/* Header above purple tabs */}
-      <div className="text-center mb-6">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h2 className="relative text-2xl font-bold text-[#eedbf7] mb-2 bg-[#8017B0] py-2 px-4 rounded-lg">
-              {t('identifyHeader').split('\n').map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
-            </h2>
-          </div>
-        </div>
-      </div>
+          {/* Button 2 */}
+          <Accordion type="single" collapsible className="border-0">
+            <AccordionItem value="item-2" className="border-0">
+              <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                <span className="text-center w-full">¿JUBILADO?</span>
+              </AccordionTrigger>
+              <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                <p className="mb-2 text-yellow-300 font-semibold">¡Disfruta tu jubilación viajando!</p>
+                <p>La jubilación es el momento perfecto para explorar el mundo. Con nuestros hoteles, puedes vivir cómodamente mientras descubres nuevos lugares, sin preocuparte por el mantenimiento de una propiedad.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
-      {/* First Horizontal Accordion Menu */}
-      <div className={`mb-24 transition-all duration-300 ${activeTabAvatar ? 'mt-20' : ''}`}>
-        <div className="w-full">
-          <div className="flex justify-center mb-4">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
-                {accordionOptions.map((option) => {
-                  const displayAvatars = getDisplayAvatars(option.id);
-                  const showAvatars = activeTabAvatar === option.id && displayAvatars.length > 0;
-                  
-                  return (
-                    <div key={option.id} className="relative">
-                      <button 
-                        onClick={() => handleAccordionTabChange(option.id)}
-                        className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
-                      >
-                        <span className="mb-1 leading-tight">{option.label}</span>
-                        <span className="text-xs">▼</span>
-                      </button>
-                      
-                      {/* Show enhanced avatar above the tab when active */}
-                      {showAvatars && displayAvatars.map((avatar) => (
-                        <div key={avatar.id} className="absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 z-50">
-                          <EnhancedAvatarAssistant
-                            avatarId={avatar.id}
-                            gif={avatar.gif}
-                            position="content"
-                            showMessage={showMessage}
-                            message={getAvatarMessage(avatar.id)}
-                            onClose={handleAvatarClose}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          {/* Button 3 */}
+          <Accordion type="single" collapsible className="border-0">
+            <AccordionItem value="item-3" className="border-0">
+              <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                <span className="text-center w-full">¿TELETRABAJO?</span>
+              </AccordionTrigger>
+              <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                <p className="mb-2 text-yellow-300 font-semibold">¡Trabaja desde cualquier lugar!</p>
+                <p>Con el teletrabajo, puedes vivir donde quieras. Nuestros hoteles ofrecen WiFi de alta velocidad, espacios de trabajo cómodos y la flexibilidad de cambiar de ubicación cuando lo desees.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          {/* Button 4 */}
+          <Accordion type="single" collapsible className="border-0">
+            <AccordionItem value="item-4" className="border-0">
+              <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                <span className="text-center w-full">¿ALMA LIBRE?</span>
+              </AccordionTrigger>
+              <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                <p className="mb-2 text-yellow-300 font-semibold">¡Vive sin ataduras!</p>
+                <p>Si buscas libertad total, vivir en hoteles te permite cambiar de ciudad o país sin compromisos a largo plazo. Perfecto para quienes valoran la flexibilidad y la aventura.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* Expandable content */}
+        <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+          <div className="text-center mb-4">
+            <CollapsibleTrigger 
+              onClick={toggleExpanded}
+              className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2"
+            >
+              {isExpanded ? 'Ver menos opciones' : 'Ver más opciones'}
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+            </CollapsibleTrigger>
           </div>
           
-          {activeAccordionTab && (
-            <div className="mt-4">
-              <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
-                <AccordionContentRenderer optionId={activeAccordionTab} />
-              </div>
+          <CollapsibleContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+              {/* Additional buttons */}
+              <Accordion type="single" collapsible className="border-0">
+                <AccordionItem value="item-5" className="border-0">
+                  <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                    <span className="text-center w-full">¿NÓMADA DIGITAL?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                    <p className="mb-2 text-yellow-300 font-semibold">¡El estilo de vida perfecto para ti!</p>
+                    <p>Como nómada digital, necesitas flexibilidad y comodidad. Nuestros hoteles te ofrecen una base estable en cada destino, con todas las comodidades que necesitas para trabajar y vivir.</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <Accordion type="single" collapsible className="border-0">
+                <AccordionItem value="item-6" className="border-0">
+                  <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                    <span className="text-center w-full">¿EMPRESARIO?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                    <p className="mb-2 text-yellow-300 font-semibold">¡Optimiza tu tiempo y recursos!</p>
+                    <p>Como empresario, tu tiempo es valioso. Vivir en hoteles elimina las preocupaciones del mantenimiento doméstico y te permite enfocarte en hacer crecer tu negocio.</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <Accordion type="single" collapsible className="border-0">
+                <AccordionItem value="item-7" className="border-0">
+                  <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                    <span className="text-center w-full">¿ESTUDIANTE?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                    <p className="mb-2 text-yellow-300 font-semibold">¡Estudia con comodidad!</p>
+                    <p>Para estudiantes universitarios o de posgrado, vivir en hoteles cerca del campus ofrece comodidad, servicios incluidos y la flexibilidad de cambiar según tus necesidades académicas.</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <Accordion type="single" collapsible className="border-0">
+                <AccordionItem value="item-8" className="border-0">
+                  <AccordionTrigger className="bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-lg transition-all duration-300 border-0 hover:no-underline group">
+                    <span className="text-center w-full">¿SEPARADO/A?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-xs md:text-sm border border-white/20">
+                    <p className="mb-2 text-yellow-300 font-semibold">¡Un nuevo comienzo!</p>
+                    <p>Después de una separación, vivir en hoteles te da tiempo para reorganizar tu vida sin comprometerte con contratos de alquiler largos. Es una solución temporal perfecta mientras planificas tu futuro.</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
-          )}
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
-    </>
+
+      {/* Link section */}
+      <div className="text-center">
+        <p className="text-[#e3d6e9] text-sm mb-4">
+          Si quieres profundizar más sobre el tema, puedes leer:
+        </p>
+        <a 
+          href="/crisis-hotelera" 
+          className="inline-block bg-gradient-to-r from-[#7A0486] to-[#B626D6] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 hover:scale-105"
+        >
+          Retrato de la Crisis Hotelera
+        </a>
+      </div>
+    </div>
   );
 }

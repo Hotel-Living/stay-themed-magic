@@ -24,47 +24,7 @@ export function Footer() {
           {isMobile && <div className="mb-8"></div>}
           
           {/* First Line - Header links */}
-          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-4 mx-auto text-center w-full`}>
-            {isMobile ?
-          // Mobile: one link per row, centered
-          <>
-                <div className="flex justify-center w-full mb-3">
-                  <Link to="/faq" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.faq')}
-                  </Link>
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full">
-                  
-                </div>
-              </> :
-          // Desktop: keep existing layout
-          <>
-                <Link to="/faq" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.faq')}
-                </Link>
-                <Link to="/affinity-stays" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.affinityStays')}
-                </Link>
-                <Link to="/hotels" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.hotel')}
-                </Link>
-                <Link to="/videos" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.videos')}
-                </Link>
-                <Link to="/featured-hotels" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.featuredHotels')}
-                </Link>
-              </>}
-          </div>
+          
           
           {/* Separator between first and second line */}
           <div className="w-full px-4 mb-2">
@@ -72,80 +32,10 @@ export function Footer() {
           </div>
           
           {/* Second Line */}
-          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
-            {isMobile ?
-          // Mobile: one link per row, centered
-          <>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full">
-                  
-                </div>
-              </> :
-          // Desktop: keep existing layout
-          <>
-                <Link to="/hotels" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.hotel')}
-                </Link>
-                <Link to="/our-services" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.ourServices')}
-                </Link>
-                <Link to="/our-values" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.ourValues')}
-                </Link>
-                <Link to="/customer-service" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.customerService')}
-                </Link>
-              </>}
-          </div>
+          
           
           {/* Third Line */}
-          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-6 mx-auto text-center w-full`}>
-            {isMobile ?
-          // Mobile: one link per row, centered
-          <>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full mb-3">
-                  
-                </div>
-                <div className="flex justify-center w-full">
-                  
-                </div>
-              </> :
-          // Desktop: keep existing layout
-          <>
-                <Link to="/contact" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.contact')}
-                </Link>
-                <Link to="/terms" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.terms')}
-                </Link>
-                <Link to="/privacy" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.privacy')}
-                </Link>
-                <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.intellectualProperty')}
-                </Link>
-                <Link to="/our-team" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.ourTeam')}
-                </Link>
-              </>}
-          </div>
+          
           
           {/* Buttons - reduced size by 30% on mobile */}
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-2" : "mb-4"}`}>

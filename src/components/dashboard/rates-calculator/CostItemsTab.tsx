@@ -132,7 +132,7 @@ ${t('ratesCalculator.cleaningOperationalDescription')}`;
             {/* 4-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/de1ac570-1974-4c95-b5b4-c4e058faf1f2.png" />
+              <img alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" src={language === 'es' ? "/lovable-uploads/0d16d56a-7ee4-418b-a540-dcb2c2e5d9de.png" : "/lovable-uploads/de1ac570-1974-4c95-b5b4-c4e058faf1f2.png"} />
             </div>
             
             {/* 5-STAR Hotel Table */}

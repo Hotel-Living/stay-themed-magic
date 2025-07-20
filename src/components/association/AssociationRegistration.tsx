@@ -68,7 +68,14 @@ export const AssociationRegistration = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex flex-col">
+    <div className="min-h-screen relative flex flex-col overflow-hidden" style={{ background: 'linear-gradient(135deg, #7801AA 0%, #4c1d95 50%, #7801AA 100%)' }}>
+      {/* Enhanced Glow Effects */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-cyan-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-10 right-10 w-64 h-64 bg-pink-400/25 rounded-full blur-2xl animate-pulse delay-500"></div>
+      <div className="absolute bottom-10 left-10 w-64 h-64 bg-blue-400/25 rounded-full blur-2xl animate-pulse delay-700"></div>
+      
       <Starfield />
       
       <div className="flex-1 flex items-center justify-center px-4 py-8 relative z-10">

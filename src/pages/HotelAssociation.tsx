@@ -50,8 +50,11 @@ export default function HotelAssociation() {
     i18n.changeLanguage(lang);
   };
   return <div className="relative min-h-screen">
-      {/* Background with gradient and glow effect */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-purple-900 via-purple-800 to-fuchsia-900">
+      {/* Starfield Background */}
+      <div className="fixed inset-0 z-0">
+        <Starfield />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-purple-800/40 to-fuchsia-900/40"></div>
         {/* Ambient glow effects */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-[120px] animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-400/20 rounded-full blur-[100px] animate-pulse delay-1000"></div>
@@ -65,8 +68,8 @@ export default function HotelAssociation() {
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-8 py-16">
+          <div className="max-w-4xl mx-auto">
             
             {/* Hero Section */}
             <div className="text-center mb-20">
@@ -80,7 +83,7 @@ export default function HotelAssociation() {
                 />
               </div>
               
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl shadow-cyan-400/20">
                 <div className="space-y-2 mb-8">
                   <p className="text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-relaxed">
                     UNA GRAN FUENTE DE INGRESOS PARA SU ASOCIACIÓN

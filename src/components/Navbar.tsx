@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -15,22 +15,18 @@ import { User, LogOut, Settings, Calendar } from 'lucide-react';
 
 export const Navbar = () => {
   const { t } = useTranslation();
-  const { user, logout, userRole, isHotelOwner } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
-    await logout();
+    await signOut();
     navigate('/');
   };
 
   const handleAuthAction = (action: 'login' | 'signup') => {
     navigate(`/${action}`);
   };
-
-  console.log('Navbar - Current user:', user);
-  console.log('Navbar - User role:', userRole);
-  console.log('Navbar - Is hotel owner:', isHotelOwner);
 
   return (
     <nav className="bg-gradient-to-r from-[#7801AA] to-[#5D0080] text-white relative z-50">
@@ -141,7 +137,7 @@ export const Navbar = () => {
 
           {/* Right side buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <LanguageSelector />
+            <LanguageSwitcher />
             
             {user ? (
               <DropdownMenu>
@@ -170,13 +166,6 @@ export const Navbar = () => {
                       {t('navigation.bookings')}
                     </Link>
                   </DropdownMenuItem>
-                  {(userRole === 'admin' || isHotelOwner) && (
-                    <DropdownMenuItem asChild>
-                      <Link to="/dashboard" className="text-gray-700 hover:bg-gray-100">
-                        {t('navigation.dashboard')}
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
                   <DropdownMenuItem onClick={handleLogout} className="text-gray-700 hover:bg-gray-100 flex items-center">
                     <LogOut className="h-4 w-4 mr-2" />
                     {t('navigation.logout')}

@@ -104,7 +104,7 @@ export function Navbar() {
 
         {/* PREGUNTAS FRECUENTES */}
         <NavigationMenuItem>
-          <Link to="/faq" className="nav-item">
+          <Link to="/ayuda" className="nav-item">
             <div className="nav-text">
               <div className="nav-line">{t('mainNavigationContent.frequentlyAskedQuestions.line1')}</div>
               <div className="nav-line">{t('mainNavigationContent.frequentlyAskedQuestions.line2')}</div>
@@ -165,7 +165,7 @@ export function Navbar() {
           </Link>
         </div>
         
-        <Link to="/faq" className="mobile-nav-item" onClick={closeMenu}>
+        <Link to="/ayuda" className="mobile-nav-item" onClick={closeMenu}>
           {t('mainNavigationContent.frequentlyAskedQuestions.mobile')}
         </Link>
         

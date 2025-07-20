@@ -95,7 +95,7 @@ ${t('ratesCalculator.cleaningOperationalDescription')}`;
         {activeOption === "utilities" && <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img src="/lovable-uploads/95eb9a75-ed1c-44ff-8341-31b426419eba.png" alt="Utilities Cost Breakdown Table" className="rounded-lg shadow-lg border border-purple-400/20" />
             </div>
           </div>}
         

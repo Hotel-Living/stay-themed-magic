@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Globe, Menu, X } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { Logo } from "./Logo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { 
   NavigationMenu,
@@ -176,13 +177,13 @@ export function Navbar() {
   );
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 navbar-gradient">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gold-500 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2" onClick={closeMenu}>
-            <span className="text-xl font-bold text-white">Hotel-Living</span>
-          </Link>
+          <div onClick={closeMenu}>
+            <Logo />
+          </div>
 
           {/* Desktop Navigation */}
           <DesktopNavigation />
@@ -197,7 +198,7 @@ export function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={toggleMenu}
-              className="md:hidden text-white hover:text-yellow-200 transition-colors p-2"
+              className="md:hidden text-white hover:text-white/80 transition-colors p-2"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -210,11 +211,6 @@ export function Navbar() {
       </div>
 
       <style>{`
-        .navbar-gradient {
-          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
-          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-
         .nav-item {
           display: flex;
           align-items: center;
@@ -228,7 +224,7 @@ export function Navbar() {
 
         .nav-item:hover {
           background-color: rgba(255, 255, 255, 0.1);
-          color: #fef3c7;
+          color: white;
         }
 
         .nav-text {
@@ -243,20 +239,20 @@ export function Navbar() {
         }
 
         .dropdown-content {
-          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
-          min-width: 200px;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          background: #D4AF37;
+          border-radius: 0.375rem;
+          padding: 0.25rem;
+          min-width: 150px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
           z-index: 1000;
         }
 
         .dropdown-item {
           display: block;
-          padding: 0.75rem 1rem;
+          padding: 0.5rem 0.75rem;
           color: white;
           text-decoration: none;
-          border-radius: 0.375rem;
+          border-radius: 0.25rem;
           transition: all 0.3s ease;
           font-weight: 600;
           font-size: 0.875rem;
@@ -264,11 +260,11 @@ export function Navbar() {
 
         .dropdown-item:hover {
           background-color: rgba(255, 255, 255, 0.15);
-          color: #fef3c7;
+          color: white;
         }
 
         .mobile-menu {
-          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
+          background: #D4AF37;
           padding: 1rem 0;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -286,7 +282,7 @@ export function Navbar() {
 
         .mobile-nav-item:hover {
           background-color: rgba(255, 255, 255, 0.1);
-          color: #fef3c7;
+          color: white;
         }
 
         .mobile-nav-section {
@@ -313,7 +309,7 @@ export function Navbar() {
 
         .mobile-nav-subitem:hover {
           background-color: rgba(255, 255, 255, 0.1);
-          color: #fef3c7;
+          color: white;
         }
       `}</style>
     </nav>

@@ -1,9 +1,15 @@
+
 {
   "heading": "TORNE-SE UM AGENTE HOTEL LIVING",
   "paragraph_1": "Este é um trabalho de uma só vez. Você pode contatar e registrar quantos hotéis quiser no seu painel. Para cada um deles que se juntar ao Hotel Living nos próximos 30 dias, você começará a receber comissões automáticas por 30 meses.\nVocê decide o ritmo. O limite é você.\n(Durante a visita ou conversa, se o hotel já estiver convencido, você pode ajudá-lo a se cadastrar na hora. Uma única conversa pode gerar 30 meses de renda automática.)",
   "commissions": "Comissões automáticas: 0,5% pelos primeiros 18 meses e 0,25% pelos 12 meses seguintes.",
+  "commissions_title": "💰 Comissões",
   "panel_description": "No seu painel, você poderá monitorar todos os hotéis contatados, ver seu status e acompanhar suas comissões.",
+  "panel_title": "📊 Painel de Controle",
   "bank_data": "É obrigatório inserir seu número da conta bancária no perfil para receber os pagamentos mensais.",
+  "payment_requirements_title": "🏦 Requisitos de Pagamento",
+  "join_now_title": "🚀 Junte-se Agora!",
+  "join_now_description": "Comece sua jornada como agente do Hotel Living e gere renda passiva por 30 meses para cada hotel que registrar.",
   "join_button": "Junte-se como agente",
   "registration": {
     "title": "Torne-se um Agente Hotel Living",

@@ -1,9 +1,15 @@
+
 {
   "heading": "DEVINO AGENT HOTEL LIVING",
   "paragraph_1": "Este o acțiune unică. Poți contacta și înregistra câte hoteluri dorești în panoul tău. Pentru fiecare dintre ele care se alătură Hotel Living în următoarele 30 de zile, vei începe să primești comisioane automate timp de 30 de luni.\nTu îți stabilești ritmul. Limita ești tu.\n(În timpul vizitei sau conversației, dacă hotelul este convins, îl poți ajuta să se înregistreze pe loc. O singură discuție poate deveni 30 de luni de venit pasiv.)",
   "commissions": "Comisioane automate: 0,5% pentru primele 18 luni și 0,25% pentru următoarele 12 luni.",
+  "commissions_title": "💰 Comisioane",
   "panel_description": "În panoul tău vei putea monitoriza toate hotelurile contactate, starea lor și comisioanele tale.",
+  "panel_title": "📊 Panou de Control",
   "bank_data": "Este obligatoriu să adaugi contul tău bancar în profil pentru a primi plățile lunare.",
+  "payment_requirements_title": "🏦 Cerințe de Plată",
+  "join_now_title": "🚀 Alătură-te Acum!",
+  "join_now_description": "Începe călătoria ta ca agent Hotel Living și generează venit pasiv timp de 30 de luni pentru fiecare hotel pe care îl înregistrezi.",
   "join_button": "Alătură-te ca agent",
   "registration": {
     "title": "Devino Agent Hotel Living",

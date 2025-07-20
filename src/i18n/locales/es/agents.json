@@ -1,9 +1,15 @@
+
 {
   "heading": "ÚNETE COMO AGENTE DE HOTEL LIVING",
   "paragraph_1": "Este es un trabajo de una sola vez. Puedes contactar y registrar todos los hoteles que quieras en tu panel. Por cada uno de ellos que se una a Hotel Living en los siguientes 30 días, comenzarás a recibir comisiones automáticas durante 30 meses.\nTú marcas el ritmo. Tu límite eres tú.\n(Durante la conversación o visita, si el hotel ya está convencido, puedes incluso ayudarle a registrarse en ese momento. Una sola charla puede convertirse en 30 meses de ingresos automáticos.)",
   "commissions": "Comisiones automáticas: 0,5% durante los primeros 18 meses y 0,25% durante los siguientes 12 meses.",
+  "commissions_title": "💰 Comisiones",
   "panel_description": "En tu panel podrás supervisar todos los hoteles contactados, ver el estado de cada uno y controlar tus comisiones.",
+  "panel_title": "📊 Panel de Control",
   "bank_data": "Es obligatorio añadir tu número de cuenta bancaria en el perfil para recibir los pagos mensuales.",
+  "payment_requirements_title": "🏦 Requisitos de Pago",
+  "join_now_title": "🚀 ¡Únete Ahora!",
+  "join_now_description": "Comienza tu camino como agente de Hotel Living y genera ingresos pasivos durante 30 meses por cada hotel que registres.",
   "join_button": "Únete como agente",
   "registration": {
     "title": "Únete como Agente de Hotel Living",

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -43,7 +44,7 @@ const Agents = () => {
 
                 {/* Commission Information */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4">💰 Comisiones</h2>
+                  <h2 className="text-2xl font-bold mb-4">{t('commissions_title')}</h2>
                   <p className="text-lg leading-relaxed mb-4">{t('commissions')}</p>
                 </div>
 
@@ -51,7 +52,7 @@ const Agents = () => {
 
                 {/* Panel Description */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4">📊 Panel de Control</h2>
+                  <h2 className="text-2xl font-bold mb-4">{t('panel_title')}</h2>
                   <p className="text-lg leading-relaxed">{t('panel_description')}</p>
                 </div>
 
@@ -59,7 +60,7 @@ const Agents = () => {
 
                 {/* Bank Requirements */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4">🏦 Requisitos de Pago</h2>
+                  <h2 className="text-2xl font-bold mb-4">{t('payment_requirements_title')}</h2>
                   <p className="text-lg leading-relaxed">{t('bank_data')}</p>
                 </div>
 
@@ -67,8 +68,8 @@ const Agents = () => {
 
                 {/* Call to Action */}
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold mb-4">🚀 ¡Únete Ahora!</h2>
-                  <p className="text-lg leading-relaxed mb-6">Comienza tu camino como agente de Hotel Living y genera ingresos pasivos durante 30 meses por cada hotel que registres.</p>
+                  <h2 className="text-2xl font-bold mb-4">{t('join_now_title')}</h2>
+                  <p className="text-lg leading-relaxed mb-6">{t('join_now_description')}</p>
                   <Link 
                     to="/agentes/registro" 
                     className="inline-block bg-[#70009E] hover:bg-[#70009E]/80 text-white px-12 py-4 rounded-xl transition-all duration-300 font-bold text-xl shadow-lg hover:shadow-xl"

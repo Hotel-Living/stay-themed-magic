@@ -13,14 +13,20 @@
     "admin": "Administrador",
     "language": "Idioma",
     "help": "Ajuda",
-    "faq": "Vantagens",
+    "faq": "Perguntas Frequentes",
     "contact": "Contato",
     "videos": "Vídeos",
     "featuredHotels": "Hotéis em destaque",
     "affinityStays": "Estadias por afinidades",
     "register": "Registrar",
     "aboutUs": "Sobre nós",
-    "press": "Imprensa"
+    "press": "Imprensa",
+    "worldOfAdvantages": "Um Mundo de Vantagens",
+    "affinityHotelLiving": "Afinidades Hotel-Living?",
+    "growWithUs": "Cresça Conosco!",
+    "videosAndPress": "Vídeos e Imprensa",
+    "ambassador": "Embaixador",
+    "localPromoter": "Promotor local"
   },
   "mainNavigationContent": {
     "faq": {
@@ -72,6 +78,31 @@
       "line1": "TORNE-SE UM",
       "line2": "AGENTE",
       "mobile": "TORNE-SE UM AGENTE"
+    },
+    "worldOfAdvantages": {
+      "line1": "UM MUNDO DE",
+      "line2": "VANTAGENS",
+      "mobile": "UM MUNDO DE VANTAGENS"
+    },
+    "affinityHotelLiving": {
+      "line1": "AFINIDADES",
+      "line2": "HOTEL-LIVING?",
+      "mobile": "AFINIDADES HOTEL-LIVING?"
+    },
+    "growWithUs": {
+      "line1": "CRESÇA",
+      "line2": "CONOSCO!",
+      "mobile": "CRESÇA CONOSCO!"
+    },
+    "videosAndPress": {
+      "line1": "VÍDEOS E",
+      "line2": "IMPRENSA",
+      "mobile": "VÍDEOS E IMPRENSA"
+    },
+    "frequentlyAskedQuestions": {
+      "line1": "PERGUNTAS",
+      "line2": "FREQUENTES",
+      "mobile": "PERGUNTAS FREQUENTES"
     }
   }
 }

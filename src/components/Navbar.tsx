@@ -1,192 +1,321 @@
-
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/AuthContext";
-import { Logo } from "./Logo";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Globe, Menu, X } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { DashboardSelector } from "./navigation/DashboardSelector";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { User, LogOut } from "lucide-react";
+import { LanguageSelector } from "./LanguageSelector";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { 
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, session, profile, signOut } = useAuth();
   const { t } = useTranslation('navigation');
-  const isLoggedIn = !!user && !!session;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isMobile = useIsMobile();
 
-  const getDisplayName = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name} ${profile.last_name}`;
-    }
-    if (profile?.first_name) {
-      return profile.first_name;
-    }
-    if (user?.email) {
-      return user.email.split('@')[0];
-    }
-    return 'User';
+  const isActive = (path: string) => location.pathname === path;
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
 
-  // Auth Dropdown Component
-  const AuthDropdown = () => (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
-          <User className="w-5 h-5" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-40 bg-white shadow-lg rounded-xl border border-gray-200 z-50" align="end">
-        <div className="flex flex-col gap-2 p-2">
-          <Link to="/login" className="w-full">
-            <Button variant="outline" className="w-full text-sm font-medium">
-              {t('mainNavigationContent.login.mobile')}
-            </Button>
+  // Desktop Navigation Items
+  const DesktopNavigation = () => (
+    <NavigationMenu className="hidden md:flex">
+      <NavigationMenuList className="flex space-x-1">
+        {/* UN MUNDO DE VENTAJAS */}
+        <NavigationMenuItem>
+          <Link to="/faq" className="nav-item">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.worldOfAdvantages.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.worldOfAdvantages.line2')}</div>
+            </div>
           </Link>
-          <Link to="/signup" className="w-full">
-            <Button variant="outline" className="w-full text-sm font-medium">
-              {t('mainNavigationContent.signup.mobile')}
-            </Button>
+        </NavigationMenuItem>
+
+        {/* ¿AFINIDADES HOTEL-LIVING? */}
+        <NavigationMenuItem>
+          <Link to="/affinity-stays" className="nav-item">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.affinityHotelLiving.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.affinityHotelLiving.line2')}</div>
+            </div>
+          </Link>
+        </NavigationMenuItem>
+
+        {/* ¡CRECE CON NOSOTROS! - Dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="nav-item group">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.growWithUs.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.growWithUs.line2')}</div>
+            </div>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="dropdown-content">
+              <NavigationMenuLink asChild>
+                <Link to="/ambassador" className="dropdown-item">
+                  {t('navigation.ambassador')}
+                </Link>
+              </NavigationMenuLink>
+              <NavigationMenuLink asChild>
+                <Link to="/agentes" className="dropdown-item">
+                  {t('navigation.localPromoter')}
+                </Link>
+              </NavigationMenuLink>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        {/* VIDEOS Y PRENSA - Dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="nav-item group">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.videosAndPress.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.videosAndPress.line2')}</div>
+            </div>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="dropdown-content">
+              <NavigationMenuLink asChild>
+                <Link to="/videos" className="dropdown-item">
+                  {t('navigation.videos')}
+                </Link>
+              </NavigationMenuLink>
+              <NavigationMenuLink asChild>
+                <Link to="/press" className="dropdown-item">
+                  {t('navigation.press')}
+                </Link>
+              </NavigationMenuLink>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        {/* PREGUNTAS FRECUENTES */}
+        <NavigationMenuItem>
+          <Link to="/faq" className="nav-item">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.frequentlyAskedQuestions.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.frequentlyAskedQuestions.line2')}</div>
+            </div>
+          </Link>
+        </NavigationMenuItem>
+
+        {/* ¿HOTEL? - Unchanged */}
+        <NavigationMenuItem>
+          <Link to="/auth" className="nav-item">
+            <div className="nav-text">
+              <div className="nav-line">{t('mainNavigationContent.hotel.line1')}</div>
+              <div className="nav-line">{t('mainNavigationContent.hotel.line2')}</div>
+            </div>
+          </Link>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+
+  // Mobile Navigation Items
+  const MobileNavigation = () => (
+    <div className={`md:hidden transition-all duration-300 ease-in-out ${
+      isMenuOpen 
+        ? 'max-h-screen opacity-100 visible' 
+        : 'max-h-0 opacity-0 invisible overflow-hidden'
+    }`}>
+      <div className="mobile-menu">
+        <Link to="/faq" className="mobile-nav-item" onClick={closeMenu}>
+          {t('mainNavigationContent.worldOfAdvantages.mobile')}
+        </Link>
+        
+        <Link to="/affinity-stays" className="mobile-nav-item" onClick={closeMenu}>
+          {t('mainNavigationContent.affinityHotelLiving.mobile')}
+        </Link>
+        
+        <div className="mobile-nav-section">
+          <div className="mobile-nav-header">
+            {t('mainNavigationContent.growWithUs.mobile')}
+          </div>
+          <Link to="/ambassador" className="mobile-nav-subitem" onClick={closeMenu}>
+            {t('navigation.ambassador')}
+          </Link>
+          <Link to="/agentes" className="mobile-nav-subitem" onClick={closeMenu}>
+            {t('navigation.localPromoter')}
           </Link>
         </div>
-      </PopoverContent>
-    </Popover>
+        
+        <div className="mobile-nav-section">
+          <div className="mobile-nav-header">
+            {t('mainNavigationContent.videosAndPress.mobile')}
+          </div>
+          <Link to="/videos" className="mobile-nav-subitem" onClick={closeMenu}>
+            {t('navigation.videos')}
+          </Link>
+          <Link to="/press" className="mobile-nav-subitem" onClick={closeMenu}>
+            {t('navigation.press')}
+          </Link>
+        </div>
+        
+        <Link to="/faq" className="mobile-nav-item" onClick={closeMenu}>
+          {t('mainNavigationContent.frequentlyAskedQuestions.mobile')}
+        </Link>
+        
+        <Link to="/auth" className="mobile-nav-item" onClick={closeMenu}>
+          {t('mainNavigationContent.hotel.mobile')}
+        </Link>
+      </div>
+    </div>
   );
 
   return (
-    <header className="shadow-md" style={{ backgroundColor: "#996515" }}>
-      <div className="flex items-center justify-between">
-        <div className="flex-shrink-0 px-2 sm:px-3 py-2">
-          <Logo />
+    <nav className="fixed top-0 left-0 right-0 z-50 navbar-gradient">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2" onClick={closeMenu}>
+            <span className="text-xl font-bold text-white">Hotel-Living</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <DesktopNavigation />
+
+          {/* Right side - Language selector and mobile menu */}
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Globe className="w-4 h-4 text-white" />
+              <LanguageSelector />
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={toggleMenu}
+              className="md:hidden text-white hover:text-yellow-200 transition-colors p-2"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
-        <div className="hidden md:flex items-center space-x-6">
-          <Link to="/faq" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.faq.line1')}</div>
-              <div>{t('mainNavigationContent.faq.line2')}</div>
-            </div>
-          </Link>
-          <Link to="/affinity-stays" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.affinityStays.line1')}</div>
-              <div>{t('mainNavigationContent.affinityStays.line2')}</div>
-            </div>
-          </Link>
-          <Link to="/videos" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.videos.line1')}</div>
-              <div>{t('mainNavigationContent.videos.line2')}</div>
-            </div>
-          </Link>
-          <Link to="/ambassador" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.ambassador.line1')}</div>
-              <div>{t('mainNavigationContent.ambassador.line2')}</div>
-            </div>
-          </Link>
-          
-          {!user ? (
-            <AuthDropdown />
-          ) : (
-            <div className="flex items-center space-x-4">
-              <DashboardSelector />
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center space-x-2 text-[#FFF9B0] hover:text-white transition-colors">
-                  <User className="w-4 h-4" />
-                  <span className="text-sm">{getDisplayName()}</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-purple-900 border-purple-700">
-                  <DropdownMenuItem asChild>
-                    <Link to="/user-dashboard" className="text-white hover:bg-purple-800">
-                      <User className="w-4 h-4 mr-2" />
-                      {t('navigation.profile')}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="text-white hover:bg-purple-800">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t('mainNavigationContent.logout')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-          
-          <Link to="/hotels" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.hotel.line1')}</div>
-              <div>{t('mainNavigationContent.hotel.line2')}</div>
-            </div>
-          </Link>
-          
-          <Link to="/press" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.press.line1')}</div>
-              <div>{t('mainNavigationContent.press.line2')}</div>
-            </div>
-          </Link>
-          
-          <Link to="/agentes" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
-            <div className="text-center">
-              <div>{t('mainNavigationContent.agents.line1')}</div>
-              <div>{t('mainNavigationContent.agents.line2')}</div>
-            </div>
-          </Link>
-          
-          <LanguageSwitcher />
-        </div>
-
-        <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
-          <LanguageSwitcher />
-          <button className="flex items-center ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-            {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
-          </button>
-        </div>
+        {/* Mobile Navigation */}
+        <MobileNavigation />
       </div>
 
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ backgroundColor: "#996515" }}>
-        <nav className="flex flex-col space-y-4">
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.faq.mobile')}
-          </Link>
-          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.affinityStays.mobile')}
-          </Link>
-          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.videos.mobile')}
-          </Link>
-          <Link to="/ambassador" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.ambassador.mobile')}
-          </Link>
-           {!isLoggedIn && (
-            <div className="flex justify-center w-full mb-3">
-              <AuthDropdown />
-            </div>
-           )}
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.hotel.mobile')}
-          </Link>
-          <Link to="/press" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.press.mobile')}
-          </Link>
-          <Link to="/agentes" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.agents.mobile')}
-          </Link>
-        </nav>
-      </div>
-    </header>
+      <style jsx>{`
+        .navbar-gradient {
+          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
+          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+          display: flex;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          color: white;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          border-radius: 0.5rem;
+          min-height: 3rem;
+        }
+
+        .nav-item:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #fef3c7;
+        }
+
+        .nav-text {
+          text-align: center;
+          line-height: 1.2;
+        }
+
+        .nav-line {
+          font-size: 0.875rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+        }
+
+        .dropdown-content {
+          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
+          border-radius: 0.5rem;
+          padding: 0.5rem;
+          min-width: 200px;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          z-index: 1000;
+        }
+
+        .dropdown-item {
+          display: block;
+          padding: 0.75rem 1rem;
+          color: white;
+          text-decoration: none;
+          border-radius: 0.375rem;
+          transition: all 0.3s ease;
+          font-weight: 600;
+          font-size: 0.875rem;
+        }
+
+        .dropdown-item:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+          color: #fef3c7;
+        }
+
+        .mobile-menu {
+          background: linear-gradient(135deg, #D4AF37 0%, #B8941F 50%, #D4AF37 100%);
+          padding: 1rem 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav-item {
+          display: block;
+          padding: 0.75rem 1rem;
+          color: white;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.875rem;
+          transition: all 0.3s ease;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav-item:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #fef3c7;
+        }
+
+        .mobile-nav-section {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav-header {
+          padding: 0.75rem 1rem;
+          color: white;
+          font-weight: 700;
+          font-size: 0.875rem;
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-nav-subitem {
+          display: block;
+          padding: 0.5rem 2rem;
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+          font-size: 0.8125rem;
+          transition: all 0.3s ease;
+        }
+
+        .mobile-nav-subitem:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #fef3c7;
+        }
+      `}</style>
+    </nav>
   );
 }

@@ -13,14 +13,20 @@
     "admin": "Admin",
     "language": "Language",
     "help": "Help",
-    "faq": "Advantages",
+    "faq": "Frequently Asked Questions",
     "contact": "Contact",
     "videos": "Videos",
     "featuredHotels": "Featured Hotels",
     "affinityStays": "Affinity Stays",
     "register": "Register",
     "aboutUs": "About Us",
-    "press": "Press"
+    "press": "Press",
+    "worldOfAdvantages": "A World of Advantages",
+    "affinityHotelLiving": "Hotel-Living Affinities?",
+    "growWithUs": "Grow with Us!",
+    "videosAndPress": "Videos and Press",
+    "ambassador": "Ambassador",
+    "localPromoter": "Local Promoter"
   },
   "mainNavigationContent": {
     "faq": {
@@ -71,6 +77,31 @@
       "line1": "BECOME",
       "line2": "AN AGENT",
       "mobile": "BECOME AN AGENT"
+    },
+    "worldOfAdvantages": {
+      "line1": "A WORLD OF",
+      "line2": "ADVANTAGES",
+      "mobile": "A WORLD OF ADVANTAGES"
+    },
+    "affinityHotelLiving": {
+      "line1": "HOTEL-LIVING",
+      "line2": "AFFINITIES?",
+      "mobile": "HOTEL-LIVING AFFINITIES?"
+    },
+    "growWithUs": {
+      "line1": "GROW WITH",
+      "line2": "US!",
+      "mobile": "GROW WITH US!"
+    },
+    "videosAndPress": {
+      "line1": "VIDEOS AND",
+      "line2": "PRESS",
+      "mobile": "VIDEOS AND PRESS"
+    },
+    "frequentlyAskedQuestions": {
+      "line1": "FREQUENTLY ASKED",
+      "line2": "QUESTIONS",
+      "mobile": "FREQUENTLY ASKED QUESTIONS"
     }
   }
 }

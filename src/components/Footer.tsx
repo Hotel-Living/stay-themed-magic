@@ -29,7 +29,7 @@ export function Footer() {
               
               {/* Column 1: About Us */}
               <div className="space-y-2">
-                <div className="text-purple-800 font-bold text-sm mb-2">{t('footer.sections.aboutUs')}</div>
+                <div className="text-purple-800 font-bold text-xl mb-2">{t('footer.sections.aboutUs')}</div>
                 <div className="space-y-1">
                   <Link to="/our-team" className="block text-white hover:text-white/90 text-sm font-bold">
                     {t('footer.links.ourTeam')}
@@ -59,7 +59,7 @@ export function Footer() {
 
               {/* Column 4: Legal */}
               <div className="space-y-2">
-                <div className="text-purple-800 font-bold text-sm mb-2">{t('footer.sections.legal')}</div>
+                <div className="text-purple-800 font-bold text-xl mb-2">{t('footer.sections.legal')}</div>
                 <div className="space-y-1">
                   <Link to="/intellectual-property" className="block text-white hover:text-white/90 text-sm font-bold">
                     {t('footer.links.intellectualProperty')}

@@ -112,7 +112,7 @@ ${t('ratesCalculator.cleaningOperationalDescription')}`;
         {activeOption === "meal-plans" && <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img alt="Meal Plan Cost Table" className="rounded-lg shadow-lg border border-purple-400/20" src="/lovable-uploads/110303a2-ca68-4631-9654-8546151560be.png" />
+              <img alt="Meal Plan Cost Table" className="rounded-lg shadow-lg border border-purple-400/20" src={language === 'es' ? "/lovable-uploads/36d2d3f0-908e-453f-8e18-137ac8a0a0bc.png" : "/lovable-uploads/110303a2-ca68-4631-9654-8546151560be.png"} />
             </div>
           </div>}
         

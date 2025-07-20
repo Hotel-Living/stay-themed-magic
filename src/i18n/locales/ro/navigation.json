@@ -13,21 +13,14 @@
     "admin": "Administrator",
     "language": "Limbă",
     "help": "Ajutor",
-    "faq": "Întrebări Frecvente",
+    "faq": "Avantaje",
     "contact": "Contact",
     "videos": "Videoclipuri",
     "featuredHotels": "Hoteluri recomandate",
     "affinityStays": "Șederi prin afinități",
     "register": "Înregistrare",
     "aboutUs": "Despre noi",
-    "press": "Presă",
-    "worldOfAdvantages": "O Lume de Avantaje",
-    "affinityHotelLiving": "Afinități Hotel-Living?",
-    "growWithUs": "Crește cu Noi!",
-    "videosAndPress": "Videoclipuri și Presă",
-    "ambassador": "Ambasador",
-    "localPromoter": "Promotor local",
-    "frequentlyAskedQuestions": "Întrebări Frecvente"
+    "press": "Presă"
   },
   "mainNavigationContent": {
     "faq": {
@@ -79,31 +72,6 @@
       "line1": "DEVINO",
       "line2": "AGENT",
       "mobile": "DEVINO AGENT"
-    },
-    "worldOfAdvantages": {
-      "line1": "O LUME DE",
-      "line2": "AVANTAJE",
-      "mobile": "O LUME DE AVANTAJE"
-    },
-    "affinityHotelLiving": {
-      "line1": "AFINITĂȚI",
-      "line2": "HOTEL-LIVING?",
-      "mobile": "AFINITĂȚI HOTEL-LIVING?"
-    },
-    "growWithUs": {
-      "line1": "CREȘTE CU",
-      "line2": "NOI!",
-      "mobile": "CREȘTE CU NOI!"
-    },
-    "videosAndPress": {
-      "line1": "VIDEOCLIPURI ȘI",
-      "line2": "PRESĂ",
-      "mobile": "VIDEOCLIPURI ȘI PRESĂ"
-    },
-    "frequentlyAskedQuestions": {
-      "line1": "ÎNTREBĂRI",
-      "line2": "FRECVENTE",
-      "mobile": "ÎNTREBĂRI FRECVENTE"
     }
   }
 }

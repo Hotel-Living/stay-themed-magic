@@ -46,7 +46,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* Calculator Container */}
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)] overflow-hidden">
         
         {/* Title Section */}
         <div className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 px-8 py-6 border-b border-white/10">
@@ -141,7 +141,7 @@ export const AssociationProfitabilityCalculator: React.FC = () => {
             </div>
 
             {/* Disclaimer */}
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+            <div className="bg-gradient-to-br from-purple-600/40 via-purple-700/40 to-fuchsia-700/40 rounded-xl p-6 border border-cyan-400/20 shadow-lg shadow-cyan-400/20">
               <p className="text-sm text-white/60 leading-relaxed text-center italic">
                 Las cifras presentadas son estimaciones basadas en el potencial máximo de ocupación.
                 Los resultados reales pueden variar en función del número de paquetes efectivamente vendidos y del precio promedio mensual.

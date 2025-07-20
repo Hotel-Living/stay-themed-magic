@@ -1,0 +1,78 @@
+{
+  "heading": "ÚNETE COMO AGENTE DE HOTEL LIVING",
+  "paragraph_1": "Este es un trabajo de una sola vez. Puedes contactar y registrar todos los hoteles que quieras en tu panel. Por cada uno de ellos que se una a Hotel Living en los siguientes 30 días, comenzarás a recibir comisiones automáticas durante 30 meses.\nTú marcas el ritmo. Tu límite eres tú.\n(Durante la conversación o visita, si el hotel ya está convencido, puedes incluso ayudarle a registrarse en ese momento. Una sola charla puede convertirse en 30 meses de ingresos automáticos.)",
+  "commissions": "Comisiones automáticas: 0,5% durante los primeros 18 meses y 0,25% durante los siguientes 12 meses.",
+  "panel_description": "En tu panel podrás supervisar todos los hoteles contactados, ver el estado de cada uno y controlar tus comisiones.",
+  "bank_data": "Es obligatorio añadir tu número de cuenta bancaria en el perfil para recibir los pagos mensuales.",
+  "join_button": "Únete como agente",
+  "registration": {
+    "title": "Únete como Agente de Hotel Living",
+    "full_name": "Nombre Completo",
+    "email": "Email",
+    "password": "Contraseña",
+    "bank_account": "Cuenta Bancaria (IBAN)",
+    "accept_terms": "Acepto los términos y condiciones",
+    "submit": "Registrarse como Agente",
+    "login_link": "¿Ya tienes cuenta? Iniciar sesión",
+    "errors": {
+      "email_exists": "Ya existe una cuenta con este email",
+      "invalid_email": "Por favor ingresa un email válido",
+      "weak_password": "La contraseña debe tener al menos 6 caracteres",
+      "required_fields": "Por favor completa todos los campos requeridos",
+      "terms_required": "Debes aceptar los términos y condiciones"
+    }
+  },
+  "dashboard": {
+    "title": "Panel de Agente",
+    "welcome": "Bienvenido de nuevo, Agente",
+    "agent_code": "Tu Código de Agente",
+    "copy_code": "Copiar Código",
+    "code_copied": "¡Código de agente copiado al portapapeles!",
+    "tabs": {
+      "hotels": "Hoteles Contactados",
+      "commissions": "Mis Comisiones",
+      "profile": "Mi Perfil"
+    },
+    "hotels": {
+      "add_hotel": "Agregar Nuevo Hotel",
+      "hotel_name": "Nombre del Hotel",
+      "hotel_email": "Email del Hotel",
+      "country": "País",
+      "contacted_date": "Fecha de Contacto",
+      "add_button": "Agregar Hotel",
+      "cancel": "Cancelar",
+      "status": {
+        "pending": "Pendiente",
+        "registered": "Registrado",
+        "expired": "Expirado"
+      },
+      "no_hotels": "Aún no has contactado ningún hotel",
+      "table": {
+        "name": "Nombre del Hotel",
+        "email": "Email",
+        "country": "País",
+        "contacted": "Contactado",
+        "status": "Estado"
+      }
+    },
+    "commissions": {
+      "total_earned": "Total Ganado",
+      "total_paid": "Total Pagado",
+      "total_pending": "Total Pendiente",
+      "no_commissions": "Aún no hay comisiones",
+      "monthly_payments": "Las comisiones se pagan mensualmente a tu cuenta bancaria registrada."
+    },
+    "profile": {
+      "edit_profile": "Editar Perfil",
+      "full_name": "Nombre Completo",
+      "email": "Email",
+      "current_password": "Contraseña Actual",
+      "new_password": "Nueva Contraseña",
+      "bank_account": "Cuenta Bancaria",
+      "save_changes": "Guardar Cambios",
+      "logout": "Cerrar Sesión",
+      "success": "¡Perfil actualizado exitosamente!",
+      "error": "Error al actualizar el perfil"
+    }
+  }
+}

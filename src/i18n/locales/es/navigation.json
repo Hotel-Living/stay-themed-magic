@@ -65,6 +65,11 @@
       "line1": "PRENSA",
       "line2": "",
       "mobile": "PRENSA"
+    },
+    "agents": {
+      "line1": "ÚNETE COMO",
+      "line2": "AGENTE",
+      "mobile": "ÚNETE COMO AGENTE"
     }
   }
 }

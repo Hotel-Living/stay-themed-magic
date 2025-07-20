@@ -67,6 +67,11 @@
       "line1": "PRESĂ",
       "line2": "",
       "mobile": "PRESĂ"
+    },
+    "agents": {
+      "line1": "DEVINO",
+      "line2": "AGENT",
+      "mobile": "DEVINO AGENT"
     }
   }
 }

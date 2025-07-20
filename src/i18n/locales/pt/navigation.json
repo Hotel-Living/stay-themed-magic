@@ -67,6 +67,11 @@
       "line1": "IMPRENSA",
       "line2": "",
       "mobile": "IMPRENSA"
+    },
+    "agents": {
+      "line1": "TORNE-SE UM",
+      "line2": "AGENTE",
+      "mobile": "TORNE-SE UM AGENTE"
     }
   }
 }

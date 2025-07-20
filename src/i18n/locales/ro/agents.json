@@ -1,0 +1,78 @@
+{
+  "heading": "DEVINO AGENT HOTEL LIVING",
+  "paragraph_1": "Este o acțiune unică. Poți contacta și înregistra câte hoteluri dorești în panoul tău. Pentru fiecare dintre ele care se alătură Hotel Living în următoarele 30 de zile, vei începe să primești comisioane automate timp de 30 de luni.\nTu îți stabilești ritmul. Limita ești tu.\n(În timpul vizitei sau conversației, dacă hotelul este convins, îl poți ajuta să se înregistreze pe loc. O singură discuție poate deveni 30 de luni de venit pasiv.)",
+  "commissions": "Comisioane automate: 0,5% pentru primele 18 luni și 0,25% pentru următoarele 12 luni.",
+  "panel_description": "În panoul tău vei putea monitoriza toate hotelurile contactate, starea lor și comisioanele tale.",
+  "bank_data": "Este obligatoriu să adaugi contul tău bancar în profil pentru a primi plățile lunare.",
+  "join_button": "Alătură-te ca agent",
+  "registration": {
+    "title": "Devino Agent Hotel Living",
+    "full_name": "Numele Complet",
+    "email": "Email",
+    "password": "Parolă",
+    "bank_account": "Cont Bancar (IBAN)",
+    "accept_terms": "Accept termenii și condițiile",
+    "submit": "Înregistrare ca Agent",
+    "login_link": "Ai deja un cont? Autentifică-te",
+    "errors": {
+      "email_exists": "Există deja un cont cu acest email",
+      "invalid_email": "Te rog să introduci un email valid",
+      "weak_password": "Parola trebuie să aibă cel puțin 6 caractere",
+      "required_fields": "Te rog să completezi toate câmpurile obligatorii",
+      "terms_required": "Trebuie să accepți termenii și condițiile"
+    }
+  },
+  "dashboard": {
+    "title": "Panoul Agentului",
+    "welcome": "Bun venit înapoi, Agent",
+    "agent_code": "Codul Tău de Agent",
+    "copy_code": "Copiază Codul",
+    "code_copied": "Codul agentului copiat în clipboard!",
+    "tabs": {
+      "hotels": "Hoteluri Contactate",
+      "commissions": "Comisioanele Mele",
+      "profile": "Profilul Meu"
+    },
+    "hotels": {
+      "add_hotel": "Adaugă Hotel Nou",
+      "hotel_name": "Numele Hotelului",
+      "hotel_email": "Email Hotel",
+      "country": "Țara",
+      "contacted_date": "Data Contactării",
+      "add_button": "Adaugă Hotel",
+      "cancel": "Anulează",
+      "status": {
+        "pending": "În așteptare",
+        "registered": "Înregistrat",
+        "expired": "Expirat"
+      },
+      "no_hotels": "Nu ai contactat încă niciun hotel",
+      "table": {
+        "name": "Numele Hotelului",
+        "email": "Email",
+        "country": "Țara",
+        "contacted": "Contactat",
+        "status": "Status"
+      }
+    },
+    "commissions": {
+      "total_earned": "Total Câștigat",
+      "total_paid": "Total Plătit",
+      "total_pending": "Total În Așteptare",
+      "no_commissions": "Nu există comisioane încă",
+      "monthly_payments": "Comisioanele se plătesc lunar în contul tău bancar înregistrat."
+    },
+    "profile": {
+      "edit_profile": "Editează Profilul",
+      "full_name": "Numele Complet",
+      "email": "Email",
+      "current_password": "Parola Actuală",
+      "new_password": "Parola Nouă",
+      "bank_account": "Cont Bancar",
+      "save_changes": "Salvează Modificările",
+      "logout": "Deconectare",
+      "success": "Profil actualizat cu succes!",
+      "error": "Eroare la actualizarea profilului"
+    }
+  }
+}

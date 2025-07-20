@@ -64,6 +64,9 @@ import Prueba from "@/pages/Prueba";
 import ExcelGenerator from "@/pages/ExcelGenerator";
 import ProfessionalStudy from "@/pages/ProfessionalStudy";
 import Ambassador from "@/pages/Ambassador";
+import Agents from "@/pages/Agents";
+import AgentRegistration from "@/pages/AgentRegistration";
+import AgentDashboard from "@/pages/AgentDashboard";
 import Press from "@/pages/Press";
 import HotelCrisis from "@/pages/HotelCrisis";
 import HotelAssociation from "@/pages/HotelAssociation";
@@ -125,6 +128,9 @@ function App() {
               <Route path="/excel-generator" element={<ExcelGenerator />} />
               <Route path="/professional-study" element={<ProfessionalStudy />} />
                 <Route path="/ambassador" element={<Ambassador />} />
+                <Route path="/agentes" element={<Agents />} />
+                <Route path="/agentes/registro" element={<AgentRegistration />} />
+                <Route path="/panel-agente" element={<AgentDashboard />} />
                 <Route path="/ambassadors" element={<AmbassadorsList />} />
                 <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/press" element={<Press />} />

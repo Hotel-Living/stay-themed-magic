@@ -1,0 +1,78 @@
+{
+  "heading": "BECOME A HOTEL LIVING AGENT",
+  "paragraph_1": "This is a one-time action. You can contact and register as many hotels as you want in your panel. For each one that joins Hotel Living within the next 30 days, you'll start receiving automatic commissions for 30 months.\nYou set the pace. The limit is you.\n(During the meeting or visit, if the hotel is ready, you can even help them register on the spot. One conversation can turn into 30 months of automatic income.)",
+  "commissions": "Automatic commissions: 0.5% for the first 18 months and 0.25% for the next 12 months.",
+  "panel_description": "In your dashboard you can monitor all contacted hotels, see their status, and track your commissions.",
+  "bank_data": "You must add your bank account number in your profile to receive monthly payments.",
+  "join_button": "Join as an Agent",
+  "registration": {
+    "title": "Join as Hotel Living Agent",
+    "full_name": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "bank_account": "Bank Account (IBAN)",
+    "accept_terms": "I accept the terms and conditions",
+    "submit": "Register as Agent",
+    "login_link": "Already have an account? Sign in",
+    "errors": {
+      "email_exists": "An account with this email already exists",
+      "invalid_email": "Please enter a valid email address",
+      "weak_password": "Password must be at least 6 characters",
+      "required_fields": "Please fill in all required fields",
+      "terms_required": "You must accept the terms and conditions"
+    }
+  },
+  "dashboard": {
+    "title": "Agent Dashboard",
+    "welcome": "Welcome back, Agent",
+    "agent_code": "Your Agent Code",
+    "copy_code": "Copy Code",
+    "code_copied": "Agent code copied to clipboard!",
+    "tabs": {
+      "hotels": "Contacted Hotels",
+      "commissions": "My Commissions", 
+      "profile": "My Profile"
+    },
+    "hotels": {
+      "add_hotel": "Add New Hotel",
+      "hotel_name": "Hotel Name",
+      "hotel_email": "Hotel Email",
+      "country": "Country",
+      "contacted_date": "Date Contacted",
+      "add_button": "Add Hotel",
+      "cancel": "Cancel",
+      "status": {
+        "pending": "Pending",
+        "registered": "Registered",
+        "expired": "Expired"
+      },
+      "no_hotels": "No hotels contacted yet",
+      "table": {
+        "name": "Hotel Name",
+        "email": "Email",
+        "country": "Country",
+        "contacted": "Contacted",
+        "status": "Status"
+      }
+    },
+    "commissions": {
+      "total_earned": "Total Earned",
+      "total_paid": "Total Paid",
+      "total_pending": "Total Pending",
+      "no_commissions": "No commissions yet",
+      "monthly_payments": "Commissions are paid monthly to your registered bank account."
+    },
+    "profile": {
+      "edit_profile": "Edit Profile",
+      "full_name": "Full Name",
+      "email": "Email",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "bank_account": "Bank Account",
+      "save_changes": "Save Changes",
+      "logout": "Logout",
+      "success": "Profile updated successfully!",
+      "error": "Error updating profile"
+    }
+  }
+}

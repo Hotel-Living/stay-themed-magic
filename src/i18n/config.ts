@@ -45,6 +45,7 @@ import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
 import enDashboard from './locales/en/dashboard.json';
 import enTerms from './locales/en/terms.json';
 import enAmbassador from './locales/en/ambassador.json';
+import enAgents from './locales/en/agents.json';
 import enPress from './locales/en/press.json';
 import enHotelCrisis from './locales/en/hotel-crisis.json';
 import enHotelAccordion from './locales/en/hotel-accordion.json';
@@ -89,6 +90,7 @@ import esDashboardRates from './locales/es/dashboard/rates.json';
 import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esDashboard from './locales/es/dashboard.json';
 import esAmbassador from './locales/es/ambassador.json';
+import esAgents from './locales/es/agents.json';
 import esPress from './locales/es/press.json';
 import esAdvertising from './locales/es/dashboard/advertising.json';
 import esHotelCrisis from './locales/es/hotel-crisis.json';
@@ -124,6 +126,7 @@ import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
 import ptDashboard from './locales/pt/dashboard.json';
 import ptTerms from './locales/pt/terms.json';
 import ptAmbassador from './locales/pt/ambassador.json';
+import ptAgents from './locales/pt/agents.json';
 import ptPress from './locales/pt/press.json';
 import ptHotelCrisis from './locales/pt/hotel-crisis.json';
 import ptHotelAccordion from './locales/pt/hotel-accordion.json';
@@ -157,6 +160,7 @@ import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
 import roDashboard from './locales/ro/dashboard.json';
 import roTerms from './locales/ro/terms.json';
 import roAmbassador from './locales/ro/ambassador.json';
+import roAgents from './locales/ro/agents.json';
 import roPress from './locales/ro/press.json';
 import roAdvertising from './locales/ro/dashboard/advertising.json';
 import roHotelCrisis from './locales/ro/hotel-crisis.json';
@@ -185,6 +189,7 @@ const resources = {
     terms: enTerms,
     hotels: enHotels,
     ambassador: enAmbassador,
+    agents: enAgents,
     press: enPress,
     advertising: enAdvertising,
     'hotel-crisis': enHotelCrisis,
@@ -269,6 +274,7 @@ const resources = {
     ourValues: esOurValues,
     privacy: esPrivacy,
     ambassador: esAmbassador,
+    agents: esAgents,
     press: esPress,
     advertising: esAdvertising,
     'hotel-crisis': esHotelCrisis,
@@ -314,6 +320,7 @@ const resources = {
     terms: ptTerms,
     hotels: ptHotels,
     ambassador: ptAmbassador,
+    agents: ptAgents,
     press: ptPress,
     advertising: ptAdvertising,
     'hotel-crisis': ptHotelCrisis,
@@ -359,6 +366,7 @@ const resources = {
     terms: roTerms,
     hotels: roHotels,
     ambassador: roAmbassador,
+    agents: roAgents,
     press: roPress,
     advertising: roAdvertising,
     'hotel-crisis': roHotelCrisis,

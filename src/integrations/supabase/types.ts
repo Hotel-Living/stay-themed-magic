@@ -138,6 +138,165 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_commissions: {
+        Row: {
+          agent_id: string
+          booking_id: string | null
+          commission_amount: number
+          commission_rate: number
+          created_at: string | null
+          hotel_id: string | null
+          id: string
+          payment_date: string | null
+          payment_status: string | null
+          period_end: string
+          period_start: string
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id: string
+          booking_id?: string | null
+          commission_amount: number
+          commission_rate: number
+          created_at?: string | null
+          hotel_id?: string | null
+          id?: string
+          payment_date?: string | null
+          payment_status?: string | null
+          period_end: string
+          period_start: string
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string
+          booking_id?: string | null
+          commission_amount?: number
+          commission_rate?: number
+          created_at?: string | null
+          hotel_id?: string | null
+          id?: string
+          payment_date?: string | null
+          payment_status?: string | null
+          period_end?: string
+          period_start?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_commissions_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_commissions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_commissions_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_hotels: {
+        Row: {
+          agent_id: string
+          contacted_date: string
+          country: string
+          created_at: string | null
+          hotel_email: string
+          hotel_name: string
+          id: string
+          registered_date: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id: string
+          contacted_date: string
+          country: string
+          created_at?: string | null
+          hotel_email: string
+          hotel_name: string
+          id?: string
+          registered_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string
+          contacted_date?: string
+          country?: string
+          created_at?: string | null
+          hotel_email?: string
+          hotel_name?: string
+          id?: string
+          registered_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_hotels_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agents: {
+        Row: {
+          agent_code: string
+          bank_account: string
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean | null
+          total_earned: number | null
+          total_paid: number | null
+          total_pending: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_code: string
+          bank_account: string
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          is_active?: boolean | null
+          total_earned?: number | null
+          total_paid?: number | null
+          total_pending?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_code?: string
+          bank_account?: string
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          total_earned?: number | null
+          total_paid?: number | null
+          total_pending?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       api_usage_tracking: {
         Row: {
           created_at: string
@@ -1455,6 +1614,10 @@ export type Database = {
         Args: { user_email: string }
         Returns: undefined
       }
+      check_agent_hotel_eligibility: {
+        Args: { p_hotel_id: string; p_agent_id: string }
+        Returns: boolean
+      }
       check_package_availability: {
         Args: { p_package_id: string; p_rooms_needed: number }
         Returns: boolean
@@ -1462,6 +1625,10 @@ export type Database = {
       check_package_availability_enhanced: {
         Args: { p_package_id: string; p_rooms_needed: number }
         Returns: boolean
+      }
+      generate_agent_code: {
+        Args: { first_name: string; last_name: string }
+        Returns: string
       }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>

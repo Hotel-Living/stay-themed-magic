@@ -425,12 +425,50 @@ const AgentDashboard = () => {
                         <div className="md:col-span-2">
                           <Label className="text-white">{t('dashboard.profile.bank_account')}</Label>
                           <Input
-                            value={agent.bank_account}
-                            className="bg-white/10 border-white/20 text-white"
-                            readOnly
+                            value={agent.bank_account || ''}
+                            placeholder="Introduce tu cuenta bancaria (IBAN)"
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                            onChange={(e) => {
+                              // Handle bank account update
+                              const newBankAccount = e.target.value;
+                              setAgent(prev => prev ? { ...prev, bank_account: newBankAccount } : null);
+                            }}
                           />
+                          <div className="text-sm text-white/60 mt-1">
+                            {agent.bank_account ? 
+                              "Puedes actualizar tu cuenta bancaria aquí" : 
+                              "⚠️ Debes agregar tu cuenta bancaria para recibir pagos"
+                            }
+                          </div>
                         </div>
                       </div>
+                      
+                      <Button 
+                        onClick={async () => {
+                          try {
+                            const { error } = await supabase
+                              .from('agents')
+                              .update({ bank_account: agent.bank_account })
+                              .eq('id', agent.id);
+                            
+                            if (error) throw error;
+                            
+                            toast({
+                              title: "¡Actualizado!",
+                              description: t('dashboard.profile.success'),
+                            });
+                          } catch (error) {
+                            toast({
+                              title: "Error",
+                              description: t('dashboard.profile.error'),
+                              variant: "destructive"
+                            });
+                          }
+                        }}
+                        className="bg-[#70009E] hover:bg-[#70009E]/80"
+                      >
+                        {t('dashboard.profile.save_changes')}
+                      </Button>
                     </CardContent>
                   </Card>
                 </TabsContent>

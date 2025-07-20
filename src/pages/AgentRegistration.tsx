@@ -23,7 +23,6 @@ const AgentRegistration = () => {
     fullName: '',
     email: '',
     password: '',
-    bankAccount: '',
     acceptTerms: false
   });
   const [loading, setLoading] = useState(false);
@@ -39,7 +38,7 @@ const AgentRegistration = () => {
 
     try {
       // Validation
-      if (!formData.fullName || !formData.email || !formData.password || !formData.bankAccount) {
+      if (!formData.fullName || !formData.email || !formData.password) {
         toast({
           title: "Error",
           description: t('registration.errors.required_fields'),
@@ -133,7 +132,7 @@ const AgentRegistration = () => {
           agent_code: agentCodeData,
           full_name: formData.fullName,
           email: formData.email,
-          bank_account: formData.bankAccount
+          bank_account: '' // Empty initially, to be filled in dashboard
         });
 
       if (agentError) {
@@ -218,22 +217,6 @@ const AgentRegistration = () => {
                     onChange={handleInputChange}
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                     minLength={6}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="bankAccount" className="text-white">
-                    {t('registration.bank_account')}
-                  </Label>
-                  <Input
-                    id="bankAccount"
-                    name="bankAccount"
-                    type="text"
-                    value={formData.bankAccount}
-                    onChange={handleInputChange}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                    placeholder="ES91 2100 0418 4502 0005 1332"
                     required
                   />
                 </div>

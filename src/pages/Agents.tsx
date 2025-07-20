@@ -1,14 +1,30 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import BubbleCounter from "@/components/common/BubbleCounter";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const Agents = () => {
   const { t } = useTranslation('agents');
+
+  // Calculator state
+  const [hotelsContacted, setHotelsContacted] = useState<number>(20);
+  const [avgPricePerMonth, setAvgPricePerMonth] = useState<number>(1300);
+  const [avgRoomsPerHotel, setAvgRoomsPerHotel] = useState<number>(20);
+
+  // Calculate commissions
+  const monthlyCommission = hotelsContacted * avgPricePerMonth * avgRoomsPerHotel * 0.005;
+  const totalCommission30Months = (monthlyCommission * 18) + (monthlyCommission * 0.5 * 12);
+
+  // Format numbers with commas
+  const formatNumber = (num: number) => {
+    return Math.round(num).toLocaleString();
+  };
 
   return (
     <div className="min-h-screen relative">
@@ -62,6 +78,79 @@ const Agents = () => {
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold mb-4">{t('payment_requirements_title')}</h2>
                   <p className="text-lg leading-relaxed">{t('bank_data')}</p>
+                </div>
+
+                <hr className="border-white/30 my-8" />
+
+                {/* Commission Calculator */}
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold mb-6 text-center">Calculadora de Comisiones para Agentes</h2>
+                  
+                  <div className="bg-[#7801AA]/80 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-[0_0_40px_rgba(0,200,255,0.6),0_0_80px_rgba(0,200,255,0.3)]">
+                    
+                    {/* Input Fields */}
+                    <div className="space-y-6 mb-8">
+                      <div>
+                        <Label className="text-white text-lg font-medium mb-3 block">
+                          Hoteles que ha contactado el agente
+                        </Label>
+                        <Input
+                          type="number"
+                          value={hotelsContacted}
+                          onChange={(e) => setHotelsContacted(Number(e.target.value) || 0)}
+                          className="bg-white/95 border-2 border-purple-300 text-gray-800 text-xl font-bold text-center py-4 rounded-xl focus:border-purple-500 focus:ring-purple-500/50"
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label className="text-white text-lg font-medium mb-3 block">
+                          Habitaciones vacías por hotel (promedio)
+                        </Label>
+                        <Input
+                          type="number"
+                          value={avgRoomsPerHotel}
+                          onChange={(e) => setAvgRoomsPerHotel(Number(e.target.value) || 0)}
+                          className="bg-white/95 border-2 border-purple-300 text-gray-800 text-xl font-bold text-center py-4 rounded-xl focus:border-purple-500 focus:ring-purple-500/50"
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label className="text-white text-lg font-medium mb-3 block">
+                          Precio promedio del paquete mensual
+                        </Label>
+                        <Input
+                          type="number"
+                          value={avgPricePerMonth}
+                          onChange={(e) => setAvgPricePerMonth(Number(e.target.value) || 0)}
+                          className="bg-white/95 border-2 border-purple-300 text-gray-800 text-xl font-bold text-center py-4 rounded-xl focus:border-purple-500 focus:ring-purple-500/50"
+                        />
+                      </div>
+                    </div>
+                    
+                    {/* Commission Info */}
+                    <div className="text-center mb-6">
+                      <p className="text-yellow-300 text-lg font-medium">
+                        5‰ Comisión sobre ventas durante 18 meses + 2,5‰ durante 12 meses
+                      </p>
+                    </div>
+                    
+                    {/* Results */}
+                    <div className="space-y-4">
+                      <div className="bg-purple-800/60 rounded-xl p-6 text-center border border-purple-400/30">
+                        <p className="text-white text-lg font-medium mb-2">Comisión estimada mensual:</p>
+                        <p className="text-yellow-300 text-3xl font-bold">${formatNumber(monthlyCommission)}</p>
+                      </div>
+                      
+                      <div className="bg-purple-800/60 rounded-xl p-6 text-center border border-purple-400/30">
+                        <p className="text-white text-lg font-medium mb-2">Comisión estimada total en 30 meses:</p>
+                        <p className="text-yellow-300 text-4xl font-bold">${formatNumber(totalCommission30Months)}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center mt-6">
+                      <p className="text-white/80 text-sm italic">* Comisiones automáticas sin trabajo posterior</p>
+                    </div>
+                  </div>
                 </div>
 
                 <hr className="border-white/30 my-8" />

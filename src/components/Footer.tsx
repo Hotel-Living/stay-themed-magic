@@ -4,14 +4,14 @@ import { Separator } from "./ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
-
 export function Footer() {
   const isMobile = useIsMobile();
-  const { t } = useTranslation('footer');
-  
-  return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{ 
-      backgroundColor: "#996515"
-    }}>
+  const {
+    t
+  } = useTranslation('footer');
+  return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{
+    backgroundColor: "#996515"
+  }}>
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
@@ -25,38 +25,29 @@ export function Footer() {
           
           {/* First Line - Header links */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-4 mx-auto text-center w-full`}>
-            {isMobile ? (
-              // Mobile: one link per row, centered
-              <>
+            {isMobile ?
+          // Mobile: one link per row, centered
+          <>
                 <div className="flex justify-center w-full mb-3">
                   <Link to="/faq" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     {t('footer.links.faq')}
                   </Link>
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/affinity-stays" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.affinityStays')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.hotel')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/videos" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.videos')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full">
-                  <Link to="/featured-hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.featuredHotels')}
-                  </Link>
+                  
                 </div>
-              </>
-            ) : (
-              // Desktop: keep existing layout
-              <>
+              </> :
+          // Desktop: keep existing layout
+          <>
                 <Link to="/faq" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.faq')}
                 </Link>
@@ -72,8 +63,7 @@ export function Footer() {
                 <Link to="/featured-hotels" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.featuredHotels')}
                 </Link>
-              </>
-            )}
+              </>}
           </div>
           
           {/* Separator between first and second line */}
@@ -83,33 +73,24 @@ export function Footer() {
           
           {/* Second Line */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
-            {isMobile ? (
-              // Mobile: one link per row, centered
-              <>
+            {isMobile ?
+          // Mobile: one link per row, centered
+          <>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.hotel')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/our-services" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.ourServices')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/our-values" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.ourValues')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full">
-                  <Link to="/customer-service" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.customerService')}
-                  </Link>
+                  
                 </div>
-              </>
-            ) : (
-              // Desktop: keep existing layout
-              <>
+              </> :
+          // Desktop: keep existing layout
+          <>
                 <Link to="/hotels" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.hotel')}
                 </Link>
@@ -122,44 +103,32 @@ export function Footer() {
                 <Link to="/customer-service" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.customerService')}
                 </Link>
-              </>
-            )}
+              </>}
           </div>
           
           {/* Third Line */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-6 mx-auto text-center w-full`}>
-            {isMobile ? (
-              // Mobile: one link per row, centered
-              <>
+            {isMobile ?
+          // Mobile: one link per row, centered
+          <>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/contact" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.contact')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/terms" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.terms')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/privacy" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.privacy')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full mb-3">
-                  <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.intellectualProperty')}
-                  </Link>
+                  
                 </div>
                 <div className="flex justify-center w-full">
-                  <Link to="/our-team" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.ourTeam')}
-                  </Link>
+                  
                 </div>
-              </>
-            ) : (
-              // Desktop: keep existing layout
-              <>
+              </> :
+          // Desktop: keep existing layout
+          <>
                 <Link to="/contact" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.contact')}
                 </Link>
@@ -175,8 +144,7 @@ export function Footer() {
                 <Link to="/our-team" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.ourTeam')}
                 </Link>
-              </>
-            )}
+              </>}
           </div>
           
           {/* Buttons - reduced size by 30% on mobile */}

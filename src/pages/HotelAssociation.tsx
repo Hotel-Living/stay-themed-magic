@@ -83,7 +83,7 @@ export default function HotelAssociation() {
                 />
               </div>
               
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl shadow-cyan-400/20">
+              <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-fuchsia-700 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-2xl shadow-cyan-400/40 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <div className="space-y-2 mb-8">
                   <p className="text-lg md:text-xl font-semibold text-white/90 uppercase tracking-wide leading-relaxed">
                     UNA GRAN FUENTE DE INGRESOS PARA SU ASOCIACIÓN

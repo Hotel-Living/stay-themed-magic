@@ -7,7 +7,8 @@ interface MenuOption {
 }
 const CostItemsTab: React.FC = () => {
   const {
-    t
+    t,
+    language
   } = useTranslation("dashboard");
   const [activeOption, setActiveOption] = useState<string>("utilities");
   const menuOptions: MenuOption[] = [{
@@ -103,7 +104,7 @@ ${t('ratesCalculator.cleaningOperationalDescription')}`;
         {activeOption === "cleaning" && <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" alt="Cleaning & Laundry Costs Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img src={language === 'es' ? "/lovable-uploads/dada7adb-623f-43b6-bc3e-9d91604cc36a.png" : "/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png"} alt="Cleaning & Laundry Costs Table" className="rounded-lg shadow-lg border border-purple-400/20" />
             </div>
           </div>}
         

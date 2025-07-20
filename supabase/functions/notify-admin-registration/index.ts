@@ -47,9 +47,27 @@ serve(async (req) => {
       .select('first_name, last_name, is_hotel_owner')
       .eq('id', user.id)
       .single();
+    
+    // Check if user is an agent by looking for agent record
+    const { data: agentData } = await supabaseAdmin
+      .from('agents')
+      .select('id, agent_code')
+      .eq('user_id', user.id)
+      .single();
       
-    // Prepare a descriptive subject line
-    const accountType = profileData?.is_hotel_owner ? "Hotel Partner" : "Traveler";
+    // Determine account type with enhanced logic
+    let accountType = "Traveler"; // Default
+    
+    // Check userData for explicit user_type first
+    if (userData?.user_type === 'agent' || agentData) {
+      accountType = "Agent";
+    } else if (userData?.registration_source === 'hotel_form' || profileData?.is_hotel_owner) {
+      accountType = "Hotel Partner";
+    } else if (userData?.user_type === 'association') {
+      accountType = "Hotel Association";
+    }
+    
+    // Prepare user name
     const userName = profileData?.first_name 
       ? `${profileData.first_name} ${profileData.last_name || ''}`
       : userData?.first_name
@@ -66,6 +84,9 @@ serve(async (req) => {
     const adminEmail = "grand_soiree@yahoo.com"; // Use the proper admin email
     
     console.log(`Sending admin notification to: ${adminEmail}`);
+    console.log(`Account type detected: ${accountType}`);
+    console.log(`User metadata:`, userData);
+    console.log(`Agent data found:`, !!agentData);
     
     // Send admin notification using Resend
     const adminEmailResponse = await fetch("https://api.resend.com/emails", {
@@ -83,6 +104,7 @@ serve(async (req) => {
           <p><strong>Name:</strong> ${userName}</p>
           <p><strong>Email:</strong> ${user.email}</p>
           <p><strong>Account Type:</strong> ${accountType}</p>
+          ${agentData ? `<p><strong>Agent Code:</strong> ${agentData.agent_code || 'To be generated'}</p>` : ''}
           <p><strong>Registration Time:</strong> ${new Date().toLocaleString()}</p>
           <p>A new user has registered on Hotel-Living.com. Please review their account details.</p>
         `,
@@ -99,7 +121,8 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: "Admin notification sent successfully" 
+        message: "Admin notification sent successfully",
+        accountType: accountType
       }),
       { 
         status: 200,

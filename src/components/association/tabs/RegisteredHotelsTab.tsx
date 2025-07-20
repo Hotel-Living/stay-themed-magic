@@ -1,115 +1,78 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building2, MapPin, Mail, Calendar } from 'lucide-react';
-
-// Mock data - will be replaced with real data from Supabase
-const mockRegisteredHotels = [
-  {
-    id: '1',
-    name: 'Hotel Maravilla',
-    city: 'Barcelona',
-    contact_email: 'info@hotelmaravilla.com',
-    registered_date: '2024-01-15',
-    status: 'approved'
-  },
-  {
-    id: '2',
-    name: 'Hostal Costa Azul',
-    city: 'Valencia',
-    contact_email: 'reservas@costaazul.es',
-    registered_date: '2024-02-20',
-    status: 'pending'
-  }
-];
+import { Hotel, MapPin, Mail, Phone } from 'lucide-react';
 
 export const RegisteredHotelsTab = () => {
+  // Mock data - replace with actual data from Supabase
+  const registeredHotels = [
+    {
+      id: 1,
+      name: 'Hotel Example',
+      city: 'Madrid',
+      email: 'contact@hotel.com',
+      phone: '+34 123 456 789',
+      status: 'active',
+      registrationDate: '2024-01-15'
+    }
+  ];
+
   return (
     <div className="space-y-6">
-      <Card className="border-slate-600 bg-slate-700/30">
+      <Card className="glass-card border-blue-500/20 bg-slate-700/30 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
-            <Building2 className="h-5 w-5" />
-            Hoteles Registrados Independientemente
+            <Hotel className="w-5 h-5 text-blue-400" />
+            Hoteles Registrados
           </CardTitle>
-          <p className="text-slate-400 text-sm">
-            Hoteles que se registraron en Hotel Living y proporcionaron el código de su asociación
-          </p>
         </CardHeader>
         <CardContent>
-          {mockRegisteredHotels.length === 0 ? (
+          {registeredHotels.length === 0 ? (
             <div className="text-center py-8">
-              <Building2 className="h-12 w-12 text-slate-500 mx-auto mb-4" />
+              <Hotel className="w-12 h-12 text-slate-400 mx-auto mb-4" />
               <p className="text-slate-400">No hay hoteles registrados aún</p>
-              <p className="text-sm text-slate-500 mt-2">
-                Los hoteles aparecerán aquí cuando se registren con su código de asociación
-              </p>
             </div>
           ) : (
             <div className="space-y-4">
-              {mockRegisteredHotels.map((hotel) => (
-                <Card key={hotel.id} className="border-slate-600 bg-slate-800/50">
+              {registeredHotels.map((hotel) => (
+                <Card key={hotel.id} className="bg-slate-800/50 border-slate-600/50">
                   <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-white font-semibold">{hotel.name}</h3>
-                          <Badge 
-                            variant={hotel.status === 'approved' ? 'default' : 'secondary'}
-                            className={hotel.status === 'approved' ? 'bg-green-600' : 'bg-yellow-600'}
-                          >
-                            {hotel.status === 'approved' ? 'Aprobado' : 'Pendiente'}
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex items-center gap-4 text-sm text-slate-400">
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            {hotel.city}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Mail className="h-4 w-4" />
-                            {hotel.contact_email}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            Registrado: {new Date(hotel.registered_date).toLocaleDateString('es-ES')}
-                          </div>
-                        </div>
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-white font-semibold text-lg">{hotel.name}</h3>
+                      <Badge 
+                        variant={hotel.status === 'active' ? 'default' : 'secondary'}
+                        className="bg-green-600/20 text-green-400 border-green-600/30"
+                      >
+                        Activo
+                      </Badge>
+                    </div>
+                    
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <MapPin className="w-4 h-4 text-blue-400" />
+                        {hotel.city}
                       </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Mail className="w-4 h-4 text-blue-400" />
+                        {hotel.email}
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Phone className="w-4 h-4 text-blue-400" />
+                        {hotel.phone}
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3 pt-3 border-t border-slate-600/50">
+                      <p className="text-xs text-slate-400">
+                        Registrado el {new Date(hotel.registrationDate).toLocaleDateString()}
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
-
-      <Card className="border-slate-600 bg-slate-700/30">
-        <CardHeader>
-          <CardTitle className="text-white text-lg">Información Importante</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-start gap-3 p-3 bg-blue-900/30 rounded-lg border border-blue-500/30">
-            <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-            <div>
-              <p className="text-white font-medium mb-1">Código de Asociación</p>
-              <p className="text-sm text-slate-300">
-                Los hoteles deben introducir el código de su asociación en su panel para aparecer aquí
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-3 p-3 bg-green-900/30 rounded-lg border border-green-500/30">
-            <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-            <div>
-              <p className="text-white font-medium mb-1">Generación de Comisiones</p>
-              <p className="text-sm text-slate-300">
-                Solo los hoteles que aparecen en esta lista generan comisiones del 4% de sus reservas
-              </p>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>

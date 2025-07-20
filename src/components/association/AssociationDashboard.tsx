@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,33 +7,51 @@ import { RegisteredHotelsTab } from './tabs/RegisteredHotelsTab';
 import { CommissionsTab } from './tabs/CommissionsTab';
 import { AccountTab } from './tabs/AccountTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
+import { Starfield } from '@/components/Starfield';
 
 export const AssociationDashboard = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen relative">
+      <Starfield />
+      
+      <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Panel de Asociación</h1>
-          <p className="text-slate-300">Gestione sus hoteles y comisiones</p>
+          <h1 className="text-4xl font-bold text-white mb-2 text-center">Panel de Asociación</h1>
+          <p className="text-slate-300 text-center text-lg">Gestione sus hoteles y comisiones</p>
         </div>
 
-        <Card className="border-blue-500/20 bg-slate-800/50 backdrop-blur-sm shadow-2xl shadow-blue-500/10">
+        <Card className="glass-card border-blue-500/20 bg-slate-800/50 backdrop-blur-sm shadow-2xl shadow-blue-500/10">
           <CardContent className="p-6">
             <Tabs defaultValue="hotels" className="w-full">
-              <TabsList className="grid w-full grid-cols-5 bg-slate-700/50">
-                <TabsTrigger value="hotels" className="data-[state=active]:bg-blue-600">
+              <TabsList className="grid w-full grid-cols-5 bg-slate-700/50 border border-blue-500/20">
+                <TabsTrigger 
+                  value="hotels" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
+                >
                   Mis hoteles
                 </TabsTrigger>
-                <TabsTrigger value="registered" className="data-[state=active]:bg-blue-600">
+                <TabsTrigger 
+                  value="registered" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
+                >
                   Mis hoteles registrados
                 </TabsTrigger>
-                <TabsTrigger value="commissions" className="data-[state=active]:bg-blue-600">
+                <TabsTrigger 
+                  value="commissions" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
+                >
                   Comisiones
                 </TabsTrigger>
-                <TabsTrigger value="account" className="data-[state=active]:bg-blue-600">
+                <TabsTrigger 
+                  value="account" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
+                >
                   Mi cuenta
                 </TabsTrigger>
-                <TabsTrigger value="analytics" className="data-[state=active]:bg-blue-600">
+                <TabsTrigger 
+                  value="analytics" 
+                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
+                >
                   Analíticas
                 </TabsTrigger>
               </TabsList>

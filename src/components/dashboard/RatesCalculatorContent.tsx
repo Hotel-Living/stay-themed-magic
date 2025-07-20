@@ -262,7 +262,7 @@ export const RatesCalculatorContent: React.FC = () => {
           {/* BUILD YOUR OWN MODEL & RATES Section */}
           {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
               {/* Strategic Guidelines Accordion */}
-              <Accordion type="single" collapsible className="w-full space-y-5">
+              <Accordion type="single" collapsible className="w-full space-y-3">
                 {Array.from({ length: 8 }, (_, index) => {
                   const sectionKey = `section${index + 1}`;
                   return (
@@ -271,13 +271,13 @@ export const RatesCalculatorContent: React.FC = () => {
                       value={sectionKey}
                       className="border-2 border-fuchsia-400/40 rounded-xl bg-gradient-to-r from-purple-900/50 to-fuchsia-900/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-fuchsia-300/60"
                     >
-                      <AccordionTrigger className="px-8 py-6 text-left hover:no-underline">
-                        <span className="text-white font-bold text-lg uppercase tracking-wide leading-tight">
+                      <AccordionTrigger className="px-6 py-4 text-left hover:no-underline">
+                        <span className="text-white font-bold text-base uppercase tracking-wide leading-tight">
                           {index + 1}. {t(`ratesCalculator.strategicGuidelines.${sectionKey}.title`)}
                         </span>
                       </AccordionTrigger>
-                      <AccordionContent className="px-8 pb-8 pt-2">
-                        <div className="text-white/95 text-base leading-relaxed font-medium">
+                      <AccordionContent className="px-6 pb-6 pt-2">
+                        <div className="text-white/95 text-sm leading-relaxed font-medium">
                           {t(`ratesCalculator.strategicGuidelines.${sectionKey}.content`)}
                         </div>
                       </AccordionContent>

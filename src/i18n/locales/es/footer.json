@@ -1,20 +1,19 @@
 {
   "footer": {
-    "sections": {
-      "aboutUs": "SOBRE NOSOTROS",
+    "links": {
+      "faq": "VENTAJAS",
+      "affinityStays": "¿AFINIDADES?",
+      "hotel": "¿HOTEL?",
+      "videos": "VIDEOS",
+      "featuredHotels": "HOTELES DESTACADOS",
+      "ourServices": "NUESTROS SERVICIOS",
+      "ourValues": "NUESTROS VALORES",
       "customerService": "SERVICIO AL CLIENTE",
       "contact": "CONTACTO",
-      "legal": "LEGAL"
-    },
-    "links": {
-      "ourTeam": "Nuestro equipo",
-      "ourValues": "Nuestros valores",
-      "ourServices": "Nuestros servicios",
-      "customerService": "Servicio al cliente",
-      "contact": "Contacto",
-      "intellectualProperty": "Propiedad intelectual",
-      "terms": "Términos y condiciones",
-      "privacy": "Privacidad y cookies"
+      "terms": "TÉRMINOS Y CONDICIONES",
+      "privacy": "PRIVACIDAD Y COOKIES",
+      "intellectualProperty": "PROPIEDAD INTELECTUAL",
+      "ourTeam": "NUESTRO EQUIPO"
     },
     "buttons": {
       "register": "Registrarse",

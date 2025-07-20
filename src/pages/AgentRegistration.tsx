@@ -16,7 +16,7 @@ import BubbleCounter from "@/components/common/BubbleCounter";
 const AgentRegistration = () => {
   const { t } = useTranslation('agents');
   const navigate = useNavigate();
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, user } = useAuth();
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -82,9 +82,8 @@ const AgentRegistration = () => {
         }
       );
 
-      if (authResult.error) {
-        const errorMsg = typeof authResult.error === 'string' ? authResult.error : authResult.error.message;
-        if (errorMsg.includes('already registered')) {
+      if (!authResult.success) {
+        if (authResult.error?.includes('already registered')) {
           toast({
             title: "Error",
             description: t('registration.errors.email_exists'),
@@ -93,15 +92,20 @@ const AgentRegistration = () => {
         } else {
           toast({
             title: "Error",
-            description: errorMsg,
+            description: authResult.error || "Error en el registro",
             variant: "destructive"
           });
         }
         return;
       }
 
-      if (!authResult.user) {
-        throw new Error('User creation failed');
+      // Wait for user to be available in auth context
+      if (!user) {
+        // Sign in the user to get the user object
+        const signInResult = await signIn(formData.email, formData.password);
+        if (!signInResult.success) {
+          throw new Error('Auto sign-in failed');
+        }
       }
 
       // Generate agent code
@@ -116,11 +120,16 @@ const AgentRegistration = () => {
         throw codeError;
       }
 
-      // Create agent record
+      // Create agent record - use current user from context
+      const currentUser = user; // Get current user from auth context
+      if (!currentUser) {
+        throw new Error('User not available after registration');
+      }
+
       const { error: agentError } = await supabase
         .from('agents')
         .insert({
-          user_id: authResult.user.id,
+          user_id: currentUser.id,
           agent_code: agentCodeData,
           full_name: formData.fullName,
           email: formData.email,
@@ -137,8 +146,7 @@ const AgentRegistration = () => {
         description: "Tu cuenta de agente ha sido creada. Ahora puedes acceder a tu panel.",
       });
 
-      // Sign in the user automatically
-      await signIn(formData.email, formData.password);
+      // Navigate to dashboard
       navigate('/panel-agente');
 
     } catch (error) {

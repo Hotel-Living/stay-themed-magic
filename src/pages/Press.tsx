@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { ExternalLink } from "lucide-react";
 export default function Press() {
@@ -6,7 +7,7 @@ export default function Press() {
     t
   } = useTranslation('press');
   return <div className="min-h-screen bg-[#170B3B] relative">
-      <div className="starfield absolute inset-0 w-full h-full opacity-50"></div>
+      <Starfield />
       
       <div className="relative z-10">
         <Navbar />

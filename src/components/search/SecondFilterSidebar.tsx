@@ -57,7 +57,7 @@ export function SecondFilterSidebar({
       {/* FIXED TOP RESET BUTTON */}
       {isReady && <div className="p-4 border-b border-white/10">
           <button onClick={onResetAllFilters} className="w-full bg-[#1E5C3D] hover:bg-[#2A6B4A] text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm">
-            {t('filters.resetFilters')}
+            {t('filters.resetFilters').toUpperCase()}
           </button>
         </div>}
 

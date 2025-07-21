@@ -1,7 +1,9 @@
 
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/integrations/supabase/types-custom";
+import { fetchProfile } from "../authUtils";
 
 interface SignInProps {
   setIsLoading: (isLoading: boolean) => void;
@@ -9,142 +11,157 @@ interface SignInProps {
 }
 
 export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
+  const [signInError, setSignInError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const validateUserRole = (user: any, selectedType: string) => {
-    console.log("Validating user role:", { selectedType, userMetadata: user.user_metadata });
+  const validateUserRole = (userMetadata: any, selectedUserType: string) => {
+    console.log("=== ROLE VALIDATION START ===");
+    console.log("Selected user type:", selectedUserType);
+    console.log("User metadata:", userMetadata);
     
-    switch (selectedType) {
+    switch (selectedUserType) {
       case "traveler":
-        // Travelers should not have hotel_owner flag, association_name, or promoter role
-        if (user.user_metadata?.is_hotel_owner || 
-            user.user_metadata?.association_name || 
-            user.user_metadata?.role === 'promoter') {
-          return {
-            valid: false,
-            message: "Esta cuenta no es una cuenta de viajero. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
-          };
-        }
-        return { valid: true, message: "" };
+        // Traveler: should NOT have hotel owner, association, or promoter flags
+        const isTraveler = !userMetadata?.is_hotel_owner && 
+                          !userMetadata?.association_name && 
+                          userMetadata?.role !== 'promoter';
+        console.log("Is valid traveler:", isTraveler);
+        return isTraveler;
         
       case "hotel":
-        // Hotel users must have is_hotel_owner flag
-        if (!user.user_metadata?.is_hotel_owner) {
-          return {
-            valid: false,
-            message: "Esta cuenta no pertenece a un hotel. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
-          };
-        }
-        return { valid: true, message: "" };
+        // Hotel: must have is_hotel_owner = true
+        const isHotelOwner = userMetadata?.is_hotel_owner === true;
+        console.log("Is valid hotel owner:", isHotelOwner);
+        return isHotelOwner;
         
       case "association":
-        // Association users must have association_name in metadata
-        if (!user.user_metadata?.association_name) {
-          return {
-            valid: false,
-            message: "Esta cuenta no pertenece a una asociación. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
-          };
-        }
-        return { valid: true, message: "" };
+        // Association: must have association_name
+        const hasAssociationName = !!userMetadata?.association_name;
+        console.log("Has association name:", hasAssociationName, userMetadata?.association_name);
+        return hasAssociationName;
         
       case "promoter":
-        // Promoter users must have promoter role
-        if (user.user_metadata?.role !== 'promoter') {
-          return {
-            valid: false,
-            message: "Esta cuenta no es una cuenta de promotor. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
-          };
-        }
-        return { valid: true, message: "" };
+        // Promoter: must have role = 'promoter'
+        const isPromoter = userMetadata?.role === 'promoter';
+        console.log("Is valid promoter:", isPromoter);
+        return isPromoter;
         
       default:
-        return { valid: false, message: "Tipo de cuenta no válido." };
+        console.log("Unknown user type:", selectedUserType);
+        return false;
     }
   };
 
-  const getCorrectRedirectUrl = (user: any) => {
-    // Check user metadata to determine correct redirect based on actual role
-    if (user.user_metadata?.association_name) {
-      return "/panel-asociacion";
-    } else if (user.user_metadata?.is_hotel_owner) {
-      return "/hotel-dashboard";
-    } else if (user.user_metadata?.role === 'promoter') {
-      return "/promoter/dashboard";
-    } else {
-      return "/user-dashboard";
+  const getRoleErrorMessage = (selectedUserType: string) => {
+    switch (selectedUserType) {
+      case "traveler":
+        return "Este email no pertenece a una cuenta de viajero";
+      case "hotel":
+        return "Este email no pertenece a una cuenta de hotel";
+      case "association":
+        return "Este email no pertenece a una cuenta de asociación";
+      case "promoter":
+        return "Este email no pertenece a una cuenta de promotor";
+      default:
+        return "Tipo de usuario no válido";
     }
   };
 
   const signIn = async (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => {
     try {
-      console.log("useSignIn: Starting authentication with role validation", { email, userType });
-      
+      setIsLoading(true);
+      setSignInError(null);
+
+      console.log("=== SIGN IN START ===");
+      console.log("Email:", email);
+      console.log("Selected user type:", userType);
+
+      // Attempt to sign in with Supabase
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
+        password,
       });
 
       if (error) {
-        console.error("Authentication error:", error);
-        throw error;
+        console.error("Supabase sign in error:", error);
+        setSignInError(error.message);
+        toast({
+          title: "Error al iniciar sesión",
+          description: error.message,
+          variant: "destructive"
+        });
+        return { success: false, error: error.message };
       }
 
       if (!data.user) {
-        throw new Error("No user data returned from authentication");
+        console.error("No user data returned from Supabase");
+        const errorMsg = "No se pudo obtener la información del usuario";
+        setSignInError(errorMsg);
+        toast({
+          title: "Error al iniciar sesión",
+          description: errorMsg,
+          variant: "destructive"
+        });
+        return { success: false, error: errorMsg };
       }
 
-      console.log("Authentication successful, validating role:", data.user.id);
+      console.log("Supabase sign in successful");
+      console.log("User metadata:", data.user.user_metadata);
 
-      // CRITICAL: Validate user role against selected tab
-      const roleValidation = validateUserRole(data.user, userType);
+      // Validate user role against selected tab
+      const isValidRole = validateUserRole(data.user.user_metadata, userType);
       
-      if (!roleValidation.valid) {
-        console.error("Role validation failed:", roleValidation.message);
+      if (!isValidRole) {
+        console.log("Role validation failed");
         
-        // Sign out the user since role doesn't match
+        // Sign out the user since they don't have the right role
         await supabase.auth.signOut();
         
-        return {
-          success: false,
-          error: roleValidation.message
-        };
+        const roleErrorMessage = getRoleErrorMessage(userType);
+        setSignInError(roleErrorMessage);
+        toast({
+          title: "Error de autorización",
+          description: roleErrorMessage,
+          variant: "destructive"
+        });
+        return { success: false, error: roleErrorMessage };
       }
 
-      console.log("Role validation passed for user type:", userType);
+      console.log("Role validation successful");
 
-      // Success toast based on validated user type
-      const welcomeMessage = {
-        traveler: "Bienvenido de vuelta, viajero",
-        hotel: "Bienvenido, hotel partner", 
-        association: "Bienvenido, miembro de asociación",
-        promoter: "Bienvenido, promotor"
-      }[userType];
+      // Fetch profile data
+      try {
+        const profileData = await fetchProfile(data.user.id);
+        setProfile(profileData);
+        console.log("Profile data fetched:", profileData);
+      } catch (profileError) {
+        console.warn("Could not fetch profile:", profileError);
+        // Don't fail the login if profile fetch fails
+      }
 
-      toast({
-        title: "Inicio de sesión exitoso",
-        description: welcomeMessage
-      });
-
-      // Determine redirect URL based on ACTUAL user metadata (not selected tab)
-      const redirectUrl = getCorrectRedirectUrl(data.user);
-
-      console.log("Role validation complete, auth state handler will handle redirect to:", redirectUrl);
+      console.log("Sign in process completed successfully");
+      console.log("Auth state handler will manage the redirect");
+      console.log("=== SIGN IN END ===");
 
       return { success: true, error: null };
 
     } catch (error: any) {
-      console.error("Error in useSignIn:", error);
-      
-      let errorMessage = "Error al iniciar sesión";
-      if (error.message?.includes("Invalid login credentials")) {
-        errorMessage = "Credenciales inválidas";
-      } else if (error.message?.includes("Email not confirmed")) {
-        errorMessage = "Por favor confirma tu email";
-      }
-      
+      console.error("Unexpected error during sign in:", error);
+      const errorMessage = error.message || "Error inesperado durante el inicio de sesión";
+      setSignInError(errorMessage);
+      toast({
+        title: "Error inesperado",
+        description: errorMessage,
+        variant: "destructive"
+      });
       return { success: false, error: errorMessage };
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { signIn };
+  return {
+    signIn,
+    signInError
+  };
 }

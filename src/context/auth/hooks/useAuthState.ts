@@ -39,7 +39,7 @@ export function useAuthState() {
         setUser(session?.user ?? null);
         setIsLoading(false);
         
-        // Handle post-confirmation redirects
+        // Handle post-authentication redirects
         if (event === 'SIGNED_IN' && session?.user) {
           // Only redirect if we're on a login/auth page to avoid disrupting navigation
           const currentPath = window.location.pathname;
@@ -47,7 +47,7 @@ export function useAuthState() {
             console.log("Post-authentication redirect needed");
             setTimeout(() => {
               handleCorrectRedirect(session.user);
-            }, 1000);
+            }, 500);
           }
         }
       }

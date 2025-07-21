@@ -128,11 +128,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       // Determine redirect URL based on ACTUAL user metadata (not selected tab)
       const redirectUrl = getCorrectRedirectUrl(data.user);
 
-      console.log("Redirecting to:", redirectUrl);
-
-      setTimeout(() => {
-        window.location.href = redirectUrl;
-      }, 500);
+      console.log("Role validation complete, auth state handler will handle redirect to:", redirectUrl);
 
       return { success: true, error: null };
 

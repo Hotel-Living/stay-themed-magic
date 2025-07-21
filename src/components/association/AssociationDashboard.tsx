@@ -8,13 +8,16 @@ import { CommissionsTab } from './tabs/CommissionsTab';
 import { AccountTab } from './tabs/AccountTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { Starfield } from '@/components/Starfield';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 export const AssociationDashboard = () => {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen flex flex-col">
       <Starfield />
+      <Navbar />
       
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="flex-1 relative z-10 container mx-auto px-4 py-8 pt-20">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2 text-center">Panel de Asociación</h1>
           <p className="text-slate-300 text-center text-lg">Gestione sus hoteles y comisiones</p>
@@ -79,6 +82,8 @@ export const AssociationDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <Footer />
     </div>
   );
 };

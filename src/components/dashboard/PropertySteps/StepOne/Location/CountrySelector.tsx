@@ -49,14 +49,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           value={value} 
           onValueChange={handleChange}
         >
-          <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
-            <SelectValue placeholder={t('dashboard.selectCountry')} />
+          <SelectTrigger className={cn("bg-[#7E26A6] text-white border-white placeholder:text-white/70", hasError ? "border-red-500" : "")}>
+            <SelectValue placeholder={t('dashboard.selectCountry')} className="text-white" />
           </SelectTrigger>
-          <SelectContent className="bg-[#7A0486] border-white">
+          <SelectContent className="bg-[#7E26A6] border-white z-50">
             <input
               type="text"
               placeholder="Search countries..."
-              className="w-full p-2 mb-2 text-white bg-[#8A0499] border border-white/30 rounded focus:outline-none focus:border-white/50"
+              className="w-full p-2 mb-2 text-white bg-[#7E26A6] border border-white/30 rounded focus:outline-none focus:border-white/50 placeholder:text-white/70"
               onChange={(e) => {
                 // Filter will be handled by the select component
               }}
@@ -66,14 +66,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
               <SelectItem 
                 key={country.isoCode} 
                 value={country.isoCode}
-                className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+                className="text-white hover:bg-white/10 focus:bg-white/10 focus:text-white data-[highlighted]:bg-white/10 data-[highlighted]:text-white"
               >
                 {country.name}
               </SelectItem>
             ))}
             <SelectItem 
               value="add-new" 
-              className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+              className="text-white hover:bg-white/10 focus:bg-white/10 focus:text-white data-[highlighted]:bg-white/10 data-[highlighted]:text-white"
             >
               + Add New Country
             </SelectItem>

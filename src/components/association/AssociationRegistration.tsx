@@ -1,210 +1,286 @@
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Starfield } from '@/components/Starfield';
+import React, { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { InputField } from "@/components/auth/InputField";
+import { PasswordField } from "@/components/auth/PasswordField";
+import { SubmitButton } from "@/components/auth/SubmitButton";
+import { User, Mail, MapPin, Lock } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Country } from "country-state-city";
+import { validatePassword } from "@/utils/passwordValidation";
 
-export const AssociationRegistration = () => {
+export function AssociationRegistration() {
   const [formData, setFormData] = useState({
-    name: '',
-    responsibleName: '',
-    email: '',
-    country: ''
+    associationName: "",
+    responsibleName: "",
+    email: "",
+    country: "",
+    password: "",
+    confirmPassword: ""
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const countries = Country.getAllCountries();
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const validateForm = () => {
+    if (!formData.associationName.trim()) {
+      toast({
+        title: "Error",
+        description: "Association name is required",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (!formData.responsibleName.trim()) {
+      toast({
+        title: "Error",
+        description: "Responsible person name is required",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (!formData.email.trim()) {
+      toast({
+        title: "Error",
+        description: "Email is required",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (!formData.country) {
+      toast({
+        title: "Error",
+        description: "Country is required",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (!formData.password) {
+      toast({
+        title: "Error",
+        description: "Password is required",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    const { isValid } = validatePassword(formData.password);
+    if (!isValid) {
+      toast({
+        title: "Error",
+        description: "Password does not meet requirements",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Passwords do not match",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     
-    try {
-      // Validate required fields
-      if (!formData.name || !formData.email || !formData.country || !formData.responsibleName) {
-        toast.error('Por favor complete todos los campos requeridos');
-        return;
-      }
+    if (!validateForm()) {
+      return;
+    }
 
-      // Create user account with temporary password
-      const tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
-      
+    setIsLoading(true);
+
+    try {
+      console.log("Starting association registration...");
+
+      // Create user account
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
-        password: tempPassword,
+        password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/panel-asociacion`,
           data: {
-            association_name: formData.name,
-            responsible_person: formData.responsibleName,
-            country: formData.country
+            full_name: formData.responsibleName,
+            user_type: 'association'
           }
         }
       });
 
       if (authError) {
-        if (authError.message.includes('already registered')) {
-          toast.error('Esta dirección de email ya está registrada');
-        } else if (authError.message.includes('For security purposes') || authError.message.includes('429')) {
-          toast.error('Demasiadas solicitudes. Por favor, espere un momento e intente nuevamente.');
-        } else {
-          toast.error('Error al crear la cuenta: ' + authError.message);
-        }
+        console.error("Auth error:", authError);
+        toast({
+          title: "Registration Error",
+          description: authError.message,
+          variant: "destructive",
+        });
         return;
       }
 
       if (!authData.user) {
-        toast.error('Error al crear la cuenta de usuario');
+        toast({
+          title: "Registration Error",
+          description: "Failed to create user account",
+          variant: "destructive",
+        });
         return;
       }
 
-      // Insert association data (user_id will be set automatically by trigger)
-      const { data, error } = await supabase
+      console.log("User created successfully:", authData.user.id);
+
+      // Insert into hotel_associations table
+      const { error: associationError } = await supabase
         .from('hotel_associations')
-        .insert([
-          {
-            association_name: formData.name,
-            responsible_person: formData.responsibleName,
-            email: formData.email,
-            country: formData.country
-          }
-        ])
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      // Send confirmation email
-      try {
-        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-association-confirmation', {
-          body: { record: data },
+        .insert({
+          association_name: formData.associationName,
+          responsible_name: formData.responsibleName,
+          email: formData.email,
+          country: formData.country
         });
-        
-        if (emailError) {
-          console.warn('Failed to send confirmation email:', emailError);
-        }
-      } catch (emailError) {
-        console.warn('Error sending confirmation email:', emailError);
+
+      if (associationError) {
+        console.error("Association insertion error:", associationError);
+        toast({
+          title: "Registration Error",
+          description: "Failed to register association: " + associationError.message,
+          variant: "destructive",
+        });
+        return;
       }
+
+      console.log("Association registered successfully");
       
-      toast.success('Asociación registrada exitosamente. Revise su email para confirmar la cuenta.');
-      setFormData({
-        name: '',
-        responsibleName: '',
-        email: '',
-        country: ''
+      toast({
+        title: "Registration Successful",
+        description: "Your association has been registered successfully. Please check your email to verify your account.",
+        variant: "default",
       });
-    } catch (error: any) {
-      console.error('Error:', error);
-      toast.error('Error al registrar la asociación: ' + (error.message || 'Error desconocido'));
+
+      // Reset form
+      setFormData({
+        associationName: "",
+        responsibleName: "",
+        email: "",
+        country: "",
+        password: "",
+        confirmPassword: ""
+      });
+
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast({
+        title: "Registration Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
   return (
-    <div className="min-h-screen relative flex flex-col">
-      <Starfield />
-      
-      <div className="flex-1 flex items-center justify-center px-4 py-8 relative z-10">
-        <div className="w-full max-w-md">
-          <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl font-bold text-white mb-2">
-                Registro de Asociación
-              </CardTitle>
-              <p className="text-slate-300 text-sm">
-                Registre su asociación para acceder al panel de gestión
-              </p>
-            </CardHeader>
-            
-            <CardContent className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white">
-                    Nombre de la Asociación
-                  </Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
-                    placeholder="Ej: Asociación Marítima"
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                    required
-                  />
-                </div>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <InputField
+        id="associationName"
+        label="Association Name"
+        type="text"
+        value={formData.associationName}
+        onChange={(e) => handleInputChange("associationName", e.target.value)}
+        placeholder="Ej: Asociación Marítima"
+        Icon={User}
+      />
 
-                <div className="space-y-2">
-                  <Label htmlFor="responsibleName" className="text-white">
-                    Nombre completo del responsable
-                  </Label>
-                  <Input
-                    id="responsibleName"
-                    type="text"
-                    value={formData.responsibleName}
-                    onChange={(e) => handleInputChange('responsibleName', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                    required
-                  />
-                </div>
+      <InputField
+        id="responsibleName"
+        label="Full Name of Responsible Person"
+        type="text"
+        value={formData.responsibleName}
+        onChange={(e) => handleInputChange("responsibleName", e.target.value)}
+        placeholder="Enter full name"
+        Icon={User}
+      />
 
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="email@asociacion.com"
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                    required
-                  />
-                </div>
+      <InputField
+        id="email"
+        label="Email"
+        type="email"
+        value={formData.email}
+        onChange={(e) => handleInputChange("email", e.target.value)}
+        placeholder="email@asociacion.com"
+        Icon={Mail}
+      />
 
-                <div className="space-y-2">
-                  <Label htmlFor="country" className="text-white">
-                    País *
-                  </Label>
-                  <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white focus:border-blue-400 focus:ring-blue-400/50">
-                      <SelectValue placeholder="Seleccione su país" />
-                    </SelectTrigger>
-                     <SelectContent className="bg-white border-gray-200">
-                       <SelectItem value="Argentina" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Argentina</SelectItem>
-                       <SelectItem value="Brasil" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Brasil</SelectItem>
-                       <SelectItem value="Chile" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Chile</SelectItem>
-                       <SelectItem value="Colombia" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Colombia</SelectItem>
-                       <SelectItem value="España" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">España</SelectItem>
-                       <SelectItem value="México" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">México</SelectItem>
-                       <SelectItem value="Perú" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Perú</SelectItem>
-                       <SelectItem value="Uruguay" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Uruguay</SelectItem>
-                       <SelectItem value="Otro" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Otro</SelectItem>
-                     </SelectContent>
-                  </Select>
-                </div>
-
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 rounded-lg transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-white">
+          Country <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+            <MapPin className="h-5 w-5" />
+          </div>
+          <Select value={formData.country} onValueChange={(value) => handleInputChange("country", value)}>
+            <SelectTrigger className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors [&>span]:text-white [&_svg]:text-white">
+              <SelectValue placeholder="Select your country" />
+            </SelectTrigger>
+            <SelectContent className="bg-[#7E26A6] border-white/20 max-h-60">
+              {countries.map((country) => (
+                <SelectItem
+                  key={country.isoCode}
+                  value={country.isoCode}
+                  className="text-white hover:bg-white/10 focus:bg-white/10 cursor-pointer"
                 >
-                  {isLoading ? 'Registrando...' : 'Registrar Asociación'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+                  {country.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
-    </div>
+
+      <PasswordField
+        id="password"
+        label="Password"
+        value={formData.password}
+        onChange={(e) => handleInputChange("password", e.target.value)}
+        placeholder="Create a password"
+        showPassword={showPassword}
+        toggleShowPassword={() => setShowPassword(!showPassword)}
+        showValidation={true}
+      />
+
+      <PasswordField
+        id="confirmPassword"
+        label="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+        placeholder="Confirm your password"
+        showPassword={showConfirmPassword}
+        toggleShowPassword={() => setShowConfirmPassword(!showConfirmPassword)}
+      />
+
+      <SubmitButton
+        isLoading={isLoading}
+        loadingText="Registering Association..."
+        text="Register Association"
+      />
+    </form>
   );
-};
+}

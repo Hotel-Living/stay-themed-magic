@@ -68,7 +68,7 @@ import Agents from "@/pages/Agents";
 import AgentRegistration from "@/pages/AgentRegistration";
 import AgentDashboard from "@/pages/AgentDashboard";
 import AssociationRegistration from "@/pages/AssociationRegistration";
-import AssociationDashboard from "@/pages/AssociationDashboard";
+import { AssociationDashboard } from "@/components/association/AssociationDashboard";
 import AssociationLanding from "@/pages/AssociationLanding";
 import PromoterDashboard from "@/pages/PromoterDashboard";
 import Press from "@/pages/Press";
@@ -161,7 +161,7 @@ function App() {
                {/* Protected Routes */}
                <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/association/dashboard" element={<ProtectedRoute><AssociationDashboard /></ProtectedRoute>} />
+               <Route path="/association/dashboard" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
                <Route path="/promoter/dashboard" element={<ProtectedRoute><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />

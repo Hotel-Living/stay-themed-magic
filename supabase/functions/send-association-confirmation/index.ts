@@ -33,6 +33,33 @@ serve(async (req) => {
       );
     }
 
+    // Update user's preferred language in the database if provided
+    if (associationData.language) {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      );
+      
+      try {
+        // Find user by email to update their language preference
+        const { data: users } = await supabase.auth.admin.listUsers();
+        const user = users?.users?.find(u => u.email === associationData.email);
+        
+        if (user) {
+          // Update profiles table with language preference
+          await supabase
+            .from('profiles')
+            .update({ preferred_language: associationData.language })
+            .eq('id', user.id);
+          
+          console.log(`Updated language preference for user ${user.id} to ${associationData.language}`);
+        }
+      } catch (error) {
+        console.error("Error updating language preference:", error);
+        // Don't fail the email sending if language update fails
+      }
+    }
+
     // Get user language preference (default to Spanish for associations)
     const userLanguage = getUserLanguage(associationData.language || 'es');
     

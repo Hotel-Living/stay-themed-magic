@@ -10,8 +10,11 @@ import { toast } from 'sonner';
 import { Starfield } from '@/components/Starfield';
 import { PasswordField } from '@/components/auth/PasswordField';
 import { validatePassword } from '@/utils/passwordValidation';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export const AssociationRegistration = () => {
+  const { t, language } = useTranslation('associationRegistration');
+  
   const [formData, setFormData] = useState({
     name: '',
     responsibleName: '',
@@ -31,20 +34,20 @@ export const AssociationRegistration = () => {
     try {
       // Validate required fields
       if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.country || !formData.responsibleName) {
-        toast.error('Por favor complete todos los campos requeridos');
+        toast.error(t('validation.requiredFields'));
         return;
       }
 
       // Validate password strength
       const passwordValidation = validatePassword(formData.password);
       if (!passwordValidation.isValid) {
-        toast.error('La contraseña no cumple con los requisitos de seguridad');
+        toast.error(t('validation.passwordSecurity'));
         return;
       }
 
       // Validate password confirmation
       if (formData.password !== formData.confirmPassword) {
-        toast.error('Las contraseñas no coinciden');
+        toast.error(t('validation.passwordMismatch'));
         return;
       }
 
@@ -57,7 +60,8 @@ export const AssociationRegistration = () => {
             full_name: formData.responsibleName,
             is_hotel_owner: false,
             association_name: formData.name,
-            country: formData.country
+            country: formData.country,
+            preferred_language: language
           }
         }
       });
@@ -65,15 +69,15 @@ export const AssociationRegistration = () => {
       if (authError) {
         console.error('Auth signup error:', authError);
         if (authError.message.includes('already registered')) {
-          toast.error('Este email ya está registrado. Por favor use otro email o inicie sesión.');
+          toast.error(t('validation.emailExists'));
         } else {
-          toast.error(`Error en el registro: ${authError.message}`);
+          toast.error(`${t('validation.registrationError')}: ${authError.message}`);
         }
         return;
       }
 
       if (!authData.user) {
-        toast.error('Error al crear la cuenta de usuario');
+        toast.error(t('validation.userCreationError'));
         return;
       }
 
@@ -95,7 +99,7 @@ export const AssociationRegistration = () => {
 
       if (associationError) {
         console.error('Association creation error:', associationError);
-        toast.error('Error al registrar la asociación');
+        toast.error(t('validation.associationCreationError'));
         return;
       }
 
@@ -112,7 +116,8 @@ export const AssociationRegistration = () => {
                 name: formData.name,
                 responsibleName: formData.responsibleName,
                 email: formData.email,
-                country: formData.country
+                country: formData.country,
+                language: language
               }
             }
           }
@@ -120,14 +125,14 @@ export const AssociationRegistration = () => {
 
         if (emailError) {
           console.error('Email function error:', emailError);
-          toast.error('Registro exitoso, pero hubo un problema enviando el email de confirmación. Por favor contacte al soporte.');
+          toast.error(t('validation.emailError'));
         } else {
           console.log('Email sent successfully:', emailData);
-          toast.success('¡Registro exitoso! Hemos enviado un email de confirmación a su dirección.');
+          toast.success(t('success.emailSent'));
         }
       } catch (emailErr) {
         console.error('Email sending failed:', emailErr);
-        toast.error('Registro exitoso, pero no se pudo enviar el email de confirmación. Por favor contacte al soporte.');
+        toast.error(t('validation.emailSendError'));
       }
 
       // Reset form
@@ -141,13 +146,13 @@ export const AssociationRegistration = () => {
       });
 
       // Show success message with next steps
-      toast.success('¡Registro completado! Revise su email para confirmar su cuenta y acceder al panel de asociación.', {
+      toast.success(t('success.completed'), {
         duration: 6000
       });
 
     } catch (error: any) {
       console.error('Registration error:', error);
-      toast.error('Error durante el registro. Por favor intente nuevamente.');
+      toast.error(t('validation.generalError'));
     } finally {
       setIsLoading(false);
     }
@@ -166,10 +171,10 @@ export const AssociationRegistration = () => {
           <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-white mb-2">
-                Registro de Asociación
+                {t('title')}
               </CardTitle>
               <p className="text-slate-300 text-sm">
-                Registre su asociación para acceder al panel de gestión
+                {t('subtitle')}
               </p>
             </CardHeader>
             
@@ -177,14 +182,14 @@ export const AssociationRegistration = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-white">
-                    Nombre de la Asociación
+                    {t('form.associationName')}
                   </Label>
                   <Input
                     id="name"
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    placeholder="Ej: Asociación Marítima"
+                    placeholder={t('form.associationNamePlaceholder')}
                     className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
                     required
                   />
@@ -192,7 +197,7 @@ export const AssociationRegistration = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="responsibleName" className="text-white">
-                    Nombre completo del responsable
+                    {t('form.responsiblePersonName')}
                   </Label>
                   <Input
                     id="responsibleName"
@@ -206,14 +211,14 @@ export const AssociationRegistration = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-white">
-                    Email
+                    {t('form.email')}
                   </Label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="email@asociacion.com"
+                    placeholder={t('form.emailPlaceholder')}
                     className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
                     required
                   />
@@ -221,10 +226,10 @@ export const AssociationRegistration = () => {
 
                 <PasswordField
                   id="password"
-                  label="Contraseña"
+                  label={t('form.password')}
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  placeholder="Crear una contraseña"
+                  placeholder={t('form.passwordPlaceholder')}
                   showPassword={showPassword}
                   toggleShowPassword={() => setShowPassword(!showPassword)}
                   showValidation={true}
@@ -232,32 +237,32 @@ export const AssociationRegistration = () => {
 
                 <PasswordField
                   id="confirmPassword"
-                  label="Confirmar Contraseña"
+                  label={t('form.confirmPassword')}
                   value={formData.confirmPassword}
                   onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  placeholder="Confirme su contraseña"
+                  placeholder={t('form.confirmPasswordPlaceholder')}
                   showPassword={showConfirmPassword}
                   toggleShowPassword={() => setShowConfirmPassword(!showConfirmPassword)}
                 />
 
                 <div className="space-y-2">
                   <Label htmlFor="country" className="text-white">
-                    País *
+                    {t('form.country')} *
                   </Label>
                   <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
                     <SelectTrigger className="bg-white/10 border-white/20 text-white focus:border-blue-400 focus:ring-blue-400/50">
-                      <SelectValue placeholder="Seleccione su país" />
+                      <SelectValue placeholder={t('form.countryPlaceholder')} />
                     </SelectTrigger>
                      <SelectContent className="bg-white border-gray-200">
-                       <SelectItem value="Argentina" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Argentina</SelectItem>
-                       <SelectItem value="Brasil" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Brasil</SelectItem>
-                       <SelectItem value="Chile" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Chile</SelectItem>
-                       <SelectItem value="Colombia" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Colombia</SelectItem>
-                       <SelectItem value="España" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">España</SelectItem>
-                       <SelectItem value="México" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">México</SelectItem>
-                       <SelectItem value="Perú" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Perú</SelectItem>
-                       <SelectItem value="Uruguay" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Uruguay</SelectItem>
-                       <SelectItem value="Otro" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Otro</SelectItem>
+                       <SelectItem value="Argentina" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Argentina')}</SelectItem>
+                       <SelectItem value="Brasil" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Brasil')}</SelectItem>
+                       <SelectItem value="Chile" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Chile')}</SelectItem>
+                       <SelectItem value="Colombia" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Colombia')}</SelectItem>
+                       <SelectItem value="España" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.España')}</SelectItem>
+                       <SelectItem value="México" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.México')}</SelectItem>
+                       <SelectItem value="Perú" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Perú')}</SelectItem>
+                       <SelectItem value="Uruguay" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Uruguay')}</SelectItem>
+                       <SelectItem value="Otro" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">{t('countries.Otro')}</SelectItem>
                      </SelectContent>
                   </Select>
                 </div>
@@ -267,7 +272,7 @@ export const AssociationRegistration = () => {
                   disabled={isLoading}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 rounded-lg transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                 >
-                  {isLoading ? 'Registrando...' : 'Registrar Asociación'}
+                  {isLoading ? t('form.submittingButton') : t('form.submitButton')}
                 </Button>
               </form>
             </CardContent>

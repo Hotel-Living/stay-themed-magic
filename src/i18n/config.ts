@@ -50,6 +50,7 @@ import enPress from './locales/en/press.json';
 import enHotelCrisis from './locales/en/hotel-crisis.json';
 import enHotelAccordion from './locales/en/hotel-accordion.json';
 import enHotelAssociation from './locales/en/hotelAssociation.json';
+import enAssociationRegistration from './locales/en/associationRegistration.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -96,6 +97,7 @@ import esAdvertising from './locales/es/dashboard/advertising.json';
 import esHotelCrisis from './locales/es/hotel-crisis.json';
 import esHotelAccordion from './locales/es/hotel-accordion.json';
 import esHotelAssociation from './locales/es/hotelAssociation.json';
+import esAssociationRegistration from './locales/es/associationRegistration.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -131,6 +133,7 @@ import ptPress from './locales/pt/press.json';
 import ptHotelCrisis from './locales/pt/hotel-crisis.json';
 import ptHotelAccordion from './locales/pt/hotel-accordion.json';
 import ptHotelAssociation from './locales/pt/hotelAssociation.json';
+import ptAssociationRegistration from './locales/pt/associationRegistration.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -166,6 +169,7 @@ import roAdvertising from './locales/ro/dashboard/advertising.json';
 import roHotelCrisis from './locales/ro/hotel-crisis.json';
 import roHotelAccordion from './locales/ro/hotel-accordion.json';
 import roHotelAssociation from './locales/ro/hotelAssociation.json';
+import roAssociationRegistration from './locales/ro/associationRegistration.json';
 
 const resources = {
   en: {
@@ -195,6 +199,7 @@ const resources = {
     'hotel-crisis': enHotelCrisis,
     'hotel-accordion': enHotelAccordion,
     hotelAssociation: enHotelAssociation,
+    associationRegistration: enAssociationRegistration,
     // Dashboard namespaces as separate resources
     'dashboard/general': enDashboardGeneral,
     'dashboard/welcome': enDashboardWelcome,
@@ -280,6 +285,7 @@ const resources = {
     'hotel-crisis': esHotelCrisis,
     'hotel-accordion': esHotelAccordion,
     hotelAssociation: esHotelAssociation,
+    associationRegistration: esAssociationRegistration,
     // Dashboard namespaces as separate resources
     'dashboard/general': esDashboardGeneral,
     'dashboard/hotel': esDashboardHotel,
@@ -326,6 +332,7 @@ const resources = {
     'hotel-crisis': ptHotelCrisis,
     'hotel-accordion': ptHotelAccordion,
     hotelAssociation: ptHotelAssociation,
+    associationRegistration: ptAssociationRegistration,
     // Dashboard namespaces as separate resources
     'dashboard/general': ptDashboardGeneral,
     'dashboard/common': ptDashboardCommon,
@@ -372,6 +379,7 @@ const resources = {
     'hotel-crisis': roHotelCrisis,
     'hotel-accordion': roHotelAccordion,
     hotelAssociation: roHotelAssociation,
+    associationRegistration: roAssociationRegistration,
     // Dashboard namespaces as separate resources
     'dashboard/general': roDashboardGeneral,
     'dashboard/common': roDashboardCommon,

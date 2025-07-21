@@ -80,7 +80,7 @@ serve(async (req) => {
             </div>
             <p>Su solicitud está siendo revisada por nuestro equipo. Le contactaremos pronto con más información sobre los próximos pasos.</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/association/dashboard"
                  style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                 Acceder al Panel de Asociación
               </a>
@@ -102,7 +102,7 @@ serve(async (req) => {
             </div>
             <p>Your application is being reviewed by our team. We will contact you soon with more information about the next steps.</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/association/dashboard" 
                  style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                 Access Association Panel
               </a>
@@ -124,7 +124,7 @@ serve(async (req) => {
             </div>
             <p>Sua solicitação está sendo revisada por nossa equipe. Entraremos em contato em breve com mais informações sobre os próximos passos.</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/association/dashboard" 
                  style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                 Acessar Painel da Associação
               </a>
@@ -146,7 +146,7 @@ serve(async (req) => {
             </div>
             <p>Cererea dvs. este în curs de examinare de către echipa noastră. Vă vom contacta în curând cu mai multe informații despre pașii următori.</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/association/dashboard" 
                  style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                 Accesați Panoul Asociației
               </a>

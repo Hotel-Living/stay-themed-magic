@@ -55,7 +55,7 @@ export const AssociationRegistration = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/panel-asociacion`,
+          emailRedirectTo: `${window.location.origin}/association/dashboard`,
           data: {
             full_name: formData.responsibleName,
             is_hotel_owner: false,

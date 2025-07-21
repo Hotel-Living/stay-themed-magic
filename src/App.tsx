@@ -137,7 +137,7 @@ function App() {
                 <Route path="/panel-agente" element={<AgentDashboard />} />
                 <Route path="/asociacion" element={<AssociationLanding />} />
                 <Route path="/asociacion/registro" element={<AssociationRegistration />} />
-                <Route path="/panel-asociacion" element={<AssociationDashboard />} />
+                <Route path="/panel-asociacion" element={<Navigate to="/association/dashboard" replace />} />
                 <Route path="/ambassadors" element={<AmbassadorsList />} />
                 <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/press" element={<Press />} />
@@ -161,7 +161,7 @@ function App() {
                {/* Protected Routes */}
                <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/association/dashboard" element={<ProtectedRoute><AssociationDashboard /></ProtectedRoute>} />
+               <Route path="/association/dashboard" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
                <Route path="/promoter/dashboard" element={<ProtectedRoute><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />

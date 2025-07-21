@@ -1237,6 +1237,7 @@ export type Database = {
           is_hotel_owner: boolean | null
           last_name: string | null
           phone: string | null
+          preferred_language: string | null
           role: string
           updated_at: string
         }
@@ -1251,6 +1252,7 @@ export type Database = {
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
+          preferred_language?: string | null
           role?: string
           updated_at?: string
         }
@@ -1265,6 +1267,7 @@ export type Database = {
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
+          preferred_language?: string | null
           role?: string
           updated_at?: string
         }

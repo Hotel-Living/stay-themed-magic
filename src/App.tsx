@@ -161,7 +161,6 @@ function App() {
                {/* Protected Routes */}
                <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/association/dashboard" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
                <Route path="/promoter/dashboard" element={<ProtectedRoute><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />

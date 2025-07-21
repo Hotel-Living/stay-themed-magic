@@ -555,6 +555,45 @@ export type Database = {
           },
         ]
       }
+      hotel_associations: {
+        Row: {
+          association_code: string | null
+          association_name: string
+          country: string
+          created_at: string
+          email: string
+          id: string
+          responsible_person: string
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          association_code?: string | null
+          association_name: string
+          country: string
+          created_at?: string
+          email: string
+          id?: string
+          responsible_person: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          association_code?: string | null
+          association_name?: string
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          responsible_person?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       hotel_availability: {
         Row: {
           availability_date: string
@@ -1628,6 +1667,10 @@ export type Database = {
       }
       generate_agent_code: {
         Args: { first_name: string; last_name: string }
+        Returns: string
+      }
+      generate_association_code: {
+        Args: { association_name: string }
         Returns: string
       }
       get_activities_with_counts: {

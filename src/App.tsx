@@ -69,6 +69,7 @@ import AgentRegistration from "@/pages/AgentRegistration";
 import AgentDashboard from "@/pages/AgentDashboard";
 import AssociationRegistration from "@/pages/AssociationRegistration";
 import AssociationDashboard from "@/pages/AssociationDashboard";
+import AssociationLanding from "@/pages/AssociationLanding";
 import Press from "@/pages/Press";
 import HotelCrisis from "@/pages/HotelCrisis";
 import HotelAssociation from "@/pages/HotelAssociation";
@@ -133,6 +134,7 @@ function App() {
                 <Route path="/agentes" element={<Agents />} />
                 <Route path="/agentes/registro" element={<AgentRegistration />} />
                 <Route path="/panel-agente" element={<AgentDashboard />} />
+                <Route path="/asociacion" element={<AssociationLanding />} />
                 <Route path="/asociacion/registro" element={<AssociationRegistration />} />
                 <Route path="/panel-asociacion" element={<AssociationDashboard />} />
                 <Route path="/ambassadors" element={<AmbassadorsList />} />

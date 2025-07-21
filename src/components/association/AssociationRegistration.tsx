@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Starfield } from '@/components/Starfield';
@@ -14,10 +14,7 @@ export const AssociationRegistration = () => {
     name: '',
     responsibleName: '',
     email: '',
-    phone: '',
-    address: '',
-    description: '',
-    bankAccount: ''
+    country: ''
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,38 +23,82 @@ export const AssociationRegistration = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Uncomment when authentication is implemented
-      /*
+      // Validate required fields
+      if (!formData.name || !formData.email || !formData.country || !formData.responsibleName) {
+        toast.error('Por favor complete todos los campos requeridos');
+        return;
+      }
+
+      // Create user account with temporary password
+      const tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
+      
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: tempPassword,
+        options: {
+          emailRedirectTo: `${window.location.origin}/panel-asociacion`,
+          data: {
+            association_name: formData.name,
+            responsible_person: formData.responsibleName,
+            country: formData.country
+          }
+        }
+      });
+
+      if (authError) {
+        if (authError.message.includes('already registered')) {
+          toast.error('Esta dirección de email ya está registrada');
+        } else {
+          toast.error('Error al crear la cuenta: ' + authError.message);
+        }
+        return;
+      }
+
+      if (!authData.user) {
+        toast.error('Error al crear la cuenta de usuario');
+        return;
+      }
+
+      // Insert association data
       const { data, error } = await supabase
         .from('hotel_associations')
         .insert([
           {
-            name: formData.name,
-            responsible_name: formData.responsibleName,
+            user_id: authData.user.id,
+            association_name: formData.name,
+            responsible_person: formData.responsibleName,
             email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
-            description: formData.description,
-            bank_account: formData.bankAccount
+            country: formData.country
           }
-        ]);
+        ])
+        .select()
+        .single();
 
       if (error) throw error;
-      */
+
+      // Send confirmation email
+      try {
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-association-confirmation', {
+          body: { record: data },
+        });
+        
+        if (emailError) {
+          console.warn('Failed to send confirmation email:', emailError);
+        }
+      } catch (emailError) {
+        console.warn('Error sending confirmation email:', emailError);
+      }
       
-      toast.success('Asociación registrada exitosamente');
+      toast.success('Asociación registrada exitosamente. Revise su email para confirmar la cuenta.');
       setFormData({
         name: '',
         responsibleName: '',
         email: '',
-        phone: '',
-        address: '',
-        description: '',
-        bankAccount: ''
+        country: ''
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
-      toast.error('Error al registrar la asociación');
+      toast.error('Error al registrar la asociación: ' + (error.message || 'Error desconocido'));
     } finally {
       setIsLoading(false);
     }
@@ -130,56 +171,25 @@ export const AssociationRegistration = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-white">
-                    Teléfono
+                  <Label htmlFor="country" className="text-white">
+                    País *
                   </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="address" className="text-white">
-                    Dirección
-                  </Label>
-                  <Input
-                    id="address"
-                    type="text"
-                    value={formData.address}
-                    onChange={(e) => handleInputChange('address', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="bankAccount" className="text-white">
-                    IBAN o número de cuenta para comisiones
-                  </Label>
-                  <Input
-                    id="bankAccount"
-                    type="text"
-                    value={formData.bankAccount}
-                    onChange={(e) => handleInputChange('bankAccount', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description" className="text-white">
-                    Descripción (opcional)
-                  </Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/60 focus:border-blue-400 focus:ring-blue-400/50 min-h-[80px]"
-                    placeholder="Describa brevemente su asociación..."
-                  />
+                  <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
+                    <SelectTrigger className="bg-white/10 border-white/20 text-white focus:border-blue-400 focus:ring-blue-400/50">
+                      <SelectValue placeholder="Seleccione su país" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Argentina">Argentina</SelectItem>
+                      <SelectItem value="Brasil">Brasil</SelectItem>
+                      <SelectItem value="Chile">Chile</SelectItem>
+                      <SelectItem value="Colombia">Colombia</SelectItem>
+                      <SelectItem value="España">España</SelectItem>
+                      <SelectItem value="México">México</SelectItem>
+                      <SelectItem value="Perú">Perú</SelectItem>
+                      <SelectItem value="Uruguay">Uruguay</SelectItem>
+                      <SelectItem value="Otro">Otro</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <Button

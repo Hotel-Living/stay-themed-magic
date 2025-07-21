@@ -159,9 +159,9 @@ function App() {
               <Route path="/intro-test9" element={<IntroTest9 />} />
               
                {/* Protected Routes */}
-               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+               <Route path="/user-dashboard" element={<ProtectedRoute requireTraveler={true}><UserDashboard /></ProtectedRoute>} />
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/promoter/dashboard" element={<ProtectedRoute><PromoterDashboard /></ProtectedRoute>} />
+               <Route path="/promoter/dashboard" element={<ProtectedRoute requirePromoter={true}><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
               <Route path="/dashboard/hotel/add-property-2" element={<ProtectedRoute requireHotelOwner={true}><AddProperty2 /></ProtectedRoute>} />

@@ -52,7 +52,7 @@ export default function Press() {
               {t('headlines.title')}
             </h2>
             <ul className="space-y-3">
-              {t('headlines.items', { returnObjects: true }).map((headline: string, index: number) => (
+              {(t('headlines.list', { returnObjects: true }) as string[]).map((headline: string, index: number) => (
                 <li key={index} className="text-fuchsia-300 flex items-start">
                   <span className="text-fuchsia-400 mr-2">•</span>
                   <span>{headline}</span>
@@ -67,7 +67,7 @@ export default function Press() {
               {t('keyFigures.title')}
             </h2>
             <ul className="space-y-3">
-              {t('keyFigures.items', { returnObjects: true }).map((figure: string, index: number) => (
+              {(t('keyFigures.list', { returnObjects: true }) as string[]).map((figure: string, index: number) => (
                 <li key={index} className="text-fuchsia-300 flex items-start">
                   <span className="text-fuchsia-400 mr-2">•</span>
                   <span>{figure}</span>
@@ -85,7 +85,7 @@ export default function Press() {
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Major Chains</h3>
                 <div className="flex flex-wrap gap-2">
-                  {t('brands.major', { returnObjects: true }).map((brand: string, index: number) => (
+                  {(t('brands.majorList', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
                     <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
                       {brand}
                     </span>
@@ -95,7 +95,7 @@ export default function Press() {
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Specialized</h3>
                 <div className="flex flex-wrap gap-2">
-                  {t('brands.specialized', { returnObjects: true }).map((brand: string, index: number) => (
+                  {(t('brands.specializedList', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
                     <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
                       {brand}
                     </span>
@@ -111,7 +111,7 @@ export default function Press() {
               {t('pressCoverage.title')}
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {t('pressCoverage.items', { returnObjects: true }).map((item: any, index: number) => (
+              {(t('pressCoverage.list', { returnObjects: true }) as Array<{media: string, link: string}>).map((item: any, index: number) => (
                 <a
                   key={index}
                   href={item.link}

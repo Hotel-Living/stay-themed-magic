@@ -11,9 +11,73 @@ interface SignInProps {
 export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
   const { toast } = useToast();
 
+  const validateUserRole = (user: any, selectedType: string) => {
+    console.log("Validating user role:", { selectedType, userMetadata: user.user_metadata });
+    
+    switch (selectedType) {
+      case "traveler":
+        // Travelers should not have hotel_owner flag, association_name, or promoter role
+        if (user.user_metadata?.is_hotel_owner || 
+            user.user_metadata?.association_name || 
+            user.user_metadata?.role === 'promoter') {
+          return {
+            valid: false,
+            message: "Esta cuenta no es una cuenta de viajero. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
+          };
+        }
+        return { valid: true, message: "" };
+        
+      case "hotel":
+        // Hotel users must have is_hotel_owner flag
+        if (!user.user_metadata?.is_hotel_owner) {
+          return {
+            valid: false,
+            message: "Esta cuenta no pertenece a un hotel. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
+          };
+        }
+        return { valid: true, message: "" };
+        
+      case "association":
+        // Association users must have association_name in metadata
+        if (!user.user_metadata?.association_name) {
+          return {
+            valid: false,
+            message: "Esta cuenta no pertenece a una asociación. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
+          };
+        }
+        return { valid: true, message: "" };
+        
+      case "promoter":
+        // Promoter users must have promoter role
+        if (user.user_metadata?.role !== 'promoter') {
+          return {
+            valid: false,
+            message: "Esta cuenta no es una cuenta de promotor. Por favor, selecciona la pestaña correcta para tu tipo de cuenta."
+          };
+        }
+        return { valid: true, message: "" };
+        
+      default:
+        return { valid: false, message: "Tipo de cuenta no válido." };
+    }
+  };
+
+  const getCorrectRedirectUrl = (user: any) => {
+    // Check user metadata to determine correct redirect based on actual role
+    if (user.user_metadata?.association_name) {
+      return "/panel-asociacion";
+    } else if (user.user_metadata?.is_hotel_owner) {
+      return "/hotel-dashboard";
+    } else if (user.user_metadata?.role === 'promoter') {
+      return "/promoter/dashboard";
+    } else {
+      return "/user-dashboard";
+    }
+  };
+
   const signIn = async (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => {
     try {
-      console.log("useSignIn: Starting authentication", { email, userType });
+      console.log("useSignIn: Starting authentication with role validation", { email, userType });
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -29,11 +93,28 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         throw new Error("No user data returned from authentication");
       }
 
-      console.log("Authentication successful:", data.user.id);
+      console.log("Authentication successful, validating role:", data.user.id);
 
-      // Success toast based on form userType
+      // CRITICAL: Validate user role against selected tab
+      const roleValidation = validateUserRole(data.user, userType);
+      
+      if (!roleValidation.valid) {
+        console.error("Role validation failed:", roleValidation.message);
+        
+        // Sign out the user since role doesn't match
+        await supabase.auth.signOut();
+        
+        return {
+          success: false,
+          error: roleValidation.message
+        };
+      }
+
+      console.log("Role validation passed for user type:", userType);
+
+      // Success toast based on validated user type
       const welcomeMessage = {
-        traveler: "Bienvenido de vuelta",
+        traveler: "Bienvenido de vuelta, viajero",
         hotel: "Bienvenido, hotel partner", 
         association: "Bienvenido, miembro de asociación",
         promoter: "Bienvenido, promotor"
@@ -44,26 +125,10 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         description: welcomeMessage
       });
 
-      // Determine redirect URL based on actual user metadata
-      let redirectUrl = "/user-dashboard"; // default
+      // Determine redirect URL based on ACTUAL user metadata (not selected tab)
+      const redirectUrl = getCorrectRedirectUrl(data.user);
 
-      // Check if user has association metadata
-      if (data.user.user_metadata?.association_name) {
-        redirectUrl = "/panel-asociacion";
-      }
-      // Check if user is hotel owner (will be checked via profile)
-      else {
-        // Fetch profile to check is_hotel_owner
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_hotel_owner')
-          .eq('id', data.user.id)
-          .single();
-          
-        if (profile?.is_hotel_owner) {
-          redirectUrl = "/hotel-dashboard";
-        }
-      }
+      console.log("Redirecting to:", redirectUrl);
 
       setTimeout(() => {
         window.location.href = redirectUrl;
@@ -81,12 +146,6 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         errorMessage = "Por favor confirma tu email";
       }
       
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive"
-      });
-
       return { success: false, error: errorMessage };
     }
   };

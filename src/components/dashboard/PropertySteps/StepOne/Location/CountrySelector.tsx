@@ -66,14 +66,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
               <SelectItem 
                 key={country.isoCode} 
                 value={country.isoCode}
-                className="text-white hover:bg-white/10 focus:bg-white/10 focus:text-white data-[highlighted]:bg-white/10 data-[highlighted]:text-white"
+                className="text-white bg-[#7E26A6] hover:bg-[#9A3CC1] focus:bg-[#9A3CC1] focus:text-white data-[highlighted]:bg-[#9A3CC1] data-[highlighted]:text-white"
               >
                 {country.name}
               </SelectItem>
             ))}
             <SelectItem 
               value="add-new" 
-              className="text-white hover:bg-white/10 focus:bg-white/10 focus:text-white data-[highlighted]:bg-white/10 data-[highlighted]:text-white"
+              className="text-white bg-[#7E26A6] hover:bg-[#9A3CC1] focus:bg-[#9A3CC1] focus:text-white data-[highlighted]:bg-[#9A3CC1] data-[highlighted]:text-white"
             >
               + Add New Country
             </SelectItem>

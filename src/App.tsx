@@ -3,100 +3,29 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
-import { VideoTestimonialProvider } from "@/context/VideoTestimonialContext";
-import { AvatarManagerProvider } from "@/context/AvatarManagerContext";
+import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { SEOMetadata } from "@/components/SEOMetadata";
 
-// Import all pages
+// Import only existing pages
 import Index from "./pages/Index";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import HotelLogin from "./pages/HotelLogin";
-import HotelSignup from "./pages/HotelSignup";
-import VerifyEmail from "./pages/VerifyEmail";
-import ResetPassword from "./pages/ResetPassword";
-import ForgotPassword from "./pages/ForgotPassword";
-import ConfirmEmail from "./pages/ConfirmEmail";
-import TermsOfService from "./pages/TermsOfService";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Hotels from "./pages/Hotels";
+import AboutUs from "./pages/AboutUs";
 import HotelDetail from "./pages/HotelDetail";
-import Experiences from "./pages/Experiences";
-import ExperienceDetail from "./pages/ExperienceDetail";
-import BookingConfirmation from "./pages/BookingConfirmation";
-import MyBookings from "./pages/MyBookings";
-import AssociationDashboard from "./pages/AssociationDashboard";
-import Payments from "./pages/Payments";
-import Events from "./pages/Events";
-import EventDetail from "./pages/EventDetail";
-import Blog from "./pages/Blog";
-import BlogDetail from "./pages/BlogDetail";
-import Cities from "./pages/Cities";
-import CityDetail from "./pages/CityDetail";
-import Destinations from "./pages/Destinations";
-import DestinationDetail from "./pages/DestinationDetail";
-import Search from "./pages/Search";
-import SearchResults from "./pages/SearchResults";
-import TravelGuide from "./pages/TravelGuide";
-import TravelGuideDetail from "./pages/TravelGuideDetail";
-import Gallery from "./pages/Gallery";
-import News from "./pages/News";
-import NewsDetail from "./pages/NewsDetail";
-import Packages from "./pages/Packages";
-import PackageDetail from "./pages/PackageDetail";
 import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import PromoterDashboard from "./pages/PromoterDashboard";
-import AdminRoutes from "./pages/AdminRoutes";
-import DashboardSelection from "./pages/DashboardSelection";
-import Profile from "./pages/Profile";
-import Bookings from "./pages/Bookings";
-import Reviews from "./pages/Reviews";
-import Help from "./pages/Help";
-import Settings from "./pages/Settings";
-import Feedback from "./pages/Feedback";
-import Avatars from "./pages/Avatars";
-import VideoTestimonials from "./pages/VideoTestimonials";
-import UserManagement from "./pages/UserManagement";
-import DashboardGenerator from "./pages/DashboardGenerator";
-import BrandAssets from "./pages/BrandAssets";
-import TestEmail from "./pages/TestEmail";
-import VideoTestimonialsManagement from "./pages/VideoTestimonialsManagement";
-import AITravelAssistant from "./pages/AITravelAssistant";
-import TestimonialForm from "./pages/TestimonialForm";
-import ItineraryGenerator from "./pages/ItineraryGenerator";
-import TravelInsights from "./pages/TravelInsights";
-import TripPlanner from "./pages/TripPlanner";
-import TravelAssistant from "./pages/TravelAssistant";
-import ContentManagement from "./pages/ContentManagement";
-import ExperiencesForm from "./pages/ExperiencesForm";
-import Recommendations from "./pages/Recommendations";
-import GlobalTestimonials from "./pages/GlobalTestimonials";
-import TravelJournal from "./pages/TravelJournal";
-import TravelStats from "./pages/TravelStats";
-import BucketList from "./pages/BucketList";
-import TravelMemories from "./pages/TravelMemories";
-import TravelSocial from "./pages/TravelSocial";
-import TravelChallenges from "./pages/TravelChallenges";
-import TravelRewards from "./pages/TravelRewards";
-import TravelCalendar from "./pages/TravelCalendar";
-import TravelBudget from "./pages/TravelBudget";
-import TravelExpenses from "./pages/TravelExpenses";
-import TravelMaps from "./pages/TravelMaps";
-import TravelWeather from "./pages/TravelWeather";
-import TravelCurrency from "./pages/TravelCurrency";
-import TravelTranslator from "./pages/TravelTranslator";
-import TravelEmergency from "./pages/TravelEmergency";
-import TravelHealth from "./pages/TravelHealth";
-import TravelSafety from "./pages/TravelSafety";
-import TravelDocuments from "./pages/TravelDocuments";
-import TravelInsurance from "./pages/TravelInsurance";
-import TravelChecklist from "./pages/TravelChecklist";
-import TravelPacking from "./pages/TravelPacking";
-import TravelTips from "./pages/TravelTips";
+import AssociationDashboard from "./pages/AssociationDashboard";
+
+// Simple placeholder component for missing pages
+const NotImplemented = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center">
+      <h1 className="text-2xl font-bold mb-4">Page Not Yet Implemented</h1>
+      <p className="text-muted-foreground">This page is under development.</p>
+    </div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -108,48 +37,48 @@ function App() {
         <Router>
           <AuthProvider>
             <VideoTestimonialProvider>
-              <AvatarManagerProvider>
               <SEOMetadata />
               <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/hotel-login" element={<HotelLogin />} />
-                <Route path="/hotel-signup" element={<HotelSignup />} />
-                <Route path="/verify-email" element={<VerifyEmail />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/confirm" element={<ConfirmEmail />} />
-                <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/hoteles" element={<Hotels />} />
+                <Route path="/about" element={<AboutUs />} />
                 <Route path="/hoteles/:id" element={<HotelDetail />} />
-                <Route path="/experiencias" element={<Experiences />} />
-                <Route path="/experiencias/:id" element={<ExperienceDetail />} />
-                <Route path="/reservas/:id" element={<BookingConfirmation />} />
-                <Route path="/mis-reservas" element={<MyBookings />} />
-                <Route path="/panel-asociacion" element={<AssociationDashboard />} />
-                <Route path="/pagos" element={<Payments />} />
-                <Route path="/eventos" element={<Events />} />
-                <Route path="/eventos/:id" element={<EventDetail />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:id" element={<BlogDetail />} />
-                <Route path="/ciudades" element={<Cities />} />
-                <Route path="/ciudades/:id" element={<CityDetail />} />
-                <Route path="/destinos" element={<Destinations />} />
-                <Route path="/destinos/:id" element={<DestinationDetail />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/search/:query" element={<SearchResults />} />
-                <Route path="/travel-guide" element={<TravelGuide />} />
-                <Route path="/travel-guide/:id" element={<TravelGuideDetail />} />
-                <Route path="/galeria" element={<Gallery />} />
-                <Route path="/noticias" element={<News />} />
-                <Route path="/noticias/:id" element={<NewsDetail />} />
-                <Route path="/paquetes" element={<Packages />} />
-                <Route path="/paquetes/:id" element={<PackageDetail />} />
+                
+                {/* Placeholder routes for missing pages */}
+                <Route path="/signup" element={<NotImplemented />} />
+                <Route path="/hotel-login" element={<NotImplemented />} />
+                <Route path="/hotel-signup" element={<NotImplemented />} />
+                <Route path="/verify-email" element={<NotImplemented />} />
+                <Route path="/reset-password" element={<NotImplemented />} />
+                <Route path="/forgot-password" element={<NotImplemented />} />
+                <Route path="/confirm" element={<NotImplemented />} />
+                <Route path="/terms" element={<NotImplemented />} />
+                <Route path="/privacy" element={<NotImplemented />} />
+                <Route path="/contact" element={<NotImplemented />} />
+                <Route path="/hoteles" element={<NotImplemented />} />
+                <Route path="/experiencias" element={<NotImplemented />} />
+                <Route path="/experiencias/:id" element={<NotImplemented />} />
+                <Route path="/reservas/:id" element={<NotImplemented />} />
+                <Route path="/mis-reservas" element={<NotImplemented />} />
+                <Route path="/pagos" element={<NotImplemented />} />
+                <Route path="/eventos" element={<NotImplemented />} />
+                <Route path="/eventos/:id" element={<NotImplemented />} />
+                <Route path="/blog" element={<NotImplemented />} />
+                <Route path="/blog/:id" element={<NotImplemented />} />
+                <Route path="/ciudades" element={<NotImplemented />} />
+                <Route path="/ciudades/:id" element={<NotImplemented />} />
+                <Route path="/destinos" element={<NotImplemented />} />
+                <Route path="/destinos/:id" element={<NotImplemented />} />
+                <Route path="/search" element={<NotImplemented />} />
+                <Route path="/search/:query" element={<NotImplemented />} />
+                <Route path="/travel-guide" element={<NotImplemented />} />
+                <Route path="/travel-guide/:id" element={<NotImplemented />} />
+                <Route path="/galeria" element={<NotImplemented />} />
+                <Route path="/noticias" element={<NotImplemented />} />
+                <Route path="/noticias/:id" element={<NotImplemented />} />
+                <Route path="/paquetes" element={<NotImplemented />} />
+                <Route path="/paquetes/:id" element={<NotImplemented />} />
 
                 {/* Protected routes with role-based access */}
                 
@@ -181,249 +110,248 @@ function App() {
                   </ProtectedRoute>
                 } />
 
-                {/* Admin routes */}
+                {/* Other protected routes - placeholder implementations */}
                 <Route path="/admin/*" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <AdminRoutes />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
 
-                {/* Dashboard selection for users with multiple roles */}
                 <Route path="/dashboard-selection" element={
                   <ProtectedRoute>
-                    <DashboardSelection />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
 
-                {/* Other protected routes */}
                 <Route path="/profile" element={
                   <ProtectedRoute>
-                    <Profile />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/bookings" element={
                   <ProtectedRoute>
-                    <Bookings />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/reviews" element={
                   <ProtectedRoute>
-                    <Reviews />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/help" element={
                   <ProtectedRoute>
-                    <Help />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/settings" element={
                   <ProtectedRoute>
-                    <Settings />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/feedback" element={
                   <ProtectedRoute>
-                    <Feedback />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/avatars" element={
                   <ProtectedRoute>
-                    <Avatars />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/video-testimonials" element={
                   <ProtectedRoute>
-                    <VideoTestimonials />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/user-management" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <UserManagement />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/dashboard-generator" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <DashboardGenerator />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/brand-assets" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <BrandAssets />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/test-email" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <TestEmail />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/video-testimonials-management" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <VideoTestimonialsManagement />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/ai-travel-assistant" element={
                   <ProtectedRoute>
-                    <AITravelAssistant />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/testimonial-form" element={
                   <ProtectedRoute>
-                    <TestimonialForm />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/itinerary-generator" element={
                   <ProtectedRoute>
-                    <ItineraryGenerator />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-insights" element={
                   <ProtectedRoute>
-                    <TravelInsights />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/trip-planner" element={
                   <ProtectedRoute>
-                    <TripPlanner />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-assistant" element={
                   <ProtectedRoute>
-                    <TravelAssistant />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/content-management" element={
                   <ProtectedRoute requireAdmin={true}>
-                    <ContentManagement />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/experiences-form" element={
                   <ProtectedRoute>
-                    <ExperiencesForm />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/recommendations" element={
                   <ProtectedRoute>
-                    <Recommendations />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/global-testimonials" element={
                   <ProtectedRoute>
-                    <GlobalTestimonials />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-journal" element={
                   <ProtectedRoute>
-                    <TravelJournal />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-stats" element={
                   <ProtectedRoute>
-                    <TravelStats />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/bucket-list" element={
                   <ProtectedRoute>
-                    <BucketList />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-memories" element={
                   <ProtectedRoute>
-                    <TravelMemories />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-social" element={
                   <ProtectedRoute>
-                    <TravelSocial />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-challenges" element={
                   <ProtectedRoute>
-                    <TravelChallenges />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-rewards" element={
                   <ProtectedRoute>
-                    <TravelRewards />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-calendar" element={
                   <ProtectedRoute>
-                    <TravelCalendar />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-budget" element={
                   <ProtectedRoute>
-                    <TravelBudget />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-expenses" element={
                   <ProtectedRoute>
-                    <TravelExpenses />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-maps" element={
                   <ProtectedRoute>
-                    <TravelMaps />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-weather" element={
                   <ProtectedRoute>
-                    <TravelWeather />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-currency" element={
                   <ProtectedRoute>
-                    <TravelCurrency />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-translator" element={
                   <ProtectedRoute>
-                    <TravelTranslator />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-emergency" element={
                   <ProtectedRoute>
-                    <TravelEmergency />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-health" element={
                   <ProtectedRoute>
-                    <TravelHealth />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-safety" element={
                   <ProtectedRoute>
-                    <TravelSafety />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-documents" element={
                   <ProtectedRoute>
-                    <TravelDocuments />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-insurance" element={
                   <ProtectedRoute>
-                    <TravelInsurance />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-checklist" element={
                   <ProtectedRoute>
-                    <TravelChecklist />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-packing" element={
                   <ProtectedRoute>
-                    <TravelPacking />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
                 <Route path="/travel-tips" element={
                   <ProtectedRoute>
-                    <TravelTips />
+                    <NotImplemented />
                   </ProtectedRoute>
                 } />
+                
+                {/* Catch all route */}
+                <Route path="*" element={<NotImplemented />} />
               </Routes>
-            <GlobalTestimonials />
-            </AvatarManagerProvider>
             </VideoTestimonialProvider>
           </AuthProvider>
         </Router>

@@ -12,6 +12,8 @@ export type Profile = {
   role?: string;
   email_verified?: boolean;
   is_active?: boolean;
+  preferred_language?: string | null;
+  jotform_token?: string | null;
 }
 
 export type UserRole = {

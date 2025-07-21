@@ -58,10 +58,9 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
     return (
       <div className="text-center p-8">
         <h3 className="text-lg font-semibold mb-4">No properties found</h3>
-        <Button onClick={onAddNewProperty} className="bg-purple-600 hover:bg-purple-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Add Your First Property
-        </Button>
+        <p className="text-white/80 mb-4">
+          To add your first property, please use the "Agregar Hotel" tab above.
+        </p>
       </div>
     );
   }

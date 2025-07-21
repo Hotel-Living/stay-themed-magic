@@ -1235,6 +1235,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           is_hotel_owner: boolean | null
+          jotform_token: string | null
           last_name: string | null
           phone: string | null
           preferred_language: string | null
@@ -1250,6 +1251,7 @@ export type Database = {
           id: string
           is_active?: boolean | null
           is_hotel_owner?: boolean | null
+          jotform_token?: string | null
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
@@ -1265,6 +1267,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           is_hotel_owner?: boolean | null
+          jotform_token?: string | null
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
@@ -1676,6 +1679,10 @@ export type Database = {
         Args: { association_name: string }
         Returns: string
       }
+      generate_jotform_token: {
+        Args: { user_id: string }
+        Returns: string
+      }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1737,6 +1744,10 @@ export type Database = {
           property_type: string
           hotel_count: number
         }[]
+      }
+      get_user_from_jotform_token: {
+        Args: { token: string }
+        Returns: string
       }
       has_role: {
         Args: { role_name: string }

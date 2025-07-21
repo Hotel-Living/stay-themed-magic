@@ -76,13 +76,42 @@ Deno.serve(async (req) => {
     const hotelData = parseHotelSubmission(submissionData)
     console.log('Parsed hotel data:', hotelData)
 
+    // Get user ID from token if provided
+    let ownerId = null
+    if (hotelData.userToken) {
+      const { data: userId, error: tokenError } = await supabase.rpc(
+        'get_user_from_jotform_token',
+        { token: hotelData.userToken }
+      )
+      
+      if (tokenError) {
+        console.error('Error retrieving user from token:', tokenError)
+      } else if (userId) {
+        ownerId = userId
+        console.log('Found user ID from token:', ownerId)
+      } else {
+        console.warn('No user found for token:', hotelData.userToken)
+      }
+    }
+
     // Apply mappings to hotel data for consistency
     const mappedHotelData = await applyFilterMappings(hotelData, supabase)
+    
+    // Geocode address if coordinates are missing
+    if (!mappedHotelData.latitude || !mappedHotelData.longitude) {
+      const coordinates = await geocodeAddress(mappedHotelData.address, mappedHotelData.city, mappedHotelData.country)
+      if (coordinates) {
+        mappedHotelData.latitude = coordinates.lat
+        mappedHotelData.longitude = coordinates.lng
+        console.log('Geocoded address:', mappedHotelData.address, 'to coordinates:', coordinates)
+      }
+    }
     
     // Create hotel record
     const { data: hotel, error: hotelError } = await supabase
       .from('hotels')
       .insert({
+        owner_id: ownerId,
         name: mappedHotelData.name,
         description: mappedHotelData.description,
         country: mappedHotelData.country,
@@ -216,8 +245,30 @@ function parseHotelSubmission(submission: JotFormSubmission) {
   const answers = submission.answers
   console.log('Parsing submission answers:', Object.keys(answers))
 
+  // Extract user token from submission metadata or query parameters
+  let userToken = null
+  if (submission.formID === '251846986373069') {
+    // First try to get from form fields (if JotForm has a hidden token field)
+    Object.entries(answers).forEach(([qid, answer]) => {
+      const fieldText = answer.text?.toLowerCase() || answer.name?.toLowerCase() || ''
+      if (fieldText.includes('user_token') || fieldText.includes('token') || qid === 'token') {
+        userToken = Array.isArray(answer.answer) ? answer.answer[0] : answer.answer
+      }
+    })
+    
+    // If no token found in form fields, try to extract from form title or other metadata
+    // Note: This is a fallback approach since JotForm webhooks might not include URL params
+    if (!userToken && submission.formTitle) {
+      const titleMatch = submission.formTitle.match(/token[=:]([a-f0-9]+)/i)
+      if (titleMatch) {
+        userToken = titleMatch[1]
+      }
+    }
+  }
+
   // Extract basic hotel information
   const hotelData: any = {
+    userToken,
     name: '',
     description: '',
     country: '',
@@ -710,4 +761,46 @@ function calculateEndDate(startDate: string, durationDays: number): string {
   const end = new Date(start)
   end.setDate(start.getDate() + durationDays - 1)
   return end.toISOString().split('T')[0]
+}
+
+// Geocode address using Google Maps API
+async function geocodeAddress(address: string, city: string, country: string) {
+  try {
+    const googleMapsApiKey = Deno.env.get('GOOGLE_MAPS_API_KEY')
+    
+    if (!googleMapsApiKey) {
+      console.warn('Google Maps API key not found, skipping geocoding')
+      return null
+    }
+
+    // Construct full address
+    const fullAddress = [address, city, country].filter(Boolean).join(', ')
+    
+    if (!fullAddress.trim()) {
+      console.warn('No address provided for geocoding')
+      return null
+    }
+
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(fullAddress)}&key=${googleMapsApiKey}`
+    
+    console.log('Geocoding address:', fullAddress)
+    
+    const response = await fetch(url)
+    const data = await response.json()
+    
+    if (data.status === 'OK' && data.results && data.results.length > 0) {
+      const location = data.results[0].geometry.location
+      console.log('Geocoding successful:', location)
+      return {
+        lat: location.lat,
+        lng: location.lng
+      }
+    } else {
+      console.warn('Geocoding failed:', data.status, data.error_message)
+      return null
+    }
+  } catch (error) {
+    console.error('Error during geocoding:', error)
+    return null
+  }
 }

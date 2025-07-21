@@ -1,5 +1,6 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
@@ -197,6 +198,63 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
 }
 
 export function useMyProperties(ownerId: string | undefined) {
+  const queryClient = useQueryClient();
+
+  // Set up real-time subscription for hotels
+  useEffect(() => {
+    if (!ownerId) return;
+
+    console.log('Setting up real-time subscription for user hotels:', ownerId);
+
+    const channel = supabase
+      .channel('user-hotels')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'hotels',
+          filter: `owner_id=eq.${ownerId}`
+        },
+        (payload) => {
+          console.log('Real-time hotel update received:', payload);
+          
+          // Invalidate and refetch the properties query
+          queryClient.invalidateQueries({ queryKey: ["my-properties", ownerId] });
+          
+          // Show notification for new hotels
+          if (payload.eventType === 'INSERT') {
+            const newHotel = payload.new as MyHotel;
+            if (typeof window !== 'undefined') {
+              // Use a simple notification if toast is not available
+              const message = `New property "${newHotel.name}" has been added successfully!`;
+              console.log(message);
+              
+              // Try to use toast if available, otherwise use browser notification
+              try {
+                const { toast } = require('sonner');
+                toast.success(message);
+              } catch {
+                // Fallback notification
+                if ('Notification' in window && Notification.permission === 'granted') {
+                  new Notification('Property Added', {
+                    body: message,
+                    icon: '/favicon.ico'
+                  });
+                }
+              }
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      console.log('Cleaning up real-time subscription');
+      supabase.removeChannel(channel);
+    };
+  }, [ownerId, queryClient]);
+
   return useQuery({
     queryKey: ["my-properties", ownerId],
     queryFn: () => (ownerId ? fetchHotelsByOwner(ownerId) : []),

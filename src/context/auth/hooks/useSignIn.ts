@@ -51,7 +51,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       const dashboardUrls = {
         traveler: "/user-dashboard",
         hotel: "/hotel-dashboard",
-        association: "/association/dashboard",
+        association: "/panel-asociacion",
         promoter: "/promoter/dashboard"
       };
 

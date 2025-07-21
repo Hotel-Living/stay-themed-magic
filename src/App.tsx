@@ -137,7 +137,7 @@ function App() {
                 <Route path="/panel-agente" element={<AgentDashboard />} />
                 <Route path="/asociacion" element={<AssociationLanding />} />
                 <Route path="/asociacion/registro" element={<AssociationRegistration />} />
-                <Route path="/panel-asociacion" element={<AssociationDashboard />} />
+                <Route path="/panel-asociacion" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
                 <Route path="/ambassadors" element={<AmbassadorsList />} />
                 <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/press" element={<Press />} />

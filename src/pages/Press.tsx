@@ -12,7 +12,7 @@ export default function Press() {
       <div className="relative z-10">
         <Navbar />
         <main className="min-h-screen">
-          <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <div className="container mx-auto px-4 py-8 max-w-2xl">
             <div className="bg-[#7E00B3]/90 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] backdrop-blur-sm rounded-lg p-6 text-white">
               <div className="space-y-8">
                 

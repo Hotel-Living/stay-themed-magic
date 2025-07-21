@@ -1,6 +1,12 @@
 
 project_id = "pgdzrvdwgoomjnnegkcn"
 
+[auth]
+enabled = true
+# Enable leaked password protection via HaveIBeenPwned
+password_allowlist_only = false
+password_haveibeenpwned_check = true
+
 [api]
 enabled = true
 port = 54321

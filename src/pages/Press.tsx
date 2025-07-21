@@ -22,7 +22,7 @@ export default function Press() {
                     {t('header.line1')}
                   </h1>
                   <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">
-                    {t('header.line2')}
+                    Vivir en hoteles ya no es solo para monarcas y millonarios
                   </h2>
                   <h3 className="text-xl md:text-3xl font-medium text-white/80 leading-relaxed">
                     {t('header.line3')}

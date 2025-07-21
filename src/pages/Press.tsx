@@ -1,12 +1,11 @@
 import { Navbar } from "@/components/Navbar";
 import { useTranslation } from "@/hooks/useTranslation";
 import { ExternalLink } from "lucide-react";
-
 export default function Press() {
-  const { t } = useTranslation('press');
-
-  return (
-    <div className="min-h-screen bg-[#170B3B] relative">
+  const {
+    t
+  } = useTranslation('press');
+  return <div className="min-h-screen bg-[#170B3B] relative">
       <div className="starfield absolute inset-0 w-full h-full opacity-50"></div>
       
       <div className="relative z-10">
@@ -24,23 +23,13 @@ export default function Press() {
                   <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">
                     Vivir en hoteles ya no es solo para monarcas y millonarios
                   </h2>
-                  <h3 className="text-xl md:text-3xl font-medium text-white/80 leading-relaxed">
-                    {t('header.line3')}
-                  </h3>
+                  
                 </div>
 
                 {/* Video Section */}
                 <div className="space-y-4">
                   <div className="w-full scale-75 origin-center">
-                    <iframe 
-                      width="100%" 
-                      height="280" 
-                      src={`https://www.youtube.com/embed/${t('video.placeholder')}`}
-                      title={t('video.title')}
-                      frameBorder="0" 
-                      allowFullScreen
-                      className="rounded-lg shadow-xl"
-                    ></iframe>
+                    <iframe width="100%" height="280" src={`https://www.youtube.com/embed/${t('video.placeholder')}`} title={t('video.title')} frameBorder="0" allowFullScreen className="rounded-lg shadow-xl"></iframe>
                   </div>
                 </div>
 
@@ -50,13 +39,13 @@ export default function Press() {
                     {t('headlines.title')}
                   </h2>
                   <div className="space-y-4">
-                    {(t('headlines.items', { returnObjects: true }) as string[]).map((headline, index) => (
-                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-l-4 border-fuchsia-400">
+                    {(t('headlines.items', {
+                    returnObjects: true
+                  }) as string[]).map((headline, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-l-4 border-fuchsia-400">
                         <p className="text-lg text-white/90 leading-relaxed">
                           "{headline}"
                         </p>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </div>
 
@@ -66,13 +55,13 @@ export default function Press() {
                     {t('keyFigures.title')}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {(t('keyFigures.items', { returnObjects: true }) as string[]).map((figure, index) => (
-                      <div key={index} className="bg-gradient-to-br from-fuchsia-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 text-center border border-white/10">
+                    {(t('keyFigures.items', {
+                    returnObjects: true
+                  }) as string[]).map((figure, index) => <div key={index} className="bg-gradient-to-br from-fuchsia-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 text-center border border-white/10">
                         <p className="text-white font-semibold text-lg leading-relaxed">
                           {figure}
                         </p>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </div>
 
@@ -82,18 +71,18 @@ export default function Press() {
                     {t('brands.title')}
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-                    {(t('brands.major', { returnObjects: true }) as string[]).map((brand, index) => (
-                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                    {(t('brands.major', {
+                    returnObjects: true
+                  }) as string[]).map((brand, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
                         <p className="text-white font-semibold text-sm">{brand}</p>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    {(t('brands.specialized', { returnObjects: true }) as string[]).map((brand, index) => (
-                      <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                    {(t('brands.specialized', {
+                    returnObjects: true
+                  }) as string[]).map((brand, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
                         <p className="text-white font-semibold text-sm">{brand}</p>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </div>
 
@@ -103,20 +92,17 @@ export default function Press() {
                     {t('pressCoverage.title')}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {(t('pressCoverage.items', { returnObjects: true }) as Array<{media: string, link: string}>).map((item, index) => (
-                      <a 
-                        key={index} 
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-fuchsia-400/50 group"
-                      >
+                    {(t('pressCoverage.items', {
+                    returnObjects: true
+                  }) as Array<{
+                    media: string;
+                    link: string;
+                  }>).map((item, index) => <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-fuchsia-400/50 group">
                         <div className="flex items-center justify-center space-x-2">
                           <p className="text-white font-semibold text-lg">{item.media}</p>
                           <ExternalLink className="w-4 h-4 text-white/70 group-hover:text-fuchsia-400 transition-colors" />
                         </div>
-                      </a>
-                    ))}
+                      </a>)}
                   </div>
                 </div>
 
@@ -142,6 +128,5 @@ export default function Press() {
           </div>
         </main>
       </div>
-    </div>
-  );
+    </div>;
 }

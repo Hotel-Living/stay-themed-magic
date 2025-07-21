@@ -137,7 +137,7 @@ export const AssociationLanding = () => {
                   Registrar Asociación
                 </Button>
               </Link>
-              <Link to="/association/dashboard">
+              <Link to="/panel-asociacion">
                 <Button 
                   size="lg" 
                   variant="outline" 

@@ -1,7 +1,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { Starfield } from '../components/Starfield';
-import { VideoTestimonials } from '../components/VideoTestimonials';
+import { GlobalTestimonials } from '../components/testimonials/GlobalTestimonials';
 
 export default function Press() {
   const { t } = useTranslation('press');
@@ -30,7 +30,7 @@ export default function Press() {
 
                 {/* Video Section */}
                 <div className="space-y-8">
-                  <VideoTestimonials />
+                  <GlobalTestimonials />
                 </div>
 
                 {/* Main Content */}

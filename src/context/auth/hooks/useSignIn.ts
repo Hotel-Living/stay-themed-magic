@@ -31,10 +31,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
 
       console.log("Authentication successful:", data.user.id);
 
-      // Profile will be loaded by the auth state change listener
-      // Don't fetch it here to avoid conflicts
-      
-      // Success toast
+      // Success toast based on form userType
       const welcomeMessage = {
         traveler: "Bienvenido de vuelta",
         hotel: "Bienvenido, hotel partner", 
@@ -47,16 +44,29 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         description: welcomeMessage
       });
 
-      // Redirect based on user type
-      const dashboardUrls = {
-        traveler: "/user-dashboard",
-        hotel: "/hotel-dashboard",
-        association: "/panel-asociacion",
-        promoter: "/promoter/dashboard"
-      };
+      // Determine redirect URL based on actual user metadata
+      let redirectUrl = "/user-dashboard"; // default
+
+      // Check if user has association metadata
+      if (data.user.user_metadata?.association_name) {
+        redirectUrl = "/panel-asociacion";
+      }
+      // Check if user is hotel owner (will be checked via profile)
+      else {
+        // Fetch profile to check is_hotel_owner
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_hotel_owner')
+          .eq('id', data.user.id)
+          .single();
+          
+        if (profile?.is_hotel_owner) {
+          redirectUrl = "/hotel-dashboard";
+        }
+      }
 
       setTimeout(() => {
-        window.location.href = dashboardUrls[userType];
+        window.location.href = redirectUrl;
       }, 500);
 
       return { success: true, error: null };

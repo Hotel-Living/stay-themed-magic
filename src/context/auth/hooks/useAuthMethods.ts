@@ -25,14 +25,14 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   const { updateProfile } = useProfileManagement({ setIsLoading, setProfile });
 
   // Centralized signIn function with proper error handling
-  const signIn = async (email: string, password: string, isHotelLogin?: boolean) => {
+  const signIn = async (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => {
     try {
       setIsLoading(true);
       setAuthError(null);
       
-      console.log("Starting sign in process", { email, isHotelLogin });
+      console.log("Starting sign in process", { email, userType });
       
-      const result = await signInHook(email, password, isHotelLogin);
+      const result = await signInHook(email, password, userType);
       
       console.log("Sign in result:", result);
       

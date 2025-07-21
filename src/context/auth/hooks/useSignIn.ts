@@ -11,9 +11,9 @@ interface SignInProps {
 export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
   const { toast } = useToast();
 
-  const signIn = async (email: string, password: string, isHotelLogin?: boolean) => {
+  const signIn = async (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => {
     try {
-      console.log("useSignIn: Starting authentication", { email, isHotelLogin });
+      console.log("useSignIn: Starting authentication", { email, userType });
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -35,18 +35,28 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       // Don't fetch it here to avoid conflicts
       
       // Success toast
+      const welcomeMessage = {
+        traveler: "Bienvenido de vuelta",
+        hotel: "Bienvenido, hotel partner", 
+        association: "Bienvenido, miembro de asociación",
+        promoter: "Bienvenido, promotor"
+      }[userType];
+
       toast({
         title: "Inicio de sesión exitoso",
-        description: isHotelLogin ? "Bienvenido, hotel partner" : "Bienvenido de vuelta"
+        description: welcomeMessage
       });
 
-      // Redirect based on login type
+      // Redirect based on user type
+      const dashboardUrls = {
+        traveler: "/user-dashboard",
+        hotel: "/hotel-dashboard",
+        association: "/association/dashboard",
+        promoter: "/promoter/dashboard"
+      };
+
       setTimeout(() => {
-        if (isHotelLogin) {
-          window.location.href = "/hotel-dashboard";
-        } else {
-          window.location.href = "/user-dashboard";
-        }
+        window.location.href = dashboardUrls[userType];
       }, 500);
 
       return { success: true, error: null };

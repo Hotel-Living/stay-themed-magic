@@ -70,6 +70,7 @@ import AgentDashboard from "@/pages/AgentDashboard";
 import AssociationRegistration from "@/pages/AssociationRegistration";
 import AssociationDashboard from "@/pages/AssociationDashboard";
 import AssociationLanding from "@/pages/AssociationLanding";
+import PromoterDashboard from "@/pages/PromoterDashboard";
 import Press from "@/pages/Press";
 import HotelCrisis from "@/pages/HotelCrisis";
 import HotelAssociation from "@/pages/HotelAssociation";
@@ -157,9 +158,11 @@ function App() {
               <Route path="/intro-test8" element={<IntroTest8 />} />
               <Route path="/intro-test9" element={<IntroTest9 />} />
               
-              {/* Protected Routes */}
-              <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
-              <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+               {/* Protected Routes */}
+               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+               <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+               <Route path="/association/dashboard" element={<ProtectedRoute><AssociationDashboard /></ProtectedRoute>} />
+               <Route path="/promoter/dashboard" element={<ProtectedRoute><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
               <Route path="/dashboard/hotel/add-property-2" element={<ProtectedRoute requireHotelOwner={true}><AddProperty2 /></ProtectedRoute>} />

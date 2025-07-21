@@ -9,10 +9,10 @@ import { Mail } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface LoginFormProps {
-  isHotelLogin?: boolean;
+  userType: "traveler" | "hotel" | "association" | "promoter";
 }
 
-export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
+export function LoginForm({ userType }: LoginFormProps) {
   const {
     email,
     setEmail,
@@ -22,15 +22,15 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
     setShowPassword,
     isLoading,
     handleSubmit
-  } = useLoginForm(isHotelLogin);
+  } = useLoginForm(userType);
 
   const { t } = useTranslation('auth');
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <InputField
-        id={isHotelLogin ? "hotel-email" : "email"}
-        label={isHotelLogin ? t('businessEmail') : t('email')}
+        id={`${userType}-email`}
+        label={userType === "hotel" ? t('businessEmail') : t('email')}
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
@@ -40,7 +40,7 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
       />
       
       <PasswordField
-        id={isHotelLogin ? "hotel-password" : "password"}
+        id={`${userType}-password`}
         label={t('password')}
         value={password}
         onChange={e => setPassword(e.target.value)}
@@ -51,14 +51,19 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
       />
       
       <div className="flex items-center justify-between">
-        <RememberMeCheckbox isHotelLogin={isHotelLogin} />
+        <RememberMeCheckbox isHotelLogin={userType === "hotel"} />
         <ForgotPasswordLink />
       </div>
       
       <SubmitButton
         isLoading={isLoading}
         loadingText={t('signingIn')}
-        text={isHotelLogin ? t('signInAsHotelPartner') : t('signInAsTraveler')}
+        text={
+          userType === "hotel" ? t('signInAsHotelPartner') :
+          userType === "association" ? "Sign In as Association" :
+          userType === "promoter" ? "Sign In as Promoter" :
+          t('signInAsTraveler')
+        }
       />
     </form>
   );

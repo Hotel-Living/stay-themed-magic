@@ -23,6 +23,10 @@ export default function Login() {
     const tab = searchParams.get('tab');
     if (tab === 'hotel') {
       setActiveTab('hotel');
+    } else if (tab === 'association') {
+      setActiveTab('association');
+    } else if (tab === 'promoter') {
+      setActiveTab('promoter');
     }
   }, [location.search]);
 
@@ -59,19 +63,31 @@ export default function Login() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold text-white">
+              {t('loginTitle') || 'Login'}
+            </h1>
+          </div>
+          
           <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-[#8017B0]">
-              <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
-                {t('travelerLogin') || 'Traveler'}
+            <TabsList className="grid w-full grid-cols-4 bg-[#8017B0]">
+              <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
+                Traveler
               </TabsTrigger>
-              <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
-                {t('hotelPartnerLogin') || 'Hotel Partner'}
+              <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
+                Hotel Partner
+              </TabsTrigger>
+              <TabsTrigger value="association" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
+                Association
+              </TabsTrigger>
+              <TabsTrigger value="promoter" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
+                Promoter
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="traveler">
               <AuthCard 
-                title={t('travelerLogin')} 
+                title="Traveler Login" 
                 subtitle={t('signInToAccount')} 
                 footerLinks={[{
                   text: t('dontHaveAccount'),
@@ -79,13 +95,13 @@ export default function Login() {
                   linkUrl: "/signup"
                 }]}
               >
-                <LoginForm isHotelLogin={false} />
+                <LoginForm userType="traveler" />
               </AuthCard>
             </TabsContent>
             
             <TabsContent value="hotel">
               <AuthCard 
-                title={t('hotelPartnerLogin')} 
+                title="Hotel Partner Login" 
                 subtitle={t('signInToPartnerAccount')} 
                 footerLinks={[{
                   text: t('dontHavePartnerAccount'),
@@ -93,7 +109,35 @@ export default function Login() {
                   linkUrl: "/hotel-signup"
                 }]}
               >
-                <LoginForm isHotelLogin={true} />
+                <LoginForm userType="hotel" />
+              </AuthCard>
+            </TabsContent>
+            
+            <TabsContent value="association">
+              <AuthCard 
+                title="Association Login" 
+                subtitle="Sign in to your Association account" 
+                footerLinks={[{
+                  text: "Don't have an account?",
+                  linkText: "Register as Association",
+                  linkUrl: "/association-signup"
+                }]}
+              >
+                <LoginForm userType="association" />
+              </AuthCard>
+            </TabsContent>
+            
+            <TabsContent value="promoter">
+              <AuthCard 
+                title="Promoter Login" 
+                subtitle="Sign in to your Promoter account" 
+                footerLinks={[{
+                  text: "Don't have an account?",
+                  linkText: "Register as Promoter",
+                  linkUrl: "/promoter-signup"
+                }]}
+              >
+                <LoginForm userType="promoter" />
               </AuthCard>
             </TabsContent>
           </Tabs>

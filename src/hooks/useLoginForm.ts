@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export function useLoginForm(isHotelLogin: boolean = false) {
+export function useLoginForm(userType: "traveler" | "hotel" | "association" | "promoter") {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +16,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     e.preventDefault();
     
     console.log(`=== LOGIN FORM SUBMISSION STARTED ===`);
-    console.log(`Login type: ${isHotelLogin ? "Hotel" : "Traveler"}`);
+    console.log(`Login type: ${userType}`);
     console.log(`Email: ${email}`);
     console.log(`Password length: ${password.length}`);
     console.log(`Form timestamp: ${new Date().toISOString()}`);
@@ -56,7 +56,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
         description: t('signingIn')
       });
       
-      const result = await signIn(email.trim(), password, isHotelLogin);
+      const result = await signIn(email.trim(), password, userType);
       
       console.log(`=== LOGIN FORM RESULT ===`);
       console.log(`Success: ${result.success}`);

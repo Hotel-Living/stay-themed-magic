@@ -8,14 +8,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Starfield } from '@/components/Starfield';
+import { PasswordField } from '@/components/auth/PasswordField';
+import { validatePassword } from '@/utils/passwordValidation';
 
 export const AssociationRegistration = () => {
   const [formData, setFormData] = useState({
     name: '',
     responsibleName: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     country: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,17 +30,27 @@ export const AssociationRegistration = () => {
     
     try {
       // Validate required fields
-      if (!formData.name || !formData.email || !formData.country || !formData.responsibleName) {
+      if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.country || !formData.responsibleName) {
         toast.error('Por favor complete todos los campos requeridos');
         return;
       }
 
-      // Create user account with temporary password
-      const tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
-      
+      // Validate password strength
+      const passwordValidation = validatePassword(formData.password);
+      if (!passwordValidation.isValid) {
+        toast.error('La contraseña no cumple con los requisitos de seguridad');
+        return;
+      }
+
+      // Validate password confirmation
+      if (formData.password !== formData.confirmPassword) {
+        toast.error('Las contraseñas no coinciden');
+        return;
+      }
+
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
-        password: tempPassword,
+        password: formData.password,
         options: {
           emailRedirectTo: `${window.location.origin}/panel-asociacion`,
           data: {
@@ -95,6 +111,8 @@ export const AssociationRegistration = () => {
         name: '',
         responsibleName: '',
         email: '',
+        password: '',
+        confirmPassword: '',
         country: ''
       });
     } catch (error: any) {
@@ -170,6 +188,27 @@ export const AssociationRegistration = () => {
                     required
                   />
                 </div>
+
+                <PasswordField
+                  id="password"
+                  label="Contraseña"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  placeholder="Crear una contraseña"
+                  showPassword={showPassword}
+                  toggleShowPassword={() => setShowPassword(!showPassword)}
+                  showValidation={true}
+                />
+
+                <PasswordField
+                  id="confirmPassword"
+                  label="Confirmar Contraseña"
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                  placeholder="Confirme su contraseña"
+                  showPassword={showConfirmPassword}
+                  toggleShowPassword={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
 
                 <div className="space-y-2">
                   <Label htmlFor="country" className="text-white">

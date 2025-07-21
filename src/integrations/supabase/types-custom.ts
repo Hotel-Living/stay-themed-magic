@@ -18,6 +18,7 @@ export type Profile = {
   is_hotel_owner: boolean;
   created_at: string;
   updated_at: string;
+  role?: string;
 }
 
 export type Hotel = {

@@ -67,7 +67,8 @@ export function HotelSignUpForm() {
       const result = await signUp(email, password, {
         first_name: hotelName,
         last_name: null,
-        is_hotel_owner: true
+        is_hotel_owner: true,
+        role: "hotel"
       });
       
       if (result && result.error) {

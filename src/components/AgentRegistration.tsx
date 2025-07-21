@@ -43,7 +43,8 @@ export const AgentRegistration = () => {
       const result = await signUp(formData.email, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
-        is_hotel_owner: false
+        is_hotel_owner: false,
+        role: "promoter"
       });
 
       if (result.success) {

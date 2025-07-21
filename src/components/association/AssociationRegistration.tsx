@@ -61,7 +61,8 @@ export const AssociationRegistration = () => {
             is_hotel_owner: false,
             association_name: formData.name,
             country: formData.country,
-            preferred_language: language
+            preferred_language: language,
+            role: "association"
           }
         }
       });

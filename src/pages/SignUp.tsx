@@ -76,7 +76,8 @@ export default function SignUp() {
       const result = await signUp(email, password, {
         first_name: firstName,
         last_name: lastName || null,
-        is_hotel_owner: false
+        is_hotel_owner: false,
+        role: "user"
       });
       
       if (result && result.error) {

@@ -10,8 +10,11 @@ import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { Starfield } from '@/components/Starfield';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export const AssociationDashboard = () => {
+  const { t } = useTranslation('associationDashboard');
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Starfield />
@@ -19,8 +22,8 @@ export const AssociationDashboard = () => {
       
       <div className="flex-1 relative z-10 container mx-auto px-4 py-8 pt-20">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 text-center">Panel de Asociación</h1>
-          <p className="text-slate-300 text-center text-lg">Gestione sus hoteles y comisiones</p>
+          <h1 className="text-4xl font-bold text-white mb-2 text-center">{t('title')}</h1>
+          <p className="text-slate-300 text-center text-lg">{t('subtitle')}</p>
         </div>
 
         <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
@@ -31,31 +34,31 @@ export const AssociationDashboard = () => {
                   value="hotels" 
                   className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
                 >
-                  Mis hoteles
+                  {t('tabs.hotels')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="registered" 
                   className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
                 >
-                  Mis hoteles registrados
+                  {t('tabs.registered')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="commissions" 
                   className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
                 >
-                  Comisiones
+                  {t('tabs.commissions')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="account" 
                   className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
                 >
-                  Mi cuenta
+                  {t('tabs.account')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="analytics" 
                   className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors"
                 >
-                  Analíticas
+                  {t('tabs.analytics')}
                 </TabsTrigger>
               </TabsList>
 

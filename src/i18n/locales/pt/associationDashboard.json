@@ -1,0 +1,12 @@
+
+{
+  "title": "Painel da Associação",
+  "subtitle": "Gerencie seus hotéis e comissões",
+  "tabs": {
+    "hotels": "Meus hotéis",
+    "registered": "Meus hotéis registrados",
+    "commissions": "Comissões",
+    "account": "Minha conta", 
+    "analytics": "Análises"
+  }
+}

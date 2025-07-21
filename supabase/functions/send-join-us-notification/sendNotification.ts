@@ -18,7 +18,7 @@ export async function sendEmailNotification(
   console.log("[" + new Date().toISOString() + "] Sending email to:", submission.recipient_email);
 
   const emailPayload = {
-    from: "Hotel Living <onboarding@resend.dev>",
+    from: "Hotel Living <contact@hotel-living.com>", // Updated to use verified domain
     to: submission.recipient_email,
     reply_to: submission.email,
     subject: `New Join Us Application: ${submission.name}`,

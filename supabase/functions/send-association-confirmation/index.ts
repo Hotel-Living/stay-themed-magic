@@ -33,7 +33,7 @@ serve(async (req) => {
     }
 
     const emailData = {
-      from: "Hotel-Living <onboarding@resend.dev>", // Using verified Resend domain
+      from: "Hotel Living <contact@hotel-living.com>", // Updated to use verified domain
       to: [associationData.email],
       subject: "Confirmación de Registro - Hotel-Living Asociación",
       html: `

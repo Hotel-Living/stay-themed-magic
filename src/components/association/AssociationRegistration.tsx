@@ -48,6 +48,8 @@ export const AssociationRegistration = () => {
       if (authError) {
         if (authError.message.includes('already registered')) {
           toast.error('Esta dirección de email ya está registrada');
+        } else if (authError.message.includes('For security purposes') || authError.message.includes('429')) {
+          toast.error('Demasiadas solicitudes. Por favor, espere un momento e intente nuevamente.');
         } else {
           toast.error('Error al crear la cuenta: ' + authError.message);
         }
@@ -178,17 +180,17 @@ export const AssociationRegistration = () => {
                     <SelectTrigger className="bg-white/10 border-white/20 text-white focus:border-blue-400 focus:ring-blue-400/50">
                       <SelectValue placeholder="Seleccione su país" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Argentina">Argentina</SelectItem>
-                      <SelectItem value="Brasil">Brasil</SelectItem>
-                      <SelectItem value="Chile">Chile</SelectItem>
-                      <SelectItem value="Colombia">Colombia</SelectItem>
-                      <SelectItem value="España">España</SelectItem>
-                      <SelectItem value="México">México</SelectItem>
-                      <SelectItem value="Perú">Perú</SelectItem>
-                      <SelectItem value="Uruguay">Uruguay</SelectItem>
-                      <SelectItem value="Otro">Otro</SelectItem>
-                    </SelectContent>
+                     <SelectContent className="bg-white border-gray-200">
+                       <SelectItem value="Argentina" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Argentina</SelectItem>
+                       <SelectItem value="Brasil" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Brasil</SelectItem>
+                       <SelectItem value="Chile" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Chile</SelectItem>
+                       <SelectItem value="Colombia" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Colombia</SelectItem>
+                       <SelectItem value="España" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">España</SelectItem>
+                       <SelectItem value="México" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">México</SelectItem>
+                       <SelectItem value="Perú" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Perú</SelectItem>
+                       <SelectItem value="Uruguay" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Uruguay</SelectItem>
+                       <SelectItem value="Otro" className="hover:bg-[#7E26A6] hover:text-white focus:bg-[#7E26A6] focus:text-white data-[highlighted]:bg-[#7E26A6] data-[highlighted]:text-white">Otro</SelectItem>
+                     </SelectContent>
                   </Select>
                 </div>
 

@@ -8,10 +8,13 @@ import { CommissionsTab } from './tabs/CommissionsTab';
 import { AccountTab } from './tabs/AccountTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { Starfield } from '@/components/Starfield';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 export const AssociationDashboard = () => {
   return (
     <div className="min-h-screen relative">
+      <Navbar />
       <Starfield />
       
       <div className="relative z-10 container mx-auto px-4 py-8">
@@ -79,6 +82,7 @@ export const AssociationDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      <Footer />
     </div>
   );
 };

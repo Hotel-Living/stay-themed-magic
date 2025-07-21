@@ -1,106 +1,112 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3'
+
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import { Resend } from "npm:resend@2.0.0";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+  console.log("Association confirmation email function called");
+  
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { record } = await req.json()
-    
-    // Initialize Supabase client
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
+    const { associationData } = await req.json();
+    console.log("Received association data:", associationData);
 
-    // Send email using Resend
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-      },
-      body: JSON.stringify({
-        from: 'Nomad Heaven <noreply@nomadheaven.com>',
-        to: [record.email],
-        subject: 'Confirmación de Registro - Asociación Hotelera',
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px;">
-            <div style="text-align: center; margin-bottom: 30px;">
-              <h1 style="color: white; margin: 0; font-size: 28px;">¡Bienvenido a Nomad Heaven!</h1>
+    if (!associationData || !associationData.email) {
+      console.error("Missing association data or email");
+      return new Response(
+        JSON.stringify({ error: "Missing association data or email" }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, "Content-Type": "application/json" } 
+        }
+      );
+    }
+
+    const emailData = {
+      from: "Hotel-Living <onboarding@resend.dev>", // Using verified Resend domain
+      to: [associationData.email],
+      subject: "Confirmación de Registro - Hotel-Living Asociación",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h1 style="color: #333; text-align: center;">¡Bienvenido a Hotel-Living!</h1>
+          
+          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h2 style="color: #555;">Confirmación de Registro de Asociación</h2>
+            <p>Estimado/a ${associationData.responsibleName},</p>
+            <p>Su registro como asociación en Hotel-Living ha sido recibido exitosamente.</p>
+            
+            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
+              <h3>Detalles del Registro:</h3>
+              <p><strong>Nombre de la Asociación:</strong> ${associationData.name}</p>
+              <p><strong>Responsable:</strong> ${associationData.responsibleName}</p>
+              <p><strong>Email:</strong> ${associationData.email}</p>
+              <p><strong>País:</strong> ${associationData.country}</p>
             </div>
             
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 8px; margin-bottom: 25px;">
-              <h2 style="color: #00d4ff; margin-top: 0;">Registro Confirmado</h2>
-              <p>Estimado/a responsable de <strong>${record.association_name}</strong>,</p>
-              <p>Su asociación ha sido registrada exitosamente en nuestra plataforma.</p>
-              
-              <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 5px; margin: 20px 0;">
-                <h3 style="margin-top: 0; color: #00d4ff;">Detalles de su registro:</h3>
-                <p><strong>Asociación:</strong> ${record.association_name}</p>
-                <p><strong>Responsable:</strong> ${record.responsible_person}</p>
-                <p><strong>Email:</strong> ${record.email}</p>
-                <p><strong>País:</strong> ${record.country}</p>
-                <p><strong>Código de Asociación:</strong> <span style="background: #00d4ff; color: #000; padding: 2px 8px; border-radius: 3px; font-weight: bold;">${record.association_code}</span></p>
-              </div>
-            </div>
+            <p>Su solicitud está siendo revisada por nuestro equipo. Le contactaremos pronto con más información sobre los próximos pasos.</p>
             
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 8px; margin-bottom: 25px;">
-              <h3 style="color: #00d4ff; margin-top: 0;">Próximos Pasos</h3>
-              <ol style="padding-left: 20px;">
-                <li style="margin-bottom: 10px;">Acceda a su panel de control en: <a href="${Deno.env.get('SITE_URL')}/panel-asociacion" style="color: #00d4ff;">Panel de Asociación</a></li>
-                <li style="margin-bottom: 10px;">Complete la información de sus hoteles asociados</li>
-                <li style="margin-bottom: 10px;">Comience a generar comisiones por las reservas</li>
-              </ol>
-            </div>
-            
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-              <h3 style="color: #00d4ff; margin-top: 0;">Información Importante</h3>
-              <p>• Su cuenta está actualmente en estado <strong>"pendiente"</strong></p>
-              <p>• Nuestro equipo revisará su solicitud en las próximas 24-48 horas</p>
-              <p>• Recibirá una notificación cuando su cuenta sea aprobada</p>
-              <p>• Mientras tanto, puede explorar todas las funcionalidades del panel</p>
-            </div>
-            
-            <div style="text-align: center; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
-              <p style="margin: 0; color: #ccc;">Si tiene alguna pregunta, no dude en contactarnos.</p>
-              <p style="margin: 5px 0 0 0; color: #ccc;">Equipo Nomad Heaven</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+                 style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                Acceder al Panel de Asociación
+              </a>
             </div>
           </div>
-        `,
-      }),
-    })
+          
+          <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+            <p>Este es un email automático, por favor no responda a este mensaje.</p>
+            <p>© 2025 Hotel-Living. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      `,
+    };
 
-    if (res.ok) {
-      const data = await res.json()
-      console.log('Email sent successfully:', data)
-      
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      })
-    } else {
-      const error = await res.text()
-      console.error('Email sending failed:', error)
-      
-      return new Response(JSON.stringify({ error: 'Failed to send email' }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      })
-    }
-  } catch (error) {
-    console.error('Error in send-association-confirmation function:', error)
+    console.log("Attempting to send email with data:", emailData);
     
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 500,
-    })
+    const emailResponse = await resend.emails.send(emailData);
+    
+    if (emailResponse.error) {
+      console.error("Resend API error:", emailResponse.error);
+      throw new Error(`Email sending failed: ${JSON.stringify(emailResponse.error)}`);
+    }
+
+    console.log("Email sent successfully:", emailResponse);
+
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        emailId: emailResponse.data?.id,
+        message: "Confirmation email sent successfully" 
+      }),
+      {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
+
+  } catch (error: any) {
+    console.error("Error in send-association-confirmation function:", error);
+    
+    return new Response(
+      JSON.stringify({ 
+        error: "Failed to send confirmation email",
+        details: error.message,
+        timestamp: new Date().toISOString()
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
   }
-})
+});

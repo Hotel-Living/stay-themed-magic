@@ -54,20 +54,20 @@ export const AssociationRegistration = () => {
         options: {
           emailRedirectTo: `${window.location.origin}/panel-asociacion`,
           data: {
+            full_name: formData.responsibleName,
+            is_hotel_owner: false,
             association_name: formData.name,
-            responsible_person: formData.responsibleName,
             country: formData.country
           }
         }
       });
 
       if (authError) {
+        console.error('Auth signup error:', authError);
         if (authError.message.includes('already registered')) {
-          toast.error('Esta dirección de email ya está registrada');
-        } else if (authError.message.includes('For security purposes') || authError.message.includes('429')) {
-          toast.error('Demasiadas solicitudes. Por favor, espere un momento e intente nuevamente.');
+          toast.error('Este email ya está registrado. Por favor use otro email o inicie sesión.');
         } else {
-          toast.error('Error al crear la cuenta: ' + authError.message);
+          toast.error(`Error en el registro: ${authError.message}`);
         }
         return;
       }
@@ -77,36 +77,60 @@ export const AssociationRegistration = () => {
         return;
       }
 
-      // Insert association data (user_id will be set automatically by trigger)
-      const { data, error } = await supabase
+      console.log('User created successfully:', authData.user.id);
+
+      // Insert association record
+      const { data: associationData, error: associationError } = await supabase
         .from('hotel_associations')
-        .insert([
-          {
-            association_name: formData.name,
-            responsible_person: formData.responsibleName,
-            email: formData.email,
-            country: formData.country
-          }
-        ])
+        .insert({
+          user_id: authData.user.id,
+          association_name: formData.name,
+          responsible_name: formData.responsibleName,
+          email: formData.email,
+          country: formData.country,
+          status: 'pending'
+        })
         .select()
         .single();
 
-      if (error) throw error;
+      if (associationError) {
+        console.error('Association creation error:', associationError);
+        toast.error('Error al registrar la asociación');
+        return;
+      }
+
+      console.log('Association created successfully:', associationData);
 
       // Send confirmation email
       try {
-        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-association-confirmation', {
-          body: { record: data },
-        });
-        
+        console.log('Attempting to send confirmation email...');
+        const { data: emailData, error: emailError } = await supabase.functions.invoke(
+          'send-association-confirmation',
+          {
+            body: {
+              associationData: {
+                name: formData.name,
+                responsibleName: formData.responsibleName,
+                email: formData.email,
+                country: formData.country
+              }
+            }
+          }
+        );
+
         if (emailError) {
-          console.warn('Failed to send confirmation email:', emailError);
+          console.error('Email function error:', emailError);
+          toast.error('Registro exitoso, pero hubo un problema enviando el email de confirmación. Por favor contacte al soporte.');
+        } else {
+          console.log('Email sent successfully:', emailData);
+          toast.success('¡Registro exitoso! Hemos enviado un email de confirmación a su dirección.');
         }
-      } catch (emailError) {
-        console.warn('Error sending confirmation email:', emailError);
+      } catch (emailErr) {
+        console.error('Email sending failed:', emailErr);
+        toast.error('Registro exitoso, pero no se pudo enviar el email de confirmación. Por favor contacte al soporte.');
       }
-      
-      toast.success('Asociación registrada exitosamente. Revise su email para confirmar la cuenta.');
+
+      // Reset form
       setFormData({
         name: '',
         responsibleName: '',
@@ -115,9 +139,15 @@ export const AssociationRegistration = () => {
         confirmPassword: '',
         country: ''
       });
+
+      // Show success message with next steps
+      toast.success('¡Registro completado! Revise su email para confirmar su cuenta y acceder al panel de asociación.', {
+        duration: 6000
+      });
+
     } catch (error: any) {
-      console.error('Error:', error);
-      toast.error('Error al registrar la asociación: ' + (error.message || 'Error desconocido'));
+      console.error('Registration error:', error);
+      toast.error('Error durante el registro. Por favor intente nuevamente.');
     } finally {
       setIsLoading(false);
     }

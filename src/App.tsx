@@ -95,8 +95,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <AuthProvider>
-          <Router>
+        <Router>
+          <AuthProvider>
             <VideoTestimonialProvider>
               <AvatarManagerProvider>
               <SEOMetadata />
@@ -191,8 +191,8 @@ function App() {
             <GlobalTestimonials />
             </AvatarManagerProvider>
             </VideoTestimonialProvider>
-          </Router>
-        </AuthProvider>
+          </AuthProvider>
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   );

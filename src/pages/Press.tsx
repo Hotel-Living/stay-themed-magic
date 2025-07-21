@@ -6,7 +6,7 @@ export default function Press() {
   const {
     t
   } = useTranslation('press');
-    return <div className="min-h-screen bg-[#170B3B] relative">
+  return <div className="min-h-screen bg-[#170B3B] relative">
       <HotelStarfield />
       
       <div className="relative z-10">
@@ -21,7 +21,7 @@ export default function Press() {
                   <h1 className="text-2xl md:text-4xl font-bold text-white leading-tight">
                     {t('header.line1')}
                   </h1>
-                  <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">{t('header.line2')}</h2>
+                  <h2 className="text-2xl font-semibold text-white/90 leading-tight md:text-3xl">{t('header.line2')}</h2>
                   
                 </div>
 

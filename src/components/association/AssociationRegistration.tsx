@@ -85,7 +85,7 @@ export const AssociationRegistration = () => {
         .insert({
           user_id: authData.user.id,
           association_name: formData.name,
-          responsible_name: formData.responsibleName,
+          responsible_person: formData.responsibleName,
           email: formData.email,
           country: formData.country,
           status: 'pending'

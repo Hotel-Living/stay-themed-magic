@@ -61,12 +61,11 @@ export const AssociationRegistration = () => {
         return;
       }
 
-      // Insert association data
+      // Insert association data (user_id will be set automatically by trigger)
       const { data, error } = await supabase
         .from('hotel_associations')
         .insert([
           {
-            user_id: authData.user.id,
             association_name: formData.name,
             responsible_person: formData.responsibleName,
             email: formData.email,

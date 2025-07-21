@@ -85,7 +85,7 @@ export default function Press() {
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Major Chains</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(t('brands.majorList', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
+                  {(t('brands.major', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
                     <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
                       {brand}
                     </span>
@@ -95,7 +95,7 @@ export default function Press() {
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Specialized</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(t('brands.specializedList', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
+                  {(t('brands.specialized', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
                     <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
                       {brand}
                     </span>

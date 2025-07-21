@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { subject, html } = formatTranscript(messages, language);
 
     const emailResponse = await resend.emails.send({
-      from: "Hotel Living <no-reply@hotel-living.com>",
+      from: "Hotel Living <contact@hotel-living.com>",
       to: [email],
       subject: subject,
       html: html,

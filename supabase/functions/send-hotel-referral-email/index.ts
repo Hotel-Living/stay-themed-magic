@@ -117,7 +117,7 @@ serve(async (req) => {
 
     // Send the email
     const { data, error } = await resend.emails.send({
-      from: "Hotel Living <referrals@hotelliving.com>",
+      from: "Hotel Living <contact@hotel-living.com>",
       to: [contactEmail],
       subject: emailSubject,
       html: emailContent,

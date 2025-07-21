@@ -2,6 +2,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
 import { Resend } from "npm:resend@2.0.0";
+import { getRegistrationSuccessTemplate, generateEmailHtml, getUserLanguage, type SupportedLanguage } from "../_shared/emailTemplates.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -32,43 +33,112 @@ serve(async (req) => {
       );
     }
 
-    const emailData = {
-      from: "Hotel Living <contact@hotel-living.com>", // Updated to use verified domain
-      to: [associationData.email],
-      subject: "Confirmación de Registro - Hotel-Living Asociación",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="color: #333; text-align: center;">¡Bienvenido a Hotel-Living!</h1>
-          
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h2 style="color: #555;">Confirmación de Registro de Asociación</h2>
-            <p>Estimado/a ${associationData.responsibleName},</p>
+    // Get user language preference (default to Spanish for associations)
+    const userLanguage = getUserLanguage(associationData.language || 'es');
+    
+    // Create custom email content for association confirmation
+    const getAssociationConfirmationTemplate = (lang: SupportedLanguage, associationData: any) => {
+      const templates = {
+        es: {
+          subject: "Confirmación de Registro - Hotel-Living Asociación",
+          greeting: `Estimado/a ${associationData.responsibleName},`,
+          content: `
             <p>Su registro como asociación en Hotel-Living ha sido recibido exitosamente.</p>
-            
-            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
-              <h3>Detalles del Registro:</h3>
+            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border: 1px solid #ddd;">
+              <h3 style="color: #667eea; margin-top: 0;">Detalles del Registro:</h3>
               <p><strong>Nombre de la Asociación:</strong> ${associationData.name}</p>
               <p><strong>Responsable:</strong> ${associationData.responsibleName}</p>
               <p><strong>Email:</strong> ${associationData.email}</p>
               <p><strong>País:</strong> ${associationData.country}</p>
             </div>
-            
             <p>Su solicitud está siendo revisada por nuestro equipo. Le contactaremos pronto con más información sobre los próximos pasos.</p>
-            
             <div style="text-align: center; margin: 30px 0;">
               <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
-                 style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                 style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                 Acceder al Panel de Asociación
               </a>
             </div>
-          </div>
-          
-          <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
-            <p>Este es un email automático, por favor no responda a este mensaje.</p>
-            <p>© 2025 Hotel-Living. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      `,
+          `,
+          signature: "El equipo de Hotel-living.com"
+        },
+        en: {
+          subject: "Registration Confirmation - Hotel-Living Association",
+          greeting: `Dear ${associationData.responsibleName},`,
+          content: `
+            <p>Your association registration with Hotel-Living has been successfully received.</p>
+            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border: 1px solid #ddd;">
+              <h3 style="color: #667eea; margin-top: 0;">Registration Details:</h3>
+              <p><strong>Association Name:</strong> ${associationData.name}</p>
+              <p><strong>Responsible Person:</strong> ${associationData.responsibleName}</p>
+              <p><strong>Email:</strong> ${associationData.email}</p>
+              <p><strong>Country:</strong> ${associationData.country}</p>
+            </div>
+            <p>Your application is being reviewed by our team. We will contact you soon with more information about the next steps.</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+                 style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
+                Access Association Panel
+              </a>
+            </div>
+          `,
+          signature: "El equipo de Hotel-living.com"
+        },
+        pt: {
+          subject: "Confirmação de Registro - Associação Hotel-Living",
+          greeting: `Prezado/a ${associationData.responsibleName},`,
+          content: `
+            <p>Seu registro como associação no Hotel-Living foi recebido com sucesso.</p>
+            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border: 1px solid #ddd;">
+              <h3 style="color: #667eea; margin-top: 0;">Detalhes do Registro:</h3>
+              <p><strong>Nome da Associação:</strong> ${associationData.name}</p>
+              <p><strong>Responsável:</strong> ${associationData.responsibleName}</p>
+              <p><strong>Email:</strong> ${associationData.email}</p>
+              <p><strong>País:</strong> ${associationData.country}</p>
+            </div>
+            <p>Sua solicitação está sendo revisada por nossa equipe. Entraremos em contato em breve com mais informações sobre os próximos passos.</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+                 style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
+                Acessar Painel da Associação
+              </a>
+            </div>
+          `,
+          signature: "El equipo de Hotel-living.com"
+        },
+        ro: {
+          subject: "Confirmare Înregistrare - Asociația Hotel-Living",
+          greeting: `Stimate ${associationData.responsibleName},`,
+          content: `
+            <p>Înregistrarea dvs. ca asociație la Hotel-Living a fost primită cu succes.</p>
+            <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border: 1px solid #ddd;">
+              <h3 style="color: #667eea; margin-top: 0;">Detaliile Înregistrării:</h3>
+              <p><strong>Numele Asociației:</strong> ${associationData.name}</p>
+              <p><strong>Persoana Responsabilă:</strong> ${associationData.responsibleName}</p>
+              <p><strong>Email:</strong> ${associationData.email}</p>
+              <p><strong>Țara:</strong> ${associationData.country}</p>
+            </div>
+            <p>Cererea dvs. este în curs de examinare de către echipa noastră. Vă vom contacta în curând cu mai multe informații despre pașii următori.</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/panel-asociacion" 
+                 style="background-color: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
+                Accesați Panoul Asociației
+              </a>
+            </div>
+          `,
+          signature: "El equipo de Hotel-living.com"
+        }
+      };
+      return templates[lang] || templates.es;
+    };
+
+    const emailContent = getAssociationConfirmationTemplate(userLanguage, associationData);
+    const html = generateEmailHtml(emailContent);
+
+    const emailData = {
+      from: "Hotel Living <contact@hotel-living.com>", // Updated to use verified domain
+      to: [associationData.email],
+      subject: emailContent.subject,
+      html: html,
     };
 
     console.log("Attempting to send email with data:", emailData);

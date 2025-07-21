@@ -96,7 +96,7 @@ serve(async (req) => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Hotel Living <notifications@resend.dev>",
+        from: "Hotel Living <contact@hotel-living.com>",
         to: adminEmail,
         subject: `New ${accountType} Registration: ${userName}`,
         html: `

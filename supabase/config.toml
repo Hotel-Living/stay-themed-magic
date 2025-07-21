@@ -86,6 +86,15 @@ verify_jwt = false
 [functions.send-welcome-email]
 verify_jwt = false
 
+[functions.send-association-confirmation]
+verify_jwt = false
+
+[functions.send-email-verification]
+verify_jwt = false
+
+[functions.send-password-recovery]
+verify_jwt = false
+
 [db]
 enabled = true
 port = 54322

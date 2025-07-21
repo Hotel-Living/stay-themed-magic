@@ -1,38 +1,36 @@
 
-import { Navbar } from "@/components/Navbar";
-import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-import { useTranslation } from "@/hooks/useTranslation";
-import { ExternalLink } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
 export default function Press() {
   const { t } = useTranslation('press');
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
+    <div className="min-h-screen relative">
       <HotelStarfield />
-      <Navbar />
       
-      <main className="flex-1 pt-4 relative z-10">
-        <div className="container mx-auto px-4 py-4 flex flex-col items-center">
-          {/* Header Section */}
-          <div className="text-center mb-8 max-w-4xl backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h1 className="text-2xl md:text-4xl font-bold text-fuchsia-200 mb-2">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
+          
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl md:text-4xl font-bold text-white mb-4">
               {t('header.line1')}
             </h1>
-            <h2 className="text-lg md:text-2xl text-fuchsia-300 mb-2">
+            <p className="text-lg md:text-xl text-gray-200 mb-2">
               {t('header.line2')}
-            </h2>
-            <h3 className="text-base md:text-xl text-fuchsia-400 italic">
+            </p>
+            <p className="text-lg md:text-xl text-gray-200 italic">
               {t('header.line3')}
-            </h3>
+            </p>
           </div>
 
           {/* Video Section */}
-          <div className="mb-12 max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h2 className="text-2xl font-bold text-fuchsia-200 mb-6 text-center">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white mb-4 text-center">
               {t('video.title')}
             </h2>
-            <div className="aspect-video">
+            <div className="aspect-video rounded-lg overflow-hidden">
               <iframe
                 width="100%"
                 height="100%"
@@ -41,129 +39,111 @@ export default function Press() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="rounded-lg"
+                className="w-full h-full"
               />
             </div>
           </div>
 
           {/* Headlines Section */}
-          <div className="mb-12 max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h2 className="text-2xl font-bold text-fuchsia-200 mb-6 text-center">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white mb-4">
               {t('headlines.title')}
             </h2>
-            <ul className="space-y-3">
-              {(() => {
-                const headlines = t('headlines.list', { returnObjects: true });
-                console.log('Headlines data:', headlines, typeof headlines);
-                return Array.isArray(headlines) ? headlines.map((headline: string, index: number) => (
-                  <li key={index} className="text-fuchsia-300 flex items-start">
-                    <span className="text-fuchsia-400 mr-2">•</span>
-                    <span>{headline}</span>
-                  </li>
-                )) : [];
-              })()}
+            <ul className="space-y-2">
+              {Array.isArray(t('headlines.items', { returnObjects: true })) && 
+                (t('headlines.items', { returnObjects: true }) as string[]).map((headline, index) => (
+                <li key={index} className="text-gray-200 text-sm">
+                  • {headline}
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Key Figures Section */}
-          <div className="mb-12 max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h2 className="text-2xl font-bold text-fuchsia-200 mb-6 text-center">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white mb-4">
               {t('keyFigures.title')}
             </h2>
-            <ul className="space-y-3">
-              {(() => {
-                const keyFigures = t('keyFigures.list', { returnObjects: true });
-                console.log('Key figures data:', keyFigures, typeof keyFigures);
-                return Array.isArray(keyFigures) ? keyFigures.map((figure: string, index: number) => (
-                  <li key={index} className="text-fuchsia-300 flex items-start">
-                    <span className="text-fuchsia-400 mr-2">•</span>
-                    <span>{figure}</span>
-                  </li>
-                )) : [];
-              })()}
+            <ul className="space-y-2">
+              {Array.isArray(t('keyFigures.items', { returnObjects: true })) && 
+                (t('keyFigures.items', { returnObjects: true }) as string[]).map((figure, index) => (
+                <li key={index} className="text-gray-200 text-sm">
+                  • {figure}
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Brands Section */}
-          <div className="mb-12 max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h2 className="text-2xl font-bold text-fuchsia-200 mb-6 text-center">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white mb-4">
               {t('brands.title')}
             </h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Major Chains</h3>
+                <h3 className="text-lg font-medium text-white mb-2">Major Brands</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(() => {
-                    const brands = t('brands.major', { returnObjects: true });
-                    console.log('Major brands data:', brands, typeof brands);
-                    return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
-                      <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
-                        {brand}
-                      </span>
-                    )) : [];
-                  })()}
+                  {Array.isArray(t('brands.major', { returnObjects: true })) && 
+                    (t('brands.major', { returnObjects: true }) as string[]).map((brand, index) => (
+                    <span key={index} className="bg-fuchsia-600/30 text-white px-3 py-1 rounded-full text-sm">
+                      {brand}
+                    </span>
+                  ))}
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Specialized</h3>
+                <h3 className="text-lg font-medium text-white mb-2">Specialized Brands</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(() => {
-                    const brands = t('brands.specialized', { returnObjects: true });
-                    console.log('Specialized brands data:', brands, typeof brands);
-                    return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
-                      <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
-                        {brand}
-                      </span>
-                    )) : [];
-                  })()}
+                  {Array.isArray(t('brands.specialized', { returnObjects: true })) && 
+                    (t('brands.specialized', { returnObjects: true }) as string[]).map((brand, index) => (
+                    <span key={index} className="bg-purple-600/30 text-white px-3 py-1 rounded-full text-sm">
+                      {brand}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Press Coverage Section */}
-          <div className="mb-12 max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <h2 className="text-2xl font-bold text-fuchsia-200 mb-6 text-center">
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-white mb-4">
               {t('pressCoverage.title')}
             </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {(() => {
-                const pressCoverage = t('pressCoverage.list', { returnObjects: true });
-                console.log('Press coverage data:', pressCoverage, typeof pressCoverage);
-                return Array.isArray(pressCoverage) ? pressCoverage.map((item: any, index: number) => (
-                  <a
-                    key={index}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 bg-fuchsia-900/30 rounded-lg hover:bg-fuchsia-900/50 transition-colors border border-fuchsia-400/20"
-                  >
-                    <span className="text-fuchsia-200 font-medium">{item.media}</span>
-                    <ExternalLink className="w-4 h-4 text-fuchsia-400" />
-                  </a>
-                )) : [];
-              })()}
+            <div className="grid gap-3">
+              {Array.isArray(t('pressCoverage.items', { returnObjects: true })) && 
+                (t('pressCoverage.items', { returnObjects: true }) as Array<{media: string; link: string}>).map((item, index) => (
+                <a
+                  key={index}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                >
+                  <span className="text-white font-medium">{item.media}</span>
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Closing Section */}
-          <div className="text-center max-w-4xl backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
-            <p className="text-lg md:text-xl text-fuchsia-300 mb-2">
+          <div className="text-center">
+            <p className="text-lg text-gray-200 mb-2">
               {t('closing.line1')}
             </p>
-            <p className="text-lg md:text-xl text-fuchsia-200 font-semibold">
+            <p className="text-lg text-gray-200 italic">
               {t('closing.line2')}
             </p>
           </div>
 
           {/* Legal Disclaimer */}
-          <div className="mt-8 max-w-4xl w-full text-center">
-            <p className="text-xs text-fuchsia-400/60">
+          <div className="mt-8 pt-4 border-t border-white/20">
+            <p className="text-xs text-gray-400 text-center">
               {t('legal.disclaimer')}
             </p>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

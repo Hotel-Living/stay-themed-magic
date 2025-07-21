@@ -7,25 +7,17 @@ interface ProtectedRouteProps {
   requireHotelOwner?: boolean;
   requireAdmin?: boolean;
   requireAssociation?: boolean;
-  requirePromoter?: boolean;
-  requireTraveler?: boolean;
 }
 
-export const ProtectedRoute = ({ 
-  children, 
-  requireHotelOwner, 
-  requireAdmin, 
-  requireAssociation, 
-  requirePromoter, 
-  requireTraveler 
-}: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requireAssociation }: ProtectedRouteProps) => {
   const { user, session, profile, isLoading } = useAuth();
 
   console.log("=== PROTECTED ROUTE CHECK ===");
   console.log("Is loading:", isLoading);
   console.log("Has user:", !!user);
   console.log("Has session:", !!session);
-  console.log("Requirements:", { requireHotelOwner, requireAdmin, requireAssociation, requirePromoter, requireTraveler });
+  console.log("Require hotel owner:", requireHotelOwner);
+  console.log("Require association:", requireAssociation);
   console.log("User metadata:", user?.user_metadata);
   console.log("Current path:", window.location.pathname);
 
@@ -45,106 +37,32 @@ export const ProtectedRoute = ({
     return <Navigate to="/login" replace />;
   }
 
-  // Extract user type information from metadata
+  // Early detection and handling for association users
   const isAssociationUser = user.user_metadata?.association_name;
-  const isHotelOwner = user.user_metadata?.is_hotel_owner;
-  const isPromoter = user.user_metadata?.role === 'promoter';
-  const isTraveler = !isAssociationUser && !isHotelOwner && !isPromoter;
-
   const currentPath = window.location.pathname;
   
-  console.log("User type analysis:", {
-    isAssociationUser: !!isAssociationUser,
-    isHotelOwner: !!isHotelOwner,
-    isPromoter: !!isPromoter,
-    isTraveler: !!isTraveler
-  });
-
-  // Early detection and routing for all user types to prevent flashing
-  
-  // Association users - highest priority
+  // If user is association but not on association page, redirect immediately
   if (isAssociationUser && currentPath !== '/panel-asociacion' && !requireAssociation) {
     console.log("Association user detected on wrong page, redirecting to panel-asociacion");
     return <Navigate to="/panel-asociacion" replace />;
   }
 
-  // Hotel owners - second priority
-  if (isHotelOwner && !isAssociationUser && currentPath !== '/hotel-dashboard' && !requireHotelOwner) {
-    console.log("Hotel owner detected on wrong page, redirecting to hotel-dashboard");
-    return <Navigate to="/hotel-dashboard" replace />;
-  }
-
-  // Promoters - third priority
-  if (isPromoter && !isAssociationUser && !isHotelOwner && currentPath !== '/promoter/dashboard' && !requirePromoter) {
-    console.log("Promoter detected on wrong page, redirecting to promoter/dashboard");
-    return <Navigate to="/promoter/dashboard" replace />;
-  }
-
-  // Travelers - default for remaining authenticated users
-  if (isTraveler && currentPath !== '/user-dashboard' && !requireTraveler) {
-    console.log("Traveler detected on wrong page, redirecting to user-dashboard");
-    return <Navigate to="/user-dashboard" replace />;
-  }
-
-  // Role-based access control validation
-  
-  // If requiring association access
+  // If requiring association access, check if user has association_name in metadata
   if (requireAssociation && !isAssociationUser) {
-    console.log("Association required but user has no association_name, redirecting based on user type");
-    if (isHotelOwner) return <Navigate to="/hotel-dashboard" replace />;
-    if (isPromoter) return <Navigate to="/promoter/dashboard" replace />;
+    console.log("Association required but user has no association_name, redirecting to user dashboard");
     return <Navigate to="/user-dashboard" replace />;
   }
 
-  // If requiring hotel owner access
-  if (requireHotelOwner && !isHotelOwner) {
-    console.log("Hotel owner required but user is not hotel owner, redirecting based on user type");
-    if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isPromoter) return <Navigate to="/promoter/dashboard" replace />;
+  // If requiring hotel owner access, check if user is hotel owner (but not association)
+  if (requireHotelOwner && !user.user_metadata?.is_hotel_owner) {
+    console.log("Hotel owner required but user is not hotel owner, redirecting to user dashboard");
     return <Navigate to="/user-dashboard" replace />;
   }
 
-  // If requiring promoter access
-  if (requirePromoter && !isPromoter) {
-    console.log("Promoter required but user is not promoter, redirecting based on user type");
-    if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isHotelOwner) return <Navigate to="/hotel-dashboard" replace />;
-    return <Navigate to="/user-dashboard" replace />;
-  }
-
-  // If requiring traveler access
-  if (requireTraveler && !isTraveler) {
-    console.log("Traveler required but user is not traveler, redirecting based on user type");
-    if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isHotelOwner) return <Navigate to="/hotel-dashboard" replace />;
-    if (isPromoter) return <Navigate to="/promoter/dashboard" replace />;
-    return <Navigate to="/user-dashboard" replace />;
-  }
-
-  // Cross-role access prevention
-  
-  // Prevent non-association users from accessing association pages
-  if (requireAssociation && (isHotelOwner || isPromoter || isTraveler)) {
-    console.log("Non-association user trying to access association page, redirecting to appropriate dashboard");
-    if (isHotelOwner) return <Navigate to="/hotel-dashboard" replace />;
-    if (isPromoter) return <Navigate to="/promoter/dashboard" replace />;
-    return <Navigate to="/user-dashboard" replace />;
-  }
-
-  // Prevent non-hotel owners from accessing hotel pages
-  if (requireHotelOwner && (isAssociationUser || isPromoter || isTraveler)) {
-    console.log("Non-hotel owner trying to access hotel page, redirecting to appropriate dashboard");
-    if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isPromoter) return <Navigate to="/promoter/dashboard" replace />;
-    return <Navigate to="/user-dashboard" replace />;
-  }
-
-  // Prevent non-promoters from accessing promoter pages
-  if (requirePromoter && (isAssociationUser || isHotelOwner || isTraveler)) {
-    console.log("Non-promoter trying to access promoter page, redirecting to appropriate dashboard");
-    if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isHotelOwner) return <Navigate to="/hotel-dashboard" replace />;
-    return <Navigate to="/user-dashboard" replace />;
+  // Prevent hotel owners from accessing association pages
+  if (requireAssociation && user.user_metadata?.is_hotel_owner && !isAssociationUser) {
+    console.log("Hotel owner trying to access association page, redirecting to hotel dashboard");
+    return <Navigate to="/hotel-dashboard" replace />;
   }
 
   console.log("ProtectedRoute validation passed, rendering children");

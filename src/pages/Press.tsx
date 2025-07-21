@@ -20,9 +20,7 @@ export default function Press() {
                   <h1 className="text-2xl md:text-4xl font-bold text-white leading-tight">
                     {t('header.line1')}
                   </h1>
-                  <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">
-                    Vivir en hoteles ya no es solo para monarcas y millonarios
-                  </h2>
+                  <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">Vivir en y entre hoteles ya no es solo para monarcas y millonarios</h2>
                   
                 </div>
 

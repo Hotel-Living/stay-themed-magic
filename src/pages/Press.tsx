@@ -18,7 +18,7 @@ export default function Press() {
                 
                 {/* Header Section */}
                 <div className="text-center space-y-6">
-                  <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                  <h1 className="text-2xl md:text-4xl font-bold text-white leading-tight">
                     {t('header.line1')}
                   </h1>
                   <h2 className="text-2xl md:text-4xl font-semibold text-white/90 leading-tight">

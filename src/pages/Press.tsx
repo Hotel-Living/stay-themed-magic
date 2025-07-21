@@ -52,12 +52,16 @@ export default function Press() {
               {t('headlines.title')}
             </h2>
             <ul className="space-y-3">
-              {(t('headlines.list', { returnObjects: true }) as string[]).map((headline: string, index: number) => (
-                <li key={index} className="text-fuchsia-300 flex items-start">
-                  <span className="text-fuchsia-400 mr-2">•</span>
-                  <span>{headline}</span>
-                </li>
-              ))}
+              {(() => {
+                const headlines = t('headlines.list', { returnObjects: true });
+                console.log('Headlines data:', headlines, typeof headlines);
+                return Array.isArray(headlines) ? headlines.map((headline: string, index: number) => (
+                  <li key={index} className="text-fuchsia-300 flex items-start">
+                    <span className="text-fuchsia-400 mr-2">•</span>
+                    <span>{headline}</span>
+                  </li>
+                )) : [];
+              })()}
             </ul>
           </div>
 
@@ -67,12 +71,16 @@ export default function Press() {
               {t('keyFigures.title')}
             </h2>
             <ul className="space-y-3">
-              {(t('keyFigures.list', { returnObjects: true }) as string[]).map((figure: string, index: number) => (
-                <li key={index} className="text-fuchsia-300 flex items-start">
-                  <span className="text-fuchsia-400 mr-2">•</span>
-                  <span>{figure}</span>
-                </li>
-              ))}
+              {(() => {
+                const keyFigures = t('keyFigures.list', { returnObjects: true });
+                console.log('Key figures data:', keyFigures, typeof keyFigures);
+                return Array.isArray(keyFigures) ? keyFigures.map((figure: string, index: number) => (
+                  <li key={index} className="text-fuchsia-300 flex items-start">
+                    <span className="text-fuchsia-400 mr-2">•</span>
+                    <span>{figure}</span>
+                  </li>
+                )) : [];
+              })()}
             </ul>
           </div>
 
@@ -85,21 +93,29 @@ export default function Press() {
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Major Chains</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(t('brands.major', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
-                    <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
-                      {brand}
-                    </span>
-                  ))}
+                  {(() => {
+                    const brands = t('brands.major', { returnObjects: true });
+                    console.log('Major brands data:', brands, typeof brands);
+                    return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
+                      <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
+                        {brand}
+                      </span>
+                    )) : [];
+                  })()}
                 </div>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-fuchsia-300 mb-3">Specialized</h3>
                 <div className="flex flex-wrap gap-2">
-                  {(t('brands.specialized', { returnObjects: true }) as string[]).map((brand: string, index: number) => (
-                    <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
-                      {brand}
-                    </span>
-                  ))}
+                  {(() => {
+                    const brands = t('brands.specialized', { returnObjects: true });
+                    console.log('Specialized brands data:', brands, typeof brands);
+                    return Array.isArray(brands) ? brands.map((brand: string, index: number) => (
+                      <span key={index} className="bg-fuchsia-900/50 text-fuchsia-200 px-3 py-1 rounded-full text-sm">
+                        {brand}
+                      </span>
+                    )) : [];
+                  })()}
                 </div>
               </div>
             </div>
@@ -111,18 +127,22 @@ export default function Press() {
               {t('pressCoverage.title')}
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {(t('pressCoverage.list', { returnObjects: true }) as Array<{media: string, link: string}>).map((item: any, index: number) => (
-                <a
-                  key={index}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-4 bg-fuchsia-900/30 rounded-lg hover:bg-fuchsia-900/50 transition-colors border border-fuchsia-400/20"
-                >
-                  <span className="text-fuchsia-200 font-medium">{item.media}</span>
-                  <ExternalLink className="w-4 h-4 text-fuchsia-400" />
-                </a>
-              ))}
+              {(() => {
+                const pressCoverage = t('pressCoverage.list', { returnObjects: true });
+                console.log('Press coverage data:', pressCoverage, typeof pressCoverage);
+                return Array.isArray(pressCoverage) ? pressCoverage.map((item: any, index: number) => (
+                  <a
+                    key={index}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 bg-fuchsia-900/30 rounded-lg hover:bg-fuchsia-900/50 transition-colors border border-fuchsia-400/20"
+                  >
+                    <span className="text-fuchsia-200 font-medium">{item.media}</span>
+                    <ExternalLink className="w-4 h-4 text-fuchsia-400" />
+                  </a>
+                )) : [];
+              })()}
             </div>
           </div>
 

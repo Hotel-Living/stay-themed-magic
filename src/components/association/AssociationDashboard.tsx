@@ -8,8 +8,8 @@ import { CommissionsTab } from './tabs/CommissionsTab';
 import { AccountTab } from './tabs/AccountTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { Starfield } from '@/components/Starfield';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 export const AssociationDashboard = () => {
   return (

@@ -5,41 +5,26 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "sonner";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-import HotelLogin from "@/pages/HotelLogin";
-import HotelSignup from "@/pages/HotelSignup";
+import HotelSignUp from "@/pages/HotelSignUp";
 import HotelDashboard from "@/pages/HotelDashboard";
 import UserDashboard from "@/pages/UserDashboard";
 import Hotels from "@/pages/Hotels";
-import HotelDetails from "@/pages/HotelDetails";
-import BookingConfirmation from "@/pages/BookingConfirmation";
-import HotelProfile from "@/pages/HotelProfile";
-import About from "@/pages/About";
+import HotelDetail from "@/pages/HotelDetail";
+import AboutUs from "@/pages/AboutUs";
 import Contact from "@/pages/Contact";
-import Support from "@/pages/Support";
-import TermsConditions from "@/pages/TermsConditions";
+import Help from "@/pages/Help";
 import Privacy from "@/pages/Privacy";
-import Copyright from "@/pages/Copyright";
+import IntellectualProperty from "@/pages/IntellectualProperty";
 import CustomerService from "@/pages/CustomerService";
 import OurTeam from "@/pages/OurTeam";
 import OurValues from "@/pages/OurValues";
 import OurServices from "@/pages/OurServices";
-import PasswordRecovery from "@/pages/PasswordRecovery";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import AdminRoute from "@/components/auth/AdminRoute";
+import ForgotPassword from "@/pages/ForgotPassword";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { AdminRoute } from "@/components/auth/AdminRoute";
 import AdminDashboard from "@/pages/AdminDashboard";
-import HotelCreation from "@/pages/HotelCreation";
-import ComingSoon from "@/pages/ComingSoon";
-import HotelsGrid from "@/pages/HotelsGrid";
-import BlogGrid from "@/pages/BlogGrid";
-import BlogPost from "@/pages/BlogPost";
-import DestinationsList from "@/pages/DestinationsList";
-import CountryDetail from "@/pages/CountryDetail";
-import CityDetail from "@/pages/CityDetail";
-import HotelCalc from "@/pages/HotelCalc";
-import ServiceCalculations from "@/pages/ServiceCalculations";
-import HowItWorks from "@/pages/HowItWorks";
-import Ambassadors from "@/pages/Ambassadors";
+import HotelsPage from "@/pages/HotelsPage";
+import Ambassador from "@/pages/Ambassador";
 import FAQ from "@/pages/FAQ";
 import PromoterDashboard from "@/pages/PromoterDashboard";
 import AgentDashboard from "@/pages/AgentDashboard";
@@ -68,20 +53,12 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: "/signup",
-    element: <Signup />
-  },
-  {
-    path: "/hotel-login",
-    element: <HotelLogin />
-  },
-  {
     path: "/hotel-signup",
-    element: <HotelSignup />
+    element: <HotelSignUp />
   },
   {
     path: "/password-recovery",
-    element: <PasswordRecovery />
+    element: <ForgotPassword />
   },
   {
     path: "/user-dashboard",
@@ -117,39 +94,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/hotels",
-    element: <HotelsGrid />
+    element: <HotelsPage />
   },
   {
     path: "/hotel/:id",
-    element: <HotelDetails />
-  },
-  {
-    path: "/booking-confirmation",
-    element: (
-      <ProtectedRoute>
-        <BookingConfirmation />
-      </ProtectedRoute>
-    )
-  },
-  {
-    path: "/hotel-profile",
-    element: (
-      <ProtectedRoute requireHotelOwner={true}>
-        <HotelProfile />
-      </ProtectedRoute>
-    )
-  },
-  {
-    path: "/hotel-creation",
-    element: (
-      <ProtectedRoute requireHotelOwner={true}>
-        <HotelCreation />
-      </ProtectedRoute>
-    )
+    element: <HotelDetail />
   },
   {
     path: "/about",
-    element: <About />
+    element: <AboutUs />
   },
   {
     path: "/contact",
@@ -157,11 +110,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/support",
-    element: <Support />
-  },
-  {
-    path: "/terms",
-    element: <TermsConditions />
+    element: <Help />
   },
   {
     path: "/privacy",
@@ -169,7 +118,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/copyright",
-    element: <Copyright />
+    element: <IntellectualProperty />
   },
   {
     path: "/customer-service",
@@ -186,46 +135,6 @@ const router = createBrowserRouter([
   {
     path: "/our-services",
     element: <OurServices />
-  },
-  {
-    path: "/coming-soon",
-    element: <ComingSoon />
-  },
-  {
-    path: "/blog",
-    element: <BlogGrid />
-  },
-  {
-    path: "/blog/:slug",
-    element: <BlogPost />
-  },
-  {
-    path: "/destinations",
-    element: <DestinationsList />
-  },
-  {
-    path: "/country/:country",
-    element: <CountryDetail />
-  },
-  {
-    path: "/city/:country/:city",
-    element: <CityDetail />
-  },
-  {
-    path: "/hotel-calc",
-    element: <HotelCalc />
-  },
-  {
-    path: "/calculadoras",
-    element: <ServiceCalculations />
-  },
-  {
-    path: "/how-it-works",
-    element: <HowItWorks />
-  },
-  {
-    path: "/ambassadors",
-    element: <Ambassadors />
   },
   {
     path: "/faq",

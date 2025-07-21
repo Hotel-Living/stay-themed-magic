@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { Profile } from "@/integrations/supabase/types-custom";
@@ -9,6 +10,7 @@ export function useAuthState() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleCorrectRedirect = (user: User) => {
     console.log("=== REDIRECT HANDLER START ===");
@@ -17,18 +19,18 @@ export function useAuthState() {
 
     // Determine correct redirect based on user metadata
     if (user.user_metadata?.association_name) {
-      console.log("Association user detected, redirecting to panel-asociacion");
+      console.log("Association user detected, navigating to panel-asociacion");
       console.log("Association name:", user.user_metadata.association_name);
-      window.location.href = "/panel-asociacion";
+      navigate("/panel-asociacion", { replace: true });
     } else if (user.user_metadata?.is_hotel_owner) {
-      console.log("Hotel owner detected, redirecting to hotel dashboard");
-      window.location.href = "/hotel-dashboard";
+      console.log("Hotel owner detected, navigating to hotel dashboard");
+      navigate("/hotel-dashboard", { replace: true });
     } else if (user.user_metadata?.role === 'promoter') {
-      console.log("Promoter detected, redirecting to promoter dashboard");
-      window.location.href = "/promoter/dashboard";
+      console.log("Promoter detected, navigating to promoter dashboard");
+      navigate("/promoter/dashboard", { replace: true });
     } else {
-      console.log("Regular traveler detected, redirecting to user dashboard");
-      window.location.href = "/user-dashboard";
+      console.log("Regular traveler detected, navigating to user dashboard");
+      navigate("/user-dashboard", { replace: true });
     }
     
     console.log("=== REDIRECT HANDLER END ===");
@@ -58,17 +60,22 @@ export function useAuthState() {
           // Only redirect if we're coming from an auth page or need to correct the route
           const currentPath = window.location.pathname;
           const isOnAuthPage = currentPath === '/login' || currentPath === '/signup' || currentPath === '/' || currentPath.includes('confirm');
-          const isWrongDashboard = (
-            (session.user.user_metadata?.association_name && currentPath !== '/panel-asociacion') ||
-            (session.user.user_metadata?.is_hotel_owner && currentPath !== '/hotel-dashboard') ||
-            (session.user.user_metadata?.role === 'promoter' && currentPath !== '/promoter/dashboard') ||
-            (!session.user.user_metadata?.association_name && !session.user.user_metadata?.is_hotel_owner && session.user.user_metadata?.role !== 'promoter' && currentPath !== '/user-dashboard')
+          
+          // Check if user is on wrong dashboard - prioritize association users
+          const isAssociationUser = session.user.user_metadata?.association_name;
+          const isOnWrongDashboard = (
+            (isAssociationUser && currentPath !== '/panel-asociacion') ||
+            (session.user.user_metadata?.is_hotel_owner && !isAssociationUser && currentPath !== '/hotel-dashboard') ||
+            (session.user.user_metadata?.role === 'promoter' && !isAssociationUser && !session.user.user_metadata?.is_hotel_owner && currentPath !== '/promoter/dashboard') ||
+            (!isAssociationUser && !session.user.user_metadata?.is_hotel_owner && session.user.user_metadata?.role !== 'promoter' && currentPath !== '/user-dashboard')
           );
           
-          if (isOnAuthPage || isWrongDashboard) {
-            console.log("Redirect needed - Auth page:", isOnAuthPage, "Wrong dashboard:", isWrongDashboard);
-            // Immediate redirect without delay to prevent loops
-            handleCorrectRedirect(session.user);
+          if (isOnAuthPage || isOnWrongDashboard) {
+            console.log("Redirect needed - Auth page:", isOnAuthPage, "Wrong dashboard:", isOnWrongDashboard);
+            // Use setTimeout to ensure state is fully updated before navigation
+            setTimeout(() => {
+              handleCorrectRedirect(session.user);
+            }, 0);
           } else {
             console.log("No redirect needed, user is already on correct page");
           }
@@ -90,7 +97,7 @@ export function useAuthState() {
       console.log("Cleaning up auth state listeners");
       subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   return {
     user,

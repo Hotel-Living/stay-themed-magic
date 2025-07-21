@@ -24,7 +24,11 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
   // Show loading while auth state is being determined
   if (isLoading) {
     console.log("Auth still loading, showing loading state");
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
   }
 
   // If no user or session, redirect to login
@@ -33,20 +37,33 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     return <Navigate to="/login" replace />;
   }
 
-  // If requiring hotel owner access, check if user is hotel owner
+  // Early detection and handling for association users
+  const isAssociationUser = user.user_metadata?.association_name;
+  const currentPath = window.location.pathname;
+  
+  // If user is association but not on association page, redirect immediately
+  if (isAssociationUser && currentPath !== '/panel-asociacion' && !requireAssociation) {
+    console.log("Association user detected on wrong page, redirecting to panel-asociacion");
+    return <Navigate to="/panel-asociacion" replace />;
+  }
+
+  // If requiring association access, check if user has association_name in metadata
+  if (requireAssociation && !isAssociationUser) {
+    console.log("Association required but user has no association_name, redirecting to user dashboard");
+    return <Navigate to="/user-dashboard" replace />;
+  }
+
+  // If requiring hotel owner access, check if user is hotel owner (but not association)
   if (requireHotelOwner && !user.user_metadata?.is_hotel_owner) {
     console.log("Hotel owner required but user is not hotel owner, redirecting to user dashboard");
     return <Navigate to="/user-dashboard" replace />;
   }
 
-  // If requiring association access, check if user has association_name in metadata
-  if (requireAssociation && !user.user_metadata?.association_name) {
-    console.log("Association required but user has no association_name, redirecting to user dashboard");
-    return <Navigate to="/user-dashboard" replace />;
+  // Prevent hotel owners from accessing association pages
+  if (requireAssociation && user.user_metadata?.is_hotel_owner && !isAssociationUser) {
+    console.log("Hotel owner trying to access association page, redirecting to hotel dashboard");
+    return <Navigate to="/hotel-dashboard" replace />;
   }
-
-  // If requiring admin access, this will be handled by AdminRoute component
-  // ProtectedRoute is mainly for general authentication and hotel owner checks
 
   console.log("ProtectedRoute validation passed, rendering children");
   console.log("=== PROTECTED ROUTE CHECK END ===");

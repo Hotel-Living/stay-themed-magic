@@ -96,9 +96,6 @@ export function Footer() {
         
         <div className={`text-center text-xs text-white ${isMobile ? "mt-8 mb-6" : ""}`}>
           <p className="font-semibold">{t('footer.copyright')}</p>
-          <p className="text-white text-center text-xs font-semibold">
-            {t('footer.disclaimer')}
-          </p>
         </div>
       </div>
     </footer>;

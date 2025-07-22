@@ -1,168 +1,159 @@
 {
-  "dashboard": {
-    "hotelRegistration": {
-      "title": "Registo de Hotel",
-      "subtitle": "Complete toda a informação necessária para registar a sua propriedade no Hotel Living",
-      "submitRegistration": "Enviar Registo",
-      "submitting": "A enviar...",
-      "basicInfo": {
-        "title": "Informação Básica",
-        "hotelName": "Nome do Hotel",
-        "hotelNamePlaceholder": "Introduza o nome do hotel",
-        "address": "Endereço",
-        "addressPlaceholder": "Introduza o endereço completo",
-        "city": "Cidade",
-        "cityPlaceholder": "Introduza a cidade",
-        "postalCode": "Código Postal",
-        "postalCodePlaceholder": "Introduza o código postal",
-        "country": "País",
-        "countryPlaceholder": "Selecione o país",
-        "mapPreview": "Pré-visualização do mapa",
-        "mapPlaceholder": "O mapa será mostrado aqui"
-      },
-      "classification": {
-        "title": "Classificação do Hotel",
-        "label": "Classificação por Estrelas",
-        "placeholder": "Selecione a classificação",
-        "threeStar": "Três Estrelas",
-        "fourStar": "Quatro Estrelas",
-        "fiveStar": "Cinco Estrelas"
-      },
-      "propertyType": {
-        "title": "Tipo de Propriedade",
-        "label": "Tipo de Propriedade",
-        "placeholder": "Selecione o tipo de propriedade",
-        "hotel": "Hotel",
-        "boutiqueHotel": "Hotel Boutique",
-        "resort": "Resort",
-        "ruralHouse": "Casa Rural",
-        "hostel": "Hostel"
-      },
-      "propertyStyle": {
-        "title": "Estilo da Propriedade",
-        "label": "Estilo da Propriedade",
-        "placeholder": "Selecione o estilo",
-        "classic": "Clássico",
-        "classicElegant": "Clássico Elegante",
-        "modern": "Moderno",
-        "fusion": "Fusão",
-        "urban": "Urbano",
-        "rural": "Rural",
-        "minimalist": "Minimalista",
-        "luxury": "Luxo"
-      },
-      "hotelDescription": {
-        "title": "Descrição do Hotel",
-        "description": "Descreva a propriedade",
-        "descriptionPlaceholder": "Descreva as principais características do seu hotel",
-        "atmosphere": "Atmosfera",
-        "atmospherePlaceholder": "Descreva a atmosfera do hotel",
-        "idealGuests": "Hóspedes Ideais",
-        "idealGuestsPlaceholder": "Descreva o tipo ideal de hóspedes",
-        "locationHighlight": "Destaque da Localização",
-        "locationHighlightPlaceholder": "Descreva as vantagens da localização"
-      },
-      "roomDescription": {
-        "title": "Descrição dos Quartos",
-        "roomTypes": "Tipos de Quarto",
-        "addRoomType": "Adicionar Tipo de Quarto",
-        "roomTypeName": "Nome do Tipo de Quarto",
-        "roomTypeNamePlaceholder": "ex: Quarto Duplo Standard",
-        "roomCapacity": "Capacidade",
-        "roomCapacityPlaceholder": "Número de hóspedes",
-        "roomDescription": "Descrição do Quarto",
-        "roomDescriptionPlaceholder": "Descreva as características do quarto"
-      },
-      "completePhrases": {
-        "title": "Frases Completas",
-        "idealGuestsEnjoy": "Os hóspedes ideais gostam de...",
-        "idealGuestsEnjoyPlaceholder": "Descreva do que os hóspedes gostam",
-        "atmosphereIs": "A atmosfera é...",
-        "atmosphereIsPlaceholder": "Descreva a atmosfera",
-        "locationPerfectFor": "A nossa localização é perfeita para...",
-        "locationPerfectForPlaceholder": "Descreva para que é perfeita a localização"
-      },
-      "hotelFeatures": {
-        "title": "Características do Hotel",
-        "selectFeatures": "Selecione as características disponíveis no hotel"
-      },
-      "roomFeatures": {
-        "title": "Características dos Quartos",
-        "selectFeatures": "Selecione as características disponíveis nos quartos"
-      },
-      "clientAffinities": {
-        "title": "Afinidades dos Clientes",
-        "selectAffinities": "Selecione as afinidades que melhor descrevem a sua propriedade"
-      },
-      "activities": {
-        "title": "Atividades",
-        "selectActivities": "Selecione as atividades disponíveis"
-      },
-      "checkInDay": {
-        "title": "Dia de Check-in",
-        "label": "Dia Preferido de Check-in",
-        "placeholder": "Selecione o dia",
-        "monday": "Segunda-feira",
-        "tuesday": "Terça-feira",
-        "wednesday": "Quarta-feira",
-        "thursday": "Quinta-feira",
-        "friday": "Sexta-feira",
-        "saturday": "Sábado",
-        "sunday": "Domingo"
-      },
-      "mealPlan": {
-        "title": "Plano de Refeições",
-        "selectMealPlans": "Selecione os planos de refeição disponíveis",
-        "breakfastIncluded": "Pequeno-almoço Incluído",
-        "halfBoard": "Meia Pensão",
-        "fullBoard": "Pensão Completa",
-        "allInclusive": "Tudo Incluído"
-      },
-      "laundryService": {
-        "title": "Serviço de Lavandaria",
-        "available": "Disponível",
-        "price": "Preço",
-        "pricePlaceholder": "Preço do serviço",
-        "details": "Detalhes",
-        "detailsPlaceholder": "Detalhes do serviço de lavandaria"
-      },
-      "stayLengths": {
-        "title": "Duração da Estadia",
-        "selectLengths": "Selecione as durações de estadia disponíveis",
-        "oneMonth": "1 Mês",
-        "threeMonths": "3 Meses",
-        "sixMonths": "6 Meses",
-        "oneYear": "1 Ano"
-      },
-      "pricing": {
-        "title": "Matriz de Preços",
-        "addPricing": "Adicionar Preço",
-        "duration": "Duração",
-        "price": "Preço",
-        "currency": "Moeda"
-      },
-      "availability": {
-        "title": "Pacotes de Disponibilidade",
-        "addPackage": "Adicionar Pacote",
-        "startDate": "Data de Início",
-        "endDate": "Data de Fim",
-        "totalRooms": "Quartos Totais",
-        "availableRooms": "Quartos Disponíveis"
-      },
-      "images": {
-        "title": "Carregar Imagens",
-        "mainImage": "Imagem Principal",
-        "additionalImages": "Imagens Adicionais",
-        "uploadImages": "Carregar Imagens"
-      },
-      "terms": {
-        "title": "Termos e Condições",
-        "termsText": "Termos e Condições",
-        "termsPlaceholder": "Introduza os termos e condições",
-        "acceptTerms": "Aceito os termos e condições",
-        "privacyPolicy": "Política de Privacidade",
-        "acceptPrivacy": "Aceito a política de privacidade"
-      }
-    }
+  "title": "Registo de Hotel",
+  "subtitle": "Complete todas as informações necessárias para registar a sua propriedade no Hotel Living",
+  "submitRegistration": "Enviar Registo",
+  "submitting": "Enviando...",
+  "success": "Hotel registado com sucesso",
+  "error": "Erro ao registar hotel",
+  "required": "Obrigatório",
+  "optional": "Opcional",
+  "basicInfo": {
+    "title": "Informações Básicas",
+    "hotelName": "Nome do Hotel",
+    "hotelNamePlaceholder": "Introduza o nome do hotel",
+    "address": "Endereço",
+    "addressPlaceholder": "Introduza o endereço completo",
+    "city": "Cidade",
+    "cityPlaceholder": "Introduza a cidade",
+    "postalCode": "Código Postal",
+    "postalCodePlaceholder": "Introduza o código postal",
+    "country": "País",
+    "countryPlaceholder": "Seleccione o país",
+    "mapPreview": "Pré-visualização do mapa",
+    "mapPlaceholder": "O mapa aparecerá aqui"
+  },
+  "classification": {
+    "title": "Classificação Oficial",
+    "label": "Classificação do Hotel",
+    "placeholder": "Seleccione a classificação",
+    "threeStar": "Três Estrelas",
+    "fourStar": "Quatro Estrelas",
+    "fiveStar": "Cinco Estrelas"
+  },
+  "propertyType": {
+    "title": "Tipo de Propriedade",
+    "label": "Tipo de Propriedade",
+    "placeholder": "Seleccione o tipo de propriedade",
+    "hotel": "Hotel",
+    "boutiqueHotel": "Hotel Boutique",
+    "resort": "Resort",
+    "ruralHouse": "Casa Rural",
+    "hostel": "Hostel"
+  },
+  "propertyStyle": {
+    "title": "Estilo da Propriedade",
+    "label": "Estilo da Propriedade",
+    "placeholder": "Seleccione o estilo da propriedade",
+    "classic": "Clássico",
+    "classicElegant": "Clássico Elegante",
+    "modern": "Moderno",
+    "fusion": "Fusão",
+    "urban": "Urbano",
+    "rural": "Rural",
+    "minimalist": "Minimalista",
+    "luxury": "Luxo"
+  },
+  "hotelDescription": {
+    "title": "Descrição do Hotel",
+    "label": "Descrição do Hotel",
+    "placeholder": "Descreva o seu hotel...",
+    "minCharacters": "caracteres mínimos"
+  },
+  "roomDescription": {
+    "title": "Descrição dos Quartos",
+    "label": "Descrição dos Quartos",
+    "placeholder": "Descreva os quartos..."
+  },
+  "completePhrases": {
+    "title": "Complete as Seguintes Frases",
+    "idealForGuests": "Ideal para hóspedes que gostam...",
+    "idealForGuestsPlaceholder": "Introduza o tipo de hóspedes",
+    "atmosphere": "O ambiente é...",
+    "atmospherePlaceholder": "Descreva o ambiente",
+    "locationPerfect": "A localização é perfeita para...",
+    "locationPerfectPlaceholder": "Descreva a localização"
+  },
+  "hotelFeatures": {
+    "title": "Características do Hotel",
+    "label": "Características do Hotel",
+    "required": "Seleccione pelo menos uma característica",
+    "loading": "Carregando características..."
+  },
+  "roomFeatures": {
+    "title": "Características dos Quartos",
+    "label": "Características dos Quartos",
+    "loading": "Carregando características..."
+  },
+  "clientAffinities": {
+    "title": "Afinidades dos Clientes",
+    "label": "Afinidades dos Clientes",
+    "searchPlaceholder": "Pesquisar afinidades...",
+    "loading": "Carregando afinidades..."
+  },
+  "activities": {
+    "title": "Actividades",
+    "label": "Actividades Disponíveis",
+    "searchPlaceholder": "Pesquisar actividades...",
+    "loading": "Carregando actividades..."
+  },
+  "checkInDay": {
+    "title": "Dia de Check-in/Check-out",
+    "label": "Dia Semanal de Check-in/Check-out",
+    "placeholder": "Seleccione o dia",
+    "monday": "Segunda-feira",
+    "tuesday": "Terça-feira",
+    "wednesday": "Quarta-feira",
+    "thursday": "Quinta-feira",
+    "friday": "Sexta-feira",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
+  "mealPlan": {
+    "title": "Plano de Refeições",
+    "label": "Plano de Refeições",
+    "placeholder": "Seleccione o plano de refeições",
+    "loading": "Carregando planos de refeição..."
+  },
+  "laundryService": {
+    "title": "Serviço de Lavandaria",
+    "inHouseIncluded": "Lavandaria interna incluída",
+    "externalReferral": "Referência a serviço externo"
+  },
+  "stayLengths": {
+    "title": "Duração das Estadias",
+    "label": "Durações de Estadia Disponíveis",
+    "days": "dias"
+  },
+  "pricingMatrix": {
+    "title": "Preços",
+    "label": "Matriz de Preços",
+    "doubleRoom": "Quarto Duplo",
+    "singleRoom": "Quarto Individual",
+    "pricePerRoom": "Preço por quarto",
+    "days": "dias",
+    "priceLimit": "Limite de preço para",
+    "priceExceeded": "O preço excede o limite permitido"
+  },
+  "availabilityPackages": {
+    "title": "Pacotes de Disponibilidade",
+    "label": "Pacotes de Disponibilidade",
+    "addPackage": "Adicionar Pacote",
+    "entryDate": "Data de Entrada",
+    "exitDate": "Data de Saída",
+    "numberOfRooms": "Número de Quartos",
+    "package": "Pacote",
+    "remove": "Remover"
+  },
+  "imageUploads": {
+    "title": "Carregar Imagens",
+    "hotelPhotos": "Fotos do Hotel",
+    "roomPhotos": "Fotos dos Quartos",
+    "dragDrop": "Arraste e solte as imagens aqui",
+    "browse": "ou clique para procurar"
+  },
+  "termsConditions": {
+    "title": "Termos e Condições",
+    "accept": "Li e aceito os Termos e Condições",
+    "text": "Ao registar a sua propriedade, aceita os nossos termos e condições..."
   }
 }

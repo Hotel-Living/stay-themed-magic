@@ -51,6 +51,7 @@ import enHotelCrisis from './locales/en/hotel-crisis.json';
 import enHotelAccordion from './locales/en/hotel-accordion.json';
 import enHotelAssociation from './locales/en/hotelAssociation.json';
 import enAssociationRegistration from './locales/en/associationRegistration.json';
+import enDashboardHotelRegistration from './locales/en/dashboard/hotel-registration.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -98,6 +99,7 @@ import esHotelCrisis from './locales/es/hotel-crisis.json';
 import esHotelAccordion from './locales/es/hotel-accordion.json';
 import esHotelAssociation from './locales/es/hotelAssociation.json';
 import esAssociationRegistration from './locales/es/associationRegistration.json';
+import esDashboardHotelRegistration from './locales/es/dashboard/hotel-registration.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -134,6 +136,7 @@ import ptHotelCrisis from './locales/pt/hotel-crisis.json';
 import ptHotelAccordion from './locales/pt/hotel-accordion.json';
 import ptHotelAssociation from './locales/pt/hotelAssociation.json';
 import ptAssociationRegistration from './locales/pt/associationRegistration.json';
+import ptDashboardHotelRegistration from './locales/pt/dashboard/hotel-registration.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -170,6 +173,7 @@ import roHotelCrisis from './locales/ro/hotel-crisis.json';
 import roHotelAccordion from './locales/ro/hotel-accordion.json';
 import roHotelAssociation from './locales/ro/hotelAssociation.json';
 import roAssociationRegistration from './locales/ro/associationRegistration.json';
+import roDashboardHotelRegistration from './locales/ro/dashboard/hotel-registration.json';
 
 const resources = {
   en: {
@@ -222,6 +226,7 @@ const resources = {
     'dashboard/rates-calculator': enRatesCalculator,
     'dashboard/welcome-content': enWelcomeContent,
     'dashboard/advertising': enAdvertising,
+    'dashboard/hotel-registration': enDashboardHotelRegistration,
     // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...enDashboard.dashboard,
@@ -294,6 +299,7 @@ const resources = {
     'dashboard/rates': esDashboardRates,
     'dashboard/settings': esDashboardSettings,
     'dashboard/advertising': esAdvertising,
+    'dashboard/hotel-registration': esDashboardHotelRegistration,
     // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...esDashboard.dashboard,
@@ -341,6 +347,7 @@ const resources = {
     'dashboard/settings': ptDashboardSettings,
     'dashboard/rates-calculator': ptRatesCalculator,
     'dashboard/advertising': ptAdvertising,
+    'dashboard/hotel-registration': ptDashboardHotelRegistration,
     // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...ptDashboard.dashboard,
@@ -388,6 +395,7 @@ const resources = {
     'dashboard/settings': roDashboardSettings,
     'dashboard/rates-calculator': roRatesCalculator,
     'dashboard/advertising': roAdvertising,
+    'dashboard/hotel-registration': roDashboardHotelRegistration,
     // Legacy dashboard namespace for backwards compatibility
     dashboard: {
       ...roDashboard.dashboard,

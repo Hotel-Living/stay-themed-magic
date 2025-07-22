@@ -4,6 +4,15 @@
     "title": "INFORMACIÓN BÁSICA",
     "hotelName": "Nombre del Hotel",
     "hotelNamePlaceholder": "Ingrese el nombre del hotel",
+    "address": "Dirección",
+    "addressPlaceholder": "Ingrese su dirección",
+    "city": "Ciudad",
+    "cityPlaceholder": "Ingrese su ciudad",
+    "postalCode": "Código Postal",
+    "postalCodePlaceholder": "Ingrese código postal",
+    "country": "País",
+    "countryPlaceholder": "Seleccione su país",
+    "mapPreview": "Vista Previa del Mapa",
     "validation": {
       "required": "Este campo es obligatorio",
       "minLength": "Mínimo 3 caracteres requeridos"

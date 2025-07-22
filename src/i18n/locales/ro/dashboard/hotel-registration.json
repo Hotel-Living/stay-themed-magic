@@ -4,6 +4,15 @@
     "title": "INFORMAȚII DE BAZĂ",
     "hotelName": "Numele Hotelului",
     "hotelNamePlaceholder": "Introduceți numele hotelului",
+    "address": "Adresa",
+    "addressPlaceholder": "Introduceți adresa dvs.",
+    "city": "Orașul",
+    "cityPlaceholder": "Introduceți orașul dvs.",
+    "postalCode": "Cod Poștal",
+    "postalCodePlaceholder": "Introduceți codul poștal",
+    "country": "Țara",
+    "countryPlaceholder": "Selectați țara dvs.",
+    "mapPreview": "Previzualizare Hartă",
     "validation": {
       "required": "Acest câmp este obligatoriu",
       "minLength": "Minimum 3 caractere necesare"

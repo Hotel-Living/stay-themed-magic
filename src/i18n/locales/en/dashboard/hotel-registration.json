@@ -4,6 +4,15 @@
     "title": "BASIC INFORMATION",
     "hotelName": "Hotel Name",
     "hotelNamePlaceholder": "Enter hotel name",
+    "address": "Address",
+    "addressPlaceholder": "Enter your address",
+    "city": "City",
+    "cityPlaceholder": "Enter your city",
+    "postalCode": "Postal Code",
+    "postalCodePlaceholder": "Enter postal code",
+    "country": "Country",
+    "countryPlaceholder": "Select your country",
+    "mapPreview": "Map Preview",
     "validation": {
       "required": "This field is required",
       "minLength": "Minimum 3 characters required"

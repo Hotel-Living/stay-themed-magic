@@ -1,37 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 
 interface ActivitiesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
 }
 
-const INDOOR_ACTIVITIES = [
-  'spa', 'gym', 'yoga', 'meditation', 'massage', 'sauna', 'library',
-  'gameRoom', 'billiards', 'tabletennis', 'bowling', 'cinema',
-  'workshop', 'cooking-class', 'wine-tasting', 'conference'
-];
-
-const OUTDOOR_ACTIVITIES = [
-  'swimming', 'tennis', 'golf', 'hiking', 'cycling', 'horse-riding',
-  'fishing', 'kayaking', 'sailing', 'diving', 'surfing', 'skiing',
-  'snowboarding', 'climbing', 'zip-lining', 'quad-biking',
-  'bird-watching', 'stargazing', 'gardening', 'barbecue'
-];
+const fetchActivities = async () => {
+  const { data, error } = await supabase
+    .from('activities')
+    .select('*')
+    .order('name');
+  
+  if (error) throw error;
+  return data || [];
+};
 
 export const ActivitiesSection = ({ form }: ActivitiesSectionProps) => {
   const { t } = useTranslation('dashboard/hotel-registration');
+  const [searchTerm, setSearchTerm] = useState('');
   const selectedActivities = form.watch('activities') || [];
+  
+  const { data: activities = [], isLoading } = useQuery({
+    queryKey: ['activities'],
+    queryFn: fetchActivities,
+  });
 
-  const handleActivityChange = (activity: string, checked: boolean) => {
+  const filteredActivities = activities.filter(activity =>
+    activity.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleActivityChange = (activityId: string, checked: boolean) => {
     if (checked) {
-      form.setValue('activities', [...selectedActivities, activity]);
+      form.setValue('activities', [...selectedActivities, activityId]);
     } else {
-      form.setValue('activities', selectedActivities.filter(a => a !== activity));
+      form.setValue('activities', selectedActivities.filter(a => a !== activityId));
     }
   };
 
@@ -49,56 +59,41 @@ export const ActivitiesSection = ({ form }: ActivitiesSectionProps) => {
           name="activities"
           render={() => (
             <FormItem>
-              <FormLabel className="text-white">{t('activities.label')} <span className="text-white/50">({t('optional')})</span></FormLabel>
-              <FormControl>
-                <div className="space-y-8">
-                  {/* Indoor Activities */}
-                  <div>
-                    <h4 className="text-white font-semibold mb-4">{t('activities.indoor')}</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {INDOOR_ACTIVITIES.map((activity) => (
-                        <div key={activity} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={activity}
-                            checked={selectedActivities.includes(activity)}
-                            onCheckedChange={(checked) => handleActivityChange(activity, checked as boolean)}
-                            className="border-white/30"
-                          />
-                          <label
-                            htmlFor={activity}
-                            className="text-white text-sm cursor-pointer"
-                          >
-                            {t(`activities.${activity}`)}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+              <FormLabel className="text-white">{t('activities.selectActivities')}</FormLabel>
+              
+              <div className="mt-4 space-y-4">
+                <Input
+                  placeholder="Buscar actividades..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                />
 
-                  {/* Outdoor Activities */}
-                  <div>
-                    <h4 className="text-white font-semibold mb-4">{t('activities.outdoor')}</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {OUTDOOR_ACTIVITIES.map((activity) => (
-                        <div key={activity} className="flex items-center space-x-2">
+                <FormControl>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-80 overflow-y-auto">
+                    {isLoading ? (
+                      <div className="text-white/50">Cargando actividades...</div>
+                    ) : (
+                      filteredActivities.map((activity) => (
+                        <div key={activity.id} className="flex items-center space-x-2">
                           <Checkbox
-                            id={activity}
-                            checked={selectedActivities.includes(activity)}
-                            onCheckedChange={(checked) => handleActivityChange(activity, checked as boolean)}
+                            id={activity.id}
+                            checked={selectedActivities.includes(activity.id)}
+                            onCheckedChange={(checked) => handleActivityChange(activity.id, checked as boolean)}
                             className="border-white/30"
                           />
                           <label
-                            htmlFor={activity}
+                            htmlFor={activity.id}
                             className="text-white text-sm cursor-pointer"
                           >
-                            {t(`activities.${activity}`)}
+                            {activity.name}
                           </label>
                         </div>
-                      ))}
-                    </div>
+                      ))
+                    )}
                   </div>
-                </div>
-              </FormControl>
+                </FormControl>
+              </div>
             </FormItem>
           )}
         />

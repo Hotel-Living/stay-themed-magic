@@ -3,7 +3,8 @@
   "dashboard": {
     "hotelRegistration": {
       "title": "Registro de Hotel",
-      "submit": "Enviar Registro",
+      "subtitle": "Complete toda la información requerida para registrar su propiedad en Hotel Living",
+      "submitRegistration": "Enviar Registro",
       "submitting": "Enviando...",
       "success": "Hotel registrado exitosamente",
       "error": "Error al registrar hotel",

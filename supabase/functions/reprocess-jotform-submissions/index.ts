@@ -1,4 +1,5 @@
 
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
@@ -6,207 +7,116 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-Deno.serve(async (req) => {
-  console.log('=== JOTFORM REPROCESS SUBMISSIONS ===');
-
-  // Handle CORS preflight requests
+serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-  )
+  console.log("=== REPROCESSING JOTFORM SUBMISSIONS ===");
 
   try {
-    // Get all raw JotForm submissions that haven't been processed successfully
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    // Get all raw JotForm submissions
     const { data: rawSubmissions, error: fetchError } = await supabase
       .from('jotform_raw')
       .select('*')
-      .not('parsed_data', 'is', null)
       .order('created_at', { ascending: false });
 
     if (fetchError) {
       throw fetchError;
     }
 
-    console.log(`Found ${rawSubmissions.length} raw submissions to process`);
+    console.log(`Found ${rawSubmissions?.length || 0} raw submissions to process`);
 
     let processed = 0;
     let errors = 0;
+    const results = [];
 
-    for (const submission of rawSubmissions) {
+    for (const submission of rawSubmissions || []) {
       try {
-        const parsedData = submission.parsed_data;
-        console.log(`Processing submission: ${submission.id}`);
+        console.log(`Processing submission ${submission.id}`);
+        
+        const parsedData = submission.parsed_data || {};
+        
+        // Skip if no meaningful data
+        if (!parsedData.q2_typeA && !parsedData.q13_descripcionDel) {
+          console.log("Skipping submission with no hotel data");
+          continue;
+        }
 
         // Check if hotel already exists for this submission
-        const hotelName = parsedData.q2_typeA || '';
-        const contactEmail = parsedData.q30_typeA30 || '';
-        
-        if (!hotelName && !contactEmail) {
-          console.log(`Skipping submission ${submission.id} - no name or email`);
-          continue;
-        }
+        const existingHotelName = String(parsedData.q2_typeA || '').trim();
+        if (existingHotelName) {
+          const { data: existingHotel } = await supabase
+            .from('hotels')
+            .select('id, name, owner_id')
+            .eq('name', existingHotelName)
+            .single();
 
-        // Check for existing hotel
-        const { data: existingHotel } = await supabase
-          .from('hotels')
-          .select('id')
-          .or(`name.eq.${hotelName},contact_email.eq.${contactEmail}`)
-          .single();
+          if (existingHotel && existingHotelName !== 'Unnamed Hotel') {
+            console.log(`Hotel "${existingHotelName}" already exists, updating it`);
+            
+            // Update existing hotel with complete data
+            const mappedData = mapJotFormData(parsedData);
+            const dbHotelData = {
+              ...mappedData,
+              features_hotel: mappedData.features_hotel.length > 0 ? 
+                mappedData.features_hotel.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
+              features_room: mappedData.features_room.length > 0 ? 
+                mappedData.features_room.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
+            };
 
-        if (existingHotel) {
-          console.log(`Hotel already exists for submission ${submission.id}`);
-          continue;
-        }
+            const { error: updateError } = await supabase
+              .from('hotels')
+              .update(dbHotelData)
+              .eq('id', existingHotel.id);
 
-        // Extract user token and resolve user ID
-        const userToken = parsedData.user_token || null;
-        let userId = null;
-
-        if (userToken) {
-          const { data: tokenData, error: tokenError } = await supabase
-            .rpc('get_user_from_jotform_token', { token: userToken });
-          
-          if (!tokenError && tokenData) {
-            userId = tokenData;
+            if (updateError) {
+              console.error("Error updating hotel:", updateError);
+              errors++;
+            } else {
+              console.log("Hotel updated successfully");
+              processed++;
+            }
+            continue;
           }
         }
 
-        // Map JotForm fields to hotel data structure
-        const hotelData = {
-          name: parsedData.q2_typeA || '',
-          description: parsedData.q13_descripcionDel || '',
-          country: parsedData.q5_direccionFisica?.country || parsedData.dropdown_search || '',
-          city: parsedData.q5_direccionFisica?.city || '',
-          address: parsedData.q5_direccionFisica?.addr_line1 || '',
-          contact_name: parsedData.q28_typeA28 || '',
-          contact_email: parsedData.q30_typeA30 || '',
-          contact_phone: parsedData.q39_typeA39 || '',
-          price_per_month: parseInt(parsedData.q47_tarifas47) || 0,
-          category: parseInt(parsedData.q4_categoriaOficial) || 1,
-          property_type: parsedData.q11_tipoDe || '',
-          style: parsedData.q12_estiloDel || '',
-          ideal_guests: parsedData.q14_ltstronggtltemgtesIdeal || '',
-          atmosphere: parsedData.q15_ltstronggtltemgtelAmbiente || '',
-          perfect_location: parsedData.q16_ltstronggtltemgtlaUbicacion || '',
-          available_months: parsedData.q22_elijaSu ? 
-            (Array.isArray(parsedData.q22_elijaSu) ? parsedData.q22_elijaSu : [parsedData.q22_elijaSu]) : [],
-          meal_plans: parsedData.q23_planDe ? 
-            (Array.isArray(parsedData.q23_planDe) ? parsedData.q23_planDe : [parsedData.q23_planDe]) : [],
-          main_image_url: null,
-          owner_id: userId,
-          status: 'pending' as const,
-          features_hotel: parsedData.q17_instalacionesY || {},
-          features_room: parsedData.q18_serviciosEn || {},
-          activities: parsedData.q20_atraigaA20 || parsedData.q52_atraigaA || parsedData.q41_atraigaA41 || [],
-          room_types: parsedData.q21_descripcionDe21 || [],
-          rates: parsedData.q47_tarifas47 ? { default: parseInt(parsedData.q47_tarifas47) } : {},
-          terms: parsedData.q24_elServicio || '',
-          preferredWeekday: parsedData.q26_cualEs26 || 'Monday',
-          images: parsedData.file || []
+        // Create new hotel
+        const mappedData = mapJotFormData(parsedData);
+        const dbHotelData = {
+          ...mappedData,
+          features_hotel: mappedData.features_hotel.length > 0 ? 
+            mappedData.features_hotel.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
+          features_room: mappedData.features_room.length > 0 ? 
+            mappedData.features_room.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
         };
 
-        // Insert hotel into database
         const { data: hotel, error: hotelError } = await supabase
           .from('hotels')
-          .insert({
-            name: hotelData.name,
-            description: hotelData.description,
-            country: hotelData.country,
-            city: hotelData.city,
-            address: hotelData.address,
-            contact_name: hotelData.contact_name,
-            contact_email: hotelData.contact_email,
-            contact_phone: hotelData.contact_phone,
-            price_per_month: hotelData.price_per_month,
-            category: hotelData.category,
-            property_type: hotelData.property_type,
-            style: hotelData.style,
-            ideal_guests: hotelData.ideal_guests,
-            atmosphere: hotelData.atmosphere,
-            perfect_location: hotelData.perfect_location,
-            available_months: hotelData.available_months,
-            meal_plans: hotelData.meal_plans,
-            main_image_url: hotelData.main_image_url,
-            owner_id: hotelData.owner_id,
-            status: hotelData.status,
-            features_hotel: hotelData.features_hotel,
-            features_room: hotelData.features_room,
-            room_types: hotelData.room_types,
-            rates: hotelData.rates,
-            terms: hotelData.terms,
-            preferredWeekday: hotelData.preferredWeekday
-          })
+          .insert(dbHotelData)
           .select()
           .single();
 
         if (hotelError) {
-          console.error(`Error creating hotel for submission ${submission.id}:`, hotelError);
+          console.error("Error creating hotel:", hotelError);
           errors++;
           continue;
         }
 
-        console.log(`Hotel created successfully for submission ${submission.id}: ${hotel.id}`);
+        console.log(`Hotel created: ${hotel.id}`);
         processed++;
-
-        // Process activities if provided
-        if (hotelData.activities && Array.isArray(hotelData.activities) && hotelData.activities.length > 0) {
-          for (const activityName of hotelData.activities) {
-            const { data: activity } = await supabase
-              .from('activities')
-              .select('id')
-              .eq('name', activityName)
-              .single();
-
-            if (activity) {
-              await supabase
-                .from('hotel_activities')
-                .insert({
-                  hotel_id: hotel.id,
-                  activity_id: activity.id
-                });
-            }
-          }
-        }
-
-        // Process themes if provided
-        if (hotelData.themes && Array.isArray(hotelData.themes) && hotelData.themes.length > 0) {
-          for (const themeName of hotelData.themes) {
-            const { data: theme } = await supabase
-              .from('themes')
-              .select('id')
-              .eq('name', themeName)
-              .single();
-
-            if (theme) {
-              await supabase
-                .from('hotel_themes')
-                .insert({
-                  hotel_id: hotel.id,
-                  theme_id: theme.id
-                });
-            }
-          }
-        }
-
-        // Process images if provided
-        if (hotelData.images && Array.isArray(hotelData.images) && hotelData.images.length > 0) {
-          for (let i = 0; i < hotelData.images.length; i++) {
-            const imageUrl = hotelData.images[i];
-            if (imageUrl) {
-              await supabase
-                .from('hotel_images')
-                .insert({
-                  hotel_id: hotel.id,
-                  image_url: imageUrl,
-                  is_main: i === 0
-                });
-            }
-          }
-        }
+        
+        results.push({
+          submission_id: submission.id,
+          hotel_id: hotel.id,
+          hotel_name: mappedData.name,
+          status: 'created'
+        });
 
       } catch (error) {
         console.error(`Error processing submission ${submission.id}:`, error);
@@ -217,28 +127,93 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Reprocessing completed. Processed: ${processed}, Errors: ${errors}`,
+        message: `Reprocessing completed`,
         processed,
-        errors
+        errors,
+        results
       }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
 
   } catch (error) {
-    console.error('Error reprocessing JotForm submissions:', error);
+    console.error("Error in reprocessing:", error);
     
     return new Response(
       JSON.stringify({
-        success: false,
-        error: error.message || 'Unknown error occurred'
+        error: "Reprocessing failed",
+        details: error.message
       }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
   }
 });
+
+// Helper function to map JotForm data
+function mapJotFormData(data: Record<string, any>) {
+  const extractText = (value: any): string => {
+    if (typeof value === 'string') return value.trim();
+    if (typeof value === 'object' && value !== null) {
+      if (value.addr_line1 || value.city || value.country) {
+        return [value.addr_line1, value.city, value.country].filter(Boolean).join(', ');
+      }
+      return JSON.stringify(value);
+    }
+    return String(value || '').trim();
+  };
+
+  const extractArray = (value: any): string[] => {
+    if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(Boolean);
+    if (typeof value === 'string') {
+      return value.split(/[,\n\r]+/).map(v => v.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
+  const extractNumber = (value: any, defaultValue: number = 0): number => {
+    const num = parseInt(String(value || '0'));
+    return isNaN(num) ? defaultValue : num;
+  };
+
+  return {
+    name: extractText(data.q2_typeA) || 'Unnamed Hotel',
+    description: extractText(data.q13_descripcionDel) || '',
+    country: extractText(data.dropdown_search) || 'Unknown',
+    city: extractText(data.q5_direccionFisica?.city) || 'Unknown',
+    address: extractText(data.q5_direccionFisica?.addr_line1) || '',
+    postal_code: extractText(data.q5_direccionFisica?.postal) || '',
+    contact_name: extractText(data.q28_typeA28) || '',
+    contact_email: extractText(data.q30_typeA30) || '',
+    contact_phone: extractText(data.q39_typeA39) || '',
+    property_type: extractText(data.q11_tipoDe) || 'Hotel',
+    style: extractText(data.q12_estiloDel) || 'Classic',
+    category: extractNumber(data.q4_categoriaOficial, 1),
+    ideal_guests: extractText(data.q14_ltstronggtltemgtesIdeal) || '',
+    atmosphere: extractText(data.q15_ltstronggtltemgtelAmbiente) || '',
+    perfect_location: extractText(data.q16_ltstronggtltemgtlaUbicacion) || '',
+    features_hotel: data.q17_instalacionesY ? extractArray(data.q17_instalacionesY) : [],
+    features_room: data.q18_serviciosEn ? extractArray(data.q18_serviciosEn) : [],
+    activities: data.q20_atraigaA20 ? extractArray(data.q20_atraigaA20) : [],
+    themes: data.q52_atraigaA ? extractArray(data.q52_atraigaA) : [],
+    meal_plans: data.q23_planDe ? extractArray(data.q23_planDe) : ['Solo alojamiento'],
+    available_months: data.q22_elijaSu ? extractArray(data.q22_elijaSu) : [],
+    stay_lengths: data.q26_cualEs26 ? extractArray(data.q26_cualEs26) : [],
+    preferredWeekday: extractText(data.q24_elServicio) || 'Monday',
+    room_types: data.q21_descripcionDe21 ? [{ 
+      name: extractText(data.q21_descripcionDe21),
+      description: extractText(data.q21_descripcionDe21)
+    }] : [],
+    price_per_month: 0,
+    owner_id: null, // Will be set later if user token is found
+    status: 'pending' as const,
+    terms: extractText(data.q47_tarifas47) || '',
+    main_image_url: null,
+    rates: { default: 0 },
+    images: [] as string[]
+  };
+}

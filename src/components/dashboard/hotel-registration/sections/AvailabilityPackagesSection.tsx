@@ -1,4 +1,6 @@
 import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useTranslation } from '@/hooks/useTranslation';
+import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 
 interface AvailabilityPackage {
   entryDate?: Date;
@@ -15,11 +19,12 @@ interface AvailabilityPackage {
 }
 
 interface AvailabilityPackagesSectionProps {
-  form: any;
+  form: UseFormReturn<HotelRegistrationFormData>;
   checkInDay: string;
 }
 
 export function AvailabilityPackagesSection({ form, checkInDay }: AvailabilityPackagesSectionProps) {
+  const { t } = useTranslation('dashboard/hotel-registration');
   const packages = form.watch('availabilityPackages') || [{}];
 
   const addPackage = () => {
@@ -50,158 +55,170 @@ export function AvailabilityPackagesSection({ form, checkInDay }: AvailabilityPa
   };
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground">Availability Packages</h3>
-        <p className="text-sm text-muted-foreground">
-          Add up to 10 availability packages. Dates must be within 12 months and respect your selected check-in day ({checkInDay}).
-        </p>
-      </div>
-
-      {packages.map((pkg: AvailabilityPackage, index: number) => (
-        <div key={index} className="border border-border rounded-lg p-4 space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="font-medium text-foreground">Package {index + 1}</h4>
-            {packages.length > 1 && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => removePackage(index)}
-                className="text-destructive hover:text-destructive"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <FormField
-              control={form.control}
-              name={`availabilityPackages.${index}.entryDate`}
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Entry Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick entry date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => {
-                          if (date && isDateInNext12Months(date) && validateDateForDay(date, checkInDay)) {
-                            field.onChange(date);
-                          }
-                        }}
-                        disabled={(date) => 
-                          !isDateInNext12Months(date) || !validateDateForDay(date, checkInDay)
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name={`availabilityPackages.${index}.exitDate`}
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Exit Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick exit date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => {
-                          if (date && isDateInNext12Months(date) && validateDateForDay(date, checkInDay)) {
-                            field.onChange(date);
-                          }
-                        }}
-                        disabled={(date) => 
-                          !isDateInNext12Months(date) || !validateDateForDay(date, checkInDay)
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name={`availabilityPackages.${index}.numberOfRooms`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Number of Rooms</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min="1"
-                      placeholder="Enter number of rooms"
-                      {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+    <AccordionItem value="availability-packages" className="bg-white/5 border-white/20 rounded-lg">
+      <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
+        <div className="flex items-center space-x-3">
+          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">17</span>
+          <span>{t('availabilityPackages.title')}</span>
         </div>
-      ))}
+      </AccordionTrigger>
+      <AccordionContent className="px-6 pb-6">
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <p className="text-white/70 text-sm">
+              {t('availabilityPackages.description')} ({checkInDay}).
+            </p>
+          </div>
 
-      {packages.length < 10 && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={addPackage}
-          className="w-full"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Add Another Package
-        </Button>
-      )}
-    </div>
+          {packages.map((pkg: AvailabilityPackage, index: number) => (
+            <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4 space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="font-medium text-white">{t('availabilityPackages.packageNumber')} {index + 1}</h4>
+                {packages.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removePackage(index)}
+                    className="text-red-400 hover:text-red-300 border-red-400/50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name={`availabilityPackages.${index}.entryDate`}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-white">{t('availabilityPackages.entryDate')}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal bg-white/10 border-white/30 text-white",
+                                !field.value && "text-white/50"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>{t('availabilityPackages.pickEntryDate')}</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                              if (date && isDateInNext12Months(date) && validateDateForDay(date, checkInDay)) {
+                                field.onChange(date);
+                              }
+                            }}
+                            disabled={(date) => 
+                              !isDateInNext12Months(date) || !validateDateForDay(date, checkInDay)
+                            }
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`availabilityPackages.${index}.exitDate`}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-white">{t('availabilityPackages.exitDate')}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal bg-white/10 border-white/30 text-white",
+                                !field.value && "text-white/50"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>{t('availabilityPackages.pickExitDate')}</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                              if (date && isDateInNext12Months(date) && validateDateForDay(date, checkInDay)) {
+                                field.onChange(date);
+                              }
+                            }}
+                            disabled={(date) => 
+                              !isDateInNext12Months(date) || !validateDateForDay(date, checkInDay)
+                            }
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`availabilityPackages.${index}.numberOfRooms`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">{t('availabilityPackages.numberOfRooms')}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          placeholder={t('availabilityPackages.enterNumberOfRooms')}
+                          className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                          {...field}
+                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          ))}
+
+          {packages.length < 10 && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={addPackage}
+              className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              {t('availabilityPackages.addPackage')}
+            </Button>
+          )}
+        </div>
+      </AccordionContent>
+    </AccordionItem>
   );
 }

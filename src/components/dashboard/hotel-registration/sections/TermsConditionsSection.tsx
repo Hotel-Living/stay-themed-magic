@@ -1,28 +1,28 @@
 import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslation } from '@/hooks/useTranslation';
+import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 
 interface TermsConditionsSectionProps {
-  form: any;
+  form: UseFormReturn<HotelRegistrationFormData>;
 }
 
 export function TermsConditionsSection({ form }: TermsConditionsSectionProps) {
+  const { t } = useTranslation('dashboard/hotel-registration');
+
   return (
-    <div className="space-y-6">
+    <div className="bg-white/5 border border-white/20 rounded-lg p-6 space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground">Terms and Conditions</h3>
-        <div className="prose prose-sm max-w-none text-muted-foreground">
-          <p>
-            By registering your property, you agree to our terms and conditions. Please read them carefully:
+        <h3 className="text-lg font-semibold text-white">{t('termsConditions.title')}</h3>
+        <div className="prose prose-sm max-w-none text-white/70">
+          <p className="mb-4">
+            {t('termsConditions.description')}
           </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Your property information must be accurate and up-to-date</li>
-            <li>You are responsible for maintaining current availability and pricing</li>
-            <li>All property photos must be genuine and represent your actual property</li>
-            <li>You agree to honor all confirmed bookings made through our platform</li>
-            <li>Platform commission fees apply to all successful bookings</li>
-            <li>You must comply with all local laws and regulations</li>
-          </ul>
+          <div className="text-sm space-y-2">
+            <p>{t('termsConditions.termsText')}</p>
+          </div>
         </div>
       </div>
 
@@ -35,11 +35,12 @@ export function TermsConditionsSection({ form }: TermsConditionsSectionProps) {
               <Checkbox
                 checked={field.value}
                 onCheckedChange={field.onChange}
+                className="border-white/30 data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
               />
             </FormControl>
             <div className="space-y-1 leading-none">
-              <FormLabel className="text-sm font-medium">
-                I have read and accept the Terms and Conditions *
+              <FormLabel className="text-sm font-medium text-white">
+                {t('termsConditions.acceptTerms')}
               </FormLabel>
               <FormMessage />
             </div>

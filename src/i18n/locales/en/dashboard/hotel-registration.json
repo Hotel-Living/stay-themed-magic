@@ -135,25 +135,29 @@
     "priceExceeded": "Price exceeds allowed limit"
   },
   "availabilityPackages": {
-    "title": "Availability Packages",
-    "label": "Availability Packages",
-    "addPackage": "Add Package",
+    "title": "AVAILABILITY PACKAGES",
+    "description": "Add up to 10 availability packages. Dates must be within 12 months and respect your selected check-in day.",
+    "addPackage": "Add Another Package",
+    "packageNumber": "Package",
     "entryDate": "Entry Date",
     "exitDate": "Exit Date",
     "numberOfRooms": "Number of Rooms",
-    "package": "Package",
-    "remove": "Remove"
+    "pickEntryDate": "Pick entry date",
+    "pickExitDate": "Pick exit date",
+    "enterNumberOfRooms": "Enter number of rooms"
   },
   "imageUploads": {
-    "title": "Upload Images",
-    "hotelPhotos": "Hotel Photos",
-    "roomPhotos": "Room Photos",
-    "dragDrop": "Drag and drop images here",
-    "browse": "or click to browse"
+    "title": "PHOTOGRAPHS",
+    "description": "Upload photos of your hotel and rooms. Multiple files are allowed for each category.",
+    "hotelPhotos": "HOTEL PHOTOS",
+    "roomPhotos": "ROOM PHOTOS",
+    "uploadHotelPhotos": "Upload Hotel Photos",
+    "uploadRoomPhotos": "Upload Room Photos"
   },
   "termsConditions": {
-    "title": "Terms and Conditions",
-    "accept": "I have read and accept the Terms and Conditions",
-    "text": "By registering your property, you accept our terms and conditions..."
+    "title": "TERMS AND CONDITIONS",
+    "description": "By registering your property, you agree to our terms and conditions. Please read them carefully.",
+    "acceptTerms": "I have read and accept the Terms and Conditions *",
+    "termsText": "Your property information must be accurate and up-to-date. You are responsible for maintaining current availability and pricing. All property photos must be genuine and represent your actual property. You agree to honor all confirmed bookings made through our platform. Platform commission fees apply to all successful bookings. You must comply with all local laws and regulations."
   }
 }

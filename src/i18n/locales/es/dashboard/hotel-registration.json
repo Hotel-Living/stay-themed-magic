@@ -135,25 +135,29 @@
     "priceExceeded": "El precio excede el límite permitido"
   },
   "availabilityPackages": {
-    "title": "Paquetes de Disponibilidad",
-    "label": "Paquetes de Disponibilidad",
-    "addPackage": "Agregar Paquete",
+    "title": "PAQUETES DE DISPONIBILIDAD",
+    "description": "Puede añadir hasta 10 paquetes de disponibilidad. Las fechas deben estar dentro de los próximos 12 meses y respetar el día de check-in que haya seleccionado previamente.",
+    "addPackage": "Añadir Otro Paquete",
+    "packageNumber": "Paquete",
     "entryDate": "Fecha de Entrada",
     "exitDate": "Fecha de Salida",
     "numberOfRooms": "Número de Habitaciones",
-    "package": "Paquete",
-    "remove": "Eliminar"
+    "pickEntryDate": "Seleccionar fecha de entrada",
+    "pickExitDate": "Seleccionar fecha de salida",
+    "enterNumberOfRooms": "Ingrese número de habitaciones"
   },
   "imageUploads": {
-    "title": "Subir Imágenes",
-    "hotelPhotos": "Fotos del Hotel",
-    "roomPhotos": "Fotos de Habitaciones",
-    "dragDrop": "Arrastra y suelta las imágenes aquí",
-    "browse": "o haz clic para buscar"
+    "title": "FOTOGRAFÍAS",
+    "description": "Suba fotos de su hotel y habitaciones. Se permiten múltiples archivos para cada categoría.",
+    "hotelPhotos": "FOTOGRAFÍAS DEL HOTEL",
+    "roomPhotos": "FOTOGRAFÍAS DE LAS HABITACIONES",
+    "uploadHotelPhotos": "Subir Fotos del Hotel",
+    "uploadRoomPhotos": "Subir Fotos de las Habitaciones"
   },
   "termsConditions": {
-    "title": "Términos y Condiciones",
-    "accept": "He leído y acepto los Términos y Condiciones",
-    "text": "Al registrar su propiedad, acepta nuestros términos y condiciones..."
+    "title": "TÉRMINOS Y CONDICIONES",
+    "description": "Al registrar su propiedad, usted acepta nuestros términos y condiciones. Por favor, léalos cuidadosamente.",
+    "acceptTerms": "He leído y acepto los Términos y Condiciones *",
+    "termsText": "Su información de propiedad debe ser precisa y actualizada. Usted es responsable de mantener la disponibilidad y precios actuales. Todas las fotos de la propiedad deben ser genuinas y representar su propiedad real. Usted acepta honrar todas las reservas confirmadas realizadas a través de nuestra plataforma. Se aplican comisiones de la plataforma a todas las reservas exitosas. Debe cumplir con todas las leyes y regulaciones locales."
   }
 }

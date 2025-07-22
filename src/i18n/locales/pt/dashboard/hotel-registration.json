@@ -135,25 +135,29 @@
     "priceExceeded": "O preço excede o limite permitido"
   },
   "availabilityPackages": {
-    "title": "Pacotes de Disponibilidade",
-    "label": "Pacotes de Disponibilidade",
-    "addPackage": "Adicionar Pacote",
+    "title": "PACOTES DE DISPONIBILIDADE",
+    "description": "Adicione até 10 pacotes de disponibilidade. As datas devem estar dentro de 12 meses e respeitar o dia de check-in selecionado anteriormente.",
+    "addPackage": "Adicionar Outro Pacote",
+    "packageNumber": "Pacote",
     "entryDate": "Data de Entrada",
     "exitDate": "Data de Saída",
     "numberOfRooms": "Número de Quartos",
-    "package": "Pacote",
-    "remove": "Remover"
+    "pickEntryDate": "Selecionar data de entrada",
+    "pickExitDate": "Selecionar data de saída",
+    "enterNumberOfRooms": "Digite o número de quartos"
   },
   "imageUploads": {
-    "title": "Carregar Imagens",
-    "hotelPhotos": "Fotos do Hotel",
-    "roomPhotos": "Fotos dos Quartos",
-    "dragDrop": "Arraste e solte as imagens aqui",
-    "browse": "ou clique para procurar"
+    "title": "FOTOGRAFIAS",
+    "description": "Carregue fotos do seu hotel e quartos. Múltiplos arquivos são permitidos para cada categoria.",
+    "hotelPhotos": "FOTOS DO HOTEL",
+    "roomPhotos": "FOTOS DOS QUARTOS",
+    "uploadHotelPhotos": "Carregar Fotos do Hotel",
+    "uploadRoomPhotos": "Carregar Fotos dos Quartos"
   },
   "termsConditions": {
-    "title": "Termos e Condições",
-    "accept": "Li e aceito os Termos e Condições",
-    "text": "Ao registar a sua propriedade, aceita os nossos termos e condições..."
+    "title": "TERMOS E CONDIÇÕES",
+    "description": "Ao registrar sua propriedade, você concorda com nossos termos e condições. Por favor, leia-os cuidadosamente.",
+    "acceptTerms": "Eu li e aceito os Termos e Condições *",
+    "termsText": "As informações da sua propriedade devem ser precisas e atualizadas. Você é responsável por manter a disponibilidade e preços atuais. Todas as fotos da propriedade devem ser genuínas e representar sua propriedade real. Você concorda em honrar todas as reservas confirmadas feitas através da nossa plataforma. Taxas de comissão da plataforma se aplicam a todas as reservas bem-sucedidas. Você deve cumprir com todas as leis e regulamentos locais."
   }
 }

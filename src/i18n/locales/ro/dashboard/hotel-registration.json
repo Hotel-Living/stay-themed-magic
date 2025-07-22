@@ -135,25 +135,29 @@
     "priceExceeded": "Prețul depășește limita permisă"
   },
   "availabilityPackages": {
-    "title": "Pachete de Disponibilitate",
-    "label": "Pachete de Disponibilitate",
-    "addPackage": "Adăugați Pachet",
+    "title": "PACHETE DE DISPONIBILITATE",
+    "description": "Adăugați până la 10 pachete de disponibilitate. Datele trebuie să fie în următoarele 12 luni și să respecte ziua de check-in selectată anterior.",
+    "addPackage": "Adăugați Alt Pachet",
+    "packageNumber": "Pachet",
     "entryDate": "Data de Intrare",
     "exitDate": "Data de Ieșire",
     "numberOfRooms": "Numărul de Camere",
-    "package": "Pachet",
-    "remove": "Șterge"
+    "pickEntryDate": "Selectează data de intrare",
+    "pickExitDate": "Selectează data de ieșire",
+    "enterNumberOfRooms": "Introdu numărul de camere"
   },
   "imageUploads": {
-    "title": "Încărcare Imagini",
-    "hotelPhotos": "Fotografii Hotel",
-    "roomPhotos": "Fotografii Camere",
-    "dragDrop": "Trageți și plasați imaginile aici",
-    "browse": "sau faceți clic pentru a naviga"
+    "title": "FOTOGRAFII",
+    "description": "Încărcați fotografii ale hotelului și camerelor. Fișiere multiple sunt permise pentru fiecare categorie.",
+    "hotelPhotos": "FOTOGRAFII HOTEL",
+    "roomPhotos": "FOTOGRAFII CAMERE",
+    "uploadHotelPhotos": "Încarcă Fotografii Hotel",
+    "uploadRoomPhotos": "Încarcă Fotografii Camere"
   },
   "termsConditions": {
-    "title": "Termeni și Condiții",
-    "accept": "Am citit și accept Termenii și Condițiile",
-    "text": "Prin înregistrarea proprietății dumneavoastră, acceptați termenii și condițiile noastre..."
+    "title": "TERMENI ȘI CONDIȚII",
+    "description": "Prin înregistrarea proprietății dvs., sunteți de acord cu termenii și condițiile noastre. Vă rugăm să îi citiți cu atenție.",
+    "acceptTerms": "Am citit și accept Termenii și Condițiile *",
+    "termsText": "Informațiile proprietății dvs. trebuie să fie precise și actualizate. Sunteți responsabil pentru menținerea disponibilității și prețurilor actuale. Toate fotografiile proprietății trebuie să fie genuine și să reprezinte proprietatea dvs. reală. Sunteți de acord să onorați toate rezervările confirmate făcute prin platforma noastră. Taxele de comision ale platformei se aplică tuturor rezervărilor de succes. Trebuie să respectați toate legile și reglementările locale."
   }
 }

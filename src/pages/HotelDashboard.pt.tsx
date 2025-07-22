@@ -1,6 +1,7 @@
+
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, FileText, UserPlus, Hotel, Megaphone, TrendingUp } from "lucide-react";
+import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, FileText, UserPlus, Hotel, Megaphone, TrendingUp, Plus } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 
 // Import refactored components
@@ -29,6 +30,11 @@ export default function HotelDashboardPT() {
       id: "add-property-2",
       label: "Adicione Hotel",
       icon: <Hotel className="w-5 h-5 text-orange-400" />
+    },
+    {
+      id: "add-property-new",
+      label: "👉 Adicionar propriedade 2",
+      icon: <Plus className="w-5 h-5 text-emerald-400" />
     },
     {
       id: "referrals",

@@ -16,6 +16,7 @@ import { TermsConditionsContent } from "@/components/dashboard/TermsConditionsCo
 import AddProperty2Content from "@/components/dashboard/AddProperty2Content";
 import { HotelReferralsContent } from "@/components/dashboard/HotelReferralsContent";
 import { AvailabilityPackagesContent } from "@/components/dashboard/AvailabilityPackagesContent";
+import { NewHotelRegistrationContent } from "@/components/dashboard/NewHotelRegistrationContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -56,6 +57,8 @@ export default function TabContentSelector({ activeTab, setActiveTab }: TabConte
       return <TermsConditionsContent />;
     case "add-property-2":
       return <AddProperty2Content />;
+    case "add-property-new":
+      return <NewHotelRegistrationContent />;
     default:
       return <DashboardContent setActiveTab={setActiveTab} />;
   }

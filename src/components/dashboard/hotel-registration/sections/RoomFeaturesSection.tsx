@@ -4,22 +4,17 @@ import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/
 import { FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useFiltersByCategoryWithLanguage } from '@/hooks/useFiltersByCategoryWithLanguage';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 
 interface RoomFeaturesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
 }
 
-const ROOM_FEATURES = [
-  'airConditioning', 'heating', 'balcony', 'terrace', 'kitchenette',
-  'minibar', 'safe', 'tv', 'wifi', 'workDesk', 'seatingArea',
-  'privateBalcony', 'soundproofing', 'ironingFacilities', 'coffeemaker',
-  'refrigerator', 'bathtub', 'shower', 'hairdryer', 'slippers'
-];
-
 export const RoomFeaturesSection = ({ form }: RoomFeaturesSectionProps) => {
   const { t } = useTranslation('dashboard/hotel-registration');
   const selectedFeatures = form.watch('roomFeatures') || [];
+  const { data: roomFeatures, isLoading } = useFiltersByCategoryWithLanguage('room_features');
 
   const handleFeatureChange = (feature: string, checked: boolean) => {
     if (checked) {
@@ -46,22 +41,26 @@ export const RoomFeaturesSection = ({ form }: RoomFeaturesSectionProps) => {
               <FormLabel className="text-white">{t('roomFeatures.label')} <span className="text-white/50">({t('optional')})</span></FormLabel>
               <FormControl>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  {ROOM_FEATURES.map((feature) => (
-                    <div key={feature} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={feature}
-                        checked={selectedFeatures.includes(feature)}
-                        onCheckedChange={(checked) => handleFeatureChange(feature, checked as boolean)}
-                        className="border-white/30"
-                      />
-                      <label
-                        htmlFor={feature}
-                        className="text-white text-sm cursor-pointer"
-                      >
-                        {t(`roomFeatures.${feature}`)}
-                      </label>
-                    </div>
-                  ))}
+                  {isLoading ? (
+                    <div className="text-white text-sm">{t('roomFeatures.loading')}</div>
+                  ) : (
+                    roomFeatures?.map((feature) => (
+                      <div key={feature.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={feature.id}
+                          checked={selectedFeatures.includes(feature.value)}
+                          onCheckedChange={(checked) => handleFeatureChange(feature.value, checked as boolean)}
+                          className="border-white/30"
+                        />
+                        <label
+                          htmlFor={feature.id}
+                          className="text-white text-sm cursor-pointer"
+                        >
+                          {feature.value}
+                        </label>
+                      </div>
+                    ))
+                  )}
                 </div>
               </FormControl>
             </FormItem>

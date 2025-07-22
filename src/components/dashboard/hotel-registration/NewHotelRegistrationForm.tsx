@@ -247,7 +247,7 @@ export const NewHotelRegistrationForm = () => {
               disabled={isSubmitting}
               className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200"
             >
-              {isSubmitting ? t('dashboard.hotelRegistration.submitting') : t('dashboard.hotelRegistration.submitRegistration')}
+              {isSubmitting ? t('submitting') : t('submitRegistration')}
             </button>
           </div>
         </form>

@@ -153,11 +153,33 @@ serve(async (req) => {
         }
       };
 
-      // Extract user token - check multiple possible locations
-      const userToken = data.user_token || data.q_user_token || rawRequest.user_token || null;
+      // Enhanced user token extraction with comprehensive fallback logic
+      let userToken = null;
+      const tokenSources = [
+        data.user_token,
+        data.q_user_token,
+        data.q6_userToken,
+        data.q_userToken,
+        data.token,
+        data.auth_token,
+        rawRequest.user_token,
+        rawRequest.q_user_token,
+        rawRequest.q6_userToken,
+        rawRequest.token
+      ];
+
+      userToken = tokenSources.find(token => token && token.trim() !== '');
       
+      console.log('=== TOKEN EXTRACTION DEBUG ===');
+      console.log('Token sources checked:', {
+        'data.user_token': data.user_token,
+        'data.q_user_token': data.q_user_token,
+        'data.q6_userToken': data.q6_userToken,
+        'data.token': data.token,
+        'rawRequest.user_token': rawRequest.user_token
+      });
+      console.log('Final userToken found:', userToken);
       console.log('Extracted hotel data:', JSON.stringify(hotelData, null, 2));
-      console.log('User token found:', userToken);
       
       return { hotelData, userToken };
     };
@@ -207,19 +229,81 @@ serve(async (req) => {
 
     const { hotelData, userToken } = parseJotFormSubmission(rawRequest);
     
-    // Resolve user from token
-    let userId = null;
-    if (userToken) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('jotform_token', userToken)
-        .single();
-      
-      if (profile) {
-        userId = profile.id;
-      }
+    // Enhanced validation and user resolution
+    if (!userToken) {
+      console.error('❌ No user token found in submission');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Authentication token missing - cannot identify hotel owner',
+          debug: { availableFields: Object.keys(rawRequest) }
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
     }
+
+    // Resolve user from token
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name')
+      .eq('jotform_token', userToken)
+      .single();
+    
+    if (!profile || profileError) {
+      console.error('❌ Invalid user token - profile not found:', profileError);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Invalid authentication token - user not found',
+          debug: { profileError: profileError?.message }
+        }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const userId = profile.id;
+    console.log('✅ Valid user found:', userId, `(${profile.first_name} ${profile.last_name})`);
+
+    // Pre-validation: Check critical fields
+    if (!hotelData.name || hotelData.name.trim() === '') {
+      console.error('❌ Hotel submission missing name');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Hotel name is required',
+          debug: { nameField: hotelData.name }
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Final validation before database insertion
+    if (!userId || !hotelData.name) {
+      console.error('❌ Critical hotel data missing - aborting insertion');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Critical hotel data missing - cannot create hotel record',
+          debug: { 
+            hasUserId: !!userId,
+            hasName: !!hotelData.name,
+            userIdValue: userId,
+            nameValue: hotelData.name
+          }
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('=== FINAL HOTEL DATA VALIDATION ===');
+    console.log('About to insert hotel:', { 
+      name: hotelData.name, 
+      owner_id: userId, 
+      hasRequiredFields: !!hotelData.name && !!userId 
+    });
 
     // Insert hotel with new fields
     const { data: hotel, error: hotelError } = await supabase

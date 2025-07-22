@@ -20,9 +20,10 @@ export const createJotFormURL = (formId: string, userToken: string | null): stri
     localStorage.setItem('jotform_user_token', userToken);
   }
   
-  // Use JotForm's prefill mechanism to inject token into hidden field
-  // This ensures the token is transmitted with the form submission
-  const prefillUrl = `${baseUrl}?user_token=${encodeURIComponent(userToken)}`;
+  // Use JotForm's prefill mechanism to inject token into a hidden field
+  // We need to use a specific field name that exists in the form
+  // This field should be added to the JotForm as a hidden field named 'user_token'
+  const prefillUrl = `${baseUrl}?q_user_token=${encodeURIComponent(userToken)}&user_token=${encodeURIComponent(userToken)}`;
   
   return prefillUrl;
 };

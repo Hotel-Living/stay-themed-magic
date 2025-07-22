@@ -113,7 +113,23 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       description: data.description || '',
       atmosphere: data.atmosphere || '',
       ideal_guests: data.ideal_guests || '',
-      perfect_location: data.perfect_location || ''
+      perfect_location: data.perfect_location || '',
+      // Handle new JSONB fields with proper type conversion
+      banking_info: data.banking_info || null,
+      laundry_service: data.laundry_service && typeof data.laundry_service === 'object' && !Array.isArray(data.laundry_service) ? {
+        available: Boolean((data.laundry_service as any).available),
+        self_service: (data.laundry_service as any).self_service || false,
+        full_service: (data.laundry_service as any).full_service || false,
+        external_redirect: (data.laundry_service as any).external_redirect || null,
+        pricing: (data.laundry_service as any).pricing || null
+      } : {
+        available: false,
+        self_service: false,
+        full_service: false,
+        external_redirect: null,
+        pricing: null
+      },
+      additional_data: data.additional_data || null
     } as HotelDetailProps;
     
     console.log("Successfully processed hotel data for:", data.name);

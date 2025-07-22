@@ -836,11 +836,13 @@ export type Database = {
       }
       hotels: {
         Row: {
+          additional_data: Json | null
           address: string | null
           allow_stay_extensions: boolean | null
           atmosphere: string | null
           atmosphere_description: string | null
           available_months: string[] | null
+          banking_info: Json | null
           category: number | null
           check_in_weekday: string | null
           city: string
@@ -860,6 +862,7 @@ export type Database = {
           ideal_guests_description: string | null
           is_featured: boolean | null
           latitude: number | null
+          laundry_service: Json | null
           location_address: string | null
           location_description: string | null
           location_highlight_description: string | null
@@ -891,11 +894,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          additional_data?: Json | null
           address?: string | null
           allow_stay_extensions?: boolean | null
           atmosphere?: string | null
           atmosphere_description?: string | null
           available_months?: string[] | null
+          banking_info?: Json | null
           category?: number | null
           check_in_weekday?: string | null
           city: string
@@ -915,6 +920,7 @@ export type Database = {
           ideal_guests_description?: string | null
           is_featured?: boolean | null
           latitude?: number | null
+          laundry_service?: Json | null
           location_address?: string | null
           location_description?: string | null
           location_highlight_description?: string | null
@@ -946,11 +952,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          additional_data?: Json | null
           address?: string | null
           allow_stay_extensions?: boolean | null
           atmosphere?: string | null
           atmosphere_description?: string | null
           available_months?: string[] | null
+          banking_info?: Json | null
           category?: number | null
           check_in_weekday?: string | null
           city?: string
@@ -970,6 +978,7 @@ export type Database = {
           ideal_guests_description?: string | null
           is_featured?: boolean | null
           latitude?: number | null
+          laundry_service?: Json | null
           location_address?: string | null
           location_description?: string | null
           location_highlight_description?: string | null

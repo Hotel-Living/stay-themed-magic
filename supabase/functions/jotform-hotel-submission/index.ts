@@ -24,75 +24,140 @@ serve(async (req) => {
 
     // Store the raw request for debugging
     await supabase
-      .from('jotform_submissions')
+      .from('jotform_raw')
       .insert({
-        submission_id: rawRequest.submissionID || null,
+        submission_id: rawRequest.submissionID || rawRequest.submission_id || null,
         form_id: rawRequest.formID || null,
-        raw_data: rawRequest,
-        created_at: new Date().toISOString()
+        raw_body: JSON.stringify(rawRequest),
+        headers: JSON.stringify(req.headers),
+        content_type: req.headers.get('content-type') || 'unknown',
+        parse_method: 'jotform-webhook',
+        parsed_data: rawRequest,
+        received_at: new Date().toISOString()
       });
 
     // Enhanced field parsing with new JotForm fields
     const parseJotFormSubmission = (rawRequest: any) => {
-      const data = rawRequest.parsed_data || {};
+      // JotForm webhook sends data in rawRequest directly, not in parsed_data
+      const data = rawRequest;
       
-      // Core hotel information
+      console.log('Parsing JotForm data:', JSON.stringify(data, null, 2));
+      
+      // Extract address components
+      const addressField = data.q5_direccionFisica || {};
+      const fullAddress = `${addressField.addr_line1 || ''} ${addressField.addr_line2 || ''}`.trim();
+      
+      // Parse banking info from q30_typeA30 field
+      const bankingText = data.q30_typeA30 || '';
+      const parseBankingInfo = (text: string) => {
+        const lines = text.split('\n').map(line => line.trim());
+        const bankingInfo: any = {};
+        
+        lines.forEach(line => {
+          if (line.includes('Nombre legal del establecimiento:')) {
+            bankingInfo.legal_name = line.split(':')[1]?.trim();
+          }
+          if (line.includes('Nombre del titular de la cuenta:')) {
+            bankingInfo.account_holder = line.split(':')[1]?.trim();
+          }
+          if (line.includes('Número de cuenta bancaria (IBAN):')) {
+            bankingInfo.iban_account = line.split(':')[1]?.trim();
+          }
+          if (line.includes('Nombre del banco:')) {
+            bankingInfo.bank_name = line.split(':')[1]?.trim();
+          }
+          if (line.includes('País de la cuen')) {
+            bankingInfo.bank_country = line.split(':')[1]?.trim();
+          }
+        });
+        
+        return Object.keys(bankingInfo).length > 0 ? bankingInfo : null;
+      };
+      
+      // Extract pricing from q47_tarifas47
+      const extractPricing = (tarifasData: any) => {
+        if (!tarifasData || typeof tarifasData !== 'object') return 0;
+        
+        // Try to extract the first price value
+        if (tarifasData['0'] && Array.isArray(tarifasData['0']) && tarifasData['0'][0]) {
+          const price = parseInt(tarifasData['0'][0]);
+          return isNaN(price) ? 0 : price;
+        }
+        
+        return 0;
+      };
+      
+      // Core hotel information mapped to actual JotForm field names
       const hotelData: any = {
-        name: data.name || data.hotel_name || data.nombre_hotel || '',
-        description: data.description || data.descripcion || '',
-        country: data.country || data.pais || '',
-        city: data.city || data.ciudad || '',
-        address: data.address || data.direccion || '',
-        contact_email: data.contact_email || data.email || data.correo || '',
-        contact_name: data.contact_name || data.nombre_contacto || '',
-        contact_phone: data.contact_phone || data.telefono || '',
-        price_per_month: parseInt(data.price_per_month || data.precio_mes || '0') || 0,
-        property_type: data.property_type || data.tipo_propiedad || '',
-        style: data.style || data.estilo || '',
-        ideal_guests: data.ideal_guests || data.huespedes_ideales || '',
-        atmosphere: data.atmosphere || data.ambiente || '',
-        perfect_location: data.perfect_location || data.ubicacion_perfecta || '',
+        name: data.q2_typeA || '',  // Hotel name
+        description: data.q13_descripcionDel || '',  // Description
+        country: addressField.country || '',
+        city: addressField.city || '',
+        address: fullAddress,
+        postal_code: addressField.postal || null,
+        contact_email: '', // Not provided in this form structure
+        contact_name: '', // Not provided in this form structure
+        contact_phone: '', // Not provided in this form structure
+        price_per_month: extractPricing(data.q47_tarifas47),
+        property_type: data.q11_tipoDe || '',  // Hotel type
+        style: data.q12_estiloDel || '',  // Hotel style
+        ideal_guests: data.q14_ltstronggtltemgtesIdeal || '',
+        atmosphere: data.q15_ltstronggtltemgtelAmbiente || '',
+        perfect_location: data.q16_ltstronggtltemgtlaUbicacion || '',
         
-        // Existing arrays
-        meal_plans: parseArrayField(data.meal_plans || data.planes_comida),
-        available_months: parseArrayField(data.available_months || data.meses_disponibles),
-        stay_lengths: parseArrayField(data.stay_lengths || data.duraciones_estancia, true),
+        // Arrays from JotForm
+        meal_plans: parseArrayField(data.q23_planDe),
+        available_months: [], // Will need to be set based on q28_typeA28
+        stay_lengths: parseArrayField(data.q26_cualEs26?.map((item: string) => {
+          const match = item.match(/(\d+)\s+días/);
+          return match ? parseInt(match[1]) : null;
+        }).filter(Boolean), true),
         
-        // New banking information (optional)
-        banking_info: {
-          bank_name: data.bank_name || data.nombre_banco || null,
-          iban_account: data.iban_account || data.cuenta_iban || null,
-          swift_bic: data.swift_bic || data.codigo_swift || null,
-          bank_country: data.bank_country || data.pais_banco || null,
-          account_holder: data.account_holder || data.titular_cuenta || null
+        // Hotel features from checkboxes
+        features_hotel: {
+          wifi: data.q17_instalacionesY?.includes('WiFi Gratis') || false,
+          restaurant: data.q17_instalacionesY?.includes('Restaurante') || false,
         },
         
-        // Laundry service options
+        features_room: {
+          air_conditioning: data.q18_serviciosEn?.includes('Aire Acondicionado') || false,
+          tv: data.q18_serviciosEn?.includes('Televisor') || false,
+        },
+        
+        // Banking information
+        banking_info: parseBankingInfo(bankingText),
+        
+        // Laundry service
         laundry_service: {
-          available: data.laundry_available === 'Yes' || data.lavanderia_disponible === 'Sí',
-          self_service: data.laundry_self_service === 'Yes' || data.lavanderia_autoservicio === 'Sí',
-          full_service: data.laundry_full_service === 'Yes' || data.lavanderia_completa === 'Sí',
-          external_redirect: data.laundry_external_redirect || data.lavanderia_externa || null,
-          pricing: data.laundry_pricing || data.precios_lavanderia || null
+          available: data.q24_elServicio === 'SÍ',
+          self_service: false,
+          full_service: data.q24_elServicio === 'SÍ',
+          external_redirect: null,
+          pricing: null
         },
         
-        // Additional amenities and features
-        additional_amenities: parseArrayField(data.additional_amenities || data.servicios_adicionales),
-        special_features: parseArrayField(data.special_features || data.caracteristicas_especiales),
-        accessibility_features: parseArrayField(data.accessibility_features || data.accesibilidad),
+        // Weekday preference
+        preferredWeekday: data.q22_elijaSu || 'Monday',
         
-        // New metadata for enhanced listings
-        check_in_instructions: data.check_in_instructions || data.instrucciones_checkin || '',
-        local_recommendations: data.local_recommendations || data.recomendaciones_locales || '',
-        house_rules: parseArrayField(data.house_rules || data.reglas_casa),
-        cancellation_policy: data.cancellation_policy || data.politica_cancelacion || '',
-        
-        // Store any unmapped fields for future use
-        additional_data: extractUnmappedFields(data)
+        // Store all unmapped fields for debugging
+        additional_data: {
+          jotform_fields: {
+            q20_atraigaA20: data.q20_atraigaA20,
+            q21_descripcionDe21: data.q21_descripcionDe21,
+            q28_typeA28: data.q28_typeA28,
+            q41_atraigaA41: data.q41_atraigaA41,
+            q52_atraigaA: data.q52_atraigaA,
+            submission_id: data.submission_id,
+            form_id: rawRequest.formID
+          }
+        }
       };
 
-      // Extract user token for ownership
-      const userToken = data.user_token || null;
+      // Extract user token - check multiple possible locations
+      const userToken = data.user_token || data.q_user_token || rawRequest.user_token || null;
+      
+      console.log('Extracted hotel data:', JSON.stringify(hotelData, null, 2));
+      console.log('User token found:', userToken);
       
       return { hotelData, userToken };
     };

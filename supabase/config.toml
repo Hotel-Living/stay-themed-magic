@@ -3,126 +3,49 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 
 [auth]
 enabled = true
-# Enable leaked password protection via HaveIBeenPwned
-password_allowlist_only = false
-password_haveibeenpwned_check = true
+external_url = "https://lovable.dev"
+additional_redirect_urls = ["https://lovable.dev", "https://lovable.dev/auth/callback"]
 
-[api]
+[storage]
 enabled = true
-port = 54321
-schemas = ["public", "graphql_public"]
-extra_search_path = ["public", "extensions"]
-max_rows = 1000
+file_size_limit = "50MB"
+image_transformation = {enabled = true}
 
-[functions.creacion-hoteles-32-dias]
-verify_jwt = true
+[storage.buckets.avatars]
+public = true
+file_size_limit = "10MB"
+allowed_mime_types = ["image/jpeg", "image/png", "image/webp"]
 
-[functions.batch-create-hotels]
-verify_jwt = true
+[storage.buckets.hotel-images]
+public = true
+file_size_limit = "10MB"
+allowed_mime_types = ["image/jpeg", "image/png", "image/webp"]
 
-[functions.batch-generate-text-completions]
-verify_jwt = true
+[storage.buckets.join-us-files]
+public = false
+file_size_limit = "50MB"
+allowed_mime_types = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain"]
 
-[functions.batch-hotel-creation]
-verify_jwt = true
+[functions.jotform-hotel-submission]
+verify_jwt = false
 
-[functions.batch-populate-hotel-images]
-verify_jwt = true
-
-[functions.batch-populate-pending-fields]
-verify_jwt = true
-
-[functions.batch-populate-room-images]
-verify_jwt = true
-
-[functions.batch-translate-hotels]
-verify_jwt = true
-
-[functions.fetch-hotel-images]
-verify_jwt = true
-
-[functions.get-hotel-overview]
-verify_jwt = true
-
-[functions.send-join-us-notification]
+[functions.reprocess-jotform-submissions]
 verify_jwt = false
 
 [functions.jotform-sync]
 verify_jwt = false
 
-[functions.jotform-hotel-submission]
-verify_jwt = false
-
 [functions.jotform-sync-packages]
 verify_jwt = false
 
+[functions.process-hotel-referral]
+verify_jwt = false
+
+[functions.batch-translate-hotels]
+verify_jwt = false
+
+[functions.batch-populate-hotel-images]
+verify_jwt = false
+
 [functions.send-notification]
-verify_jwt = true
-
-[functions.setup-cleanup-cron]
-verify_jwt = true
-
-[functions.chat-with-avatar]
 verify_jwt = false
-
-[functions.test-openai-key]
-verify_jwt = false
-
-[functions.send-chat-transcript]
-verify_jwt = false
-
-[functions.hotel-referral-webhook]
-verify_jwt = false
-
-[functions.resend-verification-email]
-verify_jwt = false
-
-[functions.send-hotel-referral-email]
-verify_jwt = false
-
-[functions.notify-admin-registration]
-verify_jwt = false
-
-[functions.send-welcome-email]
-verify_jwt = false
-
-[functions.send-association-confirmation]
-verify_jwt = false
-
-[functions.send-email-verification]
-verify_jwt = false
-
-[functions.send-password-recovery]
-verify_jwt = false
-
-[db]
-enabled = true
-port = 54322
-shadow_port = 54320
-major_version = 15
-
-[db.pooler]
-enabled = false
-port = 54329
-pool_mode = "transaction"
-default_pool_size = 25
-max_client_conn = 100
-
-[realtime]
-enabled = true
-ip_version = "ipv6"
-
-[studio]
-enabled = true
-port = 54323
-api_url = "http://127.0.0.1:54321"
-
-[inbucket]
-enabled = true
-port = 54324
-smtp_port = 54325
-pop3_port = 54326
-
-[storage]
-enabled = true
-file_size_limit = "50MiB"

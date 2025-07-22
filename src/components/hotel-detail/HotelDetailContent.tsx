@@ -10,7 +10,7 @@ import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelAmenitiesSection } from "./HotelAmenitiesSection";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -21,7 +21,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] to-[#3B82F6] flex items-center justify-center">
-        <LoadingSpinner />
+        <Spinner size="lg" className="text-white" />
       </div>
     );
   }
@@ -46,7 +46,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             {/* Hotel Gallery */}
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <HotelGallery 
-                images={hotel.hotel_images?.map(img => img.url) || []} 
+                images={hotel.hotel_images?.map(img => img.image_url) || []} 
                 hotelName={hotel.name}
               />
             </div>

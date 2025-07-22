@@ -5,9 +5,7 @@ export const NewHotelRegistrationContent = () => {
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           
-          <p className="text-white/70 text-lg">
-            Sistema de registro completo con 19 secciones de información
-          </p>
+          
         </div>
         
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">

@@ -80,14 +80,16 @@ const hotelRegistrationSchema = z.object({
   
   // Availability packages
   availabilityPackages: z.array(z.object({
-    entryDate: z.date(),
-    exitDate: z.date(),
-    numberOfRooms: z.number().min(1, 'Number of rooms must be at least 1'),
-  })).min(1, 'Please add at least one availability package'),
+    entryDate: z.date().optional(),
+    exitDate: z.date().optional(),
+    numberOfRooms: z.number().optional(),
+  })).optional(),
   
   // Images
-  hotelPhotos: z.array(z.string()).optional(),
-  roomPhotos: z.array(z.string()).optional(),
+  photos: z.object({
+    hotel: z.array(z.string()).optional(),
+    room: z.array(z.string()).optional(),
+  }).optional(),
   
   // Terms
   termsAccepted: z.boolean().refine((val) => val === true, 'You must accept the Terms and Conditions'),
@@ -111,8 +113,7 @@ export const NewHotelRegistrationForm = () => {
       stayLengths: [],
       pricingMatrix: [],
       availabilityPackages: [],
-      hotelPhotos: [],
-      roomPhotos: [],
+      photos: { hotel: [], room: [] },
       inHouseLaundryIncluded: false,
       externalLaundryReferral: false,
       termsAccepted: false,
@@ -164,11 +165,12 @@ export const NewHotelRegistrationForm = () => {
             inHouseIncluded: data.inHouseLaundryIncluded,
             externalReferral: data.externalLaundryReferral,
           },
-          availabilityPackages: data.availabilityPackages,
-          photos: {
-            hotel: data.hotelPhotos || [],
-            room: data.roomPhotos || [],
-          },
+          availabilityPackages: (data.availabilityPackages || []).map(pkg => ({
+            entryDate: pkg.entryDate ? pkg.entryDate.toISOString() : null,
+            exitDate: pkg.exitDate ? pkg.exitDate.toISOString() : null,
+            numberOfRooms: pkg.numberOfRooms || 0
+          })),
+          photos: data.photos || { hotel: [], room: [] }
         },
         status: 'pending',
         price_per_month: Math.min(...data.pricingMatrix.map(item => item.doubleRoom)), // Use lowest price as base
@@ -232,7 +234,7 @@ export const NewHotelRegistrationForm = () => {
           <LaundryServiceSection form={form} />
           <StayLengthsSection form={form} />
           <PricingMatrixSection form={form} />
-          <AvailabilityPackagesSection form={form} />
+          <AvailabilityPackagesSection form={form} checkInDay={form.watch('checkInDay') || 'Monday'} />
           <ImageUploadsSection form={form} />
           <TermsConditionsSection form={form} />
         </Accordion>

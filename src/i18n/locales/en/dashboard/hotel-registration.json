@@ -1,154 +1,132 @@
+
 {
-  "title": "Hotel Registration",
-  "subtitle": "Complete all required information to register your property with Hotel Living",
-  "submitRegistration": "Submit Registration",
-  "submitting": "Submitting...",
-  "success": "Hotel registered successfully",
-  "error": "Error registering hotel",
-  "required": "Required",
-  "optional": "Optional",
   "basicInfo": {
-    "title": "Basic Information",
+    "title": "BASIC INFORMATION",
     "hotelName": "Hotel Name",
     "hotelNamePlaceholder": "Enter hotel name",
-    "address": "Address",
-    "addressPlaceholder": "Enter full address",
-    "city": "City",
-    "cityPlaceholder": "Enter city",
-    "postalCode": "Postal Code",
-    "postalCodePlaceholder": "Enter postal code",
-    "country": "Country",
-    "countryPlaceholder": "Select country",
-    "mapPreview": "Map preview",
-    "mapPlaceholder": "Map will appear here"
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum 3 characters required"
+    }
   },
   "classification": {
-    "title": "Official Classification",
+    "title": "CLASSIFICATION",
     "label": "Hotel Classification",
     "placeholder": "Select classification",
     "threeStar": "Three Stars",
     "fourStar": "Four Stars",
     "fiveStar": "Five Stars"
   },
-  "propertyType": {
-    "title": "Property Type",
-    "label": "Property Type",
-    "placeholder": "Select property type",
-    "hotel": "Hotel",
-    "boutiqueHotel": "Boutique Hotel",
-    "resort": "Resort",
-    "ruralHouse": "Rural House",
-    "hostel": "Hostel"
+  "location": {
+    "title": "LOCATION",
+    "country": "Country",
+    "countryPlaceholder": "Select country",
+    "city": "City",
+    "cityPlaceholder": "Enter city",
+    "address": "Address",
+    "addressPlaceholder": "Enter complete address"
   },
-  "propertyStyle": {
-    "title": "Property Style",
-    "label": "Property Style",
-    "placeholder": "Select property style",
-    "classic": "Classic",
-    "classicElegant": "Classic Elegant",
-    "modern": "Modern",
-    "fusion": "Fusion",
-    "urban": "Urban",
-    "rural": "Rural",
-    "minimalist": "Minimalist",
-    "luxury": "Luxury"
+  "propertyDetails": {
+    "title": "PROPERTY DETAILS",
+    "propertyType": "Property Type",
+    "propertyTypePlaceholder": "Select property type",
+    "propertyStyle": "Property Style",
+    "propertyStylePlaceholder": "Select property style",
+    "types": {
+      "hotel": "Hotel",
+      "aparthotel": "Aparthotel",
+      "guesthouse": "Guesthouse",
+      "villa": "Villa",
+      "apartment": "Apartment"
+    },
+    "styles": {
+      "classic": "Classic",
+      "modern": "Modern",
+      "luxury": "Luxury",
+      "boutique": "Boutique",
+      "eco": "Eco-friendly"
+    }
   },
   "hotelDescription": {
-    "title": "Hotel Description",
-    "label": "Hotel Description",
-    "placeholder": "Describe your hotel...",
+    "title": "HOTEL DESCRIPTION",
+    "label": "Description",
+    "placeholder": "Write a detailed description of your hotel...",
     "minCharacters": "minimum characters"
   },
-  "roomDescription": {
-    "title": "Room Description",
-    "label": "Room Description",
-    "placeholder": "Describe the rooms..."
+  "idealGuests": {
+    "title": "IDEAL GUESTS",
+    "label": "Ideal for guests who enjoy...",
+    "placeholder": "Describe the ideal type of guests for your property..."
   },
-  "completePhrases": {
-    "title": "Complete the Following Phrases",
-    "idealForGuests": "Ideal for guests who enjoy...",
-    "idealForGuestsPlaceholder": "Enter guest type",
-    "atmosphere": "The atmosphere is...",
-    "atmospherePlaceholder": "Describe the atmosphere",
-    "locationPerfect": "The location is perfect for...",
-    "locationPerfectPlaceholder": "Describe the location"
+  "atmosphere": {
+    "title": "ATMOSPHERE",
+    "label": "The atmosphere is...",
+    "placeholder": "Describe the atmosphere and ambiance of your hotel..."
+  },
+  "location": {
+    "title": "PERFECT LOCATION",
+    "label": "Our location is perfect for...",
+    "placeholder": "Describe what makes your location special..."
   },
   "hotelFeatures": {
-    "title": "Hotel Features",
-    "label": "Hotel Features",
-    "required": "Select at least one feature",
-    "loading": "Loading features..."
+    "title": "HOTEL FEATURES",
+    "subtitle": "Select the features available at your hotel"
   },
   "roomFeatures": {
-    "title": "Room Features",
-    "label": "Room Features",
-    "loading": "Loading features..."
+    "title": "ROOM FEATURES",
+    "subtitle": "Select the features available in the rooms"
   },
   "clientAffinities": {
-    "title": "Client Affinities",
-    "label": "Client Affinities",
-    "searchPlaceholder": "Search affinities...",
-    "loading": "Loading affinities..."
+    "title": "CLIENT AFFINITIES",
+    "subtitle": "Select the affinities that best describe your guests"
   },
   "activities": {
-    "title": "Activities",
-    "label": "Available Activities",
-    "searchPlaceholder": "Search activities...",
-    "loading": "Loading activities..."
+    "title": "ACTIVITIES",
+    "subtitle": "Select the activities available in your area"
   },
-  "checkInDay": {
-    "title": "Check-in/Check-out Day",
-    "label": "Weekly Check-in/Check-out Day",
-    "placeholder": "Select day",
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday"
+  "checkinDay": {
+    "title": "CHECK-IN DAY",
+    "label": "Preferred check-in/check-out day",
+    "description": "Select the day of the week for check-in and check-out",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
   },
-  "mealPlan": {
-    "title": "Meal Plan",
-    "label": "Meal Plan",
-    "placeholder": "Select meal plan",
-    "loading": "Loading meal plans..."
-  },
-  "laundryService": {
-    "title": "Laundry Service",
-    "inHouseIncluded": "In-house laundry included",
-    "externalReferral": "External service referral"
-  },
-  "stayLengths": {
-    "title": "Stay Lengths",
-    "label": "Available Stay Lengths",
+  "stayDurations": {
+    "title": "STAY DURATIONS",
+    "subtitle": "Select the available stay durations",
     "days": "days"
   },
-  "pricingMatrix": {
-    "title": "Pricing",
-    "label": "Pricing Matrix",
-    "doubleRoom": "Double Room",
-    "singleRoom": "Single Room",
-    "pricePerRoom": "Price per room",
-    "days": "days",
-    "priceLimit": "Price limit for",
-    "priceExceeded": "Price exceeds allowed limit"
+  "mealPlans": {
+    "title": "MEAL PLANS",
+    "subtitle": "Select the available meal plans"
+  },
+  "roomTypes": {
+    "title": "ROOM TYPES",
+    "subtitle": "Define the available room types"
+  },
+  "pricing": {
+    "title": "PRICING",
+    "subtitle": "Set prices for each combination"
   },
   "availabilityPackages": {
     "title": "AVAILABILITY PACKAGES",
-    "description": "Add up to 10 availability packages. Dates must be within 12 months and respect your selected check-in day.",
+    "subtitle": "You can add up to 10 availability packages. Dates must be within the next 12 months and respect the check-in day you selected previously.",
     "addPackage": "Add Another Package",
-    "packageNumber": "Package",
-    "entryDate": "Entry Date",
-    "exitDate": "Exit Date",
-    "numberOfRooms": "Number of Rooms",
-    "pickEntryDate": "Pick entry date",
-    "pickExitDate": "Pick exit date",
-    "enterNumberOfRooms": "Enter number of rooms"
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "totalRooms": "Total Rooms",
+    "availableRooms": "Available Rooms"
   },
   "imageUploads": {
     "title": "PHOTOGRAPHS",
-    "description": "Upload photos of your hotel and rooms. Multiple files are allowed for each category.",
+    "subtitle": "Upload photos of your hotel and rooms. Multiple files are allowed for each category.",
     "hotelPhotos": "HOTEL PHOTOS",
     "roomPhotos": "ROOM PHOTOS",
     "uploadHotelPhotos": "Upload Hotel Photos",
@@ -157,7 +135,7 @@
   "termsConditions": {
     "title": "TERMS AND CONDITIONS",
     "description": "By registering your property, you agree to our terms and conditions. Please read them carefully.",
-    "acceptTerms": "I have read and accept the Terms and Conditions *",
-    "termsText": "Your property information must be accurate and up-to-date. You are responsible for maintaining current availability and pricing. All property photos must be genuine and represent your actual property. You agree to honor all confirmed bookings made through our platform. Platform commission fees apply to all successful bookings. You must comply with all local laws and regulations."
+    "acceptTerms": "I accept the terms and conditions",
+    "termsText": "Please read and accept our terms and conditions to continue with your property registration."
   }
 }

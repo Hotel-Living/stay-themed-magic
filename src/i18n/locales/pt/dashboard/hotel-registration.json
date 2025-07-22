@@ -1,163 +1,141 @@
+
 {
-  "title": "Registo de Hotel",
-  "subtitle": "Complete todas as informações necessárias para registar a sua propriedade no Hotel Living",
-  "submitRegistration": "Enviar Registo",
-  "submitting": "Enviando...",
-  "success": "Hotel registado com sucesso",
-  "error": "Erro ao registar hotel",
-  "required": "Obrigatório",
-  "optional": "Opcional",
   "basicInfo": {
-    "title": "Informações Básicas",
+    "title": "INFORMAÇÕES BÁSICAS",
     "hotelName": "Nome do Hotel",
-    "hotelNamePlaceholder": "Introduza o nome do hotel",
-    "address": "Endereço",
-    "addressPlaceholder": "Introduza o endereço completo",
-    "city": "Cidade",
-    "cityPlaceholder": "Introduza a cidade",
-    "postalCode": "Código Postal",
-    "postalCodePlaceholder": "Introduza o código postal",
-    "country": "País",
-    "countryPlaceholder": "Seleccione o país",
-    "mapPreview": "Pré-visualização do mapa",
-    "mapPlaceholder": "O mapa aparecerá aqui"
+    "hotelNamePlaceholder": "Digite o nome do hotel",
+    "validation": {
+      "required": "Este campo é obrigatório",
+      "minLength": "Mínimo de 3 caracteres necessários"
+    }
   },
   "classification": {
-    "title": "Classificação Oficial",
+    "title": "CLASSIFICAÇÃO",
     "label": "Classificação do Hotel",
-    "placeholder": "Seleccione a classificação",
+    "placeholder": "Selecione a classificação",
     "threeStar": "Três Estrelas",
     "fourStar": "Quatro Estrelas",
     "fiveStar": "Cinco Estrelas"
   },
-  "propertyType": {
-    "title": "Tipo de Propriedade",
-    "label": "Tipo de Propriedade",
-    "placeholder": "Seleccione o tipo de propriedade",
-    "hotel": "Hotel",
-    "boutiqueHotel": "Hotel Boutique",
-    "resort": "Resort",
-    "ruralHouse": "Casa Rural",
-    "hostel": "Hostel"
+  "location": {
+    "title": "LOCALIZAÇÃO",
+    "country": "País",
+    "countryPlaceholder": "Selecione o país",
+    "city": "Cidade",
+    "cityPlaceholder": "Digite a cidade",
+    "address": "Endereço",
+    "addressPlaceholder": "Digite o endereço completo"
   },
-  "propertyStyle": {
-    "title": "Estilo da Propriedade",
-    "label": "Estilo da Propriedade",
-    "placeholder": "Seleccione o estilo da propriedade",
-    "classic": "Clássico",
-    "classicElegant": "Clássico Elegante",
-    "modern": "Moderno",
-    "fusion": "Fusão",
-    "urban": "Urbano",
-    "rural": "Rural",
-    "minimalist": "Minimalista",
-    "luxury": "Luxo"
+  "propertyDetails": {
+    "title": "DETALHES DA PROPRIEDADE",
+    "propertyType": "Tipo de Propriedade",
+    "propertyTypePlaceholder": "Selecione o tipo de propriedade",
+    "propertyStyle": "Estilo da Propriedade",
+    "propertyStylePlaceholder": "Selecione o estilo da propriedade",
+    "types": {
+      "hotel": "Hotel",
+      "aparthotel": "Aparthotel",
+      "guesthouse": "Pousada",
+      "villa": "Vila",
+      "apartment": "Apartamento"
+    },
+    "styles": {
+      "classic": "Clássico",
+      "modern": "Moderno",
+      "luxury": "Luxo",
+      "boutique": "Boutique",
+      "eco": "Ecológico"
+    }
   },
   "hotelDescription": {
-    "title": "Descrição do Hotel",
-    "label": "Descrição do Hotel",
-    "placeholder": "Descreva o seu hotel...",
+    "title": "DESCRIÇÃO DO HOTEL",
+    "label": "Descrição",
+    "placeholder": "Escreva uma descrição detalhada do seu hotel...",
     "minCharacters": "caracteres mínimos"
   },
-  "roomDescription": {
-    "title": "Descrição dos Quartos",
-    "label": "Descrição dos Quartos",
-    "placeholder": "Descreva os quartos..."
+  "idealGuests": {
+    "title": "HÓSPEDES IDEAIS",
+    "label": "Ideal para hóspedes que gostam de...",
+    "placeholder": "Descreva o tipo ideal de hóspedes para sua propriedade..."
   },
-  "completePhrases": {
-    "title": "Complete as Seguintes Frases",
-    "idealForGuests": "Ideal para hóspedes que gostam...",
-    "idealForGuestsPlaceholder": "Introduza o tipo de hóspedes",
-    "atmosphere": "O ambiente é...",
-    "atmospherePlaceholder": "Descreva o ambiente",
-    "locationPerfect": "A localização é perfeita para...",
-    "locationPerfectPlaceholder": "Descreva a localização"
+  "atmosphere": {
+    "title": "AMBIENTE",
+    "label": "O ambiente é...",
+    "placeholder": "Descreva o ambiente e a atmosfera do seu hotel..."
+  },
+  "location": {
+    "title": "LOCALIZAÇÃO PERFEITA",
+    "label": "Nossa localização é perfeita para...",
+    "placeholder": "Descreva o que torna sua localização especial..."
   },
   "hotelFeatures": {
-    "title": "Características do Hotel",
-    "label": "Características do Hotel",
-    "required": "Seleccione pelo menos uma característica",
-    "loading": "Carregando características..."
+    "title": "CARACTERÍSTICAS DO HOTEL",
+    "subtitle": "Selecione as características disponíveis no seu hotel"
   },
   "roomFeatures": {
-    "title": "Características dos Quartos",
-    "label": "Características dos Quartos",
-    "loading": "Carregando características..."
+    "title": "CARACTERÍSTICAS DOS QUARTOS",
+    "subtitle": "Selecione as características disponíveis nos quartos"
   },
   "clientAffinities": {
-    "title": "Afinidades dos Clientes",
-    "label": "Afinidades dos Clientes",
-    "searchPlaceholder": "Pesquisar afinidades...",
-    "loading": "Carregando afinidades..."
+    "title": "AFINIDADES DOS CLIENTES",
+    "subtitle": "Selecione as afinidades que melhor descrevem seus hóspedes"
   },
   "activities": {
-    "title": "Actividades",
-    "label": "Actividades Disponíveis",
-    "searchPlaceholder": "Pesquisar actividades...",
-    "loading": "Carregando actividades..."
+    "title": "ATIVIDADES",
+    "subtitle": "Selecione as atividades disponíveis na sua área"
   },
-  "checkInDay": {
-    "title": "Dia de Check-in/Check-out",
-    "label": "Dia Semanal de Check-in/Check-out",
-    "placeholder": "Seleccione o dia",
-    "monday": "Segunda-feira",
-    "tuesday": "Terça-feira",
-    "wednesday": "Quarta-feira",
-    "thursday": "Quinta-feira",
-    "friday": "Sexta-feira",
-    "saturday": "Sábado",
-    "sunday": "Domingo"
+  "checkinDay": {
+    "title": "DIA DE CHECK-IN",
+    "label": "Dia preferido de check-in/check-out",
+    "description": "Selecione o dia da semana para check-in e check-out",
+    "days": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    }
   },
-  "mealPlan": {
-    "title": "Plano de Refeições",
-    "label": "Plano de Refeições",
-    "placeholder": "Seleccione o plano de refeições",
-    "loading": "Carregando planos de refeição..."
-  },
-  "laundryService": {
-    "title": "Serviço de Lavandaria",
-    "inHouseIncluded": "Lavandaria interna incluída",
-    "externalReferral": "Referência a serviço externo"
-  },
-  "stayLengths": {
-    "title": "Duração das Estadias",
-    "label": "Durações de Estadia Disponíveis",
+  "stayDurations": {
+    "title": "DURAÇÕES DE ESTADIA",
+    "subtitle": "Selecione as durações de estadia disponíveis",
     "days": "dias"
   },
-  "pricingMatrix": {
-    "title": "Preços",
-    "label": "Matriz de Preços",
-    "doubleRoom": "Quarto Duplo",
-    "singleRoom": "Quarto Individual",
-    "pricePerRoom": "Preço por quarto",
-    "days": "dias",
-    "priceLimit": "Limite de preço para",
-    "priceExceeded": "O preço excede o limite permitido"
+  "mealPlans": {
+    "title": "PLANOS DE REFEIÇÃO",
+    "subtitle": "Selecione os planos de refeição disponíveis"
+  },
+  "roomTypes": {
+    "title": "TIPOS DE QUARTOS",
+    "subtitle": "Defina os tipos de quartos disponíveis"
+  },
+  "pricing": {
+    "title": "PREÇOS",
+    "subtitle": "Defina os preços para cada combinação"
   },
   "availabilityPackages": {
     "title": "PACOTES DE DISPONIBILIDADE",
-    "description": "Adicione até 10 pacotes de disponibilidade. As datas devem estar dentro de 12 meses e respeitar o dia de check-in selecionado anteriormente.",
+    "subtitle": "Você pode adicionar até 10 pacotes de disponibilidade. As datas devem estar dentro dos próximos 12 meses e respeitar o dia de check-in que você selecionou anteriormente.",
     "addPackage": "Adicionar Outro Pacote",
-    "packageNumber": "Pacote",
-    "entryDate": "Data de Entrada",
-    "exitDate": "Data de Saída",
-    "numberOfRooms": "Número de Quartos",
-    "pickEntryDate": "Selecionar data de entrada",
-    "pickExitDate": "Selecionar data de saída",
-    "enterNumberOfRooms": "Digite o número de quartos"
+    "startDate": "Data de Início",
+    "endDate": "Data de Fim",
+    "totalRooms": "Quartos Totais",
+    "availableRooms": "Quartos Disponíveis"
   },
   "imageUploads": {
     "title": "FOTOGRAFIAS",
-    "description": "Carregue fotos do seu hotel e quartos. Múltiplos arquivos são permitidos para cada categoria.",
+    "subtitle": "Envie fotos do seu hotel e quartos. Múltiplos arquivos são permitidos para cada categoria.",
     "hotelPhotos": "FOTOS DO HOTEL",
     "roomPhotos": "FOTOS DOS QUARTOS",
-    "uploadHotelPhotos": "Carregar Fotos do Hotel",
-    "uploadRoomPhotos": "Carregar Fotos dos Quartos"
+    "uploadHotelPhotos": "Enviar Fotos do Hotel",
+    "uploadRoomPhotos": "Enviar Fotos dos Quartos"
   },
   "termsConditions": {
     "title": "TERMOS E CONDIÇÕES",
     "description": "Ao registrar sua propriedade, você concorda com nossos termos e condições. Por favor, leia-os cuidadosamente.",
-    "acceptTerms": "Eu li e aceito os Termos e Condições *",
-    "termsText": "As informações da sua propriedade devem ser precisas e atualizadas. Você é responsável por manter a disponibilidade e preços atuais. Todas as fotos da propriedade devem ser genuínas e representar sua propriedade real. Você concorda em honrar todas as reservas confirmadas feitas através da nossa plataforma. Taxas de comissão da plataforma se aplicam a todas as reservas bem-sucedidas. Você deve cumprir com todas as leis e regulamentos locais."
+    "acceptTerms": "Eu aceito os termos e condições",
+    "termsText": "Por favor, leia e aceite nossos termos e condições para continuar com o registro da sua propriedade."
   }
 }

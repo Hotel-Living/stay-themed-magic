@@ -1,7 +1,10 @@
+
 import React from 'react';
 import { NewHotelRegistrationForm } from './hotel-registration/NewHotelRegistrationForm';
+
 export const NewHotelRegistrationContent = () => {
-  return <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#2D1B69] p-6 py-0 px-0">
+  return (
+    <div className="min-h-screen p-6 py-0 px-0" style={{ backgroundColor: '#670193' }}>
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           
@@ -12,5 +15,6 @@ export const NewHotelRegistrationContent = () => {
           <NewHotelRegistrationForm />
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

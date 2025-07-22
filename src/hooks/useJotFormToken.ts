@@ -1,25 +1,24 @@
+
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/context/auth/AuthContext';
 
 export const useJotFormToken = () => {
-  const { user } = useAuth();
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    const generateOrGetToken = async () => {
+    const fetchOrCreateToken = async () => {
       if (!user) {
+        setError('User not authenticated');
         setIsLoading(false);
         return;
       }
 
       try {
-        setIsLoading(true);
-        setError(null);
-
-        // First, check if user already has a token
+        // First check if user already has a token
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('jotform_token')
@@ -27,34 +26,31 @@ export const useJotFormToken = () => {
           .single();
 
         if (profileError) {
-          throw new Error(`Error fetching profile: ${profileError.message}`);
+          throw profileError;
         }
 
         if (profile?.jotform_token) {
-          // User already has a token
           setToken(profile.jotform_token);
         } else {
-          // Generate a new token for the user
-          const { data: newToken, error: generateError } = await supabase.rpc(
-            'generate_jotform_token',
-            { user_id: user.id }
-          );
+          // Generate new token
+          const { data: newToken, error: tokenError } = await supabase
+            .rpc('generate_jotform_token', { user_id: user.id });
 
-          if (generateError) {
-            throw new Error(`Error generating token: ${generateError.message}`);
+          if (tokenError) {
+            throw tokenError;
           }
 
           setToken(newToken);
         }
-      } catch (err) {
-        console.error('Error managing JotForm token:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
+      } catch (err: any) {
+        console.error('Error fetching/creating JotForm token:', err);
+        setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
 
-    generateOrGetToken();
+    fetchOrCreateToken();
   }, [user]);
 
   return { token, isLoading, error };

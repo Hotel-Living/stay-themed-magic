@@ -1,3 +1,4 @@
+
 /**
  * Utility functions for JotForm integration with user authentication
  */
@@ -20,7 +21,7 @@ export const createJotFormURL = (formId: string, userToken: string | null): stri
     localStorage.setItem('jotform_user_token', userToken);
   }
   
-  // Also try URL parameter approach (may not work with webhook)
+  // Add token as URL parameter and in hidden field
   return `${baseUrl}?user_token=${encodeURIComponent(userToken)}`;
 };
 
@@ -44,4 +45,31 @@ export const setupJotFormListener = (callback: () => void) => {
   return () => {
     window.removeEventListener('message', handleMessage);
   };
+};
+
+/**
+ * Injects user token into JotForm when it loads
+ * @param userToken - The user's authentication token
+ */
+export const injectUserTokenIntoJotForm = (userToken: string | null) => {
+  if (!userToken || typeof window === 'undefined') return;
+
+  // Wait for JotForm to load and inject token
+  const injectToken = () => {
+    const iframe = document.getElementById('jotform-hotel-submission') as HTMLIFrameElement;
+    if (iframe && iframe.contentWindow) {
+      try {
+        // Try to inject token into form
+        iframe.contentWindow.postMessage({
+          type: 'SET_USER_TOKEN',
+          token: userToken
+        }, 'https://form.jotform.com');
+      } catch (error) {
+        console.warn('Could not inject token into JotForm iframe:', error);
+      }
+    }
+  };
+
+  // Try injection after a delay to ensure iframe is loaded
+  setTimeout(injectToken, 2000);
 };

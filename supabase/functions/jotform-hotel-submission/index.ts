@@ -1,5 +1,4 @@
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
@@ -7,164 +6,229 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
+  console.log('=== JOTFORM HOTEL SUBMISSION WEBHOOK ===');
+  console.log('Request method:', req.method);
+  console.log('Request URL:', req.url);
+  console.log('User-Agent:', req.headers.get('User-Agent') || '');
+  console.log('Content-Type:', req.headers.get('Content-Type') || '');
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  console.log("=== JOTFORM HOTEL SUBMISSION WEBHOOK ===");
-  console.log("Request method:", req.method);
-  console.log("Request URL:", req.url);
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  )
 
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
-
-    // Get request headers and body
-    const headers = Object.fromEntries(req.headers.entries());
     const contentType = req.headers.get('content-type') || '';
-    const userAgent = req.headers.get('user-agent') || '';
+    console.log('Parsing multipart/form-data');
     
-    console.log("Content-Type:", contentType);
-    console.log("User-Agent:", userAgent);
-
-    let rawBody: string;
-    let parsedData: any = {};
-    let parseMethod: string;
-
-    if (contentType.includes('multipart/form-data')) {
-      console.log("Parsing multipart/form-data");
-      
-      // Parse multipart form data
-      const formData = await req.formData();
-      rawBody = '';
-      
-      // Convert FormData to object and build raw body representation
-      const formObject: any = {};
-      for (const [key, value] of formData.entries()) {
-        formObject[key] = value;
-        rawBody += `${key}: ${value}\n`;
-      }
-      
-      console.log("Form data keys:", Object.keys(formObject));
-      
-      // Extract rawRequest from form data
-      const rawRequest = formObject.rawRequest;
-      if (rawRequest) {
-        try {
-          parsedData = JSON.parse(rawRequest);
-          parseMethod = 'multipart-json';
-          console.log("Successfully parsed rawRequest JSON");
-        } catch (jsonError) {
-          console.error("Failed to parse rawRequest JSON:", jsonError);
-          parsedData = formObject;
-          parseMethod = 'multipart-direct';
-        }
-      } else {
-        console.log("No rawRequest field found, using form data directly");
-        parsedData = formObject;
-        parseMethod = 'multipart-direct';
-      }
-    } else {
-      console.log("Parsing as text/form-data");
-      rawBody = await req.text();
-      
-      try {
-        const urlParams = new URLSearchParams(rawBody);
-        const formObject: any = {};
-        for (const [key, value] of urlParams.entries()) {
-          formObject[key] = value;
-        }
-        
-        const rawRequest = formObject.rawRequest;
-        if (rawRequest) {
-          parsedData = JSON.parse(rawRequest);
-          parseMethod = 'urlencoded-json';
-        } else {
-          parsedData = formObject;
-          parseMethod = 'urlencoded-direct';
-        }
-      } catch (parseError) {
-        console.error("Failed to parse form data:", parseError);
-        parsedData = { raw: rawBody };
-        parseMethod = 'raw';
-      }
+    // Parse multipart form data
+    const formData = await req.formData();
+    
+    // Log form data keys for debugging
+    const formDataKeys = Array.from(formData.keys());
+    console.log('Form data keys:', formDataKeys);
+    
+    // Extract rawRequest which contains the structured form data
+    const rawRequestStr = formData.get('rawRequest') as string;
+    if (!rawRequestStr) {
+      throw new Error('No rawRequest found in form data');
     }
+    
+    console.log('Successfully parsed rawRequest JSON');
+    const parsedData = JSON.parse(rawRequestStr);
+    
+    // Log parsed data keys for debugging
+    const parsedDataKeys = Object.keys(parsedData);
+    console.log('Parsed data keys:', parsedDataKeys);
 
-    console.log("Parse method:", parseMethod);
-    console.log("Parsed data keys:", Object.keys(parsedData));
-
-    // Store raw submission for debugging
+    // Store raw data for debugging
     const { error: rawError } = await supabase
       .from('jotform_raw')
       .insert({
-        headers,
+        raw_body: rawRequestStr,
+        headers: Object.fromEntries(req.headers.entries()),
         content_type: contentType,
-        raw_body: rawBody,
-        parsed_data: parsedData,
-        parse_method: parseMethod,
-        user_agent: userAgent
+        parse_method: 'multipart-json',
+        user_agent: req.headers.get('User-Agent') || null,
+        parsed_data: parsedData
       });
 
     if (rawError) {
-      console.error("Error storing raw data:", rawError);
+      console.error('Error storing raw data:', rawError);
     }
 
-    // Ensure we have structured data to work with
-    if (!parsedData || typeof parsedData !== 'object') {
-      throw new Error("No valid form data found in submission");
+    // Extract user token from localStorage (sent via JotForm)
+    const userToken = parsedData.user_token || null;
+    let userId = null;
+
+    if (userToken) {
+      // Get user ID from token
+      const { data: tokenData, error: tokenError } = await supabase
+        .rpc('get_user_from_jotform_token', { token: userToken });
+      
+      if (!tokenError && tokenData) {
+        userId = tokenData;
+        console.log('Found user ID from token:', userId);
+      } else {
+        console.log('Could not resolve user from token:', tokenError);
+      }
     }
 
-    // Map JotForm fields to hotel data
+    // Map JotForm fields to hotel data structure
     const hotelData = {
-      name: parsedData.q1_hotelName || parsedData.q1_nombre || '',
-      description: parsedData.q2_description || parsedData.q2_descripcion || '',
-      country: parsedData.q3_country || parsedData.q3_pais || '',
-      city: parsedData.q4_city || parsedData.q4_ciudad || '',
-      address: parsedData.q5_address || parsedData.q5_direccion || '',
-      contact_name: parsedData.q6_contactName || parsedData.q6_nombreContacto || '',
-      contact_email: parsedData.q7_contactEmail || parsedData.q7_emailContacto || '',
-      contact_phone: parsedData.q8_contactPhone || parsedData.q8_telefonoContacto || '',
-      price_per_month: parseInt(parsedData.q9_pricePerMonth || parsedData.q9_precioPorMes || '0'),
-      category: parseInt(parsedData.q10_category || parsedData.q10_categoria || '1'),
-      property_type: parsedData.q11_propertyType || parsedData.q11_tipoPropiedad || '',
-      ideal_guests: parsedData.q12_idealGuests || parsedData.q12_huespedesIdeales || '',
-      atmosphere: parsedData.q13_atmosphere || parsedData.q13_atmosfera || '',
-      perfect_location: parsedData.q14_perfectLocation || parsedData.q14_ubicacionPerfecta || '',
-      available_months: parsedData.q15_availableMonths ? 
-        (Array.isArray(parsedData.q15_availableMonths) ? parsedData.q15_availableMonths : [parsedData.q15_availableMonths]) : 
-        [],
-      meal_plans: parsedData.q16_mealPlans ? 
-        (Array.isArray(parsedData.q16_mealPlans) ? parsedData.q16_mealPlans : [parsedData.q16_mealPlans]) : 
-        [],
-      main_image_url: parsedData.q17_mainImage || parsedData.q17_imagenPrincipal || null,
-      status: 'pending'
+      name: parsedData.q2_typeA || '',
+      description: parsedData.q13_descripcionDel || '',
+      country: parsedData.q5_direccionFisica?.country || parsedData.dropdown_search || '',
+      city: parsedData.q5_direccionFisica?.city || '',
+      address: parsedData.q5_direccionFisica?.addr_line1 || '',
+      contact_name: parsedData.q28_typeA28 || '',
+      contact_email: parsedData.q30_typeA30 || '',
+      contact_phone: parsedData.q39_typeA39 || '',
+      price_per_month: parseInt(parsedData.q47_tarifas47) || 0,
+      category: parseInt(parsedData.q4_categoriaOficial) || 1,
+      property_type: parsedData.q11_tipoDe || '',
+      style: parsedData.q12_estiloDel || '',
+      ideal_guests: parsedData.q14_ltstronggtltemgtesIdeal || '',
+      atmosphere: parsedData.q15_ltstronggtltemgtelAmbiente || '',
+      perfect_location: parsedData.q16_ltstronggtltemgtlaUbicacion || '',
+      available_months: parsedData.q22_elijaSu ? 
+        (Array.isArray(parsedData.q22_elijaSu) ? parsedData.q22_elijaSu : [parsedData.q22_elijaSu]) : [],
+      meal_plans: parsedData.q23_planDe ? 
+        (Array.isArray(parsedData.q23_planDe) ? parsedData.q23_planDe : [parsedData.q23_planDe]) : [],
+      main_image_url: null,
+      owner_id: userId,
+      status: 'pending' as const,
+      // Features
+      features_hotel: parsedData.q17_instalacionesY || {},
+      features_room: parsedData.q18_serviciosEn || {},
+      // Activities and themes
+      activities: parsedData.q20_atraigaA20 || parsedData.q52_atraigaA || parsedData.q41_atraigaA41 || [],
+      themes: [], // Will be processed separately
+      // Room types and pricing
+      room_types: parsedData.q21_descripcionDe21 || [],
+      rates: parsedData.q47_tarifas47 ? { default: parseInt(parsedData.q47_tarifas47) } : {},
+      // Additional service info
+      terms: parsedData.q24_elServicio || '',
+      preferredWeekday: parsedData.q26_cualEs26 || 'Monday',
+      // File uploads
+      images: parsedData.file || []
     };
 
-    console.log("Mapped hotel data:", hotelData);
+    console.log('Mapped hotel data:', hotelData);
 
-    // Insert hotel record
+    // Insert hotel into database
     const { data: hotel, error: hotelError } = await supabase
       .from('hotels')
-      .insert(hotelData)
+      .insert({
+        name: hotelData.name,
+        description: hotelData.description,
+        country: hotelData.country,
+        city: hotelData.city,
+        address: hotelData.address,
+        contact_name: hotelData.contact_name,
+        contact_email: hotelData.contact_email,
+        contact_phone: hotelData.contact_phone,
+        price_per_month: hotelData.price_per_month,
+        category: hotelData.category,
+        property_type: hotelData.property_type,
+        style: hotelData.style,
+        ideal_guests: hotelData.ideal_guests,
+        atmosphere: hotelData.atmosphere,
+        perfect_location: hotelData.perfect_location,
+        available_months: hotelData.available_months,
+        meal_plans: hotelData.meal_plans,
+        main_image_url: hotelData.main_image_url,
+        owner_id: hotelData.owner_id,
+        status: hotelData.status,
+        features_hotel: hotelData.features_hotel,
+        features_room: hotelData.features_room,
+        room_types: hotelData.room_types,
+        rates: hotelData.rates,
+        terms: hotelData.terms,
+        preferredWeekday: hotelData.preferredWeekday
+      })
       .select()
       .single();
 
     if (hotelError) {
-      console.error("Error inserting hotel:", hotelError);
+      console.error('Error creating hotel:', hotelError);
       throw hotelError;
     }
 
-    console.log("Hotel created successfully:", hotel.id);
+    console.log('Hotel created successfully:', hotel.id);
+
+    // Process activities if provided
+    if (hotelData.activities && Array.isArray(hotelData.activities) && hotelData.activities.length > 0) {
+      for (const activityName of hotelData.activities) {
+        // Find or create activity
+        const { data: activity } = await supabase
+          .from('activities')
+          .select('id')
+          .eq('name', activityName)
+          .single();
+
+        if (activity) {
+          // Link hotel to activity
+          await supabase
+            .from('hotel_activities')
+            .insert({
+              hotel_id: hotel.id,
+              activity_id: activity.id
+            });
+        }
+      }
+    }
+
+    // Process themes if provided
+    if (hotelData.themes && Array.isArray(hotelData.themes) && hotelData.themes.length > 0) {
+      for (const themeName of hotelData.themes) {
+        // Find or create theme
+        const { data: theme } = await supabase
+          .from('themes')
+          .select('id')
+          .eq('name', themeName)
+          .single();
+
+        if (theme) {
+          // Link hotel to theme
+          await supabase
+            .from('hotel_themes')
+            .insert({
+              hotel_id: hotel.id,
+              theme_id: theme.id
+            });
+        }
+      }
+    }
+
+    // Process images if provided
+    if (hotelData.images && Array.isArray(hotelData.images) && hotelData.images.length > 0) {
+      for (let i = 0; i < hotelData.images.length; i++) {
+        const imageUrl = hotelData.images[i];
+        if (imageUrl) {
+          await supabase
+            .from('hotel_images')
+            .insert({
+              hotel_id: hotel.id,
+              image_url: imageUrl,
+              is_main: i === 0 // First image is main
+            });
+        }
+      }
+    }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
+        message: 'Hotel submission processed successfully',
         hotel_id: hotel.id,
-        message: 'Hotel submission processed successfully'
+        user_id: userId
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -172,17 +236,13 @@ serve(async (req) => {
       }
     );
 
-  } catch (error: any) {
-    console.log("=== WEBHOOK ERROR ===");
-    console.log("Error type:", error.constructor.name);
-    console.log("Error message:", error.message);
-    console.log("Error stack:", error.stack);
-
+  } catch (error) {
+    console.error('Error processing JotForm submission:', error);
+    
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message,
-        details: error.stack
+      JSON.stringify({
+        success: false,
+        error: error.message || 'Unknown error occurred'
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

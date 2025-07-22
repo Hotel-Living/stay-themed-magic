@@ -205,9 +205,7 @@ export const NewHotelRegistrationForm = () => {
   return <div className="p-6 space-y-6">
       <div className="mb-8">
         
-        <p className="text-white/70">
-          {t('description')}
-        </p>
+        
       </div>
 
       <Form {...form}>

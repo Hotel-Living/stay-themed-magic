@@ -8,7 +8,7 @@ export const NewHotelRegistrationContent = () => {
           
         </div>
         
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 px-0 py-0">
           <NewHotelRegistrationForm />
         </div>
       </div>

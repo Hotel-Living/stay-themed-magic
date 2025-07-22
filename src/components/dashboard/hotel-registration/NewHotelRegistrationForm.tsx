@@ -20,7 +20,7 @@ import { ActivitiesSection } from './sections/ActivitiesSection';
 import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
 import { CheckInDaySection } from './sections/CheckInDaySection';
 import { MealPlanSection } from './sections/MealPlanSection';
-import { LaundryServiceSection } from './sections/LaundryServiceSection';
+
 import { StayLengthsSection } from './sections/StayLengthsSection';
 import { ImageUploadsSection } from './sections/ImageUploadsSection';
 import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
@@ -72,8 +72,8 @@ const hotelRegistrationSchema = z.object({
   stayLengths: z.array(z.enum(['8', '15', '22', '29'])).min(1, 'At least one stay length is required'),
   
   // Services
-  inHouseLaundryIncluded: z.boolean().default(false),
-  externalLaundryReferral: z.boolean().default(false),
+  weeklyLaundryIncluded: z.boolean().default(false),
+  externalLaundryAvailable: z.boolean().default(false),
   
   // Availability
   numberOfRooms: z.string().min(1, 'Number of rooms is required'),
@@ -100,8 +100,8 @@ export const NewHotelRegistrationForm = () => {
       roomFeatures: [],
       photos: { hotel: [], room: [] },
       pricingMatrix: [],
-      inHouseLaundryIncluded: false,
-      externalLaundryReferral: false,
+      weeklyLaundryIncluded: false,
+      externalLaundryAvailable: false,
       termsAccepted: false
     }
   });
@@ -126,12 +126,11 @@ export const NewHotelRegistrationForm = () => {
             <RoomFeaturesSection form={form} />
             <ClientAffinitiesSection form={form} />
             <ActivitiesSection form={form} />
-            <CheckInDaySection form={form} />
             <MealPlanSection form={form} />
-            <LaundryServiceSection form={form} />
             <StayLengthsSection form={form} />
-            <ImageUploadsSection form={form} />
+            <CheckInDaySection form={form} />
             <AvailabilityPackagesSection form={form} />
+            <ImageUploadsSection form={form} />
             <PricingMatrixSection form={form} />
           </Accordion>
           

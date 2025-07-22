@@ -55,7 +55,7 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
     <AccordionItem value="image-uploads" className="bg-white/5 border-white/20 rounded-lg">
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
         <div className="flex items-center space-x-3">
-          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">18</span>
+          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">16</span>
           <span>{t('imageUploads.title')}</span>
         </div>
       </AccordionTrigger>

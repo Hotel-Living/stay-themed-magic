@@ -18,7 +18,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
     <AccordionItem value="availability-packages" className="bg-white/5 border-white/20 rounded-lg">
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
         <div className="flex items-center space-x-3">
-          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">17</span>
+          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">15</span>
           <span>{t('availabilityPackages.title')}</span>
         </div>
       </AccordionTrigger>

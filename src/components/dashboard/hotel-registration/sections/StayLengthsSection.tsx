@@ -26,7 +26,7 @@ export const StayLengthsSection = ({ form }: StayLengthsSectionProps) => {
     <AccordionItem value="stay-lengths" className="bg-white/5 border-white/20 rounded-lg">
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
         <div className="flex items-center space-x-3">
-          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">15</span>
+          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">13</span>
           <span>{t('stayLengths.title')}</span>
         </div>
       </AccordionTrigger>

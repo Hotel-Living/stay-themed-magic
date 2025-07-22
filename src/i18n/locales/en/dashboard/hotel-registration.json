@@ -26,6 +26,16 @@
     "address": "Address",
     "addressPlaceholder": "Enter complete address"
   },
+  "propertyType": {
+    "title": "PROPERTY TYPE",
+    "label": "Property Type",
+    "placeholder": "Select property type"
+  },
+  "propertyStyle": {
+    "title": "PROPERTY STYLE",
+    "label": "Property Style",
+    "placeholder": "Select property style"
+  },
   "propertyDetails": {
     "title": "PROPERTY DETAILS",
     "propertyType": "Property Type",
@@ -47,11 +57,25 @@
       "eco": "Eco-friendly"
     }
   },
+  "roomDescription": {
+    "title": "ROOM DESCRIPTION",
+    "label": "Room Description",
+    "placeholder": "Write a description of your rooms..."
+  },
   "hotelDescription": {
     "title": "HOTEL DESCRIPTION",
     "label": "Description",
     "placeholder": "Write a detailed description of your hotel...",
     "minCharacters": "minimum characters"
+  },
+  "completePhrases": {
+    "title": "COMPLETE PHRASES",
+    "idealForGuests": "Ideal for Guests",
+    "idealForGuestsPlaceholder": "Describe the ideal type of guests...",
+    "atmosphere": "Atmosphere",
+    "atmospherePlaceholder": "Describe the atmosphere...",
+    "locationPerfect": "Perfect Location",
+    "locationPerfectPlaceholder": "Describe what makes your location special..."
   },
   "idealGuests": {
     "title": "IDEAL GUESTS",
@@ -98,10 +122,21 @@
       "sunday": "Sunday"
     }
   },
+  "stayLengths": {
+    "title": "STAY DURATIONS",
+    "label": "Available durations",
+    "days": "days"
+  },
   "stayDurations": {
     "title": "STAY DURATIONS",
     "subtitle": "Select the available stay durations",
     "days": "days"
+  },
+  "laundryService": {
+    "title": "LAUNDRY SERVICE"
+  },
+  "pricingMatrix": {
+    "title": "PRICING MATRIX"
   },
   "mealPlans": {
     "title": "MEAL PLANS",

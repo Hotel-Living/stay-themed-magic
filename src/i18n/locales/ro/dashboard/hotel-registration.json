@@ -26,6 +26,16 @@
     "address": "Adresa",
     "addressPlaceholder": "Introduceți adresa completă"
   },
+  "propertyType": {
+    "title": "TIPUL PROPRIETĂȚII",
+    "label": "Tipul Proprietății",
+    "placeholder": "Selectați tipul proprietății"
+  },
+  "propertyStyle": {
+    "title": "STILUL PROPRIETĂȚII",
+    "label": "Stilul Proprietății",
+    "placeholder": "Selectați stilul proprietății"
+  },
   "propertyDetails": {
     "title": "DETALIILE PROPRIETĂȚII",
     "propertyType": "Tipul Proprietății",
@@ -47,11 +57,25 @@
       "eco": "Ecologic"
     }
   },
+  "roomDescription": {
+    "title": "DESCRIEREA CAMERELOR",
+    "label": "Descrierea Camerelor",
+    "placeholder": "Scrieți o descriere a camerelor dvs..."
+  },
   "hotelDescription": {
     "title": "DESCRIEREA HOTELULUI",
     "label": "Descriere",
     "placeholder": "Scrieți o descriere detaliată a hotelului dvs...",
     "minCharacters": "caractere minime"
+  },
+  "completePhrases": {
+    "title": "FRAZE COMPLETE",
+    "idealForGuests": "Ideal pentru Oaspeți",
+    "idealForGuestsPlaceholder": "Descrieți tipul ideal de oaspeți...",
+    "atmosphere": "Atmosfera",
+    "atmospherePlaceholder": "Descrieți atmosfera...",
+    "locationPerfect": "Locație Perfectă",
+    "locationPerfectPlaceholder": "Descrieți ce face locația dvs. specială..."
   },
   "idealGuests": {
     "title": "OASPEȚI IDEALI",
@@ -98,10 +122,21 @@
       "sunday": "Duminică"
     }
   },
+  "stayLengths": {
+    "title": "DURATELE ȘEDERII",
+    "label": "Duratele disponibile",
+    "days": "zile"
+  },
   "stayDurations": {
     "title": "DURATELE ȘEDERII",
     "subtitle": "Selectați duratele de ședere disponibile",
     "days": "zile"
+  },
+  "laundryService": {
+    "title": "SERVICIU DE SPĂLĂTORIE"
+  },
+  "pricingMatrix": {
+    "title": "MATRICE DE PREȚURI"
   },
   "mealPlans": {
     "title": "PLANURI DE MASĂ",

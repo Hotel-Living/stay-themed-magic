@@ -26,6 +26,16 @@
     "address": "Endereço",
     "addressPlaceholder": "Digite o endereço completo"
   },
+  "propertyType": {
+    "title": "TIPO DE PROPRIEDADE",
+    "label": "Tipo de Propriedade",
+    "placeholder": "Selecione o tipo de propriedade"
+  },
+  "propertyStyle": {
+    "title": "ESTILO DA PROPRIEDADE",
+    "label": "Estilo da Propriedade",
+    "placeholder": "Selecione o estilo da propriedade"
+  },
   "propertyDetails": {
     "title": "DETALHES DA PROPRIEDADE",
     "propertyType": "Tipo de Propriedade",
@@ -47,11 +57,25 @@
       "eco": "Ecológico"
     }
   },
+  "roomDescription": {
+    "title": "DESCRIÇÃO DOS QUARTOS",
+    "label": "Descrição dos Quartos",
+    "placeholder": "Escreva uma descrição dos seus quartos..."
+  },
   "hotelDescription": {
     "title": "DESCRIÇÃO DO HOTEL",
     "label": "Descrição",
     "placeholder": "Escreva uma descrição detalhada do seu hotel...",
     "minCharacters": "caracteres mínimos"
+  },
+  "completePhrases": {
+    "title": "FRASES COMPLETAS",
+    "idealForGuests": "Ideal para Hóspedes",
+    "idealForGuestsPlaceholder": "Descreva o tipo ideal de hóspedes...",
+    "atmosphere": "Ambiente",
+    "atmospherePlaceholder": "Descreva o ambiente...",
+    "locationPerfect": "Localização Perfeita",
+    "locationPerfectPlaceholder": "Descreva o que torna sua localização especial..."
   },
   "idealGuests": {
     "title": "HÓSPEDES IDEAIS",
@@ -98,10 +122,21 @@
       "sunday": "Domingo"
     }
   },
+  "stayLengths": {
+    "title": "DURAÇÕES DE ESTADIA",
+    "label": "Durações disponíveis",
+    "days": "dias"
+  },
   "stayDurations": {
     "title": "DURAÇÕES DE ESTADIA",
     "subtitle": "Selecione as durações de estadia disponíveis",
     "days": "dias"
+  },
+  "laundryService": {
+    "title": "SERVIÇO DE LAVANDERIA"
+  },
+  "pricingMatrix": {
+    "title": "MATRIZ DE PREÇOS"
   },
   "mealPlans": {
     "title": "PLANOS DE REFEIÇÃO",

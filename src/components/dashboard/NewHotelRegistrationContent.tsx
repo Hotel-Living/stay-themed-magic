@@ -4,7 +4,7 @@ import { NewHotelRegistrationForm } from './hotel-registration/NewHotelRegistrat
 
 export const NewHotelRegistrationContent = () => {
   return (
-    <div className="min-h-screen p-6 py-0 px-0" style={{ backgroundColor: '#670193' }}>
+    <div className="min-h-screen p-6 py-0 px-0" style={{ backgroundColor: '#27529D' }}>
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           

@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Accordion } from '@/components/ui/accordion';
+import { Form } from '@/components/ui/form';
 
 // Import form sections
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
@@ -211,44 +212,46 @@ export const NewHotelRegistrationForm = () => {
         </p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Accordion 
-          type="multiple" 
-          value={openSections} 
-          onValueChange={setOpenSections}
-          className="space-y-2"
-        >
-          <HotelBasicInfoSection form={form} />
-          <HotelClassificationSection form={form} />
-          <PropertyTypeSection form={form} />
-          <PropertyStyleSection form={form} />
-          <HotelDescriptionSection form={form} />
-          <RoomDescriptionSection form={form} />
-          <CompletePhraseSection form={form} />
-          <HotelFeaturesSection form={form} />
-          <RoomFeaturesSection form={form} />
-          <ClientAffinitiesSection form={form} />
-          <ActivitiesSection form={form} />
-          <CheckInDaySection form={form} />
-          <MealPlanSection form={form} />
-          <LaundryServiceSection form={form} />
-          <StayLengthsSection form={form} />
-          <PricingMatrixSection form={form} />
-          <AvailabilityPackagesSection form={form} checkInDay={form.watch('checkInDay') || 'Monday'} />
-          <ImageUploadsSection form={form} />
-          <TermsConditionsSection form={form} />
-        </Accordion>
-
-        <div className="pt-6 border-t border-white/10">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <Accordion 
+            type="multiple" 
+            value={openSections} 
+            onValueChange={setOpenSections}
+            className="space-y-2"
           >
-            {isSubmitting ? t('submitting') : t('submitRegistration')}
-          </button>
-        </div>
-      </form>
+            <HotelBasicInfoSection form={form} />
+            <HotelClassificationSection form={form} />
+            <PropertyTypeSection form={form} />
+            <PropertyStyleSection form={form} />
+            <HotelDescriptionSection form={form} />
+            <RoomDescriptionSection form={form} />
+            <CompletePhraseSection form={form} />
+            <HotelFeaturesSection form={form} />
+            <RoomFeaturesSection form={form} />
+            <ClientAffinitiesSection form={form} />
+            <ActivitiesSection form={form} />
+            <CheckInDaySection form={form} />
+            <MealPlanSection form={form} />
+            <LaundryServiceSection form={form} />
+            <StayLengthsSection form={form} />
+            <PricingMatrixSection form={form} />
+            <AvailabilityPackagesSection form={form} checkInDay={form.watch('checkInDay') || 'Monday'} />
+            <ImageUploadsSection form={form} />
+            <TermsConditionsSection form={form} />
+          </Accordion>
+
+          <div className="pt-6 border-t border-white/10">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200"
+            >
+              {isSubmitting ? t('submitting') : t('submitRegistration')}
+            </button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

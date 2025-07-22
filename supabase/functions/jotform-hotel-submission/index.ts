@@ -7,314 +7,360 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-serve(async (req: Request) => {
-  console.log(`[${new Date().toISOString()}] JotForm hotel submission handler triggered via ${req.method} request`);
-  
-  // Handle CORS preflight requests
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+// Enhanced logging function
+function logWithTimestamp(message: string, data?: any) {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${message}`);
+  if (data) {
+    console.log(`[${timestamp}] Data:`, JSON.stringify(data, null, 2));
   }
+}
 
+// Test function to verify basic database connectivity
+async function testBasicDatabaseConnection(supabase: any) {
   try {
-    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
-    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    const GOOGLE_MAPS_API_KEY = Deno.env.get("GOOGLE_MAPS_API_KEY");
-
-    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-      throw new Error("Missing required environment variables");
-    }
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    logWithTimestamp("=== TESTING BASIC DATABASE CONNECTION ===");
     
-    // Enhanced logging for debugging
-    const contentType = req.headers.get("content-type") || "unknown";
-    console.log(`[${new Date().toISOString()}] Request content-type: ${contentType}`);
-    console.log(`[${new Date().toISOString()}] Request method: ${req.method}`);
-    console.log(`[${new Date().toISOString()}] Request headers:`, Object.fromEntries(req.headers.entries()));
-
-    let formData;
+    // Test 1: Simple select query
+    const { data: testSelect, error: selectError } = await supabase
+      .from('hotels')
+      .select('id, name')
+      .limit(1);
     
-    // Handle different content types flexibly
-    if (contentType.includes("application/x-www-form-urlencoded")) {
-      const text = await req.text();
-      console.log(`[${new Date().toISOString()}] Raw form data:`, text);
-      formData = new URLSearchParams(text);
-    } else if (contentType.includes("multipart/form-data")) {
-      formData = await req.formData();
-    } else if (contentType.includes("application/json")) {
-      const jsonData = await req.json();
-      console.log(`[${new Date().toISOString()}] JSON data:`, jsonData);
-      // Convert JSON to FormData-like structure
-      formData = new Map();
-      for (const [key, value] of Object.entries(jsonData)) {
-        formData.set(key, value);
-      }
-    } else {
-      // Try to parse as form data anyway
-      try {
-        formData = await req.formData();
-      } catch (e) {
-        console.log(`[${new Date().toISOString()}] Failed to parse as FormData, trying text:`, e);
-        const text = await req.text();
-        console.log(`[${new Date().toISOString()}] Raw text data:`, text);
-        formData = new URLSearchParams(text);
-      }
+    if (selectError) {
+      logWithTimestamp("ERROR: Basic select failed", selectError);
+      return false;
     }
-
-    // Log all form fields for debugging
-    console.log(`[${new Date().toISOString()}] Form data type:`, formData.constructor.name);
     
-    if (formData instanceof FormData) {
-      console.log(`[${new Date().toISOString()}] FormData entries:`);
-      for (const [key, value] of formData.entries()) {
-        console.log(`  ${key}: ${value}`);
-      }
-    } else if (formData instanceof URLSearchParams) {
-      console.log(`[${new Date().toISOString()}] URLSearchParams entries:`);
-      for (const [key, value] of formData.entries()) {
-        console.log(`  ${key}: ${value}`);
-      }
-    } else if (formData instanceof Map) {
-      console.log(`[${new Date().toISOString()}] Map entries:`);
-      for (const [key, value] of formData.entries()) {
-        console.log(`  ${key}: ${value}`);
-      }
-    }
-
-    // Helper function to get form value
-    const getFormValue = (key: string): string | null => {
-      if (formData instanceof FormData || formData instanceof URLSearchParams) {
-        return formData.get(key) as string;
-      } else if (formData instanceof Map) {
-        return formData.get(key) as string;
-      }
-      return null;
-    };
-
-    // Helper function to find field by pattern
-    const findFieldByPattern = (patterns: string[]): string | null => {
-      for (const pattern of patterns) {
-        const value = getFormValue(pattern);
-        if (value) return value;
-        
-        // Also try to find by partial match
-        if (formData instanceof FormData || formData instanceof URLSearchParams) {
-          for (const [key, val] of formData.entries()) {
-            if (key.toLowerCase().includes(pattern.toLowerCase())) {
-              return val as string;
-            }
-          }
-        } else if (formData instanceof Map) {
-          for (const [key, val] of formData.entries()) {
-            if (key.toLowerCase().includes(pattern.toLowerCase())) {
-              return val as string;
-            }
-          }
-        }
-      }
-      return null;
-    };
-
-    // Extract user token from various possible sources
-    let userToken = getFormValue("user_token") || 
-                   getFormValue("token") || 
-                   getFormValue("jotform_user_token");
-
-    console.log(`[${new Date().toISOString()}] User token found:`, userToken ? "Yes" : "No");
-
-    // Extract hotel data with flexible field matching
-    const hotelName = findFieldByPattern([
-      "nombre del hotel",
-      "hotel name",
-      "nombre_del_hotel",
-      "hotelName",
-      "name"
-    ]);
-
-    const country = findFieldByPattern([
-      "país",
-      "country",
-      "pais",
-      "país_del_hotel",
-      "country_of_hotel"
-    ]);
-
-    const city = findFieldByPattern([
-      "ciudad",
-      "city",
-      "ciudad_del_hotel",
-      "city_of_hotel"
-    ]);
-
-    const address = findFieldByPattern([
-      "dirección",
-      "address",
-      "direccion",
-      "dirección_del_hotel",
-      "address_of_hotel"
-    ]);
-
-    const description = findFieldByPattern([
-      "descripción",
-      "description",
-      "descripcion",
-      "descripción_del_hotel",
-      "hotel_description"
-    ]);
-
-    const contactName = findFieldByPattern([
-      "nombre de contacto",
-      "contact name",
-      "nombre_de_contacto",
-      "contactName",
-      "contact_name"
-    ]);
-
-    const contactEmail = findFieldByPattern([
-      "correo electrónico",
-      "email",
-      "correo",
-      "contact_email",
-      "contactEmail"
-    ]);
-
-    const contactPhone = findFieldByPattern([
-      "teléfono",
-      "phone",
-      "telefono",
-      "contact_phone",
-      "contactPhone"
-    ]);
-
-    const pricePerMonth = findFieldByPattern([
-      "precio por mes",
-      "price per month",
-      "precio_por_mes",
-      "pricePerMonth",
-      "monthly_price"
-    ]);
-
-    console.log(`[${new Date().toISOString()}] Extracted data:`, {
-      hotelName,
-      country,
-      city,
-      address,
-      contactName,
-      contactEmail,
-      contactPhone,
-      pricePerMonth
-    });
-
-    // Validate required fields
-    if (!hotelName || !country || !city) {
-      console.error(`[${new Date().toISOString()}] Missing required fields:`, {
-        hotelName: !!hotelName,
-        country: !!country,
-        city: !!city
-      });
-      throw new Error("Missing required fields: hotel name, country, and city are required");
-    }
-
-    // Get user ID from token if provided
-    let ownerId = null;
-    if (userToken) {
-      console.log(`[${new Date().toISOString()}] Looking up user by token...`);
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('jotform_token', userToken)
-        .single();
-      
-      if (profile) {
-        ownerId = profile.id;
-        console.log(`[${new Date().toISOString()}] Found user:`, ownerId);
-      } else {
-        console.log(`[${new Date().toISOString()}] No user found for token`);
-      }
-    }
-
-    // Geocode address if Google Maps API key is available
-    let latitude = null;
-    let longitude = null;
+    logWithTimestamp("SUCCESS: Basic select works", { count: testSelect?.length });
     
-    if (GOOGLE_MAPS_API_KEY && address) {
-      try {
-        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address + ", " + city + ", " + country)}&key=${GOOGLE_MAPS_API_KEY}`;
-        const geocodeResponse = await fetch(geocodeUrl);
-        const geocodeData = await geocodeResponse.json();
-        
-        if (geocodeData.results && geocodeData.results.length > 0) {
-          const location = geocodeData.results[0].geometry.location;
-          latitude = location.lat;
-          longitude = location.lng;
-          console.log(`[${new Date().toISOString()}] Geocoded coordinates:`, { latitude, longitude });
-        }
-      } catch (geocodeError) {
-        console.error(`[${new Date().toISOString()}] Geocoding error:`, geocodeError);
-      }
-    }
-
-    // Create hotel record
-    const hotelData = {
-      name: hotelName,
-      country,
-      city,
-      address,
-      description,
-      contact_name: contactName,
-      contact_email: contactEmail,
-      contact_phone: contactPhone,
-      price_per_month: pricePerMonth ? parseInt(pricePerMonth) : 1000,
-      owner_id: ownerId,
-      latitude,
-      longitude,
+    // Test 2: Insert dummy hotel with hardcoded data
+    const dummyHotel = {
+      name: "TEST HOTEL - DEBUG",
+      description: "This is a test hotel for debugging",
+      address: "Test Address 123",
+      city: "Test City",
+      country: "Test Country",
+      price_per_month: 1000,
+      contact_email: "test@test.com",
+      contact_phone: "123-456-7890",
+      owner_id: null, // We'll handle this separately
       status: 'pending'
     };
-
-    console.log(`[${new Date().toISOString()}] Creating hotel with data:`, hotelData);
-
-    const { data: hotel, error: hotelError } = await supabase
+    
+    const { data: insertResult, error: insertError } = await supabase
       .from('hotels')
-      .insert(hotelData)
-      .select()
-      .single();
-
-    if (hotelError) {
-      console.error(`[${new Date().toISOString()}] Hotel creation error:`, hotelError);
-      throw new Error(`Failed to create hotel: ${hotelError.message}`);
+      .insert([dummyHotel])
+      .select();
+    
+    if (insertError) {
+      logWithTimestamp("ERROR: Dummy hotel insert failed", insertError);
+      return false;
     }
+    
+    logWithTimestamp("SUCCESS: Dummy hotel inserted", insertResult);
+    
+    // Clean up test hotel
+    if (insertResult && insertResult.length > 0) {
+      await supabase
+        .from('hotels')
+        .delete()
+        .eq('id', insertResult[0].id);
+      logWithTimestamp("SUCCESS: Test hotel cleaned up");
+    }
+    
+    return true;
+    
+  } catch (error) {
+    logWithTimestamp("CRITICAL ERROR: Database connection test failed", error);
+    return false;
+  }
+}
 
-    console.log(`[${new Date().toISOString()}] Hotel created successfully:`, hotel);
+// Enhanced user lookup function
+async function findUserByToken(supabase: any, token: string) {
+  try {
+    logWithTimestamp("=== STARTING USER TOKEN LOOKUP ===", { token });
+    
+    if (!token) {
+      logWithTimestamp("WARNING: No token provided for user lookup");
+      return null;
+    }
+    
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name, email, jotform_token')
+      .eq('jotform_token', token)
+      .single();
+    
+    if (error) {
+      logWithTimestamp("ERROR: User lookup failed", error);
+      return null;
+    }
+    
+    if (!profile) {
+      logWithTimestamp("WARNING: No user found for token", { token });
+      return null;
+    }
+    
+    logWithTimestamp("SUCCESS: User found", { 
+      userId: profile.id, 
+      name: `${profile.first_name} ${profile.last_name}`,
+      email: profile.email 
+    });
+    
+    return profile;
+    
+  } catch (error) {
+    logWithTimestamp("CRITICAL ERROR: User lookup exception", error);
+    return null;
+  }
+}
 
+// Enhanced field mapping function
+function mapJotFormFields(formData: any) {
+  try {
+    logWithTimestamp("=== STARTING FIELD MAPPING ===");
+    logWithTimestamp("Raw form data keys:", Object.keys(formData));
+    
+    // Log all field names and values for debugging
+    const fieldsDebug: any = {};
+    for (const [key, value] of Object.entries(formData)) {
+      fieldsDebug[key] = typeof value === 'string' ? value.substring(0, 100) : value;
+    }
+    logWithTimestamp("All form fields (truncated):", fieldsDebug);
+    
+    // Extract fields with multiple possible patterns
+    const mapped = {
+      name: formData.name || formData.hotel_name || formData.hotelName || formData.property_name || '',
+      description: formData.description || formData.hotel_description || formData.details || '',
+      address: formData.address || formData.hotel_address || formData.street_address || '',
+      city: formData.city || formData.hotel_city || '',
+      country: formData.country || formData.hotel_country || '',
+      price_per_month: parseInt(formData.price_per_month || formData.monthly_price || formData.price || '0') || 0,
+      contact_email: formData.contact_email || formData.email || formData.owner_email || '',
+      contact_phone: formData.contact_phone || formData.phone || formData.owner_phone || '',
+      user_token: formData.user_token || formData.token || '',
+      website: formData.website || formData.hotel_website || '',
+      property_type: formData.property_type || formData.type || 'hotel',
+      bedrooms: parseInt(formData.bedrooms || formData.rooms || '0') || 0,
+      bathrooms: parseInt(formData.bathrooms || '0') || 0,
+      amenities: formData.amenities || formData.features || ''
+    };
+    
+    logWithTimestamp("Mapped fields:", mapped);
+    return mapped;
+    
+  } catch (error) {
+    logWithTimestamp("CRITICAL ERROR: Field mapping failed", error);
+    throw error;
+  }
+}
+
+// Enhanced hotel creation function
+async function createHotel(supabase: any, hotelData: any, ownerId: string | null) {
+  try {
+    logWithTimestamp("=== STARTING HOTEL CREATION ===");
+    logWithTimestamp("Hotel data:", hotelData);
+    logWithTimestamp("Owner ID:", ownerId);
+    
+    const hotelRecord = {
+      name: hotelData.name || 'Unnamed Hotel',
+      description: hotelData.description || 'No description provided',
+      address: hotelData.address || 'No address provided',
+      city: hotelData.city || 'Unknown City',
+      country: hotelData.country || 'Unknown Country',
+      price_per_month: hotelData.price_per_month || 0,
+      contact_email: hotelData.contact_email || 'no-email@example.com',
+      contact_phone: hotelData.contact_phone || 'No phone provided',
+      owner_id: ownerId,
+      status: 'pending',
+      website: hotelData.website || null,
+      property_type: hotelData.property_type || 'hotel',
+      bedrooms: hotelData.bedrooms || 0,
+      bathrooms: hotelData.bathrooms || 0,
+      amenities: hotelData.amenities || null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    
+    logWithTimestamp("Final hotel record to insert:", hotelRecord);
+    
+    const { data: insertedHotel, error: insertError } = await supabase
+      .from('hotels')
+      .insert([hotelRecord])
+      .select();
+    
+    if (insertError) {
+      logWithTimestamp("ERROR: Hotel insertion failed", insertError);
+      throw insertError;
+    }
+    
+    if (!insertedHotel || insertedHotel.length === 0) {
+      logWithTimestamp("ERROR: Hotel inserted but no data returned");
+      throw new Error("Hotel insertion returned no data");
+    }
+    
+    logWithTimestamp("SUCCESS: Hotel created successfully", insertedHotel[0]);
+    return insertedHotel[0];
+    
+  } catch (error) {
+    logWithTimestamp("CRITICAL ERROR: Hotel creation failed", error);
+    throw error;
+  }
+}
+
+// Enhanced request parsing function
+async function parseRequest(request: Request) {
+  try {
+    logWithTimestamp("=== STARTING REQUEST PARSING ===");
+    
+    // Log request details
+    logWithTimestamp("Request method:", request.method);
+    logWithTimestamp("Request URL:", request.url);
+    
+    // Log headers
+    const headers: any = {};
+    request.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
+    logWithTimestamp("Request headers:", headers);
+    
+    const contentType = request.headers.get('content-type') || '';
+    logWithTimestamp("Content-Type:", contentType);
+    
+    // Get raw body
+    const rawBody = await request.text();
+    logWithTimestamp("Raw request body:", rawBody);
+    logWithTimestamp("Raw body length:", rawBody.length);
+    
+    // Parse based on content type
+    let parsedData: any = {};
+    
+    if (contentType.includes('application/json')) {
+      logWithTimestamp("Parsing as JSON");
+      parsedData = JSON.parse(rawBody);
+    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+      logWithTimestamp("Parsing as URL-encoded");
+      parsedData = Object.fromEntries(new URLSearchParams(rawBody));
+    } else if (contentType.includes('multipart/form-data')) {
+      logWithTimestamp("Parsing as FormData");
+      // Create new request for FormData parsing
+      const formDataRequest = new Request(request.url, {
+        method: request.method,
+        headers: request.headers,
+        body: rawBody
+      });
+      const formData = await formDataRequest.formData();
+      parsedData = Object.fromEntries(formData.entries());
+    } else {
+      logWithTimestamp("Unknown content type, trying URL-encoded as fallback");
+      try {
+        parsedData = Object.fromEntries(new URLSearchParams(rawBody));
+      } catch (fallbackError) {
+        logWithTimestamp("Fallback parsing failed, trying JSON");
+        parsedData = JSON.parse(rawBody);
+      }
+    }
+    
+    logWithTimestamp("Parsed data:", parsedData);
+    return parsedData;
+    
+  } catch (error) {
+    logWithTimestamp("CRITICAL ERROR: Request parsing failed", error);
+    throw error;
+  }
+}
+
+serve(async (req: Request) => {
+  logWithTimestamp("=== JOTFORM WEBHOOK HANDLER STARTED ===");
+  
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    logWithTimestamp("Handling CORS preflight request");
+    return new Response(null, { headers: corsHeaders });
+  }
+  
+  // Check environment variables
+  logWithTimestamp("=== CHECKING ENVIRONMENT VARIABLES ===");
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  
+  logWithTimestamp("Environment check:", {
+    supabaseUrl: supabaseUrl ? "✓ Present" : "✗ Missing",
+    supabaseKey: supabaseKey ? "✓ Present" : "✗ Missing"
+  });
+  
+  if (!supabaseUrl || !supabaseKey) {
+    logWithTimestamp("CRITICAL ERROR: Missing environment variables");
+    return new Response(
+      JSON.stringify({ error: "Missing environment variables" }),
+      { 
+        status: 500, 
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      }
+    );
+  }
+  
+  try {
+    // Initialize Supabase client
+    logWithTimestamp("=== INITIALIZING SUPABASE CLIENT ===");
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    // Test basic database connection
+    const dbConnectionOk = await testBasicDatabaseConnection(supabase);
+    if (!dbConnectionOk) {
+      logWithTimestamp("CRITICAL ERROR: Database connection test failed");
+      return new Response(
+        JSON.stringify({ error: "Database connection failed" }),
+        { 
+          status: 500, 
+          headers: { "Content-Type": "application/json", ...corsHeaders }
+        }
+      );
+    }
+    
+    // Parse request
+    const formData = await parseRequest(req);
+    
+    // Map fields
+    const mappedData = mapJotFormFields(formData);
+    
+    // Find user by token
+    const userProfile = await findUserByToken(supabase, mappedData.user_token);
+    
+    // Create hotel
+    const createdHotel = await createHotel(supabase, mappedData, userProfile?.id || null);
+    
+    logWithTimestamp("=== WEBHOOK PROCESSING COMPLETED SUCCESSFULLY ===");
+    
     return new Response(
       JSON.stringify({ 
         success: true, 
-        hotel_id: hotel.id,
-        message: "Hotel submitted successfully"
+        message: "Hotel submission processed successfully",
+        hotel: createdHotel
       }),
-      {
-        status: 200,
-        headers: { 
-          "Content-Type": "application/json",
-          ...corsHeaders 
-        },
+      { 
+        status: 200, 
+        headers: { "Content-Type": "application/json", ...corsHeaders }
       }
     );
-
+    
   } catch (error) {
-    console.error(`[${new Date().toISOString()}] JotForm hotel submission error:`, error);
+    logWithTimestamp("=== CRITICAL ERROR IN WEBHOOK PROCESSING ===");
+    logWithTimestamp("Error name:", error.name);
+    logWithTimestamp("Error message:", error.message);
+    logWithTimestamp("Error stack:", error.stack);
     
     return new Response(
       JSON.stringify({ 
-        error: error.message || "Internal server error",
+        error: "Internal server error during hotel submission processing",
+        details: error.message,
         timestamp: new Date().toISOString()
       }),
-      {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json",
-          ...corsHeaders 
-        },
+      { 
+        status: 500, 
+        headers: { "Content-Type": "application/json", ...corsHeaders }
       }
     );
   }

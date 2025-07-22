@@ -112,6 +112,7 @@
     "title": "DIA DE CHECK-IN",
     "label": "Dia preferido de check-in/check-out",
     "description": "Selecione o dia da semana para check-in e check-out",
+    "placeholder": "Selecione o dia",
     "days": {
       "monday": "Segunda-feira",
       "tuesday": "Terça-feira",
@@ -121,6 +122,19 @@
       "saturday": "Sábado",
       "sunday": "Domingo"
     }
+  },
+  "checkInDay": {
+    "title": "DIA DE CHECK-IN",
+    "label": "Dia preferido de check-in/check-out",
+    "description": "Selecione o dia da semana para check-in e check-out",
+    "placeholder": "Selecione o dia",
+    "monday": "Segunda-feira",
+    "tuesday": "Terça-feira",
+    "wednesday": "Quarta-feira",
+    "thursday": "Quinta-feira",
+    "friday": "Sexta-feira",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
   },
   "stayLengths": {
     "title": "DURAÇÕES DE ESTADIA",
@@ -133,14 +147,29 @@
     "days": "dias"
   },
   "laundryService": {
-    "title": "SERVIÇO DE LAVANDERIA"
+    "title": "SERVIÇO DE LAVANDERIA",
+    "label": "Serviço de Lavanderia",
+    "inHouseIncluded": "Lavanderia interna incluída",
+    "externalReferral": "Referência de lavanderia externa"
   },
   "pricingMatrix": {
-    "title": "MATRIZ DE PREÇOS"
+    "title": "MATRIZ DE PREÇOS",
+    "label": "Matriz de Preços",
+    "priceLimit": "Limite de preço",
+    "selectStayLengthsFirst": "Selecione primeiro as durações de estadia",
+    "enterPrice": "Digite o preço",
+    "pricePerNight": "Preço por noite"
   },
   "mealPlans": {
     "title": "PLANOS DE REFEIÇÃO",
-    "subtitle": "Selecione os planos de refeição disponíveis"
+    "subtitle": "Selecione os planos de refeição disponíveis",
+    "label": "Plano de Refeição",
+    "placeholder": "Selecione o plano de refeição",
+    "roomOnly": "Apenas quarto",
+    "breakfast": "Café da manhã",
+    "halfBoard": "Meia pensão",
+    "fullBoard": "Pensão completa",
+    "allInclusive": "Tudo incluído"
   },
   "roomTypes": {
     "title": "TIPOS DE QUARTOS",
@@ -153,15 +182,23 @@
   "availabilityPackages": {
     "title": "PACOTES DE DISPONIBILIDADE",
     "subtitle": "Você pode adicionar até 10 pacotes de disponibilidade. As datas devem estar dentro dos próximos 12 meses e respeitar o dia de check-in que você selecionou anteriormente.",
+    "description": "Configure seus pacotes de disponibilidade",
     "addPackage": "Adicionar Outro Pacote",
     "startDate": "Data de Início",
     "endDate": "Data de Fim",
     "totalRooms": "Quartos Totais",
-    "availableRooms": "Quartos Disponíveis"
+    "availableRooms": "Quartos Disponíveis",
+    "packageNumber": "Pacote",
+    "entryDate": "Data de Entrada",
+    "exitDate": "Data de Saída",
+    "numberOfRooms": "Número de Quartos",
+    "pickEntryDate": "Selecione data de entrada",
+    "pickExitDate": "Selecione data de saída"
   },
   "imageUploads": {
     "title": "FOTOGRAFIAS",
     "subtitle": "Envie fotos do seu hotel e quartos. Múltiplos arquivos são permitidos para cada categoria.",
+    "description": "Envie as fotografias da sua propriedade",
     "hotelPhotos": "FOTOS DO HOTEL",
     "roomPhotos": "FOTOS DOS QUARTOS",
     "uploadHotelPhotos": "Enviar Fotos do Hotel",

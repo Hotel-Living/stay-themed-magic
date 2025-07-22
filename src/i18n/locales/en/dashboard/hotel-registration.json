@@ -112,6 +112,7 @@
     "title": "CHECK-IN DAY",
     "label": "Preferred check-in/check-out day",
     "description": "Select the day of the week for check-in and check-out",
+    "placeholder": "Select day",
     "days": {
       "monday": "Monday",
       "tuesday": "Tuesday",
@@ -121,6 +122,19 @@
       "saturday": "Saturday",
       "sunday": "Sunday"
     }
+  },
+  "checkInDay": {
+    "title": "CHECK-IN DAY",
+    "label": "Preferred check-in/check-out day",
+    "description": "Select the day of the week for check-in and check-out",
+    "placeholder": "Select day",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
   },
   "stayLengths": {
     "title": "STAY DURATIONS",
@@ -133,14 +147,29 @@
     "days": "days"
   },
   "laundryService": {
-    "title": "LAUNDRY SERVICE"
+    "title": "LAUNDRY SERVICE",
+    "label": "Laundry Service",
+    "inHouseIncluded": "In-house laundry included",
+    "externalReferral": "External laundry referral"
   },
   "pricingMatrix": {
-    "title": "PRICING MATRIX"
+    "title": "PRICING MATRIX",
+    "label": "Pricing Matrix",
+    "priceLimit": "Price limit",
+    "selectStayLengthsFirst": "Select stay lengths first",
+    "enterPrice": "Enter price",
+    "pricePerNight": "Price per night"
   },
   "mealPlans": {
     "title": "MEAL PLANS",
-    "subtitle": "Select the available meal plans"
+    "subtitle": "Select the available meal plans",
+    "label": "Meal Plan",
+    "placeholder": "Select meal plan",
+    "roomOnly": "Room only",
+    "breakfast": "Breakfast",
+    "halfBoard": "Half board",
+    "fullBoard": "Full board",
+    "allInclusive": "All-inclusive"
   },
   "roomTypes": {
     "title": "ROOM TYPES",
@@ -153,15 +182,23 @@
   "availabilityPackages": {
     "title": "AVAILABILITY PACKAGES",
     "subtitle": "You can add up to 10 availability packages. Dates must be within the next 12 months and respect the check-in day you selected previously.",
+    "description": "Configure your availability packages",
     "addPackage": "Add Another Package",
     "startDate": "Start Date",
     "endDate": "End Date",
     "totalRooms": "Total Rooms",
-    "availableRooms": "Available Rooms"
+    "availableRooms": "Available Rooms",
+    "packageNumber": "Package",
+    "entryDate": "Entry Date",
+    "exitDate": "Exit Date",
+    "numberOfRooms": "Number of Rooms",
+    "pickEntryDate": "Pick entry date",
+    "pickExitDate": "Pick exit date"
   },
   "imageUploads": {
     "title": "PHOTOGRAPHS",
     "subtitle": "Upload photos of your hotel and rooms. Multiple files are allowed for each category.",
+    "description": "Upload your property photographs",
     "hotelPhotos": "HOTEL PHOTOS",
     "roomPhotos": "ROOM PHOTOS",
     "uploadHotelPhotos": "Upload Hotel Photos",

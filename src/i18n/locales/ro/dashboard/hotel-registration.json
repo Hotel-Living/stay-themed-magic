@@ -112,6 +112,7 @@
     "title": "ZIUA DE CHECK-IN",
     "label": "Ziua preferată de check-in/check-out",
     "description": "Selectați ziua săptămânii pentru check-in și check-out",
+    "placeholder": "Selectați ziua",
     "days": {
       "monday": "Luni",
       "tuesday": "Marți",
@@ -121,6 +122,19 @@
       "saturday": "Sâmbătă",
       "sunday": "Duminică"
     }
+  },
+  "checkInDay": {
+    "title": "ZIUA DE CHECK-IN",
+    "label": "Ziua preferată de check-in/check-out",
+    "description": "Selectați ziua săptămânii pentru check-in și check-out",
+    "placeholder": "Selectați ziua",
+    "monday": "Luni",
+    "tuesday": "Marți",
+    "wednesday": "Miercuri",
+    "thursday": "Joi",
+    "friday": "Vineri",
+    "saturday": "Sâmbătă",
+    "sunday": "Duminică"
   },
   "stayLengths": {
     "title": "DURATELE ȘEDERII",
@@ -133,14 +147,29 @@
     "days": "zile"
   },
   "laundryService": {
-    "title": "SERVICIU DE SPĂLĂTORIE"
+    "title": "SERVICIU DE SPĂLĂTORIE",
+    "label": "Serviciu de Spălătorie",
+    "inHouseIncluded": "Spălătorie internă inclusă",
+    "externalReferral": "Referință spălătorie externă"
   },
   "pricingMatrix": {
-    "title": "MATRICE DE PREȚURI"
+    "title": "MATRICE DE PREȚURI",
+    "label": "Matrice de Prețuri",
+    "priceLimit": "Limita de preț",
+    "selectStayLengthsFirst": "Selectați mai întâi duratele de ședere",
+    "enterPrice": "Introduceți prețul",
+    "pricePerNight": "Preț pe noapte"
   },
   "mealPlans": {
     "title": "PLANURI DE MASĂ",
-    "subtitle": "Selectați planurile de masă disponibile"
+    "subtitle": "Selectați planurile de masă disponibile",
+    "label": "Plan de Masă",
+    "placeholder": "Selectați planul de masă",
+    "roomOnly": "Doar camera",
+    "breakfast": "Mic dejun",
+    "halfBoard": "Demipensiune",
+    "fullBoard": "Pensiune completă",
+    "allInclusive": "Totul inclus"
   },
   "roomTypes": {
     "title": "TIPURI DE CAMERE",
@@ -153,15 +182,23 @@
   "availabilityPackages": {
     "title": "PACHETE DE DISPONIBILITATE",
     "subtitle": "Puteți adăuga până la 10 pachete de disponibilitate. Datele trebuie să fie în următoarele 12 luni și să respecte ziua de check-in pe care ați selectat-o anterior.",
+    "description": "Configurați pachetele de disponibilitate",
     "addPackage": "Adăugați Alt Pachet",
     "startDate": "Data de Începere",
     "endDate": "Data de Sfârșit",
     "totalRooms": "Camere Totale",
-    "availableRooms": "Camere Disponibile"
+    "availableRooms": "Camere Disponibile",
+    "packageNumber": "Pachet",
+    "entryDate": "Data de Intrare",
+    "exitDate": "Data de Ieșire",
+    "numberOfRooms": "Numărul de Camere",
+    "pickEntryDate": "Alegeți data de intrare",
+    "pickExitDate": "Alegeți data de ieșire"
   },
   "imageUploads": {
     "title": "FOTOGRAFII",
     "subtitle": "Încărcați fotografii ale hotelului și camerelor dvs. Sunt permise mai multe fișiere pentru fiecare categorie.",
+    "description": "Încărcați fotografiile proprietății dvs.",
     "hotelPhotos": "FOTOGRAFII HOTEL",
     "roomPhotos": "FOTOGRAFII CAMERE",
     "uploadHotelPhotos": "Încărcați Fotografii Hotel",

@@ -121,7 +121,41 @@
   "imageUploads": {
     "title": "UPLOAD DE IMAGENS",
     "label": "Enviar Imagens",
-    "placeholder": "Enviar imagens do hotel..."
+    "placeholder": "Enviar imagens do hotel...",
+    "description": "Envie imagens do seu hotel e quartos",
+    "hotelPhotos": "Imagens do Hotel",
+    "roomPhotos": "Imagens dos Quartos",
+    "uploadHotelPhotos": "Enviar Fotos do Hotel",
+    "uploadRoomPhotos": "Enviar Fotos dos Quartos"
+  },
+  "activities": {
+    "title": "ATIVIDADES",
+    "selectActivities": "Selecionar Atividades",
+    "searchPlaceholder": "Buscar atividades...",
+    "loading": "Carregando atividades..."
+  },
+  "clientAffinities": {
+    "title": "AFINIDADES DE CLIENTES",
+    "selectAffinities": "Selecionar Afinidades",
+    "searchPlaceholder": "Buscar afinidades...",
+    "loading": "Carregando afinidades..."
+  },
+  "classification": {
+    "title": "CLASSIFICAÇÃO",
+    "label": "Classificação do Hotel",
+    "placeholder": "Selecionar classificação",
+    "threeStar": "Três Estrelas",
+    "fourStar": "Quatro Estrelas",
+    "fiveStar": "Cinco Estrelas"
+  },
+  "completePhrases": {
+    "title": "COMPLETAR FRASES",
+    "idealForGuests": "Ideal para hóspedes que gostam",
+    "idealForGuestsPlaceholder": "Descreva seus hóspedes ideais...",
+    "atmosphere": "A atmosfera é",
+    "atmospherePlaceholder": "Descreva a atmosfera...",
+    "locationPerfect": "Nossa localização é perfeita para",
+    "locationPerfectPlaceholder": "Descreva o que torna sua localização especial..."
   },
   "availabilityPackages": {
     "title": "PACOTES DE DISPONIBILIDADE",

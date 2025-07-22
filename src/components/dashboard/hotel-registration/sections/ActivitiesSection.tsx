@@ -63,7 +63,7 @@ export const ActivitiesSection = ({ form }: ActivitiesSectionProps) => {
               
               <div className="mt-4 space-y-4">
                 <Input
-                  placeholder="Buscar actividades..."
+                  placeholder={t('activities.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
@@ -72,7 +72,7 @@ export const ActivitiesSection = ({ form }: ActivitiesSectionProps) => {
                 <FormControl>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-80 overflow-y-auto">
                     {isLoading ? (
-                      <div className="text-white/50">Cargando actividades...</div>
+                      <div className="text-white/50">{t('activities.loading')}</div>
                     ) : (
                       filteredActivities.map((activity) => (
                         <div key={activity.id} className="flex items-center space-x-2">

@@ -121,7 +121,41 @@
   "imageUploads": {
     "title": "IMAGE UPLOADS",
     "label": "Upload Images",
-    "placeholder": "Upload hotel images..."
+    "placeholder": "Upload hotel images...",
+    "description": "Upload images of your hotel and rooms",
+    "hotelPhotos": "Hotel Images",
+    "roomPhotos": "Room Images",
+    "uploadHotelPhotos": "Upload Hotel Photos",
+    "uploadRoomPhotos": "Upload Room Photos"
+  },
+  "activities": {
+    "title": "ACTIVITIES",
+    "selectActivities": "Select Activities",
+    "searchPlaceholder": "Search activities...",
+    "loading": "Loading activities..."
+  },
+  "clientAffinities": {
+    "title": "CLIENT AFFINITIES",
+    "selectAffinities": "Select Affinities",
+    "searchPlaceholder": "Search affinities...",
+    "loading": "Loading affinities..."
+  },
+  "classification": {
+    "title": "CLASSIFICATION",
+    "label": "Hotel Classification",
+    "placeholder": "Select classification",
+    "threeStar": "Three Star",
+    "fourStar": "Four Star",
+    "fiveStar": "Five Star"
+  },
+  "completePhrases": {
+    "title": "COMPLETE PHRASES",
+    "idealForGuests": "Ideal for guests who enjoy",
+    "idealForGuestsPlaceholder": "Describe your ideal guests...",
+    "atmosphere": "The atmosphere is",
+    "atmospherePlaceholder": "Describe the atmosphere...",
+    "locationPerfect": "Our location is perfect for",
+    "locationPerfectPlaceholder": "Describe what makes your location special..."
   },
   "availabilityPackages": {
     "title": "AVAILABILITY PACKAGES",

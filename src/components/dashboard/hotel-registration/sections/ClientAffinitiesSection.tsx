@@ -49,7 +49,7 @@ export const ClientAffinitiesSection = ({ form }: ClientAffinitiesSectionProps) 
               
               <div className="mt-4 space-y-4">
                 <Input
-                  placeholder="Buscar afinidades..."
+                  placeholder={t('clientAffinities.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
@@ -58,7 +58,7 @@ export const ClientAffinitiesSection = ({ form }: ClientAffinitiesSectionProps) 
                 <FormControl>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-80 overflow-y-auto">
                     {isLoading ? (
-                      <div className="text-white/50">Cargando afinidades...</div>
+                      <div className="text-white/50">{t('clientAffinities.loading')}</div>
                     ) : (
                       filteredThemes.map((theme) => (
                         <div key={theme.id} className="flex items-center space-x-2">

@@ -121,7 +121,41 @@
   "imageUploads": {
     "title": "ÎNCĂRCARE IMAGINI",
     "label": "Încărcați Imagini",
-    "placeholder": "Încărcați imagini cu hotelul..."
+    "placeholder": "Încărcați imagini cu hotelul...",
+    "description": "Încărcați imagini cu hotelul și camerele",
+    "hotelPhotos": "Imagini Hotel",
+    "roomPhotos": "Imagini Camere",
+    "uploadHotelPhotos": "Încărcați Fotografii Hotel",
+    "uploadRoomPhotos": "Încărcați Fotografii Camere"
+  },
+  "activities": {
+    "title": "ACTIVITĂȚI",
+    "selectActivities": "Selectați Activități",
+    "searchPlaceholder": "Căutați activități...",
+    "loading": "Se încarcă activitățile..."
+  },
+  "clientAffinities": {
+    "title": "AFINITĂȚI CLIENȚI",
+    "selectAffinities": "Selectați Afinități",
+    "searchPlaceholder": "Căutați afinități...",
+    "loading": "Se încarcă afinitățile..."
+  },
+  "classification": {
+    "title": "CLASIFICARE",
+    "label": "Clasificarea Hotelului",
+    "placeholder": "Selectați clasificarea",
+    "threeStar": "Trei Stele",
+    "fourStar": "Patru Stele",
+    "fiveStar": "Cinci Stele"
+  },
+  "completePhrases": {
+    "title": "COMPLETAȚI FRAZELE",
+    "idealForGuests": "Ideal pentru oaspeții care se bucură",
+    "idealForGuestsPlaceholder": "Descrieți oaspeții ideali...",
+    "atmosphere": "Atmosfera este",
+    "atmospherePlaceholder": "Descrieți atmosfera...",
+    "locationPerfect": "Locația noastră este perfectă pentru",
+    "locationPerfectPlaceholder": "Descrieți ce face specială locația dvs..."
   },
   "availabilityPackages": {
     "title": "PACHETE DE DISPONIBILITATE",

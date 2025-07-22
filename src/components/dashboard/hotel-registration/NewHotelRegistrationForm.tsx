@@ -124,8 +124,8 @@ export const NewHotelRegistrationForm = () => {
             <CompletePhraseSection form={form} />
             <HotelFeaturesSection form={form} />
             <RoomFeaturesSection form={form} />
-            <ActivitiesSection form={form} />
             <ClientAffinitiesSection form={form} />
+            <ActivitiesSection form={form} />
             <CheckInDaySection form={form} />
             <MealPlanSection form={form} />
             <LaundryServiceSection form={form} />

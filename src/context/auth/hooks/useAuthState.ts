@@ -12,25 +12,56 @@ export function useAuthState() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleCorrectRedirect = (user: User) => {
+  const handleCorrectRedirect = async (user: User) => {
     console.log("=== REDIRECT HANDLER START ===");
     console.log("User metadata:", user.user_metadata);
     console.log("Current path:", window.location.pathname);
 
-    // Determine correct redirect based on user metadata
-    if (user.user_metadata?.association_name) {
-      console.log("Association user detected, navigating to panel-asociacion");
-      console.log("Association name:", user.user_metadata.association_name);
-      navigate("/panel-asociacion", { replace: true });
-    } else if (user.user_metadata?.is_hotel_owner) {
-      console.log("Hotel owner detected, navigating to hotel dashboard");
-      navigate("/hotel-dashboard", { replace: true });
-    } else if (user.user_metadata?.role === 'promoter') {
-      console.log("Promoter detected, navigating to promoter dashboard");
-      navigate("/promoter/dashboard", { replace: true });
-    } else {
-      console.log("Regular traveler detected, navigating to user dashboard");
-      navigate("/user-dashboard", { replace: true });
+    try {
+      // First check if user is admin
+      console.log("Checking admin status...");
+      const { data: isAdmin, error } = await supabase.rpc('has_role', { role_name: 'admin' });
+      
+      if (error) {
+        console.error("Error checking admin role:", error);
+      } else if (isAdmin) {
+        console.log("Admin user detected, navigating to panel-fernando");
+        navigate("/panel-fernando", { replace: true });
+        console.log("=== REDIRECT HANDLER END ===");
+        return;
+      }
+      
+      // If not admin, continue with existing logic
+      if (user.user_metadata?.association_name) {
+        console.log("Association user detected, navigating to panel-asociacion");
+        console.log("Association name:", user.user_metadata.association_name);
+        navigate("/panel-asociacion", { replace: true });
+      } else if (user.user_metadata?.is_hotel_owner) {
+        console.log("Hotel owner detected, navigating to hotel dashboard");
+        navigate("/hotel-dashboard", { replace: true });
+      } else if (user.user_metadata?.role === 'promoter') {
+        console.log("Promoter detected, navigating to promoter dashboard");
+        navigate("/promoter/dashboard", { replace: true });
+      } else {
+        console.log("Regular traveler detected, navigating to user dashboard");
+        navigate("/user-dashboard", { replace: true });
+      }
+    } catch (error) {
+      console.error("Error in redirect handler:", error);
+      // Fallback to existing logic if admin check fails
+      if (user.user_metadata?.association_name) {
+        console.log("Fallback: Association user detected, navigating to panel-asociacion");
+        navigate("/panel-asociacion", { replace: true });
+      } else if (user.user_metadata?.is_hotel_owner) {
+        console.log("Fallback: Hotel owner detected, navigating to hotel dashboard");
+        navigate("/hotel-dashboard", { replace: true });
+      } else if (user.user_metadata?.role === 'promoter') {
+        console.log("Fallback: Promoter detected, navigating to promoter dashboard");
+        navigate("/promoter/dashboard", { replace: true });
+      } else {
+        console.log("Fallback: Regular traveler detected, navigating to user dashboard");
+        navigate("/user-dashboard", { replace: true });
+      }
     }
     
     console.log("=== REDIRECT HANDLER END ===");
@@ -61,23 +92,38 @@ export function useAuthState() {
           const currentPath = window.location.pathname;
           const isOnAuthPage = currentPath === '/login' || currentPath === '/signup' || currentPath === '/' || currentPath.includes('confirm');
           
-          // Check if user is on wrong dashboard - prioritize association users
-          const isAssociationUser = session.user.user_metadata?.association_name;
-          const isOnWrongDashboard = (
-            (isAssociationUser && currentPath !== '/panel-asociacion') ||
-            (session.user.user_metadata?.is_hotel_owner && !isAssociationUser && currentPath !== '/hotel-dashboard') ||
-            (session.user.user_metadata?.role === 'promoter' && !isAssociationUser && !session.user.user_metadata?.is_hotel_owner && currentPath !== '/promoter/dashboard') ||
-            (!isAssociationUser && !session.user.user_metadata?.is_hotel_owner && session.user.user_metadata?.role !== 'promoter' && currentPath !== '/user-dashboard')
-          );
-          
-          if (isOnAuthPage || isOnWrongDashboard) {
-            console.log("Redirect needed - Auth page:", isOnAuthPage, "Wrong dashboard:", isOnWrongDashboard);
+          // Check if user is on wrong dashboard - need to check admin status first
+          if (isOnAuthPage) {
+            console.log("Redirect needed - on auth page, checking admin status");
             // Use setTimeout to ensure state is fully updated before navigation
             setTimeout(() => {
               handleCorrectRedirect(session.user);
             }, 0);
           } else {
-            console.log("No redirect needed, user is already on correct page");
+            // For users already on a dashboard, check if they're on the wrong one
+            setTimeout(async () => {
+              try {
+                const { data: isAdmin } = await supabase.rpc('has_role', { role_name: 'admin' });
+                const isAssociationUser = session.user.user_metadata?.association_name;
+                
+                const isOnWrongDashboard = (
+                  (isAdmin && !currentPath.startsWith('/panel-fernando')) ||
+                  (isAssociationUser && !isAdmin && currentPath !== '/panel-asociacion') ||
+                  (session.user.user_metadata?.is_hotel_owner && !isAdmin && !isAssociationUser && currentPath !== '/hotel-dashboard') ||
+                  (session.user.user_metadata?.role === 'promoter' && !isAdmin && !isAssociationUser && !session.user.user_metadata?.is_hotel_owner && currentPath !== '/promoter/dashboard') ||
+                  (!isAdmin && !isAssociationUser && !session.user.user_metadata?.is_hotel_owner && session.user.user_metadata?.role !== 'promoter' && currentPath !== '/user-dashboard')
+                );
+                
+                if (isOnWrongDashboard) {
+                  console.log("User is on wrong dashboard, redirecting");
+                  handleCorrectRedirect(session.user);
+                } else {
+                  console.log("No redirect needed, user is on correct page");
+                }
+              } catch (error) {
+                console.error("Error checking dashboard correctness:", error);
+              }
+            }, 0);
           }
         }
         

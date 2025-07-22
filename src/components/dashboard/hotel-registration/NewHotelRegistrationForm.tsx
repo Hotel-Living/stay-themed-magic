@@ -202,7 +202,7 @@ export const NewHotelRegistrationForm = () => {
       setIsSubmitting(false);
     }
   };
-  return <div className="p-6 space-y-6">
+  return <div className="p-6 space-y-6 py-0 px-0">
       <div className="mb-8">
         
         

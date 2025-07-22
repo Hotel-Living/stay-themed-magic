@@ -1,21 +1,13 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.3'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface JotFormSubmission {
-  [key: string]: any;
-}
-
 serve(async (req) => {
-  console.log('=== JotForm Hotel Submission Webhook ===');
-  console.log('Method:', req.method);
-  console.log('URL:', req.url);
-
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -24,222 +16,190 @@ serve(async (req) => {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    )
 
-    // Get request data
-    const contentType = req.headers.get('content-type') || '';
-    const userAgent = req.headers.get('user-agent') || '';
+    const rawRequest = await req.json();
     
-    console.log('Content-Type:', contentType);
-    console.log('User-Agent:', userAgent);
+    console.log('Received JotForm submission:', JSON.stringify(rawRequest, null, 2));
 
-    let rawBody: string;
-    let parsedData: JotFormSubmission;
-    let parseMethod: string;
-
-    if (contentType.includes('application/json')) {
-      rawBody = await req.text();
-      parsedData = JSON.parse(rawBody);
-      parseMethod = 'json';
-    } else if (contentType.includes('application/x-www-form-urlencoded')) {
-      rawBody = await req.text();
-      const formData = new URLSearchParams(rawBody);
-      parsedData = Object.fromEntries(formData.entries());
-      parseMethod = 'form-urlencoded';
-    } else {
-      rawBody = await req.text();
-      parsedData = { raw: rawBody };
-      parseMethod = 'raw';
-    }
-
-    console.log('Parsed data keys:', Object.keys(parsedData));
-    console.log('Raw body preview:', rawBody.substring(0, 500));
-
-    // Store raw submission for debugging
+    // Store the raw request for debugging
     await supabase
-      .from('jotform_raw')
+      .from('jotform_submissions')
       .insert({
-        headers: Object.fromEntries(req.headers.entries()),
-        content_type: contentType,
-        raw_body: rawBody,
-        parsed_data: parsedData,
-        parse_method: parseMethod,
-        user_agent: userAgent
+        submission_id: rawRequest.submissionID || null,
+        form_id: rawRequest.formID || null,
+        raw_data: rawRequest,
+        created_at: new Date().toISOString()
       });
 
-    console.log('Raw submission stored successfully');
-
-    // Extract user token from multiple possible sources
-    let userToken: string | null = null;
-    
-    // Method 1: Check for user_token in parsed data (URL parameter or hidden field)
-    if (parsedData.user_token) {
-      userToken = parsedData.user_token;
-      console.log('Token found in parsed data:', userToken);
-    }
-    
-    // Method 2: Check for token in form fields (JotForm specific structure)
-    if (!userToken && parsedData.rawRequest) {
-      const rawRequest = JSON.parse(parsedData.rawRequest);
-      if (rawRequest.user_token) {
-        userToken = rawRequest.user_token;
-        console.log('Token found in rawRequest:', userToken);
-      }
-    }
-    
-    // Method 3: Check for token in submission data structure
-    if (!userToken) {
-      for (const [key, value] of Object.entries(parsedData)) {
-        if (key.includes('user_token') || key.includes('userToken')) {
-          userToken = String(value);
-          console.log('Token found in field:', key, '=', userToken);
-          break;
-        }
-      }
-    }
-
-    console.log('Final extracted token:', userToken);
-
-    // Get user ID from token if available
-    let userId: string | null = null;
-    if (userToken) {
-      try {
-        const { data: tokenResult } = await supabase
-          .rpc('get_user_from_jotform_token', { token: userToken });
+    // Enhanced field parsing with new JotForm fields
+    const parseJotFormSubmission = (rawRequest: any) => {
+      const data = rawRequest.parsed_data || {};
+      
+      // Core hotel information
+      const hotelData: any = {
+        name: data.name || data.hotel_name || data.nombre_hotel || '',
+        description: data.description || data.descripcion || '',
+        country: data.country || data.pais || '',
+        city: data.city || data.ciudad || '',
+        address: data.address || data.direccion || '',
+        contact_email: data.contact_email || data.email || data.correo || '',
+        contact_name: data.contact_name || data.nombre_contacto || '',
+        contact_phone: data.contact_phone || data.telefono || '',
+        price_per_month: parseInt(data.price_per_month || data.precio_mes || '0') || 0,
+        property_type: data.property_type || data.tipo_propiedad || '',
+        style: data.style || data.estilo || '',
+        ideal_guests: data.ideal_guests || data.huespedes_ideales || '',
+        atmosphere: data.atmosphere || data.ambiente || '',
+        perfect_location: data.perfect_location || data.ubicacion_perfecta || '',
         
-        if (tokenResult) {
-          userId = tokenResult;
-          console.log('User ID from token:', userId);
-        } else {
-          console.log('No user found for token:', userToken);
-        }
-      } catch (error) {
-        console.error('Error getting user from token:', error);
-      }
-    }
+        // Existing arrays
+        meal_plans: parseArrayField(data.meal_plans || data.planes_comida),
+        available_months: parseArrayField(data.available_months || data.meses_disponibles),
+        stay_lengths: parseArrayField(data.stay_lengths || data.duraciones_estancia, true),
+        
+        // New banking information (optional)
+        banking_info: {
+          bank_name: data.bank_name || data.nombre_banco || null,
+          iban_account: data.iban_account || data.cuenta_iban || null,
+          swift_bic: data.swift_bic || data.codigo_swift || null,
+          bank_country: data.bank_country || data.pais_banco || null,
+          account_holder: data.account_holder || data.titular_cuenta || null
+        },
+        
+        // Laundry service options
+        laundry_service: {
+          available: data.laundry_available === 'Yes' || data.lavanderia_disponible === 'Sí',
+          self_service: data.laundry_self_service === 'Yes' || data.lavanderia_autoservicio === 'Sí',
+          full_service: data.laundry_full_service === 'Yes' || data.lavanderia_completa === 'Sí',
+          external_redirect: data.laundry_external_redirect || data.lavanderia_externa || null,
+          pricing: data.laundry_pricing || data.precios_lavanderia || null
+        },
+        
+        // Additional amenities and features
+        additional_amenities: parseArrayField(data.additional_amenities || data.servicios_adicionales),
+        special_features: parseArrayField(data.special_features || data.caracteristicas_especiales),
+        accessibility_features: parseArrayField(data.accessibility_features || data.accesibilidad),
+        
+        // New metadata for enhanced listings
+        check_in_instructions: data.check_in_instructions || data.instrucciones_checkin || '',
+        local_recommendations: data.local_recommendations || data.recomendaciones_locales || '',
+        house_rules: parseArrayField(data.house_rules || data.reglas_casa),
+        cancellation_policy: data.cancellation_policy || data.politica_cancelacion || '',
+        
+        // Store any unmapped fields for future use
+        additional_data: extractUnmappedFields(data)
+      };
 
-    // Fallback: If no token or user found, log for manual association
-    if (!userId) {
-      console.log('WARNING: No user association found - hotel will be created without owner');
-      console.log('Parsed data for manual review:', JSON.stringify(parsedData, null, 2));
-    }
-
-    // Helper function to safely extract string value
-    const extractString = (value: any): string => {
-      if (typeof value === 'string') return value;
-      if (typeof value === 'object' && value !== null) {
-        return JSON.stringify(value);
-      }
-      return String(value || '');
+      // Extract user token for ownership
+      const userToken = data.user_token || null;
+      
+      return { hotelData, userToken };
     };
 
-    // Helper function to safely extract array
-    const extractArray = (value: any): string[] => {
-      if (Array.isArray(value)) return value.map(String);
-      if (typeof value === 'string') {
-        // Handle comma-separated values
-        return value.split(',').map(s => s.trim()).filter(s => s);
+    const parseArrayField = (field: any, isNumeric = false) => {
+      if (!field) return [];
+      if (Array.isArray(field)) return field;
+      if (typeof field === 'string') {
+        const items = field.split(',').map(item => item.trim()).filter(Boolean);
+        return isNumeric ? items.map(item => parseInt(item)).filter(num => !isNaN(num)) : items;
       }
       return [];
     };
 
-    // Helper function to convert feature arrays to JSON objects
-    const convertFeaturesToJSON = (features: string[]): { [key: string]: boolean } => {
-      const result: { [key: string]: boolean } = {};
-      features.forEach(feature => {
-        if (feature && feature.trim()) {
-          result[feature.trim()] = true;
+    const extractUnmappedFields = (data: any) => {
+      const mappedFields = new Set([
+        'name', 'hotel_name', 'nombre_hotel', 'description', 'descripcion',
+        'country', 'pais', 'city', 'ciudad', 'address', 'direccion',
+        'contact_email', 'email', 'correo', 'contact_name', 'nombre_contacto',
+        'contact_phone', 'telefono', 'price_per_month', 'precio_mes',
+        'property_type', 'tipo_propiedad', 'style', 'estilo',
+        'ideal_guests', 'huespedes_ideales', 'atmosphere', 'ambiente',
+        'perfect_location', 'ubicacion_perfecta', 'meal_plans', 'planes_comida',
+        'available_months', 'meses_disponibles', 'stay_lengths', 'duraciones_estancia',
+        'bank_name', 'nombre_banco', 'iban_account', 'cuenta_iban',
+        'swift_bic', 'codigo_swift', 'bank_country', 'pais_banco',
+        'account_holder', 'titular_cuenta', 'laundry_available', 'lavanderia_disponible',
+        'laundry_self_service', 'lavanderia_autoservicio', 'laundry_full_service',
+        'lavanderia_completa', 'laundry_external_redirect', 'lavanderia_externa',
+        'laundry_pricing', 'precios_lavanderia', 'additional_amenities',
+        'servicios_adicionales', 'special_features', 'caracteristicas_especiales',
+        'accessibility_features', 'accesibilidad', 'check_in_instructions',
+        'instrucciones_checkin', 'local_recommendations', 'recomendaciones_locales',
+        'house_rules', 'reglas_casa', 'cancellation_policy', 'politica_cancelacion',
+        'user_token'
+      ]);
+      
+      const unmapped: any = {};
+      Object.keys(data).forEach(key => {
+        if (!mappedFields.has(key)) {
+          unmapped[key] = data[key];
         }
       });
-      return result;
+      
+      return Object.keys(unmapped).length > 0 ? unmapped : null;
     };
 
-    // Map JotForm fields to hotel data with improved extraction
-    const hotelData = {
-      name: extractString(parsedData.q2_typeA || parsedData.q2_name || parsedData.name || 'Unnamed Hotel'),
-      description: extractString(parsedData.q13_descripcionDel || parsedData.q13_description || parsedData.description || ''),
+    const { hotelData, userToken } = parseJotFormSubmission(rawRequest);
+    
+    // Resolve user from token
+    let userId = null;
+    if (userToken) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('jotform_token', userToken)
+        .single();
       
-      // Address fields
-      city: extractString(parsedData.q5_direccionFisica?.city || parsedData.q5_city || parsedData.city || ''),
-      country: extractString(parsedData.q5_direccionFisica?.country || parsedData.q5_country || parsedData.country || ''),
-      address: extractString(parsedData.q5_direccionFisica?.addr_line1 || parsedData.q5_address || parsedData.address || ''),
-      postal_code: extractString(parsedData.q5_direccionFisica?.postal || parsedData.q5_postal || parsedData.postal_code || ''),
-      
-      // Contact information
-      contact_name: extractString(parsedData.q6_contacto?.first || parsedData.q6_name || parsedData.contact_name || ''),
-      contact_email: extractString(parsedData.q7_correoElectronico || parsedData.q7_email || parsedData.contact_email || ''),
-      contact_phone: extractString(parsedData.q8_numeroDe || parsedData.q8_phone || parsedData.contact_phone || ''),
-      
-      // Property details
-      property_type: extractString(parsedData.q9_tipoDePropiedad || parsedData.q9_property_type || parsedData.property_type || ''),
-      property_style: extractString(parsedData.q10_estiloDePropiedad || parsedData.q10_style || parsedData.property_style || ''),
-      
-      // Features
-      features_hotel: convertFeaturesToJSON(extractArray(parsedData.q11_comodidadesGlobales || parsedData.q11_hotel_features || parsedData.hotel_features || [])),
-      features_room: convertFeaturesToJSON(extractArray(parsedData.q12_comodidadesPor || parsedData.q12_room_features || parsedData.room_features || [])),
-      
-      // Pricing
-      price_per_month: parseInt(extractString(parsedData.q14_precioMensual || parsedData.q14_price || parsedData.price_per_month || '0')) || 0,
-      
-      // Available months
-      available_months: extractArray(parsedData.q15_mesesDisponibles || parsedData.q15_months || parsedData.available_months || []),
-      
-      // Additional fields
-      atmosphere: extractString(parsedData.q16_atmosfera || parsedData.q16_atmosphere || parsedData.atmosphere || ''),
-      ideal_guests: extractString(parsedData.q17_huespedesIdeales || parsedData.q17_guests || parsedData.ideal_guests || ''),
-      perfect_location: extractString(parsedData.q18_ubicacionPerfecta || parsedData.q18_location || parsedData.perfect_location || ''),
-      
-      // System fields
-      owner_id: userId, // This is the critical fix - associate with user
-      status: 'pending',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
+      if (profile) {
+        userId = profile.id;
+      }
+    }
 
-    console.log('Hotel data to insert:', JSON.stringify(hotelData, null, 2));
-
-    // Insert hotel into database
+    // Insert hotel with new fields
     const { data: hotel, error: hotelError } = await supabase
       .from('hotels')
-      .insert(hotelData)
+      .insert({
+        ...hotelData,
+        owner_id: userId,
+        status: 'pending',
+        // Store additional structured data
+        banking_info: hotelData.banking_info,
+        laundry_service: hotelData.laundry_service,
+        additional_data: hotelData.additional_data
+      })
       .select()
       .single();
 
     if (hotelError) {
-      console.error('Error inserting hotel:', hotelError);
-      throw new Error(`Hotel insertion failed: ${hotelError.message}`);
+      console.error('Hotel insertion error:', hotelError);
+      throw hotelError;
     }
 
-    console.log('Hotel inserted successfully:', hotel);
-
-    // If user was found, log success
-    if (userId) {
-      console.log(`Hotel "${hotelData.name}" successfully associated with user ${userId}`);
-    } else {
-      console.log(`Hotel "${hotelData.name}" created without user association - requires manual linking`);
-    }
+    console.log('Hotel created successfully:', hotel.id);
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Hotel submission processed successfully',
+      JSON.stringify({ 
+        success: true, 
         hotel_id: hotel.id,
-        user_associated: !!userId
+        parsed_fields: Object.keys(hotelData).length
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
     );
 
   } catch (error) {
-    console.error('Error processing JotForm submission:', error);
+    console.error('Edge function error:', error);
     return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message
+      JSON.stringify({ 
+        error: error.message,
+        success: false 
       }),
       { 
-        status: 500, 
+        status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
   }
-})
+});

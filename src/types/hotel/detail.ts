@@ -1,5 +1,20 @@
-
 import { HotelImage, HotelTheme, RoomType } from './base';
+
+export interface BankingInfo {
+  bank_name?: string | null;
+  iban_account?: string | null;
+  swift_bic?: string | null;
+  bank_country?: string | null;
+  account_holder?: string | null;
+}
+
+export interface LaundryService {
+  available: boolean;
+  self_service?: boolean;
+  full_service?: boolean;
+  external_redirect?: string | null;
+  pricing?: string | null;
+}
 
 export interface HotelDetailProps {
   id: string;
@@ -8,7 +23,6 @@ export interface HotelDetailProps {
   idealGuests?: string | null;
   atmosphere?: string | null;
   perfectLocation?: string | null;
-  // Add snake_case variants to match database fields
   ideal_guests?: string | null;
   perfect_location?: string | null;
   city: string;
@@ -26,7 +40,7 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
-  themes?: HotelTheme[]; // Added this property to fix the first error
+  themes?: HotelTheme[];
   room_types?: RoomType[] | any[];
   latitude?: number | string | null;
   longitude?: number | string | null;
@@ -42,7 +56,6 @@ export interface HotelDetailProps {
   currency?: string;
   enable_price_increase?: boolean;
   price_increase_cap?: number;
-  // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE  
   enablePriceIncrease?: boolean;
   priceIncreaseCap?: number;
   preferredWeekday?: string;
@@ -53,4 +66,16 @@ export interface HotelDetailProps {
     mealPlan: string;
     price: number;
   }>;
+  
+  // New fields from updated JotForm
+  banking_info?: BankingInfo;
+  laundry_service?: LaundryService;
+  additional_amenities?: string[];
+  special_features?: string[];
+  accessibility_features?: string[];
+  check_in_instructions?: string | null;
+  local_recommendations?: string | null;
+  house_rules?: string[];
+  cancellation_policy?: string | null;
+  additional_data?: Record<string, any> | null;
 }

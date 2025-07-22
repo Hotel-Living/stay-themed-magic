@@ -27,13 +27,8 @@ export default function HotelDashboardEN() {
       icon: <Calculator className="w-5 h-5 text-green-400" />
     },
     {
-      id: "add-property-2",
-      label: "Add Hotel",
-      icon: <Hotel className="w-5 h-5 text-orange-400" />
-    },
-    {
       id: "add-property-new",
-      label: "👉 Add Hotel 2",
+      label: "Add Property",
       icon: <Plus className="w-5 h-5 text-emerald-400" />
     },
     {
@@ -45,11 +40,6 @@ export default function HotelDashboardEN() {
       id: "advertising",
       label: "Get Free Advertising",
       icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
-    },
-    {
-      id: "packages",
-      label: "Availability Packages",
-      icon: <Calendar className="w-5 h-5 text-teal-400" />
     },
     {
       id: "properties",

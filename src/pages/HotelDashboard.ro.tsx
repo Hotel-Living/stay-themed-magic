@@ -27,13 +27,8 @@ export default function HotelDashboardRO() {
       icon: <Calculator className="w-5 h-5 text-green-400" />
     },
     {
-      id: "add-property-2",
-      label: "Adăugați Hotel",
-      icon: <Hotel className="w-5 h-5 text-orange-400" />
-    },
-    {
       id: "add-property-new",
-      label: "👉 Adăugați proprietate 2",
+      label: "Adăugați proprietate",
       icon: <Plus className="w-5 h-5 text-emerald-400" />
     },
     {
@@ -45,11 +40,6 @@ export default function HotelDashboardRO() {
       id: "advertising",
       label: "Obțineți Publicitate Gratuită",
       icon: <Megaphone className="w-5 h-5 text-fuchsia-400" />
-    },
-    {
-      id: "packages",
-      label: "Pachete de Disponibilitate",
-      icon: <Calendar className="w-5 h-5 text-teal-400" />
     },
     {
       id: "properties",

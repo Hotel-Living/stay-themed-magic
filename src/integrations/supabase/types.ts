@@ -1102,6 +1102,42 @@ export type Database = {
         }
         Relationships: []
       }
+      jotform_raw: {
+        Row: {
+          content_type: string
+          created_at: string
+          headers: Json
+          id: string
+          parse_method: string
+          parsed_data: Json | null
+          raw_body: string
+          received_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          content_type: string
+          created_at?: string
+          headers: Json
+          id?: string
+          parse_method: string
+          parsed_data?: Json | null
+          raw_body: string
+          received_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          headers?: Json
+          id?: string
+          parse_method?: string
+          parsed_data?: Json | null
+          raw_body?: string
+          received_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       jotform_sync_logs: {
         Row: {
           created_at: string

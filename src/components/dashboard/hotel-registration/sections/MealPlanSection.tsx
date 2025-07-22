@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
@@ -18,7 +19,7 @@ export const MealPlanSection = ({ form }: MealPlanSectionProps) => {
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
         <div className="flex items-center space-x-3">
           <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">13</span>
-          <span>{t('mealPlan.title')}</span>
+          <span>{t('mealPlans.title')}</span>
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
@@ -27,19 +28,19 @@ export const MealPlanSection = ({ form }: MealPlanSectionProps) => {
           name="mealPlan"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">{t('mealPlan.label')}</FormLabel>
+              <FormLabel className="text-white">{t('mealPlans.label')}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="bg-white/10 border-white/30 text-white">
-                    <SelectValue placeholder={t('mealPlan.placeholder')} />
+                    <SelectValue placeholder={t('mealPlans.placeholder')} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Room only">{t('mealPlan.roomOnly')}</SelectItem>
-                  <SelectItem value="Breakfast">{t('mealPlan.breakfast')}</SelectItem>
-                  <SelectItem value="Half board">{t('mealPlan.halfBoard')}</SelectItem>
-                  <SelectItem value="Full board">{t('mealPlan.fullBoard')}</SelectItem>
-                  <SelectItem value="All-inclusive">{t('mealPlan.allInclusive')}</SelectItem>
+                  <SelectItem value="Room only">{t('mealPlans.roomOnly')}</SelectItem>
+                  <SelectItem value="Breakfast">{t('mealPlans.breakfast')}</SelectItem>
+                  <SelectItem value="Half board">{t('mealPlans.halfBoard')}</SelectItem>
+                  <SelectItem value="Full board">{t('mealPlans.fullBoard')}</SelectItem>
+                  <SelectItem value="All-inclusive">{t('mealPlans.allInclusive')}</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

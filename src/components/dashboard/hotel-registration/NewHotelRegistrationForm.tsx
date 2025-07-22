@@ -7,17 +7,17 @@ import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Accordion } from '@/components/ui/accordion';
 import { useTranslation } from '@/hooks/useTranslation';
-import { BasicInfoSection } from './sections/BasicInfoSection';
-import { ContactInfoSection } from './sections/ContactInfoSection';
+import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
+import { HotelClassificationSection } from './sections/HotelClassificationSection';
 import { PropertyTypeSection } from './sections/PropertyTypeSection';
 import { PropertyStyleSection } from './sections/PropertyStyleSection';
 import { HotelDescriptionSection } from './sections/HotelDescriptionSection';
 import { RoomDescriptionSection } from './sections/RoomDescriptionSection';
-import { IdealGuestsSection } from './sections/IdealGuestsSection';
-import { AtmosphereSection } from './sections/AtmosphereSection';
-import { LocationSection } from './sections/LocationSection';
+import { CompletePhraseSection } from './sections/CompletePhraseSection';
 import { HotelFeaturesSection } from './sections/HotelFeaturesSection';
 import { RoomFeaturesSection } from './sections/RoomFeaturesSection';
+import { ActivitiesSection } from './sections/ActivitiesSection';
+import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
 import { CheckInDaySection } from './sections/CheckInDaySection';
 import { MealPlanSection } from './sections/MealPlanSection';
 import { LaundryServiceSection } from './sections/LaundryServiceSection';
@@ -40,6 +40,9 @@ const hotelRegistrationSchema = z.object({
   phone: z.string().min(1, 'Phone is required'),
   website: z.string().url().optional(),
   
+  // Classification
+  classification: z.string().min(1, 'Classification is required'),
+  
   // Property Details
   propertyType: z.string().min(1, 'Property type is required'),
   propertyStyle: z.string().min(1, 'Property style is required'),
@@ -50,8 +53,18 @@ const hotelRegistrationSchema = z.object({
   location: z.string().min(1, 'Location description is required'),
   
   // Features
-  hotelFeatures: z.string().min(1, 'Hotel features are required'),
-  roomFeatures: z.string().min(1, 'Room features are required'),
+  hotelFeatures: z.array(z.string()).default([]),
+  roomFeatures: z.array(z.string()).default([]),
+  
+  // Activities and Affinities
+  activities: z.array(z.string()).default([]),
+  clientAffinities: z.array(z.string()).default([]),
+  
+  // Photos
+  photos: z.object({
+    hotel: z.array(z.any()).default([]),
+    room: z.array(z.any()).default([])
+  }).default({ hotel: [], room: [] }),
   
   // Accommodation Terms
   checkInDay: z.string().min(1, 'Check-in day is required'),
@@ -64,6 +77,9 @@ const hotelRegistrationSchema = z.object({
   
   // Availability
   numberOfRooms: z.string().min(1, 'Number of rooms is required'),
+  
+  // Pricing
+  pricingMatrix: z.array(z.any()).default([]),
   
   // Terms
   termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted')
@@ -78,6 +94,12 @@ export const NewHotelRegistrationForm = () => {
     resolver: zodResolver(hotelRegistrationSchema),
     defaultValues: {
       stayLengths: [],
+      activities: [],
+      clientAffinities: [],
+      hotelFeatures: [],
+      roomFeatures: [],
+      photos: { hotel: [], room: [] },
+      pricingMatrix: [],
       inHouseLaundryIncluded: false,
       externalLaundryReferral: false,
       termsAccepted: false
@@ -93,17 +115,17 @@ export const NewHotelRegistrationForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Accordion type="single" collapsible className="space-y-4">
-            <BasicInfoSection form={form} />
-            <ContactInfoSection form={form} />
+            <HotelBasicInfoSection form={form} />
+            <HotelClassificationSection form={form} />
             <PropertyTypeSection form={form} />
             <PropertyStyleSection form={form} />
             <HotelDescriptionSection form={form} />
             <RoomDescriptionSection form={form} />
-            <IdealGuestsSection form={form} />
-            <AtmosphereSection form={form} />
-            <LocationSection form={form} />
+            <CompletePhraseSection form={form} />
             <HotelFeaturesSection form={form} />
             <RoomFeaturesSection form={form} />
+            <ActivitiesSection form={form} />
+            <ClientAffinitiesSection form={form} />
             <CheckInDaySection form={form} />
             <MealPlanSection form={form} />
             <LaundryServiceSection form={form} />

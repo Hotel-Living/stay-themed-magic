@@ -30,7 +30,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
         <div className="space-y-6">
           <FormField
             control={form.control}
-            name="idealForGuests"
+            name="idealGuests"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-white">{t('completePhrases.idealForGuests')}</FormLabel>
@@ -39,7 +39,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     placeholder={t('completePhrases.idealForGuestsPlaceholder')}
                     className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
                     value={field.value}
-                    onChange={handleInputChange('idealForGuests')}
+                    onChange={handleInputChange('idealGuests')}
                   />
                 </FormControl>
                 <FormMessage />
@@ -68,7 +68,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
 
           <FormField
             control={form.control}
-            name="locationPerfect"
+            name="location"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-white">{t('completePhrases.locationPerfect')}</FormLabel>
@@ -77,7 +77,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     placeholder={t('completePhrases.locationPerfectPlaceholder')}
                     className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
                     value={field.value}
-                    onChange={handleInputChange('locationPerfect')}
+                    onChange={handleInputChange('location')}
                   />
                 </FormControl>
                 <FormMessage />

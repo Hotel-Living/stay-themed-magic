@@ -1,13 +1,12 @@
-
 /**
  * Utility functions for JotForm integration with user authentication
  */
 
 /**
- * Creates a JotForm URL with user token for authentication
+ * Creates a JotForm URL with user token for authentication using prefill mechanism
  * @param formId - The JotForm form ID  
  * @param userToken - The user's secure token for authentication
- * @returns Complete JotForm URL with token parameter
+ * @returns Complete JotForm URL with token prefilled into hidden field
  */
 export const createJotFormURL = (formId: string, userToken: string | null): string => {
   const baseUrl = `https://form.jotform.com/${formId}`;
@@ -21,8 +20,11 @@ export const createJotFormURL = (formId: string, userToken: string | null): stri
     localStorage.setItem('jotform_user_token', userToken);
   }
   
-  // Add token as URL parameter and in hidden field
-  return `${baseUrl}?user_token=${encodeURIComponent(userToken)}`;
+  // Use JotForm's prefill mechanism to inject token into hidden field
+  // This ensures the token is transmitted with the form submission
+  const prefillUrl = `${baseUrl}?user_token=${encodeURIComponent(userToken)}`;
+  
+  return prefillUrl;
 };
 
 /**

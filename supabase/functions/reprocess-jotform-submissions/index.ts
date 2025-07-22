@@ -1,6 +1,6 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.3'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,11 +8,11 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  console.log('=== Reprocess JotForm Submissions ===');
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
-
-  console.log("=== REPROCESSING JOTFORM SUBMISSIONS ===");
 
   try {
     const supabase = createClient(
@@ -20,200 +20,208 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Get all raw JotForm submissions
+    // Get all raw submissions that need reprocessing
     const { data: rawSubmissions, error: fetchError } = await supabase
       .from('jotform_raw')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (fetchError) {
-      throw fetchError;
+      throw new Error(`Error fetching raw submissions: ${fetchError.message}`);
     }
 
     console.log(`Found ${rawSubmissions?.length || 0} raw submissions to process`);
 
-    let processed = 0;
-    let errors = 0;
-    const results = [];
+    let processedCount = 0;
+    let errorCount = 0;
 
     for (const submission of rawSubmissions || []) {
       try {
-        console.log(`Processing submission ${submission.id}`);
+        console.log(`Processing submission ${submission.id}...`);
         
-        const parsedData = submission.parsed_data || {};
+        const parsedData = submission.parsed_data;
         
-        // Skip if no meaningful data
-        if (!parsedData.q2_typeA && !parsedData.q13_descripcionDel) {
-          console.log("Skipping submission with no hotel data");
-          continue;
+        // Extract user token with improved logic
+        let userToken: string | null = null;
+        
+        // Method 1: Check for user_token in parsed data
+        if (parsedData.user_token) {
+          userToken = parsedData.user_token;
         }
-
-        // Check if hotel already exists for this submission
-        const existingHotelName = String(parsedData.q2_typeA || '').trim();
-        if (existingHotelName) {
-          const { data: existingHotel } = await supabase
-            .from('hotels')
-            .select('id, name, owner_id')
-            .eq('name', existingHotelName)
-            .single();
-
-          if (existingHotel && existingHotelName !== 'Unnamed Hotel') {
-            console.log(`Hotel "${existingHotelName}" already exists, updating it`);
-            
-            // Update existing hotel with complete data
-            const mappedData = mapJotFormData(parsedData);
-            const dbHotelData = {
-              ...mappedData,
-              features_hotel: mappedData.features_hotel.length > 0 ? 
-                mappedData.features_hotel.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
-              features_room: mappedData.features_room.length > 0 ? 
-                mappedData.features_room.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
-            };
-
-            const { error: updateError } = await supabase
-              .from('hotels')
-              .update(dbHotelData)
-              .eq('id', existingHotel.id);
-
-            if (updateError) {
-              console.error("Error updating hotel:", updateError);
-              errors++;
-            } else {
-              console.log("Hotel updated successfully");
-              processed++;
+        
+        // Method 2: Check for token in form fields
+        if (!userToken && parsedData.rawRequest) {
+          try {
+            const rawRequest = JSON.parse(parsedData.rawRequest);
+            if (rawRequest.user_token) {
+              userToken = rawRequest.user_token;
             }
-            continue;
+          } catch (e) {
+            console.log('Could not parse rawRequest for token');
+          }
+        }
+        
+        // Method 3: Search through all fields for token
+        if (!userToken) {
+          for (const [key, value] of Object.entries(parsedData)) {
+            if (key.includes('user_token') || key.includes('userToken')) {
+              userToken = String(value);
+              break;
+            }
           }
         }
 
-        // Create new hotel
-        const mappedData = mapJotFormData(parsedData);
-        const dbHotelData = {
-          ...mappedData,
-          features_hotel: mappedData.features_hotel.length > 0 ? 
-            mappedData.features_hotel.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
-          features_room: mappedData.features_room.length > 0 ? 
-            mappedData.features_room.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}) : {},
-        };
+        console.log(`Token found: ${userToken}`);
 
-        const { data: hotel, error: hotelError } = await supabase
-          .from('hotels')
-          .insert(dbHotelData)
-          .select()
-          .single();
-
-        if (hotelError) {
-          console.error("Error creating hotel:", hotelError);
-          errors++;
-          continue;
+        // Get user ID from token
+        let userId: string | null = null;
+        if (userToken) {
+          try {
+            const { data: tokenResult } = await supabase
+              .rpc('get_user_from_jotform_token', { token: userToken });
+            
+            if (tokenResult) {
+              userId = tokenResult;
+              console.log('User ID from token:', userId);
+            }
+          } catch (error) {
+            console.error('Error getting user from token:', error);
+          }
         }
 
-        console.log(`Hotel created: ${hotel.id}`);
-        processed++;
-        
-        results.push({
-          submission_id: submission.id,
-          hotel_id: hotel.id,
-          hotel_name: mappedData.name,
-          status: 'created'
-        });
+        // Helper functions for data extraction
+        const extractString = (value: any): string => {
+          if (typeof value === 'string') return value;
+          if (typeof value === 'object' && value !== null) {
+            return JSON.stringify(value);
+          }
+          return String(value || '');
+        };
+
+        const extractArray = (value: any): string[] => {
+          if (Array.isArray(value)) return value.map(String);
+          if (typeof value === 'string') {
+            return value.split(',').map(s => s.trim()).filter(s => s);
+          }
+          return [];
+        };
+
+        const convertFeaturesToJSON = (features: string[]): { [key: string]: boolean } => {
+          const result: { [key: string]: boolean } = {};
+          features.forEach(feature => {
+            if (feature && feature.trim()) {
+              result[feature.trim()] = true;
+            }
+          });
+          return result;
+        };
+
+        // Map JotForm fields to hotel data
+        const hotelData = {
+          name: extractString(parsedData.q2_typeA || parsedData.q2_name || parsedData.name || 'Unnamed Hotel'),
+          description: extractString(parsedData.q13_descripcionDel || parsedData.q13_description || parsedData.description || ''),
+          
+          // Address fields
+          city: extractString(parsedData.q5_direccionFisica?.city || parsedData.q5_city || parsedData.city || ''),
+          country: extractString(parsedData.q5_direccionFisica?.country || parsedData.q5_country || parsedData.country || ''),
+          address: extractString(parsedData.q5_direccionFisica?.addr_line1 || parsedData.q5_address || parsedData.address || ''),
+          postal_code: extractString(parsedData.q5_direccionFisica?.postal || parsedData.q5_postal || parsedData.postal_code || ''),
+          
+          // Contact information
+          contact_name: extractString(parsedData.q6_contacto?.first || parsedData.q6_name || parsedData.contact_name || ''),
+          contact_email: extractString(parsedData.q7_correoElectronico || parsedData.q7_email || parsedData.contact_email || ''),
+          contact_phone: extractString(parsedData.q8_numeroDe || parsedData.q8_phone || parsedData.contact_phone || ''),
+          
+          // Property details
+          property_type: extractString(parsedData.q9_tipoDePropiedad || parsedData.q9_property_type || parsedData.property_type || ''),
+          property_style: extractString(parsedData.q10_estiloDePropiedad || parsedData.q10_style || parsedData.property_style || ''),
+          
+          // Features
+          features_hotel: convertFeaturesToJSON(extractArray(parsedData.q11_comodidadesGlobales || parsedData.q11_hotel_features || parsedData.hotel_features || [])),
+          features_room: convertFeaturesToJSON(extractArray(parsedData.q12_comodidadesPor || parsedData.q12_room_features || parsedData.room_features || [])),
+          
+          // Pricing
+          price_per_month: parseInt(extractString(parsedData.q14_precioMensual || parsedData.q14_price || parsedData.price_per_month || '0')) || 0,
+          
+          // Available months
+          available_months: extractArray(parsedData.q15_mesesDisponibles || parsedData.q15_months || parsedData.available_months || []),
+          
+          // Additional fields
+          atmosphere: extractString(parsedData.q16_atmosfera || parsedData.q16_atmosphere || parsedData.atmosphere || ''),
+          ideal_guests: extractString(parsedData.q17_huespedesIdeales || parsedData.q17_guests || parsedData.ideal_guests || ''),
+          perfect_location: extractString(parsedData.q18_ubicacionPerfecta || parsedData.q18_location || parsedData.perfect_location || ''),
+          
+          // System fields
+          owner_id: userId, // Associate with user if token found
+          status: 'pending',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Check if hotel already exists for this submission
+        const { data: existingHotel } = await supabase
+          .from('hotels')
+          .select('id')
+          .eq('name', hotelData.name)
+          .eq('contact_email', hotelData.contact_email)
+          .single();
+
+        if (existingHotel) {
+          // Update existing hotel with corrected data
+          const { error: updateError } = await supabase
+            .from('hotels')
+            .update(hotelData)
+            .eq('id', existingHotel.id);
+
+          if (updateError) {
+            console.error('Error updating existing hotel:', updateError);
+            errorCount++;
+          } else {
+            console.log(`Updated existing hotel: ${hotelData.name}`);
+            processedCount++;
+          }
+        } else {
+          // Insert new hotel
+          const { error: insertError } = await supabase
+            .from('hotels')
+            .insert(hotelData);
+
+          if (insertError) {
+            console.error('Error inserting new hotel:', insertError);
+            errorCount++;
+          } else {
+            console.log(`Inserted new hotel: ${hotelData.name}`);
+            processedCount++;
+          }
+        }
 
       } catch (error) {
         console.error(`Error processing submission ${submission.id}:`, error);
-        errors++;
+        errorCount++;
       }
     }
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Reprocessing completed`,
-        processed,
-        errors,
-        results
+        message: `Reprocessing completed. Processed: ${processedCount}, Errors: ${errorCount}`,
+        processed_count: processedCount,
+        error_count: errorCount
       }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      }
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
   } catch (error) {
-    console.error("Error in reprocessing:", error);
-    
+    console.error('Error in reprocessing:', error);
     return new Response(
       JSON.stringify({
-        error: "Reprocessing failed",
-        details: error.message
+        success: false,
+        error: error.message
       }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      { 
+        status: 500, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
   }
-});
-
-// Helper function to map JotForm data
-function mapJotFormData(data: Record<string, any>) {
-  const extractText = (value: any): string => {
-    if (typeof value === 'string') return value.trim();
-    if (typeof value === 'object' && value !== null) {
-      if (value.addr_line1 || value.city || value.country) {
-        return [value.addr_line1, value.city, value.country].filter(Boolean).join(', ');
-      }
-      return JSON.stringify(value);
-    }
-    return String(value || '').trim();
-  };
-
-  const extractArray = (value: any): string[] => {
-    if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(Boolean);
-    if (typeof value === 'string') {
-      return value.split(/[,\n\r]+/).map(v => v.trim()).filter(Boolean);
-    }
-    return [];
-  };
-
-  const extractNumber = (value: any, defaultValue: number = 0): number => {
-    const num = parseInt(String(value || '0'));
-    return isNaN(num) ? defaultValue : num;
-  };
-
-  return {
-    name: extractText(data.q2_typeA) || 'Unnamed Hotel',
-    description: extractText(data.q13_descripcionDel) || '',
-    country: extractText(data.dropdown_search) || 'Unknown',
-    city: extractText(data.q5_direccionFisica?.city) || 'Unknown',
-    address: extractText(data.q5_direccionFisica?.addr_line1) || '',
-    postal_code: extractText(data.q5_direccionFisica?.postal) || '',
-    contact_name: extractText(data.q28_typeA28) || '',
-    contact_email: extractText(data.q30_typeA30) || '',
-    contact_phone: extractText(data.q39_typeA39) || '',
-    property_type: extractText(data.q11_tipoDe) || 'Hotel',
-    style: extractText(data.q12_estiloDel) || 'Classic',
-    category: extractNumber(data.q4_categoriaOficial, 1),
-    ideal_guests: extractText(data.q14_ltstronggtltemgtesIdeal) || '',
-    atmosphere: extractText(data.q15_ltstronggtltemgtelAmbiente) || '',
-    perfect_location: extractText(data.q16_ltstronggtltemgtlaUbicacion) || '',
-    features_hotel: data.q17_instalacionesY ? extractArray(data.q17_instalacionesY) : [],
-    features_room: data.q18_serviciosEn ? extractArray(data.q18_serviciosEn) : [],
-    activities: data.q20_atraigaA20 ? extractArray(data.q20_atraigaA20) : [],
-    themes: data.q52_atraigaA ? extractArray(data.q52_atraigaA) : [],
-    meal_plans: data.q23_planDe ? extractArray(data.q23_planDe) : ['Solo alojamiento'],
-    available_months: data.q22_elijaSu ? extractArray(data.q22_elijaSu) : [],
-    stay_lengths: data.q26_cualEs26 ? extractArray(data.q26_cualEs26) : [],
-    preferredWeekday: extractText(data.q24_elServicio) || 'Monday',
-    room_types: data.q21_descripcionDe21 ? [{ 
-      name: extractText(data.q21_descripcionDe21),
-      description: extractText(data.q21_descripcionDe21)
-    }] : [],
-    price_per_month: 0,
-    owner_id: null, // Will be set later if user token is found
-    status: 'pending' as const,
-    terms: extractText(data.q47_tarifas47) || '',
-    main_image_url: null,
-    rates: { default: 0 },
-    images: [] as string[]
-  };
-}
+})

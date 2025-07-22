@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useTranslation } from "@/hooks/useTranslation";
 import { useJotFormToken } from "@/hooks/useJotFormToken";
@@ -19,6 +20,29 @@ export const AddProperty2Content = () => {
 
     return cleanup;
   }, []);
+
+  // Inject token into JotForm when it loads
+  useEffect(() => {
+    if (userToken) {
+      // Wait for iframe to load then inject token
+      const timer = setTimeout(() => {
+        const iframe = document.getElementById('jotform-hotel-submission') as HTMLIFrameElement;
+        if (iframe && iframe.contentWindow) {
+          try {
+            // Send token to JotForm for hidden field population
+            iframe.contentWindow.postMessage({
+              type: 'SET_USER_TOKEN',
+              token: userToken
+            }, 'https://form.jotform.com');
+          } catch (error) {
+            console.warn('Could not inject token into JotForm iframe:', error);
+          }
+        }
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [userToken]);
 
   if (tokenLoading) {
     return (

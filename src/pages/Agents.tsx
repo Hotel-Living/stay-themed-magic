@@ -84,7 +84,7 @@ const Agents = () => {
 
                 {/* Commission Calculator */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-6 text-center">Calculadora de Comisiones para Agentes</h2>
+                  <h2 className="text-2xl font-bold mb-6 text-center">{t('calculator.title')}</h2>
                   
                   <div className="bg-[#7801AA]/80 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-[0_0_40px_rgba(0,200,255,0.6),0_0_80px_rgba(0,200,255,0.3)]">
                     
@@ -92,7 +92,7 @@ const Agents = () => {
                     <div className="space-y-6 mb-8">
                       <div>
                         <Label className="text-white text-lg font-medium mb-3 block">
-                          Hoteles que ha contactado el agente
+                          {t('calculator.hotelsContacted')}
                         </Label>
                         <Input
                           type="number"
@@ -104,7 +104,7 @@ const Agents = () => {
                       
                       <div>
                         <Label className="text-white text-lg font-medium mb-3 block">
-                          Habitaciones vacías por hotel (promedio)
+                          {t('calculator.emptyRoomsPerHotel')}
                         </Label>
                         <Input
                           type="number"
@@ -116,7 +116,7 @@ const Agents = () => {
                       
                       <div>
                         <Label className="text-white text-lg font-medium mb-3 block">
-                          Precio promedio del paquete mensual
+                          {t('calculator.averageMonthlyPrice')}
                         </Label>
                         <Input
                           type="number"
@@ -130,25 +130,25 @@ const Agents = () => {
                     {/* Commission Info */}
                     <div className="text-center mb-6">
                       <p className="text-yellow-300 text-lg font-medium">
-                        5‰ Comisión sobre ventas durante 18 meses + 2,5‰ durante 12 meses
+                        {t('calculator.commissionRate')}
                       </p>
                     </div>
                     
                     {/* Results */}
                     <div className="space-y-4">
                       <div className="bg-purple-800/60 rounded-xl p-6 text-center border border-purple-400/30">
-                        <p className="text-white text-lg font-medium mb-2">Comisión estimada mensual:</p>
+                        <p className="text-white text-lg font-medium mb-2">{t('calculator.estimatedMonthlyCommission')}</p>
                         <p className="text-yellow-300 text-3xl font-bold">${formatNumber(monthlyCommission)}</p>
                       </div>
                       
                       <div className="bg-purple-800/60 rounded-xl p-6 text-center border border-purple-400/30">
-                        <p className="text-white text-lg font-medium mb-2">Comisión estimada total en 30 meses:</p>
+                        <p className="text-white text-lg font-medium mb-2">{t('calculator.estimatedTotalCommission')}</p>
                         <p className="text-yellow-300 text-4xl font-bold">${formatNumber(totalCommission30Months)}</p>
                       </div>
                     </div>
                     
                     <div className="text-center mt-6">
-                      <p className="text-white/80 text-sm italic">* Comisiones automáticas sin trabajo posterior</p>
+                      <p className="text-white/80 text-sm italic">{t('calculator.disclaimer')}</p>
                     </div>
                   </div>
                 </div>

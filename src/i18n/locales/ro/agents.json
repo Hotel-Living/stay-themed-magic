@@ -28,6 +28,16 @@
       "terms_required": "Trebuie să accepți termenii și condițiile"
     }
   },
+  "calculator": {
+    "title": "Calculator de Comisioane pentru Agenți",
+    "hotelsContacted": "Hoteluri contactate de agent",
+    "emptyRoomsPerHotel": "Camere libere pe hotel (medie)",
+    "averageMonthlyPrice": "Prețul mediu al pachetului lunar",
+    "commissionRate": "5‰ Comision din vânzări pentru 18 luni + 2,5‰ pentru 12 luni",
+    "estimatedMonthlyCommission": "Comisionul lunar estimat:",
+    "estimatedTotalCommission": "Comisionul total estimat în 30 de luni:",
+    "disclaimer": "* Comisioane automate fără muncă ulterioară"
+  },
   "dashboard": {
     "title": "Panoul Agentului",
     "welcome": "Bun venit înapoi, Agent",

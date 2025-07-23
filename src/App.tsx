@@ -111,7 +111,6 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <AvatarManagerProvider>
               <Routes>
                 {/* Core Routes */}
                 <Route path="/" element={<Index />} />
@@ -209,7 +208,6 @@ const App = () => (
                 {/* 404 Route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </AvatarManagerProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

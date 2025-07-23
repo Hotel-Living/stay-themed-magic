@@ -3,7 +3,7 @@ import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'luci
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
-import { Starfield } from '@/components/Starfield';
+import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
 // Placeholder images from context
 const placeholderImages = ['https://images.unsplash.com/photo-1721322800607-8c38375eef04', 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', 'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'];
@@ -64,8 +64,9 @@ export default function HotelModelPage() {
   const handlePackageClick = pkg => {
     setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
   };
-  return <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-8 space-y-8">
+  return <div className="min-h-screen relative overflow-hidden">
+      <HotelStarfield />
+      <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         
         {/* Top Section */}
         <div className="text-center space-y-4">

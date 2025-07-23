@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { isJotFormPage } from '@/utils/routeUtils';
+// JotForm utilities removed
 
 declare global {
   interface Window {
@@ -18,13 +18,13 @@ export const useGoogleMaps = ({ skipLoading = false }: UseGoogleMapsProps = {}) 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Detect if we should skip loading due to JotForm conflict
-  const shouldSkipLoading = skipLoading || isJotFormPage();
+  // JotForm conflict detection removed
+  const shouldSkipLoading = skipLoading;
 
   const loadGoogleMapsScript = useCallback(() => {
-    // Skip loading if on JotForm page to prevent API conflicts
+    // JotForm conflict detection removed
     if (shouldSkipLoading) {
-      console.log('Skipping Google Maps API loading on JotForm page');
+      console.log('Skipping Google Maps API loading (manual override)');
       return;
     }
 

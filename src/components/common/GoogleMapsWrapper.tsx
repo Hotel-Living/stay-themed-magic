@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useGoogleMaps } from '@/hooks/useGoogleMaps';
-import { isJotFormPage } from '@/utils/routeUtils';
+// JotForm utilities removed
 
 interface GoogleMapsWrapperProps {
   children: React.ReactNode;
@@ -14,10 +14,7 @@ export const GoogleMapsWrapper: React.FC<GoogleMapsWrapperProps> = ({
 }) => {
   const { isLoaded, isLoading, error } = useGoogleMaps();
 
-  // Don't render Google Maps components on JotForm pages
-  if (isJotFormPage()) {
-    return <>{fallback}</>;
-  }
+  // JotForm conflict detection removed
 
   if (isLoading) {
     return (

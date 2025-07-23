@@ -119,8 +119,8 @@ export function Starfield() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0"
-      style={{ pointerEvents: 'none' }}
+      className="fixed inset-0 -z-10"
+      style={{ background: 'linear-gradient(45deg, #2D1B69, #1A1F2C)', pointerEvents: 'none' }}
     />
   );
 }

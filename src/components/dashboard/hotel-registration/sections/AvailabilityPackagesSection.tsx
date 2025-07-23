@@ -87,7 +87,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
 
     // Check duration matches stay lengths
     if (data.startDate && data.endDate) {
-      const duration = differenceInDays(data.endDate, data.startDate);
+      const duration = differenceInDays(data.endDate, data.startDate) + 1;
       const validDurations = (stayLengths as ("8" | "15" | "22" | "29")[]).map(s => parseInt(s));
       if (!validDurations.includes(duration)) {
         newErrors.duration = t('availabilityPackages.validation.invalidDuration');
@@ -143,7 +143,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const duration = differenceInDays(packageForm.endDate!, packageForm.startDate!);
+      const duration = differenceInDays(packageForm.endDate!, packageForm.startDate!) + 1;
       
       const newPackage: AvailabilityPackage = {
         id: editingPackage || `pkg-${Date.now()}`,
@@ -283,7 +283,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
               {packageForm.startDate && packageForm.endDate && (
                 <div className="mb-4">
                   <p className="text-white text-sm">
-                    {t('availabilityPackages.duration')}: {differenceInDays(packageForm.endDate, packageForm.startDate)} {t('availabilityPackages.days')}
+                    {t('availabilityPackages.duration')}: {differenceInDays(packageForm.endDate, packageForm.startDate) + 1} {t('availabilityPackages.days')}
                   </p>
                 </div>
               )}
@@ -361,7 +361,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
           )}
 
           {/* Add Package Button */}
-          {!showForm && availabilityPackages.length < 10 && (
+          {!showForm && availabilityPackages.length < 20 && (
             <div className="flex justify-center">
               <Button onClick={handleAddPackage} className="bg-fuchsia-600 hover:bg-fuchsia-700">
                 <Plus className="h-4 w-4 mr-2" />
@@ -371,7 +371,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
           )}
 
           {/* Max Packages Message */}
-          {availabilityPackages.length >= 10 && (
+          {availabilityPackages.length >= 20 && (
             <div className="text-center">
               <p className="text-yellow-400 text-sm">{t('availabilityPackages.maxPackagesReached')}</p>
             </div>

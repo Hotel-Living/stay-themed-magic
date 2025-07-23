@@ -167,7 +167,7 @@
     "description": "Crea paquetes de disponibilidad para tu hotel. Cada paquete define rangos de fechas específicos y disponibilidad de habitaciones.",
     "addPackage": "Añadir Paquete",
     "addAnotherPackage": "Añadir Otro Paquete",
-    "maxPackagesReached": "Máximo 10 paquetes permitidos",
+    "maxPackagesReached": "Máximo 20 paquetes permitidos",
     "noPackages": "No se han creado paquetes aún",
     "packageDetails": "Detalles del Paquete",
     "startDate": "Fecha de Inicio",

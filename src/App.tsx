@@ -61,6 +61,9 @@ import CustomerService from "./pages/CustomerService";
 import IntellectualProperty from "./pages/IntellectualProperty";
 import OurServices from "./pages/OurServices";
 import OurTeam from "./pages/OurTeam";
+import OurValues from "./pages/OurValues";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import HotelCrisis from "./pages/HotelCrisis";
 import HotelAssociation from "./pages/HotelAssociation";
 import FeaturedHotels from "./pages/FeaturedHotels";
@@ -111,6 +114,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
+            <AvatarManagerProvider>
               <Routes>
                 {/* Core Routes */}
                 <Route path="/" element={<Index />} />
@@ -120,7 +124,7 @@ const App = () => (
                 {/* Dashboard Routes */}
                 <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/agent-dashboard" element={<AgentDashboard />} />
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/*" element={<AdminAllRoutes />} />
                 <Route path="/hotel-dashboard" element={<HotelDashboard />} />
                 <Route path="/dashboard-selection" element={<DashboardSelection />} />
                 <Route path="/promoter-dashboard" element={<PromoterDashboard />} />
@@ -197,8 +201,13 @@ const App = () => (
                 <Route path="/intro-test-9" element={<IntroTest9 />} />
                 <Route path="/join-us-test" element={<JoinUsTest />} />
                 
-                {/* Admin Routes */}
-                <Route path="/admin-all-routes" element={<AdminAllRoutes />} />
+                {/* Missing Footer Routes */}
+                <Route path="/our-values" element={<OurValues />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                
+                {/* Legacy Admin Routes - redirect to new structure */}
+                <Route path="/admin-dashboard" element={<AdminAllRoutes />} />
                 <Route path="/admin-roles" element={<AdminRoles />} />
                 
                 {/* Other Routes */}
@@ -208,6 +217,7 @@ const App = () => (
                 {/* 404 Route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+            </AvatarManagerProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

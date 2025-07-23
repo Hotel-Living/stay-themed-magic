@@ -52,17 +52,26 @@ export const MapPreview = ({ address, city, country, className }: MapPreviewProp
 
   // Initialize or update map when loaded and address changes
   useEffect(() => {
-    if (!isLoaded || !mapRef.current || !address) return;
+    if (!isLoaded || !mapRef.current || !address) {
+      console.log('Map not ready:', { isLoaded, hasMapRef: !!mapRef.current, address });
+      return;
+    }
 
+    console.log('Initializing map for address:', `${address}, ${city}, ${country}`);
+    
     const geocoder = new window.google.maps.Geocoder();
     const searchQuery = `${address}, ${city}, ${country}`.trim();
 
     geocoder.geocode({ address: searchQuery }, (results: any, status: any) => {
+      console.log('Geocoding result:', { status, results });
+      
       if (status === 'OK' && results[0]) {
         const location = results[0].geometry.location;
+        console.log('Found location:', location.toString());
         
         // Initialize map if not exists
         if (!mapInstanceRef.current) {
+          console.log('Creating new map instance');
           mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
             zoom: 15,
             center: location,
@@ -71,7 +80,7 @@ export const MapPreview = ({ address, city, country, className }: MapPreviewProp
             fullscreenControl: false
           });
         } else {
-          // Update existing map
+          console.log('Updating existing map center');
           mapInstanceRef.current.setCenter(location);
         }
 
@@ -84,7 +93,7 @@ export const MapPreview = ({ address, city, country, className }: MapPreviewProp
         markerRef.current = new window.google.maps.Marker({
           position: location,
           map: mapInstanceRef.current,
-          title: address,
+          title: searchQuery,
           icon: {
             path: window.google.maps.SymbolPath.CIRCLE,
             scale: 8,
@@ -94,6 +103,10 @@ export const MapPreview = ({ address, city, country, className }: MapPreviewProp
             strokeWeight: 2
           }
         });
+        
+        console.log('Map and marker created successfully');
+      } else {
+        console.error('Geocoding failed:', status);
       }
     });
   }, [isLoaded, address, city, country]);

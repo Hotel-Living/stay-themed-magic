@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'lucide-react';
@@ -19,30 +18,37 @@ const convertFeaturesToArray = (features: any): string[] => {
   if (!features) return [];
   if (Array.isArray(features)) return features;
   if (typeof features === 'object') {
-    return Object.entries(features)
-      .filter(([_, value]) => value === true)
-      .map(([key, _]) => key);
+    return Object.entries(features).filter(([_, value]) => value === true).map(([key, _]) => key);
   }
   return [];
 };
-
 export default function HotelDetail() {
-  const { id } = useParams<{ id: string }>();
-  const { toast } = useToast();
-  const { language } = useTranslation();
+  const {
+    id
+  } = useParams<{
+    id: string;
+  }>();
+  const {
+    toast
+  } = useToast();
+  const {
+    language
+  } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState(null);
-  
-  const { data: hotel, isLoading, error, hasTranslation } = useHotelDetailWithTranslations(id);
-  
+  const {
+    data: hotel,
+    isLoading,
+    error,
+    hasTranslation
+  } = useHotelDetailWithTranslations(id);
   useEffect(() => {
     window.scrollTo(0, 0);
-    
     if (error) {
       toast({
         title: "Error loading hotel",
         description: "There was a problem loading the hotel details. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
       console.error("Error fetching hotel data:", error);
     }
@@ -56,10 +62,8 @@ export default function HotelDetail() {
       console.log('Hotel name (possibly translated):', hotel.name);
     }
   }, [hotel, language, hasTranslation]);
-
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+    return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
         <Navbar />
         <BubbleCounter />
         <main className="flex-1 flex items-center justify-center">
@@ -67,13 +71,10 @@ export default function HotelDetail() {
         </main>
         <Footer />
         <HotelPageAvatar />
-      </div>
-    );
+      </div>;
   }
-
   if (!hotel) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+    return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
         <Navbar />
         <BubbleCounter />
         <main className="flex-1">
@@ -81,61 +82,44 @@ export default function HotelDetail() {
         </main>
         <Footer />
         <HotelPageAvatar />
-      </div>
-    );
+      </div>;
   }
 
   // Convert features to arrays
   const hotelFeaturesArray = convertFeaturesToArray(hotel.hotelFeatures || hotel.features_hotel);
   const roomFeaturesArray = convertFeaturesToArray(hotel.roomFeatures || hotel.features_room);
-  
+
   // Get hotel images
-  const hotelImages = hotel.hotel_images && hotel.hotel_images.length > 0 
-    ? hotel.hotel_images.map(img => img.image_url) 
-    : ['https://images.unsplash.com/photo-1721322800607-8c38375eef04'];
+  const hotelImages = hotel.hotel_images && hotel.hotel_images.length > 0 ? hotel.hotel_images.map(img => img.image_url) : ['https://images.unsplash.com/photo-1721322800607-8c38375eef04'];
 
   // Generate availability packages from hotel data
   const availabilityPackages = hotel.stay_lengths?.map((duration, index) => ({
-    startDate: new Date(Date.now() + (index * 7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
-    endDate: new Date(Date.now() + ((index * 7 + duration) * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+    startDate: new Date(Date.now() + index * 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    endDate: new Date(Date.now() + (index * 7 + duration) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     duration: duration,
     available: Math.floor(Math.random() * 5) + 1
   })) || [];
-
   const renderStars = (count: number) => {
-    return Array.from({ length: count }, (_, i) => 
-      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-    );
+    return Array.from({
+      length: count
+    }, (_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
   };
-
-  const renderTag = (tag: string, type: string) => (
-    <span 
-      key={tag} 
-      className={`px-3 py-1 rounded-full text-sm font-medium ${
-        type === 'affinity' 
-          ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' 
-          : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'
-      }`}
-    >
+  const renderTag = (tag: string, type: string) => <span key={tag} className={`px-3 py-1 rounded-full text-sm font-medium ${type === 'affinity' ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'}`}>
       {tag}
-    </span>
-  );
-
+    </span>;
   const handlePackageClick = (pkg: any) => {
     setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
   };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+  return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
       <Navbar />
       <BubbleCounter />
       
       <main className="flex-1">
-        <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden" style={{
-          backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
-          backgroundSize: '50px 50px, 30px 30px',
-          backgroundPosition: '0 0, 25px 25px'
-        }}>
+        <div style={{
+        backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
+        backgroundSize: '50px 50px, 30px 30px',
+        backgroundPosition: '0 0, 25px 25px'
+      }} className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden bg-slate-50">
           
           <div className="relative z-10 container mx-auto px-4 py-8 space-y-8 bg-[#5a067e]">
             
@@ -145,11 +129,9 @@ export default function HotelDetail() {
                 <h1 className="text-5xl font-bold text-white glow-text">
                   {hotel.name}
                 </h1>
-                {hotel.category && (
-                  <div className="flex justify-center items-center space-x-2">
+                {hotel.category && <div className="flex justify-center items-center space-x-2">
                     {renderStars(hotel.category)}
-                  </div>
-                )}
+                  </div>}
               </div>
               
               <div className="flex items-center justify-center space-x-2 text-purple-200">
@@ -160,43 +142,31 @@ export default function HotelDetail() {
               </div>
 
               {/* Themes and Activities */}
-              {((hotel.themes && hotel.themes.length > 0) || (hotel.activities && hotel.activities.length > 0)) && (
-                <div className="space-y-4 max-w-4xl mx-auto">
-                  {hotel.themes && hotel.themes.length > 0 && (
-                    <div>
+              {(hotel.themes && hotel.themes.length > 0 || hotel.activities && hotel.activities.length > 0) && <div className="space-y-4 max-w-4xl mx-auto">
+                  {hotel.themes && hotel.themes.length > 0 && <div>
                       <p className="text-white mb-3 text-lg">This hotel is ideal for people who enjoy:</p>
                       <div className="flex flex-wrap justify-center gap-2">
                         {hotel.themes.map(theme => renderTag(typeof theme === 'string' ? theme : theme.name, 'affinity'))}
                       </div>
-                    </div>
-                  )}
+                    </div>}
                   
-                  {hotel.activities && hotel.activities.length > 0 && (
-                    <div>
+                  {hotel.activities && hotel.activities.length > 0 && <div>
                       <p className="text-white mb-3 text-lg">This hotel is perfect for guests interested in:</p>
                       <div className="flex flex-wrap justify-center gap-2">
                         {hotel.activities.map(activity => renderTag(typeof activity === 'string' ? activity : activity, 'activity'))}
                       </div>
-                    </div>
-                  )}
-                </div>
-              )}
+                    </div>}
+                </div>}
 
               {/* Stay Duration and Pricing */}
-              {(hotel.stay_lengths || hotel.price_per_month) && (
-                <div className="space-y-2 text-purple-100">
-                  {hotel.stay_lengths && (
-                    <p className="text-lg">
+              {(hotel.stay_lengths || hotel.price_per_month) && <div className="space-y-2 text-purple-100">
+                  {hotel.stay_lengths && <p className="text-lg">
                       This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
-                    </p>
-                  )}
-                  {hotel.price_per_month && (
-                    <p className="text-xl font-semibold text-yellow-300">
+                    </p>}
+                  {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
                       The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
-                    </p>
-                  )}
-                </div>
-              )}
+                    </p>}
+                </div>}
             </div>
 
             {/* Visual Block */}
@@ -205,97 +175,55 @@ export default function HotelDetail() {
               <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                 <div className="space-y-4">
                   <div className="aspect-video rounded-lg overflow-hidden">
-                    <img 
-                      src={hotelImages[currentImageIndex]} 
-                      alt={`${hotel.name} - Image ${currentImageIndex + 1}`} 
-                      className="w-full h-full object-cover" 
-                    />
+                    <img src={hotelImages[currentImageIndex]} alt={`${hotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
                   </div>
-                  {hotelImages.length > 1 && (
-                    <div className="flex space-x-2 justify-center">
-                      {hotelImages.map((_, index) => (
-                        <button 
-                          key={index} 
-                          onClick={() => setCurrentImageIndex(index)} 
-                          className={`w-3 h-3 rounded-full transition-colors ${
-                            index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'
-                          }`} 
-                        />
-                      ))}
-                    </div>
-                  )}
+                  {hotelImages.length > 1 && <div className="flex space-x-2 justify-center">
+                      {hotelImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
+                    </div>}
                 </div>
               </Card>
 
               {/* Google Map */}
               <div className="bg-purple-900/30 border border-purple-700/50 rounded-lg overflow-hidden glow-border">
-                <HotelLocation
-                  hotelId={hotel.id}
-                  latitude={Number(hotel.latitude)}
-                  longitude={Number(hotel.longitude)}
-                  hotelName={hotel.name}
-                  address={hotel.address || ""}
-                  city={hotel.city || ""}
-                  country={hotel.country || ""}
-                />
+                <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
               </div>
             </div>
 
             {/* Descriptive Section */}
-            {(hotel.description || hotel.ideal_guests || hotel.atmosphere || hotel.perfect_location) && (
-              <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
+            {(hotel.description || hotel.ideal_guests || hotel.atmosphere || hotel.perfect_location) && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
                 <div className="space-y-6">
-                  {hotel.description && (
-                    <div>
+                  {hotel.description && <div>
                       <h2 className="text-2xl font-bold text-white mb-4 glow-text">About Our Hotel</h2>
                       <p className="text-purple-100 text-lg leading-relaxed">{hotel.description}</p>
-                    </div>
-                  )}
+                    </div>}
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {hotel.ideal_guests && (
-                      <div>
+                    {hotel.ideal_guests && <div>
                         <h3 className="text-xl font-semibold text-purple-300 mb-3">Ideal for guests who...</h3>
                         <p className="text-purple-100">{hotel.ideal_guests}</p>
-                      </div>
-                    )}
+                      </div>}
                     
-                    {hotel.atmosphere && (
-                      <div>
+                    {hotel.atmosphere && <div>
                         <h3 className="text-xl font-semibold text-purple-300 mb-3">The atmosphere is...</h3>
                         <p className="text-purple-100">{hotel.atmosphere}</p>
-                      </div>
-                    )}
+                      </div>}
                     
-                    {hotel.perfect_location && (
-                      <div>
+                    {hotel.perfect_location && <div>
                         <h3 className="text-xl font-semibold text-purple-300 mb-3">Our location is perfect for...</h3>
                         <p className="text-purple-100">{hotel.perfect_location}</p>
-                      </div>
-                    )}
+                      </div>}
                   </div>
                 </div>
-              </Card>
-            )}
+              </Card>}
 
             {/* Availability Calendar Section */}
-            {availabilityPackages.length > 0 && (
-              <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
+            {availabilityPackages.length > 0 && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
                 <h2 className="text-2xl font-bold text-white mb-6 glow-text">Availability & Pricing</h2>
                 
                 <div className="space-y-6">
                   {/* Calendar visualization */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {availabilityPackages.map((pkg, index) => (
-                      <div 
-                        key={index} 
-                        className={`p-4 rounded-lg cursor-pointer transition-all ${
-                          selectedPackage?.startDate === pkg.startDate 
-                            ? 'bg-purple-600/50 border-2 border-purple-400' 
-                            : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'
-                        }`} 
-                        onClick={() => handlePackageClick(pkg)}
-                      >
+                    {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
                         <div className="flex items-center space-x-2 mb-2">
                           <Calendar className="w-5 h-5 text-purple-300" />
                           <span className="text-white font-medium">{pkg.duration} days</span>
@@ -307,13 +235,11 @@ export default function HotelDetail() {
                           <Users className="w-4 h-4 text-purple-300" />
                           <span className="text-purple-200 text-sm">{pkg.available} rooms left</span>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
 
                   {/* Selected Package Details */}
-                  {selectedPackage && hotel.price_per_month && (
-                    <Card className="p-6 bg-purple-800/40 border-purple-600/50">
+                  {selectedPackage && hotel.price_per_month && <Card className="p-6 bg-purple-800/40 border-purple-600/50">
                       <h3 className="text-xl font-bold text-white mb-4">Package Details</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -339,58 +265,44 @@ export default function HotelDetail() {
                               the rest is paid upon arrival.
                             </p>
                           </div>
-                          {selectedPackage.available <= 2 && (
-                            <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
+                          {selectedPackage.available <= 2 && <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
                               <p className="text-red-200 text-sm font-medium">
                                 ⚠️ Only {selectedPackage.available} rooms left for this date!
                               </p>
-                            </div>
-                          )}
+                            </div>}
                           <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                             Reserve Now
                           </Button>
                         </div>
                       </div>
-                    </Card>
-                  )}
+                    </Card>}
                 </div>
-              </Card>
-            )}
+              </Card>}
 
             {/* Hotel Features Section */}
-            {(roomFeaturesArray.length > 0 || hotelFeaturesArray.length > 0) && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {(roomFeaturesArray.length > 0 || hotelFeaturesArray.length > 0) && <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Room Features */}
-                {roomFeaturesArray.length > 0 && (
-                  <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+                {roomFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">Room Features</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {roomFeaturesArray.map(feature => (
-                        <div key={feature} className="flex items-center space-x-2">
+                      {roomFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
                           <Wifi className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
-                  </Card>
-                )}
+                  </Card>}
 
                 {/* Hotel Features */}
-                {hotelFeaturesArray.length > 0 && (
-                  <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+                {hotelFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">Hotel Features</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {hotelFeaturesArray.map(feature => (
-                        <div key={feature} className="flex items-center space-x-2">
+                      {hotelFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
                           <Coffee className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
-                  </Card>
-                )}
-              </div>
-            )}
+                  </Card>}
+              </div>}
 
             {/* Reviews Placeholder */}
             <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
@@ -408,6 +320,5 @@ export default function HotelDetail() {
       
       <Footer />
       <HotelPageAvatar />
-    </div>
-  );
+    </div>;
 }

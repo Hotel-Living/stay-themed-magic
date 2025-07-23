@@ -4,12 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 // Placeholder images from context
-const placeholderImages = [
-  'https://images.unsplash.com/photo-1721322800607-8c38375eef04',
-  'https://images.unsplash.com/photo-1500375592092-40eb2168fd21',
-  'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb',
-  'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'
-];
+const placeholderImages = ['https://images.unsplash.com/photo-1721322800607-8c38375eef04', 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', 'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'];
 
 // Sample hotel data
 const sampleHotel = {
@@ -27,50 +22,48 @@ const sampleHotel = {
   roomFeatures: ["Air Conditioning", "Private Bathroom", "Balcony/Terrace", "Free WiFi", "Minibar", "Safe", "Hair Dryer", "Premium Bedding"],
   hotelFeatures: ["Outdoor Pool", "Restaurant", "Bar", "Spa & Wellness", "Parking", "24h Reception", "Concierge", "Laundry Service", "Garden Terrace"]
 };
-
-const availabilityPackages = [
-  { startDate: '2024-03-01', endDate: '2024-03-29', duration: 29, available: 3 },
-  { startDate: '2024-04-05', endDate: '2024-04-19', duration: 15, available: 1 },
-  { startDate: '2024-05-10', endDate: '2024-05-24', duration: 15, available: 2 },
-  { startDate: '2024-06-01', endDate: '2024-06-29', duration: 29, available: 4 }
-];
-
+const availabilityPackages = [{
+  startDate: '2024-03-01',
+  endDate: '2024-03-29',
+  duration: 29,
+  available: 3
+}, {
+  startDate: '2024-04-05',
+  endDate: '2024-04-19',
+  duration: 15,
+  available: 1
+}, {
+  startDate: '2024-05-10',
+  endDate: '2024-05-24',
+  duration: 15,
+  available: 2
+}, {
+  startDate: '2024-06-01',
+  endDate: '2024-06-29',
+  duration: 29,
+  available: 4
+}];
 export default function HotelModelPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState(null);
-
-  const renderStars = (count) => {
-    return Array.from({ length: count }, (_, i) => (
-      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-    ));
+  const renderStars = count => {
+    return Array.from({
+      length: count
+    }, (_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
   };
-
-  const renderTag = (tag, type) => (
-    <span 
-      key={tag}
-      className={`px-3 py-1 rounded-full text-sm font-medium ${
-        type === 'affinity' 
-          ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' 
-          : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'
-      }`}
-    >
+  const renderTag = (tag, type) => <span key={tag} className={`px-3 py-1 rounded-full text-sm font-medium ${type === 'affinity' ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'}`}>
       {tag}
-    </span>
-  );
-
-  const handlePackageClick = (pkg) => {
+    </span>;
+  const handlePackageClick = pkg => {
     setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden"
-         style={{
-           backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
-           backgroundSize: '50px 50px, 30px 30px',
-           backgroundPosition: '0 0, 25px 25px'
-         }}>
+  return <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden" style={{
+    backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
+    backgroundSize: '50px 50px, 30px 30px',
+    backgroundPosition: '0 0, 25px 25px'
+  }}>
       
-      <div className="relative z-10 container mx-auto px-4 py-8 space-y-8">
+      <div className="relative z-10 container mx-auto px-4 py-8 space-y-8 bg-[#5a067e]">
         
         {/* Top Section */}
         <div className="text-center space-y-4">
@@ -122,22 +115,10 @@ export default function HotelModelPage() {
           <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
             <div className="space-y-4">
               <div className="aspect-video rounded-lg overflow-hidden">
-                <img 
-                  src={placeholderImages[currentImageIndex]}
-                  alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <img src={placeholderImages[currentImageIndex]} alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
               </div>
               <div className="flex space-x-2 justify-center">
-                {placeholderImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-colors ${
-                      index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'
-                    }`}
-                  />
-                ))}
+                {placeholderImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
               </div>
             </div>
           </Card>
@@ -189,16 +170,7 @@ export default function HotelModelPage() {
           <div className="space-y-6">
             {/* Calendar visualization */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {availabilityPackages.map((pkg, index) => (
-                <div 
-                  key={index}
-                  className={`p-4 rounded-lg cursor-pointer transition-all ${
-                    selectedPackage?.startDate === pkg.startDate 
-                      ? 'bg-purple-600/50 border-2 border-purple-400' 
-                      : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'
-                  }`}
-                  onClick={() => handlePackageClick(pkg)}
-                >
+              {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
                   <div className="flex items-center space-x-2 mb-2">
                     <Calendar className="w-5 h-5 text-purple-300" />
                     <span className="text-white font-medium">{pkg.duration} days</span>
@@ -210,13 +182,11 @@ export default function HotelModelPage() {
                     <Users className="w-4 h-4 text-purple-300" />
                     <span className="text-purple-200 text-sm">{pkg.available} rooms left</span>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             {/* Selected Package Details */}
-            {selectedPackage && (
-              <Card className="p-6 bg-purple-800/40 border-purple-600/50">
+            {selectedPackage && <Card className="p-6 bg-purple-800/40 border-purple-600/50">
                 <h3 className="text-xl font-bold text-white mb-4">Package Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -242,20 +212,17 @@ export default function HotelModelPage() {
                         the rest is paid upon arrival.
                       </p>
                     </div>
-                    {selectedPackage.available <= 2 && (
-                      <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
+                    {selectedPackage.available <= 2 && <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
                         <p className="text-red-200 text-sm font-medium">
                           ⚠️ Only {selectedPackage.available} rooms left for this date!
                         </p>
-                      </div>
-                    )}
+                      </div>}
                     <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                       Reserve Now
                     </Button>
                   </div>
                 </div>
-              </Card>
-            )}
+              </Card>}
           </div>
         </Card>
 
@@ -265,12 +232,10 @@ export default function HotelModelPage() {
           <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
             <h3 className="text-xl font-bold text-white mb-4 glow-text">Room Features</h3>
             <div className="grid grid-cols-2 gap-3">
-              {sampleHotel.roomFeatures.map((feature) => (
-                <div key={feature} className="flex items-center space-x-2">
+              {sampleHotel.roomFeatures.map(feature => <div key={feature} className="flex items-center space-x-2">
                   <Wifi className="w-4 h-4 text-purple-400" />
                   <span className="text-purple-100 text-sm">{feature}</span>
-                </div>
-              ))}
+                </div>)}
             </div>
           </Card>
 
@@ -278,12 +243,10 @@ export default function HotelModelPage() {
           <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
             <h3 className="text-xl font-bold text-white mb-4 glow-text">Hotel Features</h3>
             <div className="grid grid-cols-2 gap-3">
-              {sampleHotel.hotelFeatures.map((feature) => (
-                <div key={feature} className="flex items-center space-x-2">
+              {sampleHotel.hotelFeatures.map(feature => <div key={feature} className="flex items-center space-x-2">
                   <Coffee className="w-4 h-4 text-purple-400" />
                   <span className="text-purple-100 text-sm">{feature}</span>
-                </div>
-              ))}
+                </div>)}
             </div>
           </Card>
         </div>
@@ -299,6 +262,5 @@ export default function HotelModelPage() {
         </Card>
 
       </div>
-    </div>
-  );
+    </div>;
 }

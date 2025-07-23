@@ -186,14 +186,22 @@ export function Navbar() {
           <Link to="/ambassador" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.ambassador.mobile')}
           </Link>
-          <Link to="/ayuda" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+           <Link to="/ayuda" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.frequentQuestions.mobile')}
           </Link>
-           {!isLoggedIn && (
+           
+          {isLoggedIn && (
+            <div className="flex justify-end w-full mb-3">
+              <DashboardSelector />
+            </div>
+          )}
+          
+          {!isLoggedIn && (
             <div className="flex justify-center w-full mb-3">
               <AuthDropdown />
             </div>
-           )}
+          )}
+          
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}
           </Link>

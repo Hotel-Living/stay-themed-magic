@@ -221,11 +221,11 @@ export function HotelLocation({
     return null;
   }
   return <div className="w-full h-full">
-        {isLoading && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+        {isLoading && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center">
             <p className="text-center text-white">Loading map...</p>
           </div>}
         
-        {!isLoading && error && <div className="w-full h-full bg-purple-800/30 flex flex-col items-center justify-center p-4 rounded-lg">
+        {!isLoading && error && <div className="w-full h-full bg-purple-800/30 flex flex-col items-center justify-center p-4">
             <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
             <p className="text-center text-white mb-3">
               {error}
@@ -240,17 +240,15 @@ export function HotelLocation({
         
         {!isLoading && !error && mapReady && mapUrl && <iframe 
           src={mapUrl} 
-          width="100%" 
-          height="100%" 
-          style={{ border: 0 }} 
+          className="w-full h-full"
+          style={{ border: 0, borderRadius: '0.5rem' }} 
           allowFullScreen 
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade" 
           title={`${hotelName} location`}
-          className="rounded-lg"
         ></iframe>}
         
-        {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+        {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center">
             <p className="text-center text-white">
               Location information unavailable.
               <br />

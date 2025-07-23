@@ -117,7 +117,7 @@ export default function HotelModelPage() {
         {/* Visual Block */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Photo Carousel */}
-          <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+          <Card className="p-0 bg-purple-900/20 border-purple-700/50 glow-border backdrop-blur-sm">
             <div className="aspect-video rounded-lg overflow-hidden relative">
               <img src={placeholderImages[currentImageIndex]} alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
               {/* Navigation dots positioned absolutely over the image */}
@@ -128,19 +128,17 @@ export default function HotelModelPage() {
           </Card>
 
           {/* Google Map */}
-          <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+          <Card className="p-0 bg-purple-900/20 border-purple-700/50 glow-border backdrop-blur-sm">
             <div className="aspect-video rounded-lg overflow-hidden">
-              <div className="w-full h-full">
-                <HotelLocation
-                  hotelId={sampleHotel.id}
-                  latitude={sampleHotel.latitude}
-                  longitude={sampleHotel.longitude}
-                  hotelName={sampleHotel.name}
-                  address={sampleHotel.address}
-                  city={sampleHotel.city}
-                  country={sampleHotel.country}
-                />
-              </div>
+              <HotelLocation
+                hotelId={sampleHotel.id}
+                latitude={sampleHotel.latitude}
+                longitude={sampleHotel.longitude}
+                hotelName={sampleHotel.name}
+                address={sampleHotel.address}
+                city={sampleHotel.city}
+                country={sampleHotel.country}
+              />
             </div>
           </Card>
         </div>

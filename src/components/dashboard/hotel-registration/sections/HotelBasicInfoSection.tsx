@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 import { CountryDropdown } from '../components/CountryDropdown';
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
+import { MapPreview } from '../components/MapPreview';
 
 interface HotelBasicInfoSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -131,10 +132,12 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
           />
 
           <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
-            <p className="text-white/70 text-sm mb-2">{t('basicInfo.mapPreview')}</p>
-            <div className="w-full h-32 bg-white/10 rounded border border-white/20 flex items-center justify-center">
-              <span className="text-white/50 text-sm">{t('basicInfo.mapPlaceholder')}</span>
-            </div>
+            <p className="text-white/70 text-sm mb-2">Map Preview</p>
+            <MapPreview 
+              address={form.watch('address')}
+              city={form.watch('city')}
+              country={form.watch('country')}
+            />
           </div>
         </div>
       </AccordionContent>

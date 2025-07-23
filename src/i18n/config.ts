@@ -35,7 +35,7 @@ import enDashboardContent from './locales/en/dashboard/content.json';
 import enDashboardSettings from './locales/en/dashboard/settings.json';
 import enDashboardProperty from './locales/en/dashboard/property.json';
 import enDashboardAffinities from './locales/en/dashboard/affinities.json';
-import enDashboardPropertySteps from './locales/en/dashboard/property-steps.json';
+// property-steps import removed - old 5-step form deleted
 import enDashboardPropertyForm from './locales/en/dashboard/property-form.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
 import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
@@ -219,7 +219,7 @@ const resources = {
     'dashboard/settings': enDashboardSettings,
     'dashboard/property': enDashboardProperty,
     'dashboard/affinities': enDashboardAffinities,
-    'dashboard/property-steps': enDashboardPropertySteps,
+    // 'dashboard/property-steps': removed - old 5-step form deleted
     'dashboard/property-form': enDashboardPropertyForm,
     'dashboard/common': enDashboardCommon,
     'dashboard/faq-terms': enDashboardFaqTerms,
@@ -244,7 +244,7 @@ const resources = {
       settings: enDashboardSettings,
       property: enDashboardProperty,
       affinities: enDashboardAffinities,
-      propertySteps: enDashboardPropertySteps,
+      // propertySteps: removed - old 5-step form deleted
       propertyForm: enDashboardPropertyForm,
       common: enDashboardCommon,
       faqTerms: enDashboardFaqTerms,

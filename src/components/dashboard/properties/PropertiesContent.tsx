@@ -6,7 +6,7 @@ import { Hotel } from "@/integrations/supabase/types-custom";
 import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
 import { PropertyEditView } from "./views/PropertyEditView";
-import AddProperty from "@/components/dashboard/AddProperty";
+import AddProperty2Content from "@/components/dashboard/AddProperty2Content";
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -97,9 +97,15 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   // Rendering logic for different states
   if (showAddProperty) {
     return (
-      <AddProperty 
-        onDoneEditing={handleDoneAddingProperty}
-      />
+      <div>
+        <button
+          className="mb-3 px-4 py-2 rounded bg-fuchsia-700 text-white"
+          onClick={handleDoneAddingProperty}
+        >
+          Back to My Properties
+        </button>
+        <AddProperty2Content />
+      </div>
     );
   }
 

@@ -70,7 +70,7 @@ export function useCodeStats() {
           { path: "src/components/dashboard/DashboardLayout.tsx", lineCount: 90, sizeInBytes: 3620 },
           { path: "src/components/dashboard/DashboardContent.tsx", lineCount: 75, sizeInBytes: 2980 },
           { path: "src/components/dashboard/ActionCard.tsx", lineCount: 40, sizeInBytes: 1650 },
-          { path: "src/components/dashboard/AddProperty.tsx", lineCount: 120, sizeInBytes: 4850 },
+          // { path: "src/components/dashboard/AddProperty.tsx", lineCount: 120, sizeInBytes: 4850 }, // DELETED - old 5-step form
           { path: "src/components/dashboard/AnalyticsContent.tsx", lineCount: 85, sizeInBytes: 3380 },
           { path: "src/components/dashboard/BookingItem.tsx", lineCount: 70, sizeInBytes: 2790 },
           { path: "src/components/dashboard/BookingsContent.tsx", lineCount: 90, sizeInBytes: 3540 },
@@ -85,11 +85,7 @@ export function useCodeStats() {
           { path: "src/components/dashboard/StatCard.tsx", lineCount: 40, sizeInBytes: 1640 },
           
           // Property Steps
-          { path: "src/components/dashboard/PropertySteps/BasicInfoStep.tsx", lineCount: 130, sizeInBytes: 5240 },
-          { path: "src/components/dashboard/PropertySteps/LocationStep.tsx", lineCount: 110, sizeInBytes: 4380 },
-          { path: "src/components/dashboard/PropertySteps/PicturesStep.tsx", lineCount: 120, sizeInBytes: 4820 },
-          { path: "src/components/dashboard/PropertySteps/RoomsAndPricingStep.tsx", lineCount: 115, sizeInBytes: 4650 },
-          { path: "src/components/dashboard/PropertySteps/ThemesAndActivitiesStep.tsx", lineCount: 125, sizeInBytes: 5080 },
+          // PropertySteps components DELETED - old 5-step form removed
           
           // Other components
           { path: "src/components/BookingForm.tsx", lineCount: 180, sizeInBytes: 7240 },

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import CheckInOutSection from '../PropertySteps/rooms/CheckInOutSection';
+import CheckInOutSection from './CheckInOutSection';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export const CheckInOutCard = () => {

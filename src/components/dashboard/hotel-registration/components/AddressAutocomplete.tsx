@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 declare global {
   interface Window {
@@ -30,34 +31,45 @@ export const AddressAutocomplete = ({
 
   // Load Google Maps script
   useEffect(() => {
-    const loadGoogleMaps = () => {
+    const loadGoogleMaps = async () => {
       if (window.google && window.google.maps) {
         setIsGoogleMapsLoaded(true);
         return;
       }
 
-      // Since this is connected to Supabase, we'll add a secret form for the API key
-      const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // This will be replaced with Supabase secret
-      
-      if (!apiKey || apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
-        console.warn('Google Maps API key not found - using manual input mode');
-        return;
+      try {
+        // Fetch API key from Supabase Edge Function
+        const { data, error } = await supabase.functions.invoke('get-maps-key');
+        
+        if (error) {
+          console.warn('Failed to fetch Google Maps API key:', error);
+          return;
+        }
+
+        const apiKey = data?.key || data?.apiKey;
+        
+        if (!apiKey) {
+          console.warn('Google Maps API key not found - using manual input mode');
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+        script.async = true;
+        script.defer = true;
+
+        script.onload = () => {
+          setIsGoogleMapsLoaded(true);
+        };
+
+        script.onerror = () => {
+          console.warn('Failed to load Google Maps API - using manual input mode');
+        };
+
+        document.head.appendChild(script);
+      } catch (error) {
+        console.error('Error loading Google Maps:', error);
       }
-
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-      script.async = true;
-      script.defer = true;
-
-      script.onload = () => {
-        setIsGoogleMapsLoaded(true);
-      };
-
-      script.onerror = () => {
-        console.warn('Failed to load Google Maps API - using manual input mode');
-      };
-
-      document.head.appendChild(script);
     };
 
     loadGoogleMaps();

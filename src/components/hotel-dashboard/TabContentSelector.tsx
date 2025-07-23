@@ -13,7 +13,7 @@ import SettingsContent from "@/components/dashboard/SettingsContent";
 import { RatesCalculatorContent } from "@/components/dashboard/RatesCalculatorContent";
 import { WelcomeOverviewContent } from "@/components/dashboard/WelcomeOverviewContent";
 import { TermsConditionsContent } from "@/components/dashboard/TermsConditionsContent";
-import AddProperty2Content from "@/components/dashboard/AddProperty2Content";
+// AddProperty2Content removed with JotForm removal
 import { HotelReferralsContent } from "@/components/dashboard/HotelReferralsContent";
 import { AvailabilityPackagesContent } from "@/components/dashboard/AvailabilityPackagesContent";
 import { NewHotelRegistrationContent } from "@/components/dashboard/NewHotelRegistrationContent";
@@ -56,7 +56,7 @@ export default function TabContentSelector({ activeTab, setActiveTab }: TabConte
     case "terms-conditions":
       return <TermsConditionsContent />;
     case "add-property-2":
-      return <AddProperty2Content />;
+      return <div className="p-6 text-center">JotForm integration removed. Use the 16-step form instead.</div>;
     case "add-property-new":
       return <NewHotelRegistrationContent />;
     default:

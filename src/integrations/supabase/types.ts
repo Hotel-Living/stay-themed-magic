@@ -492,7 +492,6 @@ export type Database = {
           created_at: string | null
           id: string
           is_active: boolean
-          jotform_field_id: string | null
           last_sync_at: string | null
           source_type: string
           value: string
@@ -502,7 +501,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean
-          jotform_field_id?: string | null
           last_sync_at?: string | null
           source_type?: string
           value: string
@@ -512,7 +510,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean
-          jotform_field_id?: string | null
           last_sync_at?: string | null
           source_type?: string
           value?: string
@@ -1111,81 +1108,6 @@ export type Database = {
         }
         Relationships: []
       }
-      jotform_raw: {
-        Row: {
-          content_type: string
-          created_at: string
-          headers: Json
-          id: string
-          parse_method: string
-          parsed_data: Json | null
-          raw_body: string
-          received_at: string
-          user_agent: string | null
-        }
-        Insert: {
-          content_type: string
-          created_at?: string
-          headers: Json
-          id?: string
-          parse_method: string
-          parsed_data?: Json | null
-          raw_body: string
-          received_at?: string
-          user_agent?: string | null
-        }
-        Update: {
-          content_type?: string
-          created_at?: string
-          headers?: Json
-          id?: string
-          parse_method?: string
-          parsed_data?: Json | null
-          raw_body?: string
-          received_at?: string
-          user_agent?: string | null
-        }
-        Relationships: []
-      }
-      jotform_sync_logs: {
-        Row: {
-          created_at: string
-          error_message: string | null
-          id: string
-          items_added: number | null
-          items_deactivated: number | null
-          items_processed: number | null
-          items_updated: number | null
-          status: string
-          sync_completed_at: string | null
-          sync_started_at: string
-        }
-        Insert: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          items_added?: number | null
-          items_deactivated?: number | null
-          items_processed?: number | null
-          items_updated?: number | null
-          status?: string
-          sync_completed_at?: string | null
-          sync_started_at?: string
-        }
-        Update: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          items_added?: number | null
-          items_deactivated?: number | null
-          items_processed?: number | null
-          items_updated?: number | null
-          status?: string
-          sync_completed_at?: string | null
-          sync_started_at?: string
-        }
-        Relationships: []
-      }
       notification_logs: {
         Row: {
           created_at: string
@@ -1280,7 +1202,6 @@ export type Database = {
           id: string
           is_active: boolean | null
           is_hotel_owner: boolean | null
-          jotform_token: string | null
           last_name: string | null
           phone: string | null
           preferred_language: string | null
@@ -1296,7 +1217,6 @@ export type Database = {
           id: string
           is_active?: boolean | null
           is_hotel_owner?: boolean | null
-          jotform_token?: string | null
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
@@ -1312,7 +1232,6 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           is_hotel_owner?: boolean | null
-          jotform_token?: string | null
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
@@ -1724,10 +1643,6 @@ export type Database = {
         Args: { association_name: string }
         Returns: string
       }
-      generate_jotform_token: {
-        Args: { user_id: string }
-        Returns: string
-      }
       get_activities_with_counts: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1789,10 +1704,6 @@ export type Database = {
           property_type: string
           hotel_count: number
         }[]
-      }
-      get_user_from_jotform_token: {
-        Args: { token: string }
-        Returns: string
       }
       has_role: {
         Args: { role_name: string }

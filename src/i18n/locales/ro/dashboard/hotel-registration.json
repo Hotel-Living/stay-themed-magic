@@ -45,12 +45,17 @@
     "placeholder": "Alegeți stilul proprietății",
     "modern": "Modern",
     "classic": "Clasic",
+    "classicElegant": "Clasic Elegant",
     "boutique": "Boutique",
     "luxury": "Lux",
     "budget": "Economic",
     "historic": "Istoric",
     "resort": "Resort",
-    "business": "Business"
+    "business": "Business",
+    "fusion": "Fuziune",
+    "urban": "Urban",
+    "rural": "Rural",
+    "minimalist": "Minimalist"
   },
     "hotelDescription": {
       "title": "DESCRIEREA HOTELULUI",
@@ -70,10 +75,13 @@
     "atmosphere": "Atmosfera este...",
     "atmospherePlaceholder": "relaxantă, vibrantă, liniștită, luxoasă",
     "location": "Locația oferă...",
-    "locationPlaceholder": "vederi uimitoare, acces în centrul orașului, proximitatea plajei"
+    "locationPlaceholder": "vederi uimitoare, acces în centrul orașului, proximitatea plajei",
+    "locationPerfect": "LOCAȚIA NOASTRĂ ESTE PERFECTĂ PENTRU...",
+    "locationPerfectPlaceholder": "Descrieți ce face specială locația dvs."
   },
     "hotelFeatures": {
       "title": "CARACTERISTICILE HOTELULUI",
+      "label": "Caracteristicile Hotelului",
       "required": "Acest câmp este obligatoriu",
     "selectFeatures": "Selectați caracteristicile disponibile",
     "searchPlaceholder": "Căutați caracteristici...",

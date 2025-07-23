@@ -45,12 +45,17 @@
     "placeholder": "Choose property style",
     "modern": "Modern",
     "classic": "Classic",
+    "classicElegant": "Classic Elegant",
     "boutique": "Boutique",
     "luxury": "Luxury",
     "budget": "Budget",
     "historic": "Historic",
     "resort": "Resort",
-    "business": "Business"
+    "business": "Business",
+    "fusion": "Fusion",
+    "urban": "Urban",
+    "rural": "Rural",
+    "minimalist": "Minimalist"
   },
     "hotelDescription": {
       "title": "HOTEL DESCRIPTION",
@@ -71,10 +76,13 @@
     "atmosphere": "The atmosphere is...",
     "atmospherePlaceholder": "relaxing, vibrant, peaceful, luxurious",
     "location": "The location offers...",
-    "locationPlaceholder": "stunning views, city center access, beach proximity"
+    "locationPlaceholder": "stunning views, city center access, beach proximity",
+    "locationPerfect": "OUR LOCATION IS PERFECT FOR...",
+    "locationPerfectPlaceholder": "Describe what makes your location special"
   },
     "hotelFeatures": {
       "title": "HOTEL FEATURES",
+      "label": "Hotel Features",
       "required": "This field is required",
       "selectFeatures": "Select available features",
     "searchPlaceholder": "Search features...",

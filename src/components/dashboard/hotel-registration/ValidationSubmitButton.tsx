@@ -26,9 +26,7 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     if (!data.postalCode?.trim()) missingFields.push('Postal Code');
     if (!data.country?.trim()) missingFields.push('Country');
     
-    // Contact Info validation
-    if (!data.email?.trim()) missingFields.push('Email');
-    if (!data.phone?.trim()) missingFields.push('Phone');
+    // Contact Info validation - removed email and phone as they're not in the form
     
     // Classification validation
     if (!data.classification?.trim()) missingFields.push('Classification');
@@ -51,8 +49,7 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
       missingFields.push('Stay Lengths (at least one)');
     }
     
-    // Availability validation
-    if (!data.numberOfRooms?.trim()) missingFields.push('Number of Rooms');
+    // Availability validation - removed numberOfRooms as it's not in the form
     
     // Terms validation
     if (!data.termsAccepted) missingFields.push('Terms & Conditions Acceptance');
@@ -121,8 +118,6 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
         if (fieldName.includes('city')) form.setError('city', { message: 'Required' });
         if (fieldName.includes('postalcode')) form.setError('postalCode', { message: 'Required' });
         if (fieldName.includes('country')) form.setError('country', { message: 'Required' });
-        if (fieldName.includes('email')) form.setError('email', { message: 'Required' });
-        if (fieldName.includes('phone')) form.setError('phone', { message: 'Required' });
         if (fieldName.includes('classification')) form.setError('classification', { message: 'Required' });
         if (fieldName.includes('propertytype')) form.setError('propertyType', { message: 'Required' });
         if (fieldName.includes('propertystyle')) form.setError('propertyStyle', { message: 'Required' });
@@ -134,7 +129,7 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
         if (fieldName.includes('checkinday')) form.setError('checkInDay', { message: 'Required' });
         if (fieldName.includes('mealplan')) form.setError('mealPlan', { message: 'Required' });
         if (fieldName.includes('staylengths')) form.setError('stayLengths', { message: 'Required' });
-        if (fieldName.includes('numberofrooms')) form.setError('numberOfRooms', { message: 'Required' });
+        
         if (fieldName.includes('terms')) form.setError('termsAccepted', { message: 'Must be accepted' });
       });
       

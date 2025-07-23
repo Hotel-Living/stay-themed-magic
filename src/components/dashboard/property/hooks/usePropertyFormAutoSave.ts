@@ -74,7 +74,7 @@ export function usePropertyFormAutoSave(
 
   const autoSave = useAutoSave(formData, saveDraft, {
     interval: 30000, // 30 seconds
-    enabled: !!user?.id
+    enabled: false // Auto-save disabled
   });
 
   return {

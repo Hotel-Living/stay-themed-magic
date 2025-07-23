@@ -166,61 +166,14 @@ export const NewHotelRegistrationForm = () => {
   const formValues = form.watch();
   const propertyFormData = convertToPropertyFormData(formValues);
 
-  // Auto-save functionality
+  // Auto-save functionality disabled
   const autoSave = usePropertyFormAutoSave(
     propertyFormData,
     () => {}, // setFormData not needed here as we're using react-hook-form
     null // no editing hotel ID for new properties
   );
 
-  // Load draft on component mount
-  useEffect(() => {
-    const loadedDraft = autoSave.loadDraft();
-    if (loadedDraft) {
-      // Convert back to form format and populate form
-      form.reset({
-        hotelName: loadedDraft.hotelName,
-        address: loadedDraft.address,
-        city: loadedDraft.city,
-        postalCode: loadedDraft.postalCode,
-        country: loadedDraft.country,
-        email: loadedDraft.contactEmail,
-        phone: loadedDraft.contactPhone,
-        website: '',
-        classification: loadedDraft.category,
-        propertyType: loadedDraft.propertyType,
-        propertyStyle: loadedDraft.style,
-        hotelDescription: loadedDraft.description,
-        roomDescription: loadedDraft.roomTypes[0]?.description || '',
-        idealGuests: loadedDraft.idealGuests || '',
-        atmosphere: loadedDraft.atmosphere || '',
-        location: loadedDraft.perfectLocation || '',
-        hotelFeatures: Object.keys(loadedDraft.featuresHotel || {}),
-        roomFeatures: Object.keys(loadedDraft.featuresRoom || {}),
-        activities: loadedDraft.activities,
-        clientAffinities: loadedDraft.themes,
-        photos: {
-          hotel: loadedDraft.hotelImages || [],
-          room: []
-        },
-        checkInDay: loadedDraft.checkinDay || 'Monday',
-        mealPlan: loadedDraft.mealPlans[0] || '',
-        stayLengths: loadedDraft.stayLengths?.map(String) as ('8' | '15' | '22' | '29')[] || [],
-        weeklyLaundryIncluded: false,
-        externalLaundryAvailable: false,
-        numberOfRooms: '1',
-        pricingMatrix: loadedDraft.pricingMatrix || [],
-        termsAccepted: loadedDraft.termsAccepted,
-        availabilityPackages: []
-      });
-      
-      toast({
-        title: t('draftLoaded'),
-        description: t('draftLoadedDescription'),
-        duration: 3000
-      });
-    }
-  }, []);
+  // Draft loading disabled
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
     if (!user?.id) {
@@ -241,8 +194,7 @@ export const NewHotelRegistrationForm = () => {
       const result = await createNewHotel(propertyData, user.id);
       
       if (result) {
-        // Clear auto-save draft after successful submission
-        autoSave.clearDraft();
+        // Draft clearing disabled
         
         toast({
           title: t('success'),

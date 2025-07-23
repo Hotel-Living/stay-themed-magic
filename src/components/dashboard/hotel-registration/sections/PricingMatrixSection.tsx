@@ -46,21 +46,24 @@ export const PricingMatrixSection = ({ form }: PricingMatrixSectionProps) => {
   };
 
   const calculateLowestMonthlyPrice = () => {
-    if (stayLengths.length === 0 || pricingMatrix.length === 0) return 0;
+    if (stayLengths.length === 0) return 0;
     
-    // Find the longest stay length
-    const longestStay = Math.max(...stayLengths.map(length => parseInt(length)));
+    const proportionalPrices = [];
     
-    // Get double room price for the longest stay (assuming double occupancy)
-    const longestStayPricing = pricingMatrix.find(p => p.duration === longestStay);
-    if (!longestStayPricing?.doubleRoom) return 0;
+    // Calculate proportional price for each selected duration
+    for (const length of stayLengths) {
+      const duration = parseInt(length);
+      const pricing = pricingMatrix.find(p => p.duration === duration);
+      
+      if (pricing?.doubleRoom && pricing.doubleRoom > 0) {
+        // Formula: (double_room_price / duration) × 29
+        const proportionalPrice = Math.round((pricing.doubleRoom / duration) * 29);
+        proportionalPrices.push(proportionalPrice);
+      }
+    }
     
-    // Calculate per-person price (double occupancy) and convert to monthly rate
-    const perPersonPrice = longestStayPricing.doubleRoom / 2;
-    const dailyRate = perPersonPrice / longestStay;
-    const monthlyPrice = Math.round(dailyRate * 30);
-    
-    return monthlyPrice;
+    // Return the lowest proportional price, or 0 if no valid prices
+    return proportionalPrices.length > 0 ? Math.min(...proportionalPrices) : 0;
   };
 
   // Calculate and update price_per_month whenever pricing matrix changes

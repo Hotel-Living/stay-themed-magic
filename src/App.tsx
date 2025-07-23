@@ -79,6 +79,7 @@ import Ayuda from "@/pages/Ayuda";
 import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 import HotelModelPage from "@/pages/HotelModelPage";
+import AdminLogin from "@/pages/AdminLogin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -115,7 +116,8 @@ function App() {
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
               <Route path="/search" element={<Search />} />
-              <Route path="/login" element={<Login />} />
+               <Route path="/login" element={<Login />} />
+               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/hotel-signup" element={<HotelRegistration />} />
               <Route path="/hotel-login" element={<Login />} />

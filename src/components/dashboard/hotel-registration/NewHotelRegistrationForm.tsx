@@ -8,6 +8,7 @@ import { Accordion } from '@/components/ui/accordion';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
+import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { createNewHotel } from '../property/hooks/submission/createNewHotel';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
@@ -104,6 +105,11 @@ export const NewHotelRegistrationForm = () => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitFeedback, setSubmitFeedback] = useState<{
+    type: 'error' | 'success' | null;
+    message: string;
+    fields?: string[];
+  }>({ type: null, message: '', fields: [] });
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -240,7 +246,8 @@ export const NewHotelRegistrationForm = () => {
     console.log('🚀 Form submission started');
     console.log('📋 Form data received:', data);
     
-    // Immediate user feedback
+    // Clear previous feedback and show loading
+    setSubmitFeedback({ type: null, message: '', fields: [] });
     setIsSubmitting(true);
     
     try {
@@ -250,20 +257,23 @@ export const NewHotelRegistrationForm = () => {
       if (missingFields.length > 0) {
         console.log('❌ Missing required fields:', missingFields);
         
-        // Display detailed error message with sections
-        const errorMessage = `Por favor complete los siguientes campos requeridos: ${missingFields.join(', ')}`;
+        // Set visual feedback immediately
+        setSubmitFeedback({
+          type: 'error',
+          message: 'Por favor complete los siguientes campos requeridos:',
+          fields: missingFields
+        });
         
-        // Try multiple notification methods in case of network issues
+        // Try toast as secondary feedback but don't rely on it
         try {
           toast({
             title: 'Campos Requeridos Faltantes',
-            description: errorMessage,
+            description: `Por favor complete: ${missingFields.join(', ')}`,
             variant: 'destructive',
             duration: 8000
           });
         } catch (toastError) {
-          console.error('Toast failed, using alert fallback:', toastError);
-          alert(`Campos Requeridos Faltantes\n\n${errorMessage}`);
+          console.log('Toast failed, but visual feedback is working:', toastError);
         }
         
         setIsSubmitting(false);
@@ -281,43 +291,41 @@ export const NewHotelRegistrationForm = () => {
         
         if (Object.keys(errors).length === 0) {
           // Generic fallback if RHF validation fails but no specific errors
-          try {
-            toast({
-              title: 'Error de Validación',
-              description: 'El formulario contiene errores. Por favor revise todos los campos.',
-              variant: 'destructive',
-              duration: 6000
-            });
-          } catch (toastError) {
-            console.error('Toast failed, using alert fallback:', toastError);
-            alert('Error de Validación\n\nEl formulario contiene errores. Por favor revise todos los campos.');
-          }
+          setSubmitFeedback({
+            type: 'error',
+            message: 'El formulario contiene errores. Por favor revise todos los campos.'
+          });
           
           setIsSubmitting(false);
           return;
         }
         
         // Display specific RHF errors
-        const errorMessages = Object.entries(errors)
+        const errorFields = Object.entries(errors)
           .map(([field, error]) => {
             const displayName = getFieldDisplayName(field);
             const message = error?.message || 'Campo requerido';
             return `${displayName}: ${message}`;
-          })
-          .join(', ');
+          });
         
-        console.log('📢 Error messages to display:', errorMessages);
+        setSubmitFeedback({
+          type: 'error',
+          message: 'Se encontraron los siguientes errores:',
+          fields: errorFields
+        });
         
+        console.log('📢 Error messages displayed visually:', errorFields);
+        
+        // Try toast as secondary feedback
         try {
           toast({
             title: 'Errores de Validación',
-            description: `${errorMessages}`,
+            description: `${errorFields.join(', ')}`,
             variant: 'destructive',
             duration: 8000
           });
         } catch (toastError) {
-          console.error('Toast failed, using alert fallback:', toastError);
-          alert(`Errores de Validación\n\n${errorMessages}`);
+          console.log('Toast failed, but visual feedback is working:', toastError);
         }
         
         setIsSubmitting(false);
@@ -343,25 +351,44 @@ export const NewHotelRegistrationForm = () => {
       const result = await createNewHotel(propertyData, user.id);
       
       if (result) {
-        toast({
-          title: t('success'),
-          description: t('hotelSubmittedForApproval'),
-          duration: 5000
+        setSubmitFeedback({
+          type: 'success',
+          message: '¡Hotel enviado exitosamente para aprobación del administrador!'
         });
+
+        try {
+          toast({
+            title: t('success'),
+            description: t('hotelSubmittedForApproval'),
+            duration: 5000
+          });
+        } catch (toastError) {
+          console.log('Toast failed, but visual feedback is working:', toastError);
+        }
 
         // Redirect to hotel dashboard after successful submission
         setTimeout(() => {
           window.location.href = '/hotel-dashboard';
-        }, 2000);
+        }, 3000);
       }
       
     } catch (error) {
       console.error('Error submitting hotel:', error);
-      toast({
-        title: t('error'),
-        description: t('submissionFailed'),
-        variant: 'destructive'
+      
+      setSubmitFeedback({
+        type: 'error',
+        message: 'Error al enviar el registro del hotel. Por favor intente nuevamente.'
       });
+
+      try {
+        toast({
+          title: t('error'),
+          description: t('submissionFailed'),
+          variant: 'destructive'
+        });
+      } catch (toastError) {
+        console.log('Toast failed, but visual feedback is working:', toastError);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -371,6 +398,33 @@ export const NewHotelRegistrationForm = () => {
     <div className="max-w-4xl mx-auto p-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Visual Feedback Section */}
+          {submitFeedback.type && (
+            <div className={`p-4 rounded-lg border-2 ${
+              submitFeedback.type === 'error' 
+                ? 'bg-red-50 border-red-200 text-red-800' 
+                : 'bg-green-50 border-green-200 text-green-800'
+            }`}>
+              <div className="flex items-start gap-3">
+                {submitFeedback.type === 'error' ? (
+                  <AlertCircle className="h-5 w-5 mt-0.5 text-red-600" />
+                ) : (
+                  <CheckCircle className="h-5 w-5 mt-0.5 text-green-600" />
+                )}
+                <div className="flex-1">
+                  <p className="font-semibold text-base mb-2">{submitFeedback.message}</p>
+                  {submitFeedback.fields && submitFeedback.fields.length > 0 && (
+                    <ul className="list-disc pl-5 space-y-1">
+                      {submitFeedback.fields.map((field, index) => (
+                        <li key={index} className="text-sm">{field}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <Accordion type="single" collapsible className="space-y-4">
             <HotelBasicInfoSection form={form} />
             <HotelClassificationSection form={form} />
@@ -396,10 +450,21 @@ export const NewHotelRegistrationForm = () => {
           <div className="flex justify-end pt-6">
             <Button 
               type="submit" 
-              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
+              className={`px-8 py-3 text-lg font-semibold transition-all duration-200 ${
+                isSubmitting 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-fuchsia-600 hover:bg-fuchsia-700 active:bg-fuchsia-800'
+              } text-white`}
               disabled={isSubmitting}
             >
-              {isSubmitting ? t('submitting') : t('submitRegistration')}
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <span>Enviando...</span>
+                </div>
+              ) : (
+                t('submitRegistration')
+              )}
             </Button>
           </div>
         </form>

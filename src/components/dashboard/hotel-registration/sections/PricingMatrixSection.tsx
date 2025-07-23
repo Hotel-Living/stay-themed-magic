@@ -45,6 +45,34 @@ export const PricingMatrixSection = ({ form }: PricingMatrixSectionProps) => {
     return pricing?.[field] || 0;
   };
 
+  const calculateLowestMonthlyPrice = () => {
+    if (stayLengths.length === 0 || pricingMatrix.length === 0) return 0;
+    
+    // Find the longest stay length
+    const longestStay = Math.max(...stayLengths.map(length => parseInt(length)));
+    
+    // Get double room price for the longest stay (assuming double occupancy)
+    const longestStayPricing = pricingMatrix.find(p => p.duration === longestStay);
+    if (!longestStayPricing?.doubleRoom) return 0;
+    
+    // Calculate per-person price (double occupancy) and convert to monthly rate
+    const perPersonPrice = longestStayPricing.doubleRoom / 2;
+    const dailyRate = perPersonPrice / longestStay;
+    const monthlyPrice = Math.round(dailyRate * 30);
+    
+    return monthlyPrice;
+  };
+
+  // Calculate and update price_per_month whenever pricing matrix changes
+  React.useEffect(() => {
+    const monthlyPrice = calculateLowestMonthlyPrice();
+    if (monthlyPrice > 0) {
+      form.setValue('price_per_month', monthlyPrice);
+    }
+  }, [pricingMatrix, stayLengths, form]);
+
+  const lowestMonthlyPrice = calculateLowestMonthlyPrice();
+
   return (
     <AccordionItem value="pricing-matrix" className="bg-white/5 border-white/20 rounded-lg">
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
@@ -64,7 +92,14 @@ export const PricingMatrixSection = ({ form }: PricingMatrixSectionProps) => {
           {stayLengths.length === 0 ? (
             <p className="text-white/70">{t('pricingMatrix.selectStayLengthsFirst')}</p>
           ) : (
-            <div className="space-y-6">
+              <div className="space-y-6">
+                {lowestMonthlyPrice > 0 && (
+                  <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-4">
+                    <p className="text-blue-200 text-sm">
+                      Your lowest proportional monthly price is estimated at: €{lowestMonthlyPrice}
+                    </p>
+                  </div>
+                )}
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>

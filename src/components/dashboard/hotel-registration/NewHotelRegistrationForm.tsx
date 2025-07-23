@@ -86,6 +86,7 @@ const hotelRegistrationSchema = z.object({
   
   // Pricing
   pricingMatrix: z.array(z.any()).default([]),
+  price_per_month: z.number().optional(),
   
   // Terms
   termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),

@@ -83,8 +83,8 @@ const hotelRegistrationSchema = z.object({
   // Availability
   numberOfRooms: z.string().min(1, 'Number of rooms is required'),
   
-  // Pricing
-  pricingMatrix: z.array(z.any()).default([]),
+  // Pricing (optional until fully implemented)
+  pricingMatrix: z.array(z.any()).optional().default([]),
   
   // Terms
   termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),

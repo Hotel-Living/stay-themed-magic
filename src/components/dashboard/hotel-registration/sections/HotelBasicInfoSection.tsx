@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 import { CountryDropdown } from '../components/CountryDropdown';
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
+import { SimpleAddressAutocomplete } from '../components/SimpleAddressAutocomplete';
 import { MapPreview } from '../components/MapPreview';
 
 interface HotelBasicInfoSectionProps {
@@ -51,7 +52,7 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
               <FormItem>
                 <FormLabel className="text-white">{t('basicInfo.address')}</FormLabel>
                 <FormControl>
-                  <AddressAutocomplete
+                  <SimpleAddressAutocomplete
                     value={field.value}
                     onChange={field.onChange}
                     onAddressComponents={(components) => {

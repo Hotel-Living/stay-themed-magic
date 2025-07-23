@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/useTranslation';
 
 // Import refactored components
-import { CheckInOutCard } from './settings/CheckInOutCard';
+// CheckInOutCard removed with 5-step form
 import { AutoPriceCard } from './settings/AutoPriceCard';
 import { CurrencyCard } from './settings/CurrencyCard';
 import { NotificationsCard } from './settings/NotificationsCard';
@@ -51,7 +51,9 @@ export default function SettingsContent() {
         </TabsList>
         
         <TabsContent value="checkin">
-          <CheckInOutCard />
+          <div className="p-6 bg-[#7a0486] border border-white rounded-lg">
+            <p className="text-white">Check-in/Check-out settings component removed with 5-step form.</p>
+          </div>
         </TabsContent>
         
         <TabsContent value="auto-price">

@@ -55,7 +55,7 @@ import CustomerService from "@/pages/CustomerService";
 import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
 import Compare from "@/pages/Compare";
-import AddPropertyPage from "@/pages/AddPropertyPage";
+// AddPropertyPage removed with 5-step form
 import AddProperty2 from "@/pages/AddProperty2";
 import PanelFernando from "@/pages/PanelFernando";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -163,7 +163,7 @@ function App() {
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
                <Route path="/promoter/dashboard" element={<ProtectedRoute requirePromoter={true}><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
-              <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
+              {/* Old 5-step form route removed */}
               <Route path="/dashboard/hotel/add-property-2" element={<ProtectedRoute requireHotelOwner={true}><AddProperty2 /></ProtectedRoute>} />
               <Route path="/featured-hotels" element={<FeaturedHotels />} />
               <Route path="/videos" element={<Videos />} />

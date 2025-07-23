@@ -5,8 +5,8 @@ import { useMyProperties } from "@/hooks/useMyProperties";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
-import { PropertyEditView } from "./views/PropertyEditView";
-import AddProperty from "@/components/dashboard/AddProperty";
+// PropertyEditView and AddProperty removed with 5-step form
+// Editing functionality has been removed
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -95,20 +95,20 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   };
 
   // Rendering logic for different states
-  if (showAddProperty) {
+  // Old 5-step form and editing functionality removed
+  if (showAddProperty || editingHotelId) {
     return (
-      <AddProperty 
-        onDoneEditing={handleDoneAddingProperty}
-      />
-    );
-  }
-
-  if (editingHotelId) {
-    return (
-      <PropertyEditView 
-        hotelId={editingHotelId} 
-        onBack={handleBackToList} 
-      />
+      <div className="p-6 bg-[#7a0486] border border-white rounded-lg">
+        <h3 className="text-xl font-bold text-white mb-4">Property Management</h3>
+        <p className="text-white">The old property addition and editing form has been removed.</p>
+        <p className="text-white mt-2">Please use the 16-step form in the hotel dashboard under "Agregar propiedad".</p>
+        <button 
+          onClick={handleBackToList}
+          className="mt-4 px-4 py-2 bg-fuchsia-700 text-white rounded"
+        >
+          Back to Properties List
+        </button>
+      </div>
     );
   }
 

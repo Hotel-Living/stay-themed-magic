@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover";
-import { weekdayMap } from "@/components/dashboard/PropertySteps/rooms/roomTypes/availabilityDateUtils";
+import { weekdayMap } from "@/utils/dateUtils";
 
 interface BookingCalendarSelectorProps {
   startDate: Date | null;

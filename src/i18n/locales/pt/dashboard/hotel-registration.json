@@ -1,4 +1,3 @@
-
 {
   "basicInfo": {
     "title": "INFORMAÇÕES BÁSICAS",
@@ -158,18 +157,29 @@
     "locationPerfectPlaceholder": "Descreva o que torna sua localização especial..."
   },
   "availabilityPackages": {
-    "title": "PACOTES DE DISPONIBILIDADE",
-    "label": "Pacotes de Disponibilidade",
-    "description": "Configure seus pacotes de disponibilidade",
-    "enterNumberOfRooms": "Digite o número de quartos",
-    "rulesTitle": "Regras para Pacotes de Disponibilidade",
-    "rule1": "Pacotes não podem se sobrepor em datas",
-    "rule2": "O dia de check-in deve coincidir com o dia preferido do seu hotel",
-    "rule3": "A duração deve ser de 8, 15, 22 ou 29 dias",
-    "rule4": "Pacotes com reservas não podem ser editados ou excluídos",
-    "rule5": "Apenas pacotes futuros sem reservas podem ser excluídos",
-    "rule6": "Todas as modificações são protegidas com verificações de validação",
-    "rule7": "Atualizações em tempo real previnem conflitos de dados obsoletos"
+    "title": "Pacotes de Disponibilidade",
+    "description": "Configure os pacotes de disponibilidade da sua propriedade selecionando intervalos de datas que correspondam ao seu dia de check-in preferido e durações de estadia.",
+    "enterNumberOfRooms": "Digite o número de quartos para os pacotes",
+    "calendarTitle": "Selecionar Datas do Pacote",
+    "selectStartDate": "Selecionar data de início",
+    "selectEndDate": "Selecionar data de fim",
+    "createPackage": "Criar Pacote",
+    "createdPackages": "Pacotes Criados",
+    "noPackagesYet": "Nenhum pacote criado ainda",
+    "packageDuration": "{{duration}} dias",
+    "availableRooms": "{{count}} quartos disponíveis",
+    "editPackage": "Editar",
+    "deletePackage": "Excluir",
+    "validation": {
+      "invalidDuration": "O intervalo de datas selecionado ({{actualDays}} dias) não corresponde a nenhuma das suas durações de estadia permitidas: {{allowedDurations}}",
+      "wrongWeekday": "A data de início deve ser {{weekday}} conforme sua preferência de dia de check-in",
+      "pastDate": "Não é possível selecionar datas no passado",
+      "overlappingDates": "Este intervalo de datas se sobrepõe a um pacote existente",
+      "missingStartDate": "Por favor selecione uma data de início",
+      "missingEndDate": "Por favor selecione uma data de fim",
+      "noStayLengths": "Por favor configure suas durações de estadia primeiro (Menu 13)",
+      "noCheckInDay": "Por favor selecione seu dia de check-in preferido primeiro (Menu 14)"
+    }
   },
   "pricingMatrix": {
     "title": "MATRIZ DE PREÇOS",

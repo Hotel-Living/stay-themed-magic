@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
 
 // Placeholder images from context
 const placeholderImages = ['https://images.unsplash.com/photo-1721322800607-8c38375eef04', 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', 'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'];
 
 // Sample hotel data
 const sampleHotel = {
+  id: "sample-hotel-001",
   name: "Hotel Villa Serena",
   stars: 4,
-  address: "Avenida del Mar 123, Costa Brava, 17250 Platja d'Aro, Spain",
+  address: "Avenida del Mar 123",
+  city: "Platja d'Aro",
+  country: "Spain",
+  latitude: 41.8172,
+  longitude: 3.0683,
   affinities: ["Nature", "Wellness", "Gastronomy", "Cultural Heritage"],
   activities: ["Hiking", "Beach Activities", "Wine Tasting", "Local Markets"],
   stayDurations: [8, 15, 22, 29],
@@ -78,7 +84,7 @@ export default function HotelModelPage() {
           
           <div className="flex items-center justify-center space-x-2 text-purple-200">
             <MapPin className="w-5 h-5" />
-            <span className="text-lg">{sampleHotel.address}</span>
+            <span className="text-lg">{sampleHotel.address}, {sampleHotel.city}, {sampleHotel.country}</span>
           </div>
 
           {/* Affinities and Activities */}
@@ -123,17 +129,18 @@ export default function HotelModelPage() {
             </div>
           </Card>
 
-          {/* Google Map Placeholder */}
-          <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
-            <div className="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
-              <div className="text-center text-gray-400">
-                <MapPin className="w-16 h-16 mx-auto mb-2" />
-                <p className="text-lg font-medium">Interactive Map</p>
-                <p className="text-sm">Google Maps Integration</p>
-                <p className="text-xs mt-2">{sampleHotel.address}</p>
-              </div>
-            </div>
-          </Card>
+          {/* Google Map */}
+          <div className="bg-purple-900/30 border border-purple-700/50 rounded-lg overflow-hidden glow-border">
+            <HotelLocation
+              hotelId={sampleHotel.id}
+              latitude={sampleHotel.latitude}
+              longitude={sampleHotel.longitude}
+              hotelName={sampleHotel.name}
+              address={sampleHotel.address}
+              city={sampleHotel.city}
+              country={sampleHotel.country}
+            />
+          </div>
         </div>
 
         {/* Descriptive Section */}

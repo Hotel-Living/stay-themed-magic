@@ -2,6 +2,13 @@
 {
   "submitting": "Enviando...",
   "submitRegistration": "Enviar Registro",
+  "validationErrors": "Errores de Validación",
+  "pleaseFixTheFollowingErrors": "Por favor corrija los siguientes errores",
+  "error": "Error",
+  "userNotAuthenticated": "Usuario no autenticado",
+  "success": "Éxito",
+  "hotelSubmittedForApproval": "Hotel enviado para aprobación",
+  "submissionFailed": "Error al enviar el registro",
     "basicInfo": {
       "title": "INFORMACIÓN BÁSICA",
     "hotelName": "Nombre del Hotel",

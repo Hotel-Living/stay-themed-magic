@@ -175,6 +175,23 @@ export const NewHotelRegistrationForm = () => {
   };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
+    // Check if form is valid before proceeding
+    const isValid = await form.trigger();
+    if (!isValid) {
+      // Get all field errors and display them
+      const errors = form.formState.errors;
+      const errorMessages = Object.entries(errors)
+        .map(([field, error]) => `${field}: ${error?.message || 'Invalid'}`)
+        .join(', ');
+      
+      toast({
+        title: t('validationErrors'),
+        description: `${t('pleaseFixTheFollowingErrors')}: ${errorMessages}`,
+        variant: 'destructive'
+      });
+      return;
+    }
+
     if (!user?.id) {
       toast({
         title: t('error'),
@@ -248,7 +265,7 @@ export const NewHotelRegistrationForm = () => {
             <Button 
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
-              disabled={isSubmitting || !form.formState.isValid}
+              disabled={isSubmitting}
             >
               {isSubmitting ? t('submitting') : t('submitRegistration')}
             </Button>

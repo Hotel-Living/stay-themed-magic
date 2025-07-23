@@ -33,40 +33,55 @@ export const AddressAutocomplete = ({
   useEffect(() => {
     const loadGoogleMaps = async () => {
       if (window.google && window.google.maps) {
+        console.log('Google Maps already loaded');
         setIsGoogleMapsLoaded(true);
         return;
       }
 
+      console.log('Loading Google Maps API...');
+      
       try {
         // Fetch API key from Supabase Edge Function
+        console.log('Calling get-maps-key Edge Function...');
         const { data, error } = await supabase.functions.invoke('get-maps-key');
         
         if (error) {
-          console.warn('Failed to fetch Google Maps API key:', error);
+          console.error('Failed to fetch Google Maps API key:', error);
           return;
         }
 
         const apiKey = data?.key || data?.apiKey;
+        console.log('API key retrieved:', apiKey ? 'Success' : 'Not found');
         
         if (!apiKey) {
           console.warn('Google Maps API key not found - using manual input mode');
           return;
         }
 
+        // Check if script already exists
+        const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+        if (existingScript) {
+          console.log('Google Maps script already exists in DOM');
+          return;
+        }
+
+        console.log('Creating Google Maps script...');
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
         script.async = true;
         script.defer = true;
 
         script.onload = () => {
+          console.log('Google Maps script loaded successfully');
           setIsGoogleMapsLoaded(true);
         };
 
-        script.onerror = () => {
-          console.warn('Failed to load Google Maps API - using manual input mode');
+        script.onerror = (error) => {
+          console.error('Failed to load Google Maps script:', error);
         };
 
         document.head.appendChild(script);
+        console.log('Google Maps script added to document head');
       } catch (error) {
         console.error('Error loading Google Maps:', error);
       }

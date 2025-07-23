@@ -40,7 +40,7 @@
     "hostel": "Hostel"
   },
   "propertyStyle": {
-    "title": "Estilo da Propriedade",
+    "title": "ESTILO DA PROPRIEDADE",
     "label": "Selecione o Estilo da Propriedade",
     "placeholder": "Escolha o estilo da propriedade",
     "modern": "Moderno",
@@ -60,12 +60,12 @@
     "minCharacters": "caracteres mínimos"
   },
   "roomDescription": {
-    "title": "Descrição dos Quartos",
+    "title": "DESCRIÇÃO DOS QUARTOS",
     "label": "Descrição dos Quartos",
     "placeholder": "Descreva os quartos, suas características, comodidades e layout..."
   },
   "completePhrases": {
-    "title": "Completar Frases",
+    "title": "COMPLETAR FRASES",
     "idealForGuests": "Ideal para hóspedes que...",
     "idealForGuestsPlaceholder": "buscam aventura, famílias, viajantes de negócios",
     "atmosphere": "A atmosfera é...",
@@ -88,13 +88,13 @@
     "loading": "Carregando características dos quartos..."
   },
   "activities": {
-    "title": "Atividades",
+    "title": "ATIVIDADES",
     "selectActivities": "Selecione as atividades disponíveis",
     "searchPlaceholder": "Buscar atividades...",
     "loading": "Carregando atividades..."
   },
   "clientAffinities": {
-    "title": "Afinidades de Clientes",
+    "title": "AFINIDADES DE CLIENTES",
     "selectAffinities": "Selecione os tipos de clientes alvo",
     "searchPlaceholder": "Buscar tipos de clientes...",
     "loading": "Carregando tipos de clientes..."
@@ -128,7 +128,7 @@
     "externalLaundryAvailable": "Lavanderia externa disponível"
   },
   "pricingMatrix": {
-    "title": "Matriz de Preços",
+    "title": "MATRIZ DE PREÇOS",
     "description": "Definir preços para diferentes durações e temporadas",
     "durationDays": "Duração (Dias)",
     "pricePerPerson": "Preço por Pessoa (€)"

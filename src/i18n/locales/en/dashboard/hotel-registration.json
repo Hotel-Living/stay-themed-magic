@@ -40,7 +40,7 @@
     "hostel": "Hostel"
   },
   "propertyStyle": {
-    "title": "Property Style",
+    "title": "PROPERTY STYLE",
     "label": "Select Property Style",
     "placeholder": "Choose property style",
     "modern": "Modern",
@@ -60,12 +60,12 @@
       "minCharacters": "minimum characters"
   },
   "roomDescription": {
-    "title": "Room Description",
+    "title": "ROOM DESCRIPTION",
     "label": "Room Description",
     "placeholder": "Describe the rooms, their features, amenities, and layout..."
   },
   "completePhrases": {
-    "title": "Complete Phrases",
+    "title": "COMPLETE PHRASES",
     "idealForGuests": "Ideal for guests who...",
     "idealForGuestsPlaceholder": "adventure seekers, families, business travelers",
     "atmosphere": "The atmosphere is...",
@@ -88,13 +88,13 @@
     "loading": "Loading room features..."
   },
   "activities": {
-    "title": "Activities",
+    "title": "ACTIVITIES",
     "selectActivities": "Select available activities",
     "searchPlaceholder": "Search activities...",
     "loading": "Loading activities..."
   },
   "clientAffinities": {
-    "title": "Client Affinities",
+    "title": "CLIENT AFFINITIES",
     "selectAffinities": "Select target client types",
     "searchPlaceholder": "Search client types...",
     "loading": "Loading client types..."
@@ -128,7 +128,7 @@
     "externalLaundryAvailable": "External laundry available"
   },
   "pricingMatrix": {
-    "title": "Pricing Matrix",
+    "title": "PRICING MATRIX",
     "description": "Set prices for different durations and seasons",
     "durationDays": "Duration (Days)",
     "pricePerPerson": "Price per Person (€)"

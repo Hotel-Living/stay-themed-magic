@@ -40,7 +40,7 @@
     "hostel": "Hostel"
   },
   "propertyStyle": {
-    "title": "Stilul Proprietății",
+    "title": "STILUL PROPRIETĂȚII",
     "label": "Selectați Stilul Proprietății",
     "placeholder": "Alegeți stilul proprietății",
     "modern": "Modern",
@@ -59,12 +59,12 @@
     "characterCount": "caractere"
   },
   "roomDescription": {
-    "title": "Descrierea Camerelor",
+    "title": "DESCRIEREA CAMERELOR",
     "label": "Descrierea Camerelor",
     "placeholder": "Descrieți camerele, caracteristicile lor, facilitățile și amenajarea..."
   },
   "completePhrases": {
-    "title": "Completați Frazele",
+    "title": "COMPLETAREA FRAZELOR",
     "idealForGuests": "Ideal pentru oaspeții care...",
     "idealForGuestsPlaceholder": "caută aventuri, familii, călători de afaceri",
     "atmosphere": "Atmosfera este...",
@@ -87,13 +87,13 @@
     "loading": "Se încarcă caracteristicile camerelor..."
   },
   "activities": {
-    "title": "Activități",
+    "title": "ACTIVITĂȚI",
     "selectActivities": "Selectați activitățile disponibile",
     "searchPlaceholder": "Căutați activități...",
     "loading": "Se încarcă activitățile..."
   },
   "clientAffinities": {
-    "title": "Afinitățile Clienților",
+    "title": "AFINITĂȚI CLIENȚI",
     "selectAffinities": "Selectați tipurile de clienți țintă",
     "searchPlaceholder": "Căutați tipuri de clienți...",
     "loading": "Se încarcă tipurile de clienți..."
@@ -127,14 +127,15 @@
     "externalLaundryAvailable": "Spălătorie externă disponibilă"
   },
   "pricingMatrix": {
-    "title": "Matricea Prețurilor",
+    "title": "MATRICEA PREȚURILOR",
     "description": "Stabiliți prețurile pentru diferite durate și sezoane",
     "durationDays": "Durata (Zile)",
     "pricePerPerson": "Preț pe Persoană (€)"
   },
     "stayLengths": {
       "title": "DURATELE DE ȘEDERE DISPONIBILE",
-    "label": "Selectați duratele de ședere disponibile",
+      "description": "Selectați duratele de ședere disponibile",
+      "days": "zile",
     "eightDays": "8 zile",
     "fifteenDays": "15 zile",
     "twentyTwoDays": "22 zile",

@@ -53,6 +53,18 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
                   <AddressAutocomplete
                     value={field.value}
                     onChange={field.onChange}
+                    onAddressComponents={(components) => {
+                      // Auto-populate other fields when Google Maps provides data
+                      if (components.locality) {
+                        form.setValue('city', components.locality);
+                      }
+                      if (components.postal_code) {
+                        form.setValue('postalCode', components.postal_code);
+                      }
+                      if (components.country) {
+                        form.setValue('country', components.country);
+                      }
+                    }}
                     placeholder={t('basicInfo.addressPlaceholder')}
                     className="bg-white/10 border-white/30 text-white placeholder:text-white/50 px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-white/20"
                   />

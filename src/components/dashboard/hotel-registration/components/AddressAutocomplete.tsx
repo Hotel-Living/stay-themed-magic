@@ -93,6 +93,8 @@ export const AddressAutocomplete = ({
   // Initialize Google Places Autocomplete
   useEffect(() => {
     if (isGoogleMapsLoaded && inputRef.current && !autocompleteRef.current) {
+      console.log('Initializing Google Places Autocomplete');
+      
       try {
         const options = {
           types: ['address'],
@@ -109,9 +111,14 @@ export const AddressAutocomplete = ({
           options
         );
 
+        console.log('Autocomplete created successfully');
+
         // Add place selection listener
         autocompleteRef.current.addListener('place_changed', () => {
+          console.log('Place changed event fired');
+          
           const place = autocompleteRef.current?.getPlace();
+          console.log('Selected place:', place);
           
           if (place && place.address_components) {
             const components = {
@@ -126,6 +133,7 @@ export const AddressAutocomplete = ({
             // Parse address components
             place.address_components.forEach((component: any) => {
               const types = component.types;
+              console.log('Address component:', { types, long_name: component.long_name });
               
               if (types.includes('street_number')) {
                 components.street_number = component.long_name;
@@ -147,8 +155,11 @@ export const AddressAutocomplete = ({
               }
             });
 
+            console.log('Parsed components:', components);
+
             // Update input value
             if (place.formatted_address) {
+              console.log('Setting formatted address:', place.formatted_address);
               setInputValue(place.formatted_address);
               if (onChange) {
                 onChange(place.formatted_address);
@@ -157,21 +168,34 @@ export const AddressAutocomplete = ({
 
             // Pass address components to parent
             if (onAddressComponents) {
+              console.log('Calling onAddressComponents with:', components);
               onAddressComponents(components);
             }
 
             if (onPlaceSelected) {
+              console.log('Calling onPlaceSelected');
               onPlaceSelected(place);
             }
+          } else {
+            console.warn('No address components found in place:', place);
           }
         });
+        
+        console.log('Place changed listener added');
       } catch (error) {
         console.error('Failed to initialize Google Places Autocomplete:', error);
       }
+    } else {
+      console.log('Autocomplete not ready:', {
+        isGoogleMapsLoaded,
+        hasInputRef: !!inputRef.current,
+        hasAutocompleteRef: !!autocompleteRef.current
+      });
     }
 
     return () => {
       if (autocompleteRef.current) {
+        console.log('Cleaning up autocomplete listeners');
         window.google?.maps?.event?.clearInstanceListeners(autocompleteRef.current);
       }
     };

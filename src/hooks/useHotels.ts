@@ -40,11 +40,6 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
   );
 
   useEffect(() => {
-    // Don't fetch if no initial filters provided (prevents race condition)
-    if (!initialFilters) {
-      console.log('⏸️ useHotels: Skipping initial fetch - no filters provided');
-      return;
-    }
     const getHotels = async () => {
       console.log('🏨 useHotels: Starting hotel fetch with filters:', filters);
       setLoading(true);

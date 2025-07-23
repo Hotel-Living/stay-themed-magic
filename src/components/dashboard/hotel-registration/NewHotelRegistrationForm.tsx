@@ -175,14 +175,37 @@ export const NewHotelRegistrationForm = () => {
   };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    // Check if form is valid before proceeding
+    console.log('Form submission started');
+    console.log('Form data received:', data);
+    
+    // Always trigger validation to populate errors
     const isValid = await form.trigger();
+    console.log('Form validation result:', isValid);
+    console.log('Form errors:', form.formState.errors);
+    
     if (!isValid) {
       // Get all field errors and display them
       const errors = form.formState.errors;
+      console.log('Processing errors:', errors);
+      
+      if (Object.keys(errors).length === 0) {
+        // If no errors but form is invalid, show generic message
+        toast({
+          title: t('validationErrors'),
+          description: t('pleaseFixTheFollowingErrors') + ': Formulario incompleto',
+          variant: 'destructive'
+        });
+        return;
+      }
+      
       const errorMessages = Object.entries(errors)
-        .map(([field, error]) => `${field}: ${error?.message || 'Invalid'}`)
+        .map(([field, error]) => {
+          const message = error?.message || 'Campo requerido';
+          return `${field}: ${message}`;
+        })
         .join(', ');
+      
+      console.log('Error messages to display:', errorMessages);
       
       toast({
         title: t('validationErrors'),

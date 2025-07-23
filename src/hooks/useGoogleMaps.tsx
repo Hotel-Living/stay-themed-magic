@@ -41,6 +41,7 @@ export const useGoogleMaps = ({ skipLoading = false }: UseGoogleMapsProps = {}) 
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     
     if (!apiKey) {
+      console.warn('Google Maps API key not found - address autocomplete will work in manual mode');
       setError('Google Maps API key not found');
       setIsLoading(false);
       return;
@@ -57,6 +58,7 @@ export const useGoogleMaps = ({ skipLoading = false }: UseGoogleMapsProps = {}) 
     };
 
     script.onerror = () => {
+      console.warn('Failed to load Google Maps API - address autocomplete will work in manual mode');
       setError('Failed to load Google Maps API');
       setIsLoading(false);
     };

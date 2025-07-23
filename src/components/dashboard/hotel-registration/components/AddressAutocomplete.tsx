@@ -88,42 +88,42 @@ export const AddressAutocomplete = ({
     }
   }, [value]);
 
-  // Show loading state while Google Maps is loading
+  // Show loading state while Google Maps is loading - but still allow typing
   if (isLoading) {
     return (
       <input
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Loading address autocomplete..."
+        placeholder={placeholder || "Loading address autocomplete..."}
         className={className}
-        disabled
       />
     );
   }
 
-  // Show error state if Google Maps failed to load
+  // Show error state if Google Maps failed to load - but still allow typing
   if (error) {
+    console.warn('Google Maps failed to load:', error);
     return (
       <input
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder={placeholder}
+        placeholder={placeholder || "Enter address manually"}
         className={className}
         title="Address autocomplete unavailable - you can still enter addresses manually"
       />
     );
   }
 
-  // Show regular input if Google Maps is not loaded
+  // Show regular input if Google Maps is not loaded - always allow typing
   if (!isLoaded) {
     return (
       <input
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder={placeholder}
+        placeholder={placeholder || "Enter address"}
         className={className}
       />
     );

@@ -19,7 +19,7 @@ export default function Search() {
     error,
     updateFilters
   } = useHotels({
-    initialFilters: filtersInitialized ? activeFilters : undefined
+    initialFilters: activeFilters
   });
   
   // Parse URL parameters on component mount

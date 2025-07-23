@@ -130,15 +130,17 @@ export default function HotelModelPage() {
           {/* Google Map */}
           <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
             <div className="aspect-video rounded-lg overflow-hidden">
-              <HotelLocation
-                hotelId={sampleHotel.id}
-                latitude={sampleHotel.latitude}
-                longitude={sampleHotel.longitude}
-                hotelName={sampleHotel.name}
-                address={sampleHotel.address}
-                city={sampleHotel.city}
-                country={sampleHotel.country}
-              />
+              <div className="w-full h-full">
+                <HotelLocation
+                  hotelId={sampleHotel.id}
+                  latitude={sampleHotel.latitude}
+                  longitude={sampleHotel.longitude}
+                  hotelName={sampleHotel.name}
+                  address={sampleHotel.address}
+                  city={sampleHotel.city}
+                  country={sampleHotel.country}
+                />
+              </div>
             </div>
           </Card>
         </div>

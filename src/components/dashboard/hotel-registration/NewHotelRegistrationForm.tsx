@@ -294,27 +294,13 @@ export const NewHotelRegistrationForm = () => {
           <TermsConditionsSection form={form} />
           
           <div className="flex justify-end pt-6">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                {autoSave.isSaving && (
-                  <span className="text-sm text-muted-foreground">
-                    {t('autoSaving')}...
-                  </span>
-                )}
-                {autoSave.lastSaved && (
-                  <span className="text-sm text-muted-foreground">
-                    {t('lastSaved')}: {autoSave.lastSaved.toLocaleTimeString()}
-                  </span>
-                )}
-              </div>
-              <Button 
-                type="submit" 
-                className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
-                disabled={isSubmitting || !form.formState.isValid}
-              >
-                {isSubmitting ? t('submitting') : t('submitRegistration')}
-              </Button>
-            </div>
+            <Button 
+              type="submit" 
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
+              disabled={isSubmitting || !form.formState.isValid}
+            >
+              {isSubmitting ? t('submitting') : t('submitRegistration')}
+            </Button>
           </div>
         </form>
       </Form>

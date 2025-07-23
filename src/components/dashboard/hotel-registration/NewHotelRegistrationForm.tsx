@@ -162,18 +162,17 @@ export const NewHotelRegistrationForm = () => {
     affinities: data.clientAffinities
   });
 
-  // Watch form values for auto-save
-  const formValues = form.watch();
-  const propertyFormData = convertToPropertyFormData(formValues);
+  // Auto-save completely removed - no watching form values
+  const propertyFormData = convertToPropertyFormData(form.getValues());
 
-  // Auto-save functionality disabled
-  const autoSave = usePropertyFormAutoSave(
-    propertyFormData,
-    () => {}, // setFormData not needed here as we're using react-hook-form
-    null // no editing hotel ID for new properties
-  );
-
-  // Draft loading disabled
+  // Auto-save functionality completely disabled
+  const autoSave = {
+    isSaving: false,
+    lastSaved: null,
+    forceSave: async () => {},
+    loadDraft: () => null,
+    clearDraft: () => {}
+  };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
     if (!user?.id) {

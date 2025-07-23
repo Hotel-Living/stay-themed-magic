@@ -17,48 +17,16 @@ export function useAutoSave<T>(
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // Skip auto-save on initial mount
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
-    if (!enabled || !formData) return;
-
-    const timer = setTimeout(async () => {
-      try {
-        setIsSaving(true);
-        await saveDraft(formData);
-        setLastSaved(new Date());
-        
-        // Silent auto-save - no user notifications
-      } catch (error) {
-        console.error('Auto-save failed:', error);
-        // Only show error messages for critical failures, not for routine auto-save
-      } finally {
-        setIsSaving(false);
-      }
-    }, interval);
-
-    return () => clearTimeout(timer);
-  }, [formData, saveDraft, interval, enabled]);
+    // Auto-save completely disabled
+    return;
+  }, []);
 
   return {
     isSaving,
     lastSaved,
     forceSave: async () => {
-      if (!formData) return;
-      
-      try {
-        setIsSaving(true);
-        await saveDraft(formData);
-        setLastSaved(new Date());
-      } catch (error) {
-        console.error('Force save failed:', error);
-        throw error;
-      } finally {
-        setIsSaving(false);
-      }
+      // Force save completely disabled
+      return;
     }
   };
 }

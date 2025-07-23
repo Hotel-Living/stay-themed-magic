@@ -2,8 +2,8 @@
 {
   "submitting": "Se trimite...",
   "submitRegistration": "Trimite Înregistrarea",
-  "basicInfo": {
-    "title": "Informații de Bază",
+    "basicInfo": {
+      "title": "INFORMAȚII DE BAZĂ",
     "hotelName": "Numele Hotelului",
     "hotelNamePlaceholder": "Introduceți numele hotelului",
     "address": "Adresa",
@@ -21,16 +21,16 @@
     "website": "Website",
     "websitePlaceholder": "Introduceți URL-ul website-ului"
   },
-  "classification": {
-    "title": "Clasificarea Hotelului",
+    "classification": {
+      "title": "CLASIFICAREA HOTELULUI",
     "label": "Clasificare cu Stele",
     "placeholder": "Selectați clasificarea",
     "threeStar": "*** 3 Stele",
     "fourStar": "**** 4 Stele",
     "fiveStar": "***** 5 Stele"
   },
-  "propertyType": {
-    "title": "Tipul Proprietății",
+    "propertyType": {
+      "title": "TIPUL PROPRIETĂȚII",
     "label": "Selectați Tipul Proprietății",
     "placeholder": "Alegeți tipul proprietății",
     "hotel": "Hotel",
@@ -52,8 +52,8 @@
     "resort": "Resort",
     "business": "Business"
   },
-  "hotelDescription": {
-    "title": "Descrierea Hotelului",
+    "hotelDescription": {
+      "title": "DESCRIEREA HOTELULUI",
     "label": "Descrierea",
     "placeholder": "Descrieți hotelul dumneavoastră, caracteristicile unice, facilitățile și ceea ce îl face special...",
     "characterCount": "caractere"
@@ -72,14 +72,16 @@
     "location": "Locația oferă...",
     "locationPlaceholder": "vederi uimitoare, acces în centrul orașului, proximitatea plajei"
   },
-  "hotelFeatures": {
-    "title": "Caracteristicile Hotelului",
+    "hotelFeatures": {
+      "title": "CARACTERISTICILE HOTELULUI",
+      "required": "Acest câmp este obligatoriu",
     "selectFeatures": "Selectați caracteristicile disponibile",
     "searchPlaceholder": "Căutați caracteristici...",
     "loading": "Se încarcă caracteristicile..."
   },
-  "roomFeatures": {
-    "title": "Caracteristicile Camerelor",
+    "roomFeatures": {
+      "title": "CARACTERISTICILE CAMERELOR",
+      "label": "Caracteristicile Camerelor",
     "selectFeatures": "Selectați caracteristicile camerelor disponibile",
     "searchPlaceholder": "Căutați caracteristicile camerelor...",
     "loading": "Se încarcă caracteristicile camerelor..."
@@ -96,15 +98,23 @@
     "searchPlaceholder": "Căutați tipuri de clienți...",
     "loading": "Se încarcă tipurile de clienți..."
   },
+  "imageUploads": {
+    "title": "ÎNCĂRCAREA IMAGINILOR",
+    "description": "Încărcați fotografii ale hotelului și camerelor",
+    "hotelPhotos": "Fotografii Hotel",
+    "uploadHotelPhotos": "Încărcare Fotografii Hotel",
+    "roomPhotos": "Fotografii Camere",
+    "uploadRoomPhotos": "Încărcare Fotografii Camere"
+  },
   "photos": {
-    "title": "Fotografii",
+    "title": "FOTOGRAFII",
     "uploadPhotos": "Încărcați Fotografii ale Hotelului",
     "dragAndDrop": "Trageți și plasați imaginile aici, sau faceți clic pentru a naviga",
     "maxFiles": "Maxim 10 imagini",
     "fileTypes": "Formate acceptate: JPG, PNG, WebP"
   },
-  "mealPlans": {
-    "title": "Planuri de Masă",
+    "mealPlans": {
+      "title": "PLANURI DE MASĂ",
     "label": "Planuri de Masă Disponibile",
     "placeholder": "Selectați planul de masă",
     "roomOnly": "Doar Camera",
@@ -122,16 +132,16 @@
     "durationDays": "Durata (Zile)",
     "pricePerPerson": "Preț pe Persoană (€)"
   },
-  "stayLengths": {
-    "title": "Duratele de Ședere Disponibile",
+    "stayLengths": {
+      "title": "DURATELE DE ȘEDERE DISPONIBILE",
     "label": "Selectați duratele de ședere disponibile",
     "eightDays": "8 zile",
     "fifteenDays": "15 zile",
     "twentyTwoDays": "22 zile",
     "twentyNineDays": "29 zile"
   },
-  "checkInDay": {
-    "title": "Ziua de Check-in",
+    "checkInDay": {
+      "title": "ZIUA SĂPTĂMÂNALĂ DE CHECK-IN",
     "label": "Ziua Săptămânală de Check-in/Check-out",
     "placeholder": "Selectați ziua de check-in",
     "monday": "Luni",
@@ -142,8 +152,8 @@
     "saturday": "Sâmbătă",
     "sunday": "Duminică"
   },
-  "availabilityPackages": {
-    "title": "Pachete de Disponibilitate",
+    "availabilityPackages": {
+      "title": "PACHETE DE DISPONIBILITATE",
     "description": "Creează pachete de disponibilitate pentru hotelul tău. Fiecare pachet definește intervale de date specifice și disponibilitatea camerelor.",
     "addPackage": "Adaugă Pachet",
     "addAnotherPackage": "Adaugă Alt Pachet",
@@ -173,8 +183,8 @@
       "endDateBeforeStart": "Data de sfârșit trebuie să fie după data de început"
     }
   },
-  "termsConditions": {
-    "title": "Termeni și Condiții",
+    "termsConditions": {
+      "title": "TERMENI ȘI CONDIȚII",
     "description": "Vă rugăm să revizuiți și să acceptați termenii și condițiile",
     "termsText": "Prin trimiterea acestei înregistrări, sunteți de acord cu termenii noștri de serviciu și politica de confidențialitate.",
     "acceptTerms": "Accept termenii și condițiile"

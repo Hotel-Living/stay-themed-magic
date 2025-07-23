@@ -2,8 +2,8 @@
 {
   "submitting": "Enviando...",
   "submitRegistration": "Enviar Cadastro",
-  "basicInfo": {
-    "title": "Informações Básicas",
+    "basicInfo": {
+      "title": "INFORMAÇÃO BÁSICA",
     "hotelName": "Nome do Hotel",
     "hotelNamePlaceholder": "Digite o nome do seu hotel",
     "address": "Endereço",
@@ -21,16 +21,16 @@
     "website": "Website",
     "websitePlaceholder": "Digite a URL do website"
   },
-  "classification": {
-    "title": "Classificação do Hotel",
+    "classification": {
+      "title": "CLASSIFICAÇÃO DO HOTEL",
     "label": "Classificação por Estrelas",
     "placeholder": "Selecione a classificação",
     "threeStar": "*** 3 Estrelas",
     "fourStar": "**** 4 Estrelas",
     "fiveStar": "***** 5 Estrelas"
   },
-  "propertyType": {
-    "title": "Tipo de Propriedade",
+    "propertyType": {
+      "title": "TIPO DE PROPRIEDADE",
     "label": "Selecione o Tipo de Propriedade",
     "placeholder": "Escolha o tipo de propriedade",
     "hotel": "Hotel",
@@ -52,11 +52,12 @@
     "resort": "Resort",
     "business": "Negócios"
   },
-  "hotelDescription": {
-    "title": "Descrição do Hotel",
+    "hotelDescription": {
+      "title": "DESCRIÇÃO DO HOTEL",
     "label": "Descrição",
     "placeholder": "Descreva seu hotel, suas características únicas, comodidades e o que o torna especial...",
-    "characterCount": "caracteres"
+    "characterCount": "caracteres",
+    "minCharacters": "caracteres mínimos"
   },
   "roomDescription": {
     "title": "Descrição dos Quartos",
@@ -72,14 +73,16 @@
     "location": "A localização oferece...",
     "locationPlaceholder": "vistas deslumbrantes, acesso ao centro, proximidade da praia"
   },
-  "hotelFeatures": {
-    "title": "Características do Hotel",
+    "hotelFeatures": {
+      "title": "CARACTERÍSTICAS DO HOTEL",
+      "required": "Este campo é obrigatório",
     "selectFeatures": "Selecione as características disponíveis",
     "searchPlaceholder": "Buscar características...",
     "loading": "Carregando características..."
   },
-  "roomFeatures": {
-    "title": "Características dos Quartos",
+    "roomFeatures": {
+      "title": "CARACTERÍSTICAS DOS QUARTOS",
+      "label": "Características dos Quartos",
     "selectFeatures": "Selecione as características dos quartos disponíveis",
     "searchPlaceholder": "Buscar características dos quartos...",
     "loading": "Carregando características dos quartos..."
@@ -96,15 +99,23 @@
     "searchPlaceholder": "Buscar tipos de clientes...",
     "loading": "Carregando tipos de clientes..."
   },
+  "imageUploads": {
+    "title": "UPLOAD DE IMAGENS",
+    "description": "Faça upload de fotos do seu hotel e quartos",
+    "hotelPhotos": "Fotos do Hotel",
+    "uploadHotelPhotos": "Upload de Fotos do Hotel",
+    "roomPhotos": "Fotos dos Quartos",
+    "uploadRoomPhotos": "Upload de Fotos dos Quartos"
+  },
   "photos": {
-    "title": "Fotos",
+    "title": "FOTOS",
     "uploadPhotos": "Enviar Fotos do Hotel",
     "dragAndDrop": "Arraste e solte imagens aqui, ou clique para navegar",
     "maxFiles": "Máximo 10 imagens",
     "fileTypes": "Formatos aceitos: JPG, PNG, WebP"
   },
   "mealPlans": {
-    "title": "Planos de Refeição",
+    "title": "PLANOS DE REFEIÇÕES",
     "label": "Planos de Refeição Disponíveis",
     "placeholder": "Selecione plano de refeição",
     "roomOnly": "Apenas Quarto",
@@ -122,16 +133,17 @@
     "durationDays": "Duração (Dias)",
     "pricePerPerson": "Preço por Pessoa (€)"
   },
-  "stayLengths": {
-    "title": "Durações de Estadia Disponíveis",
+    "stayLengths": {
+      "title": "DURAÇÕES DE ESTADIA DISPONÍVEIS",
     "label": "Selecione as durações de estadia disponíveis",
+    "days": "dias",
     "eightDays": "8 dias",
     "fifteenDays": "15 dias",
     "twentyTwoDays": "22 dias",
     "twentyNineDays": "29 dias"
   },
-  "checkInDay": {
-    "title": "Dia de Check-in",
+    "checkInDay": {
+      "title": "DIA SEMANAL DE CHECK-INS/OUTS",
     "label": "Dia Semanal de Check-in/Check-out",
     "placeholder": "Selecione dia de check-in",
     "monday": "Segunda-feira",
@@ -142,8 +154,8 @@
     "saturday": "Sábado",
     "sunday": "Domingo"
   },
-  "availabilityPackages": {
-    "title": "Pacotes de Disponibilidade",
+    "availabilityPackages": {
+      "title": "PACOTES DE DISPONIBILIDADE",
     "description": "Crie pacotes de disponibilidade para seu hotel. Cada pacote define faixas de datas específicas e disponibilidade de quartos.",
     "addPackage": "Adicionar Pacote",
     "addAnotherPackage": "Adicionar Outro Pacote",
@@ -173,8 +185,8 @@
       "endDateBeforeStart": "A data de fim deve ser posterior à data de início"
     }
   },
-  "termsConditions": {
-    "title": "Termos e Condições",
+    "termsConditions": {
+      "title": "TERMOS E CONDIÇÕES",
     "description": "Por favor, revise e aceite os termos e condições",
     "termsText": "Ao enviar este cadastro, você concorda com nossos termos de serviço e política de privacidade.",
     "acceptTerms": "Aceito os termos e condições"

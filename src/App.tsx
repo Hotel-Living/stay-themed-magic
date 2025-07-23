@@ -1,228 +1,201 @@
-
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n/config';
-import { AuthProvider } from './context/auth/AuthProvider';
-import { AvatarManagerProvider } from './contexts/AvatarManager';
-// Core pages
-import Index from "./pages/Index";
-import HotelDetail from "./pages/HotelDetail";
-import HotelListingModel from "./pages/HotelListingModel";
+import { createQueryClient } from "@/lib/query-client";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/context/auth/AuthProvider";
+import { AvatarManagerProvider } from "@/contexts/AvatarManager";
+import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
+import { GlobalAvatarSystem } from "@/components/avatars/GlobalAvatarSystem";
+import { GlobalTestimonials } from "@/components/testimonials/GlobalTestimonials";
+import { SEOMetadata } from "@/components/SEOMetadata";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { AdminRoute } from "@/components/auth/AdminRoute";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { DashboardAccess } from "@/components/DashboardAccess";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { IntroAnimation, useIntroAnimation } from "@/components/intro";
+import OurTeam from "@/pages/OurTeam";
+import IntroTest from "@/pages/IntroTest";
+import IntroTest1 from "@/pages/IntroTest1";
+import IntroTest2 from "@/pages/IntroTest2";
+import IntroTest3 from "@/pages/IntroTest3";
+import IntroTest4 from "@/pages/IntroTest4";
+import IntroTest5 from "@/pages/IntroTest5";
+import IntroTest6 from "@/pages/IntroTest6";
+import IntroTest7 from "@/pages/IntroTest7";
+import IntroTest8 from "@/pages/IntroTest8";
+import IntroTest9 from "@/pages/IntroTest9";
 
-// Dashboard pages
-import UserDashboard from "./pages/UserDashboard";
-import AgentDashboard from "./pages/AgentDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import HotelDashboard from "./pages/HotelDashboard";
-import DashboardSelection from "./pages/DashboardSelection";
-import PromoterDashboard from "./pages/PromoterDashboard";
+// Initialize i18n
+import "./i18n/config";
 
-// Language-specific dashboards
-import HotelDashboardEN from "./pages/HotelDashboard.en";
-import HotelDashboardES from "./pages/HotelDashboard.es";
-import HotelDashboardPT from "./pages/HotelDashboard.pt";
-import HotelDashboardRO from "./pages/HotelDashboard.ro";
+import Home from "@/pages/Index";
+import Hotels from "@/pages/Hotels";
+import HotelDetail from "@/pages/HotelDetail";
+import Login from "@/pages/Login";
+import Signup from "@/pages/SignUp";
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import HotelRegistration from "@/pages/HotelSignUp";
+import FeaturedHotels from "@/pages/FeaturedHotels";
+import Videos from "@/pages/Videos";
+import AffinityStays from "@/pages/AffinityStays";
+import FAQ from "@/pages/FAQ";
+import AdminRoles from "@/pages/AdminRoles";
+import Search from "@/pages/Search";
+import JoinUs from "@/pages/JoinUs";
+import OurServices from "@/pages/OurServices";
+import OurValues from "@/pages/OurValues";
+import CustomerService from "@/pages/CustomerService";
+import Contact from "@/pages/Contact";
+import IntellectualProperty from "@/pages/IntellectualProperty";
+import Compare from "@/pages/Compare";
+import AddPropertyPage from "@/pages/AddPropertyPage";
+import AddProperty2 from "@/pages/AddProperty2";
+import PanelFernando from "@/pages/PanelFernando";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import Prueba from "@/pages/Prueba";
+import ExcelGenerator from "@/pages/ExcelGenerator";
+import ProfessionalStudy from "@/pages/ProfessionalStudy";
+import Ambassador from "@/pages/Ambassador";
+import Agents from "@/pages/Agents";
+import AgentRegistration from "@/pages/AgentRegistration";
+import AgentDashboard from "@/pages/AgentDashboard";
+import AssociationRegistration from "@/pages/AssociationRegistration";
+import { AssociationDashboard } from "@/components/association/AssociationDashboard";
+import AssociationLanding from "@/pages/AssociationLanding";
+import PromoterDashboard from "@/pages/PromoterDashboard";
+import Press from "@/pages/Press";
+import HotelCrisis from "@/pages/HotelCrisis";
+import HotelAssociation from "@/pages/HotelAssociation";
+import Help from "@/pages/Help";
+import Ayuda from "@/pages/Ayuda";
+import AmbassadorsList from "@/pages/AmbassadorsList";
+import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 
-// Contact pages
-import Contact from "./pages/Contact";
-import ContactEN from "./pages/Contact.en";
-import ContactES from "./pages/Contact.es";
-import ContactPT from "./pages/Contact.pt";
-import ContactRO from "./pages/Contact.ro";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
-// Authentication pages
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import ForgotPassword from "./pages/ForgotPassword";
-import HotelSignUp from "./pages/HotelSignUp";
+function App() {
+  const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
 
-// Main content pages
-import Hotels from "./pages/Hotels";
-import AffinityStays from "./pages/AffinityStays";
-import JoinUs from "./pages/JoinUs";
-import FAQ from "./pages/FAQ";
-import AboutUs from "./pages/AboutUs";
-import Ambassador from "./pages/Ambassador";
-import Agents from "./pages/Agents";
-import Videos from "./pages/Videos";
-import Press from "./pages/Press";
-import Ayuda from "./pages/Ayuda";
-
-// Specialized pages
-import AddProperty2 from "./pages/AddProperty2";
-import HotelPartnerAgreement from "./pages/HotelPartnerAgreement";
-import AgentRegistration from "./pages/AgentRegistration";
-import Compare from "./pages/Compare";
-import CustomerService from "./pages/CustomerService";
-import IntellectualProperty from "./pages/IntellectualProperty";
-import OurServices from "./pages/OurServices";
-import OurTeam from "./pages/OurTeam";
-import OurValues from "./pages/OurValues";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import HotelCrisis from "./pages/HotelCrisis";
-import HotelAssociation from "./pages/HotelAssociation";
-import FeaturedHotels from "./pages/FeaturedHotels";
-import CodeStats from "./pages/CodeStats";
-import ExcelGenerator from "./pages/ExcelGenerator";
-
-// FAQ variations
-import FAQHotels from "./pages/FAQHotels";
-import FAQTravelers from "./pages/FAQTravelers";
-
-// Ambassador pages
-import AmbassadorsList from "./pages/AmbassadorsList";
-import AmbassadorsUSA from "./pages/AmbassadorsUSA";
-
-// Association pages
-import AssociationLanding from "./pages/AssociationLanding";
-import AssociationRegistration from "./pages/AssociationRegistration";
-
-// Test/Demo pages
-import IntroTest from "./pages/IntroTest";
-import IntroTest1 from "./pages/IntroTest1";
-import IntroTest2 from "./pages/IntroTest2";
-import IntroTest3 from "./pages/IntroTest3";
-import IntroTest4 from "./pages/IntroTest4";
-import IntroTest5 from "./pages/IntroTest5";
-import IntroTest6 from "./pages/IntroTest6";
-import IntroTest7 from "./pages/IntroTest7";
-import IntroTest8 from "./pages/IntroTest8";
-import IntroTest9 from "./pages/IntroTest9";
-import JoinUsTest from "./pages/JoinUsTest";
-
-// Admin pages
-import AdminAllRoutes from "./pages/AdminAllRoutes";
-import AdminRoles from "./pages/AdminRoles";
-
-// Other pages
-import HotelsPage from "./pages/HotelsPage";
-import Help from "./pages/Help";
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <I18nextProvider i18n={i18n}>
+  return (
+    <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
-        <BrowserRouter>
+        <Router>
           <AuthProvider>
-            <AvatarManagerProvider>
+            <VideoTestimonialProvider>
+              <AvatarManagerProvider>
+              <SEOMetadata />
+              <ScrollToTop />
+              <GoogleAnalytics />
+              <DashboardAccess />
+              
+              {/* Intro Animation Overlay */}
+              {shouldShowIntro && (
+                <IntroAnimation onComplete={handleIntroComplete} />
+              )}
+              
               <Routes>
-                {/* Core Routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/hotel/:id" element={<HotelDetail />} />
-                <Route path="/hotel-listing-model" element={<HotelListingModel />} />
-                
-                {/* Dashboard Routes */}
-                <Route path="/user-dashboard" element={<UserDashboard />} />
-                <Route path="/agent-dashboard" element={<AgentDashboard />} />
-                <Route path="/admin/*" element={<AdminAllRoutes />} />
-                <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-                <Route path="/dashboard-selection" element={<DashboardSelection />} />
-                <Route path="/promoter-dashboard" element={<PromoterDashboard />} />
-                
-                {/* Language-specific Dashboards */}
-                <Route path="/hotel-dashboard-en" element={<HotelDashboardEN />} />
-                <Route path="/hotel-dashboard-es" element={<HotelDashboardES />} />
-                <Route path="/hotel-dashboard-pt" element={<HotelDashboardPT />} />
-                <Route path="/hotel-dashboard-ro" element={<HotelDashboardRO />} />
-                
-                {/* Authentication Routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/hotel-signup" element={<HotelSignUp />} />
-                
-                {/* Contact Routes */}
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/contact-en" element={<ContactEN />} />
-                <Route path="/contact-es" element={<ContactES />} />
-                <Route path="/contact-pt" element={<ContactPT />} />
-                <Route path="/contact-ro" element={<ContactRO />} />
-                
-                {/* Main Content Routes */}
-                <Route path="/hotels" element={<Hotels />} />
-                <Route path="/affinity-stays" element={<AffinityStays />} />
-                <Route path="/join-us" element={<JoinUs />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/hotels" element={<Hotels />} />
+              <Route path="/hotel/:id" element={<HotelDetail />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/hotel-signup" element={<HotelRegistration />} />
+              <Route path="/hotel-login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/join-us" element={<JoinUs />} />
+              <Route path="/our-services" element={<OurServices />} />
+              <Route path="/our-values" element={<OurValues />} />
+              <Route path="/customer-service" element={<CustomerService />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/intellectual-property" element={<IntellectualProperty />} />
+              <Route path="/our-team" element={<OurTeam />} />
+              <Route path="/excel-generator" element={<ExcelGenerator />} />
+              <Route path="/professional-study" element={<ProfessionalStudy />} />
                 <Route path="/ambassador" element={<Ambassador />} />
-                <Route path="/agents" element={<Agents />} />
                 <Route path="/agentes" element={<Agents />} />
-                <Route path="/videos" element={<Videos />} />
+                <Route path="/agentes/registro" element={<AgentRegistration />} />
+                <Route path="/panel-agente" element={<AgentDashboard />} />
+                <Route path="/asociacion" element={<AssociationLanding />} />
+                <Route path="/asociacion/registro" element={<AssociationRegistration />} />
+                <Route path="/panel-asociacion" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
+                <Route path="/ambassadors" element={<AmbassadorsList />} />
+                <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/press" element={<Press />} />
-                <Route path="/ayuda" element={<Ayuda />} />
-                
-                {/* Specialized Routes */}
-                <Route path="/add-property-2" element={<AddProperty2 />} />
-                <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
-                <Route path="/agent-registration" element={<AgentRegistration />} />
-                <Route path="/compare" element={<Compare />} />
-                <Route path="/customer-service" element={<CustomerService />} />
-                <Route path="/intellectual-property" element={<IntellectualProperty />} />
-                <Route path="/our-services" element={<OurServices />} />
-                <Route path="/our-team" element={<OurTeam />} />
-                <Route path="/hotel-crisis" element={<HotelCrisis />} />
-                <Route path="/hotel-association" element={<HotelAssociation />} />
-                <Route path="/featured-hotels" element={<FeaturedHotels />} />
-                <Route path="/code-stats" element={<CodeStats />} />
-                <Route path="/excel-generator" element={<ExcelGenerator />} />
-                
-                {/* FAQ Variations */}
-                <Route path="/faq-hotels" element={<FAQHotels />} />
-                <Route path="/faq-travelers" element={<FAQTravelers />} />
-                
-                {/* Ambassador Routes */}
-                <Route path="/ambassadors-list" element={<AmbassadorsList />} />
-                <Route path="/ambassadors-usa" element={<AmbassadorsUSA />} />
-                
-                {/* Association Routes */}
-                <Route path="/association-landing" element={<AssociationLanding />} />
-                <Route path="/association-registration" element={<AssociationRegistration />} />
-                
-                {/* Test/Demo Routes */}
-                <Route path="/intro-test" element={<IntroTest />} />
-                <Route path="/intro-test-1" element={<IntroTest1 />} />
-                <Route path="/intro-test-2" element={<IntroTest2 />} />
-                <Route path="/intro-test-3" element={<IntroTest3 />} />
-                <Route path="/intro-test-4" element={<IntroTest4 />} />
-                <Route path="/intro-test-5" element={<IntroTest5 />} />
-                <Route path="/intro-test-6" element={<IntroTest6 />} />
-                <Route path="/intro-test-7" element={<IntroTest7 />} />
-                <Route path="/intro-test-8" element={<IntroTest8 />} />
-                <Route path="/intro-test-9" element={<IntroTest9 />} />
-                <Route path="/join-us-test" element={<JoinUsTest />} />
-                
-                {/* Missing Footer Routes */}
-                <Route path="/our-values" element={<OurValues />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                
-                {/* Legacy Admin Routes - redirect to new structure */}
-                <Route path="/admin-dashboard" element={<AdminAllRoutes />} />
-                <Route path="/admin-roles" element={<AdminRoles />} />
-                
-                {/* Other Routes */}
-                <Route path="/hotels-page" element={<HotelsPage />} />
-                <Route path="/help" element={<Help />} />
-                
-                {/* 404 Route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                 <Route path="/hotel-crisis" element={<HotelCrisis />} />
+                 <Route path="/asociacion/:slug" element={<HotelAssociation />} />
+                 <Route path="/help" element={<Help />} />
+                 <Route path="/ayuda" element={<Ayuda />} />
+              
+              {/* Test Routes for Intro Animations */}
+              <Route path="/intro-test" element={<IntroTest />} />
+              <Route path="/intro-test1" element={<IntroTest1 />} />
+              <Route path="/intro-test2" element={<IntroTest2 />} />
+              <Route path="/intro-test3" element={<IntroTest3 />} />
+              <Route path="/intro-test4" element={<IntroTest4 />} />
+              <Route path="/intro-test5" element={<IntroTest5 />} />
+              <Route path="/intro-test6" element={<IntroTest6 />} />
+              <Route path="/intro-test7" element={<IntroTest7 />} />
+              <Route path="/intro-test8" element={<IntroTest8 />} />
+              <Route path="/intro-test9" element={<IntroTest9 />} />
+              
+               {/* Protected Routes */}
+               <Route path="/user-dashboard" element={<ProtectedRoute requireTraveler={true}><UserDashboard /></ProtectedRoute>} />
+               <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+               <Route path="/promoter/dashboard" element={<ProtectedRoute requirePromoter={true}><PromoterDashboard /></ProtectedRoute>} />
+              <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+              <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
+              <Route path="/dashboard/hotel/add-property-2" element={<ProtectedRoute requireHotelOwner={true}><AddProperty2 /></ProtectedRoute>} />
+              <Route path="/featured-hotels" element={<FeaturedHotels />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/affinity-stays" element={<AffinityStays />} />
+              <Route path="/faq" element={<FAQ />} />
+              
+              {/* Admin Routes - DEPRECATED - Redirects to Fernando Panel */}
+              <Route path="/admin/*" element={<Navigate to="/panel-fernando/hotels" replace />} />
+              <Route path="/admin/roles" element={<Navigate to="/panel-fernando/user-roles" replace />} />
+              
+              {/* Panel Fernando - New Admin Panel */}
+              <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
+              
+              {/* Prueba - INDEPENDENT Admin Page - NO AdminRoute wrapper */}
+              <Route path="/prueba" element={<Prueba />} />
+              
+              {/* Comparison Route */}
+              <Route path="/compare" element={<Compare />} />
+            </Routes>
+            
+            {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
+            <GlobalAvatarSystem />
+            
+            {/* Global Video Testimonials - appears on all pages except homepage */}
+            <GlobalTestimonials />
             </AvatarManagerProvider>
+            </VideoTestimonialProvider>
           </AuthProvider>
-        </BrowserRouter>
+        </Router>
       </TooltipProvider>
-    </I18nextProvider>
-  </QueryClientProvider>
-);
+    </QueryClientProvider>
+  );
+}
 
 export default App;

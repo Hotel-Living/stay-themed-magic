@@ -4,6 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/useTranslation";
 import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 import { EnhancedAvatarAssistant } from "../avatars/EnhancedAvatarAssistant";
+import { useAvatarManager } from "@/contexts/AvatarManager";
 
 export function WhyHotelLivingSectionRO() {
   const [activeAccordionTab, setActiveAccordionTab] = useState("");
@@ -11,6 +12,7 @@ export function WhyHotelLivingSectionRO() {
   const [showMessage, setShowMessage] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation('faq');
+  const { activeAvatars } = useAvatarManager();
 
   // Avatar mapping according to specifications
   const avatarMapping: Record<string, { id: string; gif: string }[]> = {

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import AddProperty2Content from "../../AddProperty2Content";
+import AddProperty from "../../AddProperty";
 
 interface PropertyEditViewProps {
   hotelId: string;
@@ -16,10 +16,7 @@ export const PropertyEditView: React.FC<PropertyEditViewProps> = ({ hotelId, onB
       >
         Back to My Properties
       </button>
-      <div className="text-amber-300 p-4 bg-amber-900/20 rounded mb-4">
-        Hotel editing temporarily redirects to the property form. Complete hotel management will be available soon.
-      </div>
-      <AddProperty2Content />
+      <AddProperty editingHotelId={hotelId} onDoneEditing={onBack} />
     </div>
   );
 };

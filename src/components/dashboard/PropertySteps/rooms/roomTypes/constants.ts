@@ -1,0 +1,25 @@
+
+export const PREDEFINED_ROOM_TYPES = [
+  { id: 'single', name: 'Single Room', description: 'A room with a single bed, suitable for one person' },
+  { id: 'double', name: 'Double Room', description: 'A room with one double bed' },
+  { id: 'twin', name: 'Twin Room', description: 'A room with two single beds' },
+  { id: 'queen', name: 'Queen Room', description: 'A room with a queen-size bed' },
+  { id: 'king', name: 'King Room', description: 'A room with a king-size bed' },
+  { id: 'triple', name: 'Triple Room', description: 'A room that can accommodate three persons' },
+  { id: 'quad', name: 'Quad Room', description: 'A room that can accommodate four persons' },
+  { id: 'studio', name: 'Studio', description: 'A studio-style room with combined sleeping and living areas' },
+  { id: 'junior-suite', name: 'Junior Suite', description: 'A single room with a small sitting area' },
+  { id: 'suite', name: 'Suite', description: 'A room with separate sleeping and sitting areas' },
+  { id: 'executive-suite', name: 'Executive Suite', description: 'A larger suite with premium amenities' },
+  { id: 'presidential-suite', name: 'Presidential Suite', description: 'The most luxurious suite type' },
+  { id: 'apartment', name: 'Apartment', description: 'A full apartment-style accommodation' },
+  { id: 'condo', name: 'Condo', description: 'A condominium-style accommodation' },
+  { id: 'connecting', name: 'Connecting Rooms', description: 'Two rooms with a connecting door' },
+  { id: 'adjoining', name: 'Adjoining Rooms', description: 'Two rooms next to each other' },
+  { id: 'accessible', name: 'Accessible Room', description: 'A room designed for accessibility' },
+  { id: 'ocean-view', name: 'Ocean View Room', description: 'A room with ocean views' },
+  { id: 'city-view', name: 'City View Room', description: 'A room with city views' },
+  { id: 'balcony', name: 'Balcony Room', description: 'A room with a private balcony' },
+  { id: 'cabana', name: 'Cabana Room', description: 'A room with direct pool/beach access' },
+  { id: 'penthouse', name: 'Penthouse', description: 'A luxury room on the top floor' }
+];

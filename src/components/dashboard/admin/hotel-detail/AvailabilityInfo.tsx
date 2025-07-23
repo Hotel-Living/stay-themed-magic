@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { format, parseISO } from "date-fns";
-import { getMonthName } from "@/utils/availabilityDateUtils";
+import { getMonthName } from "@/components/dashboard/PropertySteps/rooms/roomTypes/availabilityDateUtils";
 
 export const AvailabilityInfo = ({ hotel }) => {
   // Format stay lengths for display

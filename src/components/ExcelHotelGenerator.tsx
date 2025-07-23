@@ -151,7 +151,7 @@ export const ExcelHotelGenerator = () => {
                   <div className="font-semibold text-blue-900">Database Import Option</div>
                   <div className="text-blue-700 text-sm">
                     Import hotels directly to your database as 'pending' properties. Complete their setup 
-                    using the admin panel workflow.
+                    using the existing 5-step workflow in the admin panel.
                   </div>
                 </div>
               </div>
@@ -231,7 +231,7 @@ export const ExcelHotelGenerator = () => {
                     <div className="font-semibold text-green-900">Excel Generated & Hotels Imported!</div>
                     <div className="text-green-700 text-sm">
                       Excel file downloaded AND {importedCount} hotels imported to database as 'pending' properties. 
-                      You can now access them through the admin panel to complete their setup.
+                      You can now access them through the admin panel to complete their setup using the 5-step workflow.
                     </div>
                   </div>
                 </div>

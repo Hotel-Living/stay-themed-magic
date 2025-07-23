@@ -31,6 +31,7 @@ import { ImageUploadsSection } from './sections/ImageUploadsSection';
 import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
 import { PricingMatrixSection } from './sections/PricingMatrixSection';
 import { TermsConditionsSection } from './sections/TermsConditionsSection';
+import { ValidationSubmitButton } from './ValidationSubmitButton';
 
 const hotelRegistrationSchema = z.object({
   // Basic Info
@@ -262,6 +263,7 @@ export const NewHotelRegistrationForm = () => {
           <TermsConditionsSection form={form} />
           
           <div className="flex justify-end pt-6">
+            <ValidationSubmitButton form={form} />
             <Button 
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"

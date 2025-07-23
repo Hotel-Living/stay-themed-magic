@@ -92,6 +92,7 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     enablePriceIncrease: false,
     priceIncreaseCap: 20,
     pricingMatrix: data.pricingMatrix,
+    price_per_month: data.price_per_month || 0,
     checkinDay: data.checkInDay,
     stayDurations: data.stayLengths.map(length => parseInt(length)),
     affinities: data.clientAffinities

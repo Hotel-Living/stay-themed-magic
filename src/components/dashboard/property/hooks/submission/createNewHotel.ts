@@ -51,6 +51,9 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
   // Get the pricing matrix from formData
   const pricingMatrix = formData.pricingMatrix || [];
 
+  // Calculate price_per_month from pricing matrix if available, otherwise use fallback
+  const calculatedPricePerMonth = formData.price_per_month || (parseInt(formData.category) * 1000);
+
   const hotelData = {
     owner_id: ownerId,
     name: formData.hotelName,
@@ -61,7 +64,7 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     postal_code: formData.postalCode || null,
     latitude: latitude,
     longitude: longitude,
-    price_per_month: parseInt(formData.category) * 1000,
+    price_per_month: calculatedPricePerMonth,
     category: parseInt(formData.category),
     property_type: formData.propertyType,
     style: formData.style,

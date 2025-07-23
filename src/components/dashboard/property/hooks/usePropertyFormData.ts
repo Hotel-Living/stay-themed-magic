@@ -43,6 +43,7 @@ export interface PropertyFormData {
   latitude?: number | string; // Add latitude for map location
   longitude?: number | string; // Add longitude for map location
   pricingMatrix?: any[]; // Added for pricing matrix from Step 4
+  price_per_month?: number; // Added for calculated proportional monthly price
   checkinDay?: string; // Added for check-in day selection in Step 3
   stayDurations?: number[]; // Alternative to stayLengths for consistency
   affinities?: string[]; // Alternative to themes for consistency

@@ -75,6 +75,7 @@ export const AddressAutocomplete = ({
     const newValue = e.target.value;
     setInputValue(newValue);
     
+    // Always allow editing and call onChange
     if (onChange) {
       onChange(newValue);
     }

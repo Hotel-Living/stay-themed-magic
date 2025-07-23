@@ -326,13 +326,8 @@ export const CountryDropdown = ({ value, onChange, placeholder }: CountryDropdow
         setIsOpen(false);
         setSearchTerm('');
         
-        // If no valid country is selected, clear the input
-        const isValidCountry = availableCountries.some(
-          country => normalizeText(country.label) === normalizeText(inputValue)
-        );
-        
-        if (!isValidCountry) {
-          setInputValue('');
+        // Allow partial inputs - don't clear unless completely empty
+        if (inputValue === '') {
           if (onChange) {
             onChange('');
           }

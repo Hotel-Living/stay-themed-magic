@@ -68,24 +68,7 @@ export const MapPreview = ({ address, city, country, className }: MapPreviewProp
             center: location,
             mapTypeControl: false,
             streetViewControl: false,
-            fullscreenControl: false,
-            styles: [
-              {
-                "featureType": "all",
-                "elementType": "geometry.fill",
-                "stylers": [{ "color": "#1a1a2e" }]
-              },
-              {
-                "featureType": "water",
-                "elementType": "geometry",
-                "stylers": [{ "color": "#0f3460" }]
-              },
-              {
-                "featureType": "road",
-                "elementType": "geometry",
-                "stylers": [{ "color": "#16213e" }]
-              }
-            ]
+            fullscreenControl: false
           });
         } else {
           // Update existing map

@@ -21,6 +21,13 @@
     "aboutUs": "Acerca de Nosotros",
     "press": "Prensa"
   },
+  "panelLabels": {
+    "user": "Panel – Usuario",
+    "hotel": "Panel – Hotel",
+    "admin": "Panel – Admin",
+    "association": "Panel – Asociación",
+    "promoter": "Panel – Promotor"
+  },
   "mainNavigationContent": {
     "faq": {
       "line1": "UN MUNDO",

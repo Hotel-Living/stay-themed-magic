@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useUserPanelLabel } from "@/hooks/useUserPanelLabel";
 import { DashboardSelector } from "./navigation/DashboardSelector";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
@@ -16,6 +17,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, session, profile, signOut } = useAuth();
   const { t } = useTranslation('navigation');
+  const { label: panelLabel } = useUserPanelLabel();
   const isLoggedIn = !!user && !!session;
 
   const getDisplayName = () => {
@@ -135,7 +137,7 @@ export function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center space-x-2 text-[#FFF9B0] hover:text-white transition-colors">
                   <User className="w-4 h-4" />
-                  <span className="text-sm">{getDisplayName()}</span>
+                  <span className="text-sm">{panelLabel}</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-purple-900 border-purple-700">
                   <DropdownMenuItem asChild>

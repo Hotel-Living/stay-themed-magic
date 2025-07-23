@@ -1,5 +1,147 @@
 
 {
+  "submitting": "Enviando...",
+  "submitRegistration": "Enviar Cadastro",
+  "basicInfo": {
+    "title": "Informações Básicas",
+    "hotelName": "Nome do Hotel",
+    "hotelNamePlaceholder": "Digite o nome do seu hotel",
+    "address": "Endereço",
+    "addressPlaceholder": "Digite o endereço completo",
+    "city": "Cidade",
+    "cityPlaceholder": "Digite a cidade",
+    "postalCode": "Código Postal",
+    "postalCodePlaceholder": "Digite o código postal",
+    "country": "País",
+    "countryPlaceholder": "Selecione o país",
+    "email": "Email",
+    "emailPlaceholder": "Digite o email de contato",
+    "phone": "Telefone",
+    "phonePlaceholder": "Digite o número de telefone",
+    "website": "Website",
+    "websitePlaceholder": "Digite a URL do website"
+  },
+  "classification": {
+    "title": "Classificação do Hotel",
+    "label": "Classificação por Estrelas",
+    "placeholder": "Selecione a classificação",
+    "threeStar": "*** 3 Estrelas",
+    "fourStar": "**** 4 Estrelas",
+    "fiveStar": "***** 5 Estrelas"
+  },
+  "propertyType": {
+    "title": "Tipo de Propriedade",
+    "label": "Selecione o Tipo de Propriedade",
+    "placeholder": "Escolha o tipo de propriedade",
+    "hotel": "Hotel",
+    "boutiqueHotel": "Hotel Boutique",
+    "resort": "Resort",
+    "ruralHouse": "Casa Rural",
+    "hostel": "Hostel"
+  },
+  "propertyStyle": {
+    "title": "Estilo da Propriedade",
+    "label": "Selecione o Estilo da Propriedade",
+    "placeholder": "Escolha o estilo da propriedade",
+    "modern": "Moderno",
+    "classic": "Clássico",
+    "boutique": "Boutique",
+    "luxury": "Luxo",
+    "budget": "Econômico",
+    "historic": "Histórico",
+    "resort": "Resort",
+    "business": "Negócios"
+  },
+  "hotelDescription": {
+    "title": "Descrição do Hotel",
+    "label": "Descrição",
+    "placeholder": "Descreva seu hotel, suas características únicas, comodidades e o que o torna especial...",
+    "characterCount": "caracteres"
+  },
+  "roomDescription": {
+    "title": "Descrição dos Quartos",
+    "label": "Descrição dos Quartos",
+    "placeholder": "Descreva os quartos, suas características, comodidades e layout..."
+  },
+  "completePhrases": {
+    "title": "Completar Frases",
+    "idealForGuests": "Ideal para hóspedes que...",
+    "idealForGuestsPlaceholder": "buscam aventura, famílias, viajantes de negócios",
+    "atmosphere": "A atmosfera é...",
+    "atmospherePlaceholder": "relaxante, vibrante, tranquila, luxuosa",
+    "location": "A localização oferece...",
+    "locationPlaceholder": "vistas deslumbrantes, acesso ao centro, proximidade da praia"
+  },
+  "hotelFeatures": {
+    "title": "Características do Hotel",
+    "selectFeatures": "Selecione as características disponíveis",
+    "searchPlaceholder": "Buscar características...",
+    "loading": "Carregando características..."
+  },
+  "roomFeatures": {
+    "title": "Características dos Quartos",
+    "selectFeatures": "Selecione as características dos quartos disponíveis",
+    "searchPlaceholder": "Buscar características dos quartos...",
+    "loading": "Carregando características dos quartos..."
+  },
+  "activities": {
+    "title": "Atividades",
+    "selectActivities": "Selecione as atividades disponíveis",
+    "searchPlaceholder": "Buscar atividades...",
+    "loading": "Carregando atividades..."
+  },
+  "clientAffinities": {
+    "title": "Afinidades de Clientes",
+    "selectAffinities": "Selecione os tipos de clientes alvo",
+    "searchPlaceholder": "Buscar tipos de clientes...",
+    "loading": "Carregando tipos de clientes..."
+  },
+  "photos": {
+    "title": "Fotos",
+    "uploadPhotos": "Enviar Fotos do Hotel",
+    "dragAndDrop": "Arraste e solte imagens aqui, ou clique para navegar",
+    "maxFiles": "Máximo 10 imagens",
+    "fileTypes": "Formatos aceitos: JPG, PNG, WebP"
+  },
+  "mealPlans": {
+    "title": "Planos de Refeição",
+    "label": "Planos de Refeição Disponíveis",
+    "placeholder": "Selecione plano de refeição",
+    "roomOnly": "Apenas Quarto",
+    "breakfast": "Café da Manhã Incluído",
+    "halfBoard": "Meia Pensão (Café da Manhã + Jantar)",
+    "fullBoard": "Pensão Completa (Todas as Refeições)",
+    "allInclusive": "Tudo Incluído",
+    "laundryServices": "Serviços de Lavanderia",
+    "weeklyLaundryIncluded": "Lavanderia semanal incluída",
+    "externalLaundryAvailable": "Lavanderia externa disponível"
+  },
+  "pricingMatrix": {
+    "title": "Matriz de Preços",
+    "description": "Definir preços para diferentes durações e temporadas",
+    "durationDays": "Duração (Dias)",
+    "pricePerPerson": "Preço por Pessoa (€)"
+  },
+  "stayLengths": {
+    "title": "Durações de Estadia Disponíveis",
+    "label": "Selecione as durações de estadia disponíveis",
+    "eightDays": "8 dias",
+    "fifteenDays": "15 dias",
+    "twentyTwoDays": "22 dias",
+    "twentyNineDays": "29 dias"
+  },
+  "checkInDay": {
+    "title": "Dia de Check-in",
+    "label": "Dia Semanal de Check-in/Check-out",
+    "placeholder": "Selecione dia de check-in",
+    "monday": "Segunda-feira",
+    "tuesday": "Terça-feira",
+    "wednesday": "Quarta-feira",
+    "thursday": "Quinta-feira",
+    "friday": "Sexta-feira",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
   "availabilityPackages": {
     "title": "Pacotes de Disponibilidade",
     "description": "Crie pacotes de disponibilidade para seu hotel. Cada pacote define faixas de datas específicas e disponibilidade de quartos.",
@@ -30,5 +172,11 @@
       "invalidWeekday": "A data de início deve ser no dia de check-in selecionado",
       "endDateBeforeStart": "A data de fim deve ser posterior à data de início"
     }
+  },
+  "termsConditions": {
+    "title": "Termos e Condições",
+    "description": "Por favor, revise e aceite os termos e condições",
+    "termsText": "Ao enviar este cadastro, você concorda com nossos termos de serviço e política de privacidade.",
+    "acceptTerms": "Aceito os termos e condições"
   }
 }

@@ -44,7 +44,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
 
   // Get current form values
   const stayLengths = form.watch('stayLengths') || [];
-  const checkInWeekday = form.watch('checkInWeekday') || 'Monday';
+  const checkInDay = form.watch('checkInDay') || 'Monday';
   const availabilityPackages = form.watch('availabilityPackages') || [];
 
   // Convert weekday name to number (Monday = 1, Sunday = 0)
@@ -53,7 +53,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
     return weekdays[weekday as keyof typeof weekdays] || 1;
   };
 
-  const preferredWeekdayNum = getWeekdayNumber(checkInWeekday);
+  const preferredWeekdayNum = getWeekdayNumber(checkInDay as string);
 
   // Validation functions
   const isDateSelectable = (date: Date): boolean => {
@@ -88,7 +88,8 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
     // Check duration matches stay lengths
     if (data.startDate && data.endDate) {
       const duration = differenceInDays(data.endDate, data.startDate);
-      if (!stayLengths.includes(duration)) {
+      const validDurations = (stayLengths as ("8" | "15" | "22" | "29")[]).map(s => parseInt(s));
+      if (!validDurations.includes(duration)) {
         newErrors.duration = t('availabilityPackages.validation.invalidDuration');
       }
 
@@ -383,7 +384,19 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
             render={({ field }) => (
               <FormItem className="hidden">
                 <FormControl>
-                  <input {...field} type="hidden" />
+                  <input 
+                    {...field} 
+                    type="hidden" 
+                    value={JSON.stringify(field.value || [])}
+                    onChange={(e) => {
+                      try {
+                        const parsed = JSON.parse(e.target.value);
+                        field.onChange(parsed);
+                      } catch {
+                        field.onChange([]);
+                      }
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

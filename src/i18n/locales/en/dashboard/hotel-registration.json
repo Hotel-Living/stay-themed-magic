@@ -1,5 +1,147 @@
 
 {
+  "submitting": "Submitting...",
+  "submitRegistration": "Submit Registration",
+  "basicInfo": {
+    "title": "Basic Information",
+    "hotelName": "Hotel Name",
+    "hotelNamePlaceholder": "Enter your hotel name",
+    "address": "Address",
+    "addressPlaceholder": "Enter full address",
+    "city": "City",
+    "cityPlaceholder": "Enter city",
+    "postalCode": "Postal Code",
+    "postalCodePlaceholder": "Enter postal code",
+    "country": "Country",
+    "countryPlaceholder": "Select country",
+    "email": "Email",
+    "emailPlaceholder": "Enter contact email",
+    "phone": "Phone",
+    "phonePlaceholder": "Enter phone number",
+    "website": "Website",
+    "websitePlaceholder": "Enter website URL"
+  },
+  "classification": {
+    "title": "Hotel Classification",
+    "label": "Star Rating",
+    "placeholder": "Select hotel rating",
+    "threeStar": "*** 3 Stars",
+    "fourStar": "**** 4 Stars",
+    "fiveStar": "***** 5 Stars"
+  },
+  "propertyType": {
+    "title": "Property Type",
+    "label": "Select Property Type",
+    "placeholder": "Choose property type",
+    "hotel": "Hotel",
+    "boutiqueHotel": "Boutique Hotel",
+    "resort": "Resort",
+    "ruralHouse": "Rural House",
+    "hostel": "Hostel"
+  },
+  "propertyStyle": {
+    "title": "Property Style",
+    "label": "Select Property Style",
+    "placeholder": "Choose property style",
+    "modern": "Modern",
+    "classic": "Classic",
+    "boutique": "Boutique",
+    "luxury": "Luxury",
+    "budget": "Budget",
+    "historic": "Historic",
+    "resort": "Resort",
+    "business": "Business"
+  },
+  "hotelDescription": {
+    "title": "Hotel Description",
+    "label": "Description",
+    "placeholder": "Describe your hotel, its unique features, amenities, and what makes it special...",
+    "characterCount": "characters"
+  },
+  "roomDescription": {
+    "title": "Room Description",
+    "label": "Room Description",
+    "placeholder": "Describe the rooms, their features, amenities, and layout..."
+  },
+  "completePhrases": {
+    "title": "Complete Phrases",
+    "idealForGuests": "Ideal for guests who...",
+    "idealForGuestsPlaceholder": "adventure seekers, families, business travelers",
+    "atmosphere": "The atmosphere is...",
+    "atmospherePlaceholder": "relaxing, vibrant, peaceful, luxurious",
+    "location": "The location offers...",
+    "locationPlaceholder": "stunning views, city center access, beach proximity"
+  },
+  "hotelFeatures": {
+    "title": "Hotel Features",
+    "selectFeatures": "Select available features",
+    "searchPlaceholder": "Search features...",
+    "loading": "Loading features..."
+  },
+  "roomFeatures": {
+    "title": "Room Features",
+    "selectFeatures": "Select available room features",
+    "searchPlaceholder": "Search room features...",
+    "loading": "Loading room features..."
+  },
+  "activities": {
+    "title": "Activities",
+    "selectActivities": "Select available activities",
+    "searchPlaceholder": "Search activities...",
+    "loading": "Loading activities..."
+  },
+  "clientAffinities": {
+    "title": "Client Affinities",
+    "selectAffinities": "Select target client types",
+    "searchPlaceholder": "Search client types...",
+    "loading": "Loading client types..."
+  },
+  "photos": {
+    "title": "Photos",
+    "uploadPhotos": "Upload Hotel Photos",
+    "dragAndDrop": "Drag and drop images here, or click to browse",
+    "maxFiles": "Maximum 10 images",
+    "fileTypes": "Accepted formats: JPG, PNG, WebP"
+  },
+  "mealPlans": {
+    "title": "Meal Plans",
+    "label": "Available Meal Plans",
+    "placeholder": "Select meal plan",
+    "roomOnly": "Room Only",
+    "breakfast": "Breakfast Included",
+    "halfBoard": "Half Board (Breakfast + Dinner)",
+    "fullBoard": "Full Board (All Meals)",
+    "allInclusive": "All Inclusive",
+    "laundryServices": "Laundry Services",
+    "weeklyLaundryIncluded": "Weekly laundry included",
+    "externalLaundryAvailable": "External laundry available"
+  },
+  "pricingMatrix": {
+    "title": "Pricing Matrix",
+    "description": "Set prices for different durations and seasons",
+    "durationDays": "Duration (Days)",
+    "pricePerPerson": "Price per Person (€)"
+  },
+  "stayLengths": {
+    "title": "Available Stay Lengths",
+    "label": "Select available stay durations",
+    "eightDays": "8 days",
+    "fifteenDays": "15 days",
+    "twentyTwoDays": "22 days",
+    "twentyNineDays": "29 days"
+  },
+  "checkInDay": {
+    "title": "Check-in Day",
+    "label": "Weekly Check-in/Check-out Day",
+    "placeholder": "Select check-in day",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
   "availabilityPackages": {
     "title": "Availability Packages",
     "description": "Create availability packages for your hotel. Each package defines specific date ranges and room availability.",
@@ -30,5 +172,11 @@
       "invalidWeekday": "Start date must be on the selected check-in weekday",
       "endDateBeforeStart": "End date must be after start date"
     }
+  },
+  "termsConditions": {
+    "title": "Terms and Conditions",
+    "description": "Please review and accept the terms and conditions",
+    "termsText": "By submitting this registration, you agree to our terms of service and privacy policy.",
+    "acceptTerms": "I accept the terms and conditions"
   }
 }

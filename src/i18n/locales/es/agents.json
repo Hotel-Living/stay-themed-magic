@@ -33,7 +33,7 @@
     "hotelsContacted": "Hoteles que ha contactado el agente",
     "emptyRoomsPerHotel": "Habitaciones vacías por hotel (promedio)",
     "averageMonthlyPrice": "Precio promedio del paquete mensual",
-    "commissionRate": "5‰ Comisión sobre ventas durante 18 meses + 2,5‰ durante 12 meses",
+    "commissionRate": "0,5% Comisión sobre ventas durante 18 meses + 0,25% durante 12 meses",
     "estimatedMonthlyCommission": "Comisión estimada mensual:",
     "estimatedTotalCommission": "Comisión estimada total en 30 meses:",
     "disclaimer": "* Comisiones automáticas sin trabajo posterior"

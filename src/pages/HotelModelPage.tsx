@@ -3,6 +3,7 @@ import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'luci
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
+import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
 // Placeholder images from context
 const placeholderImages = ['https://images.unsplash.com/photo-1721322800607-8c38375eef04', 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', 'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'];
@@ -63,13 +64,11 @@ export default function HotelModelPage() {
   const handlePackageClick = pkg => {
     setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
   };
-  return <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden" style={{
-    backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
-    backgroundSize: '50px 50px, 30px 30px',
-    backgroundPosition: '0 0, 25px 25px'
-  }}>
+  return <div className="min-h-screen relative overflow-hidden">
+      {/* Starfield Background */}
+      <HotelStarfield />
       
-      <div className="relative z-10 container mx-auto px-4 py-8 space-y-8 bg-[#5a067e]">
+      <div className="relative z-10 container mx-auto px-4 py-8 space-y-8">
         
         {/* Top Section */}
         <div className="text-center space-y-4">
@@ -105,11 +104,11 @@ export default function HotelModelPage() {
           </div>
 
           {/* Stay Duration and Pricing */}
-          <div className="space-y-2 text-purple-100">
-            <p className="text-lg">
+          <div className="space-y-2 text-purple-100 max-w-4xl mx-auto">
+            <p className="text-lg text-center break-words">
               This hotel offers stays of {sampleHotel.stayDurations.join(', ')} days duration.
             </p>
-            <p className="text-xl font-semibold text-yellow-300">
+            <p className="text-xl font-semibold text-yellow-300 text-center break-words">
               The proportional price for a 30-day stay is €{sampleHotel.pricePerMonth}.
             </p>
           </div>
@@ -130,17 +129,21 @@ export default function HotelModelPage() {
           </Card>
 
           {/* Google Map */}
-          <div className="bg-purple-900/30 border border-purple-700/50 rounded-lg overflow-hidden glow-border">
-            <HotelLocation
-              hotelId={sampleHotel.id}
-              latitude={sampleHotel.latitude}
-              longitude={sampleHotel.longitude}
-              hotelName={sampleHotel.name}
-              address={sampleHotel.address}
-              city={sampleHotel.city}
-              country={sampleHotel.country}
-            />
-          </div>
+          <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+            <div className="space-y-4">
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <HotelLocation
+                  hotelId={sampleHotel.id}
+                  latitude={sampleHotel.latitude}
+                  longitude={sampleHotel.longitude}
+                  hotelName={sampleHotel.name}
+                  address={sampleHotel.address}
+                  city={sampleHotel.city}
+                  country={sampleHotel.country}
+                />
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Descriptive Section */}

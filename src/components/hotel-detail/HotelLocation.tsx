@@ -220,41 +220,42 @@ export function HotelLocation({
   if (!hasMapData) {
     return null;
   }
-  return <Card className="overflow-hidden border-border">
-      <CardHeader className="bg-white/10 pb-4">
-        <CardTitle className="text-xl font-bold text-white">{t('hotelLocation')}</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0">
-        <div className="h-64 w-full">
-          {isLoading && <div className="w-full h-full bg-white/10 flex items-center justify-center">
-              <p className="text-center text-white">Loading map...</p>
-            </div>}
-          
-          {!isLoading && error && <div className="w-full h-full bg-white/10 flex flex-col items-center justify-center p-4">
-              <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
-              <p className="text-center text-white mb-3">
-                {error}
-              </p>
-              <p className="text-sm text-white/70 mb-3">
-                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
-              </p>
-              <Button variant="outline" size="sm" className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" onClick={fetchMapKey}>
-                Retry Loading Map
-              </Button>
-            </div>}
-          
-          {!isLoading && !error && mapReady && mapUrl && <iframe src={mapUrl} width="100%" height="100%" style={{
-          border: 0
-        }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`${hotelName} location`}></iframe>}
-          
-          {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-white/10 flex items-center justify-center">
-              <p className="text-center text-white">
-                Location information unavailable.
-                <br />
-                Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
-              </p>
-            </div>}
-        </div>
-      </CardContent>
-    </Card>;
+  return <div className="w-full h-full">
+        {isLoading && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+            <p className="text-center text-white">Loading map...</p>
+          </div>}
+        
+        {!isLoading && error && <div className="w-full h-full bg-purple-800/30 flex flex-col items-center justify-center p-4 rounded-lg">
+            <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
+            <p className="text-center text-white mb-3">
+              {error}
+            </p>
+            <p className="text-sm text-white/70 mb-3">
+              Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
+            </p>
+            <Button variant="outline" size="sm" className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" onClick={fetchMapKey}>
+              Retry Loading Map
+            </Button>
+          </div>}
+        
+        {!isLoading && !error && mapReady && mapUrl && <iframe 
+          src={mapUrl} 
+          width="100%" 
+          height="100%" 
+          style={{ border: 0 }} 
+          allowFullScreen 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade" 
+          title={`${hotelName} location`}
+          className="rounded-lg"
+        ></iframe>}
+        
+        {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+            <p className="text-center text-white">
+              Location information unavailable.
+              <br />
+              Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
+            </p>
+          </div>}
+    </div>;
 }

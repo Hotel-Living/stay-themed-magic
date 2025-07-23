@@ -3,7 +3,7 @@ import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'luci
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
-import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { Starfield } from '@/components/Starfield';
 
 // Placeholder images from context
 const placeholderImages = ['https://images.unsplash.com/photo-1721322800607-8c38375eef04', 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21', 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', 'https://images.unsplash.com/photo-1485833077593-4278bba3f11f'];
@@ -66,7 +66,7 @@ export default function HotelModelPage() {
   };
   return <div className="min-h-screen relative overflow-hidden">
       {/* Starfield Background */}
-      <HotelStarfield />
+      <Starfield />
       
       <div className="relative z-10 container mx-auto px-4 py-8 space-y-8">
         
@@ -118,11 +118,10 @@ export default function HotelModelPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Photo Carousel */}
           <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
-            <div className="space-y-4">
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <img src={placeholderImages[currentImageIndex]} alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex space-x-2 justify-center">
+            <div className="aspect-video rounded-lg overflow-hidden relative">
+              <img src={placeholderImages[currentImageIndex]} alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
+              {/* Navigation dots positioned absolutely over the image */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {placeholderImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
               </div>
             </div>

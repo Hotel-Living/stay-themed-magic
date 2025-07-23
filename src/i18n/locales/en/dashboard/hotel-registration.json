@@ -1,3 +1,4 @@
+
 {
   "basicInfo": {
     "title": "BASIC INFORMATION",
@@ -157,29 +158,18 @@
     "locationPerfectPlaceholder": "Describe what makes your location special..."
   },
   "availabilityPackages": {
-    "title": "Availability Packages",
-    "description": "Configure your property's availability packages by selecting date ranges that match your preferred check-in day and stay durations.",
-    "enterNumberOfRooms": "Enter the number of rooms for packages",
-    "calendarTitle": "Select Package Dates",
-    "selectStartDate": "Select start date",
-    "selectEndDate": "Select end date",
-    "createPackage": "Create Package",
-    "createdPackages": "Created Packages",
-    "noPackagesYet": "No packages created yet",
-    "packageDuration": "{{duration}} days",
-    "availableRooms": "{{count}} rooms available",
-    "editPackage": "Edit",
-    "deletePackage": "Delete",
-    "validation": {
-      "invalidDuration": "Selected date range ({{actualDays}} days) doesn't match any of your allowed stay durations: {{allowedDurations}}",
-      "wrongWeekday": "Start date must be on {{weekday}} as selected in your check-in day preference",
-      "pastDate": "Cannot select dates in the past",
-      "overlappingDates": "This date range overlaps with an existing package",
-      "missingStartDate": "Please select a start date",
-      "missingEndDate": "Please select an end date",
-      "noStayLengths": "Please configure your stay lengths first (Menu 13)",
-      "noCheckInDay": "Please select your preferred check-in day first (Menu 14)"
-    }
+    "title": "AVAILABILITY PACKAGES",
+    "label": "Availability Packages",
+    "description": "Configure your availability packages",
+    "enterNumberOfRooms": "Enter number of rooms",
+    "rulesTitle": "Rules for Availability Packages",
+    "rule1": "Packages cannot overlap in dates",
+    "rule2": "Check-in day must match your hotel's preferred weekday",
+    "rule3": "Duration must be 8, 15, 22, or 29 days",
+    "rule4": "Packages with bookings cannot be edited or deleted",
+    "rule5": "Only future packages with no bookings can be deleted",
+    "rule6": "All modifications are secured with validation checks",
+    "rule7": "Real-time updates prevent stale data conflicts"
   },
   "pricingMatrix": {
     "title": "PRICING MATRIX",

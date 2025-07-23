@@ -14,7 +14,7 @@ export const PricingMatrixSection = ({ form }: PricingMatrixSectionProps) => {
   const { t } = useTranslation('dashboard/hotel-registration');
   const stayLengths = form.watch('stayLengths') || [];
   const classification = form.watch('classification');
-  const pricingMatrix = form.watch('pricingMatrix') || {};
+  const pricingMatrix = form.watch('pricingMatrix') || [];
 
   const getPriceLimit = (classification: string) => {
     switch (classification) {
@@ -28,15 +28,21 @@ export const PricingMatrixSection = ({ form }: PricingMatrixSectionProps) => {
   const priceLimit = getPriceLimit(classification);
 
   const updatePricing = (duration: number, field: 'doubleRoom' | 'singleRoom', value: number) => {
-    const updated = { ...pricingMatrix };
-    const key = `${duration}_${field}`;
-    updated[key] = value;
+    const updated = [...pricingMatrix];
+    const existingIndex = updated.findIndex(p => p.duration === duration);
+    
+    if (existingIndex >= 0) {
+      updated[existingIndex] = { ...updated[existingIndex], [field]: value };
+    } else {
+      updated.push({ duration, doubleRoom: field === 'doubleRoom' ? value : 0, singleRoom: field === 'singleRoom' ? value : 0 });
+    }
+    
     form.setValue('pricingMatrix', updated);
   };
 
   const getPriceForDuration = (duration: number, field: 'doubleRoom' | 'singleRoom') => {
-    const key = `${duration}_${field}`;
-    return pricingMatrix[key] || 0;
+    const pricing = pricingMatrix.find(p => p.duration === duration);
+    return pricing?.[field] || 0;
   };
 
   return (

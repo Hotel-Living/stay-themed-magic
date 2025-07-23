@@ -1,163 +1,113 @@
+
 import React from 'react';
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Accordion } from "@/components/ui/accordion";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Accordion } from '@/components/ui/accordion';
 import { useTranslation } from '@/hooks/useTranslation';
-import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
+import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
+import { HotelClassificationSection } from './sections/HotelClassificationSection';
+import { PropertyTypeSection } from './sections/PropertyTypeSection';
+import { PropertyStyleSection } from './sections/PropertyStyleSection';
+import { HotelDescriptionSection } from './sections/HotelDescriptionSection';
+import { RoomDescriptionSection } from './sections/RoomDescriptionSection';
+import { CompletePhraseSection } from './sections/CompletePhraseSection';
+import { HotelFeaturesSection } from './sections/HotelFeaturesSection';
+import { RoomFeaturesSection } from './sections/RoomFeaturesSection';
 import { ActivitiesSection } from './sections/ActivitiesSection';
-import { MealPlanSection } from './sections/MealPlanSection';
-import { StayLengthsSection } from './sections/StayLengthsSection';
+import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
 import { CheckInDaySection } from './sections/CheckInDaySection';
-import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
+import { MealPlanSection } from './sections/MealPlanSection';
+
+import { StayLengthsSection } from './sections/StayLengthsSection';
 import { ImageUploadsSection } from './sections/ImageUploadsSection';
+import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
+import { PricingMatrixSection } from './sections/PricingMatrixSection';
+import { TermsConditionsSection } from './sections/TermsConditionsSection';
 
-// Add interface for availability package
-interface AvailabilityPackage {
-  id: string;
-  startDate: Date;
-  endDate: Date;
-  duration: number;
-  availableRooms: number;
-}
-
-// Update the schema to include availability packages and missing fields
 const hotelRegistrationSchema = z.object({
-  hotelName: z.string().min(2, {
-    message: "Hotel name must be at least 2 characters.",
-  }),
-  category: z.string().min(1, {
-    message: "Please select a category.",
-  }),
-  propertyType: z.string().min(1, {
-    message: "Please select a property type.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().min(10, {
-    message: "Please enter a valid phone number.",
-  }),
-  website: z.string().url({
-    message: "Please enter a valid website URL.",
-  }).optional(),
-  description: z.string().min(10, {
-    message: "Description must be at least 10 characters.",
-  }),
-  address: z.string().min(5, {
-    message: "Address must be at least 5 characters.",
-  }),
-  city: z.string().min(2, {
-    message: "City must be at least 2 characters.",
-  }),
-  state: z.string().min(2, {
-    message: "State must be at least 2 characters.",
-  }),
-  zip: z.string().min(5, {
-    message: "Zip code must be at least 5 characters.",
-  }),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
-  latitude: z.string().optional(),
-  longitude: z.string().optional(),
-  classification: z.string().optional(),
-  idealGuests: z.string().optional(),
-  atmosphere: z.string().optional(),
-  location: z.string().optional(),
-  hotelDescription: z.string().optional(),
+  // Basic Info
+  hotelName: z.string().min(1, 'Hotel name is required'),
+  address: z.string().min(1, 'Address is required'),
+  city: z.string().min(1, 'City is required'),
+  postalCode: z.string().min(1, 'Postal code is required'),
+  country: z.string().min(1, 'Country is required'),
+  
+  // Contact Info
+  email: z.string().email('Invalid email'),
+  phone: z.string().min(1, 'Phone is required'),
+  website: z.string().url().optional(),
+  
+  // Classification
+  classification: z.string().min(1, 'Classification is required'),
+  
+  // Property Details
+  propertyType: z.string().min(1, 'Property type is required'),
+  propertyStyle: z.string().min(1, 'Property style is required'),
+  hotelDescription: z.string().min(200, 'Description must be at least 200 characters'),
+  roomDescription: z.string().min(1, 'Room description is required'),
+  idealGuests: z.string().min(1, 'Ideal guests description is required'),
+  atmosphere: z.string().min(1, 'Atmosphere description is required'),
+  location: z.string().min(1, 'Location description is required'),
+  
+  // Features
   hotelFeatures: z.array(z.string()).default([]),
+  roomFeatures: z.array(z.string()).default([]),
+  
+  // Activities and Affinities
+  activities: z.array(z.string()).default([]),
+  clientAffinities: z.array(z.string()).default([]),
+  
+  // Photos
   photos: z.object({
-    hotel: z.array(z.string()).default([]),
-    room: z.array(z.string()).default([])
+    hotel: z.array(z.any()).default([]),
+    room: z.array(z.any()).default([])
   }).default({ hotel: [], room: [] }),
-  mealPlan: z.string().optional(),
+  
+  // Accommodation Terms
+  checkInDay: z.string().min(1, 'Check-in day is required'),
+  mealPlan: z.string().min(1, 'Meal plan is required'),
+  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).min(1, 'At least one stay length is required'),
+  
+  // Services
   weeklyLaundryIncluded: z.boolean().default(false),
   externalLaundryAvailable: z.boolean().default(false),
-  pricingMatrix: z.record(z.string(), z.number()).default({}),
-  propertyStyle: z.string().optional(),
-  roomDescription: z.string().optional(),
-  roomFeatures: z.array(z.string()).default([]),
-  termsAccepted: z.boolean().default(false),
-  clientAffinities: z.array(z.string()).default([]),
-  activities: z.array(z.string()).default([]),
-  mealPlans: z.array(z.string()).default([]),
-  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).default([]),
-  checkInDay: z.string().optional(),
-  numberOfRooms: z.string().min(1, "Number of rooms is required"),
-  availabilityPackages: z.array(z.object({
-    id: z.string().optional(),
-    startDate: z.date().optional(),
-    endDate: z.date().optional(),
-    duration: z.number().optional(),
-    availableRooms: z.number().optional()
-  })).default([]),
-  imageUrls: z.array(z.string()).default([]),
+  
+  // Availability
+  numberOfRooms: z.string().min(1, 'Number of rooms is required'),
+  
+  // Pricing
+  pricingMatrix: z.array(z.any()).default([]),
+  
+  // Terms
+  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted')
 });
 
 export type HotelRegistrationFormData = z.infer<typeof hotelRegistrationSchema>;
 
 export const NewHotelRegistrationForm = () => {
   const { t } = useTranslation('dashboard/hotel-registration');
-
+  
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
     defaultValues: {
-      hotelName: "",
-      category: "",
-      propertyType: "",
-      email: "",
-      phone: "",
-      website: "",
-      description: "",
-      address: "",
-      city: "",
-      state: "",
-      zip: "",
-      postalCode: "",
-      country: "",
-      latitude: "",
-      longitude: "",
-      classification: "",
-      idealGuests: "",
-      atmosphere: "",
-      location: "",
-      hotelDescription: "",
+      stayLengths: [],
+      activities: [],
+      clientAffinities: [],
       hotelFeatures: [],
+      roomFeatures: [],
       photos: { hotel: [], room: [] },
-      mealPlan: "",
+      pricingMatrix: [],
       weeklyLaundryIncluded: false,
       externalLaundryAvailable: false,
-      pricingMatrix: {},
-      propertyStyle: "",
-      roomDescription: "",
-      roomFeatures: [],
-      termsAccepted: false,
-      clientAffinities: [],
-      activities: [],
-      mealPlans: [],
-      stayLengths: [],
-      checkInDay: "",
-      numberOfRooms: "1",
-      availabilityPackages: [],
-      imageUrls: [],
-    },
+      termsAccepted: false
+    }
   });
 
   const onSubmit = (data: HotelRegistrationFormData) => {
-    console.log("Form submitted with data:", data);
+    console.log('Form submitted:', data);
   };
 
   return (
@@ -165,262 +115,15 @@ export const NewHotelRegistrationForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Accordion type="single" collapsible className="space-y-4">
-            <FormField
-              control={form.control}
-              name="hotelName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('hotelName.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('hotelName.placeholder')}
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('category.label')}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="bg-white/10 border-white/30 text-white">
-                        <SelectValue placeholder={t('category.placeholder')} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="hotel">{t('category.hotel')}</SelectItem>
-                      <SelectItem value="resort">{t('category.resort')}</SelectItem>
-                      <SelectItem value="motel">{t('category.motel')}</SelectItem>
-                      <SelectItem value="guestHouse">{t('category.guestHouse')}</SelectItem>
-                      <SelectItem value="bedAndBreakfast">{t('category.bedAndBreakfast')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="propertyType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('propertyType.label')}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="bg-white/10 border-white/30 text-white">
-                        <SelectValue placeholder={t('propertyType.placeholder')} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="apartment">{t('propertyType.apartment')}</SelectItem>
-                      <SelectItem value="house">{t('propertyType.house')}</SelectItem>
-                      <SelectItem value="villa">{t('propertyType.villa')}</SelectItem>
-                      <SelectItem value="cabin">{t('propertyType.cabin')}</SelectItem>
-                      <SelectItem value="chalet">{t('propertyType.chalet')}</SelectItem>
-                      <SelectItem value="bungalow">{t('propertyType.bungalow')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('email.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('email.placeholder')}
-                      type="email"
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('phone.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('phone.placeholder')}
-                      type="tel"
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('website.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('website.placeholder')}
-                      type="url"
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('description.label')}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={t('description.placeholder')}
-                      className="bg-white/10 border-white/30 text-white resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('address.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('address.placeholder')}
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">{t('city.label')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('city.placeholder')}
-                        className="bg-white/10 border-white/30 text-white"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">{t('state.label')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('state.placeholder')}
-                        className="bg-white/10 border-white/30 text-white"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="zip"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">{t('zip.label')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('zip.placeholder')}
-                        className="bg-white/10 border-white/30 text-white"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="latitude"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">{t('latitude.label')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('latitude.placeholder')}
-                        className="bg-white/10 border-white/30 text-white"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="longitude"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">{t('longitude.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('longitude.placeholder')}
-                      className="bg-white/10 border-white/30 text-white"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
+            <HotelBasicInfoSection form={form} />
+            <HotelClassificationSection form={form} />
+            <PropertyTypeSection form={form} />
+            <PropertyStyleSection form={form} />
+            <HotelDescriptionSection form={form} />
+            <RoomDescriptionSection form={form} />
+            <CompletePhraseSection form={form} />
+            <HotelFeaturesSection form={form} />
+            <RoomFeaturesSection form={form} />
             <ClientAffinitiesSection form={form} />
             <ActivitiesSection form={form} />
             <MealPlanSection form={form} />
@@ -428,11 +131,20 @@ export const NewHotelRegistrationForm = () => {
             <CheckInDaySection form={form} />
             <AvailabilityPackagesSection form={form} />
             <ImageUploadsSection form={form} />
-            
-            <Button type="submit" className="w-full bg-fuchsia-500 text-white hover:bg-fuchsia-700">
-              {t('submitButton')}
-            </Button>
+            <PricingMatrixSection form={form} />
           </Accordion>
+          
+          <TermsConditionsSection form={form} />
+          
+          <div className="flex justify-end pt-6">
+            <Button 
+              type="submit" 
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? t('submitting') : t('submitRegistration')}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

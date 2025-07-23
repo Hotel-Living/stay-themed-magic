@@ -1,3 +1,4 @@
+
 {
   "basicInfo": {
     "title": "INFORMACIÓN BÁSICA",
@@ -157,29 +158,18 @@
     "locationPerfectPlaceholder": "Describa lo que hace especial su ubicación..."
   },
   "availabilityPackages": {
-    "title": "Paquetes de Disponibilidad",
-    "description": "Configure los paquetes de disponibilidad de su propiedad seleccionando rangos de fechas que coincidan con su día de check-in preferido y duraciones de estancia.",
-    "enterNumberOfRooms": "Ingrese el número de habitaciones para los paquetes",
-    "calendarTitle": "Seleccionar Fechas del Paquete",
-    "selectStartDate": "Seleccionar fecha de inicio",
-    "selectEndDate": "Seleccionar fecha de fin",
-    "createPackage": "Crear Paquete",
-    "createdPackages": "Paquetes Creados",
-    "noPackagesYet": "Aún no se han creado paquetes",
-    "packageDuration": "{{duration}} días",
-    "availableRooms": "{{count}} habitaciones disponibles",
-    "editPackage": "Editar",
-    "deletePackage": "Eliminar",
-    "validation": {
-      "invalidDuration": "El rango de fechas seleccionado ({{actualDays}} días) no coincide con ninguna de sus duraciones de estancia permitidas: {{allowedDurations}}",
-      "wrongWeekday": "La fecha de inicio debe ser {{weekday}} según su preferencia de día de check-in",
-      "pastDate": "No se pueden seleccionar fechas en el pasado",
-      "overlappingDates": "Este rango de fechas se superpone con un paquete existente",
-      "missingStartDate": "Por favor seleccione una fecha de inicio",
-      "missingEndDate": "Por favor seleccione una fecha de fin",
-      "noStayLengths": "Por favor configure sus duraciones de estancia primero (Menú 13)",
-      "noCheckInDay": "Por favor seleccione su día de check-in preferido primero (Menú 14)"
-    }
+    "title": "PAQUETES DE DISPONIBILIDAD",
+    "label": "Paquetes de Disponibilidad",
+    "description": "Configure sus paquetes de disponibilidad",
+    "enterNumberOfRooms": "Ingrese número de habitaciones",
+    "rulesTitle": "Reglas para Paquetes de Disponibilidad",
+    "rule1": "Los paquetes no pueden superponerse en fechas",
+    "rule2": "El día de check-in debe coincidir con el día preferido de su hotel",
+    "rule3": "La duración debe ser de 8, 15, 22 o 29 días",
+    "rule4": "Los paquetes con reservas no pueden editarse o eliminarse",
+    "rule5": "Solo se pueden eliminar paquetes futuros sin reservas",
+    "rule6": "Todas las modificaciones están aseguradas con controles de validación",
+    "rule7": "Las actualizaciones en tiempo real previenen conflictos de datos obsoletos"
   },
   "pricingMatrix": {
     "title": "MATRIZ DE PRECIOS",

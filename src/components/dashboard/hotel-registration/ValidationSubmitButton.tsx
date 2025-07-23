@@ -57,46 +57,50 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     return missingFields;
   };
 
-  const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => ({
-    hotelName: data.hotelName,
-    propertyType: data.propertyType,
-    description: data.hotelDescription,
-    idealGuests: data.idealGuests,
-    atmosphere: data.atmosphere,
-    perfectLocation: data.location,
-    style: data.propertyStyle,
-    country: data.country,
-    address: data.address,
-    city: data.city,
-    postalCode: data.postalCode,
-    contactName: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
-    contactEmail: data.email,
-    contactPhone: data.phone,
-    category: data.classification,
-    stayLengths: data.stayLengths.map(length => parseInt(length)),
-    mealPlans: [data.mealPlan],
-    roomTypes: [{ description: data.roomDescription }],
-    themes: data.clientAffinities,
-    activities: data.activities,
-    faqs: [],
-    terms: '',
-    termsAccepted: data.termsAccepted,
-    hotelImages: [...data.photos.hotel, ...data.photos.room],
-    mainImageUrl: data.photos.hotel[0]?.url || '',
-    preferredWeekday: data.checkInDay,
-    featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-    featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-    available_months: [],
-    rates: {},
-    currency: 'USD',
-    enablePriceIncrease: false,
-    priceIncreaseCap: 20,
-    pricingMatrix: data.pricingMatrix,
-    price_per_month: data.price_per_month || 0,
-    checkinDay: data.checkInDay,
-    stayDurations: data.stayLengths.map(length => parseInt(length)),
-    affinities: data.clientAffinities
-  });
+  const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => {
+    console.log("Converting form data to PropertyFormData", { data, user });
+    
+    return {
+      hotelName: data.hotelName,
+      propertyType: data.propertyType,
+      description: data.hotelDescription,
+      idealGuests: data.idealGuests,
+      atmosphere: data.atmosphere,
+      perfectLocation: data.location,
+      style: data.propertyStyle,
+      country: data.country,
+      address: data.address,
+      city: data.city,
+      postalCode: data.postalCode,
+      contactName: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
+      contactEmail: user?.email || '', // Use authenticated user's email
+      contactPhone: user?.user_metadata?.phone || user?.phone || '', // Use user's phone with fallback
+      category: data.classification,
+      stayLengths: data.stayLengths.map(length => parseInt(length)),
+      mealPlans: [data.mealPlan],
+      roomTypes: [{ description: data.roomDescription }],
+      themes: data.clientAffinities,
+      activities: data.activities,
+      faqs: [],
+      terms: '',
+      termsAccepted: data.termsAccepted,
+      hotelImages: [...data.photos.hotel, ...data.photos.room],
+      mainImageUrl: data.photos.hotel[0]?.url || '',
+      preferredWeekday: data.checkInDay,
+      featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      available_months: [],
+      rates: {},
+      currency: 'USD',
+      enablePriceIncrease: false,
+      priceIncreaseCap: 20,
+      pricingMatrix: data.pricingMatrix,
+      price_per_month: data.price_per_month || 0,
+      checkinDay: data.checkInDay,
+      stayDurations: data.stayLengths.map(length => parseInt(length)),
+      affinities: data.clientAffinities
+    };
+  };
 
   const handleValidationAndSubmit = async () => {
     const currentData = form.getValues();

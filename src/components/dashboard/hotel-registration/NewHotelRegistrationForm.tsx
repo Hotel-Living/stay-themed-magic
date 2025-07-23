@@ -34,7 +34,7 @@ interface AvailabilityPackage {
   availableRooms: number;
 }
 
-// Update the schema to include availability packages
+// Update the schema to include availability packages and missing fields
 const hotelRegistrationSchema = z.object({
   hotelName: z.string().min(2, {
     message: "Hotel name must be at least 2 characters.",
@@ -69,8 +69,28 @@ const hotelRegistrationSchema = z.object({
   zip: z.string().min(5, {
     message: "Zip code must be at least 5 characters.",
   }),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
   latitude: z.string().optional(),
   longitude: z.string().optional(),
+  classification: z.string().optional(),
+  idealGuests: z.string().optional(),
+  atmosphere: z.string().optional(),
+  location: z.string().optional(),
+  hotelDescription: z.string().optional(),
+  hotelFeatures: z.array(z.string()).default([]),
+  photos: z.object({
+    hotel: z.array(z.string()).default([]),
+    room: z.array(z.string()).default([])
+  }).default({ hotel: [], room: [] }),
+  mealPlan: z.string().optional(),
+  weeklyLaundryIncluded: z.boolean().default(false),
+  externalLaundryAvailable: z.boolean().default(false),
+  pricingMatrix: z.record(z.string(), z.number()).default({}),
+  propertyStyle: z.string().optional(),
+  roomDescription: z.string().optional(),
+  roomFeatures: z.array(z.string()).default([]),
+  termsAccepted: z.boolean().default(false),
   clientAffinities: z.array(z.string()).default([]),
   activities: z.array(z.string()).default([]),
   mealPlans: z.array(z.string()).default([]),
@@ -78,11 +98,11 @@ const hotelRegistrationSchema = z.object({
   checkInDay: z.string().optional(),
   numberOfRooms: z.string().min(1, "Number of rooms is required"),
   availabilityPackages: z.array(z.object({
-    id: z.string(),
-    startDate: z.date(),
-    endDate: z.date(),
-    duration: z.number(),
-    availableRooms: z.number()
+    id: z.string().optional(),
+    startDate: z.date().optional(),
+    endDate: z.date().optional(),
+    duration: z.number().optional(),
+    availableRooms: z.number().optional()
   })).default([]),
   imageUrls: z.array(z.string()).default([]),
 });
@@ -106,8 +126,25 @@ export const NewHotelRegistrationForm = () => {
       city: "",
       state: "",
       zip: "",
+      postalCode: "",
+      country: "",
       latitude: "",
       longitude: "",
+      classification: "",
+      idealGuests: "",
+      atmosphere: "",
+      location: "",
+      hotelDescription: "",
+      hotelFeatures: [],
+      photos: { hotel: [], room: [] },
+      mealPlan: "",
+      weeklyLaundryIncluded: false,
+      externalLaundryAvailable: false,
+      pricingMatrix: {},
+      propertyStyle: "",
+      roomDescription: "",
+      roomFeatures: [],
+      termsAccepted: false,
       clientAffinities: [],
       activities: [],
       mealPlans: [],

@@ -3,9 +3,10 @@ import { UseFormReturn } from 'react-hook-form';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
+import { CountryDropdown } from '../components/CountryDropdown';
+import { AddressAutocomplete } from '../components/AddressAutocomplete';
 
 interface HotelBasicInfoSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -49,10 +50,11 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
               <FormItem>
                 <FormLabel className="text-white">{t('basicInfo.address')}</FormLabel>
                 <FormControl>
-                  <Input 
+                  <AddressAutocomplete
+                    value={field.value}
+                    onChange={field.onChange}
                     placeholder={t('basicInfo.addressPlaceholder')}
-                    className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
-                    {...field} 
+                    className="bg-white/10 border-white/30 text-white placeholder:text-white/50 px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-white/20"
                   />
                 </FormControl>
                 <FormMessage />
@@ -104,21 +106,13 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-white">{t('basicInfo.country')}</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="bg-white/10 border-white/30 text-white">
-                      <SelectValue placeholder={t('basicInfo.countryPlaceholder')} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Spain">España</SelectItem>
-                    <SelectItem value="Portugal">Portugal</SelectItem>
-                    <SelectItem value="France">Francia</SelectItem>
-                    <SelectItem value="Italy">Italia</SelectItem>
-                    <SelectItem value="Romania">Rumania</SelectItem>
-                    <SelectItem value="Other">Otro</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <CountryDropdown
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder={t('basicInfo.countryPlaceholder')}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

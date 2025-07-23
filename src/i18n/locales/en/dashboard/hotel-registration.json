@@ -13,6 +13,21 @@
       "draftLoadedDescription": "Your previous work has been restored",
       "autoSaving": "Auto-saving",
       "lastSaved": "Last saved"
+    },
+    "basicInfo": {
+      "title": "Basic Information",
+      "hotelName": "Hotel Name",
+      "hotelNamePlaceholder": "Enter your hotel name",
+      "address": "Address",
+      "addressPlaceholder": "Start typing your address...",
+      "city": "City",
+      "cityPlaceholder": "Enter city name",
+      "postalCode": "Postal Code",
+      "postalCodePlaceholder": "Enter postal code",
+      "country": "Country",
+      "countryPlaceholder": "Select a country",
+      "mapPreview": "Location Preview",
+      "mapPlaceholder": "Map will appear here after entering address"
     }
   }
 }

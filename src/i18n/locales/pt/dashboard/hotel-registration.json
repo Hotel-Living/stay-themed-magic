@@ -13,6 +13,21 @@
       "draftLoadedDescription": "Seu trabalho anterior foi restaurado",
       "autoSaving": "Salvamento automático",
       "lastSaved": "Último salvamento"
+    },
+    "basicInfo": {
+      "title": "Informações Básicas",
+      "hotelName": "Nome do Hotel",
+      "hotelNamePlaceholder": "Digite o nome do seu hotel",
+      "address": "Endereço",
+      "addressPlaceholder": "Comece a digitar seu endereço...",
+      "city": "Cidade",
+      "cityPlaceholder": "Digite o nome da cidade",
+      "postalCode": "Código Postal",
+      "postalCodePlaceholder": "Digite o código postal",
+      "country": "País",
+      "countryPlaceholder": "Selecione um país",
+      "mapPreview": "Prévia da Localização",
+      "mapPlaceholder": "O mapa aparecerá aqui após inserir o endereço"
     }
   }
 }

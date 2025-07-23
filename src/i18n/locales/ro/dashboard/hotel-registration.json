@@ -13,6 +13,21 @@
       "draftLoadedDescription": "Munca anterioară a fost restaurată",
       "autoSaving": "Salvare automată",
       "lastSaved": "Ultima salvare"
+    },
+    "basicInfo": {
+      "title": "Informații de Bază",
+      "hotelName": "Numele Hotelului",
+      "hotelNamePlaceholder": "Introduceți numele hotelului",
+      "address": "Adresa",
+      "addressPlaceholder": "Începeți să tastați adresa...",
+      "city": "Orașul",
+      "cityPlaceholder": "Introduceți numele orașului",
+      "postalCode": "Cod Poștal",
+      "postalCodePlaceholder": "Introduceți codul poștal",
+      "country": "Țara",
+      "countryPlaceholder": "Selectați o țară",
+      "mapPreview": "Previzualizare Locație",
+      "mapPlaceholder": "Harta va apărea aici după introducerea adresei"
     }
   }
 }

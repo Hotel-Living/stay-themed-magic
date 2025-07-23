@@ -13,9 +13,9 @@ interface CompletePhrasesSectionProps {
 export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => {
   const { t } = useTranslation('dashboard/hotel-registration');
 
-  const handleInputChange = (fieldName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (fieldName: keyof HotelRegistrationFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
-    form.setValue(fieldName as any, value);
+    form.setValue(fieldName, value);
   };
 
   return (

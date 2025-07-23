@@ -9,15 +9,6 @@
   "success": "Éxito",
   "hotelSubmittedForApproval": "Hotel enviado para aprobación",
   "submissionFailed": "Error al enviar el registro",
-  "pricingMatrix": {
-    "title": "MATRIZ DE PRECIOS",
-    "priceLimit": "Límite de precio según clasificación {{classification}}: €{{limit}}",
-    "selectStayLengthsFirst": "Por favor, seleccione primero las duraciones de estancia en la sección anterior.",
-    "duration": "Duración",
-    "doubleRoom": "Habitación Doble",
-    "singleRoom": "Habitación Individual", 
-    "days": "días"
-  },
     "basicInfo": {
       "title": "INFORMACIÓN BÁSICA",
     "hotelName": "Nombre del Hotel",

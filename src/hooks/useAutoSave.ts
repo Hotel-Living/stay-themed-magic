@@ -23,6 +23,7 @@ export function useAutoSave<T>(
       return;
     }
 
+    // If auto-save is disabled, don't do anything
     if (!enabled || !formData) return;
 
     const timer = setTimeout(async () => {
@@ -44,10 +45,10 @@ export function useAutoSave<T>(
   }, [formData, saveDraft, interval, enabled]);
 
   return {
-    isSaving,
-    lastSaved,
+    isSaving: enabled ? isSaving : false,
+    lastSaved: enabled ? lastSaved : null,
     forceSave: async () => {
-      if (!formData) return;
+      if (!formData || !enabled) return;
       
       try {
         setIsSaving(true);

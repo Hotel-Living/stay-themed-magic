@@ -72,9 +72,10 @@ export function usePropertyFormAutoSave(
     localStorage.removeItem(draftKey);
   }, [user?.id, editingHotelId]);
 
+  // Completely disable auto-save by setting enabled to false
   const autoSave = useAutoSave(formData, saveDraft, {
     interval: 30000, // 30 seconds
-    enabled: !!user?.id
+    enabled: false // DISABLED - no auto-saving
   });
 
   return {

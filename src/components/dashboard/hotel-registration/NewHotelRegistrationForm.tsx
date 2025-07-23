@@ -1,309 +1,591 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Form } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Accordion } from '@/components/ui/accordion';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/context/AuthContext';
-import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
-import { createNewHotel } from '../property/hooks/submission/createNewHotel';
-import { PropertyFormData } from '../property/hooks/usePropertyFormData';
+import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { v4 as uuidv4 } from 'uuid';
+import { usePropertyFormAutoSave } from "@/components/dashboard/property/hooks/usePropertyFormAutoSave";
+import { PropertyFormData, usePropertyFormData } from "@/components/dashboard/property/hooks/usePropertyFormData";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useImageUploadLimiter } from "@/hooks/useImageUploadLimiter";
+import { useAuth } from "@/context/AuthContext";
 
-import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
-import { HotelClassificationSection } from './sections/HotelClassificationSection';
-import { PropertyTypeSection } from './sections/PropertyTypeSection';
-import { PropertyStyleSection } from './sections/PropertyStyleSection';
-import { HotelDescriptionSection } from './sections/HotelDescriptionSection';
-import { RoomDescriptionSection } from './sections/RoomDescriptionSection';
-import { CompletePhraseSection } from './sections/CompletePhraseSection';
-import { HotelFeaturesSection } from './sections/HotelFeaturesSection';
-import { RoomFeaturesSection } from './sections/RoomFeaturesSection';
-import { ActivitiesSection } from './sections/ActivitiesSection';
-import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
-import { CheckInDaySection } from './sections/CheckInDaySection';
-import { MealPlanSection } from './sections/MealPlanSection';
-
-import { StayLengthsSection } from './sections/StayLengthsSection';
-import { ImageUploadsSection } from './sections/ImageUploadsSection';
-import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
-import { PricingMatrixSection } from './sections/PricingMatrixSection';
-import { TermsConditionsSection } from './sections/TermsConditionsSection';
-
-const hotelRegistrationSchema = z.object({
-  // Basic Info
-  hotelName: z.string().min(1, 'Hotel name is required'),
-  address: z.string().min(1, 'Address is required'),
-  city: z.string().min(1, 'City is required'),
-  postalCode: z.string().min(1, 'Postal code is required'),
-  country: z.string().min(1, 'Country is required'),
-  
-  // Contact Info
-  email: z.string().email('Invalid email'),
-  phone: z.string().min(1, 'Phone is required'),
-  website: z.string().url().optional(),
-  
-  // Classification
-  classification: z.string().min(1, 'Classification is required'),
-  
-  // Property Details
-  propertyType: z.string().min(1, 'Property type is required'),
-  propertyStyle: z.string().min(1, 'Property style is required'),
-  hotelDescription: z.string().min(200, 'Description must be at least 200 characters'),
-  roomDescription: z.string().min(1, 'Room description is required'),
-  idealGuests: z.string().min(1, 'Ideal guests description is required'),
-  atmosphere: z.string().min(1, 'Atmosphere description is required'),
-  location: z.string().min(1, 'Location description is required'),
-  
-  // Features
-  hotelFeatures: z.array(z.string()).default([]),
-  roomFeatures: z.array(z.string()).default([]),
-  
-  // Activities and Affinities
-  activities: z.array(z.string()).default([]),
-  clientAffinities: z.array(z.string()).default([]),
-  
-  // Photos
-  photos: z.object({
-    hotel: z.array(z.any()).default([]),
-    room: z.array(z.any()).default([])
-  }).default({ hotel: [], room: [] }),
-  
-  // Accommodation Terms
-  checkInDay: z.string().min(1, 'Check-in day is required'),
-  mealPlan: z.string().min(1, 'Meal plan is required'),
-  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).min(1, 'At least one stay length is required'),
-  
-  // Services
-  weeklyLaundryIncluded: z.boolean().default(false),
-  externalLaundryAvailable: z.boolean().default(false),
-  
-  // Availability
-  numberOfRooms: z.string().min(1, 'Number of rooms is required'),
-  
-  // Pricing
-  pricingMatrix: z.array(z.any()).default([]),
-  
-  // Terms
-  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),
-  availabilityPackages: z.array(z.object({
-    id: z.string().optional(),
-    startDate: z.date(),
-    endDate: z.date(),
-    duration: z.number(),
-    availableRooms: z.number().min(1)
-  })).default([])
-});
-
-export type HotelRegistrationFormData = z.infer<typeof hotelRegistrationSchema>;
-
-export const NewHotelRegistrationForm = () => {
-  const { t } = useTranslation('dashboard/hotel-registration');
-  const { toast } = useToast();
+export function NewHotelRegistrationForm() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { id: editingHotelId } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
   const { user } = useAuth();
+  const { toast } = useToast();
+
+  const { formData, setFormData, currentStep, setCurrentStep } = usePropertyFormData();
+
+  const {
+    isSaving,
+    lastSaved,
+    loadDraft,
+    clearDraft
+  } = usePropertyFormAutoSave(formData, setFormData, editingHotelId);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const form = useForm<HotelRegistrationFormData>({
-    resolver: zodResolver(hotelRegistrationSchema),
-    defaultValues: {
-      stayLengths: [],
-      activities: [],
-      clientAffinities: [],
-      hotelFeatures: [],
-      roomFeatures: [],
-      photos: { hotel: [], room: [] },
-      pricingMatrix: [],
-      weeklyLaundryIncluded: false,
-      externalLaundryAvailable: false,
-      termsAccepted: false
-    }
-  });
 
-  // Convert form data to PropertyFormData for auto-save and submission
-  const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => ({
-    hotelName: data.hotelName,
-    propertyType: data.propertyType,
-    description: data.hotelDescription,
-    idealGuests: data.idealGuests,
-    atmosphere: data.atmosphere,
-    perfectLocation: data.location,
-    style: data.propertyStyle,
-    country: data.country,
-    address: data.address,
-    city: data.city,
-    postalCode: data.postalCode,
-    contactName: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
-    contactEmail: data.email,
-    contactPhone: data.phone,
-    category: data.classification,
-    stayLengths: data.stayLengths.map(length => parseInt(length)),
-    mealPlans: [data.mealPlan],
-    roomTypes: [{ description: data.roomDescription }],
-    themes: data.clientAffinities,
-    activities: data.activities,
-    faqs: [],
-    terms: '',
-    termsAccepted: data.termsAccepted,
-    hotelImages: [...data.photos.hotel, ...data.photos.room],
-    mainImageUrl: data.photos.hotel[0]?.url || '',
-    preferredWeekday: data.checkInDay,
-    featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-    featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-    available_months: [],
-    rates: {},
-    currency: 'USD',
-    enablePriceIncrease: false,
-    priceIncreaseCap: 20,
-    pricingMatrix: data.pricingMatrix,
-    checkinDay: data.checkInDay,
-    stayDurations: data.stayLengths.map(length => parseInt(length)),
-    affinities: data.clientAffinities
-  });
+  const imageUploadLimits = {
+    maxImages: 20,
+    maxUploadsPerMinute: 5,
+    maxFileSize: 5 * 1024 * 1024, // 5MB
+  };
+  const { canUpload, validateFiles, recordUpload, getRemainingUploads, limits } = useImageUploadLimiter(imageUploadLimits);
 
-  // Watch form values for auto-save
-  const formValues = form.watch();
-  const propertyFormData = convertToPropertyFormData(formValues);
-
-  // Auto-save functionality
-  const autoSave = usePropertyFormAutoSave(
-    propertyFormData,
-    () => {}, // setFormData not needed here as we're using react-hook-form
-    null // no editing hotel ID for new properties
-  );
-
-  // Load draft on component mount
-  useEffect(() => {
-    const loadedDraft = autoSave.loadDraft();
-    if (loadedDraft) {
-      // Convert back to form format and populate form
-      form.reset({
-        hotelName: loadedDraft.hotelName,
-        address: loadedDraft.address,
-        city: loadedDraft.city,
-        postalCode: loadedDraft.postalCode,
-        country: loadedDraft.country,
-        email: loadedDraft.contactEmail,
-        phone: loadedDraft.contactPhone,
-        website: '',
-        classification: loadedDraft.category,
-        propertyType: loadedDraft.propertyType,
-        propertyStyle: loadedDraft.style,
-        hotelDescription: loadedDraft.description,
-        roomDescription: loadedDraft.roomTypes[0]?.description || '',
-        idealGuests: loadedDraft.idealGuests || '',
-        atmosphere: loadedDraft.atmosphere || '',
-        location: loadedDraft.perfectLocation || '',
-        hotelFeatures: Object.keys(loadedDraft.featuresHotel || {}),
-        roomFeatures: Object.keys(loadedDraft.featuresRoom || {}),
-        activities: loadedDraft.activities,
-        clientAffinities: loadedDraft.themes,
-        photos: {
-          hotel: loadedDraft.hotelImages || [],
-          room: []
-        },
-        checkInDay: loadedDraft.checkinDay || 'Monday',
-        mealPlan: loadedDraft.mealPlans[0] || '',
-        stayLengths: loadedDraft.stayLengths?.map(String) as ('8' | '15' | '22' | '29')[] || [],
-        weeklyLaundryIncluded: false,
-        externalLaundryAvailable: false,
-        numberOfRooms: '1',
-        pricingMatrix: loadedDraft.pricingMatrix || [],
-        termsAccepted: loadedDraft.termsAccepted,
-        availabilityPackages: []
-      });
-      
-      toast({
-        title: t('draftLoaded'),
-        description: t('draftLoadedDescription'),
-        duration: 3000
-      });
-    }
-  }, []);
-
-  const onSubmit = async (data: HotelRegistrationFormData) => {
-    if (!user?.id) {
-      toast({
-        title: t('error'),
-        description: t('userNotAuthenticated'),
-        variant: 'destructive'
-      });
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (!canUpload(formData.image_urls?.length || 0, acceptedFiles.length)) {
       return;
     }
 
-    setIsSubmitting(true);
-    
-    try {
-      const propertyData = convertToPropertyFormData(data);
-      
-      // Submit to hotel creation system
-      const result = await createNewHotel(propertyData, user.id);
-      
-      if (result) {
-        // Clear auto-save draft after successful submission
-        autoSave.clearDraft();
-        
-        toast({
-          title: t('success'),
-          description: t('hotelSubmittedForApproval'),
-          duration: 5000
-        });
+    const { validFiles, errors } = validateFiles(acceptedFiles);
 
-        // Redirect to hotel dashboard after successful submission
-        setTimeout(() => {
-          window.location.href = '/hotel-dashboard';
-        }, 2000);
+    if (errors.length > 0) {
+      errors.forEach(error => toast({ title: error, variant: "destructive" }));
+      return;
+    }
+
+    recordUpload(validFiles.length);
+
+    const uploadPromises = validFiles.map(async (file) => {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${uuidv4()}.${fileExt}`;
+      const filePath = `hotels/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        toast({ title: t('dashboard.imageUploadError'), description: uploadError.message, variant: "destructive" });
+        return null;
       }
-    } catch (error) {
-      console.error('Error submitting hotel:', error);
-      toast({
-        title: t('error'),
-        description: t('submissionFailed'),
-        variant: 'destructive'
-      });
+
+      const { data } = supabase.storage.from('images').getPublicUrl(filePath);
+      return data.publicUrl;
+    });
+
+    const uploadedUrls = (await Promise.all(uploadPromises)).filter(url => url !== null) as string[];
+
+    setFormData(prev => ({
+      ...prev,
+      image_urls: [...(prev.image_urls || []), ...uploadedUrls],
+    }));
+  }, [formData.image_urls, setFormData, canUpload, validateFiles, recordUpload, t, toast]);
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: 'image/*', maxSize: limits.maxFileSize });
+
+  const removeImage = (urlToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      image_urls: prev.image_urls?.filter(url => url !== urlToRemove),
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      if (editingHotelId) {
+        // Update existing hotel
+        const { error } = await supabase
+          .from('hotels')
+          .update(formData)
+          .eq('id', editingHotelId);
+
+        if (error) throw error;
+        toast({ title: t('dashboard.propertyUpdated') });
+      } else {
+        // Create new hotel
+        if (!user?.id) {
+          toast({ title: t('dashboard.userNotLoggedIn'), variant: "destructive" });
+          return;
+        }
+        const { error } = await supabase
+          .from('hotels')
+          .insert([{ ...formData, user_id: user.id }]);
+
+        if (error) throw error;
+        toast({ title: t('dashboard.propertyAdded') });
+      }
+
+      // Invalidate cache and redirect
+      queryClient.invalidateQueries(['hotels']);
+      navigate('/dashboard/properties');
+    } catch (error: any) {
+      console.error("Submission error:", error);
+      toast({ title: t('dashboard.submissionError'), description: error.message, variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Accordion type="single" collapsible className="space-y-4">
-            <HotelBasicInfoSection form={form} />
-            <HotelClassificationSection form={form} />
-            <PropertyTypeSection form={form} />
-            <PropertyStyleSection form={form} />
-            <HotelDescriptionSection form={form} />
-            <RoomDescriptionSection form={form} />
-            <CompletePhraseSection form={form} />
-            <HotelFeaturesSection form={form} />
-            <RoomFeaturesSection form={form} />
-            <ClientAffinitiesSection form={form} />
-            <ActivitiesSection form={form} />
-            <MealPlanSection form={form} />
-            <StayLengthsSection form={form} />
-            <CheckInDaySection form={form} />
-            <AvailabilityPackagesSection form={form} />
-            <ImageUploadsSection form={form} />
-            <PricingMatrixSection form={form} />
-          </Accordion>
-          
-          <TermsConditionsSection form={form} />
-          
-          <div className="flex justify-end pt-6">
-            <Button 
-              type="submit" 
-              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
-              disabled={isSubmitting || !form.formState.isValid}
-            >
-              {isSubmitting ? t('submitting') : t('submitRegistration')}
-            </Button>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          {editingHotelId ? t('dashboard.editProperty') : t('dashboard.addProperty')}
+        </h1>
+        <p className="text-gray-600">
+          {t('dashboard.propertyFormDescription')}
+        </p>
+        
+        {/* Progress indicator */}
+        <div className="mt-6">
+          <div className="flex justify-between text-sm text-gray-500 mb-2">
+            <span>{t('dashboard.step')} {currentStep} {t('dashboard.of')} 16</span>
+            <span>{Math.round(((currentStep - 1) / 15) * 100)}% {t('dashboard.complete')}</span>
           </div>
-        </form>
-      </Form>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentStep - 1) / 15) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Remove auto-save status completely - no more draft saving indicators */}
+      </div>
+
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        {currentStep === 1 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step1Title')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyName')}</label>
+                <input
+                  type="text"
+                  id="name"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.name || ''}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyLocation')}</label>
+                <input
+                  type="text"
+                  id="location"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.location || ''}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyCity')}</label>
+                <input
+                  type="text"
+                  id="city"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.city || ''}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="country" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyCountry')}</label>
+                <input
+                  type="text"
+                  id="country"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.country || ''}
+                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 2 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step2Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyDescription')}</label>
+                <textarea
+                  id="description"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.description || ''}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step3Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="ideal_guests" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyIdealGuests')}</label>
+                <textarea
+                  id="ideal_guests"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.ideal_guests || ''}
+                  onChange={(e) => setFormData({ ...formData, ideal_guests: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 4 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step4Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="atmosphere" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyAtmosphere')}</label>
+                <textarea
+                  id="atmosphere"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.atmosphere || ''}
+                  onChange={(e) => setFormData({ ...formData, atmosphere: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 5 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step5Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="perfect_location" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyPerfectLocation')}</label>
+                <textarea
+                  id="perfect_location"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.perfect_location || ''}
+                  onChange={(e) => setFormData({ ...formData, perfect_location: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 6 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step6Title')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="price_per_month" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyPricePerMonth')}</label>
+                <input
+                  type="number"
+                  id="price_per_month"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.price_per_month || ''}
+                  onChange={(e) => setFormData({ ...formData, price_per_month: parseFloat(e.target.value) })}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="available_months" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyAvailableMonths')}</label>
+                <input
+                  type="text"
+                  id="available_months"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.available_months?.join(', ') || ''}
+                  onChange={(e) => setFormData({ ...formData, available_months: e.target.value.split(',').map(s => s.trim()) })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 7 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step7Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="meal_plans" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyMealPlans')}</label>
+                <input
+                  type="text"
+                  id="meal_plans"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.meal_plans?.join(', ') || ''}
+                  onChange={(e) => setFormData({ ...formData, meal_plans: e.target.value.split(',').map(s => s.trim()) })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 8 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step8Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="hotel_themes" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyHotelThemes')}</label>
+                <input
+                  type="text"
+                  id="hotel_themes"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.hotel_themes?.map(theme => theme.themes?.name).join(', ') || ''}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    hotel_themes: e.target.value.split(',').map(s => ({ themes: { name: s.trim() } }))
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 9 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step9Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="hotel_activities" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyHotelActivities')}</label>
+                <input
+                  type="text"
+                  id="hotel_activities"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.hotel_activities?.map(activity => activity.activities?.name).join(', ') || ''}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    hotel_activities: e.target.value.split(',').map(s => ({ activities: { name: s.trim() } }))
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 10 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step10Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="room_features" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyRoomFeatures')}</label>
+                <input
+                  type="text"
+                  id="room_features"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.room_features?.join(', ') || ''}
+                  onChange={(e) => setFormData({ ...formData, room_features: e.target.value.split(',').map(s => s.trim()) })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 11 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step11Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="cancellation_policy" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyCancellationPolicy')}</label>
+                <textarea
+                  id="cancellation_policy"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.cancellation_policy || ''}
+                  onChange={(e) => setFormData({ ...formData, cancellation_policy: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 12 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step12Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="check_in_time" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyCheckInTime')}</label>
+                <input
+                  type="time"
+                  id="check_in_time"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.check_in_time || ''}
+                  onChange={(e) => setFormData({ ...formData, check_in_time: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="check_out_time" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyCheckOutTime')}</label>
+                <input
+                  type="time"
+                  id="check_out_time"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.check_out_time || ''}
+                  onChange={(e) => setFormData({ ...formData, check_out_time: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 13 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step13Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="min_stay" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyMinStay')}</label>
+                <input
+                  type="number"
+                  id="min_stay"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.min_stay || ''}
+                  onChange={(e) => setFormData({ ...formData, min_stay: parseInt(e.target.value) })}
+                />
+              </div>
+              <div>
+                <label htmlFor="max_stay" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyMaxStay')}</label>
+                <input
+                  type="number"
+                  id="max_stay"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.max_stay || ''}
+                  onChange={(e) => setFormData({ ...formData, max_stay: parseInt(e.target.value) })}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 14 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step14Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('dashboard.propertyImageUpload')}</label>
+                <div {...getRootProps()} className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md cursor-pointer">
+                  <input {...getInputProps()} />
+                  <div className="space-y-1 text-center">
+                    <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4V12a4 4 0 014-4h20M24 36l-4-4m0 0l-4 4m4-4v12m8.971-3.01c.166-.39.288-.819.407-1.255M13 5.032V12m18.032 0v-6.968M23.182 18.726a4.573 4.573 0 00-1.213-3.257M29.165 30.274a4.573 4.573 0 001.213 3.257m-5.778-11.548a4.573 4.573 0 00-3.257 1.213M20.835 17.726a4.573 4.573 0 003.257-1.213m-5.778 11.548a4.573 4.573 0 00-3.257-1.213M27.165 31.274a4.573 4.573 0 003.257 1.213" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <div className="flex text-sm text-gray-600">
+                      <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-500 focus-within:ring-offset-2">
+                        <span>{t('dashboard.uploadImages')}</span>
+                      </label>
+                      <p className="pl-1">{t('dashboard.orDragAndDrop')}</p>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      {t('dashboard.fileTypesAccepted')}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mt-2">
+                  {t('dashboard.remainingUploads')}: {getRemainingUploads()} / {limits.maxUploadsPerMinute} {t('dashboard.perMinute')}<br />
+                  {t('dashboard.maxImagesAllowed')}: {formData.image_urls?.length || 0} / {limits.maxImages}
+                </p>
+              </div>
+              {formData.image_urls && formData.image_urls.length > 0 && (
+                <div className="mt-4">
+                  <h3 className="text-lg font-medium text-gray-900">{t('dashboard.uploadedImages')}</h3>
+                  <div className="mt-2 grid grid-cols-2 gap-4">
+                    {formData.image_urls.map((url, index) => (
+                      <div key={index} className="relative">
+                        <img src={url} alt={`Uploaded ${index + 1}`} className="rounded-md shadow-sm" />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(url)}
+                          className="absolute top-0 right-0 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                        >
+                          <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {currentStep === 15 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step15Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="rates" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyRates')}</label>
+                <input
+                  type="text"
+                  id="rates"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={JSON.stringify(formData.rates) || ''}
+                  onChange={(e) => {
+                    try {
+                      const parsedRates = JSON.parse(e.target.value);
+                      setFormData({ ...formData, rates: parsedRates });
+                    } catch (error) {
+                      console.error("Invalid JSON for rates", error);
+                      toast({ title: t('dashboard.invalidJson'), variant: "destructive" });
+                    }
+                  }}
+                />
+                <p className="text-sm text-gray-500 mt-1">{t('dashboard.ratesFormat')}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 16 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.step16Title')}</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label htmlFor="status" className="block text-sm font-medium text-gray-700">{t('dashboard.propertyStatus')}</label>
+                <select
+                  id="status"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  value={formData.status || 'pending'}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                >
+                  <option value="pending">{t('dashboard.pending')}</option>
+                  <option value="approved">{t('dashboard.approved')}</option>
+                  <option value="rejected">{t('dashboard.rejected')}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8 flex justify-between">
+          <button
+            type="button"
+            onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={currentStep === 1}
+          >
+            {t('dashboard.previous')}
+          </button>
+          {currentStep < 16 ? (
+            <button
+              type="button"
+              onClick={() => setCurrentStep(prev => Math.min(16, prev + 1))}
+              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              {t('dashboard.next')}
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? t('dashboard.submitting') : (editingHotelId ? t('dashboard.updateProperty') : t('dashboard.addProperty'))}
+            </button>
+          )}
+        </div>
+      </form>
     </div>
   );
-};
+}

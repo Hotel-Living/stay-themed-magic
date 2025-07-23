@@ -64,11 +64,8 @@ export default function HotelModelPage() {
   const handlePackageClick = pkg => {
     setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
   };
-  return <div className="min-h-screen relative overflow-hidden">
-      {/* Starfield Background */}
-      <Starfield />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8 space-y-8">
+  return <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8 space-y-8">
         
         {/* Top Section */}
         <div className="text-center space-y-4">

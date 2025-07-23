@@ -174,67 +174,175 @@ export const NewHotelRegistrationForm = () => {
     clearDraft: () => {}
   };
 
+  const getFieldDisplayName = (fieldName: string): string => {
+    const fieldMap: Record<string, string> = {
+      'hotelName': 'Nombre del Hotel',
+      'address': 'Dirección',
+      'city': 'Ciudad',
+      'postalCode': 'Código Postal',
+      'country': 'País',
+      'email': 'Email',
+      'phone': 'Teléfono',
+      'classification': 'Clasificación',
+      'propertyType': 'Tipo de Propiedad',
+      'propertyStyle': 'Estilo de Propiedad',
+      'hotelDescription': 'Descripción del Hotel',
+      'roomDescription': 'Descripción de las Habitaciones',
+      'idealGuests': 'Huéspedes Ideales',
+      'atmosphere': 'Ambiente',
+      'location': 'Ubicación',
+      'checkInDay': 'Día de Check-in',
+      'mealPlan': 'Plan de Comidas',
+      'stayLengths': 'Duración de Estancia',
+      'numberOfRooms': 'Número de Habitaciones',
+      'termsAccepted': 'Términos y Condiciones'
+    };
+    return fieldMap[fieldName] || fieldName;
+  };
+
+  const validateRequiredFields = (data: HotelRegistrationFormData): string[] => {
+    const missingFields: string[] = [];
+    
+    // Basic Info Section
+    if (!data.hotelName?.trim()) missingFields.push('Nombre del Hotel');
+    if (!data.address?.trim()) missingFields.push('Dirección');
+    if (!data.city?.trim()) missingFields.push('Ciudad');
+    if (!data.postalCode?.trim()) missingFields.push('Código Postal');
+    if (!data.country?.trim()) missingFields.push('País');
+    if (!data.email?.trim()) missingFields.push('Email');
+    if (!data.phone?.trim()) missingFields.push('Teléfono');
+    
+    // Classification Section
+    if (!data.classification?.trim()) missingFields.push('Clasificación');
+    
+    // Property Details Section
+    if (!data.propertyType?.trim()) missingFields.push('Tipo de Propiedad');
+    if (!data.propertyStyle?.trim()) missingFields.push('Estilo de Propiedad');
+    if (!data.hotelDescription?.trim() || data.hotelDescription.length < 200) missingFields.push('Descripción del Hotel (mínimo 200 caracteres)');
+    if (!data.roomDescription?.trim()) missingFields.push('Descripción de las Habitaciones');
+    if (!data.idealGuests?.trim()) missingFields.push('Huéspedes Ideales');
+    if (!data.atmosphere?.trim()) missingFields.push('Ambiente');
+    if (!data.location?.trim()) missingFields.push('Ubicación');
+    
+    // Accommodation Terms Section
+    if (!data.checkInDay?.trim()) missingFields.push('Día de Check-in');
+    if (!data.mealPlan?.trim()) missingFields.push('Plan de Comidas');
+    if (!data.stayLengths || data.stayLengths.length === 0) missingFields.push('Duración de Estancia');
+    if (!data.numberOfRooms?.trim()) missingFields.push('Número de Habitaciones');
+    
+    // Terms Section
+    if (!data.termsAccepted) missingFields.push('Términos y Condiciones');
+    
+    return missingFields;
+  };
+
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    console.log('Form submission started');
-    console.log('Form data received:', data);
+    console.log('🚀 Form submission started');
+    console.log('📋 Form data received:', data);
     
-    // Always trigger validation to populate errors
-    const isValid = await form.trigger();
-    console.log('Form validation result:', isValid);
-    console.log('Form errors:', form.formState.errors);
-    
-    if (!isValid) {
-      // Get all field errors and display them
-      const errors = form.formState.errors;
-      console.log('Processing errors:', errors);
-      
-      if (Object.keys(errors).length === 0) {
-        // If no errors but form is invalid, show generic message
-        toast({
-          title: t('validationErrors'),
-          description: t('pleaseFixTheFollowingErrors') + ': Formulario incompleto',
-          variant: 'destructive'
-        });
-        return;
-      }
-      
-      const errorMessages = Object.entries(errors)
-        .map(([field, error]) => {
-          const message = error?.message || 'Campo requerido';
-          return `${field}: ${message}`;
-        })
-        .join(', ');
-      
-      console.log('Error messages to display:', errorMessages);
-      
-      toast({
-        title: t('validationErrors'),
-        description: `${t('pleaseFixTheFollowingErrors')}: ${errorMessages}`,
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    if (!user?.id) {
-      toast({
-        title: t('error'),
-        description: t('userNotAuthenticated'),
-        variant: 'destructive'
-      });
-      return;
-    }
-
+    // Immediate user feedback
     setIsSubmitting(true);
     
     try {
+      // Manual validation first to catch any missing fields
+      const missingFields = validateRequiredFields(data);
+      
+      if (missingFields.length > 0) {
+        console.log('❌ Missing required fields:', missingFields);
+        
+        // Display detailed error message with sections
+        const errorMessage = `Por favor complete los siguientes campos requeridos: ${missingFields.join(', ')}`;
+        
+        // Try multiple notification methods in case of network issues
+        try {
+          toast({
+            title: 'Campos Requeridos Faltantes',
+            description: errorMessage,
+            variant: 'destructive',
+            duration: 8000
+          });
+        } catch (toastError) {
+          console.error('Toast failed, using alert fallback:', toastError);
+          alert(`Campos Requeridos Faltantes\n\n${errorMessage}`);
+        }
+        
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // React Hook Form validation as secondary check
+      const isValid = await form.trigger();
+      console.log('🔍 React Hook Form validation result:', isValid);
+      console.log('📝 Form errors from RHF:', form.formState.errors);
+      
+      if (!isValid) {
+        const errors = form.formState.errors;
+        console.log('⚠️ Processing React Hook Form errors:', errors);
+        
+        if (Object.keys(errors).length === 0) {
+          // Generic fallback if RHF validation fails but no specific errors
+          try {
+            toast({
+              title: 'Error de Validación',
+              description: 'El formulario contiene errores. Por favor revise todos los campos.',
+              variant: 'destructive',
+              duration: 6000
+            });
+          } catch (toastError) {
+            console.error('Toast failed, using alert fallback:', toastError);
+            alert('Error de Validación\n\nEl formulario contiene errores. Por favor revise todos los campos.');
+          }
+          
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Display specific RHF errors
+        const errorMessages = Object.entries(errors)
+          .map(([field, error]) => {
+            const displayName = getFieldDisplayName(field);
+            const message = error?.message || 'Campo requerido';
+            return `${displayName}: ${message}`;
+          })
+          .join(', ');
+        
+        console.log('📢 Error messages to display:', errorMessages);
+        
+        try {
+          toast({
+            title: 'Errores de Validación',
+            description: `${errorMessages}`,
+            variant: 'destructive',
+            duration: 8000
+          });
+        } catch (toastError) {
+          console.error('Toast failed, using alert fallback:', toastError);
+          alert(`Errores de Validación\n\n${errorMessages}`);
+        }
+        
+        setIsSubmitting(false);
+        return;
+      }
+      
+      console.log('✅ All validations passed, proceeding with submission');
+
+      if (!user?.id) {
+        toast({
+          title: t('error'),
+          description: t('userNotAuthenticated'),
+          variant: 'destructive'
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Convert and submit the form data
       const propertyData = convertToPropertyFormData(data);
       
       // Submit to hotel creation system
       const result = await createNewHotel(propertyData, user.id);
       
       if (result) {
-        // Draft clearing disabled
-        
         toast({
           title: t('success'),
           description: t('hotelSubmittedForApproval'),
@@ -246,6 +354,7 @@ export const NewHotelRegistrationForm = () => {
           window.location.href = '/hotel-dashboard';
         }, 2000);
       }
+      
     } catch (error) {
       console.error('Error submitting hotel:', error);
       toast({

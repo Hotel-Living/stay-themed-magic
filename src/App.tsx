@@ -78,6 +78,7 @@ import Help from "@/pages/Help";
 import Ayuda from "@/pages/Ayuda";
 import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
+import HotelModelPage from "@/pages/HotelModelPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -181,7 +182,8 @@ function App() {
               <Route path="/prueba" element={<Prueba />} />
               
               {/* Comparison Route */}
-              <Route path="/compare" element={<Compare />} />
+               <Route path="/compare" element={<Compare />} />
+               <Route path="/hotel-model" element={<HotelModelPage />} />
             </Routes>
             
             {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}

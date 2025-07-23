@@ -1,328 +1,309 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useDropzone } from 'react-dropzone';
-import { supabase } from '@/integrations/supabase/client';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from '@/hooks/use-toast';
-import { usePropertyFormData } from '../property/hooks/usePropertyFormData';
-import { useStepManagement } from '../property/hooks/useStepManagement';
+import { Accordion } from '@/components/ui/accordion';
+import { useTranslation } from '@/hooks/useTranslation';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
+import { createNewHotel } from '../property/hooks/submission/createNewHotel';
+import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 
-interface NewHotelRegistrationFormProps {
-  onCancel?: () => void;
-}
+import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
+import { HotelClassificationSection } from './sections/HotelClassificationSection';
+import { PropertyTypeSection } from './sections/PropertyTypeSection';
+import { PropertyStyleSection } from './sections/PropertyStyleSection';
+import { HotelDescriptionSection } from './sections/HotelDescriptionSection';
+import { RoomDescriptionSection } from './sections/RoomDescriptionSection';
+import { CompletePhraseSection } from './sections/CompletePhraseSection';
+import { HotelFeaturesSection } from './sections/HotelFeaturesSection';
+import { RoomFeaturesSection } from './sections/RoomFeaturesSection';
+import { ActivitiesSection } from './sections/ActivitiesSection';
+import { ClientAffinitiesSection } from './sections/ClientAffinitiesSection';
+import { CheckInDaySection } from './sections/CheckInDaySection';
+import { MealPlanSection } from './sections/MealPlanSection';
 
-export const NewHotelRegistrationForm: React.FC<NewHotelRegistrationFormProps> = ({
-  onCancel
-}) => {
-  const { formData, setFormData, updateFormData } = usePropertyFormData();
-  const { currentStep, setCurrentStep, nextStep, previousStep } = useStepManagement();
+import { StayLengthsSection } from './sections/StayLengthsSection';
+import { ImageUploadsSection } from './sections/ImageUploadsSection';
+import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
+import { PricingMatrixSection } from './sections/PricingMatrixSection';
+import { TermsConditionsSection } from './sections/TermsConditionsSection';
+
+const hotelRegistrationSchema = z.object({
+  // Basic Info
+  hotelName: z.string().min(1, 'Hotel name is required'),
+  address: z.string().min(1, 'Address is required'),
+  city: z.string().min(1, 'City is required'),
+  postalCode: z.string().min(1, 'Postal code is required'),
+  country: z.string().min(1, 'Country is required'),
+  
+  // Contact Info
+  email: z.string().email('Invalid email'),
+  phone: z.string().min(1, 'Phone is required'),
+  website: z.string().url().optional(),
+  
+  // Classification
+  classification: z.string().min(1, 'Classification is required'),
+  
+  // Property Details
+  propertyType: z.string().min(1, 'Property type is required'),
+  propertyStyle: z.string().min(1, 'Property style is required'),
+  hotelDescription: z.string().min(200, 'Description must be at least 200 characters'),
+  roomDescription: z.string().min(1, 'Room description is required'),
+  idealGuests: z.string().min(1, 'Ideal guests description is required'),
+  atmosphere: z.string().min(1, 'Atmosphere description is required'),
+  location: z.string().min(1, 'Location description is required'),
+  
+  // Features
+  hotelFeatures: z.array(z.string()).default([]),
+  roomFeatures: z.array(z.string()).default([]),
+  
+  // Activities and Affinities
+  activities: z.array(z.string()).default([]),
+  clientAffinities: z.array(z.string()).default([]),
+  
+  // Photos
+  photos: z.object({
+    hotel: z.array(z.any()).default([]),
+    room: z.array(z.any()).default([])
+  }).default({ hotel: [], room: [] }),
+  
+  // Accommodation Terms
+  checkInDay: z.string().min(1, 'Check-in day is required'),
+  mealPlan: z.string().min(1, 'Meal plan is required'),
+  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).min(1, 'At least one stay length is required'),
+  
+  // Services
+  weeklyLaundryIncluded: z.boolean().default(false),
+  externalLaundryAvailable: z.boolean().default(false),
+  
+  // Availability
+  numberOfRooms: z.string().min(1, 'Number of rooms is required'),
+  
+  // Pricing
+  pricingMatrix: z.array(z.any()).default([]),
+  
+  // Terms
+  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),
+  availabilityPackages: z.array(z.object({
+    id: z.string().optional(),
+    startDate: z.date(),
+    endDate: z.date(),
+    duration: z.number(),
+    availableRooms: z.number().min(1)
+  })).default([])
+});
+
+export type HotelRegistrationFormData = z.infer<typeof hotelRegistrationSchema>;
+
+export const NewHotelRegistrationForm = () => {
+  const { t } = useTranslation('dashboard/hotel-registration');
+  const { toast } = useToast();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const queryClient = useQueryClient();
-
-  const handleImageUpload = async (acceptedFiles: File[]) => {
-    // Handle image upload logic here
-    console.log('Uploading images:', acceptedFiles);
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.webp']
-    },
-    onDrop: handleImageUpload
+  
+  const form = useForm<HotelRegistrationFormData>({
+    resolver: zodResolver(hotelRegistrationSchema),
+    defaultValues: {
+      stayLengths: [],
+      activities: [],
+      clientAffinities: [],
+      hotelFeatures: [],
+      roomFeatures: [],
+      photos: { hotel: [], room: [] },
+      pricingMatrix: [],
+      weeklyLaundryIncluded: false,
+      externalLaundryAvailable: false,
+      termsAccepted: false
+    }
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // Convert form data to PropertyFormData for auto-save and submission
+  const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => ({
+    hotelName: data.hotelName,
+    propertyType: data.propertyType,
+    description: data.hotelDescription,
+    idealGuests: data.idealGuests,
+    atmosphere: data.atmosphere,
+    perfectLocation: data.location,
+    style: data.propertyStyle,
+    country: data.country,
+    address: data.address,
+    city: data.city,
+    postalCode: data.postalCode,
+    contactName: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
+    contactEmail: data.email,
+    contactPhone: data.phone,
+    category: data.classification,
+    stayLengths: data.stayLengths.map(length => parseInt(length)),
+    mealPlans: [data.mealPlan],
+    roomTypes: [{ description: data.roomDescription }],
+    themes: data.clientAffinities,
+    activities: data.activities,
+    faqs: [],
+    terms: '',
+    termsAccepted: data.termsAccepted,
+    hotelImages: [...data.photos.hotel, ...data.photos.room],
+    mainImageUrl: data.photos.hotel[0]?.url || '',
+    preferredWeekday: data.checkInDay,
+    featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+    featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+    available_months: [],
+    rates: {},
+    currency: 'USD',
+    enablePriceIncrease: false,
+    priceIncreaseCap: 20,
+    pricingMatrix: data.pricingMatrix,
+    checkinDay: data.checkInDay,
+    stayDurations: data.stayLengths.map(length => parseInt(length)),
+    affinities: data.clientAffinities
+  });
 
-    try {
-      // Transform form data to match database schema
-      const hotelData = {
-        name: formData.hotelName,
-        description: formData.description,
-        country: formData.country,
-        city: formData.city,
-        address: formData.address,
-        property_type: formData.propertyType,
-        style: formData.style,
-        ideal_guests: formData.idealGuests,
-        atmosphere: formData.atmosphere,
-        perfect_location: formData.perfectLocation,
-        postal_code: formData.postalCode,
-        contact_name: formData.contactName,
-        contact_email: formData.contactEmail,
-        contact_phone: formData.contactPhone,
-        category: parseInt(formData.category) || 1,
-        available_months: formData.available_months,
-        features_hotel: formData.featuresHotel,
-        features_room: formData.featuresRoom,
-        meal_plans: formData.mealPlans,
-        room_types: formData.roomTypes,
-        stay_lengths: formData.stayLengths,
-        terms: formData.terms,
-        preferred_weekday: formData.preferredWeekday,
-        rates: formData.rates,
-        currency: formData.currency,
-        enable_price_increase: formData.enablePriceIncrease,
-        price_increase_cap: formData.priceIncreaseCap,
-        latitude: formData.latitude ? Number(formData.latitude) : null,
-        longitude: formData.longitude ? Number(formData.longitude) : null,
-        pricing_matrix: formData.pricingMatrix,
-        checkin_day: formData.checkinDay,
-        price_per_month: 0, // Default value
-        status: 'pending' as const
-      };
+  // Watch form values for auto-save
+  const formValues = form.watch();
+  const propertyFormData = convertToPropertyFormData(formValues);
 
-      const { data, error } = await supabase
-        .from('hotels')
-        .insert([hotelData])
-        .select();
+  // Auto-save functionality
+  const autoSave = usePropertyFormAutoSave(
+    propertyFormData,
+    () => {}, // setFormData not needed here as we're using react-hook-form
+    null // no editing hotel ID for new properties
+  );
 
-      if (error) throw error;
-
-      // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['hotels'] });
-
-      toast({
-        title: "Success",
-        description: "Property registered successfully!"
+  // Load draft on component mount
+  useEffect(() => {
+    const loadedDraft = autoSave.loadDraft();
+    if (loadedDraft) {
+      // Convert back to form format and populate form
+      form.reset({
+        hotelName: loadedDraft.hotelName,
+        address: loadedDraft.address,
+        city: loadedDraft.city,
+        postalCode: loadedDraft.postalCode,
+        country: loadedDraft.country,
+        email: loadedDraft.contactEmail,
+        phone: loadedDraft.contactPhone,
+        website: '',
+        classification: loadedDraft.category,
+        propertyType: loadedDraft.propertyType,
+        propertyStyle: loadedDraft.style,
+        hotelDescription: loadedDraft.description,
+        roomDescription: loadedDraft.roomTypes[0]?.description || '',
+        idealGuests: loadedDraft.idealGuests || '',
+        atmosphere: loadedDraft.atmosphere || '',
+        location: loadedDraft.perfectLocation || '',
+        hotelFeatures: Object.keys(loadedDraft.featuresHotel || {}),
+        roomFeatures: Object.keys(loadedDraft.featuresRoom || {}),
+        activities: loadedDraft.activities,
+        clientAffinities: loadedDraft.themes,
+        photos: {
+          hotel: loadedDraft.hotelImages || [],
+          room: []
+        },
+        checkInDay: loadedDraft.checkinDay || 'Monday',
+        mealPlan: loadedDraft.mealPlans[0] || '',
+        stayLengths: loadedDraft.stayLengths?.map(String) as ('8' | '15' | '22' | '29')[] || [],
+        weeklyLaundryIncluded: false,
+        externalLaundryAvailable: false,
+        numberOfRooms: '1',
+        pricingMatrix: loadedDraft.pricingMatrix || [],
+        termsAccepted: loadedDraft.termsAccepted,
+        availabilityPackages: []
       });
+      
+      toast({
+        title: t('draftLoaded'),
+        description: t('draftLoadedDescription'),
+        duration: 3000
+      });
+    }
+  }, []);
 
-      // Reset form and go back to first step
-      setCurrentStep(1);
-      if (onCancel) onCancel();
+  const onSubmit = async (data: HotelRegistrationFormData) => {
+    if (!user?.id) {
+      toast({
+        title: t('error'),
+        description: t('userNotAuthenticated'),
+        variant: 'destructive'
+      });
+      return;
+    }
 
+    setIsSubmitting(true);
+    
+    try {
+      const propertyData = convertToPropertyFormData(data);
+      
+      // Submit to hotel creation system
+      const result = await createNewHotel(propertyData, user.id);
+      
+      if (result) {
+        // Clear auto-save draft after successful submission
+        autoSave.clearDraft();
+        
+        toast({
+          title: t('success'),
+          description: t('hotelSubmittedForApproval'),
+          duration: 5000
+        });
+
+        // Redirect to hotel dashboard after successful submission
+        setTimeout(() => {
+          window.location.href = '/hotel-dashboard';
+        }, 2000);
+      }
     } catch (error) {
       console.error('Error submitting hotel:', error);
       toast({
-        title: "Error",
-        description: "Failed to register property. Please try again."
+        title: t('error'),
+        description: t('submissionFailed'),
+        variant: 'destructive'
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Hotel Name</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.hotelName}
-                onChange={(e) => updateFormData('hotelName', e.target.value)}
-                placeholder="Enter hotel name"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Location</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.city}
-                onChange={(e) => updateFormData('city', e.target.value)}
-                placeholder="Enter city"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Country</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.country}
-                onChange={(e) => updateFormData('country', e.target.value)}
-                placeholder="Enter country"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <textarea
-                className="w-full p-2 border rounded-md h-24"
-                value={formData.description}
-                onChange={(e) => updateFormData('description', e.target.value)}
-                placeholder="Describe your property"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Property Type</label>
-              <select
-                className="w-full p-2 border rounded-md"
-                value={formData.propertyType}
-                onChange={(e) => updateFormData('propertyType', e.target.value)}
-              >
-                <option value="">Select property type</option>
-                <option value="hotel">Hotel</option>
-                <option value="boutique">Boutique Hotel</option>
-                <option value="resort">Resort</option>
-                <option value="bed_breakfast">Bed & Breakfast</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Category</label>
-              <select
-                className="w-full p-2 border rounded-md"
-                value={formData.category}
-                onChange={(e) => updateFormData('category', e.target.value)}
-              >
-                <option value="">Select category</option>
-                <option value="1">Budget</option>
-                <option value="2">Mid-range</option>
-                <option value="3">Luxury</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Ideal Guests</label>
-              <textarea
-                className="w-full p-2 border rounded-md h-20"
-                value={formData.idealGuests}
-                onChange={(e) => updateFormData('idealGuests', e.target.value)}
-                placeholder="Describe your ideal guests"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Atmosphere</label>
-              <textarea
-                className="w-full p-2 border rounded-md h-20"
-                value={formData.atmosphere}
-                onChange={(e) => updateFormData('atmosphere', e.target.value)}
-                placeholder="Describe the atmosphere"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Perfect Location</label>
-              <textarea
-                className="w-full p-2 border rounded-md h-20"
-                value={formData.perfectLocation}
-                onChange={(e) => updateFormData('perfectLocation', e.target.value)}
-                placeholder="Why is your location perfect?"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Address</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.address}
-                onChange={(e) => updateFormData('address', e.target.value)}
-                placeholder="Full address"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Postal Code</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.postalCode}
-                onChange={(e) => updateFormData('postalCode', e.target.value)}
-                placeholder="Postal code"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Contact Name</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={formData.contactName}
-                onChange={(e) => updateFormData('contactName', e.target.value)}
-                placeholder="Contact person name"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Contact Email</label>
-              <input
-                type="email"
-                className="w-full p-2 border rounded-md"
-                value={formData.contactEmail}
-                onChange={(e) => updateFormData('contactEmail', e.target.value)}
-                placeholder="Contact email"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Contact Phone</label>
-              <input
-                type="tel"
-                className="w-full p-2 border rounded-md"
-                value={formData.contactPhone}
-                onChange={(e) => updateFormData('contactPhone', e.target.value)}
-                placeholder="Contact phone"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Hotel Images</label>
-              <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer">
-                <input {...getInputProps()} />
-                <p>Drag & drop images here, or click to select files</p>
-              </div>
-            </div>
-          </div>
-        );
-
-      default:
-        return (
-          <div className="text-center py-8">
-            <p>Step {currentStep} - Content coming soon</p>
-          </div>
-        );
-    }
-  };
-
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <CardTitle>Register New Property - Step {currentStep}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {renderStep()}
+    <div className="max-w-4xl mx-auto p-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Accordion type="single" collapsible className="space-y-4">
+            <HotelBasicInfoSection form={form} />
+            <HotelClassificationSection form={form} />
+            <PropertyTypeSection form={form} />
+            <PropertyStyleSection form={form} />
+            <HotelDescriptionSection form={form} />
+            <RoomDescriptionSection form={form} />
+            <CompletePhraseSection form={form} />
+            <HotelFeaturesSection form={form} />
+            <RoomFeaturesSection form={form} />
+            <ClientAffinitiesSection form={form} />
+            <ActivitiesSection form={form} />
+            <MealPlanSection form={form} />
+            <StayLengthsSection form={form} />
+            <CheckInDaySection form={form} />
+            <AvailabilityPackagesSection form={form} />
+            <ImageUploadsSection form={form} />
+            <PricingMatrixSection form={form} />
+          </Accordion>
           
-          <div className="flex justify-between pt-6">
-            <div className="space-x-2">
-              {currentStep > 1 && (
-                <Button type="button" variant="outline" onClick={previousStep}>
-                  Previous
-                </Button>
-              )}
-              {onCancel && (
-                <Button type="button" variant="outline" onClick={onCancel}>
-                  Cancel
-                </Button>
-              )}
-            </div>
-            
-            <div className="space-x-2">
-              {currentStep < 5 ? (
-                <Button type="button" onClick={nextStep}>
-                  Next
-                </Button>
-              ) : (
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Submitting...' : 'Submit Property'}
-                </Button>
-              )}
-            </div>
+          <TermsConditionsSection form={form} />
+          
+          <div className="flex justify-end pt-6">
+            <Button 
+              type="submit" 
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
+              disabled={isSubmitting || !form.formState.isValid}
+            >
+              {isSubmitting ? t('submitting') : t('submitRegistration')}
+            </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </Form>
+    </div>
   );
 };

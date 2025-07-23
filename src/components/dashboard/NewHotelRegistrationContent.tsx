@@ -4,14 +4,16 @@ import { NewHotelRegistrationForm } from './hotel-registration/NewHotelRegistrat
 
 export const NewHotelRegistrationContent = () => {
   return (
-    <div className="min-h-screen p-6 py-0 px-0" style={{ backgroundColor: '#640091' }}>
+    <div className="p-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          
-          
+          <h1 className="text-3xl font-bold text-primary mb-2">Add New Property</h1>
+          <p className="text-muted-foreground">
+            Register your hotel with our platform by completing the form below.
+          </p>
         </div>
         
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 px-0 py-0">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
           <NewHotelRegistrationForm />
         </div>
       </div>

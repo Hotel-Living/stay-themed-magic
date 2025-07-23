@@ -104,16 +104,14 @@ export default function Search() {
       const initialFilters = { ...createDefaultFilters(), ...urlFilters };
       console.log("🎯 Final filters being set:", initialFilters);
       
-      // CRITICAL FIX: Set filters first, then mark as initialized to prevent race condition
+      // Set filters and mark as initialized - let useHotels handle the fetching
       setActiveFilters(initialFilters);
       setFiltersInitialized(true);
-      updateFilters(urlFilters); // Pass only the URL filters to avoid override
     } else {
-      console.log("⚠️ No URL filters found - using default filters and fetching all hotels");
+      console.log("⚠️ No URL filters found - using default filters");
       const defaultFilters = createDefaultFilters();
       setActiveFilters(defaultFilters);
       setFiltersInitialized(true);
-      updateFilters(defaultFilters); // Fetch all hotels with no restrictive filters
     }
   }, []); // Empty dependency array to run only once on mount
 

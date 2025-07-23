@@ -1,187 +1,34 @@
 
 {
-  "basicInfo": {
-    "title": "INFORMACIÓN BÁSICA",
-    "hotelName": "Nombre del Hotel",
-    "hotelNamePlaceholder": "Ingrese el nombre del hotel",
-    "address": "Dirección",
-    "addressPlaceholder": "Ingrese su dirección",
-    "city": "Ciudad",
-    "cityPlaceholder": "Ingrese su ciudad",
-    "postalCode": "Código Postal",
-    "postalCodePlaceholder": "Ingrese código postal",
-    "country": "País",
-    "countryPlaceholder": "Seleccione su país",
-    "mapPreview": "Vista Previa del Mapa",
-    "validation": {
-      "required": "Este campo es obligatorio",
-      "minLength": "Mínimo 3 caracteres requeridos"
-    }
-  },
-  "contactInfo": {
-    "title": "INFORMACIÓN DE CONTACTO",
-    "email": "Correo Electrónico",
-    "emailPlaceholder": "Ingrese dirección de correo",
-    "phone": "Teléfono",
-    "phonePlaceholder": "Ingrese número de teléfono",
-    "website": "Sitio Web",
-    "websitePlaceholder": "Ingrese URL del sitio web"
-  },
-  "propertyType": {
-    "title": "TIPO DE PROPIEDAD",
-    "label": "Tipo de Propiedad",
-    "placeholder": "Seleccione tipo de propiedad",
-    "hotel": "Hotel",
-    "boutiqueHotel": "Hotel Boutique",
-    "resort": "Resort",
-    "ruralHouse": "Casa Rural",
-    "hostel": "Hostal"
-  },
-  "propertyStyle": {
-    "title": "ESTILO DE PROPIEDAD",
-    "label": "Estilo de Propiedad",
-    "placeholder": "Seleccione estilo de propiedad",
-    "classic": "Clásico",
-    "classicElegant": "Clásico Elegante",
-    "modern": "Moderno",
-    "fusion": "Fusión",
-    "urban": "Urbano",
-    "rural": "Rural",
-    "minimalist": "Minimalista",
-    "luxury": "Lujo"
-  },
-  "hotelDescription": {
-    "title": "DESCRIPCIÓN DEL HOTEL",
-    "label": "Descripción del Hotel",
-    "placeholder": "Describa su hotel en detalle...",
-    "minCharacters": "caracteres mínimos"
-  },
-  "roomDescription": {
-    "title": "DESCRIPCIÓN DE HABITACIONES",
-    "label": "Descripción de Habitaciones",
-    "placeholder": "Describa sus habitaciones..."
-  },
-  "idealGuests": {
-    "title": "HUÉSPEDES IDEALES",
-    "label": "Los Huéspedes Ideales Disfrutan",
-    "placeholder": "Describa sus huéspedes ideales y sus intereses..."
-  },
-  "atmosphere": {
-    "title": "ATMÓSFERA",
-    "label": "La Atmósfera Es",
-    "placeholder": "Describa la atmósfera de su propiedad..."
-  },
-  "location": {
-    "title": "UBICACIÓN",
-    "label": "Nuestra Ubicación Es Perfecta Para",
-    "placeholder": "Describa lo que hace especial su ubicación..."
-  },
-  "hotelFeatures": {
-    "title": "CARACTERÍSTICAS DEL HOTEL",
-    "label": "Características del Hotel",
-    "placeholder": "Liste las características de su hotel..."
-  },
-  "roomFeatures": {
-    "title": "CARACTERÍSTICAS DE HABITACIONES",
-    "label": "Características de Habitaciones",
-    "placeholder": "Liste las características de sus habitaciones..."
-  },
-  "checkInDay": {
-    "title": "DÍA DE CHECK-IN",
-    "label": "Día Preferido de Check-in",
-    "placeholder": "Seleccione día preferido de check-in",
-    "monday": "Lunes",
-    "tuesday": "Martes",
-    "wednesday": "Miércoles",
-    "thursday": "Jueves",
-    "friday": "Viernes",
-    "saturday": "Sábado",
-    "sunday": "Domingo"
-  },
-  "mealPlans": {
-    "title": "PLANES DE COMIDA",
-    "label": "Plan de Comida",
-    "placeholder": "Seleccione plan de comida",
-    "roomOnly": "Solo Habitación",
-    "breakfast": "Desayuno",
-    "halfBoard": "Media Pensión",
-    "fullBoard": "Pensión Completa",
-    "allInclusive": "Todo Incluido"
-  },
-  "laundryService": {
-    "title": "SERVICIO DE LAVANDERÍA",
-    "inHouseIncluded": "Servicio de lavandería interno incluido",
-    "externalReferral": "Referencia de servicio de lavandería externo disponible"
-  },
-  "stayLengths": {
-    "title": "DURACIÓN DE ESTADÍA",
-    "label": "Duraciones de Estadía Disponibles",
-    "days": "días"
-  },
-  "imageUploads": {
-    "title": "SUBIDA DE IMÁGENES",
-    "label": "Subir Imágenes",
-    "placeholder": "Subir imágenes del hotel...",
-    "description": "Suba imágenes de su hotel y habitaciones",
-    "hotelPhotos": "Imágenes del Hotel",
-    "roomPhotos": "Imágenes de Habitaciones",
-    "uploadHotelPhotos": "Subir Fotos del Hotel",
-    "uploadRoomPhotos": "Subir Fotos de Habitaciones"
-  },
-  "activities": {
-    "title": "ACTIVIDADES",
-    "selectActivities": "Seleccionar Actividades",
-    "searchPlaceholder": "Buscar actividades...",
-    "loading": "Cargando actividades..."
-  },
-  "clientAffinities": {
-    "title": "AFINIDADES DE CLIENTES",
-    "selectAffinities": "Seleccionar Afinidades",
-    "searchPlaceholder": "Buscar afinidades...",
-    "loading": "Cargando afinidades..."
-  },
-  "classification": {
-    "title": "CLASIFICACIÓN",
-    "label": "Clasificación del Hotel",
-    "placeholder": "Seleccionar clasificación",
-    "threeStar": "Tres Estrellas",
-    "fourStar": "Cuatro Estrellas",
-    "fiveStar": "Cinco Estrellas"
-  },
-  "completePhrases": {
-    "title": "COMPLETAR FRASES",
-    "idealForGuests": "Ideal para huéspedes que disfrutan",
-    "idealForGuestsPlaceholder": "Describa sus huéspedes ideales...",
-    "atmosphere": "La atmósfera es",
-    "atmospherePlaceholder": "Describa la atmósfera...",
-    "locationPerfect": "Nuestra ubicación es perfecta para",
-    "locationPerfectPlaceholder": "Describa lo que hace especial su ubicación..."
-  },
   "availabilityPackages": {
-    "title": "PAQUETES DE DISPONIBILIDAD",
-    "label": "Paquetes de Disponibilidad",
-    "description": "Configure sus paquetes de disponibilidad",
-    "enterNumberOfRooms": "Ingrese número de habitaciones",
-    "rulesTitle": "Reglas para Paquetes de Disponibilidad",
-    "rule1": "Los paquetes no pueden superponerse en fechas",
-    "rule2": "El día de check-in debe coincidir con el día preferido de su hotel",
-    "rule3": "La duración debe ser de 8, 15, 22 o 29 días",
-    "rule4": "Los paquetes con reservas no pueden editarse o eliminarse",
-    "rule5": "Solo se pueden eliminar paquetes futuros sin reservas",
-    "rule6": "Todas las modificaciones están aseguradas con controles de validación",
-    "rule7": "Las actualizaciones en tiempo real previenen conflictos de datos obsoletos"
-  },
-  "pricingMatrix": {
-    "title": "MATRIZ DE PRECIOS",
-    "label": "Matriz de Precios",
-    "description": "Establezca su estructura de precios"
-  },
-  "submitRegistration": "ENVIAR REGISTRO",
-  "submitting": "ENVIANDO...",
-  "termsConditions": {
-    "title": "TÉRMINOS Y CONDICIONES",
-    "description": "Por favor revise y acepte los términos y condiciones",
-    "acceptTerms": "Acepto los términos y condiciones",
-    "termsText": "Al enviar este formulario, acepta nuestros términos y condiciones de servicio."
+    "title": "Paquetes de Disponibilidad",
+    "description": "Crea paquetes de disponibilidad para tu hotel. Cada paquete define rangos de fechas específicos y disponibilidad de habitaciones.",
+    "addPackage": "Añadir Paquete",
+    "addAnotherPackage": "Añadir Otro Paquete",
+    "maxPackagesReached": "Máximo 10 paquetes permitidos",
+    "noPackages": "No se han creado paquetes aún",
+    "packageDetails": "Detalles del Paquete",
+    "startDate": "Fecha de Inicio",
+    "endDate": "Fecha de Fin",
+    "availableRooms": "Habitaciones Disponibles",
+    "duration": "Duración",
+    "days": "días",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar Paquete",
+    "cancel": "Cancelar",
+    "creating": "Creando Paquete",
+    "editing": "Editando Paquete",
+    "validation": {
+      "startDateRequired": "La fecha de inicio es requerida",
+      "endDateRequired": "La fecha de fin es requerida",
+      "roomsRequired": "El número de habitaciones es requerido",
+      "roomsMinimum": "Se requiere al menos 1 habitación",
+      "invalidDuration": "La duración del paquete debe coincidir con las duraciones de estadía seleccionadas",
+      "dateOverlap": "Las fechas del paquete se superponen con un paquete existente",
+      "pastDate": "La fecha de inicio no puede ser en el pasado",
+      "invalidWeekday": "La fecha de inicio debe ser en el día de check-in seleccionado",
+      "endDateBeforeStart": "La fecha de fin debe ser posterior a la fecha de inicio"
+    }
   }
 }

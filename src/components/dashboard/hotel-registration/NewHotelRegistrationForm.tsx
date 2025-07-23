@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -82,7 +81,14 @@ const hotelRegistrationSchema = z.object({
   pricingMatrix: z.array(z.any()).default([]),
   
   // Terms
-  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted')
+  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),
+  availabilityPackages: z.array(z.object({
+    id: z.string().optional(),
+    startDate: z.date(),
+    endDate: z.date(),
+    duration: z.number(),
+    availableRooms: z.number().min(1)
+  })).default([])
 });
 
 export type HotelRegistrationFormData = z.infer<typeof hotelRegistrationSchema>;

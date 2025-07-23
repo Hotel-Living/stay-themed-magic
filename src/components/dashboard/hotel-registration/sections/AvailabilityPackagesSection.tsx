@@ -1,18 +1,182 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { CalendarIcon, Plus, Edit, Trash2 } from 'lucide-react';
+import { format, differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
+import { cn } from '@/lib/utils';
 
 interface AvailabilityPackagesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
 }
 
+interface AvailabilityPackage {
+  id?: string;
+  startDate: Date;
+  endDate: Date;
+  duration: number;
+  availableRooms: number;
+}
+
+interface PackageFormData {
+  startDate: Date | null;
+  endDate: Date | null;
+  availableRooms: number;
+}
+
 export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectionProps) => {
   const { t } = useTranslation('dashboard/hotel-registration');
+  
+  const [showForm, setShowForm] = useState(false);
+  const [editingPackage, setEditingPackage] = useState<string | null>(null);
+  const [packageForm, setPackageForm] = useState<PackageFormData>({
+    startDate: null,
+    endDate: null,
+    availableRooms: 1
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Get current form values
+  const stayLengths = form.watch('stayLengths') || [];
+  const checkInWeekday = form.watch('checkInWeekday') || 'Monday';
+  const availabilityPackages = form.watch('availabilityPackages') || [];
+
+  // Convert weekday name to number (Monday = 1, Sunday = 0)
+  const getWeekdayNumber = (weekday: string): number => {
+    const weekdays = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
+    return weekdays[weekday as keyof typeof weekdays] || 1;
+  };
+
+  const preferredWeekdayNum = getWeekdayNumber(checkInWeekday);
+
+  // Validation functions
+  const isDateSelectable = (date: Date): boolean => {
+    if (date < new Date()) return false;
+    if (date.getDay() !== preferredWeekdayNum) return false;
+    return true;
+  };
+
+  const validatePackage = (data: PackageFormData): Record<string, string> => {
+    const newErrors: Record<string, string> = {};
+
+    if (!data.startDate) {
+      newErrors.startDate = t('availabilityPackages.validation.startDateRequired');
+    } else {
+      if (data.startDate < new Date()) {
+        newErrors.startDate = t('availabilityPackages.validation.pastDate');
+      } else if (data.startDate.getDay() !== preferredWeekdayNum) {
+        newErrors.startDate = t('availabilityPackages.validation.invalidWeekday');
+      }
+    }
+
+    if (!data.endDate) {
+      newErrors.endDate = t('availabilityPackages.validation.endDateRequired');
+    } else if (data.startDate && data.endDate <= data.startDate) {
+      newErrors.endDate = t('availabilityPackages.validation.endDateBeforeStart');
+    }
+
+    if (!data.availableRooms || data.availableRooms < 1) {
+      newErrors.availableRooms = t('availabilityPackages.validation.roomsMinimum');
+    }
+
+    // Check duration matches stay lengths
+    if (data.startDate && data.endDate) {
+      const duration = differenceInDays(data.endDate, data.startDate);
+      if (!stayLengths.includes(duration)) {
+        newErrors.duration = t('availabilityPackages.validation.invalidDuration');
+      }
+
+      // Check for overlaps with existing packages
+      const hasOverlap = availabilityPackages.some((pkg, index) => {
+        // Skip the package being edited
+        if (editingPackage && pkg.id === editingPackage) return false;
+        
+        return (
+          (isAfter(data.startDate!, pkg.startDate) && isBefore(data.startDate!, pkg.endDate)) ||
+          (isAfter(data.endDate!, pkg.startDate) && isBefore(data.endDate!, pkg.endDate)) ||
+          (isBefore(data.startDate!, pkg.startDate) && isAfter(data.endDate!, pkg.endDate)) ||
+          isSameDay(data.startDate!, pkg.startDate) || 
+          isSameDay(data.startDate!, pkg.endDate) ||
+          isSameDay(data.endDate!, pkg.startDate) || 
+          isSameDay(data.endDate!, pkg.endDate)
+        );
+      });
+
+      if (hasOverlap) {
+        newErrors.overlap = t('availabilityPackages.validation.dateOverlap');
+      }
+    }
+
+    return newErrors;
+  };
+
+  const handleAddPackage = () => {
+    setShowForm(true);
+    setEditingPackage(null);
+    setPackageForm({ startDate: null, endDate: null, availableRooms: 1 });
+    setErrors({});
+  };
+
+  const handleEditPackage = (packageId: string) => {
+    const packageToEdit = availabilityPackages.find(pkg => pkg.id === packageId);
+    if (packageToEdit) {
+      setShowForm(true);
+      setEditingPackage(packageId);
+      setPackageForm({
+        startDate: packageToEdit.startDate,
+        endDate: packageToEdit.endDate,
+        availableRooms: packageToEdit.availableRooms
+      });
+      setErrors({});
+    }
+  };
+
+  const handleSavePackage = () => {
+    const validationErrors = validatePackage(packageForm);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      const duration = differenceInDays(packageForm.endDate!, packageForm.startDate!);
+      
+      const newPackage: AvailabilityPackage = {
+        id: editingPackage || `pkg-${Date.now()}`,
+        startDate: packageForm.startDate!,
+        endDate: packageForm.endDate!,
+        duration,
+        availableRooms: packageForm.availableRooms
+      };
+
+      let updatedPackages;
+      if (editingPackage) {
+        updatedPackages = availabilityPackages.map(pkg => 
+          pkg.id === editingPackage ? newPackage : pkg
+        );
+      } else {
+        updatedPackages = [...availabilityPackages, newPackage];
+      }
+
+      form.setValue('availabilityPackages', updatedPackages);
+      setShowForm(false);
+      setEditingPackage(null);
+    }
+  };
+
+  const handleDeletePackage = (packageId: string) => {
+    const updatedPackages = availabilityPackages.filter(pkg => pkg.id !== packageId);
+    form.setValue('availabilityPackages', updatedPackages);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingPackage(null);
+    setErrors({});
+  };
 
   return (
     <AccordionItem value="availability-packages" className="bg-white/5 border-white/20 rounded-lg">
@@ -27,37 +191,204 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
           <div className="text-white/80 text-sm">
             {t('availabilityPackages.description')}
           </div>
-          
+
+          {/* Package Creation/Editing Form */}
+          {showForm && (
+            <div className="bg-white/10 rounded-lg p-6 border border-white/30">
+              <h4 className="text-white font-semibold mb-4">
+                {editingPackage ? t('availabilityPackages.editing') : t('availabilityPackages.creating')}
+              </h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {/* Start Date */}
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    {t('availabilityPackages.startDate')}
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-white/10 border-white/30 text-white",
+                          !packageForm.startDate && "text-white/60"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {packageForm.startDate ? format(packageForm.startDate, "PPP") : "Select date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={packageForm.startDate || undefined}
+                        onSelect={(date) => setPackageForm(prev => ({ ...prev, startDate: date || null }))}
+                        disabled={(date) => !isDateSelectable(date)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.startDate && <p className="text-red-400 text-xs mt-1">{errors.startDate}</p>}
+                </div>
+
+                {/* End Date */}
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    {t('availabilityPackages.endDate')}
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-white/10 border-white/30 text-white",
+                          !packageForm.endDate && "text-white/60"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {packageForm.endDate ? format(packageForm.endDate, "PPP") : "Select date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={packageForm.endDate || undefined}
+                        onSelect={(date) => setPackageForm(prev => ({ ...prev, endDate: date || null }))}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.endDate && <p className="text-red-400 text-xs mt-1">{errors.endDate}</p>}
+                </div>
+              </div>
+
+              {/* Available Rooms */}
+              <div className="mb-4">
+                <label className="block text-white text-sm font-medium mb-2">
+                  {t('availabilityPackages.availableRooms')}
+                </label>
+                <Input
+                  type="number"
+                  min="1"
+                  value={packageForm.availableRooms}
+                  onChange={(e) => setPackageForm(prev => ({ ...prev, availableRooms: parseInt(e.target.value) || 1 }))}
+                  className="bg-white/10 border-white/30 text-white"
+                />
+                {errors.availableRooms && <p className="text-red-400 text-xs mt-1">{errors.availableRooms}</p>}
+              </div>
+
+              {/* Duration Display */}
+              {packageForm.startDate && packageForm.endDate && (
+                <div className="mb-4">
+                  <p className="text-white text-sm">
+                    {t('availabilityPackages.duration')}: {differenceInDays(packageForm.endDate, packageForm.startDate)} {t('availabilityPackages.days')}
+                  </p>
+                </div>
+              )}
+
+              {/* Error Messages */}
+              {(errors.duration || errors.overlap) && (
+                <div className="mb-4">
+                  {errors.duration && <p className="text-red-400 text-xs">{errors.duration}</p>}
+                  {errors.overlap && <p className="text-red-400 text-xs">{errors.overlap}</p>}
+                </div>
+              )}
+
+              {/* Form Actions */}
+              <div className="flex gap-2">
+                <Button onClick={handleSavePackage} className="bg-fuchsia-600 hover:bg-fuchsia-700">
+                  {t('availabilityPackages.save')}
+                </Button>
+                <Button onClick={handleCancel} variant="outline" className="border-white/30 text-white">
+                  {t('availabilityPackages.cancel')}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Existing Packages List */}
+          {availabilityPackages.length > 0 && (
+            <div className="space-y-3">
+              <h4 className="text-white font-semibold">{t('availabilityPackages.packageDetails')}</h4>
+              {availabilityPackages.map((pkg, index) => (
+                <div key={pkg.id || index} className="bg-white/10 rounded-lg p-4 border border-white/20">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <p className="text-white text-sm">
+                        <span className="font-medium">{t('availabilityPackages.startDate')}:</span> {format(pkg.startDate, "PPP")}
+                      </p>
+                      <p className="text-white text-sm">
+                        <span className="font-medium">{t('availabilityPackages.endDate')}:</span> {format(pkg.endDate, "PPP")}
+                      </p>
+                      <p className="text-white text-sm">
+                        <span className="font-medium">{t('availabilityPackages.duration')}:</span> {pkg.duration} {t('availabilityPackages.days')}
+                      </p>
+                      <p className="text-white text-sm">
+                        <span className="font-medium">{t('availabilityPackages.availableRooms')}:</span> {pkg.availableRooms}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEditPackage(pkg.id!)}
+                        className="border-white/30 text-white hover:bg-white/10"
+                      >
+                        <Edit className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDeletePackage(pkg.id!)}
+                        className="border-red-400/30 text-red-400 hover:bg-red-400/10"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* No Packages Message */}
+          {availabilityPackages.length === 0 && !showForm && (
+            <div className="text-center py-8">
+              <p className="text-white/60 mb-4">{t('availabilityPackages.noPackages')}</p>
+            </div>
+          )}
+
+          {/* Add Package Button */}
+          {!showForm && availabilityPackages.length < 10 && (
+            <div className="flex justify-center">
+              <Button onClick={handleAddPackage} className="bg-fuchsia-600 hover:bg-fuchsia-700">
+                <Plus className="h-4 w-4 mr-2" />
+                {availabilityPackages.length === 0 ? t('availabilityPackages.addPackage') : t('availabilityPackages.addAnotherPackage')}
+              </Button>
+            </div>
+          )}
+
+          {/* Max Packages Message */}
+          {availabilityPackages.length >= 10 && (
+            <div className="text-center">
+              <p className="text-yellow-400 text-sm">{t('availabilityPackages.maxPackagesReached')}</p>
+            </div>
+          )}
+
+          {/* Form Field for React Hook Form */}
           <FormField
             control={form.control}
-            name="numberOfRooms"
+            name="availabilityPackages"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white">{t('availabilityPackages.enterNumberOfRooms')}</FormLabel>
+              <FormItem className="hidden">
                 <FormControl>
-                  <Input
-                    type="number"
-                    className="bg-white/10 border-white/30 text-white"
-                    {...field}
-                  />
+                  <input {...field} type="hidden" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="bg-white/5 rounded-lg p-4 border border-white/20">
-            <h4 className="text-white font-semibold mb-3">{t('availabilityPackages.rulesTitle')}</h4>
-            <ul className="text-white/80 text-sm space-y-2">
-              <li>• {t('availabilityPackages.rule1')}</li>
-              <li>• {t('availabilityPackages.rule2')}</li>
-              <li>• {t('availabilityPackages.rule3')}</li>
-              <li>• {t('availabilityPackages.rule4')}</li>
-              <li>• {t('availabilityPackages.rule5')}</li>
-              <li>• {t('availabilityPackages.rule6')}</li>
-              <li>• {t('availabilityPackages.rule7')}</li>
-            </ul>
-          </div>
         </div>
       </AccordionContent>
     </AccordionItem>

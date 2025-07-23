@@ -1,187 +1,34 @@
 
 {
-  "basicInfo": {
-    "title": "BASIC INFORMATION",
-    "hotelName": "Hotel Name",
-    "hotelNamePlaceholder": "Enter hotel name",
-    "address": "Address",
-    "addressPlaceholder": "Enter your address",
-    "city": "City",
-    "cityPlaceholder": "Enter your city",
-    "postalCode": "Postal Code",
-    "postalCodePlaceholder": "Enter postal code",
-    "country": "Country",
-    "countryPlaceholder": "Select your country",
-    "mapPreview": "Map Preview",
-    "validation": {
-      "required": "This field is required",
-      "minLength": "Minimum 3 characters required"
-    }
-  },
-  "contactInfo": {
-    "title": "CONTACT INFORMATION",
-    "email": "Email",
-    "emailPlaceholder": "Enter email address",
-    "phone": "Phone",
-    "phonePlaceholder": "Enter phone number",
-    "website": "Website",
-    "websitePlaceholder": "Enter website URL"
-  },
-  "propertyType": {
-    "title": "PROPERTY TYPE",
-    "label": "Property Type",
-    "placeholder": "Select property type",
-    "hotel": "Hotel",
-    "boutiqueHotel": "Boutique Hotel",
-    "resort": "Resort",
-    "ruralHouse": "Rural House",
-    "hostel": "Hostel"
-  },
-  "propertyStyle": {
-    "title": "PROPERTY STYLE",
-    "label": "Property Style",
-    "placeholder": "Select property style",
-    "classic": "Classic",
-    "classicElegant": "Classic Elegant",
-    "modern": "Modern",
-    "fusion": "Fusion",
-    "urban": "Urban",
-    "rural": "Rural",
-    "minimalist": "Minimalist",
-    "luxury": "Luxury"
-  },
-  "hotelDescription": {
-    "title": "HOTEL DESCRIPTION",
-    "label": "Hotel Description",
-    "placeholder": "Describe your hotel in detail...",
-    "minCharacters": "minimum characters"
-  },
-  "roomDescription": {
-    "title": "ROOM DESCRIPTION",
-    "label": "Room Description",
-    "placeholder": "Describe your rooms..."
-  },
-  "idealGuests": {
-    "title": "IDEAL GUESTS",
-    "label": "Ideal Guests Enjoy",
-    "placeholder": "Describe your ideal guests and their interests..."
-  },
-  "atmosphere": {
-    "title": "ATMOSPHERE",
-    "label": "The Atmosphere Is",
-    "placeholder": "Describe the atmosphere of your property..."
-  },
-  "location": {
-    "title": "LOCATION",
-    "label": "Our Location Is Perfect For",
-    "placeholder": "Describe what makes your location special..."
-  },
-  "hotelFeatures": {
-    "title": "HOTEL FEATURES",
-    "label": "Hotel Features",
-    "placeholder": "List your hotel features..."
-  },
-  "roomFeatures": {
-    "title": "ROOM FEATURES",
-    "label": "Room Features",
-    "placeholder": "List your room features..."
-  },
-  "checkInDay": {
-    "title": "CHECK-IN DAY",
-    "label": "Preferred Check-in Day",
-    "placeholder": "Select preferred check-in day",
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday"
-  },
-  "mealPlans": {
-    "title": "MEAL PLANS",
-    "label": "Meal Plan",
-    "placeholder": "Select meal plan",
-    "roomOnly": "Room Only",
-    "breakfast": "Breakfast",
-    "halfBoard": "Half Board",
-    "fullBoard": "Full Board",
-    "allInclusive": "All Inclusive"
-  },
-  "laundryService": {
-    "title": "LAUNDRY SERVICE",
-    "inHouseIncluded": "In-house laundry service included",
-    "externalReferral": "External laundry service referral available"
-  },
-  "stayLengths": {
-    "title": "STAY LENGTHS",
-    "label": "Available Stay Lengths",
-    "days": "days"
-  },
-  "imageUploads": {
-    "title": "IMAGE UPLOADS",
-    "label": "Upload Images",
-    "placeholder": "Upload hotel images...",
-    "description": "Upload images of your hotel and rooms",
-    "hotelPhotos": "Hotel Images",
-    "roomPhotos": "Room Images",
-    "uploadHotelPhotos": "Upload Hotel Photos",
-    "uploadRoomPhotos": "Upload Room Photos"
-  },
-  "activities": {
-    "title": "ACTIVITIES",
-    "selectActivities": "Select Activities",
-    "searchPlaceholder": "Search activities...",
-    "loading": "Loading activities..."
-  },
-  "clientAffinities": {
-    "title": "CLIENT AFFINITIES",
-    "selectAffinities": "Select Affinities",
-    "searchPlaceholder": "Search affinities...",
-    "loading": "Loading affinities..."
-  },
-  "classification": {
-    "title": "CLASSIFICATION",
-    "label": "Hotel Classification",
-    "placeholder": "Select classification",
-    "threeStar": "Three Star",
-    "fourStar": "Four Star",
-    "fiveStar": "Five Star"
-  },
-  "completePhrases": {
-    "title": "COMPLETE PHRASES",
-    "idealForGuests": "Ideal for guests who enjoy",
-    "idealForGuestsPlaceholder": "Describe your ideal guests...",
-    "atmosphere": "The atmosphere is",
-    "atmospherePlaceholder": "Describe the atmosphere...",
-    "locationPerfect": "Our location is perfect for",
-    "locationPerfectPlaceholder": "Describe what makes your location special..."
-  },
   "availabilityPackages": {
-    "title": "AVAILABILITY PACKAGES",
-    "label": "Availability Packages",
-    "description": "Configure your availability packages",
-    "enterNumberOfRooms": "Enter number of rooms",
-    "rulesTitle": "Rules for Availability Packages",
-    "rule1": "Packages cannot overlap in dates",
-    "rule2": "Check-in day must match your hotel's preferred weekday",
-    "rule3": "Duration must be 8, 15, 22, or 29 days",
-    "rule4": "Packages with bookings cannot be edited or deleted",
-    "rule5": "Only future packages with no bookings can be deleted",
-    "rule6": "All modifications are secured with validation checks",
-    "rule7": "Real-time updates prevent stale data conflicts"
-  },
-  "pricingMatrix": {
-    "title": "PRICING MATRIX",
-    "label": "Pricing Matrix",
-    "description": "Set your pricing structure"
-  },
-  "submitRegistration": "SUBMIT REGISTRATION",
-  "submitting": "SUBMITTING...",
-  "termsConditions": {
-    "title": "TERMS & CONDITIONS",
-    "description": "Please review and accept the terms and conditions",
-    "acceptTerms": "I accept the terms and conditions",
-    "termsText": "By submitting this form, you agree to our terms and conditions of service."
+    "title": "Availability Packages",
+    "description": "Create availability packages for your hotel. Each package defines specific date ranges and room availability.",
+    "addPackage": "Add Package",
+    "addAnotherPackage": "Add Another Package",
+    "maxPackagesReached": "Maximum 10 packages allowed",
+    "noPackages": "No packages created yet",
+    "packageDetails": "Package Details",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "availableRooms": "Available Rooms",
+    "duration": "Duration",
+    "days": "days",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save Package",
+    "cancel": "Cancel",
+    "creating": "Creating Package",
+    "editing": "Editing Package",
+    "validation": {
+      "startDateRequired": "Start date is required",
+      "endDateRequired": "End date is required",
+      "roomsRequired": "Number of rooms is required",
+      "roomsMinimum": "At least 1 room is required",
+      "invalidDuration": "Package duration must match selected stay lengths",
+      "dateOverlap": "Package dates overlap with existing package",
+      "pastDate": "Start date cannot be in the past",
+      "invalidWeekday": "Start date must be on the selected check-in weekday",
+      "endDateBeforeStart": "End date must be after start date"
+    }
   }
 }

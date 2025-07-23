@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/config';
 import { AuthProvider } from './context/auth/AuthProvider';
+import { AvatarManagerProvider } from './contexts/AvatarManager';
 // Core pages
 import Index from "./pages/Index";
 import HotelDetail from "./pages/HotelDetail";
@@ -110,103 +111,105 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-          <Routes>
-            {/* Core Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/hotel/:id" element={<HotelDetail />} />
-            <Route path="/hotel-listing-model" element={<HotelListingModel />} />
-            
-            {/* Dashboard Routes */}
-            <Route path="/user-dashboard" element={<UserDashboard />} />
-            <Route path="/agent-dashboard" element={<AgentDashboard />} />
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
-            <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-            <Route path="/dashboard-selection" element={<DashboardSelection />} />
-            <Route path="/promoter-dashboard" element={<PromoterDashboard />} />
-            
-            {/* Language-specific Dashboards */}
-            <Route path="/hotel-dashboard-en" element={<HotelDashboardEN />} />
-            <Route path="/hotel-dashboard-es" element={<HotelDashboardES />} />
-            <Route path="/hotel-dashboard-pt" element={<HotelDashboardPT />} />
-            <Route path="/hotel-dashboard-ro" element={<HotelDashboardRO />} />
-            
-            {/* Authentication Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/hotel-signup" element={<HotelSignUp />} />
-            
-            {/* Contact Routes */}
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/contact-en" element={<ContactEN />} />
-            <Route path="/contact-es" element={<ContactES />} />
-            <Route path="/contact-pt" element={<ContactPT />} />
-            <Route path="/contact-ro" element={<ContactRO />} />
-            
-            {/* Main Content Routes */}
-            <Route path="/hotels" element={<Hotels />} />
-            <Route path="/affinity-stays" element={<AffinityStays />} />
-            <Route path="/join-us" element={<JoinUs />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/ambassador" element={<Ambassador />} />
-            <Route path="/agents" element={<Agents />} />
-            <Route path="/agentes" element={<Agents />} />
-            <Route path="/videos" element={<Videos />} />
-            <Route path="/press" element={<Press />} />
-            <Route path="/ayuda" element={<Ayuda />} />
-            
-            {/* Specialized Routes */}
-            <Route path="/add-property-2" element={<AddProperty2 />} />
-            <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
-            <Route path="/agent-registration" element={<AgentRegistration />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/customer-service" element={<CustomerService />} />
-            <Route path="/intellectual-property" element={<IntellectualProperty />} />
-            <Route path="/our-services" element={<OurServices />} />
-            <Route path="/our-team" element={<OurTeam />} />
-            <Route path="/hotel-crisis" element={<HotelCrisis />} />
-            <Route path="/hotel-association" element={<HotelAssociation />} />
-            <Route path="/featured-hotels" element={<FeaturedHotels />} />
-            <Route path="/code-stats" element={<CodeStats />} />
-            <Route path="/excel-generator" element={<ExcelGenerator />} />
-            
-            {/* FAQ Variations */}
-            <Route path="/faq-hotels" element={<FAQHotels />} />
-            <Route path="/faq-travelers" element={<FAQTravelers />} />
-            
-            {/* Ambassador Routes */}
-            <Route path="/ambassadors-list" element={<AmbassadorsList />} />
-            <Route path="/ambassadors-usa" element={<AmbassadorsUSA />} />
-            
-            {/* Association Routes */}
-            <Route path="/association-landing" element={<AssociationLanding />} />
-            <Route path="/association-registration" element={<AssociationRegistration />} />
-            
-            {/* Test/Demo Routes */}
-            <Route path="/intro-test" element={<IntroTest />} />
-            <Route path="/intro-test-1" element={<IntroTest1 />} />
-            <Route path="/intro-test-2" element={<IntroTest2 />} />
-            <Route path="/intro-test-3" element={<IntroTest3 />} />
-            <Route path="/intro-test-4" element={<IntroTest4 />} />
-            <Route path="/intro-test-5" element={<IntroTest5 />} />
-            <Route path="/intro-test-6" element={<IntroTest6 />} />
-            <Route path="/intro-test-7" element={<IntroTest7 />} />
-            <Route path="/intro-test-8" element={<IntroTest8 />} />
-            <Route path="/intro-test-9" element={<IntroTest9 />} />
-            <Route path="/join-us-test" element={<JoinUsTest />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin-all-routes" element={<AdminAllRoutes />} />
-            <Route path="/admin-roles" element={<AdminRoles />} />
-            
-            {/* Other Routes */}
-            <Route path="/hotels-page" element={<HotelsPage />} />
-            <Route path="/help" element={<Help />} />
-            
-            {/* 404 Route */}
-            <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AvatarManagerProvider>
+              <Routes>
+                {/* Core Routes */}
+                <Route path="/" element={<Index />} />
+                <Route path="/hotel/:id" element={<HotelDetail />} />
+                <Route path="/hotel-listing-model" element={<HotelListingModel />} />
+                
+                {/* Dashboard Routes */}
+                <Route path="/user-dashboard" element={<UserDashboard />} />
+                <Route path="/agent-dashboard" element={<AgentDashboard />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/hotel-dashboard" element={<HotelDashboard />} />
+                <Route path="/dashboard-selection" element={<DashboardSelection />} />
+                <Route path="/promoter-dashboard" element={<PromoterDashboard />} />
+                
+                {/* Language-specific Dashboards */}
+                <Route path="/hotel-dashboard-en" element={<HotelDashboardEN />} />
+                <Route path="/hotel-dashboard-es" element={<HotelDashboardES />} />
+                <Route path="/hotel-dashboard-pt" element={<HotelDashboardPT />} />
+                <Route path="/hotel-dashboard-ro" element={<HotelDashboardRO />} />
+                
+                {/* Authentication Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/hotel-signup" element={<HotelSignUp />} />
+                
+                {/* Contact Routes */}
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/contact-en" element={<ContactEN />} />
+                <Route path="/contact-es" element={<ContactES />} />
+                <Route path="/contact-pt" element={<ContactPT />} />
+                <Route path="/contact-ro" element={<ContactRO />} />
+                
+                {/* Main Content Routes */}
+                <Route path="/hotels" element={<Hotels />} />
+                <Route path="/affinity-stays" element={<AffinityStays />} />
+                <Route path="/join-us" element={<JoinUs />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/ambassador" element={<Ambassador />} />
+                <Route path="/agents" element={<Agents />} />
+                <Route path="/agentes" element={<Agents />} />
+                <Route path="/videos" element={<Videos />} />
+                <Route path="/press" element={<Press />} />
+                <Route path="/ayuda" element={<Ayuda />} />
+                
+                {/* Specialized Routes */}
+                <Route path="/add-property-2" element={<AddProperty2 />} />
+                <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
+                <Route path="/agent-registration" element={<AgentRegistration />} />
+                <Route path="/compare" element={<Compare />} />
+                <Route path="/customer-service" element={<CustomerService />} />
+                <Route path="/intellectual-property" element={<IntellectualProperty />} />
+                <Route path="/our-services" element={<OurServices />} />
+                <Route path="/our-team" element={<OurTeam />} />
+                <Route path="/hotel-crisis" element={<HotelCrisis />} />
+                <Route path="/hotel-association" element={<HotelAssociation />} />
+                <Route path="/featured-hotels" element={<FeaturedHotels />} />
+                <Route path="/code-stats" element={<CodeStats />} />
+                <Route path="/excel-generator" element={<ExcelGenerator />} />
+                
+                {/* FAQ Variations */}
+                <Route path="/faq-hotels" element={<FAQHotels />} />
+                <Route path="/faq-travelers" element={<FAQTravelers />} />
+                
+                {/* Ambassador Routes */}
+                <Route path="/ambassadors-list" element={<AmbassadorsList />} />
+                <Route path="/ambassadors-usa" element={<AmbassadorsUSA />} />
+                
+                {/* Association Routes */}
+                <Route path="/association-landing" element={<AssociationLanding />} />
+                <Route path="/association-registration" element={<AssociationRegistration />} />
+                
+                {/* Test/Demo Routes */}
+                <Route path="/intro-test" element={<IntroTest />} />
+                <Route path="/intro-test-1" element={<IntroTest1 />} />
+                <Route path="/intro-test-2" element={<IntroTest2 />} />
+                <Route path="/intro-test-3" element={<IntroTest3 />} />
+                <Route path="/intro-test-4" element={<IntroTest4 />} />
+                <Route path="/intro-test-5" element={<IntroTest5 />} />
+                <Route path="/intro-test-6" element={<IntroTest6 />} />
+                <Route path="/intro-test-7" element={<IntroTest7 />} />
+                <Route path="/intro-test-8" element={<IntroTest8 />} />
+                <Route path="/intro-test-9" element={<IntroTest9 />} />
+                <Route path="/join-us-test" element={<JoinUsTest />} />
+                
+                {/* Admin Routes */}
+                <Route path="/admin-all-routes" element={<AdminAllRoutes />} />
+                <Route path="/admin-roles" element={<AdminRoles />} />
+                
+                {/* Other Routes */}
+                <Route path="/hotels-page" element={<HotelsPage />} />
+                <Route path="/help" element={<Help />} />
+                
+                {/* 404 Route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AvatarManagerProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

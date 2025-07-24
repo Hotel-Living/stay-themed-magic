@@ -1,19 +1,9 @@
 
 import { createRoot } from 'react-dom/client'
+import { ClerkProvider } from '@clerk/clerk-react'
 import App from './App.tsx'
 import './styles/index.css'
-import { supabase } from '@/integrations/supabase/client';
-
-// Enable enhanced realtime for reviews table
-supabase.channel('public:reviews')
-  .on('postgres_changes', { 
-    event: '*', 
-    schema: 'public', 
-    table: 'reviews' 
-  }, payload => {
-    console.log('Reviews change received:', payload);
-  })
-  .subscribe();
+import { CLERK_PUBLISHABLE_KEY } from './clerk.config'
 
 // Add structured logging for better debugging
 console.log('Application starting...', {
@@ -26,4 +16,8 @@ console.log('Application starting...', {
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
-createRoot(rootElement).render(<App />);
+createRoot(rootElement).render(
+  <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+    <App />
+  </ClerkProvider>
+);

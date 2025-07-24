@@ -81,6 +81,7 @@ import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 import HotelModelPage from "@/pages/HotelModelPage";
 import AdminLogin from "@/pages/AdminLogin";
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
+import { ClerkAuth } from "@/pages/ClerkAuth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -113,11 +114,12 @@ function App() {
               )}
               
               <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/hotels" element={<Hotels />} />
-              <Route path="/hotel/:id" element={<HotelDetail />} />
-              <Route path="/search" element={<Search />} />
-               <Route path="/login" element={<Login />} />
+               <Route path="/" element={<Home />} />
+               <Route path="/hotels" element={<Hotels />} />
+               <Route path="/hotel/:id" element={<HotelDetail />} />
+               <Route path="/search" element={<Search />} />
+                <Route path="/auth" element={<ClerkAuth />} />
+                <Route path="/login" element={<Login />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />

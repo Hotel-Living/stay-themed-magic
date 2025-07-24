@@ -101,64 +101,79 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
   console.log("=== INSERTING HOTEL DATA ===");
   console.log("Final hotel data to insert:", hotelData);
 
-  const { data, error } = await supabase
-    .from('hotels')
-    .insert([hotelData])
-    .select()
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('hotels')
+      .insert([hotelData])
+      .select()
+      .single();
 
-  if (error) {
-    console.error("=== HOTEL CREATION ERROR ===");
-    console.error("Error creating hotel:", error);
-    console.error("Error message:", error.message);
-    console.error("Error details:", error.details);
-    console.error("Error hint:", error.hint);
-    console.error("Error code:", error.code);
-    throw error;
-  }
+    console.log("=== SUPABASE INSERT RESPONSE ===");
+    console.log("Data returned:", data);
+    console.log("Error returned:", error);
 
-  console.log("=== HOTEL CREATED SUCCESSFULLY ===");
-  console.log("Hotel created successfully:", data);
-  console.log("Hotel ID:", data?.id);
-  console.log("Hotel name:", data?.name);
+    if (error) {
+      console.error("=== HOTEL CREATION ERROR ===");
+      console.error("Error creating hotel:", error);
+      console.error("Error message:", error.message);
+      console.error("Error details:", error.details);
+      console.error("Error hint:", error.hint);
+      console.error("Error code:", error.code);
+      throw error;
+    }
 
-  // Trigger automatic translations asynchronously (non-blocking)
-  if (data?.id) {
-    const translationContent = {
-      name: data.name,
-      description: data.description || undefined,
-      ideal_guests: data.ideal_guests || undefined,
-      atmosphere: data.atmosphere || undefined,
-      perfect_location: data.perfect_location || undefined
-    };
+    console.log("=== HOTEL CREATED SUCCESSFULLY ===");
+    console.log("Hotel created successfully:", data);
+    console.log("Hotel ID:", data?.id);
+    console.log("Hotel name:", data?.name);
 
-    // Use setTimeout to ensure this runs after the main workflow completes
-    setTimeout(async () => {
-      try {
-        const targetLanguages: ('es' | 'pt' | 'ro')[] = ['es', 'pt', 'ro'];
-        
-        for (const language of targetLanguages) {
-          try {
-            await supabase.functions.invoke('translate-hotel-content', {
-              body: {
-                hotelId: data.id,
-                targetLanguage: language,
-                content: translationContent
-              }
-            });
-            console.log(`Auto-translation triggered for hotel ${data.id} in ${language}`);
-          } catch (translationError) {
-            console.warn(`Auto-translation failed for hotel ${data.id} in ${language}:`, translationError);
-            // Continue with other languages even if one fails
+    // Trigger automatic translations asynchronously (non-blocking)
+    if (data?.id) {
+      const translationContent = {
+        name: data.name,
+        description: data.description || undefined,
+        ideal_guests: data.ideal_guests || undefined,
+        atmosphere: data.atmosphere || undefined,
+        perfect_location: data.perfect_location || undefined
+      };
+
+      // Use setTimeout to ensure this runs after the main workflow completes
+      setTimeout(async () => {
+        try {
+          const targetLanguages: ('es' | 'pt' | 'ro')[] = ['es', 'pt', 'ro'];
+          
+          for (const language of targetLanguages) {
+            try {
+              await supabase.functions.invoke('translate-hotel-content', {
+                body: {
+                  hotelId: data.id,
+                  targetLanguage: language,
+                  content: translationContent
+                }
+              });
+              console.log(`Auto-translation triggered for hotel ${data.id} in ${language}`);
+            } catch (translationError) {
+              console.warn(`Auto-translation failed for hotel ${data.id} in ${language}:`, translationError);
+              // Continue with other languages even if one fails
+            }
           }
+        } catch (error) {
+          console.warn('Auto-translation process failed:', error);
+          // Fail silently to not affect the main hotel creation workflow
         }
-      } catch (error) {
-        console.warn('Auto-translation process failed:', error);
-        // Fail silently to not affect the main hotel creation workflow
-      }
-    }, 1000); // 1 second delay to ensure main workflow completes
-  }
+      }, 1000); // 1 second delay to ensure main workflow completes
+    }
 
-  console.log("=== CREATE NEW HOTEL END ===");
-  return data;
+    console.log("=== CREATE NEW HOTEL END ===");
+    return data;
+    
+  } catch (insertError) {
+    console.error("=== CRITICAL HOTEL INSERT ERROR ===");
+    console.error("Failed to insert hotel into database:", insertError);
+    console.error("Insert error message:", insertError.message);
+    console.error("Insert error details:", insertError.details);
+    console.error("Insert error hint:", insertError.hint);
+    console.error("Insert error code:", insertError.code);
+    throw insertError;
+  }
 };

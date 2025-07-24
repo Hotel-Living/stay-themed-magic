@@ -1,0 +1,324 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
+import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
+import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTranslations";
+import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/hooks/useTranslation";
+import BubbleCounter from "@/components/common/BubbleCounter";
+import { HotelPageAvatar } from "@/components/avatars/HotelPageAvatar";
+
+// Helper function to convert features to array format
+const convertFeaturesToArray = (features: any): string[] => {
+  if (!features) return [];
+  if (Array.isArray(features)) return features;
+  if (typeof features === 'object') {
+    return Object.entries(features).filter(([_, value]) => value === true).map(([key, _]) => key);
+  }
+  return [];
+};
+export default function HotelDetail() {
+  const {
+    id
+  } = useParams<{
+    id: string;
+  }>();
+  const {
+    toast
+  } = useToast();
+  const {
+    language
+  } = useTranslation();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const {
+    data: hotel,
+    isLoading,
+    error,
+    hasTranslation
+  } = useHotelDetailWithTranslations(id);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (error) {
+      toast({
+        title: "Error loading hotel",
+        description: "There was a problem loading the hotel details. Please try again.",
+        variant: "destructive"
+      });
+      console.error("Error fetching hotel data:", error);
+    }
+  }, [error, toast]);
+
+  // Debug logging to verify translation is working
+  useEffect(() => {
+    if (hotel && language !== 'en') {
+      console.log('Current language:', language);
+      console.log('Has translation:', hasTranslation);
+      console.log('Hotel name (possibly translated):', hotel.name);
+    }
+  }, [hotel, language, hasTranslation]);
+  if (isLoading) {
+    return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+        <Navbar />
+        <BubbleCounter />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-white text-xl">Loading hotel details...</div>
+        </main>
+        <Footer />
+        <HotelPageAvatar />
+      </div>;
+  }
+  if (!hotel) {
+    return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+        <Navbar />
+        <BubbleCounter />
+        <main className="flex-1">
+          <HotelNotFound />
+        </main>
+        <Footer />
+        <HotelPageAvatar />
+      </div>;
+  }
+
+  // Convert features to arrays
+  const hotelFeaturesArray = convertFeaturesToArray(hotel.hotelFeatures || hotel.features_hotel);
+  const roomFeaturesArray = convertFeaturesToArray(hotel.roomFeatures || hotel.features_room);
+
+  // Get hotel images
+  const hotelImages = hotel.hotel_images && hotel.hotel_images.length > 0 ? hotel.hotel_images.map(img => img.image_url) : ['https://images.unsplash.com/photo-1721322800607-8c38375eef04'];
+
+  // Generate availability packages from hotel data
+  const availabilityPackages = hotel.stay_lengths?.map((duration, index) => ({
+    startDate: new Date(Date.now() + index * 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    endDate: new Date(Date.now() + (index * 7 + duration) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    duration: duration,
+    available: Math.floor(Math.random() * 5) + 1
+  })) || [];
+  const renderStars = (count: number) => {
+    return Array.from({
+      length: count
+    }, (_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
+  };
+  const renderTag = (tag: string, type: string) => <span key={tag} className={`px-3 py-1 rounded-full text-sm font-medium ${type === 'affinity' ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'}`}>
+      {tag}
+    </span>;
+  const handlePackageClick = (pkg: any) => {
+    setSelectedPackage(selectedPackage?.startDate === pkg.startDate ? null : pkg);
+  };
+  return <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
+      <Navbar />
+      <BubbleCounter />
+      
+      <main className="flex-1">
+        <div style={{
+        backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
+        backgroundSize: '50px 50px, 30px 30px',
+        backgroundPosition: '0 0, 25px 25px'
+      }} className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden bg-slate-50">
+          
+          <div className="relative z-10 container mx-auto px-4 py-8 space-y-8 bg-[#5a067e]">
+            
+            {/* Top Section */}
+            <div className="text-center space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-5xl font-bold text-white glow-text">
+                  {hotel.name}
+                </h1>
+                {hotel.category && <div className="flex justify-center items-center space-x-2">
+                    {renderStars(hotel.category)}
+                  </div>}
+              </div>
+              
+              <div className="flex items-center justify-center space-x-2 text-purple-200">
+                <MapPin className="w-5 h-5" />
+                <span className="text-lg">
+                  {hotel.address && `${hotel.address}, `}{hotel.city}, {hotel.country}
+                </span>
+              </div>
+
+              {/* Themes and Activities */}
+              {(hotel.themes && hotel.themes.length > 0 || hotel.activities && hotel.activities.length > 0) && <div className="space-y-4 max-w-4xl mx-auto">
+                  {hotel.themes && hotel.themes.length > 0 && <div>
+                      <p className="text-white mb-3 text-lg">This hotel is ideal for people who enjoy:</p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {hotel.themes.map(theme => renderTag(typeof theme === 'string' ? theme : theme.name, 'affinity'))}
+                      </div>
+                    </div>}
+                  
+                  {hotel.activities && hotel.activities.length > 0 && <div>
+                      <p className="text-white mb-3 text-lg">This hotel is perfect for guests interested in:</p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {hotel.activities.map(activity => renderTag(typeof activity === 'string' ? activity : activity, 'activity'))}
+                      </div>
+                    </div>}
+                </div>}
+
+              {/* Stay Duration and Pricing */}
+              {(hotel.stay_lengths || hotel.price_per_month) && <div className="space-y-2 text-purple-100">
+                  {hotel.stay_lengths && <p className="text-lg">
+                      This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
+                    </p>}
+                  {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
+                      The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
+                    </p>}
+                </div>}
+            </div>
+
+            {/* Visual Block */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Photo Carousel */}
+              <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+                <div className="space-y-4">
+                  <div className="aspect-video rounded-lg overflow-hidden">
+                    <img src={hotelImages[currentImageIndex]} alt={`${hotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
+                  </div>
+                  {hotelImages.length > 1 && <div className="flex space-x-2 justify-center">
+                      {hotelImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
+                    </div>}
+                </div>
+              </Card>
+
+              {/* Google Map */}
+              <div className="bg-purple-900/30 border border-purple-700/50 rounded-lg overflow-hidden glow-border">
+                <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
+              </div>
+            </div>
+
+            {/* Descriptive Section */}
+            {(hotel.description || hotel.ideal_guests || hotel.atmosphere || hotel.perfect_location) && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
+                <div className="space-y-6">
+                  {hotel.description && <div>
+                      <h2 className="text-2xl font-bold text-white mb-4 glow-text">About Our Hotel</h2>
+                      <p className="text-purple-100 text-lg leading-relaxed">{hotel.description}</p>
+                    </div>}
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {hotel.ideal_guests && <div>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">Ideal for guests who...</h3>
+                        <p className="text-purple-100">{hotel.ideal_guests}</p>
+                      </div>}
+                    
+                    {hotel.atmosphere && <div>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">The atmosphere is...</h3>
+                        <p className="text-purple-100">{hotel.atmosphere}</p>
+                      </div>}
+                    
+                    {hotel.perfect_location && <div>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">Our location is perfect for...</h3>
+                        <p className="text-purple-100">{hotel.perfect_location}</p>
+                      </div>}
+                  </div>
+                </div>
+              </Card>}
+
+            {/* Availability Calendar Section */}
+            {availabilityPackages.length > 0 && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
+                <h2 className="text-2xl font-bold text-white mb-6 glow-text">Availability & Pricing</h2>
+                
+                <div className="space-y-6">
+                  {/* Calendar visualization */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Calendar className="w-5 h-5 text-purple-300" />
+                          <span className="text-white font-medium">{pkg.duration} days</span>
+                        </div>
+                        <p className="text-purple-200 text-sm">
+                          {new Date(pkg.startDate).toLocaleDateString()} - {new Date(pkg.endDate).toLocaleDateString()}
+                        </p>
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Users className="w-4 h-4 text-purple-300" />
+                          <span className="text-purple-200 text-sm">{pkg.available} rooms left</span>
+                        </div>
+                      </div>)}
+                  </div>
+
+                  {/* Selected Package Details */}
+                  {selectedPackage && hotel.price_per_month && <Card className="p-6 bg-purple-800/40 border-purple-600/50">
+                      <h3 className="text-xl font-bold text-white mb-4">Package Details</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <p className="text-purple-200 mb-2">
+                            <strong>Dates:</strong> {new Date(selectedPackage.startDate).toLocaleDateString()} - {new Date(selectedPackage.endDate).toLocaleDateString()}
+                          </p>
+                          <p className="text-purple-200 mb-2">
+                            <strong>Duration:</strong> {selectedPackage.duration} days
+                          </p>
+                          <p className="text-purple-200 mb-4">
+                            <strong>Availability:</strong> {selectedPackage.available} rooms remaining
+                          </p>
+                          <div className="text-yellow-300 font-semibold">
+                            <p>Double Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30))}</p>
+                            <p>Single Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30) * 0.8)}</p>
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="p-4 bg-yellow-900/30 rounded-lg border border-yellow-600/50">
+                            <p className="text-yellow-200 text-sm">
+                              <strong>Dynamic pricing</strong> – This hotel uses dynamic pricing after each sale. 
+                              Secure your rate today before prices go up. Only 15% of the total price is required now; 
+                              the rest is paid upon arrival.
+                            </p>
+                          </div>
+                          {selectedPackage.available <= 2 && <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
+                              <p className="text-red-200 text-sm font-medium">
+                                ⚠️ Only {selectedPackage.available} rooms left for this date!
+                              </p>
+                            </div>}
+                          <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                            Reserve Now
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>}
+                </div>
+              </Card>}
+
+            {/* Hotel Features Section */}
+            {(roomFeaturesArray.length > 0 || hotelFeaturesArray.length > 0) && <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Room Features */}
+                {roomFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+                    <h3 className="text-xl font-bold text-white mb-4 glow-text">Room Features</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {roomFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
+                          <Wifi className="w-4 h-4 text-purple-400" />
+                          <span className="text-purple-100 text-sm">{feature}</span>
+                        </div>)}
+                    </div>
+                  </Card>}
+
+                {/* Hotel Features */}
+                {hotelFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
+                    <h3 className="text-xl font-bold text-white mb-4 glow-text">Hotel Features</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {hotelFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
+                          <Coffee className="w-4 h-4 text-purple-400" />
+                          <span className="text-purple-100 text-sm">{feature}</span>
+                        </div>)}
+                    </div>
+                  </Card>}
+              </div>}
+
+            {/* Reviews Placeholder */}
+            <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
+              <h2 className="text-2xl font-bold text-white mb-6 glow-text">Guest Reviews</h2>
+              <div className="text-center py-12">
+                <Star className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+                <p className="text-purple-200 text-lg">Guest reviews will appear here</p>
+                <p className="text-purple-300 text-sm mt-2">Be the first to share your experience!</p>
+              </div>
+            </Card>
+
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+      <HotelPageAvatar />
+    </div>;
+}

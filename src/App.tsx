@@ -33,7 +33,7 @@ import "./i18n/config";
 
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
-import HotelModelPage from "@/pages/HotelModelPage";
+import HotelDetail from "@/pages/HotelDetail";
 import Login from "@/pages/Login";
 import Signup from "@/pages/SignUp";
 import UserDashboard from "@/pages/UserDashboard";
@@ -78,6 +78,7 @@ import Help from "@/pages/Help";
 import Ayuda from "@/pages/Ayuda";
 import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
+import HotelModelPage from "@/pages/HotelModelPage";
 import AdminLogin from "@/pages/AdminLogin";
 
 const queryClient = new QueryClient({
@@ -113,7 +114,7 @@ function App() {
               <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />
-              <Route path="/hotel/:id" element={<HotelModelPage />} />
+              <Route path="/hotel/:id" element={<HotelDetail />} />
               <Route path="/search" element={<Search />} />
                <Route path="/login" element={<Login />} />
                <Route path="/admin-login" element={<AdminLogin />} />

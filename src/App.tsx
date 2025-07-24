@@ -82,6 +82,7 @@ import HotelModelPage from "@/pages/HotelModelPage";
 import AdminLogin from "@/pages/AdminLogin";
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 import { ClerkAuth } from "@/pages/ClerkAuth";
+import SignIn from "@/pages/SignIn";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -120,6 +121,7 @@ function App() {
                <Route path="/search" element={<Search />} />
                 <Route path="/auth" element={<ClerkAuth />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/signin" element={<SignIn />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />

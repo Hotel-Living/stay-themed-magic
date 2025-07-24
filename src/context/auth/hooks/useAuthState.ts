@@ -166,7 +166,8 @@ export function useAuthState() {
           setIsLoading(false);
           
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
-          if (event === 'SIGNED_IN') {
+          // BUT exclude password reset pages to allow users to complete the flow
+          if (event === 'SIGNED_IN' && !window.location.pathname.includes('/reset-password')) {
             await handleCorrectRedirect(session.user, profileData);
           }
         } else {

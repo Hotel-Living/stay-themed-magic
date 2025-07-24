@@ -3,7 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "../usePropertyFormData";
 
 export const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
+  console.log("=== CREATE NEW HOTEL START ===");
   console.log("Creating new hotel with data:", formData);
+  console.log("User ID provided:", userId);
+  
+  // Validate required parameters
+  if (!userId) {
+    console.error("No user ID provided for hotel creation");
+    throw new Error("User ID is required for hotel creation");
+  }
   
   // Use the provided userId or get it from the current session
   // Since routes are protected, we can safely assume user is authenticated
@@ -90,10 +98,8 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     pricingmatrix: pricingMatrix // Use the correct lowercase column name from database
   };
 
-  console.log("Inserting hotel with data:", {
-    idealGuests: hotelData.ideal_guests,
-    perfectLocation: hotelData.perfect_location
-  });
+  console.log("=== INSERTING HOTEL DATA ===");
+  console.log("Final hotel data to insert:", hotelData);
 
   const { data, error } = await supabase
     .from('hotels')
@@ -102,11 +108,19 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     .single();
 
   if (error) {
+    console.error("=== HOTEL CREATION ERROR ===");
     console.error("Error creating hotel:", error);
+    console.error("Error message:", error.message);
+    console.error("Error details:", error.details);
+    console.error("Error hint:", error.hint);
+    console.error("Error code:", error.code);
     throw error;
   }
 
+  console.log("=== HOTEL CREATED SUCCESSFULLY ===");
   console.log("Hotel created successfully:", data);
+  console.log("Hotel ID:", data?.id);
+  console.log("Hotel name:", data?.name);
 
   // Trigger automatic translations asynchronously (non-blocking)
   if (data?.id) {
@@ -145,5 +159,6 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     }, 1000); // 1 second delay to ensure main workflow completes
   }
 
+  console.log("=== CREATE NEW HOTEL END ===");
   return data;
 };

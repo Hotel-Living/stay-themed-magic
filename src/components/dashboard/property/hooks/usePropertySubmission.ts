@@ -38,7 +38,7 @@ export const usePropertySubmission = ({
   const { toast } = useToast();
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
   const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
-  const { handleSubmissionSuccess } = useSubmissionSuccess({
+  const { handleSubmissionSuccess, showFallback, handleFallbackRedirect } = useSubmissionSuccess({
     setIsSubmitted,
     setSubmitSuccess,
     setCurrentStep,
@@ -173,5 +173,9 @@ export const usePropertySubmission = ({
     }
   };
 
-  return { handleSubmitProperty };
+  return { 
+    handleSubmitProperty, 
+    showFallback, 
+    handleFallbackRedirect 
+  };
 };

@@ -8,6 +8,7 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showFallback, setShowFallback] = useState(false);
   const { signIn } = useAuth();
   const { toast } = useToast();
 
@@ -36,23 +37,43 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
 
       if (result.success) {
         console.log("Login successful, auth state will handle redirect");
-        // Don't show success toast as user will be redirected immediately
+        
+        // Show success feedback
+        toast({
+          title: "✅ Success! Redirecting…",
+          description: "You have been successfully logged in"
+        });
+        
+        // Set up fallback mechanism after 5 seconds
+        setTimeout(() => {
+          setShowFallback(true);
+          setIsLoading(false);
+        }, 5000);
+        
       } else {
         console.log("Login failed:", result.error);
         // Error toast is already shown in signIn function
+        setIsLoading(false);
       }
     } catch (error: any) {
       console.error("Login form error:", error);
       toast({
-        title: "Error inesperado",
+        title: "❌ Something went wrong. Please try again.",
         description: "Ocurrió un error durante el inicio de sesión",
         variant: "destructive"
       });
-    } finally {
       setIsLoading(false);
     }
 
     console.log("=== LOGIN FORM SUBMIT END ===");
+  };
+
+  const handleFallbackRedirect = () => {
+    const dashboardUrl = userType === "hotel" ? "/hotel-dashboard" : 
+                        userType === "association" ? "/association-dashboard" :
+                        userType === "promoter" ? "/promoter-dashboard" : 
+                        "/user-dashboard";
+    window.location.href = dashboardUrl;
   };
 
   return {
@@ -63,6 +84,8 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
     showPassword,
     setShowPassword,
     isLoading,
-    handleSubmit
+    showFallback,
+    handleSubmit,
+    handleFallbackRedirect
   };
 }

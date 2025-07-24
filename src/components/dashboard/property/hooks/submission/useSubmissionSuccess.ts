@@ -1,6 +1,7 @@
 
 import { useToast, toast } from "@/hooks/use-toast";
 import { PropertyFormData } from '../usePropertyFormData';
+import { useState } from 'react';
 
 interface SubmissionSuccessProps {
   setIsSubmitted: (value: boolean) => void;
@@ -18,16 +19,24 @@ export const useSubmissionSuccess = ({
   onDoneEditing
 }: SubmissionSuccessProps) => {
   const { toast: useToastRef } = useToast();
+  const [showFallback, setShowFallback] = useState(false);
 
   const handleSubmissionSuccess = () => {
     console.log('Property submitted successfully!');
     setIsSubmitted(false);
     setSubmitSuccess(true);
     
-    toast.success("Property saved successfully", {
+    // Show enhanced success feedback
+    toast.success("✅ Property submitted successfully!", {
       description: "Your property has been saved and is pending administrator approval."
     });
     
+    // Set up fallback mechanism after 5 seconds
+    setTimeout(() => {
+      setShowFallback(true);
+    }, 5000);
+    
+    // Original reset logic after 2 seconds
     setTimeout(() => {
       setCurrentStep(1);
       setIsSubmitted(false);
@@ -57,5 +66,13 @@ export const useSubmissionSuccess = ({
     }, 2000);
   };
 
-  return { handleSubmissionSuccess };
+  const handleFallbackRedirect = () => {
+    window.location.href = "/hotel-dashboard";
+  };
+
+  return { 
+    handleSubmissionSuccess, 
+    showFallback,
+    handleFallbackRedirect 
+  };
 };

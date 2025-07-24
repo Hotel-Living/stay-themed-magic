@@ -21,7 +21,9 @@ export function LoginForm({ userType }: LoginFormProps) {
     showPassword,
     setShowPassword,
     isLoading,
-    handleSubmit
+    showFallback,
+    handleSubmit,
+    handleFallbackRedirect
   } = useLoginForm(userType);
 
   const { t } = useTranslation('auth');
@@ -56,7 +58,7 @@ export function LoginForm({ userType }: LoginFormProps) {
       </div>
       
       <SubmitButton
-        isLoading={isLoading}
+        isLoading={isLoading && !showFallback}
         loadingText={t('signingIn')}
         text={
           userType === "hotel" ? t('signInAsHotelPartner') :
@@ -65,6 +67,21 @@ export function LoginForm({ userType }: LoginFormProps) {
           t('signInAsTraveler')
         }
       />
+      
+      {showFallback && (
+        <div className="mt-4 p-4 bg-white/10 rounded-lg border border-white/20">
+          <p className="text-white text-sm mb-3">
+            ✅ Login successful! If you weren't redirected automatically:
+          </p>
+          <button
+            type="button"
+            onClick={handleFallbackRedirect}
+            className="w-full py-2 px-4 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
+          >
+            Click here to access your panel
+          </button>
+        </div>
+      )}
     </form>
   );
 }

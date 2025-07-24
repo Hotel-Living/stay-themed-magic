@@ -49,15 +49,27 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setLoading(true);
       setError(null);
 
-      // Add timeout to prevent infinite loading
+      // Add timeout to prevent infinite loading - increased to 30 seconds
       const timeoutId = setTimeout(() => {
-        console.warn('⚠️ useHotels: Fetch timeout after 10 seconds, clearing loading state');
+        console.warn('⚠️ useHotels: Fetch timeout after 30 seconds, clearing loading state');
         setLoading(false);
         setError(new Error('Request timeout - please try again'));
-      }, 10000);
+      }, 30000);
 
       try {
         console.log('📡 useHotels: Calling fetchHotelsWithFilters...');
+        
+        // If no specific filters are applied, use a simple query
+        const hasActiveFilters = Object.entries(filters).some(([key, value]) => {
+          if (key === 'priceRange' && value === null) return false;
+          if (value === null || value === undefined || value === '') return false;
+          if (Array.isArray(value) && value.length === 0) return false;
+          if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return false;
+          return true;
+        });
+
+        console.log('🔍 Has active filters:', hasActiveFilters);
+        
         const data = await fetchHotelsWithFilters(filters);
         console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);
         

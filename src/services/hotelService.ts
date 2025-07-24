@@ -88,10 +88,12 @@ export const convertHotelToUIFormat = (hotel: any) => {
 export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
     console.log('🔍 Applying filters:', filters);
+    const startTime = Date.now();
 
     // Get filter mappings for consistent hotel matching
+    console.log('📡 Fetching filter mappings...');
     const filterMappings = await getFilterMappings();
-    console.log('🔗 Filter mappings loaded for consistent matching');
+    console.log(`🔗 Filter mappings loaded in ${Date.now() - startTime}ms`);
 
     // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values found via query
     const countryCodeToValues: Record<string, string[]> = {
@@ -389,7 +391,10 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log(`✅ Hotel features filter applied successfully`);
     }
 
+    console.log('📡 Executing database query...');
+    const queryStartTime = Date.now();
     const { data: hotels, error } = await query;
+    console.log(`⚡ Database query completed in ${Date.now() - queryStartTime}ms`);
 
     if (error) {
       console.error('Supabase query error:', error);

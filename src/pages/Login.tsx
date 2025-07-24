@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { useAuth } from "@/context/AuthContext";
 import { AuthCard } from "@/components/auth/AuthCard";
-import { LoginForm } from "@/components/auth/LoginForm";
+import { ClerkLoginForm } from "@/components/auth/ClerkLoginForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -13,7 +13,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 export default function Login() {
   const [activeTab, setActiveTab] = useState("traveler");
   const location = useLocation();
-  const { user } = useAuth();
+  const { user } = useUser();
   const navigate = useNavigate();
   const { t, isReady } = useTranslation('auth');
 
@@ -35,21 +35,11 @@ export default function Login() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect if already logged in - role-based routing
+  // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      // Check user metadata to determine correct dashboard
-      const userMetadata = user.user_metadata;
-      
-      if (userMetadata?.association_name) {
-        navigate('/panel-asociacion');
-      } else if (userMetadata?.role === 'promoter') {
-        navigate('/promoter/dashboard');
-      } else if (userMetadata?.is_hotel_owner === true) {
-        navigate('/panel-hotel');
-      } else {
-        navigate('/user-dashboard');
-      }
+      // Default redirect to user dashboard for authenticated users
+      navigate('/user-dashboard');
     }
   }, [user, navigate]);
 
@@ -106,7 +96,7 @@ export default function Login() {
                   linkUrl: "/signup"
                 }]}
               >
-                <LoginForm userType="traveler" />
+                <ClerkLoginForm userType="traveler" />
               </AuthCard>
             </TabsContent>
             
@@ -120,7 +110,7 @@ export default function Login() {
                   linkUrl: "/hotel-signup"
                 }]}
               >
-                <LoginForm userType="hotel" />
+                <ClerkLoginForm userType="hotel" />
               </AuthCard>
             </TabsContent>
             
@@ -134,7 +124,7 @@ export default function Login() {
                   linkUrl: "/association-signup"
                 }]}
               >
-                <LoginForm userType="association" />
+                <ClerkLoginForm userType="association" />
               </AuthCard>
             </TabsContent>
             
@@ -148,7 +138,7 @@ export default function Login() {
                   linkUrl: "/promoter-signup"
                 }]}
               >
-                <LoginForm userType="promoter" />
+                <ClerkLoginForm userType="promoter" />
               </AuthCard>
             </TabsContent>
           </Tabs>

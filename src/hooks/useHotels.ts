@@ -17,14 +17,18 @@ interface HotelCardData {
   category?: number;
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
+  hotel_activities?: Array<any>;
   available_months?: string[];
-  features_hotel?: Record<string, boolean>;
-  features_room?: Record<string, boolean>;
+  features_hotel?: Record<string, any>;
+  features_room?: Record<string, any>;
   meal_plans?: string[];
   stay_lengths?: number[];
   atmosphere?: string;
   property_type?: string;
   style?: string;
+  rates?: any;
+  room_types?: any;
+  pricingMatrix?: any;
 }
 
 interface UseHotelsProps {
@@ -45,32 +49,51 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setLoading(true);
       setError(null);
 
+      // Add timeout to prevent infinite loading
+      const timeoutId = setTimeout(() => {
+        console.warn('⚠️ useHotels: Fetch timeout after 10 seconds, clearing loading state');
+        setLoading(false);
+        setError(new Error('Request timeout - please try again'));
+      }, 10000);
+
       try {
         console.log('📡 useHotels: Calling fetchHotelsWithFilters...');
         const data = await fetchHotelsWithFilters(filters);
         console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);
         
-        console.log(`📨 useHotels: Raw data received from fetchHotelsWithFilters:`, data?.length || 0);
-        if (data && data.length > 0) {
-          console.log('📄 useHotels: Sample raw hotel:', {
-            id: data[0].id,
-            name: data[0].name,
-            status: data[0].status
-          });
-        }
-        
-        // Convert API hotel data to UI format
+        // Convert API hotel data to UI format with better error handling
         const validHotels = (data || [])
-          .filter(hotel => hotel && typeof hotel === 'object' && hotel.id && hotel.name)
-          .map(hotel => convertHotelToUIFormat(hotel))
-          .filter(hotel => hotel !== null);
+          .filter(hotel => {
+            if (!hotel || typeof hotel !== 'object' || !hotel.id || !hotel.name) {
+              console.warn('⚠️ useHotels: Skipping invalid hotel:', hotel);
+              return false;
+            }
+            return true;
+          })
+          .map(hotel => {
+            try {
+              const converted = convertHotelToUIFormat(hotel);
+              if (!converted) {
+                console.warn('⚠️ useHotels: Hotel conversion returned null:', hotel.id);
+              }
+              return converted;
+            } catch (conversionError) {
+              console.error('❌ useHotels: Error converting hotel:', hotel.id, conversionError);
+              return null;
+            }
+          })
+          .filter(hotel => hotel !== null) as HotelCardData[];
           
         console.log(`✅ useHotels: Processed ${validHotels.length} valid hotels for display`);
-        console.log('🏨 useHotels: Sample hotel names:', validHotels.slice(0, 3).map(h => h.name));
-        setHotels(validHotels as HotelCardData[]);
+        if (validHotels.length > 0) {
+          console.log('🏨 useHotels: Sample hotel names:', validHotels.slice(0, 3).map(h => h.name));
+        }
+        setHotels(validHotels);
+        clearTimeout(timeoutId);
       } catch (err: any) {
         console.error("❌ useHotels: Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));
+        clearTimeout(timeoutId);
       } finally {
         setLoading(false);
         console.log('🏁 useHotels: Hotel fetch completed');

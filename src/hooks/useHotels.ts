@@ -50,6 +50,15 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
         const data = await fetchHotelsWithFilters(filters);
         console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);
         
+        console.log(`📨 useHotels: Raw data received from fetchHotelsWithFilters:`, data?.length || 0);
+        if (data && data.length > 0) {
+          console.log('📄 useHotels: Sample raw hotel:', {
+            id: data[0].id,
+            name: data[0].name,
+            status: data[0].status
+          });
+        }
+        
         // Convert API hotel data to UI format
         const validHotels = (data || [])
           .filter(hotel => hotel && typeof hotel === 'object' && hotel.id && hotel.name)

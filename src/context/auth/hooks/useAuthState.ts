@@ -85,8 +85,19 @@ export function useAuthState() {
         return;
       }
 
-      // Check for hotel owner role
-      if (currentUser.user_metadata?.is_hotel_owner || currentProfile?.is_hotel_owner) {
+      // Check for hotel owner role - Enhanced logic with multiple sources
+      const isHotelOwner = currentUser.user_metadata?.is_hotel_owner || 
+                          currentProfile?.is_hotel_owner || 
+                          currentProfile?.role === 'hotel_owner';
+      
+      console.log("Hotel owner check:", {
+        userMetadata: currentUser.user_metadata?.is_hotel_owner,
+        profileFlag: currentProfile?.is_hotel_owner,
+        profileRole: currentProfile?.role,
+        finalResult: isHotelOwner
+      });
+      
+      if (isHotelOwner) {
         console.log("Redirecting to hotel dashboard");
         navigate('/hotel-dashboard');
         return;

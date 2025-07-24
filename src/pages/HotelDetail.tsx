@@ -118,8 +118,9 @@ export default function HotelDetail() {
         <div style={{
         backgroundImage: `radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)`,
         backgroundSize: '50px 50px, 30px 30px',
-        backgroundPosition: '0 0, 25px 25px'
-      }} className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden bg-slate-50">
+        backgroundPosition: '0 0, 25px 25px',
+        backgroundColor: '#996515'
+      }} className="min-h-screen relative overflow-hidden">
           
           <div className="relative z-10 container mx-auto px-4 py-8 space-y-8 bg-[#5a067e]">
             

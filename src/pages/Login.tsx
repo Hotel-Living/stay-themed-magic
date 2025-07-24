@@ -35,10 +35,21 @@ export default function Login() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect if already logged in
+  // Redirect if already logged in - role-based routing
   useEffect(() => {
     if (user) {
-      navigate('/user-dashboard');
+      // Check user metadata to determine correct dashboard
+      const userMetadata = user.user_metadata;
+      
+      if (userMetadata?.association_name) {
+        navigate('/panel-asociacion');
+      } else if (userMetadata?.role === 'promoter') {
+        navigate('/promoter/dashboard');
+      } else if (userMetadata?.is_hotel_owner === true) {
+        navigate('/panel-hotel');
+      } else {
+        navigate('/user-dashboard');
+      }
     }
   }, [user, navigate]);
 

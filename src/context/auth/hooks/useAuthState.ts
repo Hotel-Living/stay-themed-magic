@@ -122,6 +122,20 @@ export function useAuthState() {
         console.log("Auth state changed:", event, session?.user?.email);
         
         if (session?.user) {
+          // Critical validation: Verify session is actually valid
+          if (!session.access_token || !session.user.email_confirmed_at) {
+            console.error("❌ INVALID SESSION DETECTED - Missing token or unconfirmed email");
+            console.log("Access token:", !!session.access_token);
+            console.log("Email confirmed:", !!session.user.email_confirmed_at);
+            
+            // Force cleanup of invalid session
+            setUser(null);
+            setSession(null);
+            setProfile(null);
+            setIsLoading(false);
+            return;
+          }
+          
           setUser(session.user);
           setSession(session);
           
@@ -135,10 +149,10 @@ export function useAuthState() {
           setProfile(profileData);
           setIsLoading(false);
           
-      // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
-      if (event === 'SIGNED_IN') {
-        await handleCorrectRedirect(session.user, profileData);
-      }
+          // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
+          if (event === 'SIGNED_IN') {
+            await handleCorrectRedirect(session.user, profileData);
+          }
         } else {
           setUser(null);
           setSession(null);

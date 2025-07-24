@@ -98,12 +98,26 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         password,
       });
 
+      // Critical: Check for any authentication error, including 400 errors
       if (error) {
-        console.error("Supabase sign in error:", error);
+        console.error("❌ SUPABASE AUTHENTICATION FAILED ❌");
+        console.error("Error type:", error.name);
+        console.error("Error message:", error.message);
+        console.error("Error status:", error.status);
+        console.error("Full error object:", error);
+        
+        // Force sign out to prevent false positive sessions
+        try {
+          await supabase.auth.signOut({ scope: 'global' });
+          console.log("Forced sign out completed after auth error");
+        } catch (signOutError) {
+          console.error("Failed to force sign out:", signOutError);
+        }
+        
         setSignInError(error.message);
         toast({
-          title: "Error al iniciar sesión",
-          description: error.message,
+          title: "❌ Authentication Failed",
+          description: error.message || "Invalid credentials. Please check your email and password.",
           variant: "destructive"
         });
         return { success: false, error: error.message };

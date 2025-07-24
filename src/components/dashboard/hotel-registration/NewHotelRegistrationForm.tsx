@@ -177,25 +177,9 @@ export const NewHotelRegistrationForm = () => {
   };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    console.log('=== HOTEL REGISTRATION SUBMISSION START ===');
-    console.log('Form data:', data);
-    console.log('User:', user);
-    
-    // Check authentication first
-    if (!user?.id) {
-      console.error('User not authenticated');
-      toast({
-        title: t('error'),
-        description: t('userNotAuthenticated'),
-        variant: 'destructive'
-      });
-      return;
-    }
-
     // Check if form is valid before proceeding
     const isValid = await form.trigger();
     if (!isValid) {
-      console.error('Form validation failed');
       // Get all field errors and display them
       const errors = form.formState.errors;
       const errorMessages = Object.entries(errors)
@@ -210,52 +194,46 @@ export const NewHotelRegistrationForm = () => {
       return;
     }
 
+    if (!user?.id) {
+      toast({
+        title: t('error'),
+        description: t('userNotAuthenticated'),
+        variant: 'destructive'
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      console.log('Converting form data...');
       const propertyData = convertToPropertyFormData(data);
-      console.log('Property data converted:', propertyData);
       
-      console.log('Calling createNewHotel...');
       // Submit to hotel creation system
       const result = await createNewHotel(propertyData, user.id);
-      console.log('Hotel creation result:', result);
       
-      if (result && result.id) {
-        console.log('Hotel created successfully with ID:', result.id);
+      if (result) {
+        // Draft clearing disabled
         
         toast({
           title: t('success'),
           description: t('hotelSubmittedForApproval'),
-          duration: 8000
+          duration: 5000
         });
 
-        // Wait longer before redirect to ensure user sees success message
+        // Redirect to hotel dashboard after successful submission
         setTimeout(() => {
-          console.log('Redirecting to hotel dashboard...');
           window.location.href = '/hotel-dashboard';
-        }, 6000);
-      } else {
-        console.error('Hotel creation returned no result');
-        throw new Error('Hotel creation failed - no result returned');
+        }, 2000);
       }
-    } catch (error: any) {
-      console.error('=== HOTEL SUBMISSION ERROR ===');
+    } catch (error) {
       console.error('Error submitting hotel:', error);
-      console.error('Error message:', error?.message);
-      console.error('Error details:', error?.details);
-      console.error('Error hint:', error?.hint);
-      
       toast({
         title: t('error'),
-        description: error?.message || t('submissionFailed'),
-        variant: 'destructive',
-        duration: 8000
+        description: t('submissionFailed'),
+        variant: 'destructive'
       });
     } finally {
       setIsSubmitting(false);
-      console.log('=== HOTEL REGISTRATION SUBMISSION END ===');
     }
   };
 

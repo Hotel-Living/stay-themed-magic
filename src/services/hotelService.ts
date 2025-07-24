@@ -398,17 +398,6 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     console.log(`📊 Database returned ${hotels?.length || 0} hotels`);
     
-    // CRITICAL FIX: Check for hotels with empty available_months
-    if (hotels && hotels.length > 0) {
-      const hotelsWithEmptyMonths = hotels.filter(h => 
-        !h.available_months || h.available_months.length === 0
-      );
-      if (hotelsWithEmptyMonths.length > 0) {
-        console.warn(`⚠️ Found ${hotelsWithEmptyMonths.length} hotels with empty available_months:`, 
-          hotelsWithEmptyMonths.map(h => h.name));
-      }
-    }
-    
     // CRITICAL DEBUGGING: Log sample hotel available_months data to check format mismatch
     if (hotels && hotels.length > 0) {
       console.log('🔍 SAMPLE HOTEL available_months DATA:');
@@ -468,14 +457,6 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       console.log('ℹ️ No hotels found matching the applied filters - this is expected if no hotels match the criteria');
     }
 
-    console.log(`🚀 fetchHotelsWithFilters returning ${hotels?.length || 0} hotels to useHotels`);
-    if (hotels && hotels.length > 0) {
-      console.log('🏨 Sample hotel being returned:', {
-        id: hotels[0].id,
-        name: hotels[0].name,
-        status: hotels[0].status
-      });
-    }
     return hotels || [];
   } catch (error) {
     console.error('Error fetching hotels:', error);

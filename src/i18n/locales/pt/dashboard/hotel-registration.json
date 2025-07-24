@@ -8,7 +8,6 @@
   "success": "Sucesso",
   "hotelSubmittedForApproval": "Hotel enviado para aprovação",
   "submissionFailed": "Erro ao enviar o registro",
-  "optional": "opcional",
   "basicInfo": {
     "title": "INFORMAÇÕES BÁSICAS",
     "hotelName": "Nome do Hotel",

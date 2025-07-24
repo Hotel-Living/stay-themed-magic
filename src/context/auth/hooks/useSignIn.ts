@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/integrations/supabase/types-custom";
 import { fetchProfile } from "../authUtils";
+import { validateEmail, sanitizeInput } from "@/utils/passwordValidation";
 
 interface SignInProps {
   setIsLoading: (isLoading: boolean) => void;
@@ -72,13 +73,28 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       setIsLoading(true);
       setSignInError(null);
 
+      // Client-side validation
+      if (!validateEmail(email)) {
+        const errorMsg = "Please enter a valid email address";
+        setSignInError(errorMsg);
+        toast({
+          title: "Invalid Email",
+          description: errorMsg,
+          variant: "destructive"
+        });
+        return { success: false, error: errorMsg };
+      }
+
+      // Sanitize email input
+      const sanitizedEmail = sanitizeInput(email);
+
       console.log("=== SIGN IN START ===");
-      console.log("Email:", email);
+      console.log("Email:", sanitizedEmail);
       console.log("Selected user type:", userType);
 
       // Attempt to sign in with Supabase
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: sanitizedEmail,
         password,
       });
 

@@ -1240,6 +1240,36 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          action_type: string
+          attempt_count: number | null
+          created_at: string | null
+          first_attempt: string | null
+          id: string
+          identifier: string
+          last_attempt: string | null
+        }
+        Insert: {
+          action_type: string
+          attempt_count?: number | null
+          created_at?: string | null
+          first_attempt?: string | null
+          id?: string
+          identifier: string
+          last_attempt?: string | null
+        }
+        Update: {
+          action_type?: string
+          attempt_count?: number | null
+          created_at?: string | null
+          first_attempt?: string | null
+          id?: string
+          identifier?: string
+          last_attempt?: string | null
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           admin_note: string | null
@@ -1635,6 +1665,15 @@ export type Database = {
         Args: { p_package_id: string; p_rooms_needed: number }
         Returns: boolean
       }
+      check_rate_limit: {
+        Args: {
+          p_identifier: string
+          p_action_type: string
+          p_max_attempts?: number
+          p_window_minutes?: number
+        }
+        Returns: boolean
+      }
       generate_agent_code: {
         Args: { first_name: string; last_name: string }
         Returns: string
@@ -1731,6 +1770,10 @@ export type Database = {
       }
       restore_package_availability_enhanced: {
         Args: { p_package_id: string; p_rooms_to_restore: number }
+        Returns: boolean
+      }
+      validate_password_strength: {
+        Args: { password: string }
         Returns: boolean
       }
     }

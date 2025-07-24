@@ -25,23 +25,56 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
     // This would typically be implemented with a modal
     console.log("Opening add theme category dialog");
     
-    // Show a simple alert with black text for now
+    // Show a simple alert with black text for now - using safe DOM manipulation
     const themeDialog = document.createElement('div');
     themeDialog.className = "fixed inset-0 flex items-center justify-center z-50";
-    themeDialog.innerHTML = `
-      <div class="fixed inset-0 bg-black bg-opacity-50" onclick="this.parentNode.remove()"></div>
-      <div class="bg-white p-6 rounded-lg shadow-xl z-10 max-w-md w-full">
-        <h3 class="text-xl font-semibold text-black mb-4">Add Theme Category</h3>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
-          <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter category name">
-        </div>
-        <div class="flex justify-end space-x-2">
-          <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md" onclick="this.closest('.fixed').remove()">Cancel</button>
-          <button class="px-4 py-2 bg-[#AACAFE] text-[#3300B0] rounded-md">Add Category</button>
-        </div>
-      </div>
-    `;
+    
+    const backdrop = document.createElement('div');
+    backdrop.className = "fixed inset-0 bg-black bg-opacity-50";
+    backdrop.addEventListener('click', () => themeDialog.remove());
+    
+    const modal = document.createElement('div');
+    modal.className = "bg-white p-6 rounded-lg shadow-xl z-10 max-w-md w-full";
+    
+    const title = document.createElement('h3');
+    title.className = "text-xl font-semibold text-black mb-4";
+    title.textContent = "Add Theme Category";
+    
+    const inputContainer = document.createElement('div');
+    inputContainer.className = "mb-4";
+    
+    const label = document.createElement('label');
+    label.className = "block text-sm font-medium text-gray-700 mb-1";
+    label.textContent = "Category Name";
+    
+    const input = document.createElement('input');
+    input.type = "text";
+    input.className = "w-full px-3 py-2 border border-gray-300 rounded-md";
+    input.placeholder = "Enter category name";
+    
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = "flex justify-end space-x-2";
+    
+    const cancelButton = document.createElement('button');
+    cancelButton.className = "px-4 py-2 bg-gray-200 text-gray-800 rounded-md";
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener('click', () => themeDialog.remove());
+    
+    const addButton = document.createElement('button');
+    addButton.className = "px-4 py-2 bg-[#AACAFE] text-[#3300B0] rounded-md";
+    addButton.textContent = "Add Category";
+    
+    // Assemble the modal
+    inputContainer.appendChild(label);
+    inputContainer.appendChild(input);
+    buttonContainer.appendChild(cancelButton);
+    buttonContainer.appendChild(addButton);
+    modal.appendChild(title);
+    modal.appendChild(inputContainer);
+    modal.appendChild(buttonContainer);
+    themeDialog.appendChild(backdrop);
+    themeDialog.appendChild(modal);
+    
     document.body.appendChild(themeDialog);
   };
 

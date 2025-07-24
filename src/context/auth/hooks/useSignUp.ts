@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Profile } from "@/integrations/supabase/types-custom";
 import { fetchProfile, updateUserProfile } from "../authUtils";
 import { useToast } from "@/hooks/use-toast";
+import { validatePassword, validateEmail, sanitizeInput } from "@/utils/passwordValidation";
 
 interface SignUpProps {
   setIsLoading: (isLoading: boolean) => void;
@@ -27,6 +28,21 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
     try {
       setIsLoading(true);
       setAuthError(null);
+
+      // Client-side validation
+      if (!validateEmail(email)) {
+        return { success: false, error: "Please enter a valid email address" };
+      }
+
+      const passwordValidation = validatePassword(password);
+      if (!passwordValidation.isValid) {
+        return { success: false, error: "Password does not meet security requirements" };
+      }
+
+      // Sanitize inputs
+      const sanitizedEmail = sanitizeInput(email);
+      const sanitizedFirstName = userData?.first_name ? sanitizeInput(userData.first_name) : undefined;
+      const sanitizedLastName = userData?.last_name ? sanitizeInput(userData.last_name) : undefined;
       
       // Determine if signing up as hotel owner
       const isHotelSignUp = window.location.pathname.includes('hotel-signup');
@@ -42,10 +58,14 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
       
       // Sign up with Supabase - EXPLICITLY require email confirmation
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: sanitizedEmail,
         password,
         options: {
-          data: userData, // Store user data in user_metadata
+          data: {
+            ...userData,
+            first_name: sanitizedFirstName,
+            last_name: sanitizedLastName
+          }, // Store user data in user_metadata
           emailRedirectTo: `${window.location.origin}/login`, // Redirect to login page after email confirmation
         }
       });

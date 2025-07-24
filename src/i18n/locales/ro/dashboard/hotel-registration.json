@@ -145,7 +145,13 @@
     "title": "MATRICEA PREȚURILOR",
     "description": "Stabiliți prețuri pentru durate și sezoane diferite",
     "durationDays": "Durata (Zile)",
-    "pricePerPerson": "Preț pe Persoană (€)"
+    "pricePerPerson": "Preț pe Persoană (€)",
+    "doubleRoom": "Cameră Dublă",
+    "singleRoom": "Cameră Simplă",
+    "days": "zile",
+    "duration": "Durata",
+    "priceLimit": "Limita de preț pentru {{classification}} este {{limit}}€",
+    "selectStayLengthsFirst": "Selectați mai întâi duratele de ședere pentru a vedea matricea de prețuri"
   },
   "stayLengths": {
     "title": "DURATELE DE ȘEDERE DISPONIBILE",

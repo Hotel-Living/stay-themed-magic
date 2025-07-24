@@ -145,7 +145,13 @@
     "title": "PRICING MATRIX",
     "description": "Set prices for different durations and seasons",
     "durationDays": "Duration (Days)",
-    "pricePerPerson": "Price per Person (€)"
+    "pricePerPerson": "Price per Person (€)",
+    "doubleRoom": "Double Room",
+    "singleRoom": "Single Room",
+    "days": "days",
+    "duration": "Duration",
+    "priceLimit": "Price limit for {{classification}} is {{limit}}€",
+    "selectStayLengthsFirst": "Select stay lengths first to see pricing matrix"
   },
   "stayLengths": {
     "title": "AVAILABLE STAY LENGTHS",

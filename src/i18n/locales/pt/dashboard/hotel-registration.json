@@ -145,7 +145,13 @@
     "title": "MATRIZ DE PREÇOS",
     "description": "Estabeleça preços para diferentes durações e temporadas",
     "durationDays": "Duração (Dias)",
-    "pricePerPerson": "Preço por Pessoa (€)"
+    "pricePerPerson": "Preço por Pessoa (€)",
+    "doubleRoom": "Quarto Duplo",
+    "singleRoom": "Quarto Simples",
+    "days": "dias",
+    "duration": "Duração",
+    "priceLimit": "Limite de preço para {{classification}} é {{limit}}€",
+    "selectStayLengthsFirst": "Selecione durações de estadia primeiro para ver a matriz de preços"
   },
   "stayLengths": {
     "title": "DURAÇÕES DE ESTADIA DISPONÍVEIS",

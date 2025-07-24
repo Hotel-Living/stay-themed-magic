@@ -122,11 +122,10 @@ export function useAuthState() {
         console.log("Auth state changed:", event, session?.user?.email);
         
         if (session?.user) {
-          // Critical validation: Verify session is actually valid
-          if (!session.access_token || !session.user.email_confirmed_at) {
-            console.error("❌ INVALID SESSION DETECTED - Missing token or unconfirmed email");
+          // Critical validation: Verify session has access token
+          if (!session.access_token) {
+            console.error("❌ INVALID SESSION DETECTED - Missing access token");
             console.log("Access token:", !!session.access_token);
-            console.log("Email confirmed:", !!session.user.email_confirmed_at);
             
             // Force cleanup of invalid session
             setUser(null);
@@ -135,6 +134,12 @@ export function useAuthState() {
             setIsLoading(false);
             return;
           }
+          
+          console.log("✅ Valid session detected:", {
+            hasToken: !!session.access_token,
+            userEmail: session.user.email,
+            emailConfirmed: !!session.user.email_confirmed_at
+          });
           
           setUser(session.user);
           setSession(session);

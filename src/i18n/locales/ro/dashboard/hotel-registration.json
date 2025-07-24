@@ -1,33 +1,208 @@
 {
-  "dashboard": {
-    "hotelRegistration": {
-      "title": "Înregistrare Hotel",
-      "submitting": "Se trimite...",
-      "submitRegistration": "Trimite Înregistrarea",
-      "success": "Succes",
-      "error": "Eroare",
-      "hotelSubmittedForApproval": "Hotel trimis cu succes pentru aprobare administratorului",
-      "submissionFailed": "Eșec la trimiterea înregistrării hotelului. Încercați din nou.",
-      "userNotAuthenticated": "Utilizator neautentificat. Vă rugăm să vă conectați și să încercați din nou.",
-      "draftLoaded": "Ciornă Încărcată",
-      "draftLoadedDescription": "Munca anterioară a fost restaurată",
-      "autoSaving": "Salvare automată",
-      "lastSaved": "Ultima salvare"
-    },
-    "basicInfo": {
-      "title": "Informații de Bază",
-      "hotelName": "Numele Hotelului",
-      "hotelNamePlaceholder": "Introduceți numele hotelului",
-      "address": "Adresa",
-      "addressPlaceholder": "Începeți să tastați adresa...",
-      "city": "Orașul",
-      "cityPlaceholder": "Introduceți numele orașului",
-      "postalCode": "Cod Poștal",
-      "postalCodePlaceholder": "Introduceți codul poștal",
-      "country": "Țara",
-      "countryPlaceholder": "Selectați o țară",
-      "mapPreview": "Previzualizare Locație",
-      "mapPlaceholder": "Harta va apărea aici după introducerea adresei"
+  "submitting": "Se trimite...",
+  "submitRegistration": "Trimite Înregistrarea",
+  "validationErrors": "Erori de Validare",
+  "pleaseFixTheFollowingErrors": "Vă rugăm să corectați următoarele erori",
+  "error": "Eroare",
+  "userNotAuthenticated": "Utilizator neautentificat",
+  "success": "Succes",
+  "hotelSubmittedForApproval": "Hotel trimis pentru aprobare",
+  "submissionFailed": "Eroare la trimiterea înregistrării",
+  "basicInfo": {
+    "title": "INFORMAȚII DE BAZĂ",
+    "hotelName": "Numele Hotelului",
+    "hotelNamePlaceholder": "Introduceți numele hotelului",
+    "address": "Adresa",
+    "addressPlaceholder": "Introduceți adresa completă",
+    "city": "Orașul",
+    "cityPlaceholder": "Introduceți orașul",
+    "postalCode": "Cod Poștal",
+    "postalCodePlaceholder": "Introduceți codul poștal",
+    "country": "Țara",
+    "countryPlaceholder": "Selectați țara",
+    "email": "Email",
+    "emailPlaceholder": "Introduceți email-ul de contact",
+    "phone": "Telefon",
+    "phonePlaceholder": "Introduceți numărul de telefon",
+    "website": "Website",
+    "websitePlaceholder": "Introduceți URL-ul website-ului"
+  },
+  "classification": {
+    "title": "CLASIFICAREA HOTELULUI",
+    "label": "Clasificare pe Stele",
+    "placeholder": "Selectați clasificarea",
+    "threeStar": "*** 3 Stele",
+    "fourStar": "**** 4 Stele",
+    "fiveStar": "***** 5 Stele"
+  },
+  "propertyType": {
+    "title": "TIPUL PROPRIETĂȚII",
+    "label": "Selectați Tipul Proprietății",
+    "placeholder": "Alegeți tipul proprietății",
+    "hotel": "Hotel",
+    "boutiqueHotel": "Hotel Boutique",
+    "resort": "Resort",
+    "ruralHouse": "Casă Rurală",
+    "hostel": "Hostel"
+  },
+  "propertyStyle": {
+    "title": "STILUL PROPRIETĂȚII",
+    "label": "Selectați Stilul Proprietății",
+    "placeholder": "Alegeți stilul proprietății",
+    "modern": "Modern",
+    "classic": "Clasic",
+    "classicElegant": "Clasic Elegant",
+    "boutique": "Boutique",
+    "luxury": "Lux",
+    "budget": "Economic",
+    "historic": "Istoric",
+    "resort": "Resort",
+    "business": "Business",
+    "fusion": "Fuziune",
+    "urban": "Urban",
+    "rural": "Rural",
+    "minimalist": "Minimalist"
+  },
+  "hotelDescription": {
+    "title": "DESCRIEREA HOTELULUI",
+    "label": "Descriere",
+    "placeholder": "Descrieți hotelul, caracteristicile sale unice, facilitățile și ce îl face special...",
+    "characterCount": "caractere",
+    "minCharacters": "caractere minime"
+  },
+  "roomDescription": {
+    "title": "DESCRIEREA CAMERELOR",
+    "label": "Descrierea Camerelor",
+    "placeholder": "Descrieți camerele, caracteristicile lor, facilitățile și amenajarea..."
+  },
+  "completePhrases": {
+    "title": "COMPLETAȚI FRAZELE",
+    "idealForGuests": "Ideal pentru oaspeți care...",
+    "idealForGuestsPlaceholder": "caută aventura, familii, călători de afaceri",
+    "atmosphere": "Atmosfera este...",
+    "atmospherePlaceholder": "relaxantă, vibrantă, liniștită, luxoasă",
+    "location": "Locația oferă...",
+    "locationPlaceholder": "priveliști uimitoare, acces în centru, proximitate față de plajă",
+    "locationPerfect": "LOCAȚIA NOASTRĂ ESTE PERFECTĂ PENTRU...",
+    "locationPerfectPlaceholder": "Descrieți ce face locația dvs. specială"
+  },
+  "hotelFeatures": {
+    "title": "CARACTERISTICILE HOTELULUI",
+    "label": "Caracteristicile Hotelului",
+    "required": "Acest câmp este obligatoriu",
+    "selectFeatures": "Selectați caracteristicile disponibile",
+    "searchPlaceholder": "Căutați caracteristici...",
+    "loading": "Se încarcă caracteristicile..."
+  },
+  "roomFeatures": {
+    "title": "CARACTERISTICILE CAMERELOR",
+    "label": "Caracteristicile Camerelor",
+    "selectFeatures": "Selectați caracteristicile camerelor disponibile",
+    "searchPlaceholder": "Căutați caracteristicile camerelor...",
+    "loading": "Se încarcă caracteristicile camerelor..."
+  },
+  "activities": {
+    "title": "ACTIVITĂȚI",
+    "selectActivities": "Selectați activitățile disponibile",
+    "searchPlaceholder": "Căutați activități...",
+    "loading": "Se încarcă activitățile..."
+  },
+  "clientAffinities": {
+    "title": "AFINITĂȚILE CLIENȚILOR",
+    "selectAffinities": "Selectați tipurile de clienți țintă",
+    "searchPlaceholder": "Căutați tipuri de clienți...",
+    "loading": "Se încarcă tipurile de clienți..."
+  },
+  "imageUploads": {
+    "title": "ÎNCĂRCAREA IMAGINILOR",
+    "description": "Încărcați poze cu hotelul și camerele dvs.",
+    "hotelPhotos": "Poze Hotel",
+    "uploadHotelPhotos": "Încărcați Poze Hotel",
+    "roomPhotos": "Poze Camere",
+    "uploadRoomPhotos": "Încărcați Poze Camere"
+  },
+  "photos": {
+    "title": "POZE",
+    "uploadPhotos": "Încărcați Poze Hotel",
+    "dragAndDrop": "Trageți și plasați imaginile aici, sau faceți click pentru a naviga",
+    "maxFiles": "Maxim 10 imagini",
+    "fileTypes": "Formate acceptate: JPG, PNG, WebP"
+  },
+  "mealPlans": {
+    "title": "PLANURI DE MASĂ",
+    "label": "Planuri de Masă Disponibile",
+    "placeholder": "Selectați planul de masă",
+    "roomOnly": "Doar Cameră",
+    "breakfast": "Mic Dejun Inclus",
+    "halfBoard": "Demipensiune (Mic Dejun + Cină)",
+    "fullBoard": "Pensiune Completă (Toate Mesele)",
+    "allInclusive": "Totul Inclus",
+    "laundryServices": "Servicii de Spălătorie",
+    "weeklyLaundryIncluded": "Spălătorie săptămânală inclusă",
+    "externalLaundryAvailable": "Spălătorie externă disponibilă"
+  },
+  "pricingMatrix": {
+    "title": "MATRICEA PREȚURILOR",
+    "description": "Stabiliți prețuri pentru durate și sezoane diferite",
+    "durationDays": "Durata (Zile)",
+    "pricePerPerson": "Preț pe Persoană (€)"
+  },
+  "stayLengths": {
+    "title": "DURATELE DE ȘEDERE DISPONIBILE",
+    "label": "Selectați duratele de ședere disponibile",
+    "days": "zile",
+    "eightDays": "8 zile",
+    "fifteenDays": "15 zile",
+    "twentyTwoDays": "22 zile",
+    "twentyNineDays": "29 zile"
+  },
+  "checkInDay": {
+    "title": "ZIUA SĂPTĂMÂNALĂ DE CHECK-IN/OUT",
+    "label": "Ziua Săptămânală de Check-in/Check-out",
+    "placeholder": "Selectați ziua de check-in",
+    "monday": "Luni",
+    "tuesday": "Marți",
+    "wednesday": "Miercuri",
+    "thursday": "Joi",
+    "friday": "Vineri",
+    "saturday": "Sâmbătă",
+    "sunday": "Duminică"
+  },
+  "availabilityPackages": {
+    "title": "PACHETE DE DISPONIBILITATE",
+    "description": "Creați pachete de disponibilitate pentru hotelul dvs. Fiecare pachet definește intervale de date specifice și disponibilitatea camerelor.",
+    "addPackage": "Adăugați Pachet",
+    "addAnotherPackage": "Adăugați Alt Pachet",
+    "maxPackagesReached": "Maxim 20 pachete permise",
+    "noPackages": "Nu s-au creat pachete încă",
+    "packageDetails": "Detaliile Pachetului",
+    "startDate": "Data de Început",
+    "endDate": "Data de Sfârșit",
+    "availableRooms": "Camere Disponibile",
+    "duration": "Durata",
+    "days": "zile",
+    "edit": "Editare",
+    "delete": "Ștergere",
+    "save": "Salvează Pachetul",
+    "cancel": "Anulare",
+    "creating": "Crearea Pachetului",
+    "editing": "Editarea Pachetului",
+    "validation": {
+      "startDateRequired": "Data de început este obligatorie",
+      "endDateRequired": "Data de sfârșit este obligatorie",
+      "roomsRequired": "Numărul de camere este obligatoriu",
+      "roomsMinimum": "Este necesară cel puțin 1 cameră",
+      "invalidDuration": "Durata pachetului trebuie să coincidă cu duratele de ședere selectate",
+      "dateOverlap": "Datele pachetului se suprapun cu un pachet existent",
+      "pastDate": "Data de început nu poate fi în trecut",
+      "invalidWeekday": "Data de început trebuie să fie în ziua de check-in selectată",
+      "endDateBeforeStart": "Data de sfârșit trebuie să fie după data de început"
     }
+  },
+  "termsConditions": {
+    "title": "TERMENI ȘI CONDIȚII",
+    "description": "Vă rugăm să revizuiți și să acceptați termenii și condițiile",
+    "termsText": "Prin trimiterea acestei înregistrări, acceptați termenii noștri de serviciu și politica de confidențialitate.",
+    "acceptTerms": "Accept termenii și condițiile"
   }
 }

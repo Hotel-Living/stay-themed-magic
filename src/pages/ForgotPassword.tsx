@@ -33,17 +33,22 @@ export default function ForgotPassword() {
     try {
       setIsLoading(true);
       
-      // Use the current window origin for the redirect URL
-      const redirectUrl = `${window.location.origin}/reset-password`;
+      console.log("Requesting password reset for:", email);
       
-      // Use Supabase password reset functionality
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectUrl,
+      // Call our custom password reset edge function instead of Supabase's broken email system
+      const { data, error } = await supabase.functions.invoke('custom-password-reset', {
+        body: { 
+          email,
+          language: navigator.language?.split('-')[0] || 'en'
+        }
       });
       
       if (error) {
-        throw error;
+        console.error("Password reset error:", error);
+        throw new Error(error.message || "Failed to send password reset email");
       }
+      
+      console.log("Password reset email sent:", data);
       
       setIsSubmitted(true);
       toast({

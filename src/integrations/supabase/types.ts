@@ -1162,6 +1162,36 @@ export type Database = {
         }
         Relationships: []
       }
+      password_reset_tokens: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          token: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          token: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          token?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -1698,6 +1728,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      create_password_reset_token: {
+        Args: { p_email: string }
+        Returns: string
+      }
       generate_agent_code: {
         Args: { first_name: string; last_name: string }
         Returns: string
@@ -1795,6 +1829,13 @@ export type Database = {
       restore_package_availability_enhanced: {
         Args: { p_package_id: string; p_rooms_to_restore: number }
         Returns: boolean
+      }
+      validate_password_reset_token: {
+        Args: { p_token: string }
+        Returns: {
+          user_id: string
+          email: string
+        }[]
       }
       validate_password_strength: {
         Args: { password: string }

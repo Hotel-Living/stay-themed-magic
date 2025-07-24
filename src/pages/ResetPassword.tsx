@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
@@ -10,56 +10,47 @@ import { SubmitButton } from "@/components/auth/SubmitButton";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function ResetPassword() {
+  const [searchParams] = useSearchParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckingSession, setIsCheckingSession] = useState(true);
-  const [hasValidSession, setHasValidSession] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [isValidToken, setIsValidToken] = useState<boolean | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        console.log("Checking for active session...");
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        console.log("Session check result:", { 
-          hasSession: !!session, 
-          error: error?.message,
-          sessionType: session?.access_token ? "valid" : "none"
-        });
-        
-        if (error) {
-          console.error("Session error:", error);
-          setHasValidSession(false);
-        } else if (session) {
-          console.log("Valid session found - user can reset password");
-          setHasValidSession(true);
-        } else {
-          console.log("No active session - invalid reset link");
-          setHasValidSession(false);
-          toast({
-            title: "Invalid Reset Link",
-            description: "This password reset link is invalid or has expired. Please request a new one.",
-            variant: "destructive",
-          });
-        }
-      } catch (err) {
-        console.error("Error checking session:", err);
-        setHasValidSession(false);
-      } finally {
-        setIsCheckingSession(false);
-      }
-    };
-
-    checkSession();
-  }, [toast]);
+    const tokenParam = searchParams.get('token');
+    console.log("Token from URL:", tokenParam);
+    
+    if (!tokenParam) {
+      console.log("No token found in URL");
+      setIsValidToken(false);
+      toast({
+        title: "Invalid Reset Link",
+        description: "This password reset link is invalid or has expired. Please request a new one.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setToken(tokenParam);
+    setIsValidToken(true);
+  }, [searchParams, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!token) {
+      toast({
+        title: "Error",
+        description: "Invalid reset token",
+        variant: "destructive",
+      });
+      return;
+    }
     
     if (!password || !confirmPassword) {
       toast({
@@ -79,10 +70,10 @@ export default function ResetPassword() {
       return;
     }
     
-    if (password.length < 6) {
+    if (password.length < 8) {
       toast({
         title: "Error",
-        description: "Password must be at least 6 characters",
+        description: "Password must be at least 8 characters",
         variant: "destructive",
       });
       return;
@@ -90,19 +81,25 @@ export default function ResetPassword() {
     
     try {
       setIsLoading(true);
-      console.log("Attempting to update password...");
+      console.log("Confirming password reset with token:", token);
       
-      // Update the password using Supabase
-      const { error } = await supabase.auth.updateUser({ password });
+      // Call our custom password confirm edge function
+      const { data, error } = await supabase.functions.invoke('custom-password-confirm', {
+        body: { 
+          token,
+          newPassword: password
+        }
+      });
       
       if (error) {
-        throw error;
+        console.error("Password confirm error:", error);
+        throw new Error(error.message || "Failed to reset password");
       }
       
-      console.log("Password updated successfully");
+      console.log("Password reset successful:", data);
       toast({
         title: "Success",
-        description: "Your password has been reset successfully",
+        description: "Your password has been reset successfully. You can now log in with your new password.",
       });
       
       // Redirect to login page after successful password reset
@@ -110,7 +107,7 @@ export default function ResetPassword() {
         navigate("/login");
       }, 2000);
     } catch (error: any) {
-      console.error("Password update error:", error);
+      console.error("Password reset error:", error);
       toast({
         title: "Error",
         description: error.message || "An error occurred during password reset",
@@ -141,14 +138,14 @@ export default function ResetPassword() {
               }
             ]}
           >
-            {isCheckingSession ? (
+            {isValidToken === null ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
                 <p className="text-sm text-muted-foreground">
                   Verifying reset link...
                 </p>
               </div>
-            ) : !hasValidSession ? (
+            ) : !isValidToken ? (
               <div className="text-center py-4">
                 <p className="text-sm text-muted-foreground mb-4">
                   This password reset link is invalid or has expired.

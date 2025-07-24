@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@cl
 import { Navigate } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import Starfield from 'react-starfield';
 
 export function ClerkAuth() {
   return (
@@ -12,7 +13,14 @@ export function ClerkAuth() {
       </SignedIn>
       
       <SignedOut>
-        <div className="min-h-screen relative bg-gradient-to-br from-background to-muted">
+        <div className="min-h-screen relative bg-background">
+          <Starfield
+            starCount={1000}
+            starColor={[255, 255, 255]}
+            speedFactor={0.05}
+            backgroundColor="black"
+          />
+          
           <Navbar />
           
           <div className="relative z-10 min-h-screen flex items-center justify-center px-4">

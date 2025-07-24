@@ -63,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const token = tokenData;
-    const resetUrl = `${Deno.env.get('SUPABASE_URL')?.replace('https://pgdzrvdwgoomjnnegkcn.supabase.co', 'https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com')}/reset-password?token=${token}`;
+    const resetUrl = `https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/reset-password?token=${token}`;
 
     console.log("Reset URL generated:", resetUrl);
 

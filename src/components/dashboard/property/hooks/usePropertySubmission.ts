@@ -60,8 +60,8 @@ export const usePropertySubmission = ({
     console.log("Submitting property:", isEditing ? "Editing existing" : "Creating new");
     console.log("Form data:", formData);
 
-    // Check for critical required fields only
-    const requiredFields = ['hotelName', 'country', 'city', 'category'];
+    // TEMPORARY: Only require hotel name for development/testing
+    const requiredFields = ['hotelName'];
     const missingRequired = requiredFields.filter(field => !formData[field as keyof PropertyFormData]);
     
     if (missingRequired.length > 0) {

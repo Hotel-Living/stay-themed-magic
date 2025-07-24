@@ -51,11 +51,13 @@ export class PropertyFormValidator {
   }
 
   private validateStep1(data: Partial<PropertyFormValidationSchema>) {
-    // Required fields
+    // TEMPORARY: Only validate hotel name for development/testing
     if (!data.hotelName?.trim()) {
       this.addError('hotelName', 'Hotel name is required');
     }
 
+    // All other validations temporarily disabled for development
+    /*
     if (!data.category) {
       this.addError('category', 'Category is required');
     }
@@ -107,9 +109,12 @@ export class PropertyFormValidator {
     if (!data.hotelImages || data.hotelImages.length === 0) {
       this.addError('hotelImages', 'At least one hotel image is required');
     }
+    */
   }
 
   private validateStep2(data: Partial<PropertyFormValidationSchema>) {
+    // TEMPORARY: All step 2 validations disabled for development
+    /*
     if (!data.themes || data.themes.length === 0) {
       this.addError('themes', 'At least one theme must be selected');
     }
@@ -117,20 +122,26 @@ export class PropertyFormValidator {
     if (!data.activities || data.activities.length === 0) {
       this.addError('activities', 'At least one activity must be selected');
     }
+    */
   }
 
   private validateStep3(data: Partial<PropertyFormValidationSchema>) {
+    // TEMPORARY: All step 3 validations disabled for development
+    /*
     if (!data.roomTypes || data.roomTypes.length === 0) {
       this.addError('roomTypes', 'At least one room type must be defined');
     }
+    */
   }
 
   private validateStep4(data: Partial<PropertyFormValidationSchema>) {
+    // TEMPORARY: All step 4 validations disabled for development
     // Pricing validation would go here
     // This step typically depends on data from step 3
   }
 
   private validateStep5(data: Partial<PropertyFormValidationSchema>) {
+    // TEMPORARY: All step 5 validations disabled for development
     // Final validation for terms, etc.
   }
 

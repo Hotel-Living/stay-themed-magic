@@ -166,6 +166,7 @@ function App() {
                {/* Protected Routes */}
                <Route path="/user-dashboard" element={<ProtectedRoute requireTraveler={true}><UserDashboard /></ProtectedRoute>} />
                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+               <Route path="/panel-hotel" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
                <Route path="/promoter/dashboard" element={<ProtectedRoute requirePromoter={true}><PromoterDashboard /></ProtectedRoute>} />
               <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
               {/* Old 5-step form route removed */}

@@ -25,19 +25,31 @@ export default function ResetPassword() {
     const tokenParam = searchParams.get('token');
     console.log("Token from URL:", tokenParam);
     
-    if (!tokenParam) {
-      console.log("No token found in URL");
-      setIsValidToken(false);
-      toast({
-        title: "Invalid Reset Link",
-        description: "This password reset link is invalid or has expired. Please request a new one.",
-        variant: "destructive",
-      });
-      return;
-    }
+    // Clear any existing session to prevent automatic login during password reset
+    const clearSessionAndSetToken = async () => {
+      try {
+        await supabase.auth.signOut();
+        console.log("Cleared existing session for password reset");
+      } catch (error) {
+        console.log("No session to clear or error clearing session:", error);
+      }
+      
+      if (!tokenParam) {
+        console.log("No token found in URL");
+        setIsValidToken(false);
+        toast({
+          title: "Invalid Reset Link",
+          description: "This password reset link is invalid or has expired. Please request a new one.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      setToken(tokenParam);
+      setIsValidToken(true);
+    };
     
-    setToken(tokenParam);
-    setIsValidToken(true);
+    clearSessionAndSetToken();
   }, [searchParams, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Mail, Lock, Shield } from "lucide-react";
+import { Mail, Lock, Shield, AlertTriangle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Starfield } from "@/components/Starfield";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -219,6 +220,16 @@ export default function AdminLogin() {
                   )}
                 </Button>
               </form>
+              
+              <div className="mt-4 text-center">
+                <Link 
+                  to="/emergency-admin-reset" 
+                  className="inline-flex items-center gap-2 text-xs text-red-400 hover:text-red-300 transition-colors"
+                >
+                  <AlertTriangle className="w-3 h-3" />
+                  Emergency Admin Reset
+                </Link>
+              </div>
               
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-400">

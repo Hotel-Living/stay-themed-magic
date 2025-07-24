@@ -62,11 +62,38 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Verifying admin user:", adminEmail);
 
-    // Verify the user is actually an admin
+    // First, get the user ID from auth.users using the email
+    const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
+    
+    if (userError) {
+      console.error("Error fetching users:", userError);
+      return new Response(
+        JSON.stringify({ error: "Error verifying user" }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, "Content-Type": "application/json" } 
+        }
+      );
+    }
+
+    const user = userData.users.find(u => u.email === adminEmail);
+    
+    if (!user) {
+      console.error("User not found:", adminEmail);
+      return new Response(
+        JSON.stringify({ error: "User not found" }),
+        { 
+          status: 404, 
+          headers: { ...corsHeaders, "Content-Type": "application/json" } 
+        }
+      );
+    }
+
+    // Now verify the user is actually an admin using their UUID
     const { data: adminData, error: adminError } = await supabase
       .from('admin_users')
       .select('id')
-      .eq('id', adminEmail)
+      .eq('id', user.id)
       .single();
 
     if (adminError || !adminData) {

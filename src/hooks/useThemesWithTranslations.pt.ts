@@ -14,7 +14,7 @@ const fetchThemesPT = async (): Promise<Theme[]> => {
       level, 
       parent_id, 
       sort_order,
-      theme_translations!inner(
+      theme_translations(
         name,
         description,
         locale

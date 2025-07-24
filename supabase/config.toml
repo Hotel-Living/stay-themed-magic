@@ -5,12 +5,10 @@ enabled = true
 external_url = "https://lovable.dev"
 additional_redirect_urls = ["https://lovable.dev", "https://lovable.dev/auth/callback"]
 
-# Configure custom email delivery
+# Configure email delivery - bypass Supabase's broken email system
 [auth.email]
 enable_signup = true
-enable_confirmations = true
-# Use custom edge function for password recovery
-recovery_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/send-password-recovery"
+enable_confirmations = false
 
 [storage]
 enabled = true

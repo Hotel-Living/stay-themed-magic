@@ -135,10 +135,10 @@ export function useAuthState() {
           setProfile(profileData);
           setIsLoading(false);
           
-          // Handle redirect for authenticated users
-          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-            await handleCorrectRedirect(session.user, profileData);
-          }
+      // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
+      if (event === 'SIGNED_IN') {
+        await handleCorrectRedirect(session.user, profileData);
+      }
         } else {
           setUser(null);
           setSession(null);

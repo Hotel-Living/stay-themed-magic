@@ -36,7 +36,7 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
       console.log("Sign in result:", result);
 
       if (result.success) {
-        console.log("Login successful, auth state will handle redirect");
+        console.log("Login successful, setting up feedback and fallback");
         
         // Show success feedback
         toast({
@@ -44,11 +44,12 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
           description: "You have been successfully logged in"
         });
         
-        // Set up fallback mechanism after 5 seconds
+        // Set up fallback mechanism after 3 seconds (reduced from 5)
         setTimeout(() => {
+          console.log("Activating fallback mechanism");
           setShowFallback(true);
           setIsLoading(false);
-        }, 5000);
+        }, 3000);
         
       } else {
         console.log("Login failed:", result.error);

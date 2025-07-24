@@ -106,21 +106,31 @@ export const usePropertySubmission = ({
         console.log(`Hotel update request submitted with ${changesCount} changes pending approval`);
       } else {
         // Create new hotel
+        console.log("=== STARTING HOTEL CREATION ===");
         hotelData = await createNewHotel(formData, userId);
         hotelId = hotelData.id;
+        console.log("=== HOTEL CREATION COMPLETED ===");
         console.log("New hotel created successfully:", hotelId);
+        console.log("Hotel data returned:", hotelData);
       }
       
       console.log("Processing images for hotel:", hotelId);
       
       // Handle image submissions immediately after hotel creation/update
-      if (formData.hotelImages && formData.hotelImages.length > 0) {
-        console.log("Using custom images:", formData.hotelImages);
-        await handleCustomImages(hotelId, formData.hotelImages);
-      } else if (!isEditing) {
-        // For new hotels without custom images, use auto image population
-        console.log("No custom images provided, using auto image population");
-        await handleAutoImagePopulation(hotelId, hotelData);
+      try {
+        if (formData.hotelImages && formData.hotelImages.length > 0) {
+          console.log("Using custom images:", formData.hotelImages);
+          await handleCustomImages(hotelId, formData.hotelImages);
+        } else if (!isEditing) {
+          // For new hotels without custom images, use auto image population (non-blocking)
+          console.log("No custom images provided, using auto image population");
+          handleAutoImagePopulation(hotelId, hotelData).catch(error => {
+            console.warn("Auto image population failed, but continuing:", error);
+          });
+        }
+      } catch (imageError) {
+        console.warn("Image processing failed, but hotel creation succeeded:", imageError);
+        // Don't throw - let the hotel creation succeed even if images fail
       }
       
       // For new hotels, process related data
@@ -160,15 +170,19 @@ export const usePropertySubmission = ({
         });
       }
     } catch (error: any) {
+      console.error("=== SUBMISSION ERROR ===");
       console.error("Error submitting hotel:", error);
+      console.error("Error message:", error.message);
+      console.error("Error details:", error.details);
+      console.error("Error code:", error.code);
       
       setIsSubmitted(false);
       setSubmitSuccess(false);
       
       toast({
         variant: "error",
-        title: "Submission Failed",
-        description: error.message || "There was a problem submitting your property."
+        title: "❌ Submission Failed",
+        description: error.message || "There was a problem submitting your property. Please try again."
       });
     }
   };

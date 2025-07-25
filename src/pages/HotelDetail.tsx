@@ -130,11 +130,22 @@ export default function HotelDetail() {
                 <h1 className="text-5xl font-bold text-white glow-text">
                   {hotel.name}
                 </h1>
-                {hotel.category && <div className="flex justify-center items-center space-x-2">
+                {/* Star Rating - Hotel Classification */}
+                {hotel.category && (
+                  <div className="flex justify-center items-center space-x-2">
                     {renderStars(hotel.category)}
-                  </div>}
+                  </div>
+                )}
+                
+                {/* Property Type + Property Style */}
+                {(hotel.property_type || hotel.style) && (
+                  <div className="text-white text-xl font-semibold">
+                    ESTE {(hotel.property_type || 'HOTEL').toUpperCase()} ES DE ESTILO {(hotel.style || 'CLÁSICO').toUpperCase()}
+                  </div>
+                )}
               </div>
               
+              {/* Address Block */}
               <div className="flex items-center justify-center space-x-2 text-purple-200">
                 <MapPin className="w-5 h-5" />
                 <span className="text-lg">
@@ -142,33 +153,63 @@ export default function HotelDetail() {
                 </span>
               </div>
 
-              {/* Themes and Activities */}
-              {(hotel.themes && hotel.themes.length > 0 || hotel.activities && hotel.activities.length > 0) && <div className="space-y-4 max-w-4xl mx-auto">
-                  {hotel.themes && hotel.themes.length > 0 && <div>
-                      <p className="text-white mb-3 text-lg">This hotel is ideal for people who enjoy:</p>
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {hotel.themes.map(theme => renderTag(typeof theme === 'string' ? theme : theme.name, 'affinity'))}
-                      </div>
-                    </div>}
-                  
-                  {hotel.activities && hotel.activities.length > 0 && <div>
-                      <p className="text-white mb-3 text-lg">This hotel is perfect for guests interested in:</p>
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {hotel.activities.map(activity => renderTag(typeof activity === 'string' ? activity : activity, 'activity'))}
-                      </div>
-                    </div>}
-                </div>}
+              {/* Weekly Check-in Day */}
+              {(hotel.preferredWeekday || hotel.check_in_weekday) && (
+                <div className="text-white text-lg">
+                  EL DÍA SEMANAL DE CHECK-IN EN ESTE HOTEL ES: {(hotel.preferredWeekday || hotel.check_in_weekday || 'LUNES').toUpperCase()}
+                </div>
+              )}
 
-              {/* Stay Duration and Pricing */}
-              {(hotel.stay_lengths || hotel.price_per_month) && <div className="space-y-2 text-purple-100">
-                  {hotel.stay_lengths && <p className="text-lg">
-                      This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
-                    </p>}
-                  {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
-                      The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
-                    </p>}
-                </div>}
+              {/* Client Affinities */}
+              {hotel.hotel_themes && hotel.hotel_themes.length > 0 && (
+                <div className="text-white text-lg">
+                  {hotel.hotel_themes.length === 1 
+                    ? `LA AFINIDAD DE ESTE HOTEL ES ${hotel.hotel_themes[0].themes.name.toUpperCase()}`
+                    : `LAS AFINIDADES DE ESTE HOTEL SON ${hotel.hotel_themes.map(theme => theme.themes.name.toUpperCase()).join(', ').replace(/,([^,]*)$/, ' Y$1')}`
+                  }
+                </div>
+              )}
+
+              {/* Activities */}
+              {hotel.activities && hotel.activities.length > 0 && (
+                <div className="text-white text-lg">
+                  {hotel.activities.length === 1
+                    ? `LA ACTIVIDAD DE ESTE HOTEL ES ${hotel.activities[0].toUpperCase()}`
+                    : `LAS ACTIVIDADES DE ESTE HOTEL SON ${hotel.activities.map(activity => activity.toUpperCase()).join(', ').replace(/,([^,]*)$/, ' Y$1')}`
+                  }
+                </div>
+              )}
+
+              {/* Meal Plans */}
+              {hotel.meal_plans && hotel.meal_plans.length > 0 && (
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-w-2xl mx-auto">
+                  <h3 className="text-xl font-semibold text-white mb-2">PLANES DE COMIDA DISPONIBLES:</h3>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {hotel.meal_plans.map(plan => (
+                      <span key={plan} className="px-3 py-1 bg-purple-600/50 text-white rounded-full text-sm">
+                        {plan.toUpperCase()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/* Stay Duration and Pricing */}
+            {(hotel.stay_lengths || hotel.price_per_month) && (
+              <div className="space-y-2 text-purple-100 max-w-4xl mx-auto text-center">
+                {hotel.stay_lengths && (
+                  <p className="text-lg">
+                    This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
+                  </p>
+                )}
+                {hotel.price_per_month && (
+                  <p className="text-xl font-semibold text-yellow-300">
+                    The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Visual Block */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -250,9 +291,23 @@ export default function HotelDetail() {
                           <p className="text-purple-200 mb-2">
                             <strong>Duration:</strong> {selectedPackage.duration} days
                           </p>
-                          <p className="text-purple-200 mb-4">
+                          <p className="text-purple-200 mb-2">
                             <strong>Availability:</strong> {selectedPackage.available} rooms remaining
                           </p>
+                          {hotel.meal_plans && hotel.meal_plans.length > 0 && (
+                            <div className="mb-4">
+                              <p className="text-purple-200 mb-2">
+                                <strong>Available Meal Plans:</strong>
+                              </p>
+                              <div className="flex flex-wrap gap-1">
+                                {hotel.meal_plans.map(plan => (
+                                  <span key={plan} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
+                                    {plan.toUpperCase()}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                           <div className="text-yellow-300 font-semibold">
                             <p>Double Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30))}</p>
                             <p>Single Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30) * 0.8)}</p>

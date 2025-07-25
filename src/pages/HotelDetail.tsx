@@ -150,9 +150,6 @@ export default function HotelDetail() {
                 </span>
               </div>
 
-              {/* Weekly Check-in Day */}
-              {hotel.preferredWeekday || hotel.check_in_weekday}
-
               {/* Client Affinities */}
               {hotel.hotel_themes && hotel.hotel_themes.length > 0 && <div className="text-purple-200 text-lg">
                   {hotel.hotel_themes.length === 1 ? `La afinidad que une a los clientes de este hotel es ${hotel.hotel_themes[0].themes.name}` : `Las afinidades que unen a los clientes de este hotel son ${hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/,([^,]*)$/, ' y$1')}`}

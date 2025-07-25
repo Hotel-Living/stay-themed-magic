@@ -208,6 +208,9 @@ export default function RegisterRole() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
+          {/* Clerk CAPTCHA container - required to prevent initialization errors */}
+          <div id="clerk-captcha" style={{ display: 'none' }}></div>
+          
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-4">
               What type of account do you want to create?

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
@@ -14,6 +15,7 @@ interface ValidationSubmitButtonProps {
 export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
   const { toast } = useToast();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateRequiredFields = (data: HotelRegistrationFormData) => {
@@ -117,9 +119,7 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
         });
 
         // Redirect to hotel dashboard after successful submission
-        setTimeout(() => {
-          window.location.href = '/hotel-dashboard';
-        }, 2000);
+        navigate('/hotel-dashboard');
       }
     } catch (error) {
       console.error('Error submitting hotel:', error);

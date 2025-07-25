@@ -15,7 +15,6 @@ export function Logo({ className }: { className?: string }) {
           src="/lovable-uploads/950ed52a-c737-4637-9751-d6f1db78b7b4.png" 
           alt="Hotel-Living Logo"
           loading="eager"
-          fetchPriority="high"
           className={isMobile ? "h-[77.57px]" : "h-[52px]"}
         />
       </div>

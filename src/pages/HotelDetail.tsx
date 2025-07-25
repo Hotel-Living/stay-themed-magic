@@ -132,18 +132,14 @@ export default function HotelDetail() {
                   {hotel.name}
                 </h1>
                 {/* Star Rating - Hotel Classification */}
-                {hotel.category && (
-                  <div className="flex justify-center items-center space-x-2">
+                {hotel.category && <div className="flex justify-center items-center space-x-2">
                     {renderStars(hotel.category)}
-                  </div>
-                )}
+                  </div>}
                 
                 {/* Property Type + Property Style */}
-                {(hotel.property_type || hotel.style) && (
-                  <div className="text-white text-xl font-semibold">
+                {(hotel.property_type || hotel.style) && <div className="text-white text-xl font-semibold">
                     ESTE {(hotel.property_type || 'HOTEL').toUpperCase()} ES DE ESTILO {(hotel.style || 'CLÁSICO').toUpperCase()}
-                  </div>
-                )}
+                  </div>}
               </div>
               
               {/* Address Block */}
@@ -155,62 +151,38 @@ export default function HotelDetail() {
               </div>
 
               {/* Weekly Check-in Day */}
-              {(hotel.preferredWeekday || hotel.check_in_weekday) && (
-                <div className="text-purple-200 text-lg">
-                  El día semanal de check-in en este hotel es: {(hotel.preferredWeekday || hotel.check_in_weekday || 'Lunes')}
-                </div>
-              )}
+              {hotel.preferredWeekday || hotel.check_in_weekday}
 
               {/* Client Affinities */}
-              {hotel.hotel_themes && hotel.hotel_themes.length > 0 && (
-                <div className="text-purple-200 text-lg">
-                  {hotel.hotel_themes.length === 1 
-                    ? `La afinidad de este hotel es ${hotel.hotel_themes[0].themes.name}`
-                    : `Las afinidades de este hotel son ${hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/,([^,]*)$/, ' y$1')}`
-                  }
-                </div>
-              )}
+              {hotel.hotel_themes && hotel.hotel_themes.length > 0 && <div className="text-purple-200 text-lg">
+                  {hotel.hotel_themes.length === 1 ? `La afinidad de este hotel es ${hotel.hotel_themes[0].themes.name}` : `Las afinidades de este hotel son ${hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/,([^,]*)$/, ' y$1')}`}
+                </div>}
 
               {/* Activities */}
-              {hotel.activities && hotel.activities.length > 0 && (
-                <div className="text-purple-200 text-lg">
-                  {hotel.activities.length === 1
-                    ? `La actividad de este hotel es ${hotel.activities[0]}`
-                    : `Las actividades de este hotel son ${hotel.activities.map(activity => activity).join(', ').replace(/,([^,]*)$/, ' y$1')}`
-                  }
-                </div>
-              )}
+              {hotel.activities && hotel.activities.length > 0 && <div className="text-purple-200 text-lg">
+                  {hotel.activities.length === 1 ? `La actividad de este hotel es ${hotel.activities[0]}` : `Las actividades de este hotel son ${hotel.activities.map(activity => activity).join(', ').replace(/,([^,]*)$/, ' y$1')}`}
+                </div>}
 
               {/* Meal Plans */}
-              {hotel.meal_plans && hotel.meal_plans.length > 0 && (
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-w-2xl mx-auto">
+              {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-w-2xl mx-auto">
                   <h3 className="text-xl font-semibold text-white mb-2">PLANES DE COMIDA DISPONIBLES:</h3>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {hotel.meal_plans.map(plan => (
-                      <span key={plan} className="px-3 py-1 bg-purple-600/50 text-white rounded-full text-sm">
+                    {hotel.meal_plans.map(plan => <span key={plan} className="px-3 py-1 bg-purple-600/50 text-white rounded-full text-sm">
                         {plan.toUpperCase()}
-                      </span>
-                    ))}
+                      </span>)}
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
 
             {/* Stay Duration and Pricing */}
-            {(hotel.stay_lengths || hotel.price_per_month) && (
-              <div className="space-y-2 text-purple-100 max-w-4xl mx-auto text-center">
-                {hotel.stay_lengths && (
-                  <p className="text-lg">
+            {(hotel.stay_lengths || hotel.price_per_month) && <div className="space-y-2 text-purple-100 max-w-4xl mx-auto text-center">
+                {hotel.stay_lengths && <p className="text-lg">
                     This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
-                  </p>
-                )}
-                {hotel.price_per_month && (
-                  <p className="text-xl font-semibold text-yellow-300">
+                  </p>}
+                {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
                     The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
-                  </p>
-                )}
-              </div>
-            )}
+                  </p>}
+              </div>}
 
             {/* Visual Block */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -264,26 +236,21 @@ export default function HotelDetail() {
                 <h2 className="text-2xl font-bold text-white mb-6 glow-text text-center">AVAILABILITY & PRICING</h2>
                 
                 {/* Duration Display */}
-                {availabilityPackages[0] && (
-                  <div className="mb-4 text-center">
+                {availabilityPackages[0] && <div className="mb-4 text-center">
                     <p className="text-white text-xl font-semibold">
                       {availabilityPackages[0].duration} days
                     </p>
-                  </div>
-                )}
+                  </div>}
                 
                 {/* Meal Plan Display */}
-                {hotel.meal_plans && hotel.meal_plans.length > 0 && (
-                  <div className="mb-6 text-center">
+                {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="mb-6 text-center">
                     <p className="text-white text-xl font-semibold">
                       MEAL PLAN INCLUDED: {hotel.meal_plans.join(', ')}
                     </p>
-                  </div>
-                )}
+                  </div>}
                 
                 {/* Pricing per person for room types */}
-                {hotel.price_per_month && (
-                  <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                {hotel.price_per_month && <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                     <div className="text-center bg-purple-800/30 p-4 rounded-lg">
                       <p className="text-white text-lg font-semibold mb-2">DOUBLE ROOM:</p>
                       <p className="text-yellow-300 text-xl font-bold">
@@ -293,28 +260,25 @@ export default function HotelDetail() {
                     <div className="text-center bg-purple-800/30 p-4 rounded-lg">
                       <p className="text-white text-lg font-semibold mb-2">SINGLE ROOM:</p>
                       <p className="text-yellow-300 text-xl font-bold">
-                        USD ${Math.round((hotel.price_per_month / 30) * 1.2)} per person
+                        USD ${Math.round(hotel.price_per_month / 30 * 1.2)} per person
                       </p>
                     </div>
-                  </div>
-                )}
+                  </div>}
                 
                 {/* Available Dates Display */}
                 <div className="mb-6 text-center">
                   <p className="text-white text-xl font-semibold">
-                    AVAILABLE DATES: {availabilityPackages
-                      .filter(pkg => pkg.startDate && pkg.endDate) // Filter out packages with invalid dates
-                      .map(pkg => {
-                        const startDate = new Date(pkg.startDate);
-                        const endDate = new Date(pkg.endDate);
-                        // Check if dates are valid before formatting
-                        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-                          return null;
-                        }
-                        return `${format(startDate, 'MM/dd/yyyy')} - ${format(endDate, 'MM/dd/yyyy')}`;
-                      })
-                      .filter(Boolean) // Remove null values
-                      .join(', ') || 'No valid dates available'}
+                    AVAILABLE DATES: {availabilityPackages.filter(pkg => pkg.startDate && pkg.endDate) // Filter out packages with invalid dates
+                .map(pkg => {
+                  const startDate = new Date(pkg.startDate);
+                  const endDate = new Date(pkg.endDate);
+                  // Check if dates are valid before formatting
+                  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                    return null;
+                  }
+                  return `${format(startDate, 'MM/dd/yyyy')} - ${format(endDate, 'MM/dd/yyyy')}`;
+                }).filter(Boolean) // Remove null values
+                .join(', ') || 'No valid dates available'}
                   </p>
                 </div>
                 
@@ -350,20 +314,16 @@ export default function HotelDetail() {
                           <p className="text-purple-200 mb-2">
                             <strong>Availability:</strong> {selectedPackage.available} rooms remaining
                           </p>
-                          {hotel.meal_plans && hotel.meal_plans.length > 0 && (
-                            <div className="mb-4">
+                          {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="mb-4">
                               <p className="text-purple-200 mb-2">
                                 <strong>Available Meal Plans:</strong>
                               </p>
                               <div className="flex flex-wrap gap-1">
-                                {hotel.meal_plans.map(plan => (
-                                  <span key={plan} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
+                                {hotel.meal_plans.map(plan => <span key={plan} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
                                     {plan.toUpperCase()}
-                                  </span>
-                                ))}
+                                  </span>)}
                               </div>
-                            </div>
-                          )}
+                            </div>}
                           <div className="text-yellow-300 font-semibold">
                             <p>Double Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30))}</p>
                             <p>Single Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30) * 0.8)}</p>

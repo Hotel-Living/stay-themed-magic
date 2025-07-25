@@ -7,6 +7,7 @@ import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function SignIn() {
   const { user } = useUser();
@@ -27,10 +28,44 @@ export default function SignIn() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect if already logged in
+  // Redirect if already logged in with role detection
   useEffect(() => {
+    const checkUserRole = async () => {
+      if (user?.emailAddresses?.[0]?.emailAddress) {
+        const email = user.emailAddresses[0].emailAddress;
+        
+        // Check if user has a role assigned
+        const { data } = await supabase.rpc('check_email_role_exists', { 
+          p_email: email 
+        });
+        
+        if (data) {
+          // User has a role, redirect to appropriate dashboard
+          switch (data) {
+            case 'traveler':
+              navigate('/user-dashboard');
+              break;
+            case 'hotel':
+              navigate('/hotel-dashboard');
+              break;
+            case 'association':
+              navigate('/panel-asociacion');
+              break;
+            case 'promoter':
+              navigate('/promoter/dashboard');
+              break;
+            default:
+              navigate('/user-dashboard');
+          }
+        } else {
+          // User has no role, redirect to role selection
+          navigate('/register-role');
+        }
+      }
+    };
+
     if (user) {
-      navigate('/user-dashboard');
+      checkUserRole();
     }
   }, [user, navigate]);
 
@@ -47,13 +82,40 @@ export default function SignIn() {
 
     setIsLoading(true);
     try {
-      await signUp?.create({
+      // Check if email already has a role assigned
+      const { data: existingRole } = await supabase.rpc('check_email_role_exists', { 
+        p_email: email 
+      });
+      
+      if (existingRole) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Este correo ya está registrado con otro tipo de cuenta."
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Create account with email verification required
+      const signUpAttempt = await signUp?.create({
         emailAddress: email,
         password: password,
       });
+
+      // Send email verification
+      await signUp?.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      // Show verification message
+      toast({
+        title: "Verificación requerida",
+        description: "Hemos enviado un email de verificación. Por favor, compruébalo para continuar."
+      });
       
-      // Redirect to role selection after successful signup
-      navigate('/register-role');
+      // Clear form
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -76,7 +138,33 @@ export default function SignIn() {
       });
 
       if (result?.status === 'complete') {
-        // User will be redirected automatically by the useEffect above
+        // Check user role and redirect appropriately
+        const { data: userRole } = await supabase.rpc('check_email_role_exists', { 
+          p_email: email 
+        });
+        
+        if (userRole) {
+          // User has role, redirect to appropriate dashboard
+          switch (userRole) {
+            case 'traveler':
+              navigate('/user-dashboard');
+              break;
+            case 'hotel':
+              navigate('/hotel-dashboard');
+              break;
+            case 'association':
+              navigate('/panel-asociacion');
+              break;
+            case 'promoter':
+              navigate('/promoter/dashboard');
+              break;
+            default:
+              navigate('/user-dashboard');
+          }
+        } else {
+          // User has no role, redirect to role selection
+          navigate('/register-role');
+        }
       }
     } catch (error: any) {
       toast({

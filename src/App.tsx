@@ -121,7 +121,7 @@ function App() {
                <Route path="/search" element={<Search />} />
                 <Route path="/auth" element={<ClerkAuth />} />
                 <Route path="/register-role" element={<RegisterRole />} />
-                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signing" element={<SignIn />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />

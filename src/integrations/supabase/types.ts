@@ -1685,15 +1685,27 @@ export type Database = {
       }
       user_roles: {
         Row: {
+          created_at: string | null
+          email: string | null
+          id: string | null
           role: string
+          updated_at: string | null
           user_id: string
         }
         Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string | null
           role: string
+          updated_at?: string | null
           user_id: string
         }
         Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string | null
           role?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -1707,9 +1719,17 @@ export type Database = {
         Args: { user_email: string }
         Returns: undefined
       }
+      assign_user_role: {
+        Args: { p_user_id: string; p_email: string; p_role: string }
+        Returns: boolean
+      }
       check_agent_hotel_eligibility: {
         Args: { p_hotel_id: string; p_agent_id: string }
         Returns: boolean
+      }
+      check_email_role_exists: {
+        Args: { p_email: string }
+        Returns: string
       }
       check_package_availability: {
         Args: { p_package_id: string; p_rooms_needed: number }

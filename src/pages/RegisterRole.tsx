@@ -1,23 +1,127 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterRole() {
   const navigate = useNavigate();
+  const { user } = useUser();
+  const { toast } = useToast();
   const { t, isReady } = useTranslation('auth');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleAccountTypeSelect = (accountType: string) => {
-    navigate(`/signup-${accountType}`);
+  // Check if user already has a role assigned
+  useEffect(() => {
+    const checkExistingRole = async () => {
+      if (user?.emailAddresses?.[0]?.emailAddress) {
+        const email = user.emailAddresses[0].emailAddress;
+        const { data: existingRole } = await supabase.rpc('check_email_role_exists', { 
+          p_email: email 
+        });
+        
+        if (existingRole) {
+          // User already has a role, redirect to appropriate dashboard
+          switch (existingRole) {
+            case 'traveler':
+              navigate('/user-dashboard');
+              break;
+            case 'hotel':
+              navigate('/hotel-dashboard');
+              break;
+            case 'association':
+              navigate('/panel-asociacion');
+              break;
+            case 'promoter':
+              navigate('/promoter/dashboard');
+              break;
+            default:
+              navigate('/user-dashboard');
+          }
+        }
+      }
+    };
+
+    if (user) {
+      checkExistingRole();
+    }
+  }, [user, navigate]);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
+      navigate('/signing');
+    }
+  }, [user, navigate]);
+
+  const handleAccountTypeSelect = async (accountType: string) => {
+    if (!user?.emailAddresses?.[0]?.emailAddress) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No se pudo obtener la información del usuario"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const email = user.emailAddresses[0].emailAddress;
+      const userId = user.id;
+
+      // Assign role to user
+      const { data: success } = await supabase.rpc('assign_user_role', {
+        p_user_id: userId,
+        p_email: email,
+        p_role: accountType
+      });
+
+      if (success) {
+        // Role assigned successfully, redirect to appropriate dashboard
+        switch (accountType) {
+          case 'traveler':
+            navigate('/user-dashboard');
+            break;
+          case 'hotel':
+            navigate('/hotel-dashboard');
+            break;
+          case 'association':
+            navigate('/panel-asociacion');
+            break;
+          case 'promoter':
+            navigate('/promoter/dashboard');
+            break;
+          default:
+            navigate('/user-dashboard');
+        }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Este correo ya está registrado con otro tipo de cuenta."
+        });
+      }
+    } catch (error) {
+      console.error('Error assigning role:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error al asignar el rol. Intenta nuevamente."
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Show loading until i18n is ready
@@ -50,30 +154,34 @@ export default function RegisterRole() {
           <div className="space-y-4">
             <Button 
               onClick={() => handleAccountTypeSelect('traveler')}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+              disabled={isLoading}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              Traveler
+              {isLoading ? "Procesando..." : "Traveler"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('hotel')}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+              disabled={isLoading}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              Hotel Partner
+              {isLoading ? "Procesando..." : "Hotel Partner"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('association')}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+              disabled={isLoading}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              Association
+              {isLoading ? "Procesando..." : "Association"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('promoter')}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+              disabled={isLoading}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              Promoter
+              {isLoading ? "Procesando..." : "Promoter"}
             </Button>
           </div>
           
@@ -81,7 +189,7 @@ export default function RegisterRole() {
             <p className="text-white/80 text-sm">
               Already have an account?{" "}
               <button 
-                onClick={() => navigate('/signin')}
+                onClick={() => navigate('/signing')}
                 className="text-white underline hover:text-white/80"
               >
                 Sign in here

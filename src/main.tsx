@@ -17,7 +17,11 @@ const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
 createRoot(rootElement).render(
-  <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+  <ClerkProvider 
+    publishableKey={CLERK_PUBLISHABLE_KEY}
+    afterSignUpUrl="/register-role"
+    afterSignInUrl="/register-role"
+  >
     <App />
   </ClerkProvider>
 );

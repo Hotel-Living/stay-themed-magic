@@ -46,20 +46,32 @@ export async function getUserRoles(userId: string) {
   }
 }
 
-export async function getUserByEmail(email: string) {
+export async function assignRoleToClerkUser(clerkUserId: string, email: string, role: string) {
   try {
-    // First try to get from auth.users via RPC or edge function
-    // For now, we'll use a workaround by checking profiles table
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("id, first_name, last_name")
-      .ilike("id", `%${email}%`) // This is a limitation - we need email in profiles
-      .single();
+    const { data, error } = await supabase.rpc('assign_user_role_clerk', { 
+      clerk_user_id: clerkUserId,
+      p_email: email,
+      p_role: role 
+    });
     
     if (error) throw error;
-    return { user: data, error: null };
+    return { success: data, error: null };
   } catch (error) {
-    console.error("Error fetching user by email:", error);
-    return { user: null, error };
+    console.error("Error assigning role to Clerk user:", error);
+    return { success: false, error };
+  }
+}
+
+export async function checkEmailHasRole(email: string) {
+  try {
+    const { data, error } = await supabase.rpc('check_email_role_exists', { 
+      p_email: email 
+    });
+    
+    if (error) throw error;
+    return { role: data, error: null };
+  } catch (error) {
+    console.error("Error checking email role:", error);
+    return { role: null, error };
   }
 }

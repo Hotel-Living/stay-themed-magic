@@ -17,6 +17,7 @@ export default function RegisterRole() {
   const { toast } = useToast();
   const { t, isReady } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSessionReady, setIsSessionReady] = useState(false);
 
   // Scroll to top on page load
   useEffect(() => {
@@ -72,16 +73,39 @@ export default function RegisterRole() {
     }
   }, [user, isLoaded, navigate]);
 
+  // Monitor session readiness
+  useEffect(() => {
+    const checkSessionReadiness = () => {
+      if (isLoaded && isSignedIn && user?.id && (user.emailAddresses?.[0]?.emailAddress || user.primaryEmailAddress?.emailAddress)) {
+        setIsSessionReady(true);
+      } else {
+        setIsSessionReady(false);
+      }
+    };
+
+    checkSessionReadiness();
+  }, [isLoaded, isSignedIn, user]);
+
   // Note: Removed redirect to /signing as users arrive here after successful authentication
   // If a user somehow reaches this page without authentication, Clerk will handle the redirect
 
   const handleAccountTypeSelect = async (accountType: string) => {
-    // Wait for Clerk to fully load and session to be established before proceeding
+    // First check: Basic Clerk state validation
     if (!isLoaded || !user || !isSignedIn) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Estableciendo sesión, por favor espera unos segundos..."
+      });
+      return;
+    }
+
+    // Second check: Session readiness validation
+    if (!isSessionReady) {
+      toast({
+        variant: "destructive",
+        title: "Error", 
+        description: "Esperando confirmación de sesión, inténtalo en unos segundos..."
       });
       return;
     }
@@ -193,34 +217,34 @@ export default function RegisterRole() {
           <div className="space-y-4">
             <Button 
               onClick={() => handleAccountTypeSelect('traveler')}
-              disabled={isLoading}
+              disabled={isLoading || !isSessionReady}
               className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              {isLoading ? "Procesando..." : "Traveler"}
+              {isLoading ? "Procesando..." : !isSessionReady ? "Preparando sesión..." : "Traveler"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('hotel')}
-              disabled={isLoading}
+              disabled={isLoading || !isSessionReady}
               className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              {isLoading ? "Procesando..." : "Hotel Partner"}
+              {isLoading ? "Procesando..." : !isSessionReady ? "Preparando sesión..." : "Hotel Partner"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('association')}
-              disabled={isLoading}
+              disabled={isLoading || !isSessionReady}
               className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              {isLoading ? "Procesando..." : "Association"}
+              {isLoading ? "Procesando..." : !isSessionReady ? "Preparando sesión..." : "Association"}
             </Button>
             
             <Button 
               onClick={() => handleAccountTypeSelect('promoter')}
-              disabled={isLoading}
+              disabled={isLoading || !isSessionReady}
               className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
             >
-              {isLoading ? "Procesando..." : "Promoter"}
+              {isLoading ? "Procesando..." : !isSessionReady ? "Preparando sesión..." : "Promoter"}
             </Button>
           </div>
           

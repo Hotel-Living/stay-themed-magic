@@ -51,12 +51,12 @@ export function Navbar() {
       </PopoverTrigger>
       <PopoverContent className="w-40 bg-white shadow-lg rounded-xl border border-gray-200 z-50" align="end">
         <div className="flex flex-col gap-2 p-2">
-          <Link to="/login" className="w-full">
+          <Link to="/signing" className="w-full">
             <Button variant="outline" className="w-full text-sm font-medium">
               {t('mainNavigationContent.login.mobile')}
             </Button>
           </Link>
-          <Link to="/signup" className="w-full">
+          <Link to="/signing" className="w-full">
             <Button variant="outline" className="w-full text-sm font-medium">
               {t('mainNavigationContent.signup.mobile')}
             </Button>

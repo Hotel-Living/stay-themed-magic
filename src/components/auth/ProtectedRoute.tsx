@@ -61,11 +61,19 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     const isAssociationUser = userRole === 'association';
     const isPromoterUser = userRole === 'promoter';
     const isHotelOwnerUser = userRole === 'hotel_owner';
+    const isTravelerUser = userRole === 'guest';
+    
+    // CRITICAL: If user has any assigned role but is still on /register-role, prevent rendering
+    // This eliminates the flash that shows user dashboard before redirecting away from role selection
+    if (currentPath === '/register-role' && (isAssociationUser || isPromoterUser || isHotelOwnerUser || isTravelerUser)) {
+      console.log(`User with role ${userRole} still on register-role page, preventing render until redirect`);
+      return null; // Render nothing to eliminate flash
+    }
     
     // If user has a role but is on the wrong dashboard path, render nothing until redirect completes
-    if ((isAssociationUser && currentPath !== '/panel-asociacion') ||
-        (isPromoterUser && currentPath !== '/promoter/dashboard') ||
-        (isHotelOwnerUser && currentPath !== '/panel-hotel' && currentPath !== '/hotel-dashboard')) {
+    if ((isAssociationUser && currentPath !== '/panel-asociacion' && currentPath !== '/register-role') ||
+        (isPromoterUser && currentPath !== '/promoter/dashboard' && currentPath !== '/register-role') ||
+        (isHotelOwnerUser && currentPath !== '/panel-hotel' && currentPath !== '/hotel-dashboard' && currentPath !== '/register-role')) {
       console.log("User has role but is on wrong path, preventing render until redirect");
       return null; // Render nothing to eliminate flash
     }

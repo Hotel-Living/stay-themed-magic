@@ -69,7 +69,7 @@ export default function HotelDetail() {
         <Navbar />
         <BubbleCounter />
         <main className="flex-1 flex items-center justify-center">
-          <div className="text-white text-xl">Loading hotel details...</div>
+          <div className="text-white text-xl">{t('detail.loadingHotelDetails')}</div>
         </main>
         <Footer />
         <HotelPageAvatar />
@@ -139,7 +139,7 @@ export default function HotelDetail() {
                 
                 {/* Property Type + Property Style */}
                 {(hotel.property_type || hotel.style) && <div className="text-white text-xl font-semibold">
-                    ESTE {(hotel.property_type || 'HOTEL').toUpperCase()} ES DE ESTILO {(hotel.style || 'CLÁSICO').toUpperCase()}
+                    {t('detail.propertyTypeStyle', { type: (hotel.property_type || 'HOTEL').toUpperCase(), style: (hotel.style || 'CLÁSICO').toUpperCase() })}
                   </div>}
               </div>
               
@@ -153,12 +153,12 @@ export default function HotelDetail() {
 
               {/* Client Affinities */}
               {hotel.hotel_themes && hotel.hotel_themes.length > 0 && <div className="text-xl font-semibold text-yellow-300">
-                  {hotel.hotel_themes.length === 1 ? `La afinidad que une a los clientes de este hotel es ${hotel.hotel_themes[0].themes.name}` : `Las afinidades que unen a los clientes de este hotel son ${hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/,([^,]*)$/, ' y$1')}`}
+                  {t('detail.affinitiesText')} {hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`)}.
                 </div>}
 
               {/* Activities */}
               {hotel.activities && hotel.activities.length > 0 && <div className="text-xl font-semibold text-yellow-300">
-                  {hotel.activities.length === 1 ? `La actividad de este hotel es ${hotel.activities[0]}` : `Las actividades de este hotel son ${hotel.activities.map(activity => activity).join(', ').replace(/,([^,]*)$/, ' y$1')}`}
+                  {t('detail.activitiesText')} {hotel.activities.join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`)}.
                 </div>}
 
               {/* Meal Plans */}
@@ -172,12 +172,12 @@ export default function HotelDetail() {
                   if (validLengths.length > 0) {
                     if (validLengths.length === 1) {
                       return <p className="text-lg">
-                        This hotel offers {validLengths[0] === 29 ? 'monthly stays' : `stays of ${validLengths[0]} days`}.
+                        {t('detail.hotelOffersStays')} {validLengths[0] === 29 ? t('detail.monthlyStays') : `${validLengths[0]} ${t('detail.days')}`}.
                       </p>;
                     } else {
-                      const formattedLengths = validLengths.join(', ').replace(/,([^,]*)$/, ' and$1');
+                      const formattedLengths = validLengths.join(', ').replace(/,([^,]*)$/, ` ${t('detail.and')}$1`);
                       return <p className="text-lg">
-                        This hotel offers stays of {formattedLengths} days.
+                        {t('detail.hotelOffersStays')} {formattedLengths} {t('detail.days')}.
                       </p>;
                     }
                   }
@@ -242,7 +242,7 @@ export default function HotelDetail() {
                 {/* Duration Display */}
                 {availabilityPackages[0] && <div className="mb-4 text-center">
                     <p className="text-white text-xl font-semibold">
-                      {availabilityPackages[0].duration} days
+                      {availabilityPackages[0].duration} {t('detail.days')}
                     </p>
                   </div>}
                 
@@ -328,10 +328,10 @@ export default function HotelDetail() {
                                   </span>)}
                               </div>
                             </div>}
-                          <div className="text-yellow-300 font-semibold">
-                            <p>Double Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30))}</p>
-                            <p>Single Occupancy: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30) * 0.8)}</p>
-                          </div>
+                           <div className="text-yellow-300 font-semibold">
+                             <p>{t('detail.doubleOccupancy')}: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30))}</p>
+                             <p>{t('detail.singleOccupancy')}: {hotel.currency || '€'}{Math.round(hotel.price_per_month * (selectedPackage.duration / 30) * 0.8)}</p>
+                           </div>
                         </div>
                         <div className="space-y-3">
                           <div className="p-4 bg-yellow-900/30 rounded-lg border border-yellow-600/50">

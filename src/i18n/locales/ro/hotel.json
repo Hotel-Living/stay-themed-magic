@@ -31,6 +31,11 @@
     "and": "și",
     "proportionalPrice": "Prețul proporțional pentru un sejur lunar este",
     "affinitiesText": "Afinitățile care unesc clienții acestui hotel sunt",
-    "activitiesText": "Activitățile acestui hotel sunt"
+    "activitiesText": "Activitățile acestui hotel sunt",
+    "propertyTypeStyle": "ACEST {{type}} ESTE DE STIL {{style}}",
+    "monthlyStays": "sejururi lunare",
+    "loadingHotelDetails": "Se încarcă detaliile hotelului...",
+    "doubleOccupancy": "Ocupare Dublă",
+    "singleOccupancy": "Ocupare Individuală"
   }
 }

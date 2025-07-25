@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
+
 interface HotelFeaturesInfoProps {
   hotelFeatures: string[];
   roomFeatures: string[];
@@ -7,6 +9,7 @@ export function HotelFeaturesInfo({
   hotelFeatures,
   roomFeatures
 }: HotelFeaturesInfoProps) {
+  const { t } = useTranslation('hotel');
   // Process and ensure we have valid arrays
   const validHotelFeatures = Array.isArray(hotelFeatures) ? hotelFeatures.filter(Boolean) : [];
   const validRoomFeatures = Array.isArray(roomFeatures) ? roomFeatures.filter(Boolean) : [];
@@ -18,7 +21,7 @@ export function HotelFeaturesInfo({
   return <div className="my-6 p-4 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {validHotelFeatures.length > 0 && <div>
-            <h3 className="text-xl font-semibold mb-4 text-white text-left">HOTEL FEATURES</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white text-left">{t('detail.hotelFeatures')}</h3>
             <div className="grid grid-cols-2 gap-2">
               {validHotelFeatures.map((feature, index) => <div key={index} className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-white rounded-full" />
@@ -28,7 +31,7 @@ export function HotelFeaturesInfo({
           </div>}
         
         {validRoomFeatures.length > 0 && <div>
-            <h3 className="text-xl font-semibold mb-4 text-white text-left">ROOM FEATURES</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white text-left">{t('detail.roomFeatures')}</h3>
             <div className="grid grid-cols-2 gap-2">
               {validRoomFeatures.map((feature, index) => <div key={index} className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-white rounded-full" />

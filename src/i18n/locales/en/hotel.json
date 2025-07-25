@@ -31,6 +31,11 @@
     "and": "and",
     "proportionalPrice": "The proportional price for a monthly stay is",
     "affinitiesText": "The affinities that unite the clients of this hotel are",
-    "activitiesText": "The activities of this hotel are"
+    "activitiesText": "The activities of this hotel are",
+    "propertyTypeStyle": "THIS {{type}} IS {{style}} STYLE",
+    "monthlyStays": "monthly stays",
+    "loadingHotelDetails": "Loading hotel details...",
+    "doubleOccupancy": "Double Occupancy",
+    "singleOccupancy": "Single Occupancy"
   }
 }

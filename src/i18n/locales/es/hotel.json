@@ -1,0 +1,9 @@
+{
+  "hotel": {
+    "detail": {
+      "idealForGuests": "Ideal para huéspedes que...",
+      "atmosphere": "El ambiente es...",
+      "locationPerfectFor": "Nuestra ubicación es perfecta para..."
+    }
+  }
+}

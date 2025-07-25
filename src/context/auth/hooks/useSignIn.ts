@@ -135,21 +135,8 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         return { success: false, error: errorMsg };
       }
 
-      // Check if email is confirmed
-      if (!data.user.email_confirmed_at) {
-        console.log("Email not confirmed");
-        // Sign out the user since email is not confirmed
-        await supabase.auth.signOut();
-        
-        const emailErrorMsg = "Please confirm your email before accessing your account";
-        setSignInError(emailErrorMsg);
-        toast({
-          title: "Email Confirmation Required",
-          description: emailErrorMsg,
-          variant: "destructive"
-        });
-        return { success: false, error: emailErrorMsg };
-      }
+      // User authenticated successfully - no email verification required
+      console.log("User authenticated successfully");
 
       console.log("Supabase sign in successful");
       console.log("User metadata:", data.user.user_metadata);

@@ -67,12 +67,8 @@ export default function RegisterRole() {
     }
   }, [user, isLoaded, navigate]);
 
-  // Redirect to login if not authenticated (but only after Clerk has loaded)
-  useEffect(() => {
-    if (isLoaded && !user) {
-      navigate('/signing');
-    }
-  }, [user, isLoaded, navigate]);
+  // Note: Removed redirect to /signing as users arrive here after successful authentication
+  // If a user somehow reaches this page without authentication, Clerk will handle the redirect
 
   const handleAccountTypeSelect = async (accountType: string) => {
     if (!user?.emailAddresses?.[0]?.emailAddress || !user?.id) {

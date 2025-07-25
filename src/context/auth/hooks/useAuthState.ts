@@ -168,7 +168,6 @@ export function useAuthState() {
             .single();
           
           setProfile(profileData);
-          setIsLoading(false);
           
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
           // BUT exclude password reset pages and register-role page to allow users to complete the flow
@@ -178,11 +177,20 @@ export function useAuthState() {
                          profileData.role !== undefined &&
                          profileData.role !== '';
           
-          if (event === 'SIGNED_IN' && 
-              !currentPath.includes('/reset-password') && 
-              !currentPath.includes('/register-role') &&
-              hasRole) { // Only redirect if user has any role assigned (including 'guest')
+          // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
+          const needsRedirect = event === 'SIGNED_IN' && 
+                               !currentPath.includes('/reset-password') && 
+                               !currentPath.includes('/register-role') &&
+                               hasRole;
+          
+          if (needsRedirect) {
+            // Set redirecting BEFORE ending loading to prevent flash
+            setIsRedirecting(true);
             await handleCorrectRedirect(session.user, profileData);
+            // isRedirecting will be cleared in handleCorrectRedirect
+          } else {
+            // No redirect needed, safe to show current page
+            setIsLoading(false);
           }
         } else {
           setUser(null);

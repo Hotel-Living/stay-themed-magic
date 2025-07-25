@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser, useSignUp, useSignIn } from "@clerk/clerk-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
@@ -8,11 +7,10 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignIn() {
-  const { user } = useUser();
-  const { signUp } = useSignUp();
-  const { signIn } = useSignIn();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t, isReady } = useTranslation('auth');
@@ -31,12 +29,10 @@ export default function SignIn() {
   // Redirect if already logged in with role detection
   useEffect(() => {
     const checkUserRole = async () => {
-      if (user?.emailAddresses?.[0]?.emailAddress) {
-        const email = user.emailAddresses[0].emailAddress;
-        
+      if (user?.email) {
         // Check if user has a role assigned
         const { data } = await supabase.rpc('check_email_role_exists', { 
-          p_email: email 
+          p_email: user.email 
         });
         
         if (data) {
@@ -97,17 +93,18 @@ export default function SignIn() {
         return;
       }
 
-      // Create account with email verification required
-      const signUpAttempt = await signUp?.create({
-        emailAddress: email,
-        password: password,
+      // Create account with Supabase
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/register-role`
+        }
       });
 
-      // Send email verification with link strategy
-      await signUp?.prepareEmailAddressVerification({ 
-        strategy: "email_link",
-        redirectUrl: `${window.location.origin}/register-role`
-      });
+      if (error) {
+        throw error;
+      }
 
       // Show verification message
       toast({
@@ -123,7 +120,7 @@ export default function SignIn() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.errors?.[0]?.message || "Error al crear la cuenta"
+        description: error.message || "Error al crear la cuenta"
       });
     } finally {
       setIsLoading(false);
@@ -135,45 +132,21 @@ export default function SignIn() {
     setIsLoading(true);
     
     try {
-      const result = await signIn?.create({
-        identifier: email,
-        password: password,
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      if (result?.status === 'complete') {
-        // Check user role and redirect appropriately
-        const { data: userRole } = await supabase.rpc('check_email_role_exists', { 
-          p_email: email 
-        });
-        
-        if (userRole) {
-          // User has role, redirect to appropriate dashboard
-          switch (userRole) {
-            case 'traveler':
-              navigate('/user-dashboard');
-              break;
-            case 'hotel':
-              navigate('/hotel-dashboard');
-              break;
-            case 'association':
-              navigate('/panel-asociacion');
-              break;
-            case 'promoter':
-              navigate('/promoter/dashboard');
-              break;
-            default:
-              navigate('/user-dashboard');
-          }
-        } else {
-          // User has no role, redirect to role selection
-          navigate('/register-role');
-        }
+      if (error) {
+        throw error;
       }
+
+      // Navigation will be handled by the useEffect hook above
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.errors?.[0]?.message || "Error al iniciar sesión"
+        description: error.message || "Error al iniciar sesión"
       });
     } finally {
       setIsLoading(false);

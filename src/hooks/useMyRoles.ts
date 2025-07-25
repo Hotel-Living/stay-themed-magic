@@ -1,13 +1,13 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth } from "@/context/AuthContext";
 
 export function useMyRoles() {
   const [roles, setRoles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchMyRoles = async () => {
@@ -17,9 +17,7 @@ export function useMyRoles() {
       }
 
       try {
-        const { data, error } = await supabase.rpc('get_user_roles_clerk', { 
-          clerk_user_id: user.id 
-        }) as { data: { role: string }[] | null, error: any };
+        const { data, error } = await supabase.rpc('get_my_roles');
         
         if (error) {
           setError(error.message);

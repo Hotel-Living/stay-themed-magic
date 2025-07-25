@@ -35,10 +35,10 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     );
   }
 
-  // If no user or session, redirect to login
+  // If no user or session, redirect to signing page
   if (!user || !session) {
-    console.log("No user or session, redirecting to login");
-    return <Navigate to="/login" replace />;
+    console.log("No user or session, redirecting to signing");
+    return <Navigate to="/signing" replace />;
   }
 
   // Early detection and handling for special user types

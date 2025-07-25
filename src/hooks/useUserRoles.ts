@@ -46,10 +46,10 @@ export async function getUserRoles(userId: string) {
   }
 }
 
-export async function assignRoleToClerkUser(clerkUserId: string, email: string, role: string) {
+export async function assignUserRole(userId: string, email: string, role: string) {
   try {
-    const { data, error } = await supabase.rpc('assign_user_role_clerk', { 
-      clerk_user_id: clerkUserId,
+    const { data, error } = await supabase.rpc('assign_user_role', { 
+      p_user_id: userId,
       p_email: email,
       p_role: role 
     });
@@ -57,7 +57,7 @@ export async function assignRoleToClerkUser(clerkUserId: string, email: string, 
     if (error) throw error;
     return { success: data, error: null };
   } catch (error) {
-    console.error("Error assigning role to Clerk user:", error);
+    console.error("Error assigning role to user:", error);
     return { success: false, error };
   }
 }

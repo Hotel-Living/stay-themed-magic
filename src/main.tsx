@@ -1,9 +1,7 @@
 
 import { createRoot } from 'react-dom/client'
-import { ClerkProvider } from '@clerk/clerk-react'
 import App from './App.tsx'
 import './styles/index.css'
-import { CLERK_PUBLISHABLE_KEY } from './clerk.config'
 
 // Add structured logging for better debugging
 console.log('Application starting...', {
@@ -16,24 +14,4 @@ console.log('Application starting...', {
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
-createRoot(rootElement).render(
-  <ClerkProvider 
-    publishableKey={CLERK_PUBLISHABLE_KEY}
-    routerPush={(to) => window.location.assign(to)}
-    routerReplace={(to) => window.location.replace(to)}
-    telemetry={false}
-    appearance={{
-      elements: {
-        // Disable default Clerk UI components that we don't use
-        formButtonPrimary: { display: 'none' },
-        dividerLine: { display: 'none' },
-        dividerText: { display: 'none' },
-        footerAction: { display: 'none' },
-        footerActionLink: { display: 'none' },
-        footer: { display: 'none' }
-      }
-    }}
-  >
-    <App />
-  </ClerkProvider>
-);
+createRoot(rootElement).render(<App />);

@@ -9,6 +9,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTranslations";
+import { useFilterTranslations } from "@/hooks/useFilterTranslations";
+import { useThemesWithTranslations } from "@/hooks/useThemesWithTranslations";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
 import BubbleCounter from "@/components/common/BubbleCounter";
@@ -36,6 +38,8 @@ export default function HotelDetail() {
     language,
     t
   } = useTranslation('hotel');
+  const { translateMealPlans, translateHotelFeatures, translateRoomFeatures } = useFilterTranslations();
+  const { data: themes } = useThemesWithTranslations();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const {
@@ -152,9 +156,18 @@ export default function HotelDetail() {
               </div>
 
               {/* Client Affinities */}
-              {hotel.hotel_themes && hotel.hotel_themes.length > 0 && <div className="text-xl font-semibold text-yellow-300">
-                  {t('detail.affinitiesText')} {hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`)}.
-                </div>}
+              {hotel.hotel_themes && hotel.hotel_themes.length > 0 && (() => {
+                const translatedThemes = hotel.hotel_themes.map(hotelTheme => {
+                  const translatedTheme = themes?.find(t => t.id === hotelTheme.theme_id);
+                  return translatedTheme ? translatedTheme.name : hotelTheme.themes?.name || '';
+                }).filter(Boolean);
+                
+                if (translatedThemes.length === 0) return null;
+                
+                return <div className="text-xl font-semibold text-yellow-300">
+                  {t('detail.affinitiesText')} {translatedThemes.join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`)}.
+                </div>;
+              })()}
 
               {/* Activities */}
               {hotel.activities && hotel.activities.length > 0 && <div className="text-xl font-semibold text-yellow-300">
@@ -249,7 +262,7 @@ export default function HotelDetail() {
                 {/* Meal Plan Display */}
                 {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="mb-6 text-center">
                     <p className="text-white text-xl font-semibold">
-                      {t('detail.mealPlanIncluded')}: {hotel.meal_plans.join(', ')}
+                      {t('detail.mealPlanIncluded')}: {translateMealPlans(hotel.meal_plans).join(', ')}
                     </p>
                   </div>}
                 
@@ -323,7 +336,7 @@ export default function HotelDetail() {
                                 <strong>{t('detail.availableMealPlans')}:</strong>
                               </p>
                               <div className="flex flex-wrap gap-1">
-                                {hotel.meal_plans.map(plan => <span key={plan} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
+                                {translateMealPlans(hotel.meal_plans).map((plan, index) => <span key={index} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
                                     {plan.toUpperCase()}
                                   </span>)}
                               </div>
@@ -359,7 +372,7 @@ export default function HotelDetail() {
                 {roomFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.roomFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {roomFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
+                      {translateRoomFeatures(roomFeaturesArray).map((feature, index) => <div key={index} className="flex items-center space-x-2">
                           <Wifi className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
                         </div>)}
@@ -370,7 +383,7 @@ export default function HotelDetail() {
                 {hotelFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.hotelFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {hotelFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
+                      {translateHotelFeatures(hotelFeaturesArray).map((feature, index) => <div key={index} className="flex items-center space-x-2">
                           <Coffee className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
                         </div>)}

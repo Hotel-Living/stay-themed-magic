@@ -7,6 +7,8 @@ interface FilterMapping {
   category: string;
   english_value: string;
   spanish_value: string;
+  portuguese_value?: string;
+  romanian_value?: string;
 }
 
 export const useFilterTranslations = () => {
@@ -37,7 +39,8 @@ export const useFilterTranslations = () => {
   const translateFilterValue = (category: string, value: string): string => {
     const mapping = mappings.find(
       m => m.category === category && 
-      (m.spanish_value === value || m.english_value === value)
+      (m.spanish_value === value || m.english_value === value || 
+       m.portuguese_value === value || m.romanian_value === value)
     );
 
     if (!mapping) return value;
@@ -49,31 +52,35 @@ export const useFilterTranslations = () => {
       case 'es':
         return mapping.spanish_value;
       case 'pt':
-        // For Portuguese, use English for now (can be enhanced later)
-        return mapping.english_value;
+        return mapping.portuguese_value || mapping.english_value;
       case 'ro':
-        // For Romanian, use English for now (can be enhanced later)
-        return mapping.english_value;
+        return mapping.romanian_value || mapping.english_value;
       default:
         return mapping.english_value;
     }
   };
 
   const translateMealPlans = (mealPlans: string[]): string[] => {
-    // Handle specific meal plan translations for English
-    if (i18n.language === 'en') {
-      return mealPlans.map(plan => {
-        switch (plan) {
-          case 'Solo alojamiento':
-            return 'Room only';
-          case 'Desayuno':
-            return 'Breakfast included';
-          default:
-            return translateFilterValue('meal_plans', plan);
+    return mealPlans.map(plan => {
+      // Handle special cases first
+      if (plan === 'Solo alojamiento') {
+        switch (i18n.language) {
+          case 'en': return 'Room only';
+          case 'pt': return 'Apenas acomodação';
+          case 'ro': return 'Doar cazare';
+          default: return plan;
         }
-      });
-    }
-    return mealPlans.map(plan => translateFilterValue('meal_plans', plan));
+      }
+      if (plan === 'Desayuno') {
+        switch (i18n.language) {
+          case 'en': return 'Breakfast included';
+          case 'pt': return 'Café da manhã incluído';
+          case 'ro': return 'Mic dejun inclus';
+          default: return plan;
+        }
+      }
+      return translateFilterValue('meal_plans', plan);
+    });
   };
 
   const translateHotelFeatures = (features: string[]): string[] => {

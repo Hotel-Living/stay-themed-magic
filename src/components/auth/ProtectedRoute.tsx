@@ -48,12 +48,13 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
                     user.user_metadata?.association_name ? 'association' : 
                     user.user_metadata?.role === 'promoter' ? 'promoter' : 'guest');
   
-  // CRITICAL: If user has no meaningful role assigned, redirect to role selection immediately
+  // CRITICAL: If user has no role assigned (null/undefined/empty), redirect to role selection immediately
   // This prevents brief rendering of any dashboard before redirect
-  const hasValidRole = userRole && userRole !== 'guest' && userRole !== '' && userRole !== null;
+  // Note: 'guest' is a valid role, so don't redirect guest users
+  const hasNoRole = !userRole || userRole === '' || userRole === null || userRole === undefined;
   
-  if (!hasValidRole) {
-    console.log("User has no valid role assigned, redirecting to register-role immediately");
+  if (hasNoRole) {
+    console.log("User has no role assigned, redirecting to register-role immediately");
     return <Navigate to="/register-role" replace />;
   }
 

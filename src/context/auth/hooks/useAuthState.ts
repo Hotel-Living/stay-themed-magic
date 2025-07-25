@@ -167,14 +167,14 @@ export function useAuthState() {
           // BUT exclude password reset pages and register-role page to allow users to complete the flow
           const currentPath = window.location.pathname;
           const hasRole = profileData?.role && 
-                         profileData.role !== 'guest' && 
                          profileData.role !== null && 
+                         profileData.role !== undefined &&
                          profileData.role !== '';
           
           if (event === 'SIGNED_IN' && 
               !currentPath.includes('/reset-password') && 
               !currentPath.includes('/register-role') &&
-              hasRole) { // Only redirect if user has a meaningful role assigned
+              hasRole) { // Only redirect if user has any role assigned (including 'guest')
             await handleCorrectRedirect(session.user, profileData);
           }
         } else {

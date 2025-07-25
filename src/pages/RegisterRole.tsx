@@ -48,8 +48,11 @@ export default function RegisterRole() {
 
       const role = roleMapping[accountType];
 
-      // Update user profile with role
+      // Update user profile with role and wait for completion
       await updateProfile({ role });
+      
+      // Wait a moment to ensure the profile update is reflected in the auth state
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // Role assigned successfully, redirect to appropriate dashboard
       switch (accountType) {

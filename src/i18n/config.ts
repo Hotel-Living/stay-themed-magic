@@ -52,6 +52,7 @@ import enHotelAccordion from './locales/en/hotel-accordion.json';
 import enHotelAssociation from './locales/en/hotelAssociation.json';
 import enAssociationRegistration from './locales/en/associationRegistration.json';
 import enDashboardHotelRegistration from './locales/en/dashboard/hotel-registration.json';
+import enHotel from './locales/en/hotel.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -100,6 +101,7 @@ import esHotelAccordion from './locales/es/hotel-accordion.json';
 import esHotelAssociation from './locales/es/hotelAssociation.json';
 import esAssociationRegistration from './locales/es/associationRegistration.json';
 import esDashboardHotelRegistration from './locales/es/dashboard/hotel-registration.json';
+import esHotel from './locales/es/hotel.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -137,6 +139,7 @@ import ptHotelAccordion from './locales/pt/hotel-accordion.json';
 import ptHotelAssociation from './locales/pt/hotelAssociation.json';
 import ptAssociationRegistration from './locales/pt/associationRegistration.json';
 import ptDashboardHotelRegistration from './locales/pt/dashboard/hotel-registration.json';
+import ptHotel from './locales/pt/hotel.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -174,6 +177,7 @@ import roHotelAccordion from './locales/ro/hotel-accordion.json';
 import roHotelAssociation from './locales/ro/hotelAssociation.json';
 import roAssociationRegistration from './locales/ro/associationRegistration.json';
 import roDashboardHotelRegistration from './locales/ro/dashboard/hotel-registration.json';
+import roHotel from './locales/ro/hotel.json';
 
 const resources = {
   en: {
@@ -204,6 +208,7 @@ const resources = {
     'hotel-accordion': enHotelAccordion,
     hotelAssociation: enHotelAssociation,
     associationRegistration: enAssociationRegistration,
+    hotel: enHotel,
     // Dashboard namespaces as separate resources
     'dashboard/general': enDashboardGeneral,
     'dashboard/welcome': enDashboardWelcome,
@@ -291,6 +296,7 @@ const resources = {
     'hotel-accordion': esHotelAccordion,
     hotelAssociation: esHotelAssociation,
     associationRegistration: esAssociationRegistration,
+    hotel: esHotel,
     // Dashboard namespaces as separate resources
     'dashboard/general': esDashboardGeneral,
     'dashboard/hotel': esDashboardHotel,
@@ -339,6 +345,7 @@ const resources = {
     'hotel-accordion': ptHotelAccordion,
     hotelAssociation: ptHotelAssociation,
     associationRegistration: ptAssociationRegistration,
+    hotel: ptHotel,
     // Dashboard namespaces as separate resources
     'dashboard/general': ptDashboardGeneral,
     'dashboard/common': ptDashboardCommon,
@@ -387,6 +394,7 @@ const resources = {
     'hotel-accordion': roHotelAccordion,
     hotelAssociation: roHotelAssociation,
     associationRegistration: roAssociationRegistration,
+    hotel: roHotel,
     // Dashboard namespaces as separate resources
     'dashboard/general': roDashboardGeneral,
     'dashboard/common': roDashboardCommon,

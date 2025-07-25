@@ -21,7 +21,18 @@
       "onlyRoomsLeft": "¡Solo quedan {{count}} habitaciones para esta fecha!",
       "reserveNow": "Reservar Ahora",
       "days": "días",
-      "roomsRemaining": "habitaciones restantes"
+      "roomsRemaining": "habitaciones restantes",
+      "availabilityPricing": "DISPONIBILIDAD Y PRECIOS",
+      "mealPlanIncluded": "PLAN DE COMIDAS INCLUIDO",
+      "doubleRoom": "HABITACIÓN DOBLE:",
+      "singleRoom": "HABITACIÓN INDIVIDUAL:",
+      "availableDates": "FECHAS DISPONIBLES:",
+      "perPerson": "por persona",
+      "hotelOffersStays": "Este hotel ofrece estancias de",
+      "and": "y",
+      "proportionalPrice": "El precio proporcional para una estancia mensual es",
+      "affinitiesText": "Las afinidades que unen a los clientes de este hotel son",
+      "activitiesText": "Las actividades de este hotel son"
     }
   }
 }

@@ -183,8 +183,8 @@ export default function HotelDetail() {
                   }
                   return null;
                 })()}
-                {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
-                    The proportional price for a monthly stay is USD ${hotel.price_per_month}.
+                 {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
+                    {t('detail.proportionalPrice')} USD ${hotel.price_per_month}.
                   </p>}
               </div>}
 
@@ -237,7 +237,7 @@ export default function HotelDetail() {
 
             {/* Availability Calendar Section */}
             {availabilityPackages.length > 0 && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
-                <h2 className="text-2xl font-bold text-white mb-6 glow-text text-center">AVAILABILITY & PRICING</h2>
+                <h2 className="text-2xl font-bold text-white mb-6 glow-text text-center">{t('detail.availabilityPricing')}</h2>
                 
                 {/* Duration Display */}
                 {availabilityPackages[0] && <div className="mb-4 text-center">
@@ -249,22 +249,22 @@ export default function HotelDetail() {
                 {/* Meal Plan Display */}
                 {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="mb-6 text-center">
                     <p className="text-white text-xl font-semibold">
-                      MEAL PLAN INCLUDED: {hotel.meal_plans.join(', ')}
+                      {t('detail.mealPlanIncluded')}: {hotel.meal_plans.join(', ')}
                     </p>
                   </div>}
                 
                 {/* Pricing per person for room types */}
                 {hotel.price_per_month && <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                     <div className="text-center bg-purple-800/30 p-4 rounded-lg">
-                      <p className="text-white text-lg font-semibold mb-2">DOUBLE ROOM:</p>
+                      <p className="text-white text-lg font-semibold mb-2">{t('detail.doubleRoom')}</p>
                       <p className="text-yellow-300 text-xl font-bold">
-                        USD ${Math.round(hotel.price_per_month / 30)} per person
+                        USD ${Math.round(hotel.price_per_month / 30)} {t('detail.perPerson')}
                       </p>
                     </div>
                     <div className="text-center bg-purple-800/30 p-4 rounded-lg">
-                      <p className="text-white text-lg font-semibold mb-2">SINGLE ROOM:</p>
+                      <p className="text-white text-lg font-semibold mb-2">{t('detail.singleRoom')}</p>
                       <p className="text-yellow-300 text-xl font-bold">
-                        USD ${Math.round(hotel.price_per_month / 30 * 1.2)} per person
+                        USD ${Math.round(hotel.price_per_month / 30 * 1.2)} {t('detail.perPerson')}
                       </p>
                     </div>
                   </div>}
@@ -272,7 +272,7 @@ export default function HotelDetail() {
                 {/* Available Dates Display */}
                 <div className="mb-6 text-center">
                   <p className="text-white text-xl font-semibold">
-                    AVAILABLE DATES: {availabilityPackages.filter(pkg => pkg.startDate && pkg.endDate) // Filter out packages with invalid dates
+                    {t('detail.availableDates')}: {availabilityPackages.filter(pkg => pkg.startDate && pkg.endDate) // Filter out packages with invalid dates
                 .map(pkg => {
                   const startDate = new Date(pkg.startDate);
                   const endDate = new Date(pkg.endDate);

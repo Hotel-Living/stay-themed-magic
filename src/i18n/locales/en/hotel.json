@@ -21,7 +21,18 @@
       "onlyRoomsLeft": "Only {{count}} rooms left for this date!",
       "reserveNow": "Reserve Now",
       "days": "days",
-      "roomsRemaining": "rooms remaining"
+      "roomsRemaining": "rooms remaining",
+      "availabilityPricing": "AVAILABILITY & PRICING",
+      "mealPlanIncluded": "MEAL PLAN INCLUDED",
+      "doubleRoom": "DOUBLE ROOM:",
+      "singleRoom": "SINGLE ROOM:",
+      "availableDates": "AVAILABLE DATES:",
+      "perPerson": "per person",
+      "hotelOffersStays": "This hotel offers stays of",
+      "and": "and",
+      "proportionalPrice": "The proportional price for a monthly stay is",
+      "affinitiesText": "The affinities that unite the clients of this hotel are",
+      "activitiesText": "The activities of this hotel are"
     }
   }
 }

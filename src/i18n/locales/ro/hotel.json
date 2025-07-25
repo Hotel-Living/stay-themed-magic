@@ -21,7 +21,18 @@
       "onlyRoomsLeft": "Doar {{count}} camere rămase pentru această dată!",
       "reserveNow": "Rezervă Acum",
       "days": "zile",
-      "roomsRemaining": "camere rămase"
+      "roomsRemaining": "camere rămase",
+      "availabilityPricing": "DISPONIBILITATE ȘI PREȚURI",
+      "mealPlanIncluded": "PLAN DE MASĂ INCLUS",
+      "doubleRoom": "CAMERĂ DUBLĂ:",
+      "singleRoom": "CAMERĂ SINGLE:",
+      "availableDates": "DATE DISPONIBILE:",
+      "perPerson": "per persoană",
+      "hotelOffersStays": "Acest hotel oferă sejururi de",
+      "and": "și",
+      "proportionalPrice": "Prețul proporțional pentru un sejur lunar este",
+      "affinitiesText": "Afinitățile care unesc clienții acestui hotel sunt",
+      "activitiesText": "Activitățile acestui hotel sunt"
     }
   }
 }

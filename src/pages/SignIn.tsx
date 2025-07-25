@@ -81,6 +81,17 @@ export default function SignIn() {
     }
 
     setIsLoading(true);
+    
+    // Add timeout handling to prevent freeze
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "La operación tardó demasiado tiempo. Por favor, inténtalo de nuevo."
+      });
+    }, 30000); // 30 second timeout
+
     try {
       // Check if email already has a role assigned
       const { data: existingRole } = await supabase.rpc('check_email_role_exists', { 
@@ -88,6 +99,7 @@ export default function SignIn() {
       });
       
       if (existingRole) {
+        clearTimeout(timeoutId);
         toast({
           variant: "destructive",
           title: "Error",
@@ -103,11 +115,17 @@ export default function SignIn() {
         password: password,
       });
 
+      if (!signUpAttempt) {
+        throw new Error("No se pudo crear la cuenta");
+      }
+
       // Send email verification with link strategy
       await signUp?.prepareEmailAddressVerification({ 
         strategy: "email_link",
         redirectUrl: `${window.location.origin}/register-role`
       });
+
+      clearTimeout(timeoutId);
 
       // Show verification message
       toast({
@@ -120,10 +138,12 @@ export default function SignIn() {
       setPassword("");
       setConfirmPassword("");
     } catch (error: any) {
+      clearTimeout(timeoutId);
+      console.error("Signup error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.errors?.[0]?.message || "Error al crear la cuenta"
+        description: error.errors?.[0]?.message || error.message || "Error al crear la cuenta"
       });
     } finally {
       setIsLoading(false);

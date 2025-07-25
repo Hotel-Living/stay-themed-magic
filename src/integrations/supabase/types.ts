@@ -1723,10 +1723,6 @@ export type Database = {
         Args: { p_user_id: string; p_email: string; p_role: string }
         Returns: boolean
       }
-      assign_user_role_clerk: {
-        Args: { clerk_user_id: string; p_email: string; p_role: string }
-        Returns: boolean
-      }
       check_agent_hotel_eligibility: {
         Args: { p_hotel_id: string; p_agent_id: string }
         Returns: boolean
@@ -1826,18 +1822,8 @@ export type Database = {
           hotel_count: number
         }[]
       }
-      get_user_roles_clerk: {
-        Args: { clerk_user_id: string }
-        Returns: {
-          role: string
-        }[]
-      }
       has_role: {
         Args: { role_name: string }
-        Returns: boolean
-      }
-      has_role_clerk: {
-        Args: { clerk_user_id: string; role_name: string }
         Returns: boolean
       }
       is_admin: {

@@ -155,27 +155,27 @@ export default function HotelDetail() {
 
               {/* Weekly Check-in Day */}
               {(hotel.preferredWeekday || hotel.check_in_weekday) && (
-                <div className="text-white text-lg">
-                  EL DÍA SEMANAL DE CHECK-IN EN ESTE HOTEL ES: {(hotel.preferredWeekday || hotel.check_in_weekday || 'LUNES').toUpperCase()}
+                <div className="text-purple-200 text-lg">
+                  El día semanal de check-in en este hotel es: {(hotel.preferredWeekday || hotel.check_in_weekday || 'Lunes')}
                 </div>
               )}
 
               {/* Client Affinities */}
               {hotel.hotel_themes && hotel.hotel_themes.length > 0 && (
-                <div className="text-white text-lg">
+                <div className="text-purple-200 text-lg">
                   {hotel.hotel_themes.length === 1 
-                    ? `LA AFINIDAD DE ESTE HOTEL ES ${hotel.hotel_themes[0].themes.name.toUpperCase()}`
-                    : `LAS AFINIDADES DE ESTE HOTEL SON ${hotel.hotel_themes.map(theme => theme.themes.name.toUpperCase()).join(', ').replace(/,([^,]*)$/, ' Y$1')}`
+                    ? `La afinidad de este hotel es ${hotel.hotel_themes[0].themes.name}`
+                    : `Las afinidades de este hotel son ${hotel.hotel_themes.map(theme => theme.themes.name).join(', ').replace(/,([^,]*)$/, ' y$1')}`
                   }
                 </div>
               )}
 
               {/* Activities */}
               {hotel.activities && hotel.activities.length > 0 && (
-                <div className="text-white text-lg">
+                <div className="text-purple-200 text-lg">
                   {hotel.activities.length === 1
-                    ? `LA ACTIVIDAD DE ESTE HOTEL ES ${hotel.activities[0].toUpperCase()}`
-                    : `LAS ACTIVIDADES DE ESTE HOTEL SON ${hotel.activities.map(activity => activity.toUpperCase()).join(', ').replace(/,([^,]*)$/, ' Y$1')}`
+                    ? `La actividad de este hotel es ${hotel.activities[0]}`
+                    : `Las actividades de este hotel son ${hotel.activities.map(activity => activity).join(', ').replace(/,([^,]*)$/, ' y$1')}`
                   }
                 </div>
               )}
@@ -261,6 +261,33 @@ export default function HotelDetail() {
             {/* Availability Calendar Section */}
             {availabilityPackages.length > 0 && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
                 <h2 className="text-2xl font-bold text-white mb-6 glow-text">Availability & Pricing</h2>
+                
+                {/* Meal Plan Display */}
+                {hotel.meal_plans && hotel.meal_plans.length > 0 && (
+                  <div className="mb-6 text-center">
+                    <p className="text-white text-xl font-semibold">
+                      MEAL PLAN INCLUDED: {hotel.meal_plans.join(', ')}
+                    </p>
+                  </div>
+                )}
+                
+                {/* Pricing per person for room types */}
+                {hotel.price_per_month && (
+                  <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                    <div className="text-center bg-purple-800/30 p-4 rounded-lg">
+                      <p className="text-white text-lg font-semibold mb-2">DOUBLE ROOM:</p>
+                      <p className="text-yellow-300 text-xl font-bold">
+                        USD ${Math.round(hotel.price_per_month / 30)} per person
+                      </p>
+                    </div>
+                    <div className="text-center bg-purple-800/30 p-4 rounded-lg">
+                      <p className="text-white text-lg font-semibold mb-2">SINGLE ROOM:</p>
+                      <p className="text-yellow-300 text-xl font-bold">
+                        USD ${Math.round((hotel.price_per_month / 30) * 1.2)} per person
+                      </p>
+                    </div>
+                  </div>
+                )}
                 
                 <div className="space-y-6">
                   {/* Calendar visualization */}

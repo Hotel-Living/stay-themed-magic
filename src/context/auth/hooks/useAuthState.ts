@@ -10,10 +10,12 @@ export function useAuthState() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const navigate = useNavigate();
 
   const handleCorrectRedirect = async (currentUser: User, currentProfile: Profile | null) => {
     try {
+      setIsRedirecting(true);
       console.log("=== REDIRECT LOGIC START ===");
       console.log("Current user:", currentUser.email);
       console.log("Current profile:", currentProfile);
@@ -96,19 +98,23 @@ export function useAuthState() {
         case 'hotel_owner':
           console.log("Redirecting hotel owner to panel-hotel");
           navigate('/panel-hotel');
+          setIsRedirecting(false);
           return;
         case 'association':
           console.log("Redirecting association to panel-asociacion");
           navigate('/panel-asociacion');
+          setIsRedirecting(false);
           return;
         case 'promoter':
           console.log("Redirecting promoter to promoter dashboard");
           navigate('/promoter/dashboard');
+          setIsRedirecting(false);
           return;
         case 'guest':
         default:
           console.log("Redirecting to user dashboard (guest/default)");
           navigate('/user-dashboard');
+          setIsRedirecting(false);
           return;
       }
       
@@ -116,6 +122,7 @@ export function useAuthState() {
       console.error("Error in handleCorrectRedirect:", error);
       // Fallback to user dashboard if everything fails
       navigate('/user-dashboard');
+      setIsRedirecting(false);
     } finally {
       console.log("=== REDIRECT LOGIC END ===");
     }
@@ -222,6 +229,7 @@ export function useAuthState() {
     profile,
     session,
     isLoading,
+    isRedirecting,
     setProfile,
     setIsLoading,
     setUser,

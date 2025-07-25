@@ -212,7 +212,7 @@ export default function HotelDetail() {
             {(hotel.description || hotel.ideal_guests || hotel.atmosphere || hotel.perfect_location) && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
                 <div className="space-y-6">
                   {hotel.description && <div>
-                      <h2 className="text-2xl font-bold text-white mb-4 glow-text">About Our Hotel</h2>
+                      <h2 className="text-2xl font-bold text-white mb-4 glow-text">{t('detail.aboutOurHotel')}</h2>
                       <p className="text-purple-100 text-lg leading-relaxed">{hotel.description}</p>
                     </div>}
 
@@ -292,35 +292,35 @@ export default function HotelDetail() {
                     {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
                         <div className="flex items-center space-x-2 mb-2">
                           <Calendar className="w-5 h-5 text-purple-300" />
-                          <span className="text-white font-medium">{pkg.duration} days</span>
+                          <span className="text-white font-medium">{pkg.duration} {t('detail.days')}</span>
                         </div>
                         <p className="text-purple-200 text-sm">
                           {new Date(pkg.startDate).toLocaleDateString()} - {new Date(pkg.endDate).toLocaleDateString()}
                         </p>
                         <div className="flex items-center space-x-2 mt-2">
                           <Users className="w-4 h-4 text-purple-300" />
-                          <span className="text-purple-200 text-sm">{pkg.available} rooms left</span>
+                          <span className="text-purple-200 text-sm">{pkg.available} {t('detail.roomsLeft')}</span>
                         </div>
                       </div>)}
                   </div>
 
                   {/* Selected Package Details */}
                   {selectedPackage && hotel.price_per_month && <Card className="p-6 bg-purple-800/40 border-purple-600/50">
-                      <h3 className="text-xl font-bold text-white mb-4">Package Details</h3>
+                      <h3 className="text-xl font-bold text-white mb-4">{t('detail.packageDetails')}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <p className="text-purple-200 mb-2">
-                            <strong>Dates:</strong> {new Date(selectedPackage.startDate).toLocaleDateString()} - {new Date(selectedPackage.endDate).toLocaleDateString()}
+                            <strong>{t('detail.dates')}:</strong> {new Date(selectedPackage.startDate).toLocaleDateString()} - {new Date(selectedPackage.endDate).toLocaleDateString()}
                           </p>
                           <p className="text-purple-200 mb-2">
-                            <strong>Duration:</strong> {selectedPackage.duration} days
+                            <strong>{t('detail.duration')}:</strong> {selectedPackage.duration} {t('detail.days')}
                           </p>
                           <p className="text-purple-200 mb-2">
-                            <strong>Availability:</strong> {selectedPackage.available} rooms remaining
+                            <strong>{t('detail.availability')}:</strong> {selectedPackage.available} {t('detail.roomsRemaining')}
                           </p>
                           {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="mb-4">
                               <p className="text-purple-200 mb-2">
-                                <strong>Available Meal Plans:</strong>
+                                <strong>{t('detail.availableMealPlans')}:</strong>
                               </p>
                               <div className="flex flex-wrap gap-1">
                                 {hotel.meal_plans.map(plan => <span key={plan} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
@@ -336,18 +336,16 @@ export default function HotelDetail() {
                         <div className="space-y-3">
                           <div className="p-4 bg-yellow-900/30 rounded-lg border border-yellow-600/50">
                             <p className="text-yellow-200 text-sm">
-                              <strong>Dynamic pricing</strong> – This hotel uses dynamic pricing after each sale. 
-                              Secure your rate today before prices go up. Only 15% of the total price is required now; 
-                              the rest is paid upon arrival.
+                              <strong>{t('detail.dynamicPricing')}</strong> – {t('detail.dynamicPricingText')}
                             </p>
                           </div>
                           {selectedPackage.available <= 2 && <div className="p-3 bg-red-900/30 rounded-lg border border-red-600/50">
                               <p className="text-red-200 text-sm font-medium">
-                                ⚠️ Only {selectedPackage.available} rooms left for this date!
+                                ⚠️ {t('detail.onlyRoomsLeft', { count: selectedPackage.available })}
                               </p>
                             </div>}
                           <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                            Reserve Now
+                            {t('detail.reserveNow')}
                           </Button>
                         </div>
                       </div>
@@ -359,7 +357,7 @@ export default function HotelDetail() {
             {(roomFeaturesArray.length > 0 || hotelFeaturesArray.length > 0) && <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Room Features */}
                 {roomFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
-                    <h3 className="text-xl font-bold text-white mb-4 glow-text">Room Features</h3>
+                    <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.roomFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
                       {roomFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
                           <Wifi className="w-4 h-4 text-purple-400" />
@@ -370,7 +368,7 @@ export default function HotelDetail() {
 
                 {/* Hotel Features */}
                 {hotelFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
-                    <h3 className="text-xl font-bold text-white mb-4 glow-text">Hotel Features</h3>
+                    <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.hotelFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
                       {hotelFeaturesArray.map(feature => <div key={feature} className="flex items-center space-x-2">
                           <Coffee className="w-4 h-4 text-purple-400" />
@@ -382,11 +380,11 @@ export default function HotelDetail() {
 
             {/* Reviews Placeholder */}
             <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
-              <h2 className="text-2xl font-bold text-white mb-6 glow-text">Guest Reviews</h2>
+              <h2 className="text-2xl font-bold text-white mb-6 glow-text">{t('detail.guestReviews')}</h2>
               <div className="text-center py-12">
                 <Star className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-                <p className="text-purple-200 text-lg">Guest reviews will appear here</p>
-                <p className="text-purple-300 text-sm mt-2">Be the first to share your experience!</p>
+                <p className="text-purple-200 text-lg">{t('detail.guestReviewsPlaceholder')}</p>
+                <p className="text-purple-300 text-sm mt-2">{t('detail.beFirstToShare')}</p>
               </div>
             </Card>
 

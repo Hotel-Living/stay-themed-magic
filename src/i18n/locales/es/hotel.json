@@ -3,7 +3,25 @@
     "detail": {
       "idealForGuests": "Ideal para huéspedes que...",
       "atmosphere": "El ambiente es...",
-      "locationPerfectFor": "Nuestra ubicación es perfecta para..."
+      "locationPerfectFor": "Nuestra ubicación es perfecta para...",
+      "aboutOurHotel": "Acerca de Nuestro Hotel",
+      "roomFeatures": "Características de la Habitación",
+      "hotelFeatures": "Características del Hotel",
+      "guestReviews": "Reseñas de Huéspedes",
+      "guestReviewsPlaceholder": "Las reseñas de huéspedes aparecerán aquí",
+      "beFirstToShare": "¡Sé el primero en compartir tu experiencia!",
+      "packageDetails": "Detalles del Paquete",
+      "dates": "Fechas",
+      "duration": "Duración",
+      "availability": "Disponibilidad",
+      "availableMealPlans": "Planes de Comida Disponibles",
+      "dynamicPricing": "Precios dinámicos",
+      "dynamicPricingText": "Este hotel utiliza precios dinámicos después de cada venta. Asegura tu tarifa hoy antes de que suban los precios. Solo se requiere el 15% del precio total ahora; el resto se paga a la llegada.",
+      "roomsLeft": "habitaciones disponibles",
+      "onlyRoomsLeft": "¡Solo quedan {{count}} habitaciones para esta fecha!",
+      "reserveNow": "Reservar Ahora",
+      "days": "días",
+      "roomsRemaining": "habitaciones restantes"
     }
   }
 }

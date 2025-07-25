@@ -3,7 +3,25 @@
     "detail": {
       "idealForGuests": "Ideal pentru oaspeții care...",
       "atmosphere": "Atmosfera este...",
-      "locationPerfectFor": "Locația noastră este perfectă pentru..."
+      "locationPerfectFor": "Locația noastră este perfectă pentru...",
+      "aboutOurHotel": "Despre Hotelul Nostru",
+      "roomFeatures": "Caracteristicile Camerei",
+      "hotelFeatures": "Caracteristicile Hotelului",
+      "guestReviews": "Recenzii Oaspeți",
+      "guestReviewsPlaceholder": "Recenziile oaspeților vor apărea aici",
+      "beFirstToShare": "Fii primul care își împărtășește experiența!",
+      "packageDetails": "Detalii Pachet",
+      "dates": "Date",
+      "duration": "Durată",
+      "availability": "Disponibilitate",
+      "availableMealPlans": "Planuri de Masă Disponibile",
+      "dynamicPricing": "Prețuri dinamice",
+      "dynamicPricingText": "Acest hotel folosește prețuri dinamice după fiecare vânzare. Asigură-ți tariful astăzi înainte ca prețurile să crească. Doar 15% din prețul total este necesar acum; restul se plătește la sosire.",
+      "roomsLeft": "camere disponibile",
+      "onlyRoomsLeft": "Doar {{count}} camere rămase pentru această dată!",
+      "reserveNow": "Rezervă Acum",
+      "days": "zile",
+      "roomsRemaining": "camere rămase"
     }
   }
 }

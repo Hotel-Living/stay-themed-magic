@@ -3,7 +3,25 @@
     "detail": {
       "idealForGuests": "Ideal for guests who...",
       "atmosphere": "The atmosphere is...",
-      "locationPerfectFor": "Our location is perfect for..."
+      "locationPerfectFor": "Our location is perfect for...",
+      "aboutOurHotel": "About Our Hotel",
+      "roomFeatures": "Room Features",
+      "hotelFeatures": "Hotel Features",
+      "guestReviews": "Guest Reviews",
+      "guestReviewsPlaceholder": "Guest reviews will appear here",
+      "beFirstToShare": "Be the first to share your experience!",
+      "packageDetails": "Package Details",
+      "dates": "Dates",
+      "duration": "Duration",
+      "availability": "Availability",
+      "availableMealPlans": "Available Meal Plans",
+      "dynamicPricing": "Dynamic pricing",
+      "dynamicPricingText": "This hotel uses dynamic pricing after each sale. Secure your rate today before prices go up. Only 15% of the total price is required now; the rest is paid upon arrival.",
+      "roomsLeft": "rooms left",
+      "onlyRoomsLeft": "Only {{count}} rooms left for this date!",
+      "reserveNow": "Reserve Now",
+      "days": "days",
+      "roomsRemaining": "rooms remaining"
     }
   }
 }

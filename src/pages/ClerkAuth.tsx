@@ -48,6 +48,7 @@ export function ClerkAuth() {
                   <SignUpButton 
                     mode="modal"
                     fallbackRedirectUrl="/user-dashboard"
+                    forceRedirectUrl="/register-role"
                   >
                     <button className="w-full bg-transparent hover:bg-white/10 text-white font-semibold py-3 px-4 rounded-lg border border-white/20 transition-colors">
                       Create Account

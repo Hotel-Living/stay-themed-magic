@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { MapPin, Star, Calendar, Users, Wifi, Car, Coffee, Utensils } from 'lucide-react';
+import { format } from 'date-fns';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HotelLocation } from '@/components/hotel-detail/HotelLocation';
@@ -260,7 +261,16 @@ export default function HotelDetail() {
 
             {/* Availability Calendar Section */}
             {availabilityPackages.length > 0 && <Card className="p-8 bg-purple-900/30 border-purple-700/50 glow-border">
-                <h2 className="text-2xl font-bold text-white mb-6 glow-text">Availability & Pricing</h2>
+                <h2 className="text-2xl font-bold text-white mb-6 glow-text text-center">AVAILABILITY & PRICING</h2>
+                
+                {/* Duration Display */}
+                {availabilityPackages[0] && (
+                  <div className="mb-4 text-center">
+                    <p className="text-white text-xl font-semibold">
+                      {availabilityPackages[0].duration} days
+                    </p>
+                  </div>
+                )}
                 
                 {/* Meal Plan Display */}
                 {hotel.meal_plans && hotel.meal_plans.length > 0 && (
@@ -288,6 +298,15 @@ export default function HotelDetail() {
                     </div>
                   </div>
                 )}
+                
+                {/* Available Dates Display */}
+                <div className="mb-6 text-center">
+                  <p className="text-white text-xl font-semibold">
+                    AVAILABLE DATES: {availabilityPackages.map(pkg => 
+                      `${format(new Date(pkg.startDate), 'MM/dd/yyyy')} - ${format(new Date(pkg.endDate), 'MM/dd/yyyy')}`
+                    ).join(', ')}
+                  </p>
+                </div>
                 
                 <div className="space-y-6">
                   {/* Calendar visualization */}

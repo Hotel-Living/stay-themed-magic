@@ -42,6 +42,17 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     return <Navigate to="/signing" replace />;
   }
 
+  // CRITICAL: If user exists but profile is still null/undefined, continue loading
+  // This prevents the flash of user-dashboard while profile data loads
+  if (user && !profile) {
+    console.log("User exists but profile not loaded yet, continuing loading state");
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   // Early detection and handling for special user types - prioritize profile role over metadata
   const userRole = profile?.role || 
                    (user.user_metadata?.is_hotel_owner ? 'hotel_owner' : 

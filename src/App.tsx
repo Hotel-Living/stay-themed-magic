@@ -34,7 +34,7 @@ import "./i18n/config";
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
-import Login from "@/pages/Login";
+import RegisterRole from "@/pages/RegisterRole";
 import Signup from "@/pages/SignUp";
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
@@ -120,13 +120,13 @@ function App() {
                <Route path="/hotel/:id" element={<HotelDetail />} />
                <Route path="/search" element={<Search />} />
                 <Route path="/auth" element={<ClerkAuth />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/register-role" element={<RegisterRole />} />
                 <Route path="/signin" element={<SignIn />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/hotel-signup" element={<HotelRegistration />} />
-              <Route path="/hotel-login" element={<Login />} />
+              <Route path="/hotel-login" element={<RegisterRole />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/terms" element={<Terms />} />

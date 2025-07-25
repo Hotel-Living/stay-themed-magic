@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export default function Login() {
+export default function RegisterRole() {
   const navigate = useNavigate();
   const { t, isReady } = useTranslation('auth');
 

@@ -163,8 +163,12 @@ export function useAuthState() {
           setIsLoading(false);
           
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
-          // BUT exclude password reset pages to allow users to complete the flow
-          if (event === 'SIGNED_IN' && !window.location.pathname.includes('/reset-password')) {
+          // BUT exclude password reset pages and register-role page to allow users to complete the flow
+          const currentPath = window.location.pathname;
+          if (event === 'SIGNED_IN' && 
+              !currentPath.includes('/reset-password') && 
+              !currentPath.includes('/register-role') &&
+              profileData?.role) { // Only redirect if user has a role assigned
             await handleCorrectRedirect(session.user, profileData);
           }
         } else {

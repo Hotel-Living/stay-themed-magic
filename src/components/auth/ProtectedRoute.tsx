@@ -23,6 +23,7 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
   console.log("Require promoter:", requirePromoter);
   console.log("Require traveler:", requireTraveler);
   console.log("User metadata:", user?.user_metadata);
+  console.log("Profile data:", profile);
   console.log("Current path:", window.location.pathname);
 
   // Show loading while auth state is being determined
@@ -41,12 +42,20 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     return <Navigate to="/signing" replace />;
   }
 
-  // Early detection and handling for special user types
-  const isAssociationUser = user.user_metadata?.association_name;
-  const isPromoterUser = user.user_metadata?.role === 'promoter';
-  const isHotelOwnerUser = user.user_metadata?.is_hotel_owner;
-  const isTravelerUser = !isAssociationUser && !isPromoterUser && !isHotelOwnerUser;
+  // Early detection and handling for special user types - prioritize profile role over metadata
+  const userRole = profile?.role || 
+                   (user.user_metadata?.is_hotel_owner ? 'hotel_owner' : 
+                    user.user_metadata?.association_name ? 'association' : 
+                    user.user_metadata?.role === 'promoter' ? 'promoter' : 'guest');
+  
+  const isAssociationUser = userRole === 'association';
+  const isPromoterUser = userRole === 'promoter';
+  const isHotelOwnerUser = userRole === 'hotel_owner';
+  const isTravelerUser = userRole === 'guest';
   const currentPath = window.location.pathname;
+  
+  console.log("Detected user role:", userRole);
+  console.log("Role flags:", { isAssociationUser, isPromoterUser, isHotelOwnerUser, isTravelerUser });
   
   // If user is association but not on association page, redirect immediately
   if (isAssociationUser && currentPath !== '/panel-asociacion' && !requireAssociation) {

@@ -46,11 +46,29 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
   // This prevents the flash of user-dashboard while profile data loads
   if (user && !profile) {
     console.log("User exists but profile not loaded yet, continuing loading state");
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
+    return null; // Render nothing to completely eliminate any flash
+  }
+
+  // CRITICAL: Also prevent rendering during the brief moment when profile exists 
+  // but role-based redirects are still processing. This eliminates the flash completely.
+  if (user && profile) {
+    const userRole = profile?.role || 
+                     (user.user_metadata?.is_hotel_owner ? 'hotel_owner' : 
+                      user.user_metadata?.association_name ? 'association' : 
+                      user.user_metadata?.role === 'promoter' ? 'promoter' : 'guest');
+    
+    const currentPath = window.location.pathname;
+    const isAssociationUser = userRole === 'association';
+    const isPromoterUser = userRole === 'promoter';
+    const isHotelOwnerUser = userRole === 'hotel_owner';
+    
+    // If user has a role but is on the wrong dashboard path, render nothing until redirect completes
+    if ((isAssociationUser && currentPath !== '/panel-asociacion') ||
+        (isPromoterUser && currentPath !== '/promoter/dashboard') ||
+        (isHotelOwnerUser && currentPath !== '/panel-hotel' && currentPath !== '/hotel-dashboard')) {
+      console.log("User has role but is on wrong path, preventing render until redirect");
+      return null; // Render nothing to eliminate flash
+    }
   }
 
   // Early detection and handling for special user types - prioritize profile role over metadata

@@ -1,14 +1,15 @@
 
 export const validatePassword = (password: string) => {
+  // Simplified validation - only require minimum length of 1 character (basically any password)
   const requirements = {
-    minLength: password.length >= 8,
-    hasUpperCase: /[A-Z]/.test(password),
-    hasLowerCase: /[a-z]/.test(password),
-    hasNumber: /[0-9]/.test(password),
-    hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    minLength: password.length >= 1, // Accept any non-empty password
+    hasUpperCase: true, // Always pass
+    hasLowerCase: true, // Always pass  
+    hasNumber: true, // Always pass
+    hasSpecial: true, // Always pass
   };
 
-  const isValid = Object.values(requirements).every(Boolean);
+  const isValid = password.length >= 1; // Only require non-empty password
 
   return {
     isValid,

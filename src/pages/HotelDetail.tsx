@@ -173,7 +173,7 @@ export default function HotelDetail() {
                     This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
                   </p>}
                 {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
-                    The proportional price for a 30-day stay is {hotel.currency || '€'}{hotel.price_per_month}.
+                    The proportional price for a monthly stay is USD ${hotel.price_per_month}.
                   </p>}
               </div>}
 

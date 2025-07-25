@@ -36,27 +36,27 @@ import { ValidationSubmitButton } from './ValidationSubmitButton';
 const hotelRegistrationSchema = z.object({
   // Basic Info
   hotelName: z.string().min(1, 'Hotel name is required'),
-  address: z.string().min(1, 'Address is required'),
-  city: z.string().min(1, 'City is required'),
-  postalCode: z.string().min(1, 'Postal code is required'),
-  country: z.string().min(1, 'Country is required'),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
   
   // Contact Info
-  email: z.string().email('Invalid email'),
-  phone: z.string().min(1, 'Phone is required'),
+  email: z.string().email('Invalid email').optional().or(z.literal('')),
+  phone: z.string().optional(),
   website: z.string().url().optional(),
   
   // Classification
-  classification: z.string().min(1, 'Classification is required'),
+  classification: z.string().optional(),
   
   // Property Details
-  propertyType: z.string().min(1, 'Property type is required'),
-  propertyStyle: z.string().min(1, 'Property style is required'),
-  hotelDescription: z.string().min(200, 'Description must be at least 200 characters'),
-  roomDescription: z.string().min(1, 'Room description is required'),
-  idealGuests: z.string().min(1, 'Ideal guests description is required'),
-  atmosphere: z.string().min(1, 'Atmosphere description is required'),
-  location: z.string().min(1, 'Location description is required'),
+  propertyType: z.string().optional(),
+  propertyStyle: z.string().optional(),
+  hotelDescription: z.string().optional(),
+  roomDescription: z.string().optional(),
+  idealGuests: z.string().optional(),
+  atmosphere: z.string().optional(),
+  location: z.string().optional(),
   
   // Features
   hotelFeatures: z.array(z.string()).default([]),
@@ -73,23 +73,23 @@ const hotelRegistrationSchema = z.object({
   }).default({ hotel: [], room: [] }),
   
   // Accommodation Terms
-  checkInDay: z.string().min(1, 'Check-in day is required'),
-  mealPlan: z.string().min(1, 'Meal plan is required'),
-  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).min(1, 'At least one stay length is required'),
+  checkInDay: z.string().optional(),
+  mealPlan: z.string().optional(),
+  stayLengths: z.array(z.enum(['8', '15', '22', '29'])).default([]),
   
   // Services
   weeklyLaundryIncluded: z.boolean().default(false),
   externalLaundryAvailable: z.boolean().default(false),
   
   // Availability
-  numberOfRooms: z.string().min(1, 'Number of rooms is required'),
+  numberOfRooms: z.string().optional(),
   
   // Pricing
   pricingMatrix: z.array(z.any()).default([]),
   price_per_month: z.number().optional(),
   
   // Terms
-  termsAccepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),
+  termsAccepted: z.boolean().default(false),
   availabilityPackages: z.array(z.object({
     id: z.string().optional(),
     startDate: z.date(),

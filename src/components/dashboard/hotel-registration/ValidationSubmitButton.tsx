@@ -19,40 +19,8 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
   const validateRequiredFields = (data: HotelRegistrationFormData) => {
     const missingFields: string[] = [];
 
-    // Basic Info validation
+    // Only hotel name is required
     if (!data.hotelName?.trim()) missingFields.push('Hotel Name');
-    if (!data.address?.trim()) missingFields.push('Address');
-    if (!data.city?.trim()) missingFields.push('City');
-    if (!data.postalCode?.trim()) missingFields.push('Postal Code');
-    if (!data.country?.trim()) missingFields.push('Country');
-    
-    // Contact Info validation - removed email and phone as they're not in the form
-    
-    // Classification validation
-    if (!data.classification?.trim()) missingFields.push('Classification');
-    
-    // Property Details validation
-    if (!data.propertyType?.trim()) missingFields.push('Property Type');
-    if (!data.propertyStyle?.trim()) missingFields.push('Property Style');
-    if (!data.hotelDescription?.trim() || data.hotelDescription.length < 200) {
-      missingFields.push('Hotel Description (minimum 200 characters)');
-    }
-    if (!data.roomDescription?.trim()) missingFields.push('Room Description');
-    if (!data.idealGuests?.trim()) missingFields.push('Ideal Guests');
-    if (!data.atmosphere?.trim()) missingFields.push('Atmosphere');
-    if (!data.location?.trim()) missingFields.push('Location Description');
-    
-    // Accommodation Terms validation
-    if (!data.checkInDay?.trim()) missingFields.push('Check-in Day');
-    if (!data.mealPlan?.trim()) missingFields.push('Meal Plan');
-    if (!data.stayLengths || data.stayLengths.length === 0) {
-      missingFields.push('Stay Lengths (at least one)');
-    }
-    
-    // Availability validation - removed numberOfRooms as it's not in the form
-    
-    // Terms validation
-    if (!data.termsAccepted) missingFields.push('Terms & Conditions Acceptance');
 
     return missingFields;
   };
@@ -119,23 +87,6 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
       missingFields.forEach(field => {
         const fieldName = field.toLowerCase().replace(/\s+/g, '');
         if (fieldName.includes('hotelname')) form.setError('hotelName', { message: 'Required' });
-        if (fieldName.includes('address')) form.setError('address', { message: 'Required' });
-        if (fieldName.includes('city')) form.setError('city', { message: 'Required' });
-        if (fieldName.includes('postalcode')) form.setError('postalCode', { message: 'Required' });
-        if (fieldName.includes('country')) form.setError('country', { message: 'Required' });
-        if (fieldName.includes('classification')) form.setError('classification', { message: 'Required' });
-        if (fieldName.includes('propertytype')) form.setError('propertyType', { message: 'Required' });
-        if (fieldName.includes('propertystyle')) form.setError('propertyStyle', { message: 'Required' });
-        if (fieldName.includes('hoteldescription')) form.setError('hotelDescription', { message: 'Required (min 200 chars)' });
-        if (fieldName.includes('roomdescription')) form.setError('roomDescription', { message: 'Required' });
-        if (fieldName.includes('idealguests')) form.setError('idealGuests', { message: 'Required' });
-        if (fieldName.includes('atmosphere')) form.setError('atmosphere', { message: 'Required' });
-        if (fieldName.includes('location')) form.setError('location', { message: 'Required' });
-        if (fieldName.includes('checkinday')) form.setError('checkInDay', { message: 'Required' });
-        if (fieldName.includes('mealplan')) form.setError('mealPlan', { message: 'Required' });
-        if (fieldName.includes('staylengths')) form.setError('stayLengths', { message: 'Required' });
-        
-        if (fieldName.includes('terms')) form.setError('termsAccepted', { message: 'Must be accepted' });
       });
       
       return;

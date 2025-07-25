@@ -7,7 +7,7 @@ import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { checkEmailHasRole } from "@/hooks/useUserRoles";
 
 export default function SignIn() {
   const { user } = useUser();
@@ -34,32 +34,41 @@ export default function SignIn() {
       if (user?.emailAddresses?.[0]?.emailAddress) {
         const email = user.emailAddresses[0].emailAddress;
         
-        // Check if user has a role assigned
-        const { data } = await supabase.rpc('check_email_role_exists', { 
-          p_email: email 
-        });
-        
-        if (data) {
-          // User has a role, redirect to appropriate dashboard
-          switch (data) {
-            case 'traveler':
-              navigate('/user-dashboard');
-              break;
-            case 'hotel':
-              navigate('/hotel-dashboard');
-              break;
-            case 'association':
-              navigate('/panel-asociacion');
-              break;
-            case 'promoter':
-              navigate('/promoter/dashboard');
-              break;
-            default:
-              navigate('/user-dashboard');
+        try {
+          // Check if user has a role assigned
+          const { role, error } = await checkEmailHasRole(email);
+          
+          if (error) {
+            console.error("Error checking role:", error);
+            return;
           }
-        } else {
-          // User has no role, redirect to role selection
-          navigate('/register-role');
+          
+          if (role) {
+            // User has a role, redirect to appropriate dashboard
+            switch (role) {
+              case 'guest':
+              case 'traveler':
+                navigate('/user-dashboard');
+                break;
+              case 'hotel_owner':
+              case 'hotel':
+                navigate('/panel-hotel');
+                break;
+              case 'association':
+                navigate('/panel-asociacion');
+                break;
+              case 'promoter':
+                navigate('/promoter/dashboard');
+                break;
+              default:
+                navigate('/user-dashboard');
+            }
+          } else {
+            // User has no role, redirect to role selection
+            navigate('/register-role');
+          }
+        } catch (err) {
+          console.error("Error checking role:", err);
         }
       }
     };
@@ -94,9 +103,11 @@ export default function SignIn() {
 
     try {
       // Check if email already has a role assigned
-      const { data: existingRole } = await supabase.rpc('check_email_role_exists', { 
-        p_email: email 
-      });
+      const { role: existingRole, error } = await checkEmailHasRole(email);
+      
+      if (error) {
+        console.error("Error checking existing role:", error);
+      }
       
       if (existingRole) {
         clearTimeout(timeoutId);
@@ -160,31 +171,40 @@ export default function SignIn() {
       });
 
       if (result?.status === 'complete') {
-        // Check user role and redirect appropriately
-        const { data: userRole } = await supabase.rpc('check_email_role_exists', { 
-          p_email: email 
-        });
-        
-        if (userRole) {
-          // User has role, redirect to appropriate dashboard
-          switch (userRole) {
-            case 'traveler':
-              navigate('/user-dashboard');
-              break;
-            case 'hotel':
-              navigate('/hotel-dashboard');
-              break;
-            case 'association':
-              navigate('/panel-asociacion');
-              break;
-            case 'promoter':
-              navigate('/promoter/dashboard');
-              break;
-            default:
-              navigate('/user-dashboard');
+        try {
+          // Check user role and redirect appropriately
+          const { role: userRole, error } = await checkEmailHasRole(email);
+          
+          if (error) {
+            console.error("Error checking role:", error);
           }
-        } else {
-          // User has no role, redirect to role selection
+          
+          if (userRole) {
+            // User has role, redirect to appropriate dashboard
+            switch (userRole) {
+              case 'guest':
+              case 'traveler':
+                navigate('/user-dashboard');
+                break;
+              case 'hotel_owner':
+              case 'hotel':
+                navigate('/panel-hotel');
+                break;
+              case 'association':
+                navigate('/panel-asociacion');
+                break;
+              case 'promoter':
+                navigate('/promoter/dashboard');
+                break;
+              default:
+                navigate('/user-dashboard');
+            }
+          } else {
+            // User has no role, redirect to role selection
+            navigate('/register-role');
+          }
+        } catch (err) {
+          console.error("Error checking role:", err);
           navigate('/register-role');
         }
       }

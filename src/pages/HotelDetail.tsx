@@ -164,14 +164,7 @@ export default function HotelDetail() {
                 </div>}
 
               {/* Meal Plans */}
-              {hotel.meal_plans && hotel.meal_plans.length > 0 && <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 max-w-2xl mx-auto">
-                  <h3 className="text-xl font-semibold text-white mb-2">PLANES DE COMIDA DISPONIBLES:</h3>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {hotel.meal_plans.map(plan => <span key={plan} className="px-3 py-1 bg-purple-600/50 text-white rounded-full text-sm">
-                        {plan.toUpperCase()}
-                      </span>)}
-                  </div>
-                </div>}
+              {hotel.meal_plans && hotel.meal_plans.length > 0}
             </div>
 
             {/* Stay Duration and Pricing */}

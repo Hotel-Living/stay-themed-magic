@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser, useClerk } from "@clerk/clerk-react";
+import { useUser, useClerk, useAuth } from "@clerk/clerk-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { assignRoleToClerkUser, checkEmailHasRole } from "@/hooks/useUserRoles";
 export default function RegisterRole() {
   const navigate = useNavigate();
   const { user, isLoaded } = useUser();
+  const { isSignedIn } = useAuth();
   const { toast } = useToast();
   const { t, isReady } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState(false);
@@ -75,12 +76,12 @@ export default function RegisterRole() {
   // If a user somehow reaches this page without authentication, Clerk will handle the redirect
 
   const handleAccountTypeSelect = async (accountType: string) => {
-    // Wait for Clerk to fully load before proceeding
-    if (!isLoaded || !user) {
+    // Wait for Clerk to fully load and session to be established before proceeding
+    if (!isLoaded || !user || !isSignedIn) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Cargando información del usuario, por favor espera..."
+        description: "Estableciendo sesión, por favor espera unos segundos..."
       });
       return;
     }

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterRole() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const { toast } = useToast();
   const { t, isReady } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState(false);
@@ -53,17 +53,17 @@ export default function RegisterRole() {
       }
     };
 
-    if (user) {
+    if (user && isLoaded) {
       checkExistingRole();
     }
-  }, [user, navigate]);
+  }, [user, isLoaded, navigate]);
 
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated (but only after Clerk has loaded)
   useEffect(() => {
-    if (!user) {
+    if (isLoaded && !user) {
       navigate('/signing');
     }
-  }, [user, navigate]);
+  }, [user, isLoaded, navigate]);
 
   const handleAccountTypeSelect = async (accountType: string) => {
     if (!user?.emailAddresses?.[0]?.emailAddress) {
@@ -124,8 +124,8 @@ export default function RegisterRole() {
     }
   };
 
-  // Show loading until i18n is ready
-  if (!isReady) {
+  // Show loading until i18n is ready and Clerk is loaded
+  if (!isReady || !isLoaded) {
     return (
       <div className="min-h-screen flex flex-col">
         <Starfield />

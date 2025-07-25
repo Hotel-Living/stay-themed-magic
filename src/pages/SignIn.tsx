@@ -119,10 +119,9 @@ export default function SignIn() {
         throw new Error("No se pudo crear la cuenta");
       }
 
-      // Send email verification with link strategy
+      // Send email verification with email_code strategy
       await signUp?.prepareEmailAddressVerification({ 
-        strategy: "email_link",
-        redirectUrl: `${window.location.origin}/register-role`
+        strategy: "email_code"
       });
 
       clearTimeout(timeoutId);

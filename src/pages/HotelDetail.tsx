@@ -35,7 +35,7 @@ export default function HotelDetail() {
   const {
     language,
     t
-  } = useTranslation();
+  } = useTranslation('hotel');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const {
@@ -218,17 +218,17 @@ export default function HotelDetail() {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {hotel.ideal_guests && <div>
-                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('hotel.detail.idealForGuests')}</h3>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('detail.idealForGuests')}</h3>
                         <p className="text-purple-100">{hotel.ideal_guests}</p>
                       </div>}
                     
                     {hotel.atmosphere && <div>
-                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('hotel.detail.atmosphere')}</h3>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('detail.atmosphere')}</h3>
                         <p className="text-purple-100">{hotel.atmosphere}</p>
                       </div>}
                     
                     {hotel.perfect_location && <div>
-                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('hotel.detail.locationPerfectFor')}</h3>
+                        <h3 className="text-xl font-semibold text-purple-300 mb-3">{t('detail.locationPerfectFor')}</h3>
                         <p className="text-purple-100">{hotel.perfect_location}</p>
                       </div>}
                   </div>

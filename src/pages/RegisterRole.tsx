@@ -25,10 +25,14 @@ export default function RegisterRole() {
   // Check if user already has a role assigned
   useEffect(() => {
     const checkExistingRole = async () => {
-      if (!user?.emailAddresses?.[0]?.emailAddress) return;
+      // Only proceed if Clerk is fully loaded and user exists
+      if (!isLoaded || !user) return;
+      
+      // Get email address, prioritizing primary email
+      const email = user.emailAddresses?.[0]?.emailAddress || user.primaryEmailAddress?.emailAddress;
+      if (!email) return;
       
       try {
-        const email = user.emailAddresses[0].emailAddress;
         const { role, error } = await checkEmailHasRole(email);
         
         if (error) {
@@ -71,7 +75,21 @@ export default function RegisterRole() {
   // If a user somehow reaches this page without authentication, Clerk will handle the redirect
 
   const handleAccountTypeSelect = async (accountType: string) => {
-    if (!user?.emailAddresses?.[0]?.emailAddress || !user?.id) {
+    // Wait for Clerk to fully load before proceeding
+    if (!isLoaded || !user) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Cargando información del usuario, por favor espera..."
+      });
+      return;
+    }
+
+    // Get email and user ID - prioritize primary email address or fallback to any available email
+    const email = user.emailAddresses?.[0]?.emailAddress || user.primaryEmailAddress?.emailAddress;
+    const userId = user.id;
+
+    if (!email || !userId) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -82,8 +100,7 @@ export default function RegisterRole() {
 
     setIsLoading(true);
     try {
-      const email = user.emailAddresses[0].emailAddress;
-      const userId = user.id;
+      // Email and userId are already validated above
 
       // Map account types to roles
       const roleMapping: Record<string, string> = {

@@ -134,20 +134,19 @@ export default function SignIn() {
         throw new Error("No se pudo crear la cuenta");
       }
 
-      // Use ONLY email_link strategy - no fallback to codes
-      console.log("Attempting email verification with strategy: email_link");
-      console.log("Redirect URL:", `${window.location.origin}/register-role`);
+      // Temporarily use email_code since email_link is not enabled in this Clerk environment
+      console.log("Attempting email verification with strategy: email_code");
       
       await signUp?.prepareEmailAddressVerification({ 
-        strategy: "email_link",
-        redirectUrl: `${window.location.origin}/register-role`
+        strategy: "email_code"
       });
       
-      console.log("Email link verification request sent successfully");
+      console.log("Email code verification request sent successfully");
+      setShowVerification(true);
       
       toast({
-        title: "Enlace de verificación enviado",
-        description: "Hemos enviado un enlace de verificación a tu email. Haz clic en el enlace para completar tu registro."
+        title: "Código de verificación enviado",
+        description: "Hemos enviado un código de verificación a tu email. Ingrésalo abajo para continuar."
       });
       
       // Clear form

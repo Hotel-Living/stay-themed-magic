@@ -114,14 +114,22 @@ function App() {
                 <IntroAnimation onComplete={handleIntroComplete} />
               )}
               
-              <Routes>
-               <Route path="/" element={<Home />} />
-               <Route path="/hotels" element={<Hotels />} />
-               <Route path="/hotel/:id" element={<HotelDetail />} />
-               <Route path="/search" element={<Search />} />
-                <Route path="/auth" element={<ClerkAuth />} />
-                <Route path="/register-role" element={<RegisterRole />} />
-                <Route path="/signing" element={<SignIn />} />
+               <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/hotels" element={<Hotels />} />
+                <Route path="/hotel/:id" element={<HotelDetail />} />
+                <Route path="/search" element={<Search />} />
+                 <Route path="/auth" element={<ClerkAuth />} />
+                 <Route path="/register-role" element={<RegisterRole />} />
+                 <Route path="/signing" element={<SignIn />} />
+                 
+                 {/* Clerk route aliases - all redirect to /signing */}
+                 <Route path="/sign-in" element={<Navigate to="/signing" replace />} />
+                 <Route path="/sign-up" element={<Navigate to="/signing" replace />} />
+                 <Route path="/unauthorized-sign-in" element={<Navigate to="/signing" replace />} />
+                 <Route path="/onboarding" element={<Navigate to="/signing" replace />} />
+                 <Route path="/dashboard" element={<Navigate to="/signing" replace />} />
+                 <Route path="/home" element={<Navigate to="/signing" replace />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />

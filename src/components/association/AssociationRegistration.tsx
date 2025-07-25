@@ -55,7 +55,6 @@ export const AssociationRegistration = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/panel-asociacion`,
           data: {
             full_name: formData.responsibleName,
             is_hotel_owner: false,
@@ -106,35 +105,8 @@ export const AssociationRegistration = () => {
 
       console.log('Association created successfully:', associationData);
 
-      // Send confirmation email
-      try {
-        console.log('Attempting to send confirmation email...');
-        const { data: emailData, error: emailError } = await supabase.functions.invoke(
-          'send-association-confirmation',
-          {
-            body: {
-              associationData: {
-                name: formData.name,
-                responsibleName: formData.responsibleName,
-                email: formData.email,
-                country: formData.country,
-                language: language
-              }
-            }
-          }
-        );
-
-        if (emailError) {
-          console.error('Email function error:', emailError);
-          toast.error(t('validation.emailError'));
-        } else {
-          console.log('Email sent successfully:', emailData);
-          toast.success(t('success.emailSent'));
-        }
-      } catch (emailErr) {
-        console.error('Email sending failed:', emailErr);
-        toast.error(t('validation.emailSendError'));
-      }
+      // Success - redirect to association dashboard
+      toast.success(t('success.registrationComplete'));
 
       // Reset form
       setFormData({

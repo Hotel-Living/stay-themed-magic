@@ -13,7 +13,7 @@ import { UserReferralsSection } from "./UserReferralsSection";
 import { TotalSpentCard } from "./TotalSpentCard";
 import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
-import { EmailVerificationAlert } from "./EmailVerificationAlert";
+
 
 interface UserDetailContentProps {
   profile: any;
@@ -29,10 +29,10 @@ interface UserDetailContentProps {
   editForm: any;
   setEditForm: (form: any) => void;
   themesPagination: any;
-  isEmailVerified: boolean | undefined;
+  
   formattedTotal: string;
   freeNightsCount: number;
-  handleResendVerification: () => Promise<void>;
+  
 }
 
 export const UserDetailContent: React.FC<UserDetailContentProps> = ({
@@ -49,10 +49,9 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   editForm,
   setEditForm,
   themesPagination,
-  isEmailVerified,
+  
   formattedTotal,
-  freeNightsCount,
-  handleResendVerification
+  freeNightsCount
 }) => {
   return (
     <div className="space-y-6">
@@ -63,12 +62,6 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
         lastSignInAt={authData?.last_sign_in_at}
       />
       
-      {/* Email Verification Status */}
-      <EmailVerificationAlert 
-        email={profile.email}
-        isEmailVerified={isEmailVerified}
-        onResendVerification={handleResendVerification}
-      />
       
       {/* User Stats */}
       <UserStatsSection bookings={bookings} favorites={favorites} />

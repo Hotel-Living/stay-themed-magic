@@ -90,7 +90,7 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
 
       // Step 5: Redirect after a short delay
       setTimeout(() => {
-        window.location.href = "/login";
+        window.location.href = "/signing";
       }, 500);
 
     } catch (error: any) {
@@ -109,7 +109,7 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
       
       // Force redirect even on error
       setTimeout(() => {
-        window.location.href = "/login";
+        window.location.href = "/signing";
       }, 1000);
     } finally {
       setIsLoading(false);

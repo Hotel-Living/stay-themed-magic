@@ -56,7 +56,7 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
         };
       }
       
-      // Sign up with Supabase - EXPLICITLY require email confirmation
+      // Sign up with Supabase - NO EMAIL VERIFICATION REQUIRED
       const { data, error } = await supabase.auth.signUp({
         email: sanitizedEmail,
         password,
@@ -65,8 +65,7 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
             ...userData,
             first_name: sanitizedFirstName,
             last_name: sanitizedLastName
-          }, // Store user data in user_metadata
-          emailRedirectTo: `${window.location.origin}/login`, // Redirect to login page after email confirmation
+          } // Store user data in user_metadata
         }
       });
       
@@ -123,10 +122,10 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
           console.error("Failed to send welcome email:", welcomeErr);
         }
         
-        // Email confirmation is required for all new users
+        // Return success immediately - no email verification required
         return { 
           success: true, 
-          error: "Please check your email for confirmation link before signing in." 
+          error: null 
         };
       }
       

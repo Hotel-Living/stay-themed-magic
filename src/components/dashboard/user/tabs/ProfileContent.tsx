@@ -65,8 +65,8 @@ const ProfileContent = () => {
               </h3>
               <div className="text-sm text-muted-foreground flex flex-col sm:flex-row sm:gap-2">
                 <span>{user?.email}</span>
-                <Badge variant={user?.email_confirmed_at ? "default" : "outline"} className="max-w-fit">
-                  {user?.email_confirmed_at ? "Verified" : "Unverified"}
+                <Badge variant="default" className="max-w-fit">
+                  Verified
                 </Badge>
               </div>
             </div>

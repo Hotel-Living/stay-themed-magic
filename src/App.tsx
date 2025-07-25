@@ -121,7 +121,7 @@ function App() {
                  <Route path="/register-role" element={<RegisterRole />} />
                  <Route path="/signing" element={<Signing />} />
                  
-                 {/* Clerk route aliases - all redirect to /signing */}
+                 {/* Legacy route redirects - all redirect to /signing */}
                  <Route path="/sign-in" element={<Navigate to="/signing" replace />} />
                  <Route path="/sign-up" element={<Navigate to="/signing" replace />} />
                  <Route path="/unauthorized-sign-in" element={<Navigate to="/signing" replace />} />

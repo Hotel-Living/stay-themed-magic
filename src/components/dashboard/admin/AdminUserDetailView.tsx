@@ -30,8 +30,6 @@ export default function AdminUserDetailView() {
     setEditForm,
     handleSaveUserDetails,
     themesPagination,
-    isEmailVerified,
-    resendVerificationEmail,
     formattedTotal,
     freeNightsCount
   } = useUserDetail(id);
@@ -65,32 +63,6 @@ export default function AdminUserDetailView() {
     }
   };
 
-  const handleResendVerification = async () => {
-    if (!profile?.email) {
-      toast({
-        description: "User email is not available",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    try {
-      const result = await resendVerificationEmail(profile.email);
-      
-      if (result.success) {
-        toast({
-          description: "Verification email sent successfully",
-        });
-      } else {
-        throw new Error(result.message);
-      }
-    } catch (error: any) {
-      toast({
-        description: error.message || "Failed to resend verification email",
-        variant: "destructive"
-      });
-    }
-  };
 
   return (
     <AdminDashboardLayout>
@@ -122,10 +94,10 @@ export default function AdminUserDetailView() {
             editForm={editForm}
             setEditForm={setEditForm}
             themesPagination={themesPagination}
-            isEmailVerified={isEmailVerified}
+            
             formattedTotal={formattedTotal}
             freeNightsCount={freeNightsCount}
-            handleResendVerification={handleResendVerification}
+            
           />
         ) : (
           <UserNotFound />

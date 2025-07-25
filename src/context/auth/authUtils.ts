@@ -89,27 +89,27 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
   
   // Define path groups
   const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup', '/hotel-login'];
-  const hotelOwnerPaths = ['/hotel-dashboard', '/hoteles'];
+  const hotelOwnerPaths = ['/hotel-dashboard', '/panel-hotel', '/hoteles'];
   const travelerPaths = ['/user-dashboard'];
   
   console.log(`Current path: ${currentPath}, User is hotel owner: ${profile.is_hotel_owner}`);
   
   // *** HOTEL OWNER LOGIC ***
-  if (profile.is_hotel_owner === true) {
+  if (profile.is_hotel_owner === true || profile.role === 'hotel_owner') {
     // Special case for hotel login page
     if (currentPath === '/hotel-login') {
-      console.log("Hotel owner on hotel login page, redirecting to hotel dashboard");
-      window.location.href = '/hotel-dashboard';
+      console.log("Hotel owner on hotel login page, redirecting to panel-hotel");
+      window.location.href = '/panel-hotel';
       return;
     }
     
-    // If on public pages or traveler pages, redirect to hotel dashboard
+    // If on public pages or traveler pages, redirect to panel-hotel
     if (publicPaths.includes(currentPath) || travelerPaths.includes(currentPath)) {
-      console.log("Hotel owner detected, redirecting to hotel dashboard");
-      window.location.href = '/hotel-dashboard';
+      console.log("Hotel owner detected, redirecting to panel-hotel");
+      window.location.href = '/panel-hotel';
       return;
     }
-  } 
+  }
   // *** TRAVELER LOGIC ***
   else if (profile.is_hotel_owner === false) {
     // Special case for traveler login page

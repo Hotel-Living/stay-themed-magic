@@ -78,41 +78,38 @@ export function useAuthState() {
 
       console.log("User is not admin, checking other roles...");
 
-      // Check for association role
-      if (currentUser.user_metadata?.is_association) {
-        console.log("Redirecting to association dashboard");
-        navigate('/association-dashboard');
-        return;
-      }
-
-      // Check for hotel owner role - Enhanced logic with multiple sources
-      const isHotelOwner = currentUser.user_metadata?.is_hotel_owner || 
-                          currentProfile?.is_hotel_owner || 
-                          currentProfile?.role === 'hotel_owner';
+      // Check role from profile first, then fallback to user metadata
+      const userRole = currentProfile?.role || 
+                      (currentUser.user_metadata?.is_hotel_owner ? 'hotel_owner' : 
+                       currentUser.user_metadata?.is_association ? 'association' : 
+                       currentUser.user_metadata?.is_promoter ? 'promoter' : 'guest');
       
-      console.log("Hotel owner check:", {
-        userMetadata: currentUser.user_metadata?.is_hotel_owner,
-        profileFlag: currentProfile?.is_hotel_owner,
+      console.log("User role determination:", {
         profileRole: currentProfile?.role,
-        finalResult: isHotelOwner
+        userMetadata: currentUser.user_metadata,
+        finalRole: userRole
       });
-      
-      if (isHotelOwner) {
-        console.log("Redirecting to hotel dashboard");
-        navigate('/hotel-dashboard');
-        return;
-      }
 
-      // Check for promoter role
-      if (currentUser.user_metadata?.is_promoter) {
-        console.log("Redirecting to promoter dashboard");
-        navigate('/promoter-dashboard');
-        return;
+      // Route based on role - matching RegisterRole.tsx logic
+      switch (userRole) {
+        case 'hotel_owner':
+          console.log("Redirecting hotel owner to panel-hotel");
+          navigate('/panel-hotel');
+          return;
+        case 'association':
+          console.log("Redirecting association to panel-asociacion");
+          navigate('/panel-asociacion');
+          return;
+        case 'promoter':
+          console.log("Redirecting promoter to promoter dashboard");
+          navigate('/promoter/dashboard');
+          return;
+        case 'guest':
+        default:
+          console.log("Redirecting to user dashboard (guest/default)");
+          navigate('/user-dashboard');
+          return;
       }
-
-      // Default to traveler dashboard
-      console.log("Redirecting to user dashboard (default)");
-      navigate('/user-dashboard');
       
     } catch (error) {
       console.error("Error in handleCorrectRedirect:", error);

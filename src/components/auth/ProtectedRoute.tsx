@@ -76,7 +76,7 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
   if (requireTraveler && !isTravelerUser) {
     console.log("Traveler required but user is not traveler, redirecting to appropriate dashboard");
     if (isAssociationUser) return <Navigate to="/panel-asociacion" replace />;
-    if (isHotelOwnerUser) return <Navigate to="/hotel-dashboard" replace />;
+    if (isHotelOwnerUser) return <Navigate to="/panel-hotel" replace />;
     if (isPromoterUser) return <Navigate to="/promoter/dashboard" replace />;
     return <Navigate to="/user-dashboard" replace />;
   }
@@ -89,8 +89,8 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
 
   // Prevent hotel owners from accessing association pages
   if (requireAssociation && isHotelOwnerUser && !isAssociationUser) {
-    console.log("Hotel owner trying to access association page, redirecting to hotel dashboard");
-    return <Navigate to="/hotel-dashboard" replace />;
+    console.log("Hotel owner trying to access association page, redirecting to panel-hotel");
+    return <Navigate to="/panel-hotel" replace />;
   }
 
   // Prevent promoters from accessing other dashboards

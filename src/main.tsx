@@ -19,8 +19,20 @@ if (!rootElement) throw new Error("Root element not found");
 createRoot(rootElement).render(
   <ClerkProvider 
     publishableKey={CLERK_PUBLISHABLE_KEY}
-    afterSignUpUrl="/register-role"
-    afterSignInUrl="/register-role"
+    routerPush={(to) => window.location.assign(to)}
+    routerReplace={(to) => window.location.replace(to)}
+    telemetry={false}
+    appearance={{
+      elements: {
+        // Disable default Clerk UI components that we don't use
+        formButtonPrimary: { display: 'none' },
+        dividerLine: { display: 'none' },
+        dividerText: { display: 'none' },
+        footerAction: { display: 'none' },
+        footerActionLink: { display: 'none' },
+        footer: { display: 'none' }
+      }
+    }}
   >
     <App />
   </ClerkProvider>

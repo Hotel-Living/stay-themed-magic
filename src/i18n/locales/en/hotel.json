@@ -36,6 +36,7 @@
     "monthlyStays": "monthly stays",
     "loadingHotelDetails": "Loading hotel details...",
     "doubleOccupancy": "Double Occupancy",
-    "singleOccupancy": "Single Occupancy"
+    "singleOccupancy": "Single Occupancy",
+    "accommodationOnly": "Accommodation Only"
   }
 }

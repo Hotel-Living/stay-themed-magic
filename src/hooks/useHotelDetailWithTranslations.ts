@@ -23,11 +23,14 @@ export const useHotelDetailWithTranslations = (hotelId?: string) => {
     console.log('useHotelDetailWithTranslations - Current language:', language);
     console.log('useHotelDetailWithTranslations - Hotel ID:', hotelId);
     
-    if (!hotel?.id || language === 'en') {
-      console.log('useHotelDetailWithTranslations - Clearing translation (no hotel or English)');
+    if (!hotel?.id) {
+      console.log('useHotelDetailWithTranslations - Clearing translation (no hotel)');
       setTranslation(null);
       return;
     }
+
+    // Always try to fetch translation, even for English
+    // The database may contain Spanish content that needs English translations
 
     const fetchTranslation = async () => {
       console.log('useHotelDetailWithTranslations - Fetching translation for:', hotel.id, 'language:', language);

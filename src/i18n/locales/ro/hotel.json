@@ -36,6 +36,7 @@
     "monthlyStays": "sejururi lunare",
     "loadingHotelDetails": "Se încarcă detaliile hotelului...",
     "doubleOccupancy": "Ocupare Dublă",
-    "singleOccupancy": "Ocupare Individuală"
+    "singleOccupancy": "Ocupare Individuală",
+    "accommodationOnly": "Doar cazare"
   }
 }

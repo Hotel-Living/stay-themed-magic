@@ -36,6 +36,7 @@
     "monthlyStays": "estadias mensais",
     "loadingHotelDetails": "Carregando detalhes do hotel...",
     "doubleOccupancy": "Ocupação Dupla",
-    "singleOccupancy": "Ocupação Individual"
+    "singleOccupancy": "Ocupação Individual",
+    "accommodationOnly": "Apenas acomodação"
   }
 }

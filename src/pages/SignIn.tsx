@@ -103,8 +103,11 @@ export default function SignIn() {
         password: password,
       });
 
-      // Send email verification
-      await signUp?.prepareEmailAddressVerification({ strategy: "email_code" });
+      // Send email verification with link strategy
+      await signUp?.prepareEmailAddressVerification({ 
+        strategy: "email_link",
+        redirectUrl: `${window.location.origin}/register-role`
+      });
 
       // Show verification message
       toast({

@@ -79,10 +79,11 @@ export function useAuthState() {
       console.log("User is not admin, checking other roles...");
 
       // Check role from profile first, then fallback to user metadata
+      // Match the same logic as RegisterRole.tsx for consistency
       const userRole = currentProfile?.role || 
                       (currentUser.user_metadata?.is_hotel_owner ? 'hotel_owner' : 
-                       currentUser.user_metadata?.is_association ? 'association' : 
-                       currentUser.user_metadata?.is_promoter ? 'promoter' : 'guest');
+                       currentUser.user_metadata?.association_name ? 'association' : 
+                       currentUser.user_metadata?.role === 'promoter' ? 'promoter' : 'guest');
       
       console.log("User role determination:", {
         profileRole: currentProfile?.role,
@@ -165,10 +166,15 @@ export function useAuthState() {
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
           // BUT exclude password reset pages and register-role page to allow users to complete the flow
           const currentPath = window.location.pathname;
+          const hasRole = profileData?.role && 
+                         profileData.role !== 'guest' && 
+                         profileData.role !== null && 
+                         profileData.role !== '';
+          
           if (event === 'SIGNED_IN' && 
               !currentPath.includes('/reset-password') && 
               !currentPath.includes('/register-role') &&
-              profileData?.role) { // Only redirect if user has a role assigned
+              hasRole) { // Only redirect if user has a meaningful role assigned
             await handleCorrectRedirect(session.user, profileData);
           }
         } else {

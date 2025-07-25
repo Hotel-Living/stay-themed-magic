@@ -48,35 +48,49 @@ export default function RegisterRole() {
 
       const role = roleMapping[accountType];
 
-      // Update user profile with role and wait for completion
+      // Update user profile with role
       await updateProfile({ role });
-      
-      // Wait a moment to ensure the profile update is reflected in the auth state
-      await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Role assigned successfully, redirect to appropriate dashboard
+      // MANUAL ROUTING - Direct navigation as requested
+      // This bypasses any automated redirect logic
       switch (accountType) {
         case 'traveler':
-          navigate('/user-dashboard');
+          navigate('/user-dashboard', { replace: true });
           break;
         case 'hotel':
-          navigate('/panel-hotel');
+          navigate('/panel-hotel', { replace: true });
           break;
         case 'association':
-          navigate('/panel-asociacion');
+          navigate('/panel-asociacion', { replace: true });
           break;
         case 'promoter':
-          navigate('/promoter/dashboard');
+          navigate('/promoter/dashboard', { replace: true });
           break;
         default:
-          navigate('/user-dashboard');
+          navigate('/user-dashboard', { replace: true });
+          break;
       }
-    } catch (error) {
+
+      toast({
+        title: "Perfil configurado",
+        description: "Redirigiendo a tu panel de control..."
+      });
+
+    } catch (error: any) {
       console.error('Error assigning role:', error);
+      
+      // Enhanced error handling for constraint violations
+      let errorMessage = "Error al asignar el rol. Intenta nuevamente.";
+      if (error.message?.includes('profiles_role_check')) {
+        errorMessage = "Error en la asignación de rol. El rol seleccionado no es válido.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Error al asignar el rol. Intenta nuevamente."
+        description: errorMessage
       });
     } finally {
       setIsLoading(false);

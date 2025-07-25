@@ -169,9 +169,22 @@ export default function HotelDetail() {
 
             {/* Stay Duration and Pricing */}
             {(hotel.stay_lengths || hotel.price_per_month) && <div className="space-y-2 text-purple-100 max-w-4xl mx-auto text-center">
-                {hotel.stay_lengths && <p className="text-lg">
-                    This hotel offers stays of {hotel.stay_lengths.join(', ')} days duration.
-                  </p>}
+                {hotel.stay_lengths && (() => {
+                  const validLengths = hotel.stay_lengths.filter(length => [8, 15, 22, 29].includes(length));
+                  if (validLengths.length > 0) {
+                    if (validLengths.length === 1) {
+                      return <p className="text-lg">
+                        This hotel offers {validLengths[0] === 29 ? 'monthly stays' : `stays of ${validLengths[0]} days`}.
+                      </p>;
+                    } else {
+                      const formattedLengths = validLengths.join(', ').replace(/,([^,]*)$/, ' and$1');
+                      return <p className="text-lg">
+                        This hotel offers stays of {formattedLengths} days.
+                      </p>;
+                    }
+                  }
+                  return null;
+                })()}
                 {hotel.price_per_month && <p className="text-xl font-semibold text-yellow-300">
                     The proportional price for a monthly stay is USD ${hotel.price_per_month}.
                   </p>}

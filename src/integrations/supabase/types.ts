@@ -1826,6 +1826,12 @@ export type Database = {
           hotel_count: number
         }[]
       }
+      get_user_roles_clerk: {
+        Args: { clerk_user_id: string }
+        Returns: {
+          role: string
+        }[]
+      }
       has_role: {
         Args: { role_name: string }
         Returns: boolean

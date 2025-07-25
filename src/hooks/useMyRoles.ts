@@ -19,7 +19,7 @@ export function useMyRoles() {
       try {
         const { data, error } = await supabase.rpc('get_user_roles_clerk', { 
           clerk_user_id: user.id 
-        });
+        }) as { data: { role: string }[] | null, error: any };
         
         if (error) {
           setError(error.message);

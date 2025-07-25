@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { assignRoleToClerkUser, checkEmailHasRole } from "@/hooks/useUserRoles";
 
 export default function RegisterRole() {
   const navigate = useNavigate();
@@ -25,20 +25,27 @@ export default function RegisterRole() {
   // Check if user already has a role assigned
   useEffect(() => {
     const checkExistingRole = async () => {
-      if (user?.emailAddresses?.[0]?.emailAddress) {
+      if (!user?.emailAddresses?.[0]?.emailAddress) return;
+      
+      try {
         const email = user.emailAddresses[0].emailAddress;
-        const { data: existingRole } = await supabase.rpc('check_email_role_exists', { 
-          p_email: email 
-        });
+        const { role, error } = await checkEmailHasRole(email);
         
-        if (existingRole) {
+        if (error) {
+          console.error("Error checking existing role:", error);
+          return;
+        }
+        
+        if (role) {
           // User already has a role, redirect to appropriate dashboard
-          switch (existingRole) {
+          switch (role) {
+            case 'guest':
             case 'traveler':
               navigate('/user-dashboard');
               break;
+            case 'hotel_owner':
             case 'hotel':
-              navigate('/hotel-dashboard');
+              navigate('/panel-hotel');
               break;
             case 'association':
               navigate('/panel-asociacion');
@@ -50,6 +57,8 @@ export default function RegisterRole() {
               navigate('/user-dashboard');
           }
         }
+      } catch (err) {
+        console.error("Error checking role:", err);
       }
     };
 
@@ -66,7 +75,7 @@ export default function RegisterRole() {
   }, [user, isLoaded, navigate]);
 
   const handleAccountTypeSelect = async (accountType: string) => {
-    if (!user?.emailAddresses?.[0]?.emailAddress) {
+    if (!user?.emailAddresses?.[0]?.emailAddress || !user?.id) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -80,12 +89,28 @@ export default function RegisterRole() {
       const email = user.emailAddresses[0].emailAddress;
       const userId = user.id;
 
-      // Assign role to user
-      const { data: success } = await supabase.rpc('assign_user_role', {
-        p_user_id: userId,
-        p_email: email,
-        p_role: accountType
-      });
+      // Map account types to roles
+      const roleMapping: Record<string, string> = {
+        traveler: 'guest',
+        hotel: 'hotel_owner',
+        association: 'association',
+        promoter: 'promoter'
+      };
+
+      const role = roleMapping[accountType];
+
+      // Assign role to user using Clerk ID
+      const { success, error } = await assignRoleToClerkUser(userId, email, role);
+
+      if (error) {
+        console.error("Error assigning role:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error al asignar el rol. Intenta nuevamente."
+        });
+        return;
+      }
 
       if (success) {
         // Role assigned successfully, redirect to appropriate dashboard
@@ -94,7 +119,7 @@ export default function RegisterRole() {
             navigate('/user-dashboard');
             break;
           case 'hotel':
-            navigate('/hotel-dashboard');
+            navigate('/panel-hotel');
             break;
           case 'association':
             navigate('/panel-asociacion');

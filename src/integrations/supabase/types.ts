@@ -866,11 +866,11 @@ export type Database = {
           banking_info: Json | null
           category: number | null
           check_in_weekday: string | null
-          city: string
+          city: string | null
           contact_email: string | null
           contact_name: string | null
           contact_phone: string | null
-          country: string
+          country: string | null
           created_at: string
           description: string | null
           enable_price_increase: boolean | null
@@ -900,7 +900,7 @@ export type Database = {
           preferred: string | null
           preferredWeekday: string | null
           price_increase_cap: number | null
-          price_per_month: number
+          price_per_month: number | null
           priceincreasecap: number | null
           pricingmatrix: Json | null
           property_style: string | null
@@ -924,11 +924,11 @@ export type Database = {
           banking_info?: Json | null
           category?: number | null
           check_in_weekday?: string | null
-          city: string
+          city?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
-          country: string
+          country?: string | null
           created_at?: string
           description?: string | null
           enable_price_increase?: boolean | null
@@ -958,7 +958,7 @@ export type Database = {
           preferred?: string | null
           preferredWeekday?: string | null
           price_increase_cap?: number | null
-          price_per_month: number
+          price_per_month?: number | null
           priceincreasecap?: number | null
           pricingmatrix?: Json | null
           property_style?: string | null
@@ -982,11 +982,11 @@ export type Database = {
           banking_info?: Json | null
           category?: number | null
           check_in_weekday?: string | null
-          city?: string
+          city?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
-          country?: string
+          country?: string | null
           created_at?: string
           description?: string | null
           enable_price_increase?: boolean | null
@@ -1016,7 +1016,7 @@ export type Database = {
           preferred?: string | null
           preferredWeekday?: string | null
           price_increase_cap?: number | null
-          price_per_month?: number
+          price_per_month?: number | null
           priceincreasecap?: number | null
           pricingmatrix?: Json | null
           property_style?: string | null

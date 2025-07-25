@@ -41,29 +41,13 @@ export function Navbar() {
     }
   };
 
-  // Auth Dropdown Component
-  const AuthDropdown = () => (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
-          <User className="w-5 h-5" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-40 bg-white shadow-lg rounded-xl border border-gray-200 z-50" align="end">
-        <div className="flex flex-col gap-2 p-2">
-          <Link to="/signing" className="w-full">
-            <Button variant="outline" className="w-full text-sm font-medium">
-              {t('mainNavigationContent.login.mobile')}
-            </Button>
-          </Link>
-          <Link to="/signing" className="w-full">
-            <Button variant="outline" className="w-full text-sm font-medium">
-              {t('mainNavigationContent.signup.mobile')}
-            </Button>
-          </Link>
-        </div>
-      </PopoverContent>
-    </Popover>
+  // Auth Link Component
+  const AuthLink = () => (
+    <Link to="/signing">
+      <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
+        <User className="w-5 h-5" />
+      </Button>
+    </Link>
   );
 
   return (
@@ -129,7 +113,7 @@ export function Navbar() {
           </Link>
           
           {!user ? (
-            <AuthDropdown />
+            <AuthLink />
           ) : (
             <div className="flex items-center space-x-4">
               <DashboardSelector />
@@ -200,7 +184,7 @@ export function Navbar() {
           
           {!isLoggedIn && (
             <div className="flex justify-center w-full mb-3">
-              <AuthDropdown />
+              <AuthLink />
             </div>
           )}
           

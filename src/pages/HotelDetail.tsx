@@ -302,9 +302,19 @@ export default function HotelDetail() {
                 {/* Available Dates Display */}
                 <div className="mb-6 text-center">
                   <p className="text-white text-xl font-semibold">
-                    AVAILABLE DATES: {availabilityPackages.map(pkg => 
-                      `${format(new Date(pkg.startDate), 'MM/dd/yyyy')} - ${format(new Date(pkg.endDate), 'MM/dd/yyyy')}`
-                    ).join(', ')}
+                    AVAILABLE DATES: {availabilityPackages
+                      .filter(pkg => pkg.startDate && pkg.endDate) // Filter out packages with invalid dates
+                      .map(pkg => {
+                        const startDate = new Date(pkg.startDate);
+                        const endDate = new Date(pkg.endDate);
+                        // Check if dates are valid before formatting
+                        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                          return null;
+                        }
+                        return `${format(startDate, 'MM/dd/yyyy')} - ${format(endDate, 'MM/dd/yyyy')}`;
+                      })
+                      .filter(Boolean) // Remove null values
+                      .join(', ') || 'No valid dates available'}
                   </p>
                 </div>
                 

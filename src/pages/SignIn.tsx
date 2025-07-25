@@ -134,36 +134,21 @@ export default function SignIn() {
         throw new Error("No se pudo crear la cuenta");
       }
 
-      // First try email_link strategy (enforce magic links)
-      try {
-        await signUp?.prepareEmailAddressVerification({ 
-          strategy: "email_link",
-          redirectUrl: `${window.location.origin}/register-role`
-        });
-        
-        toast({
-          title: "Verificación requerida",
-          description: "Hemos enviado un enlace de verificación a tu email. Por favor, compruébalo para continuar."
-        });
-      } catch (linkError) {
-        console.error("Email link failed, trying code fallback:", linkError);
-        
-        // Fallback to email code if link fails
-        try {
-          await signUp?.prepareEmailAddressVerification({ 
-            strategy: "email_code"
-          });
-          
-          setShowVerification(true);
-          toast({
-            title: "Código de verificación enviado",
-            description: "Hemos enviado un código de verificación a tu email. Ingrésalo abajo para continuar."
-          });
-        } catch (codeError) {
-          console.error("Both verification methods failed:", codeError);
-          throw codeError;
-        }
-      }
+      // Use ONLY email_link strategy - no fallback to codes
+      console.log("Attempting email verification with strategy: email_link");
+      console.log("Redirect URL:", `${window.location.origin}/register-role`);
+      
+      await signUp?.prepareEmailAddressVerification({ 
+        strategy: "email_link",
+        redirectUrl: `${window.location.origin}/register-role`
+      });
+      
+      console.log("Email link verification request sent successfully");
+      
+      toast({
+        title: "Enlace de verificación enviado",
+        description: "Hemos enviado un enlace de verificación a tu email. Haz clic en el enlace para completar tu registro."
+      });
       
       // Clear form
       setEmail("");

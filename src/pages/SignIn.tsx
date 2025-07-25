@@ -23,9 +23,6 @@ export default function SignIn() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   
-  // Verification states
-  const [showVerification, setShowVerification] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
 
   // Scroll to top on page load
   useEffect(() => {
@@ -134,25 +131,21 @@ export default function SignIn() {
         throw new Error("No se pudo crear la cuenta");
       }
 
-      // Temporarily use email_code since email_link is not enabled in this Clerk environment
-      console.log("Attempting email verification with strategy: email_code");
-      
-      await signUp?.prepareEmailAddressVerification({ 
-        strategy: "email_code"
-      });
-      
-      console.log("Email code verification request sent successfully");
-      setShowVerification(true);
+      // Skip email verification entirely - temporary workaround
+      console.log("Skipping email verification, redirecting directly to role selection");
       
       toast({
-        title: "Código de verificación enviado",
-        description: "Hemos enviado un código de verificación a tu email. Ingrésalo abajo para continuar."
+        title: "Cuenta creada",
+        description: "Tu cuenta ha sido creada exitosamente. Selecciona tu tipo de cuenta."
       });
       
       // Clear form
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      
+      // Redirect directly to role selection
+      navigate('/register-role');
     } catch (error: any) {
       clearTimeout(timeoutId);
       console.error("Signup error:", error);
@@ -166,36 +159,6 @@ export default function SignIn() {
     }
   };
 
-  const handleVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      const result = await signUp?.attemptEmailAddressVerification({
-        code: verificationCode,
-      });
-
-      if (result?.status === 'complete') {
-        setShowVerification(false);
-        toast({
-          title: "Email verificado",
-          description: "Tu email ha sido verificado exitosamente. Redirigiendo..."
-        });
-        
-        // Redirect to role selection
-        navigate('/register-role');
-      }
-    } catch (error: any) {
-      console.error("Verification error:", error);
-      toast({
-        variant: "destructive",
-        title: "Error de verificación",
-        description: error.errors?.[0]?.message || "Código de verificación inválido"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -346,35 +309,6 @@ export default function SignIn() {
                   </button>
                 </form>
                 
-                {/* Emergency Verification Code Input - Only show if codes are sent despite link config */}
-                {showVerification && (
-                  <div className="mt-6 p-4 bg-white/5 border border-white/20 rounded-lg">
-                    <h3 className="text-white font-medium mb-3">
-                      Verificación por código
-                    </h3>
-                    <p className="text-white/80 text-sm mb-4">
-                      Ingresa el código de verificación que enviamos a tu email:
-                    </p>
-                    <form onSubmit={handleVerifyCode} className="space-y-3">
-                      <input
-                        type="text"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                        className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary text-center"
-                        placeholder="123456"
-                        maxLength={6}
-                        required
-                      />
-                      <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
-                      >
-                        {isLoading ? "Verificando..." : "Verificar código"}
-                      </button>
-                    </form>
-                  </div>
-                )}
               </TabsContent>
               
               <TabsContent value="login" className="space-y-4">

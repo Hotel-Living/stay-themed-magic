@@ -108,27 +108,43 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     try {
       const propertyData = convertToPropertyFormData(currentData);
       
+      console.log("=== STARTING HOTEL SUBMISSION ===");
+      console.log("Property data:", propertyData);
+      
       // Submit to hotel creation system
       const result = await createNewHotel(propertyData, user.id);
       
+      console.log("=== HOTEL SUBMISSION RESULT ===");
+      console.log("Result:", result);
+      
       if (result) {
+        console.log("=== HOTEL CREATION SUCCESSFUL ===");
         toast({
           title: "Success!",
           description: "Hotel submitted successfully for approval.",
           duration: 5000
         });
 
-        // Redirect to hotel dashboard after successful submission
-        navigate('/hotel-dashboard');
+        // Redirect to current hotel panel route after successful submission
+        console.log("=== NAVIGATING TO PANEL-HOTEL ===");
+        navigate('/panel-hotel');
+      } else {
+        console.error("=== HOTEL CREATION FAILED - NO RESULT ===");
+        throw new Error("Hotel creation failed - no result returned");
       }
     } catch (error) {
-      console.error('Error submitting hotel:', error);
+      console.error('=== ERROR SUBMITTING HOTEL ===');
+      console.error('Error details:', error);
+      console.error('Error message:', error?.message);
+      console.error('Error stack:', error?.stack);
+      
       toast({
         title: "Submission Failed",
-        description: "There was an error submitting your hotel. Please try again.",
+        description: error?.message || "There was an error submitting your hotel. Please try again.",
         variant: 'destructive'
       });
     } finally {
+      console.log("=== RESETTING SUBMISSION STATE ===");
       setIsSubmitting(false);
     }
   };

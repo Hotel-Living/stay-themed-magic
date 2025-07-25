@@ -1,47 +1,24 @@
 
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { AuthCard } from "@/components/auth/AuthCard";
-import { ClerkLoginForm } from "@/components/auth/ClerkLoginForm";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/Starfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Login() {
-  const [activeTab, setActiveTab] = useState("traveler");
-  const location = useLocation();
-  const { user } = useUser();
   const navigate = useNavigate();
   const { t, isReady } = useTranslation('auth');
-
-  // Handle tab selection from URL parameter
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const tab = searchParams.get('tab');
-    if (tab === 'hotel') {
-      setActiveTab('hotel');
-    } else if (tab === 'association') {
-      setActiveTab('association');
-    } else if (tab === 'promoter') {
-      setActiveTab('promoter');
-    }
-  }, [location.search]);
 
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      // Default redirect to user dashboard for authenticated users
-      navigate('/user-dashboard');
-    }
-  }, [user, navigate]);
+  const handleAccountTypeSelect = (accountType: string) => {
+    navigate(`/signup-${accountType}`);
+  };
 
   // Show loading until i18n is ready
   if (!isReady) {
@@ -64,84 +41,53 @@ export default function Login() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white">
-              {t('loginTitle') || 'Login'}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white mb-4">
+              What type of account do you want to create?
             </h1>
           </div>
           
-          <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-[#8017B0]">
-              <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
-                Traveler
-              </TabsTrigger>
-              <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
-                Hotel Partner
-              </TabsTrigger>
-              <TabsTrigger value="association" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
-                Association
-              </TabsTrigger>
-              <TabsTrigger value="promoter" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-sm sm:text-base">
-                Promoter
-              </TabsTrigger>
-            </TabsList>
+          <div className="space-y-4">
+            <Button 
+              onClick={() => handleAccountTypeSelect('traveler')}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+            >
+              Traveler
+            </Button>
             
-            <TabsContent value="traveler">
-              <AuthCard 
-                title="Traveler Login" 
-                subtitle={t('signInToAccount')} 
-                footerLinks={[{
-                  text: t('dontHaveAccount'),
-                  linkText: t('createTravelerAccountLink'),
-                  linkUrl: "/signup"
-                }]}
-              >
-                <ClerkLoginForm userType="traveler" />
-              </AuthCard>
-            </TabsContent>
+            <Button 
+              onClick={() => handleAccountTypeSelect('hotel')}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+            >
+              Hotel Partner
+            </Button>
             
-            <TabsContent value="hotel">
-              <AuthCard 
-                title="Hotel Partner Login" 
-                subtitle={t('signInToPartnerAccount')} 
-                footerLinks={[{
-                  text: t('dontHavePartnerAccount'),
-                  linkText: t('registerAsHotelPartner'),
-                  linkUrl: "/hotel-signup"
-                }]}
-              >
-                <ClerkLoginForm userType="hotel" />
-              </AuthCard>
-            </TabsContent>
+            <Button 
+              onClick={() => handleAccountTypeSelect('association')}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+            >
+              Association
+            </Button>
             
-            <TabsContent value="association">
-              <AuthCard 
-                title="Association Login" 
-                subtitle="Sign in to your Association account" 
-                footerLinks={[{
-                  text: "Don't have an account?",
-                  linkText: "Register as Association",
-                  linkUrl: "/association-signup"
-                }]}
+            <Button 
+              onClick={() => handleAccountTypeSelect('promoter')}
+              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none"
+            >
+              Promoter
+            </Button>
+          </div>
+          
+          <div className="text-center mt-8">
+            <p className="text-white/80 text-sm">
+              Already have an account?{" "}
+              <button 
+                onClick={() => navigate('/signin')}
+                className="text-white underline hover:text-white/80"
               >
-                <ClerkLoginForm userType="association" />
-              </AuthCard>
-            </TabsContent>
-            
-            <TabsContent value="promoter">
-              <AuthCard 
-                title="Promoter Login" 
-                subtitle="Sign in to your Promoter account" 
-                footerLinks={[{
-                  text: "Don't have an account?",
-                  linkText: "Register as Promoter",
-                  linkUrl: "/promoter-signup"
-                }]}
-              >
-                <ClerkLoginForm userType="promoter" />
-              </AuthCard>
-            </TabsContent>
-          </Tabs>
+                Sign in here
+              </button>
+            </p>
+          </div>
         </div>
       </main>
       

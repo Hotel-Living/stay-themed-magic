@@ -22,6 +22,10 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Verification states
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
 
   // Scroll to top on page load
   useEffect(() => {
@@ -130,18 +134,36 @@ export default function SignIn() {
         throw new Error("No se pudo crear la cuenta");
       }
 
-      // Send email verification with email_code strategy
-      await signUp?.prepareEmailAddressVerification({ 
-        strategy: "email_code"
-      });
-
-      clearTimeout(timeoutId);
-
-      // Show verification message
-      toast({
-        title: "Verificación requerida",
-        description: "Hemos enviado un email de verificación. Por favor, compruébalo para continuar."
-      });
+      // First try email_link strategy (enforce magic links)
+      try {
+        await signUp?.prepareEmailAddressVerification({ 
+          strategy: "email_link",
+          redirectUrl: `${window.location.origin}/register-role`
+        });
+        
+        toast({
+          title: "Verificación requerida",
+          description: "Hemos enviado un enlace de verificación a tu email. Por favor, compruébalo para continuar."
+        });
+      } catch (linkError) {
+        console.error("Email link failed, trying code fallback:", linkError);
+        
+        // Fallback to email code if link fails
+        try {
+          await signUp?.prepareEmailAddressVerification({ 
+            strategy: "email_code"
+          });
+          
+          setShowVerification(true);
+          toast({
+            title: "Código de verificación enviado",
+            description: "Hemos enviado un código de verificación a tu email. Ingrésalo abajo para continuar."
+          });
+        } catch (codeError) {
+          console.error("Both verification methods failed:", codeError);
+          throw codeError;
+        }
+      }
       
       // Clear form
       setEmail("");
@@ -154,6 +176,37 @@ export default function SignIn() {
         variant: "destructive",
         title: "Error",
         description: error.errors?.[0]?.message || error.message || "Error al crear la cuenta"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    try {
+      const result = await signUp?.attemptEmailAddressVerification({
+        code: verificationCode,
+      });
+
+      if (result?.status === 'complete') {
+        setShowVerification(false);
+        toast({
+          title: "Email verificado",
+          description: "Tu email ha sido verificado exitosamente. Redirigiendo..."
+        });
+        
+        // Redirect to role selection
+        navigate('/register-role');
+      }
+    } catch (error: any) {
+      console.error("Verification error:", error);
+      toast({
+        variant: "destructive",
+        title: "Error de verificación",
+        description: error.errors?.[0]?.message || "Código de verificación inválido"
       });
     } finally {
       setIsLoading(false);
@@ -308,6 +361,36 @@ export default function SignIn() {
                     {isLoading ? "Creando cuenta..." : "Crear cuenta"}
                   </button>
                 </form>
+                
+                {/* Emergency Verification Code Input - Only show if codes are sent despite link config */}
+                {showVerification && (
+                  <div className="mt-6 p-4 bg-white/5 border border-white/20 rounded-lg">
+                    <h3 className="text-white font-medium mb-3">
+                      Verificación por código
+                    </h3>
+                    <p className="text-white/80 text-sm mb-4">
+                      Ingresa el código de verificación que enviamos a tu email:
+                    </p>
+                    <form onSubmit={handleVerifyCode} className="space-y-3">
+                      <input
+                        type="text"
+                        value={verificationCode}
+                        onChange={(e) => setVerificationCode(e.target.value)}
+                        className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary text-center"
+                        placeholder="123456"
+                        maxLength={6}
+                        required
+                      />
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
+                      >
+                        {isLoading ? "Verificando..." : "Verificar código"}
+                      </button>
+                    </form>
+                  </div>
+                )}
               </TabsContent>
               
               <TabsContent value="login" className="space-y-4">

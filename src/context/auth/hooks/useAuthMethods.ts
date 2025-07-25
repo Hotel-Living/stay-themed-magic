@@ -24,15 +24,16 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   const { signIn: signInHook } = useSignIn({ setIsLoading, setProfile });
   const { updateProfile } = useProfileManagement({ setIsLoading, setProfile });
 
-  // Centralized signIn function with proper error handling
   const signIn = async (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => {
     try {
       setIsLoading(true);
       setAuthError(null);
       
-      console.log("Starting sign in process", { email, userType });
+      console.log("Starting sign in process", { email });
+      console.log("Note: userType parameter ignored - routing based on stored role in database");
       
-      const result = await signInHook(email, password, userType);
+      // Call the simplified signIn that doesn't validate userType
+      const result = await signInHook(email, password);
       
       console.log("Sign in result:", result);
       

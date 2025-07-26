@@ -19,10 +19,10 @@ export default function RegisterRole() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect to register-role page if not authenticated
+  // Redirect to entrance page if not authenticated
   useEffect(() => {
     if (!user) {
-      navigate('/register-role');
+      navigate('/entrance');
     }
   }, [user, navigate]);
 
@@ -43,7 +43,8 @@ export default function RegisterRole() {
         traveler: 'guest',
         hotel: 'hotel_owner',
         association: 'association',
-        promoter: 'promoter'
+        promoter: 'promoter',
+        agent: 'agent'
       };
 
       const role = roleMapping[accountType];
@@ -58,13 +59,16 @@ export default function RegisterRole() {
           navigate('/user-dashboard', { replace: true });
           break;
         case 'hotel':
-          navigate('/panel-hotel', { replace: true });
+          navigate('/hotel-dashboard', { replace: true });
           break;
         case 'association':
           navigate('/panel-asociacion', { replace: true });
           break;
         case 'promoter':
           navigate('/promoter/dashboard', { replace: true });
+          break;
+        case 'agent':
+          navigate('/panel-agente', { replace: true });
           break;
         default:
           navigate('/user-dashboard', { replace: true });
@@ -162,7 +166,7 @@ export default function RegisterRole() {
             <p className="text-white/80 text-sm">
               Already have an account?{" "}
               <button 
-                onClick={() => navigate('/register-role')}
+                onClick={() => navigate('/entrance')}
                 className="text-white underline hover:text-white/80"
               >
                 Sign in here

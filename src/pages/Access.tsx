@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -25,6 +25,36 @@ export default function Access() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
+  // Add auth state change listener for proper session management
+  useEffect(() => {
+    console.log('🔧 Access: Setting up auth state listener');
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        console.log('🔧 Access: Auth state changed:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_IN' && session?.user) {
+          console.log('🔧 Access: User signed in successfully:', session.user.email);
+        } else if (event === 'SIGNED_OUT') {
+          console.log('🔧 Access: User signed out');
+        }
+      }
+    );
+
+    return () => {
+      console.log('🔧 Access: Cleaning up auth listener');
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Helper function to reset form state
+  const resetFormState = () => {
+    console.log('🔧 Access: Resetting form state');
+    setIsLoading(false);
+    setPassword('');
+    setConfirmPassword('');
+  };
+
   // Form validation
   const isFormValid = () => {
     if (isLogin) {
@@ -44,8 +74,10 @@ export default function Access() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🔧 Access: Starting auth process, isLogin:', isLogin);
     
     if (!isFormValid()) {
+      console.log('🔧 Access: Form validation failed');
       toast({
         title: t('requiredFields'),
         description: isLogin ? t('enterEmailAndPassword') : t('fillAllFields'),
@@ -56,6 +88,7 @@ export default function Access() {
 
     const passwordError = getPasswordError();
     if (passwordError) {
+      console.log('🔧 Access: Password validation error:', passwordError);
       toast({
         title: t('error'),
         description: passwordError,
@@ -68,13 +101,17 @@ export default function Access() {
 
     try {
       if (isLogin) {
-        // Login flow
+        console.log('🔧 Access: Starting login for:', email.trim());
+        
         const { data, error } = await supabase.auth.signInWithPassword({
           email: email.trim(),
           password
         });
 
         if (error) {
+          console.log('🔧 Access: Login error:', error.message);
+          resetFormState();
+          
           if (error.message.includes('Invalid login credentials')) {
             toast({
               title: t('invalidCredentials'),
@@ -92,16 +129,26 @@ export default function Access() {
         }
 
         if (data.user) {
+          console.log('🔧 Access: Login successful for user:', data.user.email);
+          
           // Get user profile to determine redirect
-          const { data: profile } = await supabase
+          const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('role, is_hotel_owner')
             .eq('id', data.user.id)
             .single();
 
+          if (profileError) {
+            console.log('🔧 Access: Profile fetch error:', profileError.message);
+          } else {
+            console.log('🔧 Access: Profile found:', profile);
+          }
+
           // Redirect based on role
           if (profile) {
             const userRole = profile.role;
+            console.log('🔧 Access: Redirecting user with role:', userRole);
+            
             switch (userRole) {
               case 'guest':
                 navigate('/user-dashboard');
@@ -122,6 +169,7 @@ export default function Access() {
                 navigate('/user-dashboard');
             }
           } else {
+            console.log('🔧 Access: No profile found, redirecting to user dashboard');
             navigate('/user-dashboard');
           }
 
@@ -131,47 +179,83 @@ export default function Access() {
           });
         }
       } else {
-        // Signup flow - check if user exists first
-        const { data: existingUser } = await supabase.auth.signInWithPassword({
+        console.log('🔧 Access: Starting signup process for:', email.trim());
+        
+        // FIXED: Direct signup attempt instead of broken user existence check
+        const { data, error } = await supabase.auth.signUp({
           email: email.trim(),
-          password: 'dummy' // This will fail but tell us if user exists
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/access`,
+            data: {
+              first_name: firstName.trim(),
+              last_name: lastName.trim()
+            }
+          }
         });
 
-        // If we get here without error, something went wrong
-        if (!existingUser) {
-          // User doesn't exist, proceed with signup
-          const { data, error } = await supabase.auth.signUp({
-            email: email.trim(),
-            password,
-            options: {
-              emailRedirectTo: `${window.location.origin}/access`,
-              data: {
-                first_name: firstName.trim(),
-                last_name: lastName.trim()
-              }
-            }
-          });
-
-          if (error) {
-            if (error.message.includes('already registered')) {
-              setIsLogin(true);
-              toast({
-                title: t('accountExists'),
-                description: t('switchToLogin'),
-                variant: 'default'
-              });
-              return;
-            }
+        if (error) {
+          console.log('🔧 Access: Signup error:', error.message);
+          resetFormState();
+          
+          if (error.message.includes('already registered') || error.message.includes('already been registered')) {
+            console.log('🔧 Access: User already exists, switching to login');
+            setIsLogin(true);
             toast({
-              title: 'Signup Error',
-              description: error.message,
-              variant: 'destructive'
+              title: t('accountExists'),
+              description: t('switchToLogin'),
+              variant: 'default'
             });
             return;
           }
+          
+          toast({
+            title: 'Signup Error',
+            description: error.message,
+            variant: 'destructive'
+          });
+          return;
+        }
 
-          if (data.user) {
-            // Start async email processes without blocking
+        if (data.user) {
+          console.log('🔧 Access: Signup successful for user:', data.user.email);
+          console.log('🔧 Access: User metadata sent:', { first_name: firstName.trim(), last_name: lastName.trim() });
+          
+          // Verify profile was created by the trigger
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('first_name, last_name, role')
+            .eq('id', data.user.id)
+            .single();
+            
+          if (profileError) {
+            console.log('🔧 Access: Profile creation failed, trigger may not be working:', profileError.message);
+            
+            // Fallback: Create profile manually if trigger failed
+            const { error: createError } = await supabase
+              .from('profiles')
+              .insert({
+                id: data.user.id,
+                first_name: firstName.trim(),
+                last_name: lastName.trim(),
+                role: 'guest',
+                email_verified: true,
+                is_hotel_owner: false
+              });
+              
+            if (createError) {
+              console.log('🔧 Access: Manual profile creation failed:', createError.message);
+            } else {
+              console.log('🔧 Access: Manual profile creation successful');
+            }
+          } else {
+            console.log('🔧 Access: Profile created by trigger:', profile);
+          }
+
+          // Start async email processes without blocking (with proper timeout)
+          console.log('🔧 Access: Starting background email processes');
+          
+          setTimeout(() => {
             Promise.race([
               fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/send-welcome-email', {
                 method: 'POST',
@@ -183,7 +267,7 @@ export default function Access() {
               }),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
             ]).catch(() => {
-              console.log('Email notification timeout - continuing with signup');
+              console.log('🔧 Access: Welcome email notification timeout - continuing');
             });
 
             Promise.race([
@@ -197,47 +281,49 @@ export default function Access() {
               }),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
             ]).catch(() => {
-              console.log('Admin notification timeout - continuing with signup');
+              console.log('🔧 Access: Admin notification timeout - continuing');
             });
+          }, 0); // Defer to next tick
 
-            setStep('role-selection');
-            toast({
-              title: t('accountCreated'),
-              description: 'Please select your role to continue'
-            });
-          }
+          console.log('🔧 Access: Moving to role selection step');
+          setStep('role-selection');
+          toast({
+            title: t('accountCreated'),
+            description: 'Please select your role to continue'
+          });
         }
       }
     } catch (error: any) {
-      // Handle case where user exists
-      if (error.message && error.message.includes('Invalid login credentials')) {
-        // User exists, switch to login
-        setIsLogin(true);
-        toast({
-          title: t('accountExists'),
-          description: t('loginInstead'),
-          variant: 'default'
-        });
-      } else {
-        toast({
-          title: t('unexpectedLoginError'),
-          description: error.message || 'An unexpected error occurred',
-          variant: 'destructive'
-        });
-      }
+      console.log('🔧 Access: Unexpected error in auth process:', error);
+      resetFormState();
+      
+      toast({
+        title: t('unexpectedLoginError'),
+        description: error.message || 'An unexpected error occurred',
+        variant: 'destructive'
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleRoleSelection = async () => {
-    if (!selectedRole) return;
+    if (!selectedRole) {
+      console.log('🔧 Access: No role selected');
+      return;
+    }
 
+    console.log('🔧 Access: Starting role selection for:', selectedRole);
     setIsLoading(true);
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        console.log('🔧 Access: No user found in role selection');
+        return;
+      }
+
+      console.log('🔧 Access: User found for role selection:', user.email);
 
       // Update profile with selected role
       const roleMapping = {
@@ -248,15 +334,19 @@ export default function Access() {
         admin: 'admin'
       };
 
+      const mappedRole = roleMapping[selectedRole];
+      console.log('🔧 Access: Updating profile with role:', mappedRole);
+
       const { error } = await supabase
         .from('profiles')
         .update({
-          role: roleMapping[selectedRole],
+          role: mappedRole,
           is_hotel_owner: selectedRole === 'hotel'
         })
         .eq('id', user.id);
 
       if (error) {
+        console.log('🔧 Access: Profile update error:', error.message);
         toast({
           title: 'Error',
           description: error.message,
@@ -265,14 +355,25 @@ export default function Access() {
         return;
       }
 
+      console.log('🔧 Access: Profile updated successfully');
+
       // Insert user role
-      await supabase
+      const { error: roleError } = await supabase
         .from('user_roles')
         .insert({
           user_id: user.id,
           email: user.email,
-          role: roleMapping[selectedRole]
+          role: mappedRole
         });
+
+      if (roleError) {
+        console.log('🔧 Access: User role insertion error (may be duplicate):', roleError.message);
+        // Don't fail on duplicate role error - it's expected
+      } else {
+        console.log('🔧 Access: User role inserted successfully');
+      }
+
+      console.log('🔧 Access: Redirecting based on role:', selectedRole);
 
       // Redirect based on role
       switch (selectedRole) {
@@ -298,6 +399,7 @@ export default function Access() {
         description: 'Account setup completed'
       });
     } catch (error: any) {
+      console.log('🔧 Access: Role selection error:', error);
       toast({
         title: 'Error',
         description: error.message,

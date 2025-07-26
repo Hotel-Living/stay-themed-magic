@@ -35,6 +35,7 @@ import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
 import RegisterRole from "@/pages/RegisterRole";
+import Entrance from "@/pages/Entrance";
 
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
@@ -112,11 +113,12 @@ function App() {
                 <IntroAnimation onComplete={handleIntroComplete} />
               )}
               
-               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/hotels" element={<Hotels />} />
-                <Route path="/hotel/:id" element={<HotelDetail />} />
-                <Route path="/search" element={<Search />} />
+                <Routes>
+                 <Route path="/" element={<Home />} />
+                 <Route path="/hotels" element={<Hotels />} />
+                 <Route path="/hotel/:id" element={<HotelDetail />} />
+                 <Route path="/search" element={<Search />} />
+                 <Route path="/entrance" element={<Entrance />} />
                  <Route path="/register-role" element={<RegisterRole />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />

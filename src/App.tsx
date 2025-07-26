@@ -83,6 +83,7 @@ import AdminLogin from "@/pages/AdminLogin";
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 import Signing from "@/pages/Signing";
 import Access from "@/pages/Access";
+import LoginRegister from "@/pages/LoginRegister";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -122,6 +123,7 @@ function App() {
                  <Route path="/register-role" element={<RegisterRole />} />
                  <Route path="/signing" element={<Signing />} />
                  <Route path="/access" element={<Access />} />
+                 <Route path="/login-register" element={<LoginRegister />} />
                  
                  {/* Legacy route redirects - all redirect to /signing */}
                  <Route path="/sign-in" element={<Navigate to="/signing" replace />} />

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
+import { simpleUpdateProfile } from "@/hooks/useSimpleAuth";
 import { Badge } from "@/components/ui/badge";
 import { UserRoles } from "@/components/dashboard/user/UserRoles";
 import { MyAffinities } from "@/components/dashboard/user/MyAffinities";
@@ -12,7 +13,7 @@ import { AvatarUpload } from "@/components/dashboard/user/AvatarUpload";
 import { UserAffinities } from "@/components/dashboard/user/UserAffinities";
 
 const ProfileContent = () => {
-  const { profile, user, updateProfile } = useAuth();
+  const { profile, user } = useAuth();
   const { toast } = useToast();
   const [firstName, setFirstName] = useState(profile?.first_name || "");
   const [lastName, setLastName] = useState(profile?.last_name || "");
@@ -26,7 +27,9 @@ const ProfileContent = () => {
 
     setIsSubmitting(true);
     try {
-      await updateProfile({
+      if (!user) throw new Error("No user found");
+      
+      await simpleUpdateProfile(user.id, {
         first_name: firstName,
         last_name: lastName,
         phone: phone,

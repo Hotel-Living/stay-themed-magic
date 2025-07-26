@@ -12,11 +12,10 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requireAssociation, requirePromoter, requireTraveler }: ProtectedRouteProps) => {
-  const { user, session, profile, isLoading, isRedirecting } = useAuth();
+  const { user, session, profile, isLoading } = useAuth();
 
   console.log("=== PROTECTED ROUTE CHECK ===");
   console.log("Is loading:", isLoading);
-  console.log("Is redirecting:", isRedirecting);
   console.log("Has user:", !!user);
   console.log("Has session:", !!session);
   console.log("Require hotel owner:", requireHotelOwner);
@@ -27,11 +26,6 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
   console.log("Profile data:", profile);
   console.log("Current path:", window.location.pathname);
 
-  // CRITICAL: Block all rendering while redirecting - this eliminates the flash completely
-  if (isRedirecting) {
-    console.log("Redirect in progress, blocking all rendering to eliminate flash");
-    return null; // Render absolutely nothing during redirect
-  }
 
   // Show loading while auth state is being determined
   if (isLoading) {

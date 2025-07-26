@@ -36,6 +36,8 @@ import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
 import RegisterRole from "@/pages/RegisterRole";
 import Entrance from "@/pages/Entrance";
+import Signing from "@/pages/Signing";
+import Dashboard from "@/pages/Dashboard";
 
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
@@ -118,8 +120,10 @@ function App() {
                  <Route path="/hotels" element={<Hotels />} />
                  <Route path="/hotel/:id" element={<HotelDetail />} />
                  <Route path="/search" element={<Search />} />
-                 <Route path="/entrance" element={<Entrance />} />
-                 <Route path="/register-role" element={<RegisterRole />} />
+                  <Route path="/entrance" element={<Entrance />} />
+                  <Route path="/signing" element={<Signing />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/register-role" element={<RegisterRole />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/hotel-signup" element={<HotelRegistration />} />

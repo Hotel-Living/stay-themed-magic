@@ -3,22 +3,12 @@ import { createContext, useContext } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { Profile } from "@/integrations/supabase/types-custom";
 
-interface AuthResult {
-  success: boolean;
-  error: string | null;
-}
-
 interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   session: Session | null;
   isLoading: boolean;
-  isRedirecting: boolean;
-  
-  signIn: (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => Promise<AuthResult>;
   signOut: () => Promise<void>;
-  updateProfile: (data: Partial<Profile>) => Promise<void>;
-  setIsJustSignedUp?: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

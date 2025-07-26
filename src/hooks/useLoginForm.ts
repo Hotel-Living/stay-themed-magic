@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { simpleSignIn } from "@/hooks/useSimpleSignIn";
 import { useToast } from "@/hooks/use-toast";
 
 export function useLoginForm(userType: "traveler" | "hotel" | "association" | "promoter") {
@@ -9,7 +9,7 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
-  const { signIn } = useAuth();
+  
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,7 +31,7 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
     setIsLoading(true);
 
     try {
-      const result = await signIn(email, password, userType);
+      const result = await simpleSignIn(email, password);
       
       console.log("Sign in result:", result);
 

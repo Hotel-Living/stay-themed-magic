@@ -16,7 +16,7 @@ import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 
 export default function Entrance() {
   const navigate = useNavigate();
-  const { user, profile, setIsJustSignedUp } = useAuth();
+  const { user, profile } = useAuth();
   const { t } = useTranslation();
   const { toast } = useToast();
   
@@ -123,8 +123,8 @@ export default function Entrance() {
         return;
       }
 
-      // Mark that this user just signed up so auth state logic knows to redirect
-      setIsJustSignedUp?.(true);
+      // Redirect to role selection
+      navigate('/register-role');
 
       toast({
         title: "Account created successfully!",

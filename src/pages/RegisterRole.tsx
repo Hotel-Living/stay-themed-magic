@@ -6,25 +6,40 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/Starfield";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterRole() {
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
-  // Scroll to top on page load
+  // Check authentication and role status
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Redirect to entrance page if not authenticated
-  useEffect(() => {
-    if (!user) {
-      navigate('/entrance');
-    }
-  }, [user, navigate]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate('/signing');
+        return;
+      }
+      
+      setUser(session.user);
+      
+      // Check if user already has a role
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', session.user.id)
+        .single();
+      
+      if (profile?.role) {
+        navigate('/dashboard');
+      }
+    };
+    
+    checkAuth();
+  }, [navigate]);
 
   const handleAccountTypeSelect = async (accountType: string) => {
     if (!user) {
@@ -44,57 +59,33 @@ export default function RegisterRole() {
         hotel: 'hotel_owner',
         association: 'association',
         promoter: 'promoter',
-        agent: 'agent'
       };
 
       const role = roleMapping[accountType];
 
       // Update user profile with role
-      await updateProfile({ role });
+      const { error } = await supabase
+        .from('profiles')
+        .update({ role })
+        .eq('id', user.id);
 
-      // MANUAL ROUTING - Direct navigation as requested
-      // This bypasses any automated redirect logic
-      switch (accountType) {
-        case 'traveler':
-          navigate('/user-dashboard', { replace: true });
-          break;
-        case 'hotel':
-          navigate('/hotel-dashboard', { replace: true });
-          break;
-        case 'association':
-          navigate('/panel-asociacion', { replace: true });
-          break;
-        case 'promoter':
-          navigate('/promoter/dashboard', { replace: true });
-          break;
-        case 'agent':
-          navigate('/panel-agente', { replace: true });
-          break;
-        default:
-          navigate('/user-dashboard', { replace: true });
-          break;
-      }
+      if (error) throw error;
 
       toast({
-        title: "Perfil configurado",
-        description: "Redirigiendo a tu panel de control..."
+        title: "Profile configured",
+        description: "Redirecting to your dashboard..."
       });
+
+      // Navigate to dashboard which will handle role-based routing
+      navigate('/dashboard');
 
     } catch (error: any) {
       console.error('Error assigning role:', error);
       
-      // Enhanced error handling for constraint violations
-      let errorMessage = "Error al asignar el rol. Intenta nuevamente.";
-      if (error.message?.includes('profiles_role_check')) {
-        errorMessage = "Error en la asignación de rol. El rol seleccionado no es válido.";
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      
       toast({
         variant: "destructive",
         title: "Error",
-        description: errorMessage
+        description: error.message || "Error assigning role. Please try again."
       });
     } finally {
       setIsLoading(false);
@@ -166,7 +157,7 @@ export default function RegisterRole() {
             <p className="text-white/80 text-sm">
               Already have an account?{" "}
               <button 
-                onClick={() => navigate('/entrance')}
+                onClick={() => navigate('/signing')}
                 className="text-white underline hover:text-white/80"
               >
                 Sign in here

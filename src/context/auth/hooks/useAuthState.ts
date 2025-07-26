@@ -81,12 +81,16 @@ export function useAuthState() {
 
       console.log("User is not admin, checking other roles...");
 
-      // Check role from profile first, then fallback to user metadata
-      // Match the same logic as RegisterRole.tsx for consistency
-      const userRole = currentProfile?.role || 
-                      (currentUser.user_metadata?.is_hotel_owner ? 'hotel_owner' : 
-                       currentUser.user_metadata?.association_name ? 'association' : 
-                       currentUser.user_metadata?.role === 'promoter' ? 'promoter' : 'guest');
+      // Redirect to role selection if no role is set
+      if (!currentProfile?.role) {
+        console.log("No role found, redirecting to register-role");
+        navigate('/register-role');
+        setIsRedirecting(false);
+        return;
+      }
+
+      // Use the role from profile
+      const userRole = currentProfile.role;
       
       console.log("User role determination:", {
         profileRole: currentProfile?.role,
@@ -173,14 +177,11 @@ export function useAuthState() {
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
           // BUT exclude password reset pages and register-role page to allow users to complete the flow
           const currentPath = window.location.pathname;
-          // Users with 'guest' role still need to go through role selection
-          // Only users with specific roles should skip role selection
+          // Check if user has completed role selection
           const hasRole = profileData?.role && 
                          profileData.role !== null && 
                          profileData.role !== undefined &&
-                         profileData.role !== '' &&
-                         profileData.role !== 'guest' &&
-                         ['hotel_owner', 'association', 'promoter', 'agent'].includes(profileData.role);
+                         profileData.role !== '';
           
           // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
           // Handle new signup vs existing user login differently

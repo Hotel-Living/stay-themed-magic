@@ -5,79 +5,203 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 
-type Step = 'auth' | 'role-selection' | 'verify-email';
-type Role = 'user' | 'hotel' | 'association' | 'promoter' | 'admin';
+type Step = 'auth' | 'role-selection';
+type Role = 'user' | 'hotel' | 'association' | 'promoter';
 
 export default function Access() {
   const { t } = useTranslation('auth');
   const { toast } = useToast();
   const navigate = useNavigate();
   
+  // Core state
   const [step, setStep] = useState<Step>('auth');
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Form fields
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Role selection
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
-  // Add auth state change listener for proper session management
+  // Setup auth listener for existing sessions
   useEffect(() => {
-    console.log('🔧 Access: Setting up auth state listener');
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        console.log('🔧 Access: Auth state changed:', event, session?.user?.email);
-        
-        if (event === 'SIGNED_IN' && session?.user) {
-          console.log('🔧 Access: User signed in successfully:', session.user.email);
-        } else if (event === 'SIGNED_OUT') {
-          console.log('🔧 Access: User signed out');
-        }
+    const checkExistingSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        // User is already logged in, redirect them
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+          
+        redirectUserByRole(profile?.role || 'guest');
       }
-    );
-
-    return () => {
-      console.log('🔧 Access: Cleaning up auth listener');
-      subscription.unsubscribe();
     };
+    
+    checkExistingSession();
   }, []);
 
-  // Helper function to reset form state
-  const resetFormState = () => {
-    console.log('🔧 Access: Resetting form state');
+  // Helper functions
+  const clearAllState = () => {
     setIsLoading(false);
     setPassword('');
     setConfirmPassword('');
   };
 
-  // Form validation
+  const redirectUserByRole = (role: string) => {
+    switch (role) {
+      case 'guest':
+        navigate('/user-dashboard');
+        break;
+      case 'hotel_owner':
+        navigate('/hotel-dashboard');
+        break;
+      case 'association':
+        navigate('/panel-asociacion');
+        break;
+      case 'promoter':
+        navigate('/promoter/dashboard');
+        break;
+      case 'admin':
+        navigate('/panel-fernando');
+        break;
+      default:
+        navigate('/user-dashboard');
+    }
+  };
+
   const isFormValid = () => {
     if (isLogin) {
       return email.trim() && password;
     } else {
-      return firstName.trim() && lastName.trim() && email.trim() && password && 
-             confirmPassword && password === confirmPassword;
+      return firstName.trim() && lastName.trim() && email.trim() && 
+             password && confirmPassword && password === confirmPassword;
     }
   };
 
-  const getPasswordError = () => {
-    if (!isLogin && password && confirmPassword && password !== confirmPassword) {
-      return t('passwordsDoNotMatch');
+  // Auth handlers
+  const handleLogin = async () => {
+    console.log('🔧 Starting login for:', email.trim());
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password
+    });
+
+    if (error) {
+      console.log('🔧 Login error:', error.message);
+      if (error.message.includes('Invalid login credentials')) {
+        toast({
+          title: t('invalidCredentials'),
+          description: 'Please check your email and password',
+          variant: 'destructive'
+        });
+      } else {
+        toast({
+          title: t('loginError'),
+          description: error.message,
+          variant: 'destructive'
+        });
+      }
+      return false;
     }
-    return null;
+
+    if (data.user) {
+      console.log('🔧 Login successful:', data.user.email);
+      
+      // Get user role and redirect
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+
+      toast({
+        title: 'Success',
+        description: 'Logged in successfully'
+      });
+
+      redirectUserByRole(profile?.role || 'guest');
+      return true;
+    }
+    
+    return false;
+  };
+
+  const handleSignup = async () => {
+    console.log('🔧 Starting signup for:', email.trim());
+    
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/access`,
+        data: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim()
+        }
+      }
+    });
+
+    if (error) {
+      console.log('🔧 Signup error:', error.message);
+      
+      if (error.message.includes('already registered') || error.message.includes('already been registered')) {
+        setIsLogin(true);
+        toast({
+          title: t('accountExists'),
+          description: t('switchToLogin'),
+          variant: 'default'
+        });
+        return false;
+      }
+      
+      toast({
+        title: 'Signup Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return false;
+    }
+
+    if (data.user) {
+      console.log('🔧 Signup successful:', data.user.email);
+      
+      // Start background email processes (non-blocking)
+      setTimeout(() => {
+        supabase.functions.invoke('send-welcome-email', {
+          body: { user_id: data.user.id, email: data.user.email }
+        }).catch(() => console.log('🔧 Welcome email timeout - continuing'));
+        
+        supabase.functions.invoke('notify-admin-registration', {
+          body: { user_id: data.user.id, email: data.user.email }
+        }).catch(() => console.log('🔧 Admin notification timeout - continuing'));
+      }, 0);
+
+      toast({
+        title: t('accountCreated'),
+        description: 'Please select your role to continue'
+      });
+      
+      setStep('role-selection');
+      return true;
+    }
+    
+    return false;
   };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('🔧 Access: Starting auth process, isLogin:', isLogin);
     
     if (!isFormValid()) {
-      console.log('🔧 Access: Form validation failed');
       toast({
         title: t('requiredFields'),
         description: isLogin ? t('enterEmailAndPassword') : t('fillAllFields'),
@@ -86,267 +210,46 @@ export default function Access() {
       return;
     }
 
-    const passwordError = getPasswordError();
-    if (passwordError) {
-      console.log('🔧 Access: Password validation error:', passwordError);
-      toast({
-        title: t('error'),
-        description: passwordError,
-        variant: 'destructive'
-      });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      if (isLogin) {
-        console.log('🔧 Access: Starting login for:', email.trim());
-        
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password
-        });
-
-        if (error) {
-          console.log('🔧 Access: Login error:', error.message);
-          resetFormState();
-          
-          if (error.message.includes('Invalid login credentials')) {
-            toast({
-              title: t('invalidCredentials'),
-              description: 'Please check your email and password',
-              variant: 'destructive'
-            });
-          } else {
-            toast({
-              title: t('loginError'),
-              description: error.message,
-              variant: 'destructive'
-            });
-          }
-          return;
-        }
-
-        if (data.user) {
-          console.log('🔧 Access: Login successful for user:', data.user.email);
-          
-          // Get user profile to determine redirect
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('role, is_hotel_owner')
-            .eq('id', data.user.id)
-            .single();
-
-          if (profileError) {
-            console.log('🔧 Access: Profile fetch error:', profileError.message);
-          } else {
-            console.log('🔧 Access: Profile found:', profile);
-          }
-
-          // Redirect based on role
-          if (profile) {
-            const userRole = profile.role;
-            console.log('🔧 Access: Redirecting user with role:', userRole);
-            
-            switch (userRole) {
-              case 'guest':
-                navigate('/user-dashboard');
-                break;
-              case 'hotel_owner':
-                navigate('/hotel-dashboard');
-                break;
-              case 'association':
-                navigate('/panel-asociacion');
-                break;
-              case 'promoter':
-                navigate('/promoter/dashboard');
-                break;
-              case 'admin':
-                navigate('/panel-fernando');
-                break;
-              default:
-                navigate('/user-dashboard');
-            }
-          } else {
-            console.log('🔧 Access: No profile found, redirecting to user dashboard');
-            navigate('/user-dashboard');
-          }
-
-          toast({
-            title: 'Success',
-            description: 'Logged in successfully'
-          });
-        }
-      } else {
-        console.log('🔧 Access: Starting signup process for:', email.trim());
-        
-        // FIXED: Direct signup attempt instead of broken user existence check
-        const { data, error } = await supabase.auth.signUp({
-          email: email.trim(),
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/access`,
-            data: {
-              first_name: firstName.trim(),
-              last_name: lastName.trim()
-            }
-          }
-        });
-
-        if (error) {
-          console.log('🔧 Access: Signup error:', error.message);
-          resetFormState();
-          
-          if (error.message.includes('already registered') || error.message.includes('already been registered')) {
-            console.log('🔧 Access: User already exists, switching to login');
-            setIsLogin(true);
-            toast({
-              title: t('accountExists'),
-              description: t('switchToLogin'),
-              variant: 'default'
-            });
-            return;
-          }
-          
-          toast({
-            title: 'Signup Error',
-            description: error.message,
-            variant: 'destructive'
-          });
-          return;
-        }
-
-        if (data.user) {
-          console.log('🔧 Access: Signup successful for user:', data.user.email);
-          console.log('🔧 Access: User metadata sent:', { first_name: firstName.trim(), last_name: lastName.trim() });
-          
-          // Verify profile was created by the trigger
-          let profileCreated = false;
-          for (let i = 0; i < 3; i++) { // Try 3 times with delay
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('first_name, last_name, role')
-              .eq('id', data.user.id)
-              .maybeSingle(); // Use maybeSingle instead of single
-              
-            if (!profileError && profile) {
-              console.log('🔧 Access: Profile created by trigger:', profile);
-              profileCreated = true;
-              break;
-            } else {
-              console.log(`🔧 Access: Profile check attempt ${i + 1} failed:`, profileError?.message);
-              if (i < 2) await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
-            }
-          }
-          
-          if (!profileCreated) {
-            console.log('🔧 Access: Profile creation failed, trigger may not be working - creating manually');
-            
-            // Fallback: Create profile manually if trigger failed
-            const { error: createError } = await supabase
-              .from('profiles')
-              .insert({
-                id: data.user.id,
-                first_name: firstName.trim(),
-                last_name: lastName.trim(),
-                role: 'guest',
-                email_verified: true,
-                is_hotel_owner: false
-              });
-              
-            if (createError) {
-              console.log('🔧 Access: Manual profile creation failed:', createError.message);
-            } else {
-              console.log('🔧 Access: Manual profile creation successful');
-            }
-          }
-
-          // Start async email processes without blocking (with proper timeout)
-          console.log('🔧 Access: Starting background email processes');
-          
-          setTimeout(() => {
-            Promise.race([
-              fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/send-welcome-email', {
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0`,
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: data.user.id, email: data.user.email })
-              }),
-              new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
-            ]).catch(() => {
-              console.log('🔧 Access: Welcome email notification timeout - continuing');
-            });
-
-            Promise.race([
-              fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/notify-admin-registration', {
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0`,
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: data.user.id, email: data.user.email })
-              }),
-              new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
-            ]).catch(() => {
-              console.log('🔧 Access: Admin notification timeout - continuing');
-            });
-          }, 0); // Defer to next tick
-
-          console.log('🔧 Access: Moving to role selection step');
-          setStep('role-selection');
-          toast({
-            title: t('accountCreated'),
-            description: 'Please select your role to continue'
-          });
-        }
+      const success = isLogin ? await handleLogin() : await handleSignup();
+      if (!success) {
+        clearAllState();
       }
     } catch (error: any) {
-      console.log('🔧 Access: Unexpected error in auth process:', error);
-      resetFormState();
-      
+      console.log('🔧 Unexpected auth error:', error);
+      clearAllState();
       toast({
         title: t('unexpectedLoginError'),
         description: error.message || 'An unexpected error occurred',
         variant: 'destructive'
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleRoleSelection = async () => {
-    if (!selectedRole) {
-      console.log('🔧 Access: No role selected');
-      return;
-    }
+    if (!selectedRole) return;
 
-    console.log('🔧 Access: Starting role selection for:', selectedRole);
+    console.log('🔧 Starting role selection:', selectedRole);
     setIsLoading(true);
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        console.log('🔧 Access: No user found in role selection');
-        return;
+        throw new Error('No user found');
       }
 
-      console.log('🔧 Access: User found for role selection:', user.email);
-
-      // Update profile with selected role
       const roleMapping = {
         user: 'guest',
         hotel: 'hotel_owner',
         association: 'association',
-        promoter: 'promoter',
-        admin: 'admin'
+        promoter: 'promoter'
       };
 
       const mappedRole = roleMapping[selectedRole];
-      console.log('🔧 Access: Updating profile with role:', mappedRole);
-
+      
+      // Update profile with selected role
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -356,19 +259,11 @@ export default function Access() {
         .eq('id', user.id);
 
       if (error) {
-        console.log('🔧 Access: Profile update error:', error.message);
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive'
-        });
-        return;
+        throw error;
       }
 
-      console.log('🔧 Access: Profile updated successfully');
-
-      // Insert user role
-      const { error: roleError } = await supabase
+      // Insert user role (ignore duplicates)
+      await supabase
         .from('user_roles')
         .insert({
           user_id: user.id,
@@ -376,50 +271,24 @@ export default function Access() {
           role: mappedRole
         });
 
-      if (roleError) {
-        console.log('🔧 Access: User role insertion error (may be duplicate):', roleError.message);
-        // Don't fail on duplicate role error - it's expected
-      } else {
-        console.log('🔧 Access: User role inserted successfully');
-      }
-
-      console.log('🔧 Access: Redirecting based on role:', selectedRole);
-
-      // Redirect based on role
-      switch (selectedRole) {
-        case 'user':
-          navigate('/user-dashboard');
-          break;
-        case 'hotel':
-          navigate('/hotel-dashboard');
-          break;
-        case 'association':
-          navigate('/panel-asociacion');
-          break;
-        case 'promoter':
-          navigate('/promoter/dashboard');
-          break;
-        case 'admin':
-          navigate('/panel-fernando');
-          break;
-      }
-
       toast({
         title: 'Success',
         description: 'Account setup completed'
       });
+
+      redirectUserByRole(mappedRole);
     } catch (error: any) {
-      console.log('🔧 Access: Role selection error:', error);
+      console.log('🔧 Role selection error:', error);
+      setIsLoading(false);
       toast({
         title: 'Error',
         description: error.message,
         variant: 'destructive'
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
+  // Role Selection Step
   if (step === 'role-selection') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/20 via-primary/10 to-background flex items-center justify-center p-4">
@@ -461,6 +330,7 @@ export default function Access() {
     );
   }
 
+  // Auth Step (Login/Signup)
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 via-primary/10 to-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -482,37 +352,30 @@ export default function Access() {
                         {t('firstName')}
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-                          <User className="h-5 w-5" />
-                        </div>
+                        <User className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white h-5 w-5" />
                         <input
                           type="text"
                           id="firstName"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          placeholder={t('enterFirstName')}
+                          placeholder={t('firstName')}
                           className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
-                          required
                         />
                       </div>
                     </div>
-
                     <div className="space-y-2">
                       <label htmlFor="lastName" className="block text-sm font-medium text-white">
                         {t('lastName')}
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-                          <User className="h-5 w-5" />
-                        </div>
+                        <User className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white h-5 w-5" />
                         <input
                           type="text"
                           id="lastName"
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          placeholder={t('enterLastName')}
+                          placeholder={t('lastName')}
                           className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
-                          required
                         />
                       </div>
                     </div>
@@ -525,17 +388,14 @@ export default function Access() {
                   {t('email')}
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-                    <Mail className="h-5 w-5" />
-                  </div>
+                  <Mail className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white h-5 w-5" />
                   <input
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={t('enterEmail')}
+                    placeholder={t('emailPlaceholder')}
                     className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
-                    required
                   />
                 </div>
               </div>
@@ -545,22 +405,19 @@ export default function Access() {
                   {t('password')}
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-                    <Lock className="h-5 w-5" />
-                  </div>
+                  <Lock className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white h-5 w-5" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder={isLogin ? t('enterPassword') : t('createPassword')}
-                    className="w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
-                    required
+                    placeholder={t('passwordPlaceholder')}
+                    className="w-full rounded-lg py-2 pl-10 pr-10 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/60 hover:text-white"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-white"
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -573,53 +430,48 @@ export default function Access() {
                     {t('confirmPassword')}
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-                      <Lock className="h-5 w-5" />
-                    </div>
+                    <Lock className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white h-5 w-5" />
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       id="confirmPassword"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder={t('confirmYourPassword')}
-                      className={`w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border transition-colors ${
-                        getPasswordError() ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-white/30'
-                      } focus:ring-0`}
-                      required
+                      placeholder={t('confirmPasswordPlaceholder')}
+                      className="w-full rounded-lg py-2 pl-10 pr-10 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/60 hover:text-white"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white"
                     >
                       {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-                  {getPasswordError() && (
-                    <p className="text-red-400 text-xs mt-1">{getPasswordError()}</p>
+                  {password && confirmPassword && password !== confirmPassword && (
+                    <p className="text-red-400 text-sm">{t('passwordsDoNotMatch')}</p>
                   )}
                 </div>
               )}
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !isFormValid()}
                 className="w-full py-3 rounded-lg text-white font-medium transition-colors disabled:opacity-70 bg-[#5d0083] hover:bg-[#4a0066]"
               >
-                {isLoading 
-                  ? (isLogin ? t('signingIn') : t('creatingAccount'))
-                  : (isLogin ? t('signIn') : t('createAccount'))
-                }
+                {isLoading ? t('loading') : (isLogin ? t('signIn') : t('createAccount'))}
               </button>
             </form>
 
-            <div className="mt-4 text-center">
+            <div className="mt-6 text-center">
               <button
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-fuchsia-400 hover:text-fuchsia-300 transition text-sm"
+                type="button"
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  clearAllState();
+                }}
+                className="text-white/80 hover:text-white transition-colors text-sm"
               >
-                {isLogin ? t('dontHaveAccount') : t('alreadyHaveAccount')}{' '}
-                {isLogin ? t('createAccount') : t('signIn')}
+                {isLogin ? t('noAccount') : t('haveAccount')}
               </button>
             </div>
           </div>

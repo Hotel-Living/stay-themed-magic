@@ -118,16 +118,14 @@ export function useAuthState() {
           return;
       }
       
-      } catch (error) {
-        console.error("Error in handleCorrectRedirect:", error);
-        // Fallback to user dashboard if everything fails
-        navigate('/user-dashboard');
-        setIsRedirecting(false);
-      } finally {
-        console.log("=== REDIRECT LOGIC END ===");
-        // Always ensure loading is set to false
-        setIsLoading(false);
-      }
+    } catch (error) {
+      console.error("Error in handleCorrectRedirect:", error);
+      // Fallback to user dashboard if everything fails
+      navigate('/user-dashboard');
+      setIsRedirecting(false);
+    } finally {
+      console.log("=== REDIRECT LOGIC END ===");
+    }
   };
 
   useEffect(() => {
@@ -188,14 +186,8 @@ export function useAuthState() {
           if (needsRedirect) {
             // Set redirecting BEFORE ending loading to prevent flash
             setIsRedirecting(true);
-            try {
-              await handleCorrectRedirect(session.user, profileData);
-              // isRedirecting will be cleared in handleCorrectRedirect
-            } catch (redirectError) {
-              console.error("Redirect failed, setting loading to false:", redirectError);
-              setIsLoading(false);
-              setIsRedirecting(false);
-            }
+            await handleCorrectRedirect(session.user, profileData);
+            // isRedirecting will be cleared in handleCorrectRedirect
           } else {
             // No redirect needed, safe to show current page
             setIsLoading(false);

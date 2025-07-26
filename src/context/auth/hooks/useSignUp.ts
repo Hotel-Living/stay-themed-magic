@@ -78,54 +78,49 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
       if (data.user) {
         console.log("User signup initiated:", data.user.email);
         
-        // Async email notifications - don't block signup completion
-        const emailPromises = [
-          // Notify admin about the new registration with timeout
-          Promise.race([
-            supabase.functions.invoke("notify-admin-registration", { 
+        // Notify admin about the new registration
+        try {
+          const { data: notifyData, error: notifyError } = await supabase.functions.invoke(
+            "notify-admin-registration", 
+            { 
               body: { 
                 user: data.user,
                 userData: userData || {}
               } 
-            }),
-            new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Admin notification timeout')), 5000)
-            )
-          ]).catch(err => {
-            console.error("Admin notification failed:", err.message);
-            return { data: null, error: err };
-          }),
+            }
+          );
           
-          // Send welcome email with timeout
-          Promise.race([
-            supabase.functions.invoke("send-welcome-email", {
+          if (notifyError) {
+            console.error("Admin notification error:", notifyError);
+          } else {
+            console.log("Admin notification sent:", notifyData);
+          }
+        } catch (notifyErr) {
+          console.error("Failed to send admin notification:", notifyErr);
+        }
+        
+        // Send welcome email
+        try {
+          const { data: welcomeData, error: welcomeError } = await supabase.functions.invoke(
+            "send-welcome-email",
+            {
               body: {
                 email: data.user.email,
                 firstName: userData?.first_name || "",
                 isHotelOwner: !!userData?.is_hotel_owner,
                 language: navigator.language.split('-')[0] || 'en'
               }
-            }),
-            new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Welcome email timeout')), 5000)
-            )
-          ]).catch(err => {
-            console.error("Welcome email failed:", err.message);
-            return { data: null, error: err };
-          })
-        ];
-        
-        // Execute email promises in background without blocking
-        Promise.allSettled(emailPromises).then(results => {
-          results.forEach((result, index) => {
-            const type = index === 0 ? 'Admin notification' : 'Welcome email';
-            if (result.status === 'fulfilled') {
-              console.log(`${type} completed:`, result.value);
-            } else {
-              console.error(`${type} failed:`, result.reason);
             }
-          });
-        });
+          );
+          
+          if (welcomeError) {
+            console.error("Welcome email error:", welcomeError);
+          } else {
+            console.log("Welcome email sent:", welcomeData);
+          }
+        } catch (welcomeErr) {
+          console.error("Failed to send welcome email:", welcomeErr);
+        }
         
         // Return success immediately - no email verification required
         return { 

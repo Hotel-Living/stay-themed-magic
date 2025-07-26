@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 
 type Step = 'auth' | 'role-selection' | 'verify-email';
 type Role = 'user' | 'hotel' | 'association' | 'promoter' | 'admin';
@@ -17,16 +17,48 @@ export default function Access() {
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
+  // Form validation
+  const isFormValid = () => {
+    if (isLogin) {
+      return email.trim() && password;
+    } else {
+      return firstName.trim() && lastName.trim() && email.trim() && password && 
+             confirmPassword && password === confirmPassword;
+    }
+  };
+
+  const getPasswordError = () => {
+    if (!isLogin && password && confirmPassword && password !== confirmPassword) {
+      return t('passwordsDoNotMatch');
+    }
+    return null;
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    
+    if (!isFormValid()) {
       toast({
         title: t('requiredFields'),
-        description: t('enterEmailAndPassword'),
+        description: isLogin ? t('enterEmailAndPassword') : t('fillAllFields'),
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    const passwordError = getPasswordError();
+    if (passwordError) {
+      toast({
+        title: t('error'),
+        description: passwordError,
         variant: 'destructive'
       });
       return;
@@ -112,7 +144,11 @@ export default function Access() {
             email: email.trim(),
             password,
             options: {
-              emailRedirectTo: `${window.location.origin}/access`
+              emailRedirectTo: `${window.location.origin}/access`,
+              data: {
+                first_name: firstName.trim(),
+                last_name: lastName.trim()
+              }
             }
           });
 
@@ -326,6 +362,52 @@ export default function Access() {
             </div>
 
             <form onSubmit={handleAuth} className="space-y-4">
+              {!isLogin && (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <label htmlFor="firstName" className="block text-sm font-medium text-white">
+                        {t('firstName')}
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+                          <User className="h-5 w-5" />
+                        </div>
+                        <input
+                          type="text"
+                          id="firstName"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          placeholder={t('enterFirstName')}
+                          className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="lastName" className="block text-sm font-medium text-white">
+                        {t('lastName')}
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+                          <User className="h-5 w-5" />
+                        </div>
+                        <input
+                          type="text"
+                          id="lastName"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          placeholder={t('enterLastName')}
+                          className="w-full rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className="space-y-2">
                 <label htmlFor="email" className="block text-sm font-medium text-white">
                   {t('email')}
@@ -372,6 +454,40 @@ export default function Access() {
                   </button>
                 </div>
               </div>
+
+              {!isLogin && (
+                <div className="space-y-2">
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
+                    {t('confirmPassword')}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+                      <Lock className="h-5 w-5" />
+                    </div>
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      id="confirmPassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder={t('confirmYourPassword')}
+                      className={`w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border transition-colors ${
+                        getPasswordError() ? 'border-red-400 focus:border-red-400' : 'border-white/20 focus:border-white/30'
+                      } focus:ring-0`}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/60 hover:text-white"
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  </div>
+                  {getPasswordError() && (
+                    <p className="text-red-400 text-xs mt-1">{getPasswordError()}</p>
+                  )}
+                </div>
+              )}
 
               <button
                 type="submit"

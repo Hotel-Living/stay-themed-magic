@@ -4,7 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Star, Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Mail } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { ContactForm } from "@/components/contact/ContactForm";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function AboutUs() {
@@ -240,7 +240,14 @@ export default function AboutUs() {
                 <h3 className="text-xl font-semibold text-[#FFF9B0]">Apply to join our founding team:</h3>
               </div>
               
-              <ContactForm recipientEmail="grand_soiree@yahoo.com" />
+              <div className="text-center p-6 bg-white/10 rounded-lg border border-white/20">
+                <p className="text-white/90 text-base mb-1">
+                  Feel free to reach out to us at
+                </p>
+                <p className="text-[#FFF9B0] hover:text-white transition-colors text-lg font-medium">
+                  <a href="mailto:grand_soiree@yahoo.com" className="underline">grand_soiree@yahoo.com</a>
+                </p>
+              </div>
             </section>
           </div>
         </Container>

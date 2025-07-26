@@ -191,9 +191,9 @@ export function useAuthState() {
             setIsRedirecting(true);
             await handleCorrectRedirect(session.user, profileData);
             // isRedirecting will be cleared in handleCorrectRedirect
-          } else if (isJustSignedUp && !hasRole && currentPath.includes('/entrance')) {
+          } else if (isJustSignedUp && !hasRole) {
             // For new signups without role, redirect to register-role
-            console.log("New signup detected, redirecting to register-role");
+            console.log("🚀 New signup detected, redirecting to register-role", { isJustSignedUp, hasRole, currentPath });
             setIsRedirecting(true);
             setIsLoading(false);
             navigate('/register-role', { replace: true });

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function Signing() {
@@ -108,6 +109,8 @@ export default function Signing() {
     setIsLoading(true);
     try {
       console.log("Starting signup process...");
+      
+      // Enhanced error handling and account existence check
       const result = await signUp(signUpData.email, signUpData.password, {
         first_name: signUpData.firstName,
         last_name: signUpData.lastName
@@ -131,20 +134,48 @@ export default function Signing() {
         }, 100);
       } else {
         setIsLoading(false);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: result.error || "Failed to create account"
-        });
+        
+        // Handle specific error cases
+        if (result.error?.includes("already exists") || 
+            result.error?.includes("already registered") ||
+            result.error?.includes("User already registered")) {
+          toast({
+            variant: "destructive",
+            title: "Account Already Exists",
+            description: "An account with this email already exists. Please try logging in instead."
+          });
+        } else if (result.error?.includes("Invalid")) {
+          toast({
+            variant: "destructive",
+            title: "Invalid Information",
+            description: "Please check your email and password format."
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Registration Failed",
+            description: result.error || "Failed to create account. Please try again."
+          });
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Signup error:", error);
       setIsLoading(false);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "An error occurred during sign up"
-      });
+      
+      // Handle network or unexpected errors
+      if (error.message?.includes("fetch")) {
+        toast({
+          variant: "destructive",
+          title: "Connection Error",
+          description: "Please check your internet connection and try again."
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Unexpected Error",
+          description: "An unexpected error occurred. Please try again in a moment."
+        });
+      }
     }
   };
 

@@ -1748,9 +1748,25 @@ export type Database = {
         }
         Returns: boolean
       }
+      cleanup_stuck_accounts: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          cleaned_user_id: string
+          email: string
+        }[]
+      }
       create_password_reset_token: {
         Args: { p_email: string }
         Returns: string
+      }
+      detect_incomplete_signups: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          email: string
+          created_at: string
+          missing_components: string[]
+        }[]
       }
       generate_agent_code: {
         Args: { first_name: string; last_name: string }

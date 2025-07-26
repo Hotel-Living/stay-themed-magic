@@ -12,9 +12,11 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
+        // Handle the auth callback from email confirmation
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
+          console.error('Session error:', error);
           toast({
             title: "Authentication Error",
             description: error.message,
@@ -25,33 +27,62 @@ export default function AuthCallback() {
         }
 
         if (data.session?.user) {
+          // User is confirmed and logged in
           toast({
             title: "Email Confirmed!",
             description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
           });
 
-          // Redirect based on role
-          switch(role) {
-            case 'user': 
-              navigate('/user-dashboard');
-              break;
-            case 'hotel': 
-              navigate('/hotel-dashboard');
-              break;
-            case 'association': 
-              navigate('/association-dashboard');
-              break;
-            case 'promoter': 
-              navigate('/promoter-dashboard');
-              break;
-            default:
-              navigate('/');
-          }
+          // Small delay to show the toast, then redirect based on role
+          setTimeout(() => {
+            switch(role) {
+              case 'user': 
+                navigate('/user-dashboard');
+                break;
+              case 'hotel': 
+                navigate('/hotel-dashboard');
+                break;
+              case 'association': 
+                navigate('/association-dashboard');
+                break;
+              case 'promoter': 
+                navigate('/promoter-dashboard');
+                break;
+              default:
+                navigate('/');
+            }
+          }, 1500);
         } else {
-          navigate('/');
+          // No session found, user needs to log in
+          toast({
+            title: "Email Confirmed!",
+            description: "Your email has been confirmed. Please log in to access your dashboard.",
+          });
+          
+          // Redirect to the appropriate login page based on role
+          setTimeout(() => {
+            switch(role) {
+              case 'hotel': 
+                navigate('/login/hotel');
+                break;
+              case 'association': 
+                navigate('/login/association');
+                break;
+              case 'promoter': 
+                navigate('/login/promoter');
+                break;
+              default:
+                navigate('/login');
+            }
+          }, 2000);
         }
       } catch (error) {
         console.error('Auth callback error:', error);
+        toast({
+          title: "Confirmation Error",
+          description: "There was an issue confirming your email. Please try logging in.",
+          variant: "destructive"
+        });
         navigate('/');
       }
     };

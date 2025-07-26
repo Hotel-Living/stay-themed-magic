@@ -2,8 +2,8 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 
 [auth]
 enabled = true
-external_url = "https://lovable.dev"
-additional_redirect_urls = ["https://lovable.dev", "https://lovable.dev/auth/callback"]
+external_url = "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
+additional_redirect_urls = ["https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com", "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/auth/callback"]
 # Auth webhook configuration
 hook_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
 hook_secret = "super-secret-hook-password"

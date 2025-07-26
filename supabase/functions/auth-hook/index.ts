@@ -37,7 +37,10 @@ serve(async (req) => {
         
         // Get the role from user metadata to construct proper redirect URL
         const role = user_metadata?.role || 'user';
-        const confirmationUrl = `${req.headers.get('origin') || 'https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com'}/auth/callback?role=${role}`;
+        
+        // Use the project's actual domain, not lovableproject.com
+        const projectDomain = 'https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com';
+        const confirmationUrl = `${projectDomain}/auth/callback?role=${role}`;
         
         // Call our custom email verification function
         const { error: emailError } = await supabase.functions.invoke('send-email-verification', {

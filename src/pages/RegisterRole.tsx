@@ -75,8 +75,8 @@ export default function RegisterRole() {
         description: "Your account type has been set successfully!",
       });
 
-      // Redirect to dashboard
-      navigate('/dashboard');
+      // Redirect directly to role-specific dashboard
+      navigate(redirectByRole(role));
     } catch (error: any) {
       toast({
         title: "Error",

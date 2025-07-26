@@ -82,6 +82,7 @@ import HotelModelPage from "@/pages/HotelModelPage";
 import AdminLogin from "@/pages/AdminLogin";
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 import Signing from "@/pages/Signing";
+import LoginRegister from "@/pages/LoginRegister";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -120,14 +121,15 @@ function App() {
                 <Route path="/search" element={<Search />} />
                  <Route path="/register-role" element={<RegisterRole />} />
                  <Route path="/signing" element={<Signing />} />
+                 <Route path="/login-register" element={<LoginRegister />} />
                  
-                 {/* Legacy route redirects - all redirect to /signing */}
-                 <Route path="/sign-in" element={<Navigate to="/signing" replace />} />
-                 <Route path="/sign-up" element={<Navigate to="/signing" replace />} />
-                 <Route path="/unauthorized-sign-in" element={<Navigate to="/signing" replace />} />
-                 <Route path="/onboarding" element={<Navigate to="/signing" replace />} />
-                 <Route path="/dashboard" element={<Navigate to="/signing" replace />} />
-                 <Route path="/home" element={<Navigate to="/signing" replace />} />
+                 {/* Legacy route redirects - all redirect to /login-register */}
+                 <Route path="/sign-in" element={<Navigate to="/login-register" replace />} />
+                 <Route path="/sign-up" element={<Navigate to="/login-register" replace />} />
+                 <Route path="/unauthorized-sign-in" element={<Navigate to="/login-register" replace />} />
+                 <Route path="/onboarding" element={<Navigate to="/login-register" replace />} />
+                 <Route path="/dashboard" element={<Navigate to="/login-register" replace />} />
+                 <Route path="/home" element={<Navigate to="/login-register" replace />} />
                <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
               <Route path="/signup" element={<Signup />} />

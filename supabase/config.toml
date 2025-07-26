@@ -11,10 +11,10 @@ enabled = true
 uri = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
 secrets = "super-secret-hook-password"
 
-# Enable email confirmations but disable Supabase's default emails
+# Enable email confirmations to trigger auth hook for custom emails
 [auth.email]
 enable_signup = true
-enable_confirmations = false
+enable_confirmations = true
 double_confirm_changes = false
 secure_email_change_enabled = false
 

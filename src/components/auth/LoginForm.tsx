@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
 
 interface LoginFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
@@ -19,6 +20,29 @@ export function LoginForm({ role }: LoginFormProps) {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (user) {
+      switch(role) {
+        case 'user': 
+          navigate('/user-dashboard');
+          break;
+        case 'hotel': 
+          navigate('/hotel-dashboard');
+          break;
+        case 'association': 
+          navigate('/association-dashboard');
+          break;
+        case 'promoter': 
+          navigate('/promoter-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+  }, [user, role, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -39,9 +63,19 @@ export function LoginForm({ role }: LoginFormProps) {
       });
 
       if (error) {
+        console.error('Login error:', error);
+        let errorMessage = error.message;
+        
+        // Provide more specific error messages
+        if (error.message.includes('Invalid login credentials')) {
+          errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+        } else if (error.message.includes('Email not confirmed')) {
+          errorMessage = 'Please check your email and click the confirmation link before logging in.';
+        }
+        
         toast({
           title: "Login Error",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive"
         });
         return;

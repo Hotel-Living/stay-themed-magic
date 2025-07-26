@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { GlobalAvatarSystem } from "@/components/avatars/GlobalAvatarSystem";
 import { GlobalTestimonials } from "@/components/testimonials/GlobalTestimonials";
 import { SEOMetadata } from "@/components/SEOMetadata";
@@ -102,6 +103,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router>
+          <AuthProvider>
             <VideoTestimonialProvider>
               <AvatarManagerProvider>
               <SEOMetadata />
@@ -204,6 +206,7 @@ function App() {
             <GlobalTestimonials />
             </AvatarManagerProvider>
             </VideoTestimonialProvider>
+          </AuthProvider>
         </Router>
       </TooltipProvider>
     </QueryClientProvider>

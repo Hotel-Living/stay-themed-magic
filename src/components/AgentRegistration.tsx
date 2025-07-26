@@ -76,7 +76,7 @@ export const AgentRegistration = () => {
           description: "Tu cuenta de agente ha sido creada. Revisa tu email para confirmar tu cuenta."
         });
         
-        navigate('/register-role');
+        navigate('/');
       }
     } catch (error: any) {
       toast({

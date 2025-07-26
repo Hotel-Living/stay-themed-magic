@@ -48,7 +48,7 @@ serve(async (req) => {
       type: 'signup',
       email,
       options: {
-        redirectTo: `${req.headers.get('origin') || ''}/register-role`,
+        redirectTo: `${req.headers.get('origin') || ''}`,
       }
     });
     

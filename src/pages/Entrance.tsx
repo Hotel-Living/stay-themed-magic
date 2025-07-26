@@ -1,322 +1,274 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Starfield } from "@/components/Starfield";
-import { useAuth } from "@/context/AuthContext";
-import { useTranslation } from "@/hooks/useTranslation";
-import { AuthCard } from "@/components/auth/AuthCard";
-import { InputField } from "@/components/auth/InputField";
-import { SubmitButton } from "@/components/auth/SubmitButton";
-import { ForgotPasswordLink } from "@/components/auth/ForgotPasswordLink";
-import { useLoginForm } from "@/hooks/useLoginForm";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { redirectByRole } from '@/hooks/useRoleRedirection';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
+import Starfield from 'react-starfield';
 
 export default function Entrance() {
   const navigate = useNavigate();
-  const { user, profile } = useAuth();
-  const { t } = useTranslation();
-  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   
-  // Tab state - remember selection
-  const [activeTab, setActiveTab] = useState<'login' | 'signup'>(() => {
-    return (localStorage.getItem('entrance-tab') as 'login' | 'signup') || 'login';
-  });
-
   // Login form state
-  const {
-    email: loginEmail,
-    setEmail: setLoginEmail,
-    password: loginPassword,
-    setPassword: setLoginPassword,
-    showPassword: showLoginPassword,
-    setShowPassword: setShowLoginPassword,
-    isLoading: isLoginLoading,
-    handleSubmit: handleLoginSubmit
-  } = useLoginForm("traveler"); // userType doesn't matter for login, handled by profile
-
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  
   // Signup form state
-  const [signupData, setSignupData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isSignupLoading, setIsSignupLoading] = useState(false);
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-  // Scroll to top on page load
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    const checkExistingAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
 
-  // Remember tab selection
-  useEffect(() => {
-    localStorage.setItem('entrance-tab', activeTab);
-  }, [activeTab]);
-
-  // Redirect if user is already authenticated
-  useEffect(() => {
-    if (user && profile) {
-      // Redirect based on user role
-      const redirectBasedOnRole = () => {
-        if (profile.role === 'admin') {
-          navigate('/panel-fernando/hotels', { replace: true });
-        } else if (profile.role === 'guest') {
-          navigate('/user-dashboard', { replace: true });
-        } else if (profile.role === 'hotel_owner') {
-          navigate('/hotel-dashboard', { replace: true });
-        } else if (profile.role === 'association') {
-          navigate('/panel-asociacion', { replace: true });
-        } else if (profile.role === 'agent') {
-          navigate('/panel-agente', { replace: true });
-        } else if (profile.role === 'promoter') {
-          navigate('/promoter/dashboard', { replace: true });
+        if (!profile?.role) {
+          navigate('/register-role');
         } else {
-          navigate('/user-dashboard', { replace: true });
+          navigate('/dashboard');
         }
-      };
-      
-      redirectBasedOnRole();
+      }
+    };
+
+    checkExistingAuth();
+  }, [navigate]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: loginEmail,
+        password: loginPassword,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+
+        if (!profile?.role) {
+          navigate('/register-role');
+        } else {
+          navigate('/dashboard');
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Login Failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
     }
-  }, [user, profile, navigate]);
+  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (signupData.password !== signupData.confirmPassword) {
+    if (signupPassword !== confirmPassword) {
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Passwords do not match"
+        title: 'Password Mismatch',
+        description: 'Passwords do not match',
+        variant: 'destructive',
       });
       return;
     }
 
-    setIsSignupLoading(true);
+    setIsLoading(true);
 
     try {
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { error } = await supabase.auth.signUp({
-        email: signupData.email,
-        password: signupData.password,
+      const { data, error } = await supabase.auth.signUp({
+        email: signupEmail,
+        password: signupPassword,
         options: {
-          emailRedirectTo: redirectUrl,
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
-            first_name: signupData.firstName,
-            last_name: signupData.lastName
-          }
-        }
+            first_name: firstName,
+            last_name: lastName,
+          },
+        },
       });
 
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Sign up failed",
-          description: error.message
-        });
-        return;
-      }
-
-      // Redirect to role selection
-      navigate('/register-role');
+      if (error) throw error;
 
       toast({
-        title: "Account created successfully!",
-        description: "Redirecting to role selection..."
+        title: 'Account Created',
+        description: 'Please check your email to verify your account',
       });
 
+      if (data.user) {
+        navigate('/register-role');
+      }
     } catch (error: any) {
       toast({
-        variant: "destructive",
-        title: "Sign up failed",
-        description: error.message || "An unexpected error occurred"
+        title: 'Signup Failed',
+        description: error.message,
+        variant: 'destructive',
       });
     } finally {
-      setIsSignupLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const updateSignupField = (field: keyof typeof signupData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSignupData(prev => ({ ...prev, [field]: e.target.value }));
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Starfield />
-      <Navbar />
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      <Starfield
+        starCount={1000}
+        starColor={[255, 255, 255]}
+        speedFactor={0.05}
+        backgroundColor="black"
+      />
       
-      <main className="flex-1 pt-16 flex items-center justify-center px-4">
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <AuthCard
-            title={activeTab === 'login' ? t('signIn') || 'Sign In' : t('signUp') || 'Sign Up'}
-            subtitle={activeTab === 'login' ? t('signInSubtitle') || 'Welcome back' : t('signUpSubtitle') || 'Create your account'}
-            footerLinks={[]}
-          >
-            {/* Tab Navigation */}
-            <div className="flex mb-6 rounded-lg bg-white/10 p-1">
-              <button
-                onClick={() => setActiveTab('login')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'login'
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/70 hover:text-white/90'
-                }`}
-              >
-                {t('alreadyHaveAccount') || 'I already have an account'}
-              </button>
-              <button
-                onClick={() => setActiveTab('signup')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'signup'
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/70 hover:text-white/90'
-                }`}
-              >
-                {t('newHere') || 'I am new here'}
-              </button>
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-[0_0_60px_rgba(126,38,166,0.8)] border border-white/20 p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-white mb-2">Hotel Living</h1>
+              <p className="text-white/80">Welcome back to your journey</p>
             </div>
 
-            {/* Login Tab */}
-            {activeTab === 'login' && (
-              <form onSubmit={handleLoginSubmit} className="space-y-4">
-                <InputField
-                  id="login-email"
-                  label={t('email') || 'Email'}
-                  type="email"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder={t('enterEmail') || 'Enter your email'}
-                  Icon={Mail}
-                />
+            <Tabs defaultValue="login" className="space-y-6">
+              <TabsList className="grid w-full grid-cols-2 bg-white/10">
+                <TabsTrigger value="login" className="text-white data-[state=active]:bg-[#7E26A6] data-[state=active]:text-white">
+                  Login
+                </TabsTrigger>
+                <TabsTrigger value="signup" className="text-white data-[state=active]:bg-[#7E26A6] data-[state=active]:text-white">
+                  Sign Up
+                </TabsTrigger>
+              </TabsList>
 
-                <InputField
-                  id="login-password"
-                  label={t('password') || 'Password'}
-                  type={showLoginPassword ? "text" : "password"}
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  placeholder={t('enterPassword') || 'Enter your password'}
-                  Icon={Lock}
-                  inputClassName="pr-12"
-                />
-                
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center top-7">
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginPassword(!showLoginPassword)}
-                    className="text-white hover:text-white/80 transition-colors"
+              <TabsContent value="login">
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <Label htmlFor="login-email" className="text-white">Email</Label>
+                    <Input
+                      id="login-email"
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="login-password" className="text-white">Password</Label>
+                    <Input
+                      id="login-password"
+                      type="password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      placeholder="Enter your password"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-[#7E26A6] hover:bg-[#7E26A6]/80 text-white shadow-[0_0_30px_rgba(126,38,166,0.6)]"
                   >
-                    {showLoginPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
+                    {isLoading ? 'Signing In...' : 'Sign In'}
+                  </Button>
+                </form>
+              </TabsContent>
 
-                <div className="flex justify-end">
-                  <ForgotPasswordLink />
-                </div>
-
-                <SubmitButton
-                  isLoading={isLoginLoading}
-                  loadingText={t('signingIn') || 'Signing in...'}
-                  text={t('signIn') || 'Log in'}
-                />
-              </form>
-            )}
-
-            {/* Signup Tab */}
-            {activeTab === 'signup' && (
-              <form onSubmit={handleSignup} className="space-y-4">
-                <InputField
-                  id="firstName"
-                  label={t('firstName') || 'First Name'}
-                  type="text"
-                  value={signupData.firstName}
-                  onChange={updateSignupField('firstName')}
-                  placeholder={t('enterFirstName') || 'Enter your first name'}
-                  Icon={User}
-                />
-
-                <InputField
-                  id="lastName"
-                  label={t('lastName') || 'Last Name'}
-                  type="text"
-                  value={signupData.lastName}
-                  onChange={updateSignupField('lastName')}
-                  placeholder={t('enterLastName') || 'Enter your last name'}
-                  Icon={User}
-                />
-
-                <InputField
-                  id="signup-email"
-                  label={t('email') || 'Email'}
-                  type="email"
-                  value={signupData.email}
-                  onChange={updateSignupField('email')}
-                  placeholder={t('enterEmail') || 'Enter your email'}
-                  Icon={Mail}
-                />
-
-                <div className="relative">
-                  <InputField
-                    id="signup-password"
-                    label={t('password') || 'Password'}
-                    type={showSignupPassword ? "text" : "password"}
-                    value={signupData.password}
-                    onChange={updateSignupField('password')}
-                    placeholder={t('enterPassword') || 'Enter your password'}
-                    Icon={Lock}
-                    inputClassName="pr-12"
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center top-7">
-                    <button
-                      type="button"
-                      onClick={() => setShowSignupPassword(!showSignupPassword)}
-                      className="text-white hover:text-white/80 transition-colors"
-                    >
-                      {showSignupPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
+              <TabsContent value="signup">
+                <form onSubmit={handleSignup} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="first-name" className="text-white">First Name</Label>
+                      <Input
+                        id="first-name"
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                        placeholder="First name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="last-name" className="text-white">Last Name</Label>
+                      <Input
+                        id="last-name"
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                        placeholder="Last name"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-
-                <div className="relative">
-                  <InputField
-                    id="confirmPassword"
-                    label={t('confirmPassword') || 'Confirm Password'}
-                    type={showConfirmPassword ? "text" : "password"}
-                    value={signupData.confirmPassword}
-                    onChange={updateSignupField('confirmPassword')}
-                    placeholder={t('confirmYourPassword') || 'Confirm your password'}
-                    Icon={Lock}
-                    inputClassName="pr-12"
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center top-7">
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="text-white hover:text-white/80 transition-colors"
-                    >
-                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
+                  <div>
+                    <Label htmlFor="signup-email" className="text-white">Email</Label>
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      placeholder="Enter your email"
+                      required
+                    />
                   </div>
-                </div>
-
-                <SubmitButton
-                  isLoading={isSignupLoading}
-                  loadingText={t('creatingAccount') || 'Creating account...'}
-                  text={t('createAccount') || 'Create account'}
-                />
-              </form>
-            )}
-          </AuthCard>
+                  <div>
+                    <Label htmlFor="signup-password" className="text-white">Password</Label>
+                    <Input
+                      id="signup-password"
+                      type="password"
+                      value={signupPassword}
+                      onChange={(e) => setSignupPassword(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      placeholder="Create a password"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="confirm-password" className="text-white">Confirm Password</Label>
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      placeholder="Confirm your password"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-[#7E26A6] hover:bg-[#7E26A6]/80 text-white shadow-[0_0_30px_rgba(126,38,166,0.6)]"
+                  >
+                    {isLoading ? 'Creating Account...' : 'Create Account'}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
-      </main>
-      
-      <Footer />
+      </div>
     </div>
   );
 }

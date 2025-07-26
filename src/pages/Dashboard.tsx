@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { redirectByRole } from "@/hooks/useRoleRedirection";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -25,27 +26,8 @@ export default function Dashboard() {
         return;
       }
 
-      // Role-based redirection
-      switch (profile.role) {
-        case 'guest':
-          navigate('/user-dashboard');
-          break;
-        case 'hotel_owner':
-          navigate('/hotel-dashboard');
-          break;
-        case 'association':
-          navigate('/panel-asociacion');
-          break;
-        case 'promoter':
-          navigate('/promoter/dashboard');
-          break;
-        case 'admin':
-          navigate('/admin-dashboard');
-          break;
-        default:
-          navigate('/user-dashboard');
-          break;
-      }
+      // Use centralized role redirection
+      navigate(redirectByRole(profile.role));
     };
 
     checkAuthAndRedirect();

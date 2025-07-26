@@ -16,7 +16,7 @@ import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 
 export default function Entrance() {
   const navigate = useNavigate();
-  const { user, profile } = useAuth();
+  const { user, profile, setIsJustSignedUp } = useAuth();
   const { t } = useTranslation();
   const { toast } = useToast();
   
@@ -123,15 +123,13 @@ export default function Entrance() {
         return;
       }
 
+      // Mark that this user just signed up so auth state logic knows to redirect
+      setIsJustSignedUp?.(true);
+
       toast({
         title: "Account created successfully!",
         description: "Redirecting to role selection..."
       });
-
-      // Wait a moment for auth state to settle, then redirect
-      setTimeout(() => {
-        navigate('/register-role', { replace: true });
-      }, 500);
 
     } catch (error: any) {
       toast({

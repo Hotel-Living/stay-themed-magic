@@ -11,6 +11,7 @@ export function useAuthState() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isJustSignedUp, setIsJustSignedUp] = useState(false);
   const navigate = useNavigate();
 
   const handleCorrectRedirect = async (currentUser: User, currentProfile: Profile | null) => {
@@ -178,11 +179,11 @@ export function useAuthState() {
                          profileData.role !== '';
           
           // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
-          // Do NOT redirect new users without roles - they need to go to /register-role
+          // Handle new signup vs existing user login differently
           const needsRedirect = event === 'SIGNED_IN' && 
                                !currentPath.includes('/reset-password') && 
                                !currentPath.includes('/register-role') &&
-                               !currentPath.includes('/entrance') &&
+                               !isJustSignedUp &&
                                hasRole;
           
           if (needsRedirect) {
@@ -190,6 +191,14 @@ export function useAuthState() {
             setIsRedirecting(true);
             await handleCorrectRedirect(session.user, profileData);
             // isRedirecting will be cleared in handleCorrectRedirect
+          } else if (isJustSignedUp && !hasRole && currentPath.includes('/entrance')) {
+            // For new signups without role, redirect to register-role
+            console.log("New signup detected, redirecting to register-role");
+            setIsRedirecting(true);
+            setIsLoading(false);
+            navigate('/register-role', { replace: true });
+            setIsJustSignedUp(false); // Clear the flag
+            setIsRedirecting(false);
           } else {
             // No redirect needed, safe to show current page
             setIsLoading(false);
@@ -243,6 +252,7 @@ export function useAuthState() {
     setProfile,
     setIsLoading,
     setUser,
-    setSession
+    setSession,
+    setIsJustSignedUp
   };
 }

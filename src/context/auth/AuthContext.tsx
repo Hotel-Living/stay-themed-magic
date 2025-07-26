@@ -18,6 +18,7 @@ interface AuthContextType {
   signIn: (email: string, password: string, userType: "traveler" | "hotel" | "association" | "promoter") => Promise<AuthResult>;
   signOut: () => Promise<void>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
+  setIsJustSignedUp?: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

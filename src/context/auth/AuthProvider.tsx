@@ -15,7 +15,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile, 
     setIsLoading,
     setUser,
-    setSession
+    setSession,
+    setIsJustSignedUp
   } = useAuthState();
   
   const { 
@@ -47,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         signIn,
         signOut,
         updateProfile,
+        setIsJustSignedUp,
       }}
     >
       {children}

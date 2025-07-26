@@ -43,10 +43,10 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     );
   }
 
-  // If no user or session, redirect to signing page
+  // If no user or session, redirect to register-role page
   if (!user || !session) {
-    console.log("No user or session, redirecting to signing");
-    return <Navigate to="/signing" replace />;
+    console.log("No user or session, redirecting to register-role");
+    return <Navigate to="/register-role" replace />;
   }
 
   // CRITICAL: If user exists but profile is still null/undefined, continue loading

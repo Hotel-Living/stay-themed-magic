@@ -79,7 +79,7 @@ import esQuestions from './locales/es/questions.json';
 import esReviews from './locales/es/reviews.json';
 import esSearch from './locales/es/search.json';
 import esServices from './locales/es/services.json';
-import esSignup from './locales/es/signup.json';
+
 import esTerms from './locales/es/terms.json';
 import esOurServices from './locales/es/ourServices.json';
 import esIntellectualProperty from './locales/es/intellectualProperty.json';
@@ -282,7 +282,7 @@ const resources = {
     reviews: esReviews,
     search: esSearch,
     services: esServices,
-    signup: esSignup,
+    
     terms: esTerms,
     ourServices: esOurServices,
     intellectualProperty: esIntellectualProperty,

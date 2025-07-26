@@ -19,11 +19,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   } = useAuthState();
   
   const { 
-    signUp, 
     signIn, 
     signOut, 
     updateProfile: updateUserProfile 
-  } = useAuthMethods({ 
+  } = useAuthMethods({
     setIsLoading,
     setProfile,
     setUser,
@@ -45,7 +44,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         session,
         isLoading,
         isRedirecting,
-        signUp,
         signIn,
         signOut,
         updateProfile,

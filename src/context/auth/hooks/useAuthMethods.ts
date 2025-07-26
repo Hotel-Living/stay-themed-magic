@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/integrations/supabase/types-custom";
-import { useSignUp } from "./useSignUp";
+
 import { useSignIn } from "./useSignIn";
 import { useProfileManagement } from "./useProfileManagement";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,7 +20,6 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   const { toast } = useToast();
   
   // Use refactored hooks
-  const { signUp } = useSignUp({ setIsLoading, setProfile });
   const { signIn: signInHook } = useSignIn({ setIsLoading, setProfile });
   const { updateProfile } = useProfileManagement({ setIsLoading, setProfile });
 
@@ -91,7 +90,7 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
 
       // Step 5: Redirect after a short delay
       setTimeout(() => {
-        window.location.href = "/signing";
+        window.location.href = "/register-role";
       }, 500);
 
     } catch (error: any) {
@@ -110,7 +109,7 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
       
       // Force redirect even on error
       setTimeout(() => {
-        window.location.href = "/signing";
+        window.location.href = "/register-role";
       }, 1000);
     } finally {
       setIsLoading(false);
@@ -118,7 +117,6 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   };
 
   return {
-    signUp,
     signIn,
     signOut,
     updateProfile,

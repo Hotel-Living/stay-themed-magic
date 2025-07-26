@@ -43,7 +43,7 @@ export function Navbar() {
 
   // Auth Link Component
   const AuthLink = () => (
-    <Link to="/signing">
+    <Link to="/register-role">
       <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
         <User className="w-5 h-5" />
       </Button>

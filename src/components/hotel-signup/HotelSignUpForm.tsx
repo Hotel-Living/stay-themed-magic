@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Building, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { InputField } from "@/components/auth/InputField";
 import { PasswordField } from "@/components/auth/PasswordField";
@@ -19,7 +19,7 @@ export function HotelSignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptBusinessTerms, setAcceptBusinessTerms] = useState(false);
-  const { signUp, isLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -64,34 +64,32 @@ export function HotelSignUpForm() {
     }
     
     try {
-      const result = await signUp(email, password, {
-        first_name: hotelName,
-        last_name: null,
-        is_hotel_owner: true,
-        role: "hotel"
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            first_name: hotelName,
+            last_name: null,
+            is_hotel_owner: true,
+            role: "hotel"
+          }
+        }
       });
       
-      if (result && result.error) {
-        // Check if it's the email confirmation message
-        if (result.error.includes("check your email")) {
-          toast({
-            title: "Registration Successful",
-            description: "Please check your email for a confirmation link before signing in."
-          });
-          navigate('/login?tab=hotel');
-        } else {
-          toast({
-            title: "Registration Error",
-            description: result.error,
-            variant: "destructive"
-          });
-        }
-      } else if (result && result.success) {
+      if (error) {
+        toast({
+          title: "Registration Error",
+          description: error.message,
+          variant: "destructive"
+        });
+      } else if (data.user) {
         toast({
           title: "Registration Successful", 
           description: "Please check your email for a confirmation link before signing in."
         });
-        navigate('/login?tab=hotel');
+        navigate('/register-role');
       }
     } catch (error: any) {
       console.error("Signup error:", error);
@@ -100,6 +98,8 @@ export function HotelSignUpForm() {
         description: error.message || "An unexpected error occurred",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

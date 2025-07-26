@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/context/AuthContext';
+
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,7 @@ export const AgentRegistration = () => {
     bankAccount: ''
   });
   
-  const { signUp } = useAuth();
+  
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -40,22 +40,26 @@ export const AgentRegistration = () => {
       setIsLoading(true);
 
       // Sign up with user metadata indicating this is an agent
-      const result = await signUp(formData.email, formData.password, {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        is_hotel_owner: false,
-        role: "promoter"
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            is_hotel_owner: false,
+            role: "promoter"
+          }
+        }
       });
 
-      if (result.success) {
-        // Create agent record after successful signup
-        const { data: userData } = await supabase.auth.getUser();
-        
-        if (userData.user) {
+      if (data.user && !error) {
+        // Create agent record after successful signup        
+        if (data.user) {
           const { error: agentError } = await supabase
             .from('agents')
             .insert({
-              user_id: userData.user.id,
+              user_id: data.user.id,
               full_name: `${formData.firstName} ${formData.lastName}`,
               email: formData.email,
               bank_account: formData.bankAccount,
@@ -72,7 +76,7 @@ export const AgentRegistration = () => {
           description: "Tu cuenta de agente ha sido creada. Revisa tu email para confirmar tu cuenta."
         });
         
-        navigate('/login');
+        navigate('/register-role');
       }
     } catch (error: any) {
       toast({

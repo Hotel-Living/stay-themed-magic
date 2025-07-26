@@ -18,12 +18,12 @@ export default function HotelSignUp() {
               {
                 text: "Already have an account?",
                 linkText: "Sign in",
-                linkUrl: "/hotel-login"
+                linkUrl: "/register-role"
               },
               {
                 text: "Looking to book a stay?",
                 linkText: "Register as a Traveler",
-                linkUrl: "/signup"
+                linkUrl: "/register-role"
               }
             ]}
           >

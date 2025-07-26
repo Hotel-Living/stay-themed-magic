@@ -88,7 +88,7 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
   const currentPath = window.location.pathname;
   
   // Define path groups
-  const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup', '/hotel-login'];
+  const publicPaths = ['/', '/login', '/signin', '/hotel-signup'];
   const hotelOwnerPaths = ['/hotel-dashboard', '/panel-hotel', '/hoteles'];
   const travelerPaths = ['/user-dashboard'];
   
@@ -97,7 +97,7 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
   // *** HOTEL OWNER LOGIC ***
   if (profile.is_hotel_owner === true || profile.role === 'hotel_owner') {
     // Special case for hotel login page
-    if (currentPath === '/hotel-login') {
+    if (currentPath === '/register-role') {
       console.log("Hotel owner on hotel login page, redirecting to panel-hotel");
       window.location.href = '/panel-hotel';
       return;

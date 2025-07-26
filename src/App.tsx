@@ -82,6 +82,7 @@ import HotelModelPage from "@/pages/HotelModelPage";
 import AdminLogin from "@/pages/AdminLogin";
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 import Signing from "@/pages/Signing";
+import Access from "@/pages/Access";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -120,6 +121,7 @@ function App() {
                 <Route path="/search" element={<Search />} />
                  <Route path="/register-role" element={<RegisterRole />} />
                  <Route path="/signing" element={<Signing />} />
+                 <Route path="/access" element={<Access />} />
                  
                  {/* Legacy route redirects - all redirect to /signing */}
                  <Route path="/sign-in" element={<Navigate to="/signing" replace />} />

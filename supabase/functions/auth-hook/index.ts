@@ -17,14 +17,14 @@ serve(async (req) => {
     
     console.log("Auth hook triggered:", { type, table, record: record?.id });
 
-    // Only handle user signup events
+    // Only handle user signup events that are NOT yet confirmed
     if (type === "INSERT" && table === "users" && record) {
       const { id, email, email_confirmed_at, user_metadata } = record;
       
       console.log("Processing user signup:", { email, confirmed: !!email_confirmed_at });
       
-      // Send verification email for ALL new signups since confirmations are disabled
-      if (email) {
+      // Send verification email for new signups that haven't been confirmed yet
+      if (email && !email_confirmed_at) {
         console.log("Sending verification email for user:", email);
         
         // Create Supabase client to call our email function

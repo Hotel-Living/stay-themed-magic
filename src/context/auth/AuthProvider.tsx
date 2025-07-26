@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import AuthContext from "./AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +9,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const isAuthComplete = !!user && !!session && !!profile?.role;
 
   const signOut = async () => {
     try {
@@ -73,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         profile,
         session,
         isLoading,
+        isAuthComplete,
         signOut,
       }}
     >

@@ -8,6 +8,7 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   isLoading: boolean;
+  isAuthComplete: boolean;
   signOut: () => Promise<void>;
 }
 

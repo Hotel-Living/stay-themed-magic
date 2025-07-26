@@ -43,7 +43,7 @@ export function Navbar() {
 
   // Auth Link Component
   const AuthLink = () => (
-    <Link to="/register-role">
+    <Link to="/entrance">
       <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
         <User className="w-5 h-5" />
       </Button>
@@ -124,12 +124,12 @@ export function Navbar() {
                   <span className="text-sm">{panelLabel}</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-purple-900 border-purple-700">
-                  <DropdownMenuItem asChild>
-                    <Link to="/user-dashboard" className="text-white hover:bg-purple-800">
-                      <User className="w-4 h-4 mr-2" />
-                      {t('navigation.profile')}
-                    </Link>
-                  </DropdownMenuItem>
+                   <DropdownMenuItem asChild>
+                     <Link to={profile?.role ? "/user-dashboard" : "/register-role"} className="text-white hover:bg-purple-800">
+                       <User className="w-4 h-4 mr-2" />
+                       {t('navigation.profile')}
+                     </Link>
+                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="text-white hover:bg-purple-800">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t('mainNavigationContent.logout')}

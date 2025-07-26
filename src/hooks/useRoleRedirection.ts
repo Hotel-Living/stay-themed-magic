@@ -5,9 +5,9 @@ export function redirectByRole(role: string | null): string {
     case 'hotel_owner':
       return '/hotel-dashboard';
     case 'association':
-      return '/panel-asociacion';
+      return '/association-dashboard';
     case 'promoter':
-      return '/promoter/dashboard';
+      return '/promoter-dashboard';
     case 'admin':
       return '/admin-dashboard';
     default:

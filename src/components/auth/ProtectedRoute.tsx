@@ -36,6 +36,11 @@ export const ProtectedRoute = ({ children, requireHotelOwner, requireAdmin, requ
     );
   }
 
+  // If user has no role, redirect to role selection
+  if (user && profile && !profile.role) {
+    return <Navigate to="/register-role" replace />;
+  }
+
   // Admin check
   if (requireAdmin && profile?.role !== 'admin') {
     return <Navigate to="/user-dashboard" replace />;

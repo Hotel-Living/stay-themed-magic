@@ -39,7 +39,7 @@ const handler = async (req: Request): Promise<Response> => {
     const html = generateEmailHtml(emailContent);
 
     const { data, error } = await resend.emails.send({
-      from: "Hotel Living <contact@hotel-living.com>", // Verified domain
+      from: "Hotel Living <noreply@resend.dev>", // Using verified Resend domain
       to: [email],
       subject: emailContent.subject,
       html: html,

@@ -28,7 +28,7 @@ export const HotelRegistrationPrompt = () => {
                 
                 <p className="text-sm text-muted-foreground">
                   Already have an account?{" "}
-                  <Link to="/register-role" className="text-primary hover:underline">
+                  <Link to="/unirse" className="text-primary hover:underline">
                     Sign in as Hotel Partner
                   </Link>
                 </p>

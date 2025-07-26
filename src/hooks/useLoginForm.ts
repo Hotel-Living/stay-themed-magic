@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { simpleSignIn } from "@/hooks/useSimpleSignIn";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 export function useLoginForm(userType: "traveler" | "hotel" | "association" | "promoter") {
@@ -8,7 +7,6 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showFallback, setShowFallback] = useState(false);
   
   const { toast } = useToast();
 
@@ -24,57 +22,46 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
       return;
     }
 
-    console.log("=== LOGIN FORM SUBMIT ===");
-    console.log("User type:", userType);
-    console.log("Email:", email);
-
     setIsLoading(true);
 
     try {
-      const result = await simpleSignIn(email, password);
-      
-      console.log("Sign in result:", result);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (result.success) {
-        console.log("Login successful, setting up feedback and fallback");
-        
-        // Show success feedback
+      if (error) throw error;
+
+      if (data.user) {
+        // Check if user has a role
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+
         toast({
           title: "✅ Success! Redirecting…",
           description: "You have been successfully logged in"
         });
-        
-        // Set up fallback mechanism after 3 seconds (reduced from 5)
-        setTimeout(() => {
-          console.log("Activating fallback mechanism");
-          setShowFallback(true);
-          setIsLoading(false);
-        }, 3000);
-        
-      } else {
-        console.log("Login failed:", result.error);
-        // Error toast is already shown in signIn function
-        setIsLoading(false);
+
+        // Redirect based on role
+        if (profile?.role) {
+          window.location.href = '/dashboard';
+        } else {
+          window.location.href = '/register-role';
+        }
       }
     } catch (error: any) {
-      console.error("Login form error:", error);
+      console.error("Login error:", error);
       toast({
         title: "❌ Something went wrong. Please try again.",
-        description: "Ocurrió un error durante el inicio de sesión",
+        description: error.message || "Ocurrió un error durante el inicio de sesión",
         variant: "destructive"
       });
+    } finally {
       setIsLoading(false);
     }
-
-    console.log("=== LOGIN FORM SUBMIT END ===");
-  };
-
-  const handleFallbackRedirect = () => {
-    const dashboardUrl = userType === "hotel" ? "/hotel-dashboard" : 
-                        userType === "association" ? "/association-dashboard" :
-                        userType === "promoter" ? "/promoter-dashboard" : 
-                        "/user-dashboard";
-    window.location.href = dashboardUrl;
   };
 
   return {
@@ -85,8 +72,6 @@ export function useLoginForm(userType: "traveler" | "hotel" | "association" | "p
     showPassword,
     setShowPassword,
     isLoading,
-    showFallback,
-    handleSubmit,
-    handleFallbackRedirect
+    handleSubmit
   };
 }

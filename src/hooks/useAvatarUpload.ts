@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/context/AuthContext";
-import { simpleUpdateProfile } from "@/hooks/useSimpleAuth";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -53,7 +51,12 @@ export function useAvatarUpload() {
         .from('avatars')
         .getPublicUrl(fileName);
 
-      await simpleUpdateProfile(user.id, { avatar_url: data.publicUrl });
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: data.publicUrl })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
 
       toast({
         title: t('dashboard.avatar.uploadSuccess')
@@ -78,7 +81,12 @@ export function useAvatarUpload() {
 
     setUploading(true);
     try {
-      await simpleUpdateProfile(user.id, { avatar_url: null });
+      const { error } = await supabase
+        .from('profiles')
+        .update({ avatar_url: null })
+        .eq('id', user.id);
+
+      if (error) throw error;
 
       toast({
         title: t('dashboard.avatar.removeSuccess')

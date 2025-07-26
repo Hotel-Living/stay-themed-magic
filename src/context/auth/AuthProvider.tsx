@@ -17,7 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
       setSession(null);
       setProfile(null);
-      window.location.href = '/signing';
+      window.location.href = '/entrance';
     } catch (error) {
       console.error('Error signing out:', error);
     }

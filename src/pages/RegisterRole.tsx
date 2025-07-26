@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -20,7 +19,7 @@ export default function RegisterRole() {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        navigate('/signing');
+        navigate('/entrance');
         return;
       }
       
@@ -52,18 +51,23 @@ export default function RegisterRole() {
     }
 
     setIsLoading(true);
+
     try {
-      // Map account types to roles
-      const roleMapping: Record<string, string> = {
-        traveler: 'guest',
-        hotel: 'hotel_owner',
-        association: 'association',
-        promoter: 'promoter',
+      // Map account type to role
+      const roleMapping: { [key: string]: string } = {
+        'traveler': 'guest',
+        'hotel': 'hotel_owner',
+        'association': 'association',
+        'promoter': 'promoter'
       };
 
       const role = roleMapping[accountType];
+      
+      if (!role) {
+        throw new Error('Invalid account type');
+      }
 
-      // Update user profile with role
+      // Update user role in profiles table
       const { error } = await supabase
         .from('profiles')
         .update({ role })
@@ -72,36 +76,29 @@ export default function RegisterRole() {
       if (error) throw error;
 
       toast({
-        title: "Profile configured",
-        description: "Redirecting to your dashboard..."
+        title: "Account type selected",
+        description: "Your account has been set up successfully!"
       });
 
-      // Navigate to dashboard which will handle role-based routing
+      // Redirect to dashboard
       navigate('/dashboard');
 
     } catch (error: any) {
-      console.error('Error assigning role:', error);
-      
+      console.error('Error updating role:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message || "Error assigning role. Please try again."
+        description: error.message || "Failed to update account type"
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Show loading if no user
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Starfield />
-        <Navbar />
-        <main className="flex-1 pt-16 flex items-center justify-center">
-          <div className="text-white text-lg">Loading...</div>
-        </main>
-        <Footer />
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
       </div>
     );
   }
@@ -111,58 +108,61 @@ export default function RegisterRole() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-16">
-        <div className="container max-w-lg mx-auto px-4 py-8">
+      <main className="flex-1 pt-16 flex items-center justify-center px-4">
+        <div className="w-full max-w-2xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-4">
-              What type of account do you want to create?
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Choose Your Account Type
             </h1>
+            <p className="text-white/80 text-lg">
+              Select the option that best describes you
+            </p>
           </div>
-          
-          <div className="space-y-4">
-            <Button 
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Button
               onClick={() => handleAccountTypeSelect('traveler')}
               disabled={isLoading}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
+              className="h-32 flex flex-col items-center justify-center space-y-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+              variant="outline"
             >
-              {isLoading ? "Procesando..." : "Traveler"}
+              <span className="text-2xl">🧳</span>
+              <span className="text-lg font-semibold">Traveler</span>
+              <span className="text-sm opacity-80">Book amazing stays</span>
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={() => handleAccountTypeSelect('hotel')}
               disabled={isLoading}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
+              className="h-32 flex flex-col items-center justify-center space-y-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+              variant="outline"
             >
-              {isLoading ? "Procesando..." : "Hotel Partner"}
+              <span className="text-2xl">🏨</span>
+              <span className="text-lg font-semibold">Hotel Partner</span>
+              <span className="text-sm opacity-80">List your property</span>
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={() => handleAccountTypeSelect('association')}
               disabled={isLoading}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
+              className="h-32 flex flex-col items-center justify-center space-y-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+              variant="outline"
             >
-              {isLoading ? "Procesando..." : "Association"}
+              <span className="text-2xl">🤝</span>
+              <span className="text-lg font-semibold">Association</span>
+              <span className="text-sm opacity-80">Represent hotels</span>
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={() => handleAccountTypeSelect('promoter')}
               disabled={isLoading}
-              className="w-full h-16 text-lg font-semibold bg-[#8017B0] hover:bg-[#5c0869] text-white border-none disabled:opacity-50"
+              className="h-32 flex flex-col items-center justify-center space-y-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+              variant="outline"
             >
-              {isLoading ? "Procesando..." : "Promoter"}
+              <span className="text-2xl">📢</span>
+              <span className="text-lg font-semibold">Promoter</span>
+              <span className="text-sm opacity-80">Promote travel deals</span>
             </Button>
-          </div>
-          
-          <div className="text-center mt-8">
-            <p className="text-white/80 text-sm">
-              Already have an account?{" "}
-              <button 
-                onClick={() => navigate('/signing')}
-                className="text-white underline hover:text-white/80"
-              >
-                Sign in here
-              </button>
-            </p>
           </div>
         </div>
       </main>

@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
-import { simpleUpdateProfile } from "@/hooks/useSimpleAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { UserRoles } from "@/components/dashboard/user/UserRoles";
 import { MyAffinities } from "@/components/dashboard/user/MyAffinities";
@@ -29,11 +28,16 @@ const ProfileContent = () => {
     try {
       if (!user) throw new Error("No user found");
       
-      await simpleUpdateProfile(user.id, {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phone,
-      });
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          first_name: firstName,
+          last_name: lastName,
+          phone: phone,
+        })
+        .eq('id', user.id);
+
+      if (error) throw error;
 
       toast({
         title: "Profile updated",

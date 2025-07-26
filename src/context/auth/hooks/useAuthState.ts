@@ -178,9 +178,11 @@ export function useAuthState() {
                          profileData.role !== '';
           
           // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
+          // Do NOT redirect new users without roles - they need to go to /register-role
           const needsRedirect = event === 'SIGNED_IN' && 
                                !currentPath.includes('/reset-password') && 
                                !currentPath.includes('/register-role') &&
+                               !currentPath.includes('/entrance') &&
                                hasRole;
           
           if (needsRedirect) {

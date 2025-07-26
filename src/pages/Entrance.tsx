@@ -128,8 +128,10 @@ export default function Entrance() {
         description: "Redirecting to role selection..."
       });
 
-      // Redirect to role selection
-      navigate('/register-role', { replace: true });
+      // Wait a moment for auth state to settle, then redirect
+      setTimeout(() => {
+        navigate('/register-role', { replace: true });
+      }, 500);
 
     } catch (error: any) {
       toast({

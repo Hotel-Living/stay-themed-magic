@@ -80,6 +80,47 @@ export function Navbar() {
           </Link>
           
           
+          {/* Authentication Buttons */}
+          <div className="relative group">
+            <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
+              SET UP
+            </button>
+            <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
+              <Link to="/signup/user" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
+                User
+              </Link>
+              <Link to="/signup/hotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                Hotel
+              </Link>
+              <Link to="/signup/association" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                Association
+              </Link>
+              <Link to="/signup/promoter" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
+                Promoter
+              </Link>
+            </div>
+          </div>
+          
+          <div className="relative group">
+            <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
+              LOGIN
+            </button>
+            <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
+              <Link to="/login/user" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
+                User
+              </Link>
+              <Link to="/login/hotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                Hotel
+              </Link>
+              <Link to="/login/association" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                Association
+              </Link>
+              <Link to="/login/promoter" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
+                Promoter
+              </Link>
+            </div>
+          </div>
+          
           <LanguageSwitcher />
         </div>
 

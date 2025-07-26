@@ -72,6 +72,17 @@ import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 import HotelModelPage from "@/pages/HotelModelPage";
 
+// Authentication Pages
+import SignupUser from "@/pages/auth/SignupUser";
+import SignupHotel from "@/pages/auth/SignupHotel";
+import SignupAssociation from "@/pages/auth/SignupAssociation";
+import SignupPromoter from "@/pages/auth/SignupPromoter";
+import LoginUser from "@/pages/auth/LoginUser";
+import LoginHotel from "@/pages/auth/LoginHotel";
+import LoginAssociation from "@/pages/auth/LoginAssociation";
+import LoginPromoter from "@/pages/auth/LoginPromoter";
+import AuthCallback from "@/pages/auth/AuthCallback";
+
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 
 const queryClient = new QueryClient({
@@ -170,9 +181,20 @@ function App() {
               {/* Prueba - INDEPENDENT Admin Page - NO AdminRoute wrapper */}
               <Route path="/prueba" element={<Prueba />} />
               
-              {/* Comparison Route */}
-               <Route path="/compare" element={<Compare />} />
-               <Route path="/hotel-model" element={<HotelModelPage />} />
+               {/* Comparison Route */}
+                <Route path="/compare" element={<Compare />} />
+                <Route path="/hotel-model" element={<HotelModelPage />} />
+                
+                {/* Authentication Routes */}
+                <Route path="/signup/user" element={<SignupUser />} />
+                <Route path="/signup/hotel" element={<SignupHotel />} />
+                <Route path="/signup/association" element={<SignupAssociation />} />
+                <Route path="/signup/promoter" element={<SignupPromoter />} />
+                <Route path="/login/user" element={<LoginUser />} />
+                <Route path="/login/hotel" element={<LoginHotel />} />
+                <Route path="/login/association" element={<LoginAssociation />} />
+                <Route path="/login/promoter" element={<LoginPromoter />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />
             </Routes>
             
             {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}

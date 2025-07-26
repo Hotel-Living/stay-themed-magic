@@ -107,18 +107,30 @@ export default function Signing() {
 
     setIsLoading(true);
     try {
+      console.log("Starting signup process...");
       const result = await signUp(signUpData.email, signUpData.password, {
         first_name: signUpData.firstName,
         last_name: signUpData.lastName
       });
       
+      console.log("Signup result:", result);
+      
       if (result.success) {
-        navigate('/register-role');
+        // Clear loading state immediately before navigation to prevent UI freeze
+        setIsLoading(false);
+        
         toast({
           title: "Success",
           description: "Account created successfully!"
         });
+        
+        // Use setTimeout to ensure state is cleared before navigation
+        setTimeout(() => {
+          console.log("Navigating to register-role...");
+          navigate('/register-role');
+        }, 100);
       } else {
+        setIsLoading(false);
         toast({
           variant: "destructive",
           title: "Error",
@@ -126,13 +138,13 @@ export default function Signing() {
         });
       }
     } catch (error) {
+      console.error("Signup error:", error);
+      setIsLoading(false);
       toast({
         variant: "destructive",
         title: "Error",
         description: "An error occurred during sign up"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 

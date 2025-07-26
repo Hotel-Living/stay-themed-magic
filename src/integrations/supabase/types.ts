@@ -1759,6 +1759,10 @@ export type Database = {
         Args: { p_email: string }
         Returns: string
       }
+      delete_auth_user_by_email: {
+        Args: { p_email: string }
+        Returns: boolean
+      }
       detect_incomplete_signups: {
         Args: Record<PropertyKey, never>
         Returns: {

@@ -19,10 +19,10 @@ export default function RegisterRole() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Redirect to signing page if not authenticated
+  // Redirect to register-role page if not authenticated
   useEffect(() => {
     if (!user) {
-      navigate('/signing');
+      navigate('/register-role');
     }
   }, [user, navigate]);
 
@@ -162,7 +162,7 @@ export default function RegisterRole() {
             <p className="text-white/80 text-sm">
               Already have an account?{" "}
               <button 
-                onClick={() => navigate('/signing')}
+                onClick={() => navigate('/register-role')}
                 className="text-white underline hover:text-white/80"
               >
                 Sign in here

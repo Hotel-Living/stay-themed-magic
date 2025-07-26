@@ -26,7 +26,7 @@ export default function ResetPassword() {
     console.log("Token from URL:", tokenParam);
     
     // Clear any existing session to prevent automatic login during password reset
-    const clearSessionAndSetToken = async () => {
+    const clearSessionAndValidateToken = async () => {
       try {
         await supabase.auth.signOut();
         console.log("Cleared existing session for password reset");
@@ -46,10 +46,50 @@ export default function ResetPassword() {
       }
       
       setToken(tokenParam);
-      setIsValidToken(true);
+      
+      // Validate the token with the backend
+      try {
+        console.log("Validating token with backend:", tokenParam);
+        const { data, error } = await supabase.rpc('validate_password_reset_token', { 
+          p_token: tokenParam 
+        });
+        
+        if (error) {
+          console.error("Token validation error:", error);
+          setIsValidToken(false);
+          toast({
+            title: "Invalid Reset Link",
+            description: "This password reset link is invalid or has expired. Please request a new one.",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        if (!data || data.length === 0) {
+          console.log("Token validation failed: no valid token found");
+          setIsValidToken(false);
+          toast({
+            title: "Invalid Reset Link",
+            description: "This password reset link is invalid or has expired. Please request a new one.",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        console.log("Token validated successfully:", data[0]);
+        setIsValidToken(true);
+      } catch (error) {
+        console.error("Error validating token:", error);
+        setIsValidToken(false);
+        toast({
+          title: "Invalid Reset Link", 
+          description: "This password reset link is invalid or has expired. Please request a new one.",
+          variant: "destructive",
+        });
+      }
     };
     
-    clearSessionAndSetToken();
+    clearSessionAndValidateToken();
   }, [searchParams, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {

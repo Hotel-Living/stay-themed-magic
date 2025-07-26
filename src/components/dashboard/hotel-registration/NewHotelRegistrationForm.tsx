@@ -220,25 +220,36 @@ export const NewHotelRegistrationForm = () => {
       console.log('Calling createNewHotel...');
       // Submit to hotel creation system
       const result = await createNewHotel(propertyData, user.id);
+      console.log('=== HOTEL CREATION RESULT ===');
       console.log('Hotel creation result:', result);
+      console.log('Result type:', typeof result);
+      console.log('Result keys:', result ? Object.keys(result) : 'No result');
       
       if (result && result.id) {
-        console.log('Hotel created successfully with ID:', result.id);
+        console.log('=== SUCCESS: Hotel created successfully ===');
+        console.log('Hotel ID:', result.id);
+        console.log('Hotel name:', result.name);
+        console.log('Hotel owner:', result.owner_id);
         
+        // Show immediate success feedback
         toast({
-          title: t('success'),
-          description: t('hotelSubmittedForApproval'),
+          title: "✅ Hotel Created Successfully!",
+          description: "Your hotel has been submitted and is pending approval.",
           duration: 8000
         });
 
-        // Wait longer before redirect to ensure user sees success message
+        // Clear the submitting state immediately to show success
+        setIsSubmitting(false);
+
+        // Wait before redirect to ensure user sees success message
         setTimeout(() => {
           console.log('Redirecting to hotel dashboard...');
           window.location.href = '/hotel-dashboard';
-        }, 6000);
+        }, 3000);
       } else {
-        console.error('Hotel creation returned no result');
-        throw new Error('Hotel creation failed - no result returned');
+        console.error('=== ERROR: Hotel creation returned invalid result ===');
+        console.error('Result:', result);
+        throw new Error('Hotel creation failed - invalid result returned');
       }
     } catch (error: any) {
       console.error('=== HOTEL SUBMISSION ERROR ===');

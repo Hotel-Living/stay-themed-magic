@@ -119,13 +119,20 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
       console.error("Error details:", error.details);
       console.error("Error hint:", error.hint);
       console.error("Error code:", error.code);
-      throw error;
+      throw new Error(`Hotel creation failed: ${error.message}`);
+    }
+
+    if (!data) {
+      console.error("=== NO DATA RETURNED ERROR ===");
+      console.error("No data returned from hotel creation, but no error either");
+      throw new Error("Hotel creation failed: No data returned from database");
     }
 
     console.log("=== HOTEL CREATED SUCCESSFULLY ===");
     console.log("Hotel created successfully:", data);
     console.log("Hotel ID:", data?.id);
     console.log("Hotel name:", data?.name);
+    console.log("Hotel owner_id:", data?.owner_id);
 
     // Trigger automatic translations asynchronously (non-blocking)
     if (data?.id) {

@@ -4,11 +4,17 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 enabled = true
 external_url = "https://lovable.dev"
 additional_redirect_urls = ["https://lovable.dev", "https://lovable.dev/auth/callback"]
+# Auth webhook configuration
+hook_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
+hook_secret = "super-secret-hook-password"
 
 # Configure email delivery - bypass Supabase's broken email system
 [auth.email]
 enable_signup = true
 enable_confirmations = false
+
+[functions.auth-hook]
+verify_jwt = false
 
 [storage]
 enabled = true

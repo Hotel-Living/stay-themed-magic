@@ -222,14 +222,26 @@ export default function Access() {
           console.log('🔧 Access: User metadata sent:', { first_name: firstName.trim(), last_name: lastName.trim() });
           
           // Verify profile was created by the trigger
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('first_name, last_name, role')
-            .eq('id', data.user.id)
-            .single();
-            
-          if (profileError) {
-            console.log('🔧 Access: Profile creation failed, trigger may not be working:', profileError.message);
+          let profileCreated = false;
+          for (let i = 0; i < 3; i++) { // Try 3 times with delay
+            const { data: profile, error: profileError } = await supabase
+              .from('profiles')
+              .select('first_name, last_name, role')
+              .eq('id', data.user.id)
+              .maybeSingle(); // Use maybeSingle instead of single
+              
+            if (!profileError && profile) {
+              console.log('🔧 Access: Profile created by trigger:', profile);
+              profileCreated = true;
+              break;
+            } else {
+              console.log(`🔧 Access: Profile check attempt ${i + 1} failed:`, profileError?.message);
+              if (i < 2) await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
+            }
+          }
+          
+          if (!profileCreated) {
+            console.log('🔧 Access: Profile creation failed, trigger may not be working - creating manually');
             
             // Fallback: Create profile manually if trigger failed
             const { error: createError } = await supabase
@@ -248,8 +260,6 @@ export default function Access() {
             } else {
               console.log('🔧 Access: Manual profile creation successful');
             }
-          } else {
-            console.log('🔧 Access: Profile created by trigger:', profile);
           }
 
           // Start async email processes without blocking (with proper timeout)

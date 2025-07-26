@@ -79,12 +79,6 @@ export function Footer() {
           
           {/* Buttons - reduced size by 30% on mobile */}
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-2" : "mb-4"}`}>
-            <Link to="/register-role" className={`text-white hover:text-white/90 bg-[#7A127C] font-bold rounded-md uppercase ${isMobile ? "px-4 py-1.5 text-sm" : "px-6 py-2"}`}>
-              {t('footer.buttons.register')}
-            </Link>
-            <Link to="/login" className={`text-white hover:text-white/90 bg-[#7A127C] font-bold rounded-md uppercase ${isMobile ? "px-4 py-1.5 text-sm" : "px-6 py-2"}`}>
-              {t('footer.buttons.signIn')}
-            </Link>
             <Link to="/hotels" className={`text-white hover:text-white/90 bg-[#7A127C] font-bold rounded-md uppercase ${isMobile ? "px-4 py-1.5 text-sm" : "px-6 py-2"}`}>
               {t('footer.buttons.hotel')}
             </Link>

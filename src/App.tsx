@@ -4,14 +4,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AuthProvider } from "@/context/auth/AuthProvider";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { GlobalAvatarSystem } from "@/components/avatars/GlobalAvatarSystem";
 import { GlobalTestimonials } from "@/components/testimonials/GlobalTestimonials";
 import { SEOMetadata } from "@/components/SEOMetadata";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-import { AdminRoute } from "@/components/auth/AdminRoute";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -34,22 +31,16 @@ import "./i18n/config";
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
-import RegisterRole from "@/pages/RegisterRole";
-import Entrance from "@/pages/Entrance";
-
-import Dashboard from "@/pages/Dashboard";
 
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
-import HotelRegistration from "@/pages/HotelSignUp";
 import FeaturedHotels from "@/pages/FeaturedHotels";
 import Videos from "@/pages/Videos";
 import AffinityStays from "@/pages/AffinityStays";
 import FAQ from "@/pages/FAQ";
-import AdminRoles from "@/pages/AdminRoles";
 import Search from "@/pages/Search";
 import JoinUs from "@/pages/JoinUs";
 import OurServices from "@/pages/OurServices";
@@ -61,8 +52,6 @@ import Compare from "@/pages/Compare";
 // AddPropertyPage removed with 5-step form
 // AddProperty2 removed with JotForm removal
 import PanelFernando from "@/pages/PanelFernando";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
 import Prueba from "@/pages/Prueba";
 import ExcelGenerator from "@/pages/ExcelGenerator";
 import ProfessionalStudy from "@/pages/ProfessionalStudy";
@@ -82,7 +71,7 @@ import Ayuda from "@/pages/Ayuda";
 import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
 import HotelModelPage from "@/pages/HotelModelPage";
-import AdminLogin from "@/pages/AdminLogin";
+
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 
 const queryClient = new QueryClient({
@@ -102,7 +91,6 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router>
-          <AuthProvider>
             <VideoTestimonialProvider>
               <AvatarManagerProvider>
               <SEOMetadata />
@@ -120,16 +108,7 @@ function App() {
                  <Route path="/hotels" element={<Hotels />} />
                  <Route path="/hotel/:id" element={<HotelDetail />} />
                  <Route path="/search" element={<Search />} />
-                  <Route path="/entrance" element={<Entrance />} />
-                  
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/register-role" element={<RegisterRole />} />
-               <Route path="/admin-login" element={<AdminLogin />} />
                <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
-              <Route path="/hotel-signup" element={<HotelRegistration />} />
-              
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/join-us" element={<JoinUs />} />
@@ -147,7 +126,7 @@ function App() {
                 <Route path="/panel-agente" element={<AgentDashboard />} />
                 <Route path="/asociacion" element={<AssociationLanding />} />
                 <Route path="/asociacion/registro" element={<AssociationRegistration />} />
-                <Route path="/panel-asociacion" element={<ProtectedRoute requireAssociation={true}><AssociationDashboard /></ProtectedRoute>} />
+                <Route path="/panel-asociacion" element={<AssociationDashboard />} />
                 <Route path="/ambassadors" element={<AmbassadorsList />} />
                 <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />
                 <Route path="/press" element={<Press />} />
@@ -168,12 +147,12 @@ function App() {
               <Route path="/intro-test8" element={<IntroTest8 />} />
               <Route path="/intro-test9" element={<IntroTest9 />} />
               
-               {/* Protected Routes */}
-               <Route path="/user-dashboard" element={<ProtectedRoute requireTraveler={true}><UserDashboard /></ProtectedRoute>} />
-               <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/panel-hotel" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-               <Route path="/promoter/dashboard" element={<ProtectedRoute requirePromoter={true}><PromoterDashboard /></ProtectedRoute>} />
-              <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+               {/* Dashboard Routes */}
+               <Route path="/user-dashboard" element={<UserDashboard />} />
+               <Route path="/hotel-dashboard" element={<HotelDashboard />} />
+               <Route path="/panel-hotel" element={<HotelDashboard />} />
+               <Route path="/promoter/dashboard" element={<PromoterDashboard />} />
+              
               {/* Old 5-step form route removed */}
               {/* Route removed with JotForm removal */}
               <Route path="/featured-hotels" element={<FeaturedHotels />} />
@@ -186,7 +165,7 @@ function App() {
               <Route path="/admin/roles" element={<Navigate to="/panel-fernando/user-roles" replace />} />
               
               {/* Panel Fernando - New Admin Panel */}
-              <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
+              <Route path="/panel-fernando/*" element={<PanelFernando />} />
               
               {/* Prueba - INDEPENDENT Admin Page - NO AdminRoute wrapper */}
               <Route path="/prueba" element={<Prueba />} />
@@ -203,7 +182,6 @@ function App() {
             <GlobalTestimonials />
             </AvatarManagerProvider>
             </VideoTestimonialProvider>
-          </AuthProvider>
         </Router>
       </TooltipProvider>
     </QueryClientProvider>

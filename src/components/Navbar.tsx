@@ -2,53 +2,13 @@ import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/AuthContext";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useUserPanelLabel } from "@/hooks/useUserPanelLabel";
-import { DashboardSelector } from "./navigation/DashboardSelector";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { User, LogOut } from "lucide-react";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, session, profile, signOut } = useAuth();
   const { t } = useTranslation('navigation');
-  const { label: panelLabel } = useUserPanelLabel();
-  const isLoggedIn = !!user && !!session;
-
-  const getDisplayName = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name} ${profile.last_name}`;
-    }
-    if (profile?.first_name) {
-      return profile.first_name;
-    }
-    if (user?.email) {
-      return user.email.split('@')[0];
-    }
-    return 'User';
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
-  // Auth Link Component
-  const AuthLink = () => (
-    <Link to="/entrance">
-      <Button variant="ghost" size="icon" className="text-white hover:text-white/80 transition-colors">
-        <User className="w-5 h-5" />
-      </Button>
-    </Link>
-  );
 
   return (
     <header className="shadow-md" style={{ backgroundColor: "#996515" }}>
@@ -112,40 +72,6 @@ export function Navbar() {
             </div>
           </Link>
           
-          {!user ? (
-            <AuthLink />
-          ) : (
-            <div className="flex items-center space-x-4">
-              <DashboardSelector />
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center space-x-2 text-[#FFF9B0] hover:text-white transition-colors">
-                  <User className="w-4 h-4" />
-                  <span className="text-sm">{panelLabel}</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-purple-900 border-purple-700">
-                   <DropdownMenuItem asChild>
-                     <Link 
-                       to={profile?.role ? "/user-dashboard" : "/register-role"} 
-                       className="text-white hover:bg-purple-800"
-                       onClick={() => {
-                         console.log('👤 Profile clicked - User:', !!user, 'Role:', profile?.role);
-                         console.log('🎯 Redirecting to:', profile?.role ? "/user-dashboard" : "/register-role");
-                       }}
-                     >
-                       <User className="w-4 h-4 mr-2" />
-                       {t('navigation.profile')}
-                     </Link>
-                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="text-white hover:bg-purple-800">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t('mainNavigationContent.logout')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-          
           <Link to="/hotels" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
             <div className="text-center">
               <div>{t('mainNavigationContent.hotel.line1')}</div>
@@ -182,18 +108,6 @@ export function Navbar() {
            <Link to="/ayuda" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.frequentQuestions.mobile')}
           </Link>
-           
-          {isLoggedIn && (
-            <div className="flex justify-end w-full mb-3">
-              <DashboardSelector />
-            </div>
-          )}
-          
-          {!isLoggedIn && (
-            <div className="flex justify-center w-full mb-3">
-              <AuthLink />
-            </div>
-          )}
           
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}

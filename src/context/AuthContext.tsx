@@ -1,8 +1,11 @@
+// Temporary stub - authentication system has been removed
+export const useAuth = () => ({
+  user: null,
+  profile: null,
+  session: null,
+  isLoading: false,
+  isAuthComplete: false,
+  signOut: async () => {}
+});
 
-// This file simply re-exports all auth components for backward compatibility
-// Unified authentication context - single source of truth
-import AuthContext, { useAuth } from './auth/AuthContext';
-import { AuthProvider } from './auth/AuthProvider';
-
-export { AuthProvider, useAuth };
-export default AuthContext;
+export default null;

@@ -4,14 +4,17 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 enabled = true
 external_url = "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
 additional_redirect_urls = ["https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com", "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/auth/callback"]
-# Auth webhook configuration
-hook_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
-hook_secret = "super-secret-hook-password"
 
-# Enable email confirmations to trigger auth hook
+# CRITICAL: Auth webhook configuration to intercept signup events
+[auth.hook]
+enabled = true
+uri = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
+secrets = "super-secret-hook-password"
+
+# Enable email confirmations but disable Supabase's default emails
 [auth.email]
 enable_signup = true
-enable_confirmations = true
+enable_confirmations = false
 double_confirm_changes = false
 secure_email_change_enabled = false
 

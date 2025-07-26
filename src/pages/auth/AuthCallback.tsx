@@ -8,6 +8,7 @@ export default function AuthCallback() {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const role = searchParams.get('role') || 'user';
+  const confirmed = searchParams.get('confirmed');
 
   useEffect(() => {
     const handleAuthCallback = async () => {
@@ -90,13 +91,13 @@ export default function AuthCallback() {
           }
         }
 
-        // Handle normal Supabase auth callback
+        // Handle standard magic link authentication
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
           console.error('Session error:', error);
           toast({
-            title: "Authentication Error",
+            title: "Authentication Error", 
             description: error.message,
             variant: "destructive"
           });
@@ -105,18 +106,15 @@ export default function AuthCallback() {
         }
 
         if (data.session?.user) {
-          // User is confirmed and logged in
+          // User is confirmed and logged in via magic link
           toast({
-            title: "Email Confirmed!",
-            description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
+            title: "Welcome to Hotel-Living!",
+            description: "Successfully logged in. Redirecting to your dashboard...",
           });
 
-          // Small delay to show the toast, then redirect based on role
+          // Redirect to appropriate dashboard based on role
           setTimeout(() => {
             switch(role) {
-              case 'user': 
-                navigate('/user-dashboard');
-                break;
               case 'hotel': 
                 navigate('/hotel-dashboard');
                 break;
@@ -127,32 +125,36 @@ export default function AuthCallback() {
                 navigate('/promoter-dashboard');
                 break;
               default:
-                navigate('/');
+                navigate('/user-dashboard');
             }
           }, 1500);
         } else {
-          // No session found, user needs to log in
-          toast({
-            title: "Email Confirmed!",
-            description: "Your email has been confirmed. Please log in to access your dashboard.",
-          });
-          
-          // Redirect to the appropriate login page based on role
-          setTimeout(() => {
-            switch(role) {
-              case 'hotel': 
-                navigate('/login/hotel');
-                break;
-              case 'association': 
-                navigate('/login/association');
-                break;
-              case 'promoter': 
-                navigate('/login/promoter');
-                break;
-              default:
-                navigate('/login');
-            }
-          }, 2000);
+          // If confirmed via our custom flow but no session, redirect to login
+          if (confirmed) {
+            toast({
+              title: "Email Confirmed!",
+              description: "Your email has been confirmed. Please log in to access your dashboard.",
+            });
+            
+            setTimeout(() => {
+              switch(role) {
+                case 'hotel': 
+                  navigate('/login/hotel');
+                  break;
+                case 'association': 
+                  navigate('/login/association');
+                  break;
+                case 'promoter': 
+                  navigate('/login/promoter');
+                  break;
+                default:
+                  navigate('/login');
+              }
+            }, 2000);
+          } else {
+            // Standard auth callback without session
+            navigate('/');
+          }
         }
       } catch (error) {
         console.error('Auth callback error:', error);

@@ -30,11 +30,12 @@ serve(async (req) => {
       }
     });
     
-    // Manually confirm the user's email
+    // Manually confirm the user's email and activate the account
     const { data: user, error: updateError } = await supabase.auth.admin.updateUserById(
       userId,
       { 
         email_confirm: true,
+        email_confirmed_at: new Date().toISOString(),
         user_metadata: { role: role }
       }
     );
@@ -46,24 +47,37 @@ serve(async (req) => {
 
     console.log("User confirmed successfully:", user);
     
-    // Generate a session for the user
+    // Generate a login session for the confirmed user
     const { data: sessionData, error: sessionError } = await supabase.auth.admin.generateLink({
       type: 'magiclink',
       email: user.user.email,
       options: {
-        redirectTo: `https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/auth/callback?role=${role}`
+        redirectTo: `https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/auth/callback?role=${role}&confirmed=true`
       }
     });
 
     if (sessionError) {
-      console.error("Error generating session:", sessionError);
-      throw sessionError;
+      console.error("Error generating login session:", sessionError);
+      // If session generation fails, still return success since email is confirmed
+      return new Response(
+        JSON.stringify({ 
+          success: true,
+          message: "Email confirmed successfully. Please log in to access your dashboard."
+        }),
+        { 
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
     }
+
+    console.log("Email confirmed and login session generated:", sessionData);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        redirectUrl: sessionData.properties.action_link
+        redirectUrl: sessionData.properties.action_link,
+        message: "Email confirmed successfully. Redirecting to your dashboard."
       }),
       { 
         status: 200,

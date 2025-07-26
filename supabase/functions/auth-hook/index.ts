@@ -21,8 +21,10 @@ serve(async (req) => {
     if (type === "INSERT" && table === "users" && record) {
       const { id, email, email_confirmed_at, user_metadata } = record;
       
-      // Only send confirmation email if email is not yet confirmed
-      if (!email_confirmed_at && email) {
+      console.log("Processing user signup:", { email, confirmed: !!email_confirmed_at });
+      
+      // Send verification email for ALL new signups since confirmations are disabled
+      if (email) {
         console.log("Sending verification email for user:", email);
         
         // Create Supabase client to call our email function
@@ -40,7 +42,9 @@ serve(async (req) => {
         
         // Use the project's actual domain, not lovableproject.com
         const projectDomain = 'https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com';
-        const confirmationUrl = `${projectDomain}/auth/callback?role=${role}`;
+        
+        // Create a special confirmation URL that includes user ID and role for manual verification
+        const confirmationUrl = `${projectDomain}/auth/callback?token_hash=${id}&type=signup&role=${role}`;
         
         // Call our custom email verification function
         const { error: emailError } = await supabase.functions.invoke('send-email-verification', {
@@ -53,7 +57,6 @@ serve(async (req) => {
 
         if (emailError) {
           console.error("Error sending verification email:", emailError);
-          // Don't fail the signup process, just log the error
         } else {
           console.log("Verification email sent successfully to:", email);
         }

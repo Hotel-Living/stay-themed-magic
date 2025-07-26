@@ -8,10 +8,12 @@ additional_redirect_urls = ["https://ca48e511-da23-4c95-9913-59cb1724cacc.lovabl
 hook_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
 hook_secret = "super-secret-hook-password"
 
-# Configure email delivery - use custom email verification
+# Disable built-in email system completely - use custom auth hook instead
 [auth.email]
 enable_signup = true
-enable_confirmations = true
+enable_confirmations = false
+double_confirm_changes = false
+secure_email_change_enabled = false
 
 [functions.auth-hook]
 verify_jwt = false
@@ -64,4 +66,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.custom-password-confirm]
+verify_jwt = false
+
+[functions.confirm-user]
 verify_jwt = false

@@ -1,6 +1,115 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "../usePropertyFormData";
+import { UploadedImage } from "@/hooks/usePropertyImages";
+
+// Helper function to convert base64/blob URLs to File objects for upload
+const processImagesForUpload = async (images: UploadedImage[]): Promise<Array<{ image: UploadedImage, file: File }>> => {
+  console.log("Processing images for upload:", images);
+  const validImages: Array<{ image: UploadedImage, file: File }> = [];
+  
+  for (const image of images) {
+    try {
+      if (image.url && (image.url.startsWith('blob:') || image.url.startsWith('data:'))) {
+        // Convert base64 or blob URL to File object for upload
+        const response = await fetch(image.url);
+        const blob = await response.blob();
+        
+        // Create a File object from the blob
+        const file = new File([blob], image.name || `image-${Date.now()}.jpg`, {
+          type: blob.type || 'image/jpeg'
+        });
+        
+        // Add to valid images with associated file
+        validImages.push({
+          image: image,
+          file: file
+        });
+      } else if (image.url && image.url.startsWith('http')) {
+        // Already uploaded image - create a placeholder file for consistency
+        console.log("Image already uploaded, skipping:", image.url);
+      }
+    } catch (error) {
+      console.error("Error processing image:", image.name, error);
+      // Skip this image but continue with others
+    }
+  }
+  
+  return validImages;
+};
+
+// Helper function to handle image upload to Supabase
+const handleImageUpload = async (hotelId: string, imageData: Array<{ image: UploadedImage, file: File }>): Promise<void> => {
+  console.log("Starting image upload for hotel:", hotelId);
+  
+  const uploadedImageUrls: string[] = [];
+  let mainImageUrl: string | null = null;
+  
+  for (let i = 0; i < imageData.length; i++) {
+    const { image, file } = imageData[i];
+    console.log(`Uploading image ${i + 1}/${imageData.length}:`, image.name);
+    
+    try {
+      // Upload to Supabase Storage
+      const fileName = `${hotelId}/${Date.now()}-${image.name || `image-${i}.jpg`}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('Hotel Images')
+        .upload(fileName, file);
+        
+        if (uploadError) {
+          console.error("Upload error for image:", image.name, uploadError);
+          continue; // Skip this image but continue with others
+        }
+        
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('Hotel Images')
+          .getPublicUrl(fileName);
+        
+        const publicUrl = urlData.publicUrl;
+        console.log("Image uploaded successfully:", publicUrl);
+        
+        // Insert into hotel_images table
+        const { error: dbError } = await supabase
+          .from('hotel_images')
+          .insert({
+            hotel_id: hotelId,
+            image_url: publicUrl,
+            is_main: image.isMain || i === 0 // First image or explicitly marked as main
+          });
+        
+        if (dbError) {
+          console.error("Database error for image:", image.name, dbError);
+          continue; // Skip this image but continue with others
+        }
+        
+        uploadedImageUrls.push(publicUrl);
+        
+        // Set main image URL (first uploaded image or the one marked as main)
+        if ((image.isMain || i === 0) && !mainImageUrl) {
+          mainImageUrl = publicUrl;
+        }
+    } catch (error) {
+      console.error("Failed to upload image:", image.name, error);
+      // Continue with other images
+    }
+  }
+  
+  // Update hotel's main_image_url if we have a main image
+  if (mainImageUrl) {
+    console.log("Updating hotel main image URL:", mainImageUrl);
+    const { error: updateError } = await supabase
+      .from('hotels')
+      .update({ main_image_url: mainImageUrl })
+      .eq('id', hotelId);
+    
+    if (updateError) {
+      console.error("Failed to update hotel main image URL:", updateError);
+    }
+  }
+  
+  console.log(`Successfully uploaded ${uploadedImageUrls.length} images for hotel ${hotelId}`);
+};
 
 export const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
   console.log("=== CREATE NEW HOTEL START ===");
@@ -133,6 +242,35 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     console.log("Hotel ID:", data?.id);
     console.log("Hotel name:", data?.name);
     console.log("Hotel owner_id:", data?.owner_id);
+
+    // Process image uploads after hotel creation
+    if (data?.id && formData.hotelImages && formData.hotelImages.length > 0) {
+      console.log("=== PROCESSING HOTEL IMAGES ===");
+      console.log("Images to process:", formData.hotelImages.length);
+      console.log("Images data:", formData.hotelImages);
+      
+      try {
+        // Convert base64/blob images to uploadable format
+        const validImages = await processImagesForUpload(formData.hotelImages);
+        console.log("Valid images processed:", validImages.length);
+        
+        if (validImages.length > 0) {
+          // Upload images to storage and create database records
+          await handleImageUpload(data.id, validImages);
+          console.log("✅ Images uploaded successfully");
+        } else {
+          console.warn("No valid images found to upload");
+        }
+      } catch (imageError) {
+        console.error("=== IMAGE UPLOAD ERROR ===");
+        console.error("Failed to upload images for hotel:", data.id);
+        console.error("Image error:", imageError);
+        // Don't throw - allow hotel creation to succeed even if images fail
+        console.warn("Hotel created successfully but images failed to upload");
+      }
+    } else {
+      console.log("No images to process for hotel:", data?.id);
+    }
 
     // Trigger automatic translations asynchronously (non-blocking)
     if (data?.id) {

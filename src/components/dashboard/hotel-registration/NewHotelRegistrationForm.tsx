@@ -231,10 +231,15 @@ export const NewHotelRegistrationForm = () => {
         console.log('Hotel name:', result.name);
         console.log('Hotel owner:', result.owner_id);
         
+        // Check if images were included in the submission
+        const hasImages = propertyData.hotelImages && propertyData.hotelImages.length > 0;
+        
         // Show immediate success feedback
         toast({
           title: "✅ Hotel Created Successfully!",
-          description: "Your hotel has been submitted and is pending approval.",
+          description: hasImages 
+            ? `Your hotel has been submitted with ${propertyData.hotelImages.length} images and is pending approval.`
+            : "Your hotel has been submitted and is pending approval.",
           duration: 8000
         });
 

@@ -125,7 +125,14 @@ export function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-purple-900 border-purple-700">
                    <DropdownMenuItem asChild>
-                     <Link to={profile?.role ? "/user-dashboard" : "/register-role"} className="text-white hover:bg-purple-800">
+                     <Link 
+                       to={profile?.role ? "/user-dashboard" : "/register-role"} 
+                       className="text-white hover:bg-purple-800"
+                       onClick={() => {
+                         console.log('👤 Profile clicked - User:', !!user, 'Role:', profile?.role);
+                         console.log('🎯 Redirecting to:', profile?.role ? "/user-dashboard" : "/register-role");
+                       }}
+                     >
                        <User className="w-4 h-4 mr-2" />
                        {t('navigation.profile')}
                      </Link>

@@ -13,14 +13,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isAuthComplete = !!user && !!session && !!profile?.role;
 
   const signOut = async () => {
+    console.log('🚪 Starting logout process...');
     try {
-      await supabase.auth.signOut();
+      // Clear local state first
       setUser(null);
       setSession(null);
       setProfile(null);
-      window.location.href = '/entrance';
+      console.log('✅ Local state cleared');
+      
+      // Then sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('❌ Supabase signOut error:', error);
+        throw error;
+      }
+      console.log('✅ Supabase session cleared');
+      
+      // Force page reload to clear any cached state
+      window.location.replace('/entrance');
+      console.log('✅ Redirecting to entrance');
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error('❌ Critical logout error:', error);
+      // Force clear everything even if Supabase fails
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      window.location.replace('/entrance');
     }
   };
 

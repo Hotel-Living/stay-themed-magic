@@ -180,6 +180,14 @@ export function useAuthState() {
           
           // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
           // Handle new signup vs existing user login differently
+          console.log("🔍 Analyzing redirect conditions:", {
+            event,
+            currentPath,
+            isJustSignedUp,
+            hasRole,
+            userEmail: session.user.email
+          });
+          
           const needsRedirect = event === 'SIGNED_IN' && 
                                !currentPath.includes('/reset-password') && 
                                !currentPath.includes('/register-role') &&
@@ -188,12 +196,18 @@ export function useAuthState() {
           
           if (needsRedirect) {
             // Set redirecting BEFORE ending loading to prevent flash
+            console.log("🎯 Existing user with role - redirecting to correct panel");
             setIsRedirecting(true);
             await handleCorrectRedirect(session.user, profileData);
             // isRedirecting will be cleared in handleCorrectRedirect
           } else if (isJustSignedUp && !hasRole) {
             // For new signups without role, redirect to register-role
-            console.log("🚀 New signup detected, redirecting to register-role", { isJustSignedUp, hasRole, currentPath });
+            console.log("🚀 New signup detected, redirecting to register-role", { 
+              isJustSignedUp, 
+              hasRole, 
+              currentPath,
+              userEmail: session.user.email 
+            });
             setIsRedirecting(true);
             setIsLoading(false);
             navigate('/register-role', { replace: true });
@@ -201,6 +215,12 @@ export function useAuthState() {
             setIsRedirecting(false);
           } else {
             // No redirect needed, safe to show current page
+            console.log("🔄 No redirect needed, staying on current page", {
+              event,
+              currentPath,
+              isJustSignedUp,
+              hasRole
+            });
             setIsLoading(false);
           }
         } else {

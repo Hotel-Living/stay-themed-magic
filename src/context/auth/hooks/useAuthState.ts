@@ -173,10 +173,14 @@ export function useAuthState() {
           // Handle redirect only for SIGNED_IN event to avoid conflicts with fallback
           // BUT exclude password reset pages and register-role page to allow users to complete the flow
           const currentPath = window.location.pathname;
+          // Users with 'guest' role still need to go through role selection
+          // Only users with specific roles should skip role selection
           const hasRole = profileData?.role && 
                          profileData.role !== null && 
                          profileData.role !== undefined &&
-                         profileData.role !== '';
+                         profileData.role !== '' &&
+                         profileData.role !== 'guest' &&
+                         ['hotel_owner', 'association', 'promoter', 'agent'].includes(profileData.role);
           
           // CRITICAL: Check if redirect is needed BEFORE setting isLoading to false
           // Handle new signup vs existing user login differently

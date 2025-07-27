@@ -2,9 +2,8 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 
 [auth]
 enabled = true
-external_url = "https://hotel-living.com"
-additional_redirect_urls = ["https://hotel-living.com/auth/callback"]
-site_url = "https://hotel-living.com"
+external_url = "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
+additional_redirect_urls = ["https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com", "https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com/auth/callback"]
 
 # CRITICAL: Auth webhook configuration to intercept signup events
 [auth.hook]
@@ -12,20 +11,12 @@ enabled = true
 uri = "https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/auth-hook"
 secrets = "super-secret-hook-password"
 
-# Disable Supabase's built-in email confirmations - use only custom auth hook
+# Enable email confirmations to trigger auth hook for custom emails
 [auth.email]
 enable_signup = true
-enable_confirmations = false
+enable_confirmations = true
 double_confirm_changes = false
 secure_email_change_enabled = false
-
-# CRITICAL: Disable ALL default Supabase email templates
-[auth]
-enabled = true
-external_url = "https://hotel-living.com"
-additional_redirect_urls = ["https://hotel-living.com/auth/callback"]
-site_url = "https://hotel-living.com"
-disable_default_email_templates = true
 
 [functions.auth-hook]
 verify_jwt = false

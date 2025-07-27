@@ -7,48 +7,8 @@ export default function AuthCallback() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const urlRole = searchParams.get('role');
+  const role = searchParams.get('role') || 'user';
   const confirmed = searchParams.get('confirmed');
-
-  const getUserRole = async (userId: string): Promise<string> => {
-    try {
-      // First try to get role from user_roles table
-      const { data: rolesData, error: rolesError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', userId)
-        .single();
-
-      if (rolesData?.role) {
-        return rolesData.role;
-      }
-
-      // Fallback to profile table
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', userId)
-        .single();
-
-      return profileData?.role || 'user';
-    } catch (error) {
-      console.error('Error fetching user role:', error);
-      return 'user';
-    }
-  };
-
-  const getRedirectPath = (role: string) => {
-    switch(role) {
-      case 'hotel': 
-        return '/hotel-panel';
-      case 'association': 
-        return '/panel-asociacion';
-      case 'promoter': 
-        return '/promoter-panel';
-      default:
-        return '/user-panel';
-    }
-  };
 
   useEffect(() => {
     const handleAuthCallback = async () => {
@@ -73,15 +33,25 @@ export default function AuthCallback() {
             }
 
             if (data.session?.user) {
-              const userRole = await getUserRole(data.session.user.id);
-              
               toast({
                 title: "Email Confirmed!",
                 description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
               });
 
               setTimeout(() => {
-                navigate(getRedirectPath(userRole));
+                switch(role) {
+                  case 'hotel': 
+                    navigate('/hotel-dashboard');
+                    break;
+                  case 'association': 
+                    navigate('/panel-asociacion');
+                    break;
+                  case 'promoter': 
+                    navigate('/promoter/dashboard');
+                    break;
+                  default:
+                    navigate('/user-dashboard');
+                }
               }, 1500);
               return;
             }
@@ -102,7 +72,7 @@ export default function AuthCallback() {
             const { data: confirmData, error: confirmError } = await supabase.functions.invoke('confirm-user', {
               body: {
                 userId: token_hash,
-                role: urlRole || 'user'
+                role: role
               }
             });
 
@@ -123,8 +93,19 @@ export default function AuthCallback() {
             });
 
             setTimeout(() => {
-              const roleToUse = urlRole || 'user';
-              navigate(getRedirectPath(roleToUse));
+              switch(role) {
+                case 'hotel': 
+                  navigate('/hotel-dashboard');
+                  break;
+                case 'association': 
+                  navigate('/panel-asociacion');
+                  break;
+                case 'promoter': 
+                  navigate('/promoter/dashboard');
+                  break;
+                default:
+                  navigate('/user-dashboard');
+              }
             }, 1500);
             return;
 
@@ -138,19 +119,18 @@ export default function AuthCallback() {
             
             // Fallback to login page
             setTimeout(() => {
-              const roleToUse = urlRole || 'user';
-              switch(roleToUse) {
+              switch(role) {
                 case 'hotel': 
-                  navigate('/loginHotel');
+                  navigate('/login/hotel');
                   break;
                 case 'association': 
-                  navigate('/loginAssociation');
+                  navigate('/login/association');
                   break;
                 case 'promoter': 
-                  navigate('/loginPromotor');
+                  navigate('/login/promoter');
                   break;
                 default:
-                  navigate('/loginUser');
+                  navigate('/login');
               }
             }, 2000);
             return;
@@ -173,8 +153,6 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           // User is confirmed and logged in via magic link
-          const userRole = await getUserRole(data.session.user.id);
-          
           toast({
             title: "Welcome to Hotel-Living!",
             description: "Successfully logged in. Redirecting to your dashboard...",
@@ -182,7 +160,19 @@ export default function AuthCallback() {
 
           // Redirect to appropriate dashboard based on role
           setTimeout(() => {
-            navigate(getRedirectPath(userRole));
+            switch(role) {
+              case 'hotel': 
+                navigate('/hotel-dashboard');
+                break;
+              case 'association': 
+                navigate('/panel-asociacion');
+                break;
+              case 'promoter': 
+                navigate('/promoter/dashboard');
+                break;
+              default:
+                navigate('/user-dashboard');
+            }
           }, 1500);
         } else {
           // If confirmed via our custom flow but no session, redirect to login
@@ -193,19 +183,18 @@ export default function AuthCallback() {
             });
             
             setTimeout(() => {
-              const roleToUse = urlRole || 'user';
-              switch(roleToUse) {
+              switch(role) {
                 case 'hotel': 
-                  navigate('/loginHotel');
+                  navigate('/login/hotel');
                   break;
                 case 'association': 
-                  navigate('/loginAssociation');
+                  navigate('/login/association');
                   break;
                 case 'promoter': 
-                  navigate('/loginPromotor');
+                  navigate('/login/promoter');
                   break;
                 default:
-                  navigate('/loginUser');
+                  navigate('/login');
               }
             }, 2000);
           } else {
@@ -225,7 +214,7 @@ export default function AuthCallback() {
     };
 
     handleAuthCallback();
-  }, [navigate, urlRole, confirmed, searchParams, toast]);
+  }, [navigate, role, toast]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900">

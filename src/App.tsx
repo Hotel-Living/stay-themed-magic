@@ -72,10 +72,15 @@ import SignupHotel from "@/pages/auth/SignupHotel";
 import SignupAssociation from "@/pages/auth/SignupAssociation";
 import SignupPromoter from "@/pages/auth/SignupPromoter";
 import LoginUser from "@/pages/auth/LoginUser";
-import LoginHotel from "@/pages/auth/LoginHotel";
+import LoginHotelAuth from "@/pages/auth/LoginHotel";
 import LoginAssociation from "@/pages/auth/LoginAssociation";
 import LoginPromoter from "@/pages/auth/LoginPromoter";
 import AuthCallback from "@/pages/auth/AuthCallback";
+import RegisterUser from "@/pages/registerUser";
+import RegisterHotel from "@/pages/registerHotel";
+import RegisterAssociation from "@/pages/registerAssociation";
+import RegisterPromotor from "@/pages/registerPromotor";
+import LoginHotel from "@/pages/loginHotel";
 
 const queryClient = createQueryClient();
 
@@ -177,10 +182,15 @@ function App() {
             <Route path="/signup/association" element={<AuthProvider><SignupAssociation /></AuthProvider>} />
             <Route path="/signup/promoter" element={<AuthProvider><SignupPromoter /></AuthProvider>} />
             <Route path="/login/user" element={<AuthProvider><LoginUser /></AuthProvider>} />
-            <Route path="/login/hotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
+            <Route path="/login/hotel" element={<AuthProvider><LoginHotelAuth /></AuthProvider>} />
             <Route path="/login/association" element={<AuthProvider><LoginAssociation /></AuthProvider>} />
             <Route path="/login/promoter" element={<AuthProvider><LoginPromoter /></AuthProvider>} />
             <Route path="/auth/callback" element={<AuthProvider><AuthCallback /></AuthProvider>} />
+            <Route path="/registerUser" element={<AuthProvider><RegisterUser /></AuthProvider>} />
+            <Route path="/registerHotel" element={<AuthProvider><RegisterHotel /></AuthProvider>} />
+            <Route path="/registerAssociation" element={<AuthProvider><RegisterAssociation /></AuthProvider>} />
+            <Route path="/registerPromotor" element={<AuthProvider><RegisterPromotor /></AuthProvider>} />
+            <Route path="/loginHotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
             
             {/* All other routes with full providers and global components */}
             <Route path="/*" element={<MainAppRoutes />} />

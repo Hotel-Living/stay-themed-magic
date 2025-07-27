@@ -40,8 +40,8 @@ export default function DashboardLayout({
     // Skip the auth check in development mode
     if (isDevelopment) return;
     if (!user || !session) {
-      console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
-      window.location.href = "/login";
+      console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
+      window.location.href = "/login/hotel";
     }
   }, [user, session, isDevelopment]);
 

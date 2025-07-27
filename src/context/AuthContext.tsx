@@ -76,15 +76,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null);
         
         if (session?.user && event === 'SIGNED_IN') {
+          // Keep loading true while fetching profile to prevent premature redirects
+          setIsLoading(true);
           // Fetch profile data after sign in
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-          }, 0);
+          await fetchProfile(session.user.id);
+          setIsLoading(false);
         } else if (event === 'SIGNED_OUT') {
           setProfile(null);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
         }
-        
-        setIsLoading(false);
       }
     );
 

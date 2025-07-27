@@ -26,7 +26,8 @@ export default function DashboardLayout({
     profile,
     signOut,
     user,
-    session
+    session,
+    isLoading
   } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -39,11 +40,13 @@ export default function DashboardLayout({
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
-    if (!user || !session) {
+    
+    // Only redirect if auth is complete and user is truly not authenticated
+    if (!isLoading && (!user || !session)) {
       console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
       window.location.href = "/login/hotel";
     }
-  }, [user, session, isDevelopment]);
+  }, [user, session, isDevelopment, isLoading]);
 
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';

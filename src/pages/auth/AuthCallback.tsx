@@ -13,9 +13,55 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Check if this is a custom confirmation link
-        const token_hash = searchParams.get('token_hash');
+        // Check for standard Supabase auth tokens first
+        const access_token = searchParams.get('access_token');
+        const refresh_token = searchParams.get('refresh_token');
         const type = searchParams.get('type');
+        
+        if (access_token && refresh_token) {
+          console.log("Handling standard Supabase auth callback with tokens");
+          
+          try {
+            // Set the session using the tokens from URL
+            const { data, error } = await supabase.auth.setSession({
+              access_token,
+              refresh_token
+            });
+
+            if (error) {
+              throw error;
+            }
+
+            if (data.session?.user) {
+              toast({
+                title: "Email Confirmed!",
+                description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
+              });
+
+              setTimeout(() => {
+                switch(role) {
+                  case 'hotel': 
+                    navigate('/hotel-dashboard');
+                    break;
+                  case 'association': 
+                    navigate('/association-dashboard');
+                    break;
+                  case 'promoter': 
+                    navigate('/promoter-dashboard');
+                    break;
+                  default:
+                    navigate('/user-dashboard');
+                }
+              }, 1500);
+              return;
+            }
+          } catch (error) {
+            console.error("Token session error:", error);
+          }
+        }
+        
+        // Check if this is a custom confirmation link (legacy support)
+        const token_hash = searchParams.get('token_hash');
         
         if (token_hash && type === 'signup') {
           // This is our custom confirmation flow

@@ -1,10 +1,5 @@
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  "https://pgdzrvdwgoomjnnegkcn.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0"
-);
+import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterUser() {
   const [nombre, setNombre] = useState("");
@@ -25,20 +20,30 @@ export default function RegisterUser() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          nombre,
-          apellidos,
-          rol: "usuario"
+    try {
+      const redirectUrl = `${window.location.origin}/auth/callback?role=user`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            nombre,
+            apellidos,
+            role: "user"
+          }
         }
-      }
-    });
+      });
 
-    if (error) setMessage("❌ Error: " + error.message);
-    else setMessage("✅ Registro exitoso. Revisa tu correo para confirmar la cuenta.");
+      if (error) {
+        setMessage("❌ Error: " + error.message);
+      } else {
+        setMessage("✅ Registro exitoso. Revisa tu correo para confirmar tu cuenta.");
+      }
+    } catch (error: any) {
+      setMessage("❌ Error inesperado: " + error.message);
+    }
   };
 
   return (

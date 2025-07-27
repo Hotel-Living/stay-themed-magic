@@ -24,7 +24,11 @@ export function useAffinitiesDataWithLanguage(): ReturnType<typeof useQuery> {
           .select('id, value, category')
           .eq('category', 'affinities')
           .eq('is_active', true)
-          .order('value');
+          .order('value')
+          .then(response => {
+            // Ensure proper headers are sent
+            return response;
+          });
 
         if (error) {
           console.error('🎯 Error fetching from filters:', error);

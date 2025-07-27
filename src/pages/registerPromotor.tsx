@@ -20,20 +20,30 @@ export default function RegisterPromotor() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          nombre,
-          apellidos,
-          rol: "promotor"
+    try {
+      const redirectUrl = `${window.location.origin}/auth/callback?role=promoter`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            nombre,
+            apellidos,
+            role: "promoter"
+          }
         }
-      }
-    });
+      });
 
-    if (error) setMessage("❌ Error: " + error.message);
-    else setMessage("✅ Registro exitoso. Revisa tu correo.");
+      if (error) {
+        setMessage("❌ Error: " + error.message);
+      } else {
+        setMessage("✅ Registro exitoso. Revisa tu correo para confirmar tu cuenta.");
+      }
+    } catch (error: any) {
+      setMessage("❌ Error inesperado: " + error.message);
+    }
   };
 
   return (

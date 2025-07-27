@@ -19,19 +19,29 @@ export default function RegisterAssociation() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          nombreAsociacion,
-          rol: "asociacion"
+    try {
+      const redirectUrl = `${window.location.origin}/auth/callback?role=association`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            nombreAsociacion,
+            role: "association"
+          }
         }
-      }
-    });
+      });
 
-    if (error) setMessage("❌ Error: " + error.message);
-    else setMessage("✅ Registro exitoso. Revisa tu correo.");
+      if (error) {
+        setMessage("❌ Error: " + error.message);
+      } else {
+        setMessage("✅ Registro exitoso. Revisa tu correo para confirmar tu cuenta.");
+      }
+    } catch (error: any) {
+      setMessage("❌ Error inesperado: " + error.message);
+    }
   };
 
   return (

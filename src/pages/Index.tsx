@@ -1,5 +1,6 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { HeroSection } from '@/components/home/HeroSection';
@@ -11,10 +12,62 @@ import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 import { IntroStarAnimation } from '@/components/intro/IntroStarAnimation';
 import BubbleCounter from '@/components/common/BubbleCounter';
 import { IndexPageAvatars } from '@/components/avatars/IndexPageAvatars';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function Index() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { data: themes } = useThemes();
   const [showIntro, setShowIntro] = useState(false); // Temporarily disabled - was: useState(true)
+
+  // Fallback redirect logic for email verification
+  useEffect(() => {
+    const handleEmailVerificationRedirect = async () => {
+      if (user && window.location.pathname === '/') {
+        try {
+          // Fetch user role from database
+          const { data: roleData, error } = await supabase
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', user.id)
+            .single();
+
+          if (error) {
+            console.error('Error fetching user role:', error);
+            return;
+          }
+
+          const role = roleData?.role;
+          console.log('🔄 Email verification redirect - User role:', role);
+
+          // Redirect based on role
+          switch (role) {
+            case 'hotel':
+              navigate('/hotel-panel');
+              break;
+            case 'promoter':
+              navigate('/promoter-panel');
+              break;
+            case 'association':
+              navigate('/panel-asociacion');
+              break;
+            case 'user':
+              navigate('/user-panel');
+              break;
+            default:
+              console.log('No specific role found, staying on index');
+          }
+        } catch (error) {
+          console.error('Error in email verification redirect:', error);
+        }
+      }
+    };
+
+    // Small delay to ensure auth state is fully settled
+    const timeoutId = setTimeout(handleEmailVerificationRedirect, 100);
+    return () => clearTimeout(timeoutId);
+  }, [user, navigate]);
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,

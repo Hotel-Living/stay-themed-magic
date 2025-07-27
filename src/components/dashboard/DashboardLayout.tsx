@@ -53,9 +53,15 @@ export default function DashboardLayout({
     try {
       console.log("Hotel dashboard logout button clicked");
       await signOut();
+      console.log("Logout successful, user should be redirected");
+      navigate('/');
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
-      // Error handling is already done in the centralized signOut method
+      toast({
+        title: "Error",
+        description: "There was an error logging out. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 

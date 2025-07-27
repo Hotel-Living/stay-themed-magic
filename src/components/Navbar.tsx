@@ -1,14 +1,24 @@
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useAuth } from "@/context/AuthContext";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation('navigation');
+  const { user, signOut } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
   return (
     <header className="shadow-md" style={{ backgroundColor: "#996515" }}>
@@ -81,45 +91,57 @@ export function Navbar() {
           
           
           {/* Authentication Buttons */}
-          <div className="relative group">
-            <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
-              {t('navigation.signup')}
+          {user ? (
+            <button 
+              onClick={handleLogout}
+              className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors flex items-center gap-2"
+            >
+              <LogOut className="w-3 h-3" />
+              {t('navigation.logout')}
             </button>
-            <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
-              <Link to="/registerUser" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
-                User
-              </Link>
-              <Link to="/registerHotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
-                Hotel
-              </Link>
-              <Link to="/registerAssociation" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
-                Association
-              </Link>
-              <Link to="/registerPromotor" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
-                Promoter
-              </Link>
-            </div>
-          </div>
-          
-          <div className="relative group">
-            <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
-              LOGIN
-            </button>
-            <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
-              <Link to="/login/user" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
-                User
-              </Link>
-              <Link to="/login/hotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
-                Hotel
-              </Link>
-              <Link to="/login/association" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
-                Association
-              </Link>
-              <Link to="/login/promoter" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
-                Promoter
-              </Link>
-            </div>
-          </div>
+          ) : (
+            <>
+              <div className="relative group">
+                <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
+                  {t('mainNavigationContent.signup.line1')} {t('mainNavigationContent.signup.line2')}
+                </button>
+                <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
+                  <Link to="/registerUser" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
+                    User
+                  </Link>
+                  <Link to="/registerHotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                    Hotel
+                  </Link>
+                  <Link to="/registerAssociation" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                    Association
+                  </Link>
+                  <Link to="/registerPromotor" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
+                    Promoter
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="relative group">
+                <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
+                  {t('mainNavigationContent.login.line1')} {t('mainNavigationContent.login.line2')}
+                </button>
+                <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
+                  <Link to="/login/user" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
+                    User
+                  </Link>
+                  <Link to="/login/hotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                    Hotel
+                  </Link>
+                  <Link to="/login/association" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+                    Association
+                  </Link>
+                  <Link to="/login/promoter" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
+                    Promoter
+                  </Link>
+                </div>
+              </div>
+            </>
+          )}
           
           <LanguageSwitcher />
         </div>

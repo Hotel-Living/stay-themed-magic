@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AssociationHotelsTab } from './tabs/AssociationHotelsTab';
@@ -10,17 +10,66 @@ import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { Starfield } from '@/components/Starfield';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
+import { LogOut } from 'lucide-react';
 
 export const AssociationDashboard = () => {
+  const { signOut, user, session, isLoading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // Check if user is authenticated
+  useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
+    // Only redirect if auth is complete and user is truly not authenticated
+    if (!isLoading && (!user || !session)) {
+      console.log("No authenticated user detected in association dashboard, redirecting to association login");
+      window.location.href = "/login/association";
+    }
+  }, [user, session, isDevelopment, isLoading]);
+
+  // Handle logout using centralized method from AuthContext
+  const handleLogout = async () => {
+    try {
+      console.log("Association dashboard logout button clicked");
+      await signOut();
+      console.log("Logout successful, user should be redirected to main page");
+      navigate('/');
+    } catch (error) {
+      console.error("Error during logout from association dashboard:", error);
+      toast({
+        title: "Error",
+        description: "There was an error logging out. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen relative">
       <Navbar />
       <Starfield />
       
       <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 text-center">Panel de Asociación</h1>
-          <p className="text-slate-300 text-center text-lg">Gestione sus hoteles y comisiones</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold text-white mb-2">Panel de Asociación</h1>
+            <p className="text-slate-300 text-lg">Gestione sus hoteles y comisiones</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Cerrar Sesión
+          </button>
         </div>
 
         <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">

@@ -6,6 +6,7 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
@@ -71,11 +72,26 @@ const adminOnlyTabs: DashboardTab[] = [
 ];
 
 export default function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
-  const { signOut, user } = useAuth();
+  const { signOut, user, session, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = useIsAdmin();
+
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // Check if user is authenticated
+  useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
+    // Only redirect if auth is complete and user is truly not authenticated
+    if (!isLoading && (!user || !session)) {
+      console.log("No authenticated user detected in admin dashboard layout, redirecting to admin login");
+      window.location.href = "/login/user";
+    }
+  }, [user, session, isDevelopment, isLoading]);
 
   // Combine base tabs with admin-only tabs if user is admin
   const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
@@ -85,9 +101,15 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
     try {
       console.log("Admin dashboard logout button clicked");
       await signOut();
+      console.log("Logout successful, user should be redirected to main page");
+      navigate('/');
     } catch (error) {
       console.error("Error during logout from admin dashboard:", error);
-      // Error handling is already done in the centralized signOut method
+      toast({
+        title: "Error",
+        description: "There was an error logging out. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 

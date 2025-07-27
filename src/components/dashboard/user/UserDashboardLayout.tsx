@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useEffect } from "react";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -22,19 +23,40 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab
 }: UserDashboardLayoutProps) {
-  const { signOut } = useAuth();
+  const { signOut, user, session, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t, language } = useTranslation();
+
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // Check if user is authenticated
+  useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
+    // Only redirect if auth is complete and user is truly not authenticated
+    if (!isLoading && (!user || !session)) {
+      console.log("No authenticated user detected in user dashboard layout, redirecting to user login");
+      window.location.href = "/login/user";
+    }
+  }, [user, session, isDevelopment, isLoading]);
   
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
     try {
       console.log("User dashboard logout button clicked");
       await signOut();
+      console.log("Logout successful, user should be redirected to main page");
+      navigate('/');
     } catch (error) {
       console.error("Error during logout from user dashboard:", error);
-      // Error handling is already done in the centralized signOut method
+      toast({
+        title: "Error",
+        description: "There was an error logging out. Please try again.",
+        variant: "destructive"
+      });
     }
   };
   

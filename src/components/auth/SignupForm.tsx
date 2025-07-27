@@ -80,23 +80,6 @@ export function SignupForm({ role }: SignupFormProps) {
       }
 
       if (data.user) {
-        // Insert user role into user_roles table
-        try {
-          const { error: roleError } = await supabase.rpc('assign_user_role', {
-            p_user_id: data.user.id,
-            p_email: formData.email,
-            p_role: role
-          });
-
-          if (roleError) {
-            console.error('Error assigning user role:', roleError);
-            // Don't fail the signup, just log the error
-          }
-        } catch (roleInsertError) {
-          console.error('Error inserting user role:', roleInsertError);
-          // Don't fail the signup, just log the error
-        }
-
         toast({
           title: "Registration Successful!",
           description: "Please check your email for a confirmation link to complete your registration."

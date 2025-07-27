@@ -174,20 +174,21 @@ function App() {
       <TooltipProvider>
         <Router>
           <Routes>
-            {/* Authentication Routes - COMPLETELY ISOLATED from all providers and global components */}
-            <Route path="/signup/user" element={<SignupUser />} />
-            <Route path="/signup/hotel" element={<SignupHotel />} />
-            <Route path="/signup/association" element={<SignupAssociation />} />
-            <Route path="/signup/promoter" element={<SignupPromoter />} />
-            <Route path="/login/user" element={<LoginUser />} />
-            <Route path="/login/hotel" element={<LoginHotel />} />
-            <Route path="/login/association" element={<LoginAssociation />} />
-            <Route path="/login/promoter" element={<LoginPromoter />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route path="/registerUser" element={<RegisterUser />} />
-            <Route path="/registerHotel" element={<RegisterHotel />} />
-            <Route path="/registerAssociation" element={<RegisterAssociation />} />
-            <Route path="/registerPromotor" element={<RegisterPromotor />} />
+            {/* Authentication Routes - ISOLATED from global components but with AuthProvider for login functionality */}
+            <Route path="/signup/user" element={<AuthProvider><SignupUser /></AuthProvider>} />
+            <Route path="/signup/hotel" element={<AuthProvider><SignupHotel /></AuthProvider>} />
+            <Route path="/signup/association" element={<AuthProvider><SignupAssociation /></AuthProvider>} />
+            <Route path="/signup/promoter" element={<AuthProvider><SignupPromoter /></AuthProvider>} />
+            <Route path="/login/user" element={<AuthProvider><LoginUser /></AuthProvider>} />
+            <Route path="/login/hotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
+            <Route path="/login/association" element={<AuthProvider><LoginAssociation /></AuthProvider>} />
+            <Route path="/login/promoter" element={<AuthProvider><LoginPromoter /></AuthProvider>} />
+            <Route path="/auth/callback" element={<AuthProvider><AuthCallback /></AuthProvider>} />
+            <Route path="/registerUser" element={<AuthProvider><RegisterUser /></AuthProvider>} />
+            <Route path="/registerHotel" element={<AuthProvider><RegisterHotel /></AuthProvider>} />
+            <Route path="/registerAssociation" element={<AuthProvider><RegisterAssociation /></AuthProvider>} />
+            <Route path="/registerPromotor" element={<AuthProvider><RegisterPromotor /></AuthProvider>} />
+            <Route path="/signingPersonal" element={<AuthProvider><SigningPersonal /></AuthProvider>} />
             
             {/* All other routes with full providers and global components */}
             <Route path="/*" element={<MainAppRoutes />} />

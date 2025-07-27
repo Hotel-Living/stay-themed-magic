@@ -1,4 +1,5 @@
-// mismo bloque de imports y supabase arriba...
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterPromotor() {
   const [nombre, setNombre] = useState("");
@@ -49,4 +50,8 @@ export default function RegisterPromotor() {
   );
 }
 
-// Usa los mismos estilos que en los anteriores
+const wrapperStyle = { backgroundColor: "#fff", padding: "2rem", fontFamily: "sans-serif", maxWidth: "500px", margin: "5rem auto", borderRadius: "12px", boxShadow: "0 0 20px rgba(0,0,0,0.08)" };
+const titleStyle = { marginBottom: "1.5rem", color: "#333", textAlign: "center" as const };
+const inputStyle = { display: "block", marginBottom: "1rem", width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #ccc" };
+const buttonStyle = { backgroundColor: "#7E26A6", color: "#fff", padding: "0.8rem 1.5rem", border: "none", borderRadius: "6px", cursor: "pointer", width: "100%" };
+const messageStyle = { marginTop: "1rem", color: "#666", textAlign: "center" as const };

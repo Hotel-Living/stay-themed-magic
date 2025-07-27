@@ -84,6 +84,10 @@ import LoginAssociation from "@/pages/auth/LoginAssociation";
 import LoginPromoter from "@/pages/auth/LoginPromoter";
 import AuthCallback from "@/pages/auth/AuthCallback";
 import SigningPersonal from "@/pages/signingPersonal";
+import RegisterUser from "@/pages/registerUser";
+import RegisterHotel from "@/pages/registerHotel";
+import RegisterAssociation from "@/pages/registerAssociation";
+import RegisterPromotor from "@/pages/registerPromotor";
 
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 
@@ -199,6 +203,12 @@ function App() {
                  <Route path="/login/promoter" element={<LoginPromoter />} />
                  <Route path="/auth/callback" element={<AuthCallback />} />
                  <Route path="/signingPersonal" element={<SigningPersonal />} />
+                 
+                 {/* New Registration Routes */}
+                 <Route path="/registerUser" element={<RegisterUser />} />
+                 <Route path="/registerHotel" element={<RegisterHotel />} />
+                 <Route path="/registerAssociation" element={<RegisterAssociation />} />
+                 <Route path="/registerPromotor" element={<RegisterPromotor />} />
             </Routes>
             
             {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}

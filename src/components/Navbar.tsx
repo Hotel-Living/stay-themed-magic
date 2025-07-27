@@ -86,16 +86,16 @@ export function Navbar() {
               SET UP
             </button>
             <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
-              <Link to="/signup/user" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
+              <Link to="/registerUser" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">
                 User
               </Link>
-              <Link to="/signup/hotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+              <Link to="/registerHotel" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
                 Hotel
               </Link>
-              <Link to="/signup/association" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
+              <Link to="/registerAssociation" className="block text-black hover:bg-gray-100 px-4 py-2 transition-colors text-xs">
                 Association
               </Link>
-              <Link to="/signup/promoter" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
+              <Link to="/registerPromotor" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-b-lg transition-colors text-xs">
                 Promoter
               </Link>
             </div>

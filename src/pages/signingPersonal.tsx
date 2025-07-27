@@ -32,25 +32,83 @@ export default function SigningPersonal() {
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h2>Iniciar sesión o registrarse</h2>
+    <div style={{
+      backgroundColor: "#fff",
+      padding: "2rem",
+      fontFamily: "sans-serif",
+      maxWidth: "400px",
+      margin: "5rem auto",
+      borderRadius: "12px",
+      boxShadow: "0 0 20px rgba(0,0,0,0.08)"
+    }}>
+      <h2 style={{ marginBottom: "1.5rem", color: "#333", textAlign: "center" }}>
+        Iniciar sesión o registrarse
+      </h2>
+
       <input
         type="email"
         placeholder="Correo electrónico"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ display: "block", margin: "1rem 0", width: "100%" }}
+        style={{
+          display: "block",
+          marginBottom: "1rem",
+          width: "100%",
+          padding: "0.75rem",
+          borderRadius: "6px",
+          border: "1px solid #ccc"
+        }}
       />
+
       <input
         type="password"
         placeholder="Contraseña"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ display: "block", marginBottom: "1rem", width: "100%" }}
+        style={{
+          display: "block",
+          marginBottom: "1.5rem",
+          width: "100%",
+          padding: "0.75rem",
+          borderRadius: "6px",
+          border: "1px solid #ccc"
+        }}
       />
-      <button onClick={handleLogin} style={{ marginRight: "1rem" }}>Entrar</button>
-      <button onClick={handleSignup}>Registrarse</button>
-      <p style={{ marginTop: "1rem" }}>{message}</p>
+
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <button
+          onClick={handleLogin}
+          style={{
+            backgroundColor: "#7E26A6",
+            color: "#fff",
+            padding: "0.6rem 1.2rem",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            flex: 1,
+            marginRight: "0.5rem"
+          }}
+        >
+          Entrar
+        </button>
+
+        <button
+          onClick={handleSignup}
+          style={{
+            backgroundColor: "#7E26A6",
+            color: "#fff",
+            padding: "0.6rem 1.2rem",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            flex: 1
+          }}
+        >
+          Registrarse
+        </button>
+      </div>
+
+      <p style={{ marginTop: "1rem", color: "#666", textAlign: "center" }}>{message}</p>
     </div>
   );
 }

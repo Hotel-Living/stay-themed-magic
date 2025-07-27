@@ -44,10 +44,10 @@ export default function AuthCallback() {
                     navigate('/hotel-dashboard');
                     break;
                   case 'association': 
-                    navigate('/panel-asociacion');
+                    navigate('/association-dashboard');
                     break;
                   case 'promoter': 
-                    navigate('/promoter/dashboard');
+                    navigate('/promoter-dashboard');
                     break;
                   default:
                     navigate('/user-dashboard');
@@ -98,10 +98,10 @@ export default function AuthCallback() {
                   navigate('/hotel-dashboard');
                   break;
                 case 'association': 
-                  navigate('/panel-asociacion');
+                  navigate('/association-dashboard');
                   break;
                 case 'promoter': 
-                  navigate('/promoter/dashboard');
+                  navigate('/promoter-dashboard');
                   break;
                 default:
                   navigate('/user-dashboard');
@@ -130,7 +130,7 @@ export default function AuthCallback() {
                   navigate('/login/promoter');
                   break;
                 default:
-                  navigate('/login');
+                  navigate('/login/user');
               }
             }, 2000);
             return;
@@ -165,10 +165,10 @@ export default function AuthCallback() {
                 navigate('/hotel-dashboard');
                 break;
               case 'association': 
-                navigate('/panel-asociacion');
+                navigate('/association-dashboard');
                 break;
               case 'promoter': 
-                navigate('/promoter/dashboard');
+                navigate('/promoter-dashboard');
                 break;
               default:
                 navigate('/user-dashboard');
@@ -194,7 +194,7 @@ export default function AuthCallback() {
                   navigate('/login/promoter');
                   break;
                 default:
-                  navigate('/login');
+                  navigate('/login/user');
               }
             }, 2000);
           } else {

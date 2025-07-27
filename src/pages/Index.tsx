@@ -26,23 +26,6 @@ export default function Index() {
     const handleEmailVerificationRedirect = async () => {
       if (user && window.location.pathname === '/') {
         try {
-          // Check if we have role in URL params from email verification
-          const urlParams = new URLSearchParams(window.location.search);
-          const urlRole = urlParams.get('role');
-          
-          // If we have a role from URL, assign it first
-          if (urlRole && user.email) {
-            const { error: assignError } = await supabase.rpc('assign_user_role', {
-              p_user_id: user.id,
-              p_email: user.email,
-              p_role: urlRole
-            });
-            
-            if (assignError) {
-              console.error('Error assigning user role:', assignError);
-            }
-          }
-
           // Fetch user role using the RPC function to avoid RLS issues
           const { data: rolesData, error } = await supabase.rpc('get_my_roles');
 
@@ -51,7 +34,7 @@ export default function Index() {
             return;
           }
 
-          const role = rolesData?.[0]?.role || urlRole;
+          const role = rolesData?.[0]?.role;
           console.log('🔄 Email verification redirect - User role:', role);
 
           // Redirect based on role

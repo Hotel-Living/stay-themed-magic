@@ -40,11 +40,11 @@ serve(async (req) => {
         // Get the role from user metadata to construct proper redirect URL
         const role = user_metadata?.role || 'user';
         
-        // Use the project's actual domain, not lovableproject.com
-        const projectDomain = 'https://ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com';
+        // Use the production domain for email confirmations
+        const projectDomain = 'https://hotel-living.com';
         
-        // Create a special confirmation URL that includes user ID and role for manual verification
-        const confirmationUrl = `${projectDomain}/auth/callback?token_hash=${id}&type=signup&role=${role}`;
+        // Create a simple confirmation URL pointing to production domain
+        const confirmationUrl = `${projectDomain}/auth/callback`;
         
         // Call our custom email verification function
         const { error: emailError } = await supabase.functions.invoke('send-email-verification', {

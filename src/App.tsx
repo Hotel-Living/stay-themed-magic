@@ -155,6 +155,8 @@ function MainAppRoutes() {
             <Route path="/compare" element={<Compare />} />
             <Route path="/hotel-model" element={<HotelModelPage />} />
             <Route path="/signingPersonal" element={<SigningPersonal />} />
+            <Route path="/registerHotel" element={<RegisterHotel />} />
+            <Route path="/loginHotel" element={<Navigate to="/login/hotel" replace />} />
           </Routes>
           
           {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}

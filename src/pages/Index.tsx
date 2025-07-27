@@ -26,19 +26,15 @@ export default function Index() {
     const handleEmailVerificationRedirect = async () => {
       if (user && window.location.pathname === '/') {
         try {
-          // Fetch user role from database
-          const { data: roleData, error } = await supabase
-            .from('user_roles')
-            .select('role')
-            .eq('user_id', user.id)
-            .single();
+          // Fetch user role using the RPC function to avoid RLS issues
+          const { data: rolesData, error } = await supabase.rpc('get_my_roles');
 
           if (error) {
             console.error('Error fetching user role:', error);
             return;
           }
 
-          const role = roleData?.role;
+          const role = rolesData?.[0]?.role;
           console.log('🔄 Email verification redirect - User role:', role);
 
           // Redirect based on role

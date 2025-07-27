@@ -19,6 +19,14 @@ enable_confirmations = false
 double_confirm_changes = false
 secure_email_change_enabled = false
 
+# CRITICAL: Disable ALL default Supabase email templates
+[auth]
+enabled = true
+external_url = "https://hotel-living.com"
+additional_redirect_urls = ["https://hotel-living.com/auth/callback"]
+site_url = "https://hotel-living.com"
+disable_default_email_templates = true
+
 [functions.auth-hook]
 verify_jwt = false
 

@@ -123,5 +123,6 @@ const inputStyle = {
   width: "100%",
   padding: "0.75rem",
   borderRadius: "6px",
-  border: "1px solid #ccc"
+  border: "1px solid #ccc",
+  color: "#000"
 };

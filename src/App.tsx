@@ -83,6 +83,7 @@ import LoginHotel from "@/pages/auth/LoginHotel";
 import LoginAssociation from "@/pages/auth/LoginAssociation";
 import LoginPromoter from "@/pages/auth/LoginPromoter";
 import AuthCallback from "@/pages/auth/AuthCallback";
+import SigningPersonal from "@/pages/signingPersonal";
 
 import EmergencyAdminReset from "@/pages/EmergencyAdminReset";
 
@@ -187,16 +188,17 @@ function App() {
                 <Route path="/compare" element={<Compare />} />
                 <Route path="/hotel-model" element={<HotelModelPage />} />
                 
-                {/* Authentication Routes */}
-                <Route path="/signup/user" element={<SignupUser />} />
-                <Route path="/signup/hotel" element={<SignupHotel />} />
-                <Route path="/signup/association" element={<SignupAssociation />} />
-                <Route path="/signup/promoter" element={<SignupPromoter />} />
-                <Route path="/login/user" element={<LoginUser />} />
-                <Route path="/login/hotel" element={<LoginHotel />} />
-                <Route path="/login/association" element={<LoginAssociation />} />
-                <Route path="/login/promoter" element={<LoginPromoter />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
+                 {/* Authentication Routes */}
+                 <Route path="/signup/user" element={<SignupUser />} />
+                 <Route path="/signup/hotel" element={<SignupHotel />} />
+                 <Route path="/signup/association" element={<SignupAssociation />} />
+                 <Route path="/signup/promoter" element={<SignupPromoter />} />
+                 <Route path="/login/user" element={<LoginUser />} />
+                 <Route path="/login/hotel" element={<LoginHotel />} />
+                 <Route path="/login/association" element={<LoginAssociation />} />
+                 <Route path="/login/promoter" element={<LoginPromoter />} />
+                 <Route path="/auth/callback" element={<AuthCallback />} />
+                 <Route path="/signingPersonal" element={<SigningPersonal />} />
             </Routes>
             
             {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}

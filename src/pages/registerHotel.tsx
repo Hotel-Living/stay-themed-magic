@@ -20,16 +20,12 @@ export default function RegisterHotel() {
     }
 
     try {
-      const redirectUrl = `${window.location.origin}/auth/callback?role=hotel`;
-      
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: redirectUrl,
           data: {
-            nombreHotel,
-            role: "hotel"
+            role: 'hotel'
           }
         }
       });

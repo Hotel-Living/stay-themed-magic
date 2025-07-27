@@ -83,7 +83,7 @@ export function Navbar() {
           {/* Authentication Buttons */}
           <div className="relative group">
             <button className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-colors">
-              {t('signup')}
+              {t('navigation.signup')}
             </button>
             <div className="absolute top-full right-0 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white shadow-lg rounded-lg z-50 min-w-max border">
               <Link to="/registerUser" className="block text-black hover:bg-gray-100 px-4 py-2 rounded-t-lg transition-colors text-xs">

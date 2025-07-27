@@ -72,15 +72,15 @@ import SignupHotel from "@/pages/auth/SignupHotel";
 import SignupAssociation from "@/pages/auth/SignupAssociation";
 import SignupPromoter from "@/pages/auth/SignupPromoter";
 import LoginUser from "@/pages/auth/LoginUser";
-import LoginHotelAuth from "@/pages/auth/LoginHotel";
+import LoginHotel from "@/pages/auth/LoginHotel";
 import LoginAssociation from "@/pages/auth/LoginAssociation";
 import LoginPromoter from "@/pages/auth/LoginPromoter";
 import AuthCallback from "@/pages/auth/AuthCallback";
+import SigningPersonal from "@/pages/signingPersonal";
 import RegisterUser from "@/pages/registerUser";
 import RegisterHotel from "@/pages/registerHotel";
 import RegisterAssociation from "@/pages/registerAssociation";
 import RegisterPromotor from "@/pages/registerPromotor";
-import LoginHotel from "@/pages/loginHotel";
 
 const queryClient = createQueryClient();
 
@@ -137,8 +137,6 @@ function MainAppRoutes() {
             <Route path="/nosotros" element={<OurValues />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-            <Route path="/association-dashboard" element={<AssociationDashboard />} />
-            <Route path="/promoter-dashboard" element={<PromoterDashboard />} />
             <Route path="/panel-hotel" element={<HotelDashboard />} />
             <Route path="/panel-fernando" element={<Navigate to="/admin" replace />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
@@ -156,7 +154,7 @@ function MainAppRoutes() {
             <Route path="/intro-test9" element={<IntroTest9 />} />
             <Route path="/compare" element={<Compare />} />
             <Route path="/hotel-model" element={<HotelModelPage />} />
-            
+            <Route path="/signingPersonal" element={<SigningPersonal />} />
           </Routes>
           
           {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
@@ -182,7 +180,7 @@ function App() {
             <Route path="/signup/association" element={<AuthProvider><SignupAssociation /></AuthProvider>} />
             <Route path="/signup/promoter" element={<AuthProvider><SignupPromoter /></AuthProvider>} />
             <Route path="/login/user" element={<AuthProvider><LoginUser /></AuthProvider>} />
-            <Route path="/login/hotel" element={<AuthProvider><LoginHotelAuth /></AuthProvider>} />
+            <Route path="/login/hotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
             <Route path="/login/association" element={<AuthProvider><LoginAssociation /></AuthProvider>} />
             <Route path="/login/promoter" element={<AuthProvider><LoginPromoter /></AuthProvider>} />
             <Route path="/auth/callback" element={<AuthProvider><AuthCallback /></AuthProvider>} />
@@ -190,7 +188,7 @@ function App() {
             <Route path="/registerHotel" element={<AuthProvider><RegisterHotel /></AuthProvider>} />
             <Route path="/registerAssociation" element={<AuthProvider><RegisterAssociation /></AuthProvider>} />
             <Route path="/registerPromotor" element={<AuthProvider><RegisterPromotor /></AuthProvider>} />
-            <Route path="/loginHotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
+            <Route path="/signingPersonal" element={<AuthProvider><SigningPersonal /></AuthProvider>} />
             
             {/* All other routes with full providers and global components */}
             <Route path="/*" element={<MainAppRoutes />} />

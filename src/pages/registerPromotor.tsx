@@ -2,14 +2,15 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterPromotor() {
-  const [promoterName, setPromoterName] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellidos, setApellidos] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
-    if (!promoterName || !email || !password || !confirmPassword) {
+    if (!nombre || !apellidos || !email || !password || !confirmPassword) {
       setMessage("❌ Por favor, completa todos los campos.");
       return;
     }
@@ -28,7 +29,8 @@ export default function RegisterPromotor() {
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            promoterName,
+            nombre,
+            apellidos,
             role: "promoter"
           }
         }
@@ -47,7 +49,8 @@ export default function RegisterPromotor() {
   return (
     <div style={wrapperStyle}>
       <h2 style={titleStyle}>Registro de Promotor</h2>
-      <input type="text" placeholder="Nombre del promotor" value={promoterName} onChange={(e) => setPromoterName(e.target.value)} style={inputStyle} />
+      <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} style={inputStyle} />
+      <input type="text" placeholder="Apellidos" value={apellidos} onChange={(e) => setApellidos(e.target.value)} style={inputStyle} />
       <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
       <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
       <input type="password" placeholder="Confirmar contraseña" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={inputStyle} />

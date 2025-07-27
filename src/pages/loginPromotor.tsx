@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-export default function LoginPromotor() {
+export default function LoginUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -14,12 +14,12 @@ export default function LoginPromotor() {
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) setMessage("❌ " + error.message);
-    else window.location.href = "/promoter-dashboard"
+    else window.location.href = "/promoter/dashboard";
   };
 
   return (
     <div style={wrapperStyle}>
-      <h2 style={titleStyle}>Acceso para promotores</h2>
+      <h2 style={titleStyle}>Acceso para usuarios</h2>
       <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
       <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
       <button onClick={handleLogin} style={buttonStyle}>Entrar</button>

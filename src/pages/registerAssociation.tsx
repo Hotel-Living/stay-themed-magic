@@ -2,14 +2,14 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function RegisterAssociation() {
-  const [associationName, setAssociationName] = useState("");
+  const [nombreAsociacion, setNombreAsociacion] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
-    if (!associationName || !email || !password || !confirmPassword) {
+    if (!nombreAsociacion || !email || !password || !confirmPassword) {
       setMessage("❌ Por favor, completa todos los campos.");
       return;
     }
@@ -28,7 +28,7 @@ export default function RegisterAssociation() {
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            associationName,
+            nombreAsociacion,
             role: "association"
           }
         }
@@ -47,7 +47,7 @@ export default function RegisterAssociation() {
   return (
     <div style={wrapperStyle}>
       <h2 style={titleStyle}>Registro de Asociación</h2>
-      <input type="text" placeholder="Nombre de la asociación" value={associationName} onChange={(e) => setAssociationName(e.target.value)} style={inputStyle} />
+      <input type="text" placeholder="Nombre de la asociación" value={nombreAsociacion} onChange={(e) => setNombreAsociacion(e.target.value)} style={inputStyle} />
       <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
       <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
       <input type="password" placeholder="Confirmar contraseña" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={inputStyle} />

@@ -15,9 +15,27 @@ export function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      console.log("Navbar logout button clicked");
+      console.log("User:", user);
+      console.log("Profile:", profile);
+      
+      // Use the enhanced logout method for better compatibility
+      const { performEnhancedLogout } = await import('@/utils/browserCache');
+      await performEnhancedLogout(signOut);
+      
+      console.log("Enhanced logout completed");
     } catch (error) {
       console.error('Error during logout:', error);
+      
+      // Fallback to basic signOut
+      try {
+        console.log("Attempting fallback logout");
+        await signOut();
+      } catch (fallbackError) {
+        console.error("Fallback logout also failed:", fallbackError);
+        // Last resort - force redirect
+        window.location.href = "/";
+      }
     }
   };
 

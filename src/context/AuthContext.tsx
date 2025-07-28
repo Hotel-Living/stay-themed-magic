@@ -95,16 +95,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
+      console.log("AuthContext signOut called");
       setIsLoading(true);
+      
+      // Clear profile and user state immediately
+      setProfile(null);
+      setUser(null);
+      setSession(null);
+      
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Error signing out:', error);
+        throw error;
       } else {
+        console.log("Supabase signOut successful");
         // Redirect to main index page after successful logout
         window.location.href = "/";
       }
     } catch (error) {
       console.error('Error signing out:', error);
+      // Even if there's an error, redirect to clear the session
+      window.location.href = "/";
     } finally {
       setIsLoading(false);
     }

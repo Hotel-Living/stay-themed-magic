@@ -11,9 +11,26 @@ const processImagesForUpload = async (images: UploadedImage[]): Promise<Array<{ 
   
   for (const image of images) {
     try {
-      if (image.url && (image.url.startsWith('blob:') || image.url.startsWith('data:'))) {
+      console.log("Processing individual image:", { url: image.url, name: image.name });
+      
+      // Handle different image formats
+      let imageUrl = image.url;
+      
+      // If image.url is an object, try to extract the actual URL
+      if (typeof imageUrl === 'object' && imageUrl !== null) {
+        const urlObj = imageUrl as any;
+        imageUrl = urlObj.url || urlObj.src || String(imageUrl);
+      }
+      
+      // If imageUrl is still not a string, skip this image
+      if (typeof imageUrl !== 'string') {
+        console.warn("Invalid image URL format:", imageUrl);
+        continue;
+      }
+      
+      if (imageUrl && (imageUrl.startsWith('blob:') || imageUrl.startsWith('data:'))) {
         // Convert base64 or blob URL to File object for upload
-        const response = await fetch(image.url);
+        const response = await fetch(imageUrl);
         const blob = await response.blob();
         
         // Create a File object from the blob
@@ -26,9 +43,12 @@ const processImagesForUpload = async (images: UploadedImage[]): Promise<Array<{ 
           image: image,
           file: file
         });
-      } else if (image.url && image.url.startsWith('http')) {
+        console.log("✅ Successfully processed image:", image.name);
+      } else if (imageUrl && imageUrl.startsWith('http')) {
         // Already uploaded image - create a placeholder file for consistency
-        console.log("Image already uploaded, skipping:", image.url);
+        console.log("Image already uploaded, skipping:", imageUrl);
+      } else {
+        console.warn("Unrecognized image URL format:", imageUrl);
       }
     } catch (error) {
       console.error("Error processing image:", image.name, error);
@@ -36,6 +56,7 @@ const processImagesForUpload = async (images: UploadedImage[]): Promise<Array<{ 
     }
   }
   
+  console.log(`Processed ${validImages.length} valid images out of ${images.length} total`);
   return validImages;
 };
 
@@ -260,7 +281,8 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
           await handleImageUpload(data.id, validImages);
           console.log("✅ Images uploaded successfully");
         } else {
-          console.warn("No valid images found to upload");
+          console.warn("⚠️ No valid images found to upload - check image format");
+          console.warn("Expected: blob: or data: URLs, received:", formData.hotelImages.map(img => img.url));
         }
       } catch (imageError) {
         console.error("=== IMAGE UPLOAD ERROR ===");
@@ -271,6 +293,7 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
       }
     } else {
       console.log("No images to process for hotel:", data?.id);
+      console.log("formData.hotelImages:", formData.hotelImages);
     }
 
     // Process activities and themes after hotel creation
@@ -278,13 +301,23 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
       console.log("=== PROCESSING ACTIVITIES AND THEMES ===");
       console.log("Activities from form:", formData.activities);
       console.log("Themes from form:", formData.themes);
+      console.log("Form data keys:", Object.keys(formData));
+      console.log("Available affinities?:", formData.affinities);
       
       try {
         const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
+        
+        // Use themes OR affinities - whichever has data
+        const themesToProcess = (formData.themes && formData.themes.length > 0) ? formData.themes : (formData.affinities || []);
+        const activitiesToProcess = formData.activities || [];
+        
+        console.log("Final themes to process:", themesToProcess);
+        console.log("Final activities to process:", activitiesToProcess);
+        
         await handleThemesAndActivities(
           data.id, 
-          formData.themes || [], 
-          formData.activities || []
+          themesToProcess, 
+          activitiesToProcess
         );
         console.log("✅ Activities and themes processed successfully");
 

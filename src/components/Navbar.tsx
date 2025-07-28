@@ -138,6 +138,13 @@ export function Navbar() {
               <div>Hotel Detail</div>
             </div>
           </Link>
+
+          <Link to="/demo/comparison" className="text-white hover:text-white/80 transition-all duration-300 font-bold text-xs leading-tight hover:scale-105">
+            <div className="text-center">
+              <div>🔄 COMPARE</div>
+              <div>Layouts</div>
+            </div>
+          </Link>
           
           
           {/* Authentication Buttons */}

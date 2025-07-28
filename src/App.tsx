@@ -40,6 +40,7 @@ import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
 import DemoHotelDetail from "@/pages/DemoHotelDetail";
+import HotelComparisonPage from "@/pages/HotelComparisonPage";
 
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
@@ -128,7 +129,7 @@ function MainAppRoutes() {
             <Route path="/hotel/:id" element={<HotelDetail />} />
             <Route path="/search" element={<Search />} />
             <Route path="/demo/hotel-detail" element={<DemoHotelDetail />} />
-            <Route path="/emergency-admin-reset" element={<EmergencyAdminReset />} />
+            <Route path="/demo/comparison" element={<HotelComparisonPage />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/join-us" element={<JoinUs />} />

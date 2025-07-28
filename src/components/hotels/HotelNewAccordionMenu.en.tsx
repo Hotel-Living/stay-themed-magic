@@ -18,16 +18,16 @@ export function HotelNewAccordionMenuEN() {
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         
         <AccordionItem value="benefits" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+          <AccordionTrigger className="px-3 sm:px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-sm sm:text-base md:text-lg">
               1 - THE BENEFITS
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-6 text-left py-6">
-              <div className="space-y-4">
-                <h4 className="text-[#FFF9B0] font-bold text-lg">1.1 100% occupancy all year round</h4>
-                <div className="space-y-2 text-white">
+          <AccordionContent className="px-3 sm:px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-4 sm:space-y-6 text-left py-4 sm:py-6">
+              <div className="space-y-3 sm:space-y-4">
+                <h4 className="text-[#FFF9B0] font-bold text-base sm:text-lg">1.1 100% occupancy all year round</h4>
+                <div className="space-y-1 sm:space-y-2 text-white text-sm sm:text-base">
                   <p>• Occupancy rates can reach 100% throughout the year</p>
                   <p>• Zero empty rooms means maximum profit</p>
                   <p>• Full occupancy even during traditionally slow periods</p>

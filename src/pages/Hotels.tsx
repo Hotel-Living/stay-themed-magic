@@ -75,19 +75,19 @@ export default function Hotels() {
             <HotelNewAccordionMenu />
           </div>
           
-          <div className="w-full max-w-4xl mt-10 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
-            <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10 bg-[#5f0276] transition-all duration-300 hover:shadow-lg hover:shadow-fuchsia-500/20">
+          <div className="w-full max-w-4xl mt-10 animate-fade-in px-2 sm:px-0" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
+            <div className="glass-card rounded-lg overflow-hidden border-none p-2 sm:p-4 mb-10 bg-[#5f0276] transition-all duration-300 hover:shadow-lg hover:shadow-fuchsia-500/20">
               {/* Blue glow wrapper for FAQ title */}
-              <div className="relative group w-fit mx-auto mb-6">
+              <div className="relative group w-fit mx-auto mb-4 sm:mb-6">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <h2 className="relative text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] px-4 py-2">{t('title')}</h2>
+                <h2 className="relative text-lg sm:text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] px-2 sm:px-4 py-2">{t('title')}</h2>
               </div>
               
               {/* Blue glow wrapper for FAQ tabs */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative">
-                  <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" hideTabsList={false} />
+                  <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-sm sm:text-base md:text-lg" answerTextSizeClass="text-xs sm:text-sm md:text-base" hideTabsList={false} />
                 </div>
               </div>
               

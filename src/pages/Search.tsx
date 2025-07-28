@@ -189,15 +189,15 @@ export default function Search() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col animate-fade-in">
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
         <div className="container mx-auto px-0 py-0">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Filter Sidebar - All 14 filters */}
-            <div className="lg:col-span-1 space-y-4">
+            <div className="lg:col-span-1 space-y-4 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
               <SecondFilterSidebar
                 activeFilters={activeFilters} 
                 handleFilterChange={handleFilterChange} 
@@ -207,7 +207,7 @@ export default function Search() {
             </div>
             
             {/* Search Results - Takes up more space for 3 hotels per row */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
               <SearchResults hotels={hotels} loading={loading} error={error} />
             </div>
           </div>

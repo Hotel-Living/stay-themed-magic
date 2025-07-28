@@ -111,13 +111,13 @@ export default function DashboardLayout({
   }
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col animate-fade-in">
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+          <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] transition-all duration-300 hover:shadow-[0_0_70px_rgba(0,200,255,0.9),0_0_140px_rgba(0,200,255,0.5),0_0_200px_rgba(0,200,255,0.3)]">
             <h1 className="text-3xl font-bold mb-8 glow">
               {t('general.hotelManagement')}
             </h1>
@@ -127,7 +127,7 @@ export default function DashboardLayout({
               <aside className="lg:col-span-1">
                 <div className="bg-[#7E00B3]/60 backdrop-blur-sm rounded-2xl overflow-hidden mb-8 shadow-[0_0_30px_rgba(0,200,255,0.4)]">
                   <nav className="p-2">
-                    {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-left", activeTab === tab.id ? "bg-white/20 text-white shadow-[0_0_15px_rgba(0,200,255,0.6)]" : "hover:bg-white/10 text-white/80")}>
+                    {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300 text-left hover:scale-105", activeTab === tab.id ? "bg-white/20 text-white shadow-[0_0_15px_rgba(0,200,255,0.6)]" : "hover:bg-white/10 text-white/80")}>
                         {tab.icon}
                         <span className="text-left">{tab.label}</span>
                       </button>)}
@@ -136,7 +136,7 @@ export default function DashboardLayout({
                       <div className="h-px bg-white/20 my-2"></div>
                     </div>
                     
-                    <button onClick={handleLogout} className="w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-colors text-left">
+                    <button onClick={handleLogout} className="w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-all duration-300 text-left hover:scale-105">
                       <LogOut className="w-5 h-5" />
                       <span className="text-left">{t('general.logOut')}</span>
                     </button>
@@ -155,7 +155,7 @@ export default function DashboardLayout({
                   <p className="text-sm text-white/80 mb-4">
                     {t('general.supportDescription')}
                   </p>
-                  <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-white/20 hover:bg-white/30 shadow-[0_0_15px_rgba(0,200,255,0.4)]">
+                  <button className="w-full py-2 rounded-lg text-sm font-medium transition-all duration-300 text-white bg-white/20 hover:bg-white/30 shadow-[0_0_15px_rgba(0,200,255,0.4)] hover:scale-105 hover:shadow-[0_0_20px_rgba(0,200,255,0.6)]">
                     {t('general.contactSupport')}
                   </button>
                 </div>

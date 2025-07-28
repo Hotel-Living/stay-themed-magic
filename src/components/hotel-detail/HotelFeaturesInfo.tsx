@@ -23,7 +23,7 @@ export function HotelFeaturesInfo({
         {validHotelFeatures.length > 0 && <div>
             <h3 className="text-xl font-semibold mb-4 text-white text-left">{t('detail.hotelFeatures')}</h3>
             <div className="grid grid-cols-2 gap-2">
-              {validHotelFeatures.map((feature, index) => <div key={index} className="flex items-center gap-2">
+              {validHotelFeatures.map((feature, index) => <div key={`hotel-feature-${feature}-${index}`} className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-white rounded-full" />
                   <span className="text-sm">{feature}</span>
                 </div>)}
@@ -33,7 +33,7 @@ export function HotelFeaturesInfo({
         {validRoomFeatures.length > 0 && <div>
             <h3 className="text-xl font-semibold mb-4 text-white text-left">{t('detail.roomFeatures')}</h3>
             <div className="grid grid-cols-2 gap-2">
-              {validRoomFeatures.map((feature, index) => <div key={index} className="flex items-center gap-2">
+              {validRoomFeatures.map((feature, index) => <div key={`room-feature-${feature}-${index}`} className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-white rounded-full" />
                   <span className="text-sm">{feature}</span>
                 </div>)}

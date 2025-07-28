@@ -56,7 +56,7 @@ export default function HotelModelPage() {
   const renderStars = count => {
     return Array.from({
       length: count
-    }, (_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
+    }, (_, i) => <Star key={`hotel-model-star-${i}`} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
   };
   const renderTag = (tag, type) => <span key={tag} className={`px-3 py-1 rounded-full text-sm font-medium ${type === 'affinity' ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'}`}>
       {tag}

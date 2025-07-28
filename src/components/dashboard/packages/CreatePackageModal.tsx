@@ -165,7 +165,7 @@ export function CreatePackageModal({ isOpen, onClose, onSubmit }: CreatePackageM
               </div>
               <ul className="text-sm text-red-300 space-y-1">
                 {errors.map((error, index) => (
-                  <li key={index}>• {error}</li>
+                  <li key={`create-error-${index}`}>• {error}</li>
                 ))}
               </ul>
             </div>

@@ -130,7 +130,7 @@ export function HotelDetailContent({
                   {hotel.category && <div className="flex justify-center items-center gap-1">
                       {Array.from({
                     length: hotel.category
-                  }, (_, i) => <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />)}
+                  }, (_, i) => <Star key={`detail-star-${i}`} className="w-6 h-6 fill-yellow-400 text-yellow-400" />)}
                     </div>}
                 </div>
 
@@ -142,10 +142,10 @@ export function HotelDetailContent({
 
                 {/* Affinity tags and Activity tags */}
                 <div className="flex flex-wrap justify-center gap-2 mt-6">
-                  {themes.map((theme, index) => <Badge key={`theme-${index}`} variant="secondary" className="bg-purple-700/80 text-white border-purple-500/50 hover:bg-purple-600/80 px-3 py-1">
+                  {themes.map((theme, index) => <Badge key={`theme-${theme}-${index}`} variant="secondary" className="bg-purple-700/80 text-white border-purple-500/50 hover:bg-purple-600/80 px-3 py-1">
                       {theme.name}
                     </Badge>)}
-                  {activities.map((activity, index) => <Badge key={`activity-${index}`} variant="outline" className="bg-fuchsia-800/60 text-white border-fuchsia-400/50 hover:bg-fuchsia-700/60 px-3 py-1">
+                  {activities.map((activity, index) => <Badge key={`activity-${activity}-${index}`} variant="outline" className="bg-fuchsia-800/60 text-white border-fuchsia-400/50 hover:bg-fuchsia-700/60 px-3 py-1">
                       {activity}
                     </Badge>)}
                 </div>
@@ -187,7 +187,7 @@ export function HotelDetailContent({
               {hotel.room_types && hotel.room_types.length > 0 && <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3 text-white">Available Room Types</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {hotel.room_types.map((roomType: any, index: number) => <div key={index} className="bg-gold-700/40 rounded-lg p-4 border border-gold-600/30">
+                    {hotel.room_types.map((roomType: any, index: number) => <div key={`room-${roomType.id || roomType.name}-${index}`} className="bg-gold-700/40 rounded-lg p-4 border border-gold-600/30">
                         <h4 className="font-semibold text-white mb-2">{roomType.name || roomType.type}</h4>
                         {roomType.description && <p className="text-white/80 text-sm">{roomType.description}</p>}
                         {roomType.capacity && <p className="text-white/70 text-sm mt-1">Capacity: {roomType.capacity} guests</p>}
@@ -198,7 +198,7 @@ export function HotelDetailContent({
               {convertedStayLengths.length > 0 && <div>
                   <h3 className="text-lg font-semibold mb-3 text-white">Available Stay Durations</h3>
                   <div className="flex flex-wrap gap-2">
-                    {convertedStayLengths.map((length, index) => <Badge key={index} className="bg-fuchsia-700/80 text-white px-4 py-2">
+                    {convertedStayLengths.map((length, index) => <Badge key={`stay-${length}-${index}`} className="bg-fuchsia-700/80 text-white px-4 py-2">
                         {length} {length === 1 ? 'day' : 'days'}
                       </Badge>)}
                   </div>

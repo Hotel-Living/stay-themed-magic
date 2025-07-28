@@ -164,7 +164,7 @@ export const DashboardContent = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, i) => <StatCard key={i} {...stat} />)}
+        {stats.map((stat, i) => <StatCard key={`stat-${stat.title}-${i}`} {...stat} />)}
       </div>
 
       {/* Expert Stats - Only show for expert users */}
@@ -190,7 +190,7 @@ export const DashboardContent = () => {
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-4">{t.quickActions.title}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {actions.map((action, i) => <ActionCard key={i} {...action} />)}
+          {actions.map((action, i) => <ActionCard key={`action-${action.title}-${i}`} {...action} />)}
         </div>
       </div>
 

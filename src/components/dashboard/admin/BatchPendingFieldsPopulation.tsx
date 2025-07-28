@@ -166,7 +166,7 @@ export function BatchPendingFieldsPopulation() {
                   </h4>
                   <ul className="text-red-300 text-sm space-y-1">
                     {stats.errors.slice(0, 5).map((error, index) => (
-                      <li key={index}>• {error}</li>
+                      <li key={`pending-error-${index}`}>• {error}</li>
                     ))}
                     {stats.errors.length > 5 && (
                       <li className="text-red-400">... and {stats.errors.length - 5} more</li>

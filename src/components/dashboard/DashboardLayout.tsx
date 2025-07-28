@@ -38,10 +38,6 @@ export default function DashboardLayout({
 
   // Check if user is authenticated AND has correct hotel role
   useEffect(() => {
-    // Log development mode but continue with auth checks
-    if (isDevelopment) {
-      if (process.env.NODE_ENV === 'development') console.log('Development mode: Continuing with auth checks in DashboardLayout');
-    }
     
     // Only check if auth is complete
     if (!isLoading) {

@@ -31,7 +31,11 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
     
     const backdrop = document.createElement('div');
     backdrop.className = "fixed inset-0 bg-black bg-opacity-50";
-    backdrop.addEventListener('click', () => themeDialog.remove());
+    const handleBackdropClick = () => {
+      backdrop.removeEventListener('click', handleBackdropClick);
+      themeDialog.remove();
+    };
+    backdrop.addEventListener('click', handleBackdropClick);
     
     const modal = document.createElement('div');
     modal.className = "bg-white p-6 rounded-lg shadow-xl z-10 max-w-md w-full";
@@ -58,7 +62,11 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
     const cancelButton = document.createElement('button');
     cancelButton.className = "px-4 py-2 bg-gray-200 text-gray-800 rounded-md";
     cancelButton.textContent = "Cancel";
-    cancelButton.addEventListener('click', () => themeDialog.remove());
+    const handleCancelClick = () => {
+      cancelButton.removeEventListener('click', handleCancelClick);
+      themeDialog.remove();
+    };
+    cancelButton.addEventListener('click', handleCancelClick);
     
     const addButton = document.createElement('button');
     addButton.className = "px-4 py-2 bg-[#AACAFE] text-[#3300B0] rounded-md";

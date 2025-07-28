@@ -41,7 +41,7 @@ export default function HotelListingModel() {
 
   const renderStars = (count: number) => {
     return Array.from({ length: count }, (_, i) => (
-      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+      <Star key={`listing-star-${i}`} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
     ));
   };
 

@@ -17,11 +17,6 @@ export default function PromoterDashboard() {
 
   // Check if user is authenticated AND has correct promoter role
   useEffect(() => {
-    // Log development mode but continue with auth checks
-    if (isDevelopment) {
-      if (process.env.NODE_ENV === 'development') console.log('Development mode: Skipping role validation for PromoterDashboard');
-      // Continue to auth checks instead of returning
-    }
     
     // Only check if auth is complete
     if (!isLoading) {

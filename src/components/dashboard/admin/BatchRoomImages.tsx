@@ -132,7 +132,7 @@ export function BatchRoomImages() {
                     <h5 className="text-white/80 text-sm mb-2">Hotels Updated:</h5>
                     <div className="text-xs text-white/60 space-y-1">
                       {stats.hotelProgress.slice(0, 10).map((hotel, index) => (
-                        <div key={index}>• {hotel}</div>
+                        <div key={`hotel-${index}`}>• {hotel}</div>
                       ))}
                       {stats.hotelProgress.length > 10 && (
                         <div className="text-white/40">... and {stats.hotelProgress.length - 10} more</div>
@@ -150,7 +150,7 @@ export function BatchRoomImages() {
                   </h4>
                   <ul className="text-red-300 text-sm space-y-1">
                     {stats.errors.slice(0, 5).map((error, index) => (
-                      <li key={index}>• {error}</li>
+                      <li key={`room-error-${index}`}>• {error}</li>
                     ))}
                     {stats.errors.length > 5 && (
                       <li className="text-red-400">... and {stats.errors.length - 5} more</li>

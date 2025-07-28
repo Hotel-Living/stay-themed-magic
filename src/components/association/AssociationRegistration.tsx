@@ -81,7 +81,7 @@ export const AssociationRegistration = () => {
         return;
       }
 
-      if (process.env.NODE_ENV === 'development') console.log('User created successfully:', authData.user.id);
+      console.log('User created successfully:', authData.user.id);
 
       // Insert association record
       const { data: associationData, error: associationError } = await supabase

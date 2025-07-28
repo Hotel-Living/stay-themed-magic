@@ -234,7 +234,7 @@ export const BatchHotelCreation = () => {
                     <h4 className="font-medium mb-2 text-red-600">Errors:</h4>
                     <div className="space-y-1">
                       {result.stats.errors.map((error, index) => (
-                        <p key={index} className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                        <p key={`error-${index}`} className="text-sm text-red-600 bg-red-50 p-2 rounded">
                           {error}
                         </p>
                       ))}

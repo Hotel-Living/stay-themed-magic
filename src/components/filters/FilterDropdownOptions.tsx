@@ -38,16 +38,29 @@ export const renderDropdownOptions = (
   }
 };
 
-// Handle filter update events
-document.addEventListener('updateFilter', (e: any) => {
-  const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
-  const filterDropdown = document.querySelector('.filter-dropdown-container');
-  
-  if (filterDropdown) {
-    const updateFilterEvent = new CustomEvent('filter:update', { 
-      detail: customEvent.detail,
-      bubbles: true
-    });
-    filterDropdown.dispatchEvent(updateFilterEvent);
+// Filter update event handler with proper cleanup
+let updateFilterHandler: ((e: any) => void) | null = null;
+
+const initializeFilterHandler = () => {
+  if (updateFilterHandler) {
+    document.removeEventListener('updateFilter', updateFilterHandler);
   }
-});
+  
+  updateFilterHandler = (e: any) => {
+    const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
+    const filterDropdown = document.querySelector('.filter-dropdown-container');
+    
+    if (filterDropdown) {
+      const updateFilterEvent = new CustomEvent('filter:update', { 
+        detail: customEvent.detail,
+        bubbles: true
+      });
+      filterDropdown.dispatchEvent(updateFilterEvent);
+    }
+  };
+  
+  document.addEventListener('updateFilter', updateFilterHandler);
+};
+
+// Initialize the handler
+initializeFilterHandler();

@@ -108,7 +108,7 @@ export default function HotelDetail() {
   const renderStars = (count: number) => {
     return Array.from({
       length: count
-    }, (_, i) => <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
+    }, (_, i) => <Star key={`hotel-star-${i}`} className="w-5 h-5 fill-yellow-400 text-yellow-400" />);
   };
   const renderTag = (tag: string, type: string) => <span key={tag} className={`px-3 py-1 rounded-full text-sm font-medium ${type === 'affinity' ? 'bg-purple-900/30 text-purple-300 border border-purple-600/50' : 'bg-blue-900/30 text-blue-300 border border-blue-600/50'}`}>
       {tag}
@@ -210,7 +210,7 @@ export default function HotelDetail() {
                     <img src={hotelImages[currentImageIndex]} alt={`${hotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
                   </div>
                   {hotelImages.length > 1 && <div className="flex space-x-2 justify-center">
-                      {hotelImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
+                      {hotelImages.map((_, index) => <button key={`image-dot-${index}`} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
                     </div>}
                 </div>
               </Card>
@@ -302,7 +302,7 @@ export default function HotelDetail() {
                 <div className="space-y-6">
                   {/* Calendar visualization */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
+                    {availabilityPackages.map((pkg, index) => <div key={`package-${pkg.startDate}-${index}`} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
                         <div className="flex items-center space-x-2 mb-2">
                           <Calendar className="w-5 h-5 text-purple-300" />
                           <span className="text-white font-medium">{pkg.duration} {t('detail.days')}</span>
@@ -336,7 +336,7 @@ export default function HotelDetail() {
                                 <strong>{t('detail.availableMealPlans')}:</strong>
                               </p>
                               <div className="flex flex-wrap gap-1">
-                                {translateMealPlans(hotel.meal_plans).map((plan, index) => <span key={index} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
+                                {translateMealPlans(hotel.meal_plans).map((plan, index) => <span key={`meal-${plan}-${index}`} className="px-2 py-1 bg-purple-600/50 text-purple-100 rounded text-xs">
                                     {plan.toUpperCase()}
                                   </span>)}
                               </div>
@@ -372,7 +372,7 @@ export default function HotelDetail() {
                 {roomFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.roomFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {translateRoomFeatures(roomFeaturesArray).map((feature, index) => <div key={index} className="flex items-center space-x-2">
+                      {translateRoomFeatures(roomFeaturesArray).map((feature, index) => <div key={`room-feat-${feature}-${index}`} className="flex items-center space-x-2">
                           <Wifi className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
                         </div>)}
@@ -383,7 +383,7 @@ export default function HotelDetail() {
                 {hotelFeaturesArray.length > 0 && <Card className="p-6 bg-purple-900/30 border-purple-700/50 glow-border">
                     <h3 className="text-xl font-bold text-white mb-4 glow-text">{t('detail.hotelFeatures')}</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {translateHotelFeatures(hotelFeaturesArray).map((feature, index) => <div key={index} className="flex items-center space-x-2">
+                      {translateHotelFeatures(hotelFeaturesArray).map((feature, index) => <div key={`hotel-feat-${feature}-${index}`} className="flex items-center space-x-2">
                           <Coffee className="w-4 h-4 text-purple-400" />
                           <span className="text-purple-100 text-sm">{feature}</span>
                         </div>)}

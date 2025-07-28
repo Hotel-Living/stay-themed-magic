@@ -16,7 +16,7 @@ export default function ValidationErrorBanner({
         <div>
           <p className="font-medium text-sm">Please complete all required fields:</p>
           <ul className="list-disc pl-5 mt-2">
-            {errorFields.map((field, index) => <li key={index}>{field}</li>)}
+            {errorFields.map((field, index) => <li key={`error-${field}-${index}`}>{field}</li>)}
           </ul>
         </div>
       </div>

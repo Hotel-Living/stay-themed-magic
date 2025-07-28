@@ -145,7 +145,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
             <div>
               <h4 className="font-medium text-fuchsia-200 mb-3">Room Types & Availability</h4>
               {hotel.room_types && hotel.room_types.length > 0 ? <div className="space-y-2">
-                  {hotel.room_types.map((room, index) => <div key={index} className="px-3 py-2 bg-blue-700/30 rounded-lg text-sm text-white border border-blue-500/30">
+                  {hotel.room_types.map((room, index) => <div key={`room-type-${room.id || room.name}-${index}`} className="px-3 py-2 bg-blue-700/30 rounded-lg text-sm text-white border border-blue-500/30">
                       <div className="font-medium">{room.name || `Room Type ${index + 1}`}</div>
                       <div className="text-xs text-gray-300">
                         {room.roomCount || room.room_count || 0} rooms available

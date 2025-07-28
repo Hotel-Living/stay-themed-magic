@@ -23,10 +23,10 @@ export const ReviewItem = ({
         <div className="flex items-center">
           {Array.from({
           length: rating
-        }).map((_, i) => <StarIcon key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
+        }).map((_, i) => <StarIcon key={`filled-star-${i}`} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
           {Array.from({
           length: 5 - rating
-        }).map((_, i) => <StarIcon key={i} className="w-4 h-4 text-foreground/30" />)}
+        }).map((_, i) => <StarIcon key={`empty-star-${i}`} className="w-4 h-4 text-foreground/30" />)}
         </div>
       </div>
       <p className="text-sm mb-2 line-clamp-2 text-slate-50">{comment}</p>

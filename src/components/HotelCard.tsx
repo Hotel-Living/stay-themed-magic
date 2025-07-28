@@ -40,7 +40,7 @@ interface HotelCardProps {
   onClick?: () => void;
 }
 
-export const HotelCard: React.FC<HotelCardProps> = ({
+export const HotelCard: React.FC<HotelCardProps> = React.memo(({
   id,
   name,
   city,
@@ -105,6 +105,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         <button
           onClick={handleFavoriteClick}
           className="absolute top-3 right-3 p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors"
+          aria-label={`Add ${name} to favorites`}
         >
           <Heart className="w-5 h-5 text-white" />
         </button>
@@ -139,7 +140,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
               <div className="flex flex-wrap justify-center gap-1">
                 {affinities.map((affinity, index) => (
                   <span
-                    key={index}
+                    key={`affinity-${index}`}
                     className="bg-purple-600/60 text-xs px-2 py-1 rounded-full text-white border border-purple-400/30"
                   >
                     {affinity}
@@ -162,7 +163,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
               <div className="flex flex-wrap justify-center gap-1">
                 {activities.map((activity, index) => (
                   <span
-                    key={index}
+                    key={`activity-${index}`}
                     className="text-xs px-2 py-1 rounded-full text-white border border-green-400/30"
                     style={{ backgroundColor: '#026100' }}
                   >
@@ -187,4 +188,4 @@ export const HotelCard: React.FC<HotelCardProps> = ({
       </CardContent>
     </Card>
   );
-};
+});

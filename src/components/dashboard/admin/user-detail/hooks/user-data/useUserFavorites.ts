@@ -24,11 +24,11 @@ export const useUserFavorites = (id: string | undefined) => {
 
         if (favoritesError) throw favoritesError;
         setFavorites(favoritesData || []);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching user favorites:", error);
         toast({
           title: "Error",
-          description: error.message || "Failed to fetch user favorites",
+          description: error instanceof Error ? error.message : "Failed to fetch user favorites",
           variant: "destructive"
         });
       }

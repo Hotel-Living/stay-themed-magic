@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
 interface FilterItemProps {
@@ -6,7 +6,7 @@ interface FilterItemProps {
   children: ReactNode;
   defaultOpen?: boolean;
 }
-export function FilterItem({
+export const FilterItem = React.memo(function FilterItem({
   title,
   children,
   defaultOpen = false
@@ -14,7 +14,7 @@ export function FilterItem({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <div className="p-2 bg-[#5d0083] rounded-sm py-0 px-0">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2] px-2 py-1 rounded cursor-pointer hover:bg-[#8a08cc] transition-colors" onClick={() => setIsOpen(!isOpen)}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2] px-2 py-1 rounded cursor-pointer hover:bg-[#8a08cc] transition-colors" onClick={() => setIsOpen(!isOpen)} aria-label={`Toggle ${title} filter section`}>
           <span className="text-left text-white text-sm font-normal">{title}</span>
           <ChevronRight className={`h-4 w-4 text-white transition-transform ${isOpen ? "transform rotate-90" : ""}`} />
         </CollapsibleTrigger>
@@ -23,4 +23,4 @@ export function FilterItem({
         </CollapsibleContent>
       </div>
     </Collapsible>;
-}
+});

@@ -69,10 +69,10 @@ export function useThemesData(searchTerm: string, pagination: PaginationState) {
 
       setThemes(mappedData);
       return { count: count || 0 };
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to fetch affinities",
+        description: error instanceof Error ? error.message : "Failed to fetch affinities",
         variant: "destructive"
       });
       return { count: 0 };

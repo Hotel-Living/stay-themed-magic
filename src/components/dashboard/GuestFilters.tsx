@@ -10,7 +10,7 @@ interface GuestFiltersProps {
   setFilterStatus: (status: 'all' | 'flagged' | 'frequent' | 'new') => void;
 }
 
-export const GuestFilters: React.FC<GuestFiltersProps> = ({
+export const GuestFilters: React.FC<GuestFiltersProps> = React.memo(({
   searchTerm,
   setSearchTerm,
   filterStatus,
@@ -25,6 +25,7 @@ export const GuestFilters: React.FC<GuestFiltersProps> = ({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10"
+          aria-label="Search guests by name"
         />
       </div>
       <div className="flex gap-2">
@@ -37,6 +38,7 @@ export const GuestFilters: React.FC<GuestFiltersProps> = ({
                 ? 'bg-fuchsia-500/30 text-fuchsia-200'
                 : 'bg-fuchsia-500/10 text-fuchsia-300 hover:bg-fuchsia-500/20'
             }`}
+            aria-label={`Filter guests by ${status} status`}
           >
             {status}
           </button>
@@ -44,4 +46,4 @@ export const GuestFilters: React.FC<GuestFiltersProps> = ({
       </div>
     </div>
   );
-};
+});

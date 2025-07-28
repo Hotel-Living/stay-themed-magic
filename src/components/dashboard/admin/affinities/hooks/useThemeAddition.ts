@@ -70,10 +70,10 @@ export function useThemeAddition(themes: Theme[], fetchThemes: () => Promise<{co
         level: 1,
         sort_order: 0
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to add new affinity",
+        description: error instanceof Error ? error.message : "Failed to add new affinity",
         variant: "destructive"
       });
     }

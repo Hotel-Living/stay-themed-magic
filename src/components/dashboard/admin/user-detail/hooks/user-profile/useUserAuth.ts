@@ -20,7 +20,7 @@ export const useUserAuth = (id: string | undefined) => {
         if (error) throw error;
         
         setAuthData(data);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching user auth data:", error);
       } finally {
         setLoading(false);

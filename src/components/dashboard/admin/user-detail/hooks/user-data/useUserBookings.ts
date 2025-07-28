@@ -23,11 +23,11 @@ export const useUserBookings = (id: string | undefined) => {
 
         if (bookingsError) throw bookingsError;
         setBookings(bookingsData || []);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching user bookings:", error);
         toast({
           title: "Error",
-          description: error.message || "Failed to fetch user bookings",
+          description: error instanceof Error ? error.message : "Failed to fetch user bookings",
           variant: "destructive"
         });
       }

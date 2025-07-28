@@ -60,10 +60,10 @@ export function useThemeEditing(themes: Theme[], setThemes: React.Dispatch<React
         title: "Success",
         description: "Affinity updated successfully"
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to update affinity",
+        description: error instanceof Error ? error.message : "Failed to update affinity",
         variant: "destructive"
       });
     } finally {

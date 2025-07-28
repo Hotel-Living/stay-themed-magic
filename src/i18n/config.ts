@@ -54,6 +54,7 @@ import enAssociationRegistration from './locales/en/associationRegistration.json
 import enDashboardHotelRegistration from './locales/en/dashboard/hotel-registration.json';
 import enHotel from './locales/en/hotel.json';
 import enUI from './locales/en/ui.json';
+import enSystem from './locales/en/system.json';
 
 // Spanish
 import esCommon from './locales/es/common.json';
@@ -104,6 +105,7 @@ import esAssociationRegistration from './locales/es/associationRegistration.json
 import esDashboardHotelRegistration from './locales/es/dashboard/hotel-registration.json';
 import esHotel from './locales/es/hotel.json';
 import esUI from './locales/es/ui.json';
+import esSystem from './locales/es/system.json';
 
 // Portuguese
 import ptCommon from './locales/pt/common.json';
@@ -143,6 +145,7 @@ import ptAssociationRegistration from './locales/pt/associationRegistration.json
 import ptDashboardHotelRegistration from './locales/pt/dashboard/hotel-registration.json';
 import ptHotel from './locales/pt/hotel.json';
 import ptUI from './locales/pt/ui.json';
+import ptSystem from './locales/pt/system.json';
 
 // Romanian
 import roCommon from './locales/ro/common.json';
@@ -182,6 +185,7 @@ import roAssociationRegistration from './locales/ro/associationRegistration.json
 import roDashboardHotelRegistration from './locales/ro/dashboard/hotel-registration.json';
 import roHotel from './locales/ro/hotel.json';
 import roUI from './locales/ro/ui.json';
+import roSystem from './locales/ro/system.json';
 
 const resources = {
   en: {
@@ -214,6 +218,7 @@ const resources = {
     associationRegistration: enAssociationRegistration,
     hotel: enHotel,
     ui: enUI,
+    system: enSystem,
     // Dashboard namespaces as separate resources
     'dashboard/general': enDashboardGeneral,
     'dashboard/welcome': enDashboardWelcome,
@@ -303,6 +308,7 @@ const resources = {
     associationRegistration: esAssociationRegistration,
     hotel: esHotel,
     ui: esUI,
+    system: esSystem,
     // Dashboard namespaces as separate resources
     'dashboard/general': esDashboardGeneral,
     'dashboard/hotel': esDashboardHotel,
@@ -353,6 +359,7 @@ const resources = {
     associationRegistration: ptAssociationRegistration,
     hotel: ptHotel,
     ui: ptUI,
+    system: ptSystem,
     // Dashboard namespaces as separate resources
     'dashboard/general': ptDashboardGeneral,
     'dashboard/common': ptDashboardCommon,
@@ -403,6 +410,7 @@ const resources = {
     associationRegistration: roAssociationRegistration,
     hotel: roHotel,
     ui: roUI,
+    system: roSystem,
     // Dashboard namespaces as separate resources
     'dashboard/general': roDashboardGeneral,
     'dashboard/common': roDashboardCommon,

@@ -14,11 +14,13 @@ import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut } from 'lucide-react';
+import { useTranslatedConsole } from '@/hooks/useTranslatedSystem';
 
 export const AssociationDashboard = () => {
   const { signOut, user, session, profile, isLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const consoleLog = useTranslatedConsole();
 
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -30,7 +32,7 @@ export const AssociationDashboard = () => {
     if (!isLoading) {
       // First check authentication
       if (!user || !session) {
-        console.log("No authenticated user detected in association dashboard, redirecting to association login");
+        consoleLog.log("userNotDetected", "in association dashboard, redirecting to association login");
         window.location.href = "/login/association";
         return;
       }

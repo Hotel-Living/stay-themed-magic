@@ -2,6 +2,7 @@
 import React from "react";
 import { formatCurrency } from "@/utils/dynamicPricing";
 import { parseRatesData } from "../utils/ratesParser";
+import { useTranslatedPricing } from "@/hooks/useTranslatedSystem";
 
 interface HotelCardPriceProps {
   rates?: Record<string, number>;
@@ -14,11 +15,12 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
   pricePerMonth,
   currency = "EUR"
 }) => {
+  const { formatPrice, priceOnRequest } = useTranslatedPricing();
   // Helper function to display rates in the desired format
   const displayRates = () => {
     if (!rates) {
       // If no rates defined, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)} per month` : "Price on request";
+      return pricePerMonth ? formatPrice(pricePerMonth, currency) : priceOnRequest();
     }
 
     const parsedRates = parseRatesData(rates);
@@ -27,7 +29,7 @@ export const HotelCardPrice: React.FC<HotelCardPriceProps> = ({
     
     if (availableRates.length === 0) {
       // If no rates defined in the new format, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)} per month` : "Price on request";
+      return pricePerMonth ? formatPrice(pricePerMonth, currency) : priceOnRequest();
     }
     
     // Start with the lowest stay length that has a rate

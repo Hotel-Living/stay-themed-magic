@@ -48,10 +48,12 @@ export default function Hotels() {
       
       <main className="flex-1 pt-8 relative z-10">
         <div className="container mx-auto px-4 py-3 flex flex-col items-center">
-          <HotelSlogans />
+          <div className="animate-fade-in">
+            <HotelSlogans />
+          </div>
           
           {/* Professional Study Offer - Centered between blocks */}
-          <div className="my-16 flex justify-center px-4">
+          <div className="my-16 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             {/* Blue glow wrapper for professional study */}
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -69,10 +71,12 @@ export default function Hotels() {
           </div>
           
           {/* New accordion menu */}
-          <HotelNewAccordionMenu />
+          <div className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
+            <HotelNewAccordionMenu />
+          </div>
           
-          <div className="w-full max-w-4xl mt-10">
-            <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10 bg-[#5f0276]">
+          <div className="w-full max-w-4xl mt-10 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
+            <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10 bg-[#5f0276] transition-all duration-300 hover:shadow-lg hover:shadow-fuchsia-500/20">
               {/* Blue glow wrapper for FAQ title */}
               <div className="relative group w-fit mx-auto mb-6">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -101,11 +105,15 @@ export default function Hotels() {
             </div>
           </div>
           
-          <HotelCards />
+          <div className="animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'both' }}>
+            <HotelCards />
+          </div>
           
-          <HotelFeatures />
+          <div className="animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'both' }}>
+            <HotelFeatures />
+          </div>
           
-          <div className="w-full max-w-2xl mt-16 mb-12">
+          <div className="w-full max-w-2xl mt-16 mb-12 animate-fade-in" style={{ animationDelay: '1.2s', animationFillMode: 'both' }}>
             <HotelVideoPlayer />
           </div>
         </div>

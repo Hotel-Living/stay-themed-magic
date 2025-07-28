@@ -16,24 +16,55 @@ import { useToast } from '@/hooks/use-toast';
 import { LogOut } from 'lucide-react';
 
 export const AssociationDashboard = () => {
-  const { signOut, user, session, isLoading } = useAuth();
+  const { signOut, user, session, profile, isLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  // Check if user is authenticated
+  // Check if user is authenticated AND has correct association role
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
     
-    // Only redirect if auth is complete and user is truly not authenticated
-    if (!isLoading && (!user || !session)) {
-      console.log("No authenticated user detected in association dashboard, redirecting to association login");
-      window.location.href = "/login/association";
+    // Only check if auth is complete
+    if (!isLoading) {
+      // First check authentication
+      if (!user || !session) {
+        console.log("No authenticated user detected in association dashboard, redirecting to association login");
+        window.location.href = "/login/association";
+        return;
+      }
+      
+      // Then check association role
+      if (profile && profile.role !== 'association') {
+        console.log("User does not have association role, redirecting based on role:", profile.role);
+        // Redirect to appropriate dashboard based on user's actual role
+        switch(profile.role) {
+          case 'user':
+            window.location.href = "/user-dashboard";
+            break;
+          case 'hotel':
+            if (profile.is_hotel_owner) {
+              window.location.href = "/hotel-dashboard";
+            } else {
+              window.location.href = "/user-dashboard";
+            }
+            break;
+          case 'promoter':
+            window.location.href = "/promoter/dashboard";
+            break;
+          case 'admin':
+            window.location.href = "/admin";
+            break;
+          default:
+            window.location.href = "/user-dashboard";
+        }
+        return;
+      }
     }
-  }, [user, session, isDevelopment, isLoading]);
+  }, [user, session, profile, isDevelopment, isLoading]);
 
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
@@ -51,6 +82,16 @@ export const AssociationDashboard = () => {
       });
     }
   };
+
+  // If not authenticated and not in development mode, don't render anything
+  if (!user && !session && !isDevelopment) {
+    return null;
+  }
+
+  // If authenticated but not an association (and not in dev mode), don't render
+  if (!isDevelopment && profile && profile.role !== 'association') {
+    return null;
+  }
 
   return (
     <div className="min-h-screen relative">

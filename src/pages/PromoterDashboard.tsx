@@ -8,24 +8,55 @@ import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
 
 export default function PromoterDashboard() {
-  const { signOut, user, session, isLoading } = useAuth();
+  const { signOut, user, session, profile, isLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  // Check if user is authenticated
+  // Check if user is authenticated AND has correct promoter role
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
     
-    // Only redirect if auth is complete and user is truly not authenticated
-    if (!isLoading && (!user || !session)) {
-      console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
-      window.location.href = "/login/promoter";
+    // Only check if auth is complete
+    if (!isLoading) {
+      // First check authentication
+      if (!user || !session) {
+        console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
+        window.location.href = "/login/promoter";
+        return;
+      }
+      
+      // Then check promoter role
+      if (profile && profile.role !== 'promoter') {
+        console.log("User does not have promoter role, redirecting based on role:", profile.role);
+        // Redirect to appropriate dashboard based on user's actual role
+        switch(profile.role) {
+          case 'user':
+            window.location.href = "/user-dashboard";
+            break;
+          case 'hotel':
+            if (profile.is_hotel_owner) {
+              window.location.href = "/hotel-dashboard";
+            } else {
+              window.location.href = "/user-dashboard";
+            }
+            break;
+          case 'association':
+            window.location.href = "/panel-asociacion";
+            break;
+          case 'admin':
+            window.location.href = "/admin";
+            break;
+          default:
+            window.location.href = "/user-dashboard";
+        }
+        return;
+      }
     }
-  }, [user, session, isDevelopment, isLoading]);
+  }, [user, session, profile, isDevelopment, isLoading]);
 
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
@@ -43,6 +74,16 @@ export default function PromoterDashboard() {
       });
     }
   };
+
+  // If not authenticated and not in development mode, don't render anything
+  if (!user && !session && !isDevelopment) {
+    return null;
+  }
+
+  // If authenticated but not a promoter (and not in dev mode), don't render
+  if (!isDevelopment && profile && profile.role !== 'promoter') {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

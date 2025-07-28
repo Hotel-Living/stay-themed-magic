@@ -72,7 +72,7 @@ const adminOnlyTabs: DashboardTab[] = [
 ];
 
 export default function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
-  const { signOut, user, session, isLoading } = useAuth();
+  const { signOut, user, session, profile, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,17 +81,48 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  // Check if user is authenticated
+  // Check if user is authenticated AND has correct admin role
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
     
-    // Only redirect if auth is complete and user is truly not authenticated
-    if (!isLoading && (!user || !session)) {
-      console.log("No authenticated user detected in admin dashboard layout, redirecting to admin login");
-      window.location.href = "/login/user";
+    // Only check if auth is complete
+    if (!isLoading) {
+      // First check authentication
+      if (!user || !session) {
+        console.log("No authenticated user detected in admin dashboard layout, redirecting to admin login");
+        window.location.href = "/login/user";
+        return;
+      }
+      
+      // Then check admin role using isAdmin hook result
+      if (!isAdmin && profile) {
+        console.log("User does not have admin role, redirecting based on role:", profile.role);
+        // Redirect to appropriate dashboard based on user's actual role
+        switch(profile.role) {
+          case 'user':
+            window.location.href = "/user-dashboard";
+            break;
+          case 'hotel':
+            if (profile.is_hotel_owner) {
+              window.location.href = "/hotel-dashboard";
+            } else {
+              window.location.href = "/user-dashboard";
+            }
+            break;
+          case 'association':
+            window.location.href = "/panel-asociacion";
+            break;
+          case 'promoter':
+            window.location.href = "/promoter/dashboard";
+            break;
+          default:
+            window.location.href = "/user-dashboard";
+        }
+        return;
+      }
     }
-  }, [user, session, isDevelopment, isLoading]);
+  }, [user, session, profile, isAdmin, isDevelopment, isLoading]);
 
   // Combine base tabs with admin-only tabs if user is admin
   const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
@@ -112,6 +143,16 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
       });
     }
   };
+
+  // If not authenticated and not in development mode, don't render anything
+  if (!user && !session && !isDevelopment) {
+    return null;
+  }
+
+  // If authenticated but not an admin (and not in dev mode), don't render
+  if (!isDevelopment && !isAdmin && profile) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

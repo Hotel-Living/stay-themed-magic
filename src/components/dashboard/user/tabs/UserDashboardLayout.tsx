@@ -1,6 +1,7 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/context/AuthContext";
 import DashboardContent from "./DashboardContent";
 import BookingsContent from "./BookingsContent";
 import SavedContent from "./SavedContent";
@@ -13,6 +14,64 @@ import GetThreeNightsContent from "./GetThreeNightsContent";
 import { NotificationsContent } from "./NotificationsContent";
 
 export const UserDashboardLayout = () => {
+  const { user, session, profile, isLoading } = useAuth();
+  
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // Check if user is authenticated AND has correct user role
+  useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
+    // Only check if auth is complete
+    if (!isLoading) {
+      // First check authentication
+      if (!user || !session) {
+        console.log("No authenticated user detected in user dashboard layout, redirecting to user login");
+        window.location.href = "/login/user";
+        return;
+      }
+      
+      // Then check user role
+      if (profile && profile.role !== 'user') {
+        console.log("User does not have user role, redirecting based on role:", profile.role);
+        // Redirect to appropriate dashboard based on user's actual role
+        switch(profile.role) {
+          case 'hotel':
+            if (profile.is_hotel_owner) {
+              window.location.href = "/hotel-dashboard";
+            } else {
+              window.location.href = "/user-dashboard";
+            }
+            break;
+          case 'association':
+            window.location.href = "/panel-asociacion";
+            break;
+          case 'promoter':
+            window.location.href = "/promoter/dashboard";
+            break;
+          case 'admin':
+            window.location.href = "/admin";
+            break;
+          default:
+            console.log("Unknown role, staying in user dashboard");
+        }
+        return;
+      }
+    }
+  }, [user, session, profile, isDevelopment, isLoading]);
+
+  // If not authenticated and not in development mode, don't render anything
+  if (!user && !session && !isDevelopment) {
+    return null;
+  }
+
+  // If authenticated but not a user (and not in dev mode), don't render
+  if (!isDevelopment && profile && profile.role !== 'user') {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#2D1B69] pt-20">
       <div className="container mx-auto px-4 py-8">

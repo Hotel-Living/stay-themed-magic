@@ -141,27 +141,45 @@ export const NewHotelRegistrationForm = () => {
     contactPhone: data.phone,
     category: data.classification,
     stayLengths: data.stayLengths.map(length => parseInt(length)),
-    mealPlans: [data.mealPlan],
-    roomTypes: [{ description: data.roomDescription }],
-    themes: data.clientAffinities,
-    activities: data.activities,
+    mealPlans: [data.mealPlan].filter(Boolean),
+    roomTypes: [{ description: data.roomDescription }].filter(rt => rt.description),
+    themes: data.clientAffinities || [], // FIX: Use only clientAffinities for themes
+    activities: data.activities || [], // FIX: Ensure array fallback
     faqs: [],
     terms: '',
     termsAccepted: data.termsAccepted,
-    hotelImages: [...data.photos.hotel, ...data.photos.room],
-    mainImageUrl: data.photos.hotel[0]?.url || '',
+    // FIX: Properly format images with correct structure
+    hotelImages: [
+      ...(data.photos?.hotel || []).map(img => ({
+        url: img.url || img,
+        isMain: img.isMain || false,
+        name: img.name || 'hotel-image'
+      })),
+      ...(data.photos?.room || []).map(img => ({
+        url: img.url || img,
+        isMain: false,
+        name: img.name || 'room-image'
+      }))
+    ],
+    mainImageUrl: data.photos?.hotel?.[0]?.url || data.photos?.hotel?.[0] || '',
     preferredWeekday: data.checkInDay,
     featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
     featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-    available_months: [],
+    // FIX: Process availability packages for months
+    available_months: data.availabilityPackages?.map(pkg => {
+      const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
+      return month;
+    }) || [],
     rates: {},
     currency: 'USD',
     enablePriceIncrease: false,
     priceIncreaseCap: 20,
-    pricingMatrix: data.pricingMatrix,
+    pricingMatrix: data.pricingMatrix || [],
     checkinDay: data.checkInDay,
     stayDurations: data.stayLengths.map(length => parseInt(length)),
-    affinities: data.clientAffinities
+    // FIX: Remove duplicate affinities field to avoid confusion
+    // FIX: Add availability packages data for processing
+    availabilityPackages: data.availabilityPackages || []
   });
 
   // Auto-save completely removed - no watching form values

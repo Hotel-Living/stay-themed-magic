@@ -47,6 +47,7 @@ export interface PropertyFormData {
   checkinDay?: string; // Added for check-in day selection in Step 3
   stayDurations?: number[]; // Alternative to stayLengths for consistency
   affinities?: string[]; // Alternative to themes for consistency
+  availabilityPackages?: any[]; // Added for availability packages from registration form
 }
 
 export const usePropertyFormData = () => {

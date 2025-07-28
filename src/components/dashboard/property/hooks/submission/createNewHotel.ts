@@ -280,13 +280,50 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
       console.log("Themes from form:", formData.themes);
       
       try {
-        const { handleThemesAndActivities } = useRelatedDataSubmission();
+        const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
         await handleThemesAndActivities(
           data.id, 
           formData.themes || [], 
           formData.activities || []
         );
         console.log("✅ Activities and themes processed successfully");
+
+        // FIX: Process availability packages into database
+        if (formData.availabilityPackages && formData.availabilityPackages.length > 0) {
+          console.log("=== PROCESSING AVAILABILITY PACKAGES ===");
+          console.log("Availability packages from form:", formData.availabilityPackages);
+          
+          try {
+            // Insert availability packages into database
+            const packageRows = formData.availabilityPackages.map(pkg => ({
+              hotel_id: data.id,
+              start_date: new Date(pkg.startDate).toISOString().split('T')[0],
+              end_date: new Date(pkg.endDate).toISOString().split('T')[0],
+              duration_days: pkg.duration,
+              total_rooms: pkg.availableRooms,
+              available_rooms: pkg.availableRooms
+            }));
+
+            const { error: packageError } = await supabase
+              .from('availability_packages')
+              .insert(packageRows);
+
+            if (packageError) {
+              console.error("Error inserting availability packages:", packageError);
+            } else {
+              console.log("✅ Availability packages processed successfully");
+            }
+          } catch (packageProcessingError) {
+            console.error("=== AVAILABILITY PACKAGE ERROR ===");
+            console.error("Failed to process availability packages:", packageProcessingError);
+            // Don't throw - allow hotel creation to succeed
+          }
+        }
+
+        // Also handle available months for general availability
+        await handleAvailability(data.id, formData.available_months || []);
+        console.log("✅ General availability processed successfully");
+
       } catch (relationshipError) {
         console.error("=== RELATIONSHIP DATA ERROR ===");
         console.error("Failed to process activities and themes for hotel:", data.id);

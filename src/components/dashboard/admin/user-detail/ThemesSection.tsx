@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslationWithFallback } from "@/hooks/useTranslationWithFallback";
 
 interface ThemesSectionProps {
   themes: any[];
@@ -16,6 +17,7 @@ interface ThemesSectionProps {
 
 export const ThemesSection = ({ themes, pagination }: ThemesSectionProps) => {
   const { page, totalThemes, hasMore, setPage, pageSize } = pagination;
+  const { tAriaLabel } = useTranslationWithFallback();
   
   const startIndex = (page - 1) * pageSize + 1;
   const endIndex = Math.min(page * pageSize, totalThemes);
@@ -48,7 +50,7 @@ export const ThemesSection = ({ themes, pagination }: ThemesSectionProps) => {
               disabled={page === 1}
             >
               <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Previous Page</span>
+              <span className="sr-only">{tAriaLabel('ui.navigation.previousPage')}</span>
             </Button>
             <Button
               variant="outline"
@@ -57,7 +59,7 @@ export const ThemesSection = ({ themes, pagination }: ThemesSectionProps) => {
               disabled={!hasMore}
             >
               <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Next Page</span>
+              <span className="sr-only">{tAriaLabel('ui.navigation.nextPage')}</span>
             </Button>
           </div>
         </div>

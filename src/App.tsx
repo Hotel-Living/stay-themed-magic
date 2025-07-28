@@ -44,6 +44,7 @@ import DemoHotelDetail from "@/pages/DemoHotelDetail";
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
+import PanelFernando from "@/pages/PanelFernando";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
 import FeaturedHotels from "@/pages/FeaturedHotels";
@@ -158,7 +159,7 @@ function MainAppRoutes() {
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/hotel-dashboard" element={<HotelDashboard />} />
             <Route path="/panel-hotel" element={<HotelDashboard />} />
-            <Route path="/panel-fernando" element={<Navigate to="/admin" replace />} />
+            <Route path="/panel-fernando/*" element={<PanelFernando />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/panel-admin" element={<Navigate to="/admin" replace />} />
             <Route path="/promoter/*" element={<PromoterDashboard />} />

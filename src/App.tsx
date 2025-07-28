@@ -44,6 +44,7 @@ import DemoHotelDetail from "@/pages/DemoHotelDetail";
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
+import AdminLogin from "@/pages/AdminLogin";
 import PanelFernando from "@/pages/PanelFernando";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
@@ -156,6 +157,7 @@ function MainAppRoutes() {
             <Route path="/ayuda" element={<Ayuda />} />
             <Route path="/preguntas-frecuentes" element={<FAQ />} />
             <Route path="/nosotros" element={<OurValues />} />
+            <Route path="/entrada-admin" element={<AdminLogin />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/hotel-dashboard" element={<HotelDashboard />} />
             <Route path="/panel-hotel" element={<HotelDashboard />} />

@@ -36,17 +36,44 @@ export default function DashboardLayout({
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  // Check if user is authenticated
+  // Check if user is authenticated AND has correct hotel role
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
     
-    // Only redirect if auth is complete and user is truly not authenticated
-    if (!isLoading && (!user || !session)) {
-      console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
-      window.location.href = "/login/hotel";
+    // Only check if auth is complete
+    if (!isLoading) {
+      // First check authentication
+      if (!user || !session) {
+        console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
+        window.location.href = "/login/hotel";
+        return;
+      }
+      
+      // Then check hotel role and ownership
+      if (profile && (profile.role !== 'hotel' || !profile.is_hotel_owner)) {
+        console.log("User does not have hotel role or is_hotel_owner flag, redirecting based on role:", profile.role);
+        // Redirect to appropriate dashboard based on user's actual role
+        switch(profile.role) {
+          case 'user':
+            window.location.href = "/user-dashboard";
+            break;
+          case 'association':
+            window.location.href = "/panel-asociacion";
+            break;
+          case 'promoter':
+            window.location.href = "/promoter/dashboard";
+            break;
+          case 'admin':
+            window.location.href = "/admin";
+            break;
+          default:
+            window.location.href = "/user-dashboard";
+        }
+        return;
+      }
     }
-  }, [user, session, isDevelopment, isLoading]);
+  }, [user, session, profile, isDevelopment, isLoading]);
 
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
@@ -77,6 +104,11 @@ export default function DashboardLayout({
 
   // If not authenticated and not in development mode, don't render anything
   if (!user && !session && !isDevelopment) {
+    return null;
+  }
+
+  // If authenticated but not a hotel owner (and not in dev mode), don't render
+  if (!isDevelopment && profile && (profile.role !== 'hotel' || !profile.is_hotel_owner)) {
     return null;
   }
   

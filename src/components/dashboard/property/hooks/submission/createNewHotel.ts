@@ -2,6 +2,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "../usePropertyFormData";
 import { UploadedImage } from "@/hooks/usePropertyImages";
+import { useRelatedDataSubmission } from "./useRelatedDataSubmission";
 
 // Helper function to convert base64/blob URLs to File objects for upload
 const processImagesForUpload = async (images: UploadedImage[]): Promise<Array<{ image: UploadedImage, file: File }>> => {
@@ -270,6 +271,29 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
       }
     } else {
       console.log("No images to process for hotel:", data?.id);
+    }
+
+    // Process activities and themes after hotel creation
+    if (data?.id) {
+      console.log("=== PROCESSING ACTIVITIES AND THEMES ===");
+      console.log("Activities from form:", formData.activities);
+      console.log("Themes from form:", formData.themes);
+      
+      try {
+        const { handleThemesAndActivities } = useRelatedDataSubmission();
+        await handleThemesAndActivities(
+          data.id, 
+          formData.themes || [], 
+          formData.activities || []
+        );
+        console.log("✅ Activities and themes processed successfully");
+      } catch (relationshipError) {
+        console.error("=== RELATIONSHIP DATA ERROR ===");
+        console.error("Failed to process activities and themes for hotel:", data.id);
+        console.error("Relationship error:", relationshipError);
+        // Don't throw - allow hotel creation to succeed even if relationships fail
+        console.warn("Hotel created successfully but activities/themes failed to save");
+      }
     }
 
     // Trigger automatic translations asynchronously (non-blocking)

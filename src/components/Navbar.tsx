@@ -89,6 +89,13 @@ export function Navbar() {
             </div>
           </Link>
           
+          <Link to="/demo/hotel-detail" className="text-white hover:text-white/80 transition-colors font-bold text-xs leading-tight">
+            <div className="text-center">
+              <div>✨ DEMO</div>
+              <div>Hotel Detail</div>
+            </div>
+          </Link>
+          
           
           {/* Authentication Buttons */}
           {user ? (

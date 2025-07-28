@@ -8,6 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
+import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
+import { ConnectionIndicator } from "@/components/ui/connection-indicator";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -112,6 +114,7 @@ export default function DashboardLayout({
   
   return (
     <div className="min-h-screen flex flex-col animate-fade-in">
+      <PageTransitionBar />
       <HotelStarfield />
       <Navbar />
       
@@ -169,6 +172,9 @@ export default function DashboardLayout({
           </div>
         </div>
       </main>
+      
+      {/* Connection Status Indicator */}
+      <ConnectionIndicator />
     </div>
   );
 }

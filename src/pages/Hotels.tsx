@@ -14,6 +14,8 @@ import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { useTranslation } from "@/hooks/useTranslation";
 import { HotelPageAvatar } from "@/components/avatars/HotelPageAvatar";
+import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
+import { ConnectionIndicator } from "@/components/ui/connection-indicator";
 const orderedCategoryIds = ["benefits", "models", "revenue", "guests", "seniors", "affinities", "operation", "integration", "marketing", "payment"];
 const HotelSignupButtons = ({
   isMobile
@@ -43,6 +45,7 @@ export default function Hotels() {
   const hotelFaqsByCategory = useHotelFaqsByCategory();
   const orderedFaqCategories = React.useMemo(() => orderedCategoryIds.map(id => hotelFaqCategories.find(cat => cat.id === id)).filter(Boolean) as typeof hotelFaqCategories, [hotelFaqCategories]);
   return <div className="min-h-screen flex flex-col relative overflow-hidden">
+      <PageTransitionBar />
       <HotelStarfield />
       <Navbar />
       
@@ -123,5 +126,8 @@ export default function Hotels() {
       
       {/* Martin avatar for hotel partners */}
       <HotelPageAvatar />
+      
+      {/* Connection Status Indicator */}
+      <ConnectionIndicator />
     </div>;
 }

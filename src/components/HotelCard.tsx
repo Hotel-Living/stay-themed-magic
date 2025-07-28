@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { HotelCardStars } from "./HotelCard/components/HotelCardStars";
 import { HotelCardPrice } from "./HotelCard/components/HotelCardPrice";
 import { Heart } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface Theme {
   id: string;
@@ -99,10 +100,12 @@ export const HotelCard = React.memo<HotelCardProps>(({
     >
       {/* Hotel Image */}
       <div className="relative h-48 overflow-hidden">
-        <img
+        <OptimizedImage
           src={image || "/placeholder.svg"}
           alt={name}
           className="w-full h-full object-cover"
+          fallbackSrc="/placeholder.svg"
+          lazy={true}
         />
         <button
           onClick={handleFavoriteClick}

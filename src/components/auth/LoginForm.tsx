@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
 import { DASHBOARD_ROUTES } from '@/constants/routes';
+import { useToastNotifications } from '@/hooks/useToastNotifications';
 
 interface LoginFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
@@ -21,6 +22,7 @@ export function LoginForm({ role }: LoginFormProps) {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { showSuccess, showError } = useToastNotifications();
   const { user } = useAuth();
 
   // Redirect if already logged in
@@ -83,10 +85,7 @@ export function LoginForm({ role }: LoginFormProps) {
       }
 
       if (data.user) {
-        toast({
-          title: "Login Successful!",
-          description: "Welcome back!"
-        });
+        showSuccess("Login Successful!", "Welcome back!");
         
         // Redirect based on role
         switch(role) {
@@ -107,11 +106,7 @@ export function LoginForm({ role }: LoginFormProps) {
         }
       }
     } catch (error: any) {
-      toast({
-        title: "Login Error",
-        description: error.message || "An unexpected error occurred during login",
-        variant: "destructive"
-      });
+      showError("Login Error", error.message || "An unexpected error occurred during login");
     } finally {
       setIsLoading(false);
     }

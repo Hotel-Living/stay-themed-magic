@@ -8,6 +8,8 @@ import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { createDefaultFilters } from "@/utils/filterUtils";
+import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
+import { ConnectionIndicator } from "@/components/ui/connection-indicator";
 
 export default function Search() {
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
@@ -190,6 +192,7 @@ export default function Search() {
 
   return (
     <div className="min-h-screen flex flex-col animate-fade-in">
+      <PageTransitionBar />
       <Starfield />
       <Navbar />
       
@@ -215,6 +218,9 @@ export default function Search() {
       </main>
       
       <Footer />
+      
+      {/* Connection Status Indicator */}
+      <ConnectionIndicator />
     </div>
   );
 }

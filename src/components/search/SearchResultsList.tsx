@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { CompareButton } from "@/components/comparison/CompareButton";
 import { SearchResultCard } from "./SearchResultCard";
 import { NoResultsView } from "./NoResultsView";
+import { SkeletonLoader } from "@/components/ui/skeleton-loader";
 
 interface Hotel {
   id: string;
@@ -60,8 +61,8 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <SkeletonLoader variant="card" count={6} />
       </div>
     );
   }

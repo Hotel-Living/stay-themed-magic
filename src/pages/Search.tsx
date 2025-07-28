@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SecondFilterSidebar } from "@/components/search/SecondFilterSidebar";
-import { SearchResults } from "@/components/search/SearchResults";
+import { SearchResultsEnhanced as SearchResults } from "@/components/search/SearchResultsEnhanced";
 import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";

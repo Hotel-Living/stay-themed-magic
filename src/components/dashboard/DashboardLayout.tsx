@@ -94,15 +94,26 @@ export default function DashboardLayout({
     
     try {
       console.log("Hotel dashboard logout button clicked");
-      await signOut();
-      console.log("Logout successful, user should be redirected");
+      
+      // Import enhanced logout for Edge compatibility
+      const { performEnhancedLogout } = await import('@/utils/browserCache');
+      await performEnhancedLogout(signOut);
+      
+      console.log("Enhanced logout completed");
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
       toast({
         title: "Error",
         description: "There was an error logging out. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
+      
+      // Fallback: try basic signOut
+      try {
+        await signOut();
+      } catch (fallbackError) {
+        console.error("Fallback logout also failed:", fallbackError);
+      }
     }
   };
 

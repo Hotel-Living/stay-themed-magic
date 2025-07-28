@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useEffect } from "react";
+import { enforceProductionSecurity } from "@/utils/dashboardSecurity";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -23,25 +24,30 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab
 }: UserDashboardLayoutProps) {
-  const { signOut, user, session, isLoading } = useAuth();
+  const { signOut, user, session, profile, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t, language } = useTranslation();
 
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Check if user is authenticated
+  // Check authentication and user dashboard access
   useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
+    const checkAccess = async () => {
+      // Only check if auth is complete
+      if (!isLoading) {
+        // First check authentication
+        if (!user || !session) {
+          console.log("No authenticated user detected in user dashboard layout, redirecting to user login");
+          window.location.href = "/login/user";
+          return;
+        }
+        
+        // Apply universal security safeguard for production
+        await enforceProductionSecurity(profile, 'user');
+      }
+    };
     
-    // Only redirect if auth is complete and user is truly not authenticated
-    if (!isLoading && (!user || !session)) {
-      console.log("No authenticated user detected in user dashboard layout, redirecting to user login");
-      window.location.href = "/login/user";
-    }
-  }, [user, session, isDevelopment, isLoading]);
+    checkAccess();
+  }, [user, session, profile, isLoading]);
   
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {

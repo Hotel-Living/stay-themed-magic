@@ -10,6 +10,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
+import { validateDashboardAccess, enforceProductionSecurity } from "@/utils/dashboardSecurity";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -35,45 +36,49 @@ export default function DashboardLayout({
   const navigate = useNavigate();
   const { t } = useTranslation("dashboard");
 
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Check if user is authenticated AND has correct hotel role
+  // Check authentication and hotel dashboard access
   useEffect(() => {
-    
-    // Only check if auth is complete
-    if (!isLoading) {
-      // First check authentication
-      if (!user || !session) {
-        console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
-        window.location.href = "/login/hotel";
-        return;
-      }
-      
-      // Then check hotel role and ownership
-      if (profile && (profile.role !== 'hotel' || !profile.is_hotel_owner)) {
-        console.log("User does not have hotel role or is_hotel_owner flag, redirecting based on role:", profile.role);
-        // Redirect to appropriate dashboard based on user's actual role
-        switch(profile.role) {
-          case 'user':
-            window.location.href = "/user-dashboard";
-            break;
-          case 'association':
-            window.location.href = "/panel-asociacion";
-            break;
-          case 'promoter':
-            window.location.href = "/promoter/dashboard";
-            break;
-          case 'admin':
-            window.location.href = "/admin";
-            break;
-          default:
-            window.location.href = "/user-dashboard";
+    const checkAccess = async () => {
+      // Only check if auth is complete
+      if (!isLoading) {
+        // First check authentication
+        if (!user || !session) {
+          console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
+          window.location.href = "/login/hotel";
+          return;
         }
-        return;
+        
+        // Apply universal security safeguard for production
+        await enforceProductionSecurity(profile, 'hotel');
+        
+        // Additional hotel-specific validation
+        const hasAccess = await validateDashboardAccess(profile, 'hotel');
+        if (!hasAccess && profile) {
+          console.log("User does not have hotel access, redirecting based on role:", profile.role);
+          // Redirect to appropriate dashboard based on user's actual role
+          switch(profile.role) {
+            case 'user':
+            case 'guest':
+              window.location.href = "/user-dashboard";
+              break;
+            case 'association':
+              window.location.href = "/panel-asociacion";
+              break;
+            case 'promoter':
+              window.location.href = "/promoter/dashboard";
+              break;
+            case 'admin':
+              window.location.href = "/admin";
+              break;
+            default:
+              window.location.href = "/user-dashboard";
+          }
+        }
       }
-    }
-  }, [user, session, profile, isDevelopment, isLoading]);
+    };
+    
+    checkAccess();
+  }, [user, session, profile, isLoading]);
 
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
@@ -102,13 +107,17 @@ export default function DashboardLayout({
     </div>;
   }
 
-  // If not authenticated and not in development mode, don't render anything
-  if (!user && !session && !isDevelopment) {
-    return null;
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
   }
 
-  // If authenticated but not a hotel owner (and not in dev mode), don't render
-  if (!isDevelopment && profile && (profile.role !== 'hotel' || !profile.is_hotel_owner)) {
+  // Don't render if not authenticated (security handled in useEffect)
+  if (!user || !session) {
     return null;
   }
   

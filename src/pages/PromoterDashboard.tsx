@@ -6,55 +6,61 @@ import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
+import { validateDashboardAccess, enforceProductionSecurity } from "@/utils/dashboardSecurity";
 
 export default function PromoterDashboard() {
   const { signOut, user, session, profile, isLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Check if user is authenticated AND has correct promoter role
+  // Check authentication and promoter dashboard access
   useEffect(() => {
-    
-    // Only check if auth is complete
-    if (!isLoading) {
-      // First check authentication
-      if (!user || !session) {
-        console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
-        navigate("/login/promoter");
-        return;
-      }
-      
-      // Then check promoter role
-      if (profile && profile.role !== 'promoter') {
-        console.log("User does not have promoter role, redirecting based on role:", profile.role);
-        // Redirect to appropriate dashboard based on user's actual role
-        switch(profile.role) {
-          case 'user':
-            navigate("/user-dashboard");
-            break;
-          case 'hotel':
-            if (profile.is_hotel_owner) {
-              navigate("/hotel-dashboard");
-            } else {
-              navigate("/user-dashboard");
-            }
-            break;
-          case 'association':
-            navigate("/panel-asociacion");
-            break;
-          case 'admin':
-            navigate("/admin");
-            break;
-          default:
-            navigate("/user-dashboard");
+    const checkAccess = async () => {
+      // Only check if auth is complete
+      if (!isLoading) {
+        // First check authentication
+        if (!user || !session) {
+          console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
+          navigate("/login/promoter");
+          return;
         }
-        return;
+        
+        // Apply universal security safeguard for production
+        await enforceProductionSecurity(profile, 'promoter');
+        
+        // Additional promoter-specific validation
+        const hasAccess = await validateDashboardAccess(profile, 'promoter');
+        if (!hasAccess && profile) {
+          console.log("User does not have promoter access, redirecting based on role:", profile.role);
+          // Redirect to appropriate dashboard based on user's actual role
+          switch(profile.role) {
+            case 'user':
+            case 'guest':
+              navigate("/user-dashboard");
+              break;
+            case 'hotel':
+            case 'hotel_owner':
+              if (profile.is_hotel_owner) {
+                navigate("/hotel-dashboard");
+              } else {
+                navigate("/user-dashboard");
+              }
+              break;
+            case 'association':
+              navigate("/panel-asociacion");
+              break;
+            case 'admin':
+              navigate("/admin");
+              break;
+            default:
+              navigate("/user-dashboard");
+          }
+        }
       }
-    }
-  }, [user, session, profile, isDevelopment, isLoading]);
+    };
+    
+    checkAccess();
+  }, [user, session, profile, isLoading]);
 
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
@@ -73,13 +79,17 @@ export default function PromoterDashboard() {
     }
   };
 
-  // If not authenticated and not in development mode, don't render anything
-  if (!user && !session && !isDevelopment) {
-    return null;
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
   }
 
-  // If authenticated but not a promoter (and not in dev mode), don't render
-  if (!isDevelopment && profile && profile.role !== 'promoter') {
+  // Don't render if not authenticated (security handled in useEffect)
+  if (!user || !session) {
     return null;
   }
 

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { validateDashboardAccess, enforceProductionSecurity } from "@/utils/dashboardSecurity";
 
 interface AdminDashboardLayoutProps {
   children: ReactNode;
@@ -78,51 +79,54 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   const location = useLocation();
   const isAdmin = useIsAdmin();
 
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Check if user is authenticated AND has correct admin role
+  // Check authentication and admin dashboard access
   useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
-    
-    // Only check if auth is complete
-    if (!isLoading) {
-      // First check authentication
-      if (!user || !session) {
-        console.log("No authenticated user detected in admin dashboard layout, redirecting to admin login");
-        window.location.href = "/login/user";
-        return;
-      }
-      
-      // Then check admin role using isAdmin hook result
-      if (!isAdmin && profile) {
-        console.log("User does not have admin role, redirecting based on role:", profile.role);
-        // Redirect to appropriate dashboard based on user's actual role
-        switch(profile.role) {
-          case 'user':
-            window.location.href = "/user-dashboard";
-            break;
-          case 'hotel':
-            if (profile.is_hotel_owner) {
-              window.location.href = "/hotel-dashboard";
-            } else {
-              window.location.href = "/user-dashboard";
-            }
-            break;
-          case 'association':
-            window.location.href = "/panel-asociacion";
-            break;
-          case 'promoter':
-            window.location.href = "/promoter/dashboard";
-            break;
-          default:
-            window.location.href = "/user-dashboard";
+    const checkAccess = async () => {
+      // Only check if auth is complete
+      if (!isLoading) {
+        // First check authentication
+        if (!user || !session) {
+          console.log("No authenticated user detected in admin dashboard layout, redirecting to login");
+          window.location.href = "/login/user";
+          return;
         }
-        return;
+        
+        // Apply universal security safeguard for production
+        await enforceProductionSecurity(profile, 'admin');
+        
+        // Additional admin-specific validation using isAdmin hook
+        const hasAccess = await validateDashboardAccess(profile, 'admin');
+        if (!hasAccess && !isAdmin && profile) {
+          console.log("User does not have admin access, redirecting based on role:", profile.role);
+          // Redirect to appropriate dashboard based on user's actual role
+          switch(profile.role) {
+            case 'user':
+            case 'guest':
+              window.location.href = "/user-dashboard";
+              break;
+            case 'hotel':
+            case 'hotel_owner':
+              if (profile.is_hotel_owner) {
+                window.location.href = "/hotel-dashboard";
+              } else {
+                window.location.href = "/user-dashboard";
+              }
+              break;
+            case 'association':
+              window.location.href = "/panel-asociacion";
+              break;
+            case 'promoter':
+              window.location.href = "/promoter/dashboard";
+              break;
+            default:
+              window.location.href = "/user-dashboard";
+          }
+        }
       }
-    }
-  }, [user, session, profile, isAdmin, isDevelopment, isLoading]);
+    };
+    
+    checkAccess();
+  }, [user, session, profile, isAdmin, isLoading]);
 
   // Combine base tabs with admin-only tabs if user is admin
   const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
@@ -144,13 +148,17 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
     }
   };
 
-  // If not authenticated and not in development mode, don't render anything
-  if (!user && !session && !isDevelopment) {
-    return null;
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
   }
 
-  // If authenticated but not an admin (and not in dev mode), don't render
-  if (!isDevelopment && !isAdmin && profile) {
+  // Don't render if not authenticated (security handled in useEffect)
+  if (!user || !session) {
     return null;
   }
 

@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut } from 'lucide-react';
 import { useTranslatedConsole } from '@/hooks/useTranslatedSystem';
+import { validateDashboardAccess, enforceProductionSecurity } from '@/utils/dashboardSecurity';
 
 export const AssociationDashboard = () => {
   const { signOut, user, session, profile, isLoading } = useAuth();
@@ -22,49 +23,54 @@ export const AssociationDashboard = () => {
   const { toast } = useToast();
   const consoleLog = useTranslatedConsole();
 
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Check if user is authenticated AND has correct association role
+  // Check authentication and association dashboard access
   useEffect(() => {
-    
-    // Only check if auth is complete
-    if (!isLoading) {
-      // First check authentication
-      if (!user || !session) {
-        consoleLog.log("userNotDetected", "in association dashboard, redirecting to association login");
-        window.location.href = "/login/association";
-        return;
-      }
-      
-      // Then check association role
-      if (profile && profile.role !== 'association') {
-        console.log("User does not have association role, redirecting based on role:", profile.role);
-        // Redirect to appropriate dashboard based on user's actual role
-        switch(profile.role) {
-          case 'user':
-            window.location.href = "/user-dashboard";
-            break;
-          case 'hotel':
-            if (profile.is_hotel_owner) {
-              window.location.href = "/hotel-dashboard";
-            } else {
-              window.location.href = "/user-dashboard";
-            }
-            break;
-          case 'promoter':
-            window.location.href = "/promoter/dashboard";
-            break;
-          case 'admin':
-            window.location.href = "/admin";
-            break;
-          default:
-            window.location.href = "/user-dashboard";
+    const checkAccess = async () => {
+      // Only check if auth is complete
+      if (!isLoading) {
+        // First check authentication
+        if (!user || !session) {
+          consoleLog.log("userNotDetected", "in association dashboard, redirecting to association login");
+          window.location.href = "/login/association";
+          return;
         }
-        return;
+        
+        // Apply universal security safeguard for production
+        await enforceProductionSecurity(profile, 'association');
+        
+        // Additional association-specific validation
+        const hasAccess = await validateDashboardAccess(profile, 'association');
+        if (!hasAccess && profile) {
+          console.log("User does not have association access, redirecting based on role:", profile.role);
+          // Redirect to appropriate dashboard based on user's actual role
+          switch(profile.role) {
+            case 'user':
+            case 'guest':
+              window.location.href = "/user-dashboard";
+              break;
+            case 'hotel':
+            case 'hotel_owner':
+              if (profile.is_hotel_owner) {
+                window.location.href = "/hotel-dashboard";
+              } else {
+                window.location.href = "/user-dashboard";
+              }
+              break;
+            case 'promoter':
+              window.location.href = "/promoter/dashboard";
+              break;
+            case 'admin':
+              window.location.href = "/admin";
+              break;
+            default:
+              window.location.href = "/user-dashboard";
+          }
+        }
       }
-    }
-  }, [user, session, profile, isDevelopment, isLoading]);
+    };
+    
+    checkAccess();
+  }, [user, session, profile, isLoading]);
 
   // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
@@ -83,13 +89,17 @@ export const AssociationDashboard = () => {
     }
   };
 
-  // If not authenticated and not in development mode, don't render anything
-  if (!user && !session && !isDevelopment) {
-    return null;
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
   }
 
-  // If authenticated but not an association (and not in dev mode), don't render
-  if (!isDevelopment && profile && profile.role !== 'association') {
+  // Don't render if not authenticated (security handled in useEffect)
+  if (!user || !session) {
     return null;
   }
 

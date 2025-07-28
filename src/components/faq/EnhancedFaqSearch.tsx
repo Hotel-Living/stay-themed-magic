@@ -33,15 +33,17 @@ export function EnhancedFaqSearch({
     if (validation.success) {
       setSearchQuery(validation.data);
       setValidationErrors([]);
-    } else {
-      // TypeScript now knows this is the error case
-      setValidationErrors(validation.errors);
-      if (onValidationError) {
-        onValidationError(validation.errors);
-      }
-      // Still allow the search but with sanitized input
-      setSearchQuery(sanitizedQuery);
+      return;
     }
+    
+    // Handle validation failure - we know it's the error case after the early return
+    const errorResult = validation as { success: false; errors: string[] };
+    setValidationErrors(errorResult.errors);
+    if (onValidationError) {
+      onValidationError(errorResult.errors);
+    }
+    // Still allow the search but with sanitized input
+    setSearchQuery(sanitizedQuery);
   });
   
   useEffect(() => {

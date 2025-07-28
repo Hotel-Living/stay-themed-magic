@@ -7,7 +7,16 @@ export default function SigningPersonal() {
   const [message, setMessage] = useState("");
 
   const handleSignup = async () => {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          role: "usuario"
+        }
+      }
+    });
+
     if (error) setMessage("❌ Error: " + error.message);
     else setMessage("✅ Verifica tu correo para continuar.");
   };
@@ -18,6 +27,7 @@ export default function SigningPersonal() {
     else {
       const { data } = await supabase.auth.getUser();
       const userEmail = data?.user?.email || "";
+
       // Redirección personalizada según rol
       if (userEmail.includes("hotel")) window.location.href = "/panel/hotel";
       else if (userEmail.includes("asociacion")) window.location.href = "/panel/asociacion";

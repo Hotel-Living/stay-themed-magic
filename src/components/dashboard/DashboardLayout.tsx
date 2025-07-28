@@ -10,7 +10,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
-import { validateDashboardAccess, enforceProductionSecurity } from "@/utils/dashboardSecurity";
+import { validateDashboardAccess, getRedirectUrlForRole } from "@/utils/dashboardSecurity";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -49,40 +49,24 @@ export default function DashboardLayout({
         
         console.log("Running security checks for hotel dashboard with profile:", profile);
         
-        // Apply universal security safeguard for production
-        await enforceProductionSecurity(profile, 'hotel');
-        
-        // Additional hotel-specific validation
+        // Single security validation check - avoid duplicate calls
         const hasAccess = await validateDashboardAccess(profile, 'hotel');
         if (!hasAccess) {
           console.log("User does not have hotel access, redirecting based on role:", profile.role);
-          // Redirect to appropriate dashboard based on user's actual role
-          switch(profile.role) {
-            case 'user':
-            case 'guest':
-              window.location.href = "/user-dashboard";
-              break;
-            case 'association':
-              window.location.href = "/panel-asociacion";
-              break;
-            case 'promoter':
-              window.location.href = "/promoter/dashboard";
-              break;
-            case 'admin':
-              window.location.href = "/admin";
-              break;
-            default:
-              window.location.href = "/user-dashboard";
-          }
+          
+          // Use navigate instead of window.location.href to prevent loops
+          const redirectUrl = getRedirectUrlForRole(profile);
+          console.log("Redirecting to:", redirectUrl);
+          navigate(redirectUrl, { replace: true });
         }
       } else if (!isLoading && (!user || !session)) {
-        console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
-        window.location.href = "/login/hotel";
+        console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
+        navigate("/login/hotel", { replace: true });
       }
     };
     
     checkAccess();
-  }, [user, session, profile, isLoading]);
+  }, [user, session, profile, isLoading, navigate]);
 
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';

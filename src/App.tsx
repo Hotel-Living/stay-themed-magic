@@ -7,7 +7,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AccessibilityProvider } from "@/components/accessibility/AccessibilityProvider";
 import { MonitoringProvider } from "@/components/monitoring/MonitoringProvider";
 import { ConnectionBanner } from "@/components/ui/connection-banner";
+import { BackToTopButton } from "@/components/ui/back-to-top";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
+import { useBatchScrollReveal } from "@/hooks/useScrollReveal";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -97,6 +99,9 @@ function MainAppRoutes() {
   // Initialize smooth scroll behavior
   useSmoothScroll();
   
+  // Initialize batch scroll reveal animations
+  useBatchScrollReveal();
+  
   return (
     <MonitoringProvider>
         <AccessibilityProvider>
@@ -178,6 +183,9 @@ function MainAppRoutes() {
           
           {/* Global Video Testimonials - appears on all pages except homepage */}
           <GlobalTestimonials />
+          
+          {/* Global UI Enhancements */}
+          <BackToTopButton />
             </AuthProvider>
           </AvatarManagerProvider>
         </VideoTestimonialProvider>

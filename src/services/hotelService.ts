@@ -87,13 +87,13 @@ export const convertHotelToUIFormat = (hotel: any) => {
 
 export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
-    console.log('🔍 Applying filters:', filters);
+    console.log('🔍 fetchHotelsWithFilters: Applying filters:', filters);
     const startTime = Date.now();
 
     // Get filter mappings for consistent hotel matching
-    console.log('📡 Fetching filter mappings...');
+    console.log('📡 fetchHotelsWithFilters: Fetching filter mappings...');
     const filterMappings = await getFilterMappings();
-    console.log(`🔗 Filter mappings loaded in ${Date.now() - startTime}ms`);
+    console.log(`🔗 fetchHotelsWithFilters: Filter mappings loaded in ${Date.now() - startTime}ms`);
 
     // COMPREHENSIVE COUNTRY MAPPING - Based on actual database values found via query
     const countryCodeToValues: Record<string, string[]> = {

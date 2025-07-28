@@ -108,6 +108,9 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   }, [hotels, sortOrder]);
 
   console.log("🔍 SearchResults component - received hotels:", hotels?.length || 0);
+  console.log("🔍 SearchResults - hotels data:", hotels);
+  console.log("🔍 SearchResults - loading:", loading);
+  console.log("🔍 SearchResults - error:", error);
 
   if (loading) {
     console.log("⏳ SearchResults - showing enhanced loading state");
@@ -138,6 +141,9 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
 
   if (!hotels || hotels.length === 0) {
     console.warn("⚠️ SearchResults - no hotels to display");
+    console.log("⚠️ SearchResults - hotels array:", hotels);
+    console.log("⚠️ SearchResults - is hotels null/undefined?", hotels === null || hotels === undefined);
+    console.log("⚠️ SearchResults - hotels.length:", hotels?.length);
     
     // Get smart fallback suggestions
     const urlParams = new URLSearchParams(window.location.search);
@@ -198,7 +204,10 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
 
       {/* Enhanced grid with staggered animations */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-        {sortedHotels.map((hotel, index) => {
+        {(() => {
+          console.log("🎯 About to render hotels, sortedHotels:", sortedHotels);
+          console.log("🎯 sortedHotels.length:", sortedHotels.length);
+          return sortedHotels.map((hotel, index) => {
           // Extract city and country from location if they don't exist separately
           const locationParts = hotel.location?.split(', ') || [];
           const city = hotel.city || locationParts[0] || '';
@@ -258,7 +267,8 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
               </div>
             </div>
           );
-        })}
+        });
+        })()}
       </div>
 
       {/* Floating action hint */}

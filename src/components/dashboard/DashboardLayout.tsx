@@ -39,21 +39,22 @@ export default function DashboardLayout({
   // Check authentication and hotel dashboard access
   useEffect(() => {
     const checkAccess = async () => {
-      // Only check if auth is complete
-      if (!isLoading) {
-        // First check authentication
-        if (!user || !session) {
-          console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
-          window.location.href = "/login/hotel";
+      // Only check if auth is complete and we have profile data
+      if (!isLoading && user && session) {
+        // Wait for profile data to be loaded before running security checks
+        if (profile === null) {
+          console.log("Profile data not yet loaded, waiting...");
           return;
         }
+        
+        console.log("Running security checks for hotel dashboard with profile:", profile);
         
         // Apply universal security safeguard for production
         await enforceProductionSecurity(profile, 'hotel');
         
         // Additional hotel-specific validation
         const hasAccess = await validateDashboardAccess(profile, 'hotel');
-        if (!hasAccess && profile) {
+        if (!hasAccess) {
           console.log("User does not have hotel access, redirecting based on role:", profile.role);
           // Redirect to appropriate dashboard based on user's actual role
           switch(profile.role) {
@@ -74,6 +75,9 @@ export default function DashboardLayout({
               window.location.href = "/user-dashboard";
           }
         }
+      } else if (!isLoading && (!user || !session)) {
+        console.log("No authenticated user detected in hotel dashboard layout, redirecting to hotel login");
+        window.location.href = "/login/hotel";
       }
     };
     
@@ -84,12 +88,14 @@ export default function DashboardLayout({
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
   
   // Handle logout using centralized method from AuthContext
-  const handleLogout = async () => {
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     try {
       console.log("Hotel dashboard logout button clicked");
       await signOut();
       console.log("Logout successful, user should be redirected");
-      navigate('/');
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
       toast({
@@ -148,7 +154,11 @@ export default function DashboardLayout({
                       <div className="h-px bg-white/20 my-2"></div>
                     </div>
                     
-                    <button onClick={handleLogout} className="w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-all duration-300 text-left hover:scale-105">
+                    <button 
+                      onClick={handleLogout} 
+                      type="button"
+                      className="w-full flex items-center justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-all duration-300 text-left hover:scale-105"
+                    >
                       <LogOut className="w-5 h-5" />
                       <span className="text-left">{t('general.logOut')}</span>
                     </button>

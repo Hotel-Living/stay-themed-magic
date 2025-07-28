@@ -40,7 +40,7 @@ export default function Press() {
                   <div className="space-y-4">
                     {(t('headlines.items', {
                     returnObjects: true
-                  }) as string[]).map((headline, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-l-4 border-fuchsia-400">
+                  }) as string[]).map((headline, index) => <div key={`headline-${index}`} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-l-4 border-fuchsia-400">
                         <p className="text-lg text-white/90 leading-relaxed">
                           "{headline}"
                         </p>
@@ -56,7 +56,7 @@ export default function Press() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {(t('keyFigures.items', {
                     returnObjects: true
-                  }) as string[]).map((figure, index) => <div key={index} className="bg-gradient-to-br from-fuchsia-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 text-center border border-white/10">
+                  }) as string[]).map((figure, index) => <div key={`figure-${index}`} className="bg-gradient-to-br from-fuchsia-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 text-center border border-white/10">
                         <p className="text-white font-semibold text-lg leading-relaxed">
                           {figure}
                         </p>
@@ -72,14 +72,14 @@ export default function Press() {
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
                     {(t('brands.major', {
                     returnObjects: true
-                  }) as string[]).map((brand, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                  }) as string[]).map((brand, index) => <div key={`brand1-${index}`} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
                         <p className="text-white font-semibold text-sm">{brand}</p>
                       </div>)}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {(t('brands.specialized', {
                     returnObjects: true
-                  }) as string[]).map((brand, index) => <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                  }) as string[]).map((brand, index) => <div key={`brand2-${index}`} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
                         <p className="text-white font-semibold text-sm">{brand}</p>
                       </div>)}
                   </div>
@@ -96,7 +96,7 @@ export default function Press() {
                   }) as Array<{
                     media: string;
                     link: string;
-                  }>).map((item, index) => <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-fuchsia-400/50 group">
+                  }>).map((item, index) => <a key={`press-item-${index}`} href={item.link} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-fuchsia-400/50 group">
                         <div className="flex items-center justify-center space-x-2">
                           <p className="text-white font-semibold text-lg">{item.media}</p>
                           <ExternalLink className="w-4 h-4 text-white/70 group-hover:text-fuchsia-400 transition-colors" />

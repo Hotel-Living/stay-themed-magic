@@ -66,7 +66,7 @@ export function AffinityAccordionMenuES() {
     <div className="w-full max-w-4xl mx-auto">
       <Accordion type="multiple" className="w-full space-y-4">
         {faqItems.map((item, index) => (
-          <AccordionItem key={index} value={`item-${index}`} className="border border-fuchsia-400/30 rounded-lg overflow-hidden bg-[#5C0869]/80 backdrop-blur-sm">
+          <AccordionItem key={`affinity-item-${index}`} value={`item-${index}`} className="border border-fuchsia-400/30 rounded-lg overflow-hidden bg-[#5C0869]/80 backdrop-blur-sm">
             <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#5C0869] to-[#4A0557] hover:from-[#6A037C] hover:to-[#550664] transition-all duration-300">
               <span className="text-[#FFF9B0] font-semibold text-lg">{item.question}</span>
             </AccordionTrigger>

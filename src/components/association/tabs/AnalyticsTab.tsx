@@ -129,7 +129,7 @@ export const AnalyticsTab = () => {
                   dataKey="reservas"
                 >
                   {hotelPerformance.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell key={`chart-cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip 
@@ -144,7 +144,7 @@ export const AnalyticsTab = () => {
             </ResponsiveContainer>
             <div className="mt-4 space-y-2">
               {hotelPerformance.map((hotel, index) => (
-                <div key={index} className="flex items-center justify-between text-sm">
+                <div key={`legend-${index}`} className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-3 h-3 rounded-full" 

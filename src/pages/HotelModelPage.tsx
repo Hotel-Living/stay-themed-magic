@@ -120,7 +120,7 @@ export default function HotelModelPage() {
               <img src={placeholderImages[currentImageIndex]} alt={`${sampleHotel.name} - Image ${currentImageIndex + 1}`} className="w-full h-full object-cover" />
               {/* Navigation dots positioned absolutely over the image */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                {placeholderImages.map((_, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
+                {placeholderImages.map((_, index) => <button key={`model-dot-${index}`} onClick={() => setCurrentImageIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex ? 'bg-purple-400' : 'bg-purple-700'}`} />)}
               </div>
             </div>
           </Card>
@@ -175,7 +175,7 @@ export default function HotelModelPage() {
           <div className="space-y-6">
             {/* Calendar visualization */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {availabilityPackages.map((pkg, index) => <div key={index} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
+              {availabilityPackages.map((pkg, index) => <div key={`model-pkg-${pkg.startDate}-${index}`} className={`p-4 rounded-lg cursor-pointer transition-all ${selectedPackage?.startDate === pkg.startDate ? 'bg-purple-600/50 border-2 border-purple-400' : 'bg-purple-800/30 border border-purple-600/50 hover:bg-purple-700/40'}`} onClick={() => handlePackageClick(pkg)}>
                   <div className="flex items-center space-x-2 mb-2">
                     <Calendar className="w-5 h-5 text-purple-300" />
                     <span className="text-white font-medium">{pkg.duration} days</span>

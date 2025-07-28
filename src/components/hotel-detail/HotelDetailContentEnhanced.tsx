@@ -60,28 +60,28 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   // Enhanced loading skeleton
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Main content skeleton */}
             <div className="lg:col-span-8 space-y-8">
               {[1, 2, 3].map(i => (
-                <div key={i} className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 animate-pulse">
-                  <div className="h-8 bg-white/10 rounded-lg w-3/4 mb-4"></div>
-                  <div className="h-64 bg-white/10 rounded-xl mb-6"></div>
+                <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 animate-pulse shadow-lg">
+                  <div className="h-8 bg-gray-200 rounded-lg w-3/4 mb-4"></div>
+                  <div className="h-64 bg-gray-200 rounded-xl mb-6"></div>
                   <div className="space-y-3">
-                    <div className="h-4 bg-white/10 rounded w-full"></div>
-                    <div className="h-4 bg-white/10 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
                   </div>
                 </div>
               ))}
             </div>
             {/* Sidebar skeleton */}
             <div className="lg:col-span-4">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 animate-pulse sticky top-8">
-                <div className="h-12 bg-white/10 rounded-lg mb-6"></div>
-                <div className="h-32 bg-white/10 rounded-lg mb-6"></div>
-                <div className="h-12 bg-white/10 rounded-lg"></div>
+              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 animate-pulse sticky top-8 shadow-lg">
+                <div className="h-12 bg-gray-200 rounded-lg mb-6"></div>
+                <div className="h-32 bg-gray-200 rounded-lg mb-6"></div>
+                <div className="h-12 bg-gray-200 rounded-lg"></div>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   `;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 relative overflow-x-hidden">
       {/* Hero Section */}
       <div className={`relative ${sectionClass(0)}`}>
         <div className="h-[70vh] relative overflow-hidden">
@@ -127,7 +127,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
               alt={hotel.name}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
           </div>
 
           {/* Navigation arrows */}
@@ -135,15 +135,15 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             <>
               <button 
                 onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/90 transition-all duration-300 z-10 shadow-lg"
               >
-                <ChevronLeft className="w-6 h-6 text-white" />
+                <ChevronLeft className="w-6 h-6 text-gray-800" />
               </button>
               <button 
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/90 transition-all duration-300 z-10 shadow-lg"
               >
-                <ChevronRight className="w-6 h-6 text-white" />
+                <ChevronRight className="w-6 h-6 text-gray-800" />
               </button>
             </>
           )}
@@ -169,23 +169,23 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
               <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-4">
-                    <h1 className="text-4xl lg:text-6xl font-bold text-white">
+                    <h1 className="text-4xl lg:text-6xl font-bold text-white drop-shadow-lg">
                       {hotel.name}
                     </h1>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="ghost" className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm">
+                      <Button size="sm" variant="ghost" className="bg-white/20 hover:bg-white/30 text-white border-white/20 backdrop-blur-sm shadow-lg">
                         <Heart className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="ghost" className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm">
+                      <Button size="sm" variant="ghost" className="bg-white/20 hover:bg-white/30 text-white border-white/20 backdrop-blur-sm shadow-lg">
                         <Share2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
                   
-                  <div className="flex flex-wrap items-center gap-4 text-white/90">
+                  <div className="flex flex-wrap items-center gap-4 text-white/95 drop-shadow-md">
                     <div className="flex items-center gap-1">
                       {Array.from({ length: hotel.category }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm" />
                       ))}
                     </div>
                     <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                     {hotel.hotel_themes?.map((theme, index) => (
                       <span 
                         key={index}
-                        className="px-3 py-1 bg-purple-600/30 backdrop-blur-sm text-purple-200 rounded-full text-sm border border-purple-400/30"
+                        className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm border border-white/30 shadow-sm"
                       >
                         {theme.themes.name}
                       </span>
@@ -208,11 +208,11 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                 </div>
 
                 <div className="text-right">
-                  <div className="text-4xl font-bold text-white flex items-center gap-2">
+                  <div className="text-4xl font-bold text-white flex items-center gap-2 drop-shadow-lg">
                     <Sparkles className="w-8 h-8 text-yellow-400" />
                     ${hotel.price_per_month.toLocaleString()}
                   </div>
-                  <div className="text-white/70 text-lg">per month</div>
+                  <div className="text-white/80 text-lg drop-shadow-md">per month</div>
                 </div>
               </div>
             </div>
@@ -227,70 +227,70 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           <div className="lg:col-span-8 space-y-8">
             
             {/* Description Section */}
-            <Card className={`bg-white/5 backdrop-blur-sm border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-all duration-500 ${sectionClass(1)}`}>
-              <h2 className="text-3xl font-bold text-white mb-6">About The Aurora Palace</h2>
-              <div className="prose prose-invert max-w-none">
-                <p className="text-lg text-gray-300 leading-relaxed mb-6">
+            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl hover:bg-white/90 transition-all duration-500 shadow-lg ${sectionClass(1)}`}>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">About The Aurora Palace</h2>
+              <div className="prose max-w-none">
+                <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   {hotel.description}
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-300">Perfect For</h3>
-                    <p className="text-gray-300">{hotel.ideal_guests}</p>
+                    <h3 className="text-xl font-semibold text-purple-700">Perfect For</h3>
+                    <p className="text-gray-600">{hotel.ideal_guests}</p>
                   </div>
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-300">Atmosphere</h3>
-                    <p className="text-gray-300">{hotel.atmosphere}</p>
+                    <h3 className="text-xl font-semibold text-purple-700">Atmosphere</h3>
+                    <p className="text-gray-600">{hotel.atmosphere}</p>
                   </div>
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-300">Location</h3>
-                    <p className="text-gray-300">{hotel.perfect_location}</p>
+                    <h3 className="text-xl font-semibold text-purple-700">Location</h3>
+                    <p className="text-gray-600">{hotel.perfect_location}</p>
                   </div>
                 </div>
               </div>
             </Card>
 
             {/* Availability Packages */}
-            <Card className={`bg-white/5 backdrop-blur-sm border-white/10 p-8 rounded-2xl ${sectionClass(2)}`}>
-              <h2 className="text-3xl font-bold text-white mb-8">Availability & Packages</h2>
+            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl shadow-lg ${sectionClass(2)}`}>
+              <h2 className="text-3xl font-bold text-gray-800 mb-8">Availability & Packages</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {availabilityPackages.map((pkg, index) => (
                   <div 
                     key={pkg.id}
                     className={`
-                      relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 group
+                      relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 group shadow-md
                       ${selectedPackage?.id === pkg.id 
-                        ? 'border-purple-400 bg-purple-600/20' 
-                        : 'border-white/20 bg-white/5 hover:border-purple-400/50 hover:bg-white/10'
+                        ? 'border-purple-500 bg-purple-50' 
+                        : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-25'
                       }
-                      ${pkg.popular ? 'ring-2 ring-yellow-400/50' : ''}
+                      ${pkg.popular ? 'ring-2 ring-yellow-400 shadow-lg' : ''}
                     `}
                     onClick={() => setSelectedPackage(selectedPackage?.id === pkg.id ? null : pkg)}
                   >
                     {pkg.popular && (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">
+                        <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
                           Most Popular
                         </span>
                       </div>
                     )}
                     
                     <div className="text-center space-y-4">
-                      <div className="text-2xl font-bold text-white">{pkg.duration}</div>
-                      <div className="text-gray-300">
+                      <div className="text-2xl font-bold text-gray-800">{pkg.duration}</div>
+                      <div className="text-gray-600">
                         {new Date(pkg.startDate).toLocaleDateString()} - {new Date(pkg.endDate).toLocaleDateString()}
                       </div>
-                      <div className="text-3xl font-bold text-purple-300">${pkg.price}</div>
-                      <div className="flex items-center justify-center gap-2 text-green-400">
+                      <div className="text-3xl font-bold text-purple-600">${pkg.price.toLocaleString()}</div>
+                      <div className="flex items-center justify-center gap-2 text-green-600">
                         <Users className="w-4 h-4" />
                         <span>{pkg.available} rooms left</span>
                       </div>
                       {selectedPackage?.id === pkg.id && (
-                        <div className="mt-4 p-3 bg-purple-600/30 rounded-lg">
-                          <CheckCircle className="w-6 h-6 text-green-400 mx-auto mb-2" />
-                          <p className="text-sm text-green-400">Package Selected</p>
+                        <div className="mt-4 p-3 bg-purple-100 rounded-lg border border-purple-200">
+                          <CheckCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                          <p className="text-sm text-green-600 font-semibold">Package Selected</p>
                         </div>
                       )}
                     </div>
@@ -299,31 +299,31 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
               </div>
 
               {selectedPackage && (
-                <div className="mt-8 p-6 bg-purple-600/20 rounded-xl border border-purple-400/30">
-                  <h3 className="text-xl font-semibold text-white mb-4">Package Details</h3>
+                <div className="mt-8 p-6 bg-purple-50 rounded-xl border border-purple-200 shadow-sm">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Package Details</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-gray-300">Duration:</span>
-                        <span className="text-white font-semibold">{selectedPackage.duration}</span>
+                        <span className="text-gray-600">Duration:</span>
+                        <span className="text-gray-800 font-semibold">{selectedPackage.duration}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-300">Check-in:</span>
-                        <span className="text-white font-semibold">{new Date(selectedPackage.startDate).toLocaleDateString()}</span>
+                        <span className="text-gray-600">Check-in:</span>
+                        <span className="text-gray-800 font-semibold">{new Date(selectedPackage.startDate).toLocaleDateString()}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-300">Check-out:</span>
-                        <span className="text-white font-semibold">{new Date(selectedPackage.endDate).toLocaleDateString()}</span>
+                        <span className="text-gray-600">Check-out:</span>
+                        <span className="text-gray-800 font-semibold">{new Date(selectedPackage.endDate).toLocaleDateString()}</span>
                       </div>
                     </div>
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-gray-300">Total Price:</span>
-                        <span className="text-white font-bold text-xl">${selectedPackage.price}</span>
+                        <span className="text-gray-600">Total Price:</span>
+                        <span className="text-gray-800 font-bold text-xl">${selectedPackage.price.toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-300">Availability:</span>
-                        <span className="text-green-400 font-semibold">{selectedPackage.available} rooms</span>
+                        <span className="text-gray-600">Availability:</span>
+                        <span className="text-green-600 font-semibold">{selectedPackage.available} rooms</span>
                       </div>
                     </div>
                   </div>
@@ -332,19 +332,19 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             </Card>
 
             {/* Features Grid */}
-            <Card className={`bg-white/5 backdrop-blur-sm border-white/10 p-8 rounded-2xl ${sectionClass(3)}`}>
-              <h2 className="text-3xl font-bold text-white mb-8">Amenities & Features</h2>
+            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl shadow-lg ${sectionClass(3)}`}>
+              <h2 className="text-3xl font-bold text-gray-800 mb-8">Amenities & Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-purple-300 mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2">
                     <Coffee className="w-5 h-5" />
                     Hotel Features
                   </h3>
                   <ul className="space-y-3">
                     {hotel.hotelFeatures?.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-3 text-gray-300">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <li key={index} className="flex items-center gap-3 text-gray-700">
+                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -352,14 +352,14 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-semibold text-purple-300 mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2">
                     <Wifi className="w-5 h-5" />
                     Room Features
                   </h3>
                   <ul className="space-y-3">
                     {hotel.roomFeatures?.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-3 text-gray-300">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <li key={index} className="flex items-center gap-3 text-gray-700">
+                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -371,20 +371,20 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
           {/* Right Column - Booking Sidebar */}
           <div className="lg:col-span-4">
-            <div className={`bg-white/5 backdrop-blur-sm border-white/10 rounded-2xl p-6 sticky top-8 ${sectionClass(4)}`}>
+            <div className={`bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-2xl p-6 sticky top-8 shadow-lg ${sectionClass(4)}`}>
               <div className="space-y-6">
                 
                 {/* Available Months */}
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-purple-400" />
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-purple-600" />
                     Available Months
                   </h3>
                   <div className="grid grid-cols-3 gap-2">
                     {hotel.available_months?.map((month, index) => (
                       <div 
                         key={index}
-                        className="bg-purple-600/30 text-purple-200 px-3 py-2 rounded-lg text-center text-sm border border-purple-400/30 hover:bg-purple-600/50 transition-colors cursor-pointer"
+                        className="bg-purple-100 text-purple-700 px-3 py-2 rounded-lg text-center text-sm border border-purple-200 hover:bg-purple-200 transition-colors cursor-pointer font-medium"
                       >
                         {month.slice(0, 3)}
                       </div>
@@ -397,10 +397,10 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                   onClick={handleBooking}
                   disabled={bookingStage === 'processing'}
                   className={`
-                    w-full h-14 text-lg font-semibold transition-all duration-300 relative overflow-hidden
+                    w-full h-14 text-lg font-semibold transition-all duration-300 relative overflow-hidden shadow-lg
                     ${bookingStage === 'success' 
-                      ? 'bg-green-600 hover:bg-green-700' 
-                      : 'bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700'
+                      ? 'bg-green-600 hover:bg-green-700 text-white' 
+                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white'
                     }
                     ${!selectedPackage ? 'opacity-50 cursor-not-allowed' : ''}
                   `}
@@ -426,27 +426,27 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
-                    <div className="text-2xl font-bold text-white flex items-center justify-center gap-1">
+                  <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200">
+                    <div className="text-2xl font-bold text-gray-800 flex items-center justify-center gap-1">
                       {Array.from({ length: hotel.category }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
                       ))}
                     </div>
-                    <div className="text-sm text-gray-400 mt-1">Hotel Rating</div>
+                    <div className="text-sm text-gray-600 mt-1">Hotel Rating</div>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-4 text-center border border-white/10">
-                    <div className="text-2xl font-bold text-white">
+                  <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200">
+                    <div className="text-2xl font-bold text-gray-800">
                       {hotel.average_rating?.toFixed(1) || "N/A"}
                     </div>
-                    <div className="text-sm text-gray-400 mt-1">Guest Reviews</div>
+                    <div className="text-sm text-gray-600 mt-1">Guest Reviews</div>
                   </div>
                 </div>
 
                 {/* Contact Info */}
-                <div className="bg-gradient-to-r from-purple-600/20 to-fuchsia-600/20 border border-purple-400/30 rounded-lg p-4">
-                  <h4 className="font-semibold text-white mb-2">Need Help?</h4>
-                  <p className="text-gray-300 text-sm mb-3">Our concierge team is available 24/7</p>
-                  <Button variant="outline" size="sm" className="w-full border-purple-400/30 text-purple-300 hover:bg-purple-600/20">
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">Need Help?</h4>
+                  <p className="text-gray-600 text-sm mb-3">Our concierge team is available 24/7</p>
+                  <Button variant="outline" size="sm" className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
                     Contact Concierge
                   </Button>
                 </div>

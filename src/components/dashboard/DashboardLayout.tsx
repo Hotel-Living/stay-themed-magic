@@ -68,6 +68,13 @@ export default function DashboardLayout({
     }
   };
 
+  // If still loading auth state, show loading or wait
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="text-white">Loading...</div>
+    </div>;
+  }
+
   // If not authenticated and not in development mode, don't render anything
   if (!user && !session && !isDevelopment) {
     return null;

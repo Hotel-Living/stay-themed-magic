@@ -93,10 +93,13 @@ export const HotelCard = React.memo<HotelCardProps>(({
     hotel_activities
   });
 
+  console.log("🏨 Hotel Card Rendering:", name, "with city:", city, "country:", country);
+
   return (
     <Card 
-      className="bg-gradient-to-b from-purple-800 to-purple-900 text-white cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col"
+      className="bg-gradient-to-b from-purple-800 to-purple-900 text-white cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col border-2 border-green-500"
       onClick={handleClick}
+      style={{ visibility: 'visible', display: 'flex' }}
     >
       {/* Hotel Image */}
       <div className="relative h-48 overflow-hidden">

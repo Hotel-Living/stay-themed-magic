@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AccessibilityProvider } from "@/components/accessibility/AccessibilityProvider";
+import { MonitoringProvider } from "@/components/monitoring/MonitoringProvider";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -90,9 +92,11 @@ function MainAppRoutes() {
   const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
   
   return (
-    <VideoTestimonialProvider>
-      <AvatarManagerProvider>
-        <AuthProvider>
+    <MonitoringProvider>
+      <AccessibilityProvider>
+        <VideoTestimonialProvider>
+          <AvatarManagerProvider>
+            <AuthProvider>
           <SEOMetadata />
           <ScrollToTop />
           <DashboardAccess />
@@ -102,8 +106,9 @@ function MainAppRoutes() {
             <IntroAnimation onComplete={handleIntroComplete} />
           )}
           
-          <Routes>
-            <Route path="/" element={<Home />} />
+          <main id="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hotel/:id" element={<HotelDetail />} />
             <Route path="/search" element={<Search />} />
@@ -158,16 +163,19 @@ function MainAppRoutes() {
             <Route path="/compare" element={<Compare />} />
             <Route path="/hotel-model" element={<HotelModelPage />} />
             <Route path="/signingPersonal" element={<SigningPersonal />} />
-          </Routes>
+            </Routes>
+          </main>
           
           {/* Global Avatar System - appears on all pages except homepage, why-hotel-living, and hotels */}
           <GlobalAvatarSystem />
           
           {/* Global Video Testimonials - appears on all pages except homepage */}
           <GlobalTestimonials />
-        </AuthProvider>
-      </AvatarManagerProvider>
-    </VideoTestimonialProvider>
+            </AuthProvider>
+          </AvatarManagerProvider>
+        </VideoTestimonialProvider>
+      </AccessibilityProvider>
+    </MonitoringProvider>
   );
 }
 
@@ -176,6 +184,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Router>
+          <nav id="main-navigation" className="sr-only">
+            <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 z-50 bg-background p-2 border border-border rounded">
+              Skip to main content
+            </a>
+          </nav>
           <Routes>
             {/* Authentication Routes - ISOLATED from global components but with AuthProvider for login functionality */}
             <Route path="/signup/user" element={<AuthProvider><SignupUser /></AuthProvider>} />

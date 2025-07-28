@@ -142,6 +142,7 @@ function MainAppRoutes() {
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/panel-admin" element={<Navigate to="/admin" replace />} />
             <Route path="/promoter/*" element={<PromoterDashboard />} />
+            <Route path="/promoter-dashboard" element={<Navigate to="/promoter/dashboard" replace />} />
             <Route path="/intro-test" element={<IntroTest />} />
             <Route path="/intro-test1" element={<IntroTest1 />} />
             <Route path="/intro-test2" element={<IntroTest2 />} />

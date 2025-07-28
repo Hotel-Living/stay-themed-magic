@@ -164,6 +164,18 @@
         "hotelNameRequired": "El nombre del hotel es requerido",
         "hotelsRequired": "Debe enviarse al menos un hotel"
       }
+    },
+    "tabs": {
+      "dashboard": "Tablero",
+      "experience": "Mi Experiencia",
+      "bookings": "Mis Reservas",
+      "history": "Historial de Estadías",
+      "saved": "Hoteles Guardados",
+      "payments": "Métodos de Pago",
+      "getThreeNights": "Recomendar un Hotel",
+      "profile": "Perfil",
+      "settings": "Configuración",
+      "notifications": "Alertas"
     }
   }
 }

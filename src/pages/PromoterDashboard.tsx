@@ -17,15 +17,18 @@ export default function PromoterDashboard() {
 
   // Check if user is authenticated AND has correct promoter role
   useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
+    // Log development mode but continue with auth checks
+    if (isDevelopment) {
+      console.log('Development mode: Skipping role validation for PromoterDashboard');
+      // Continue to auth checks instead of returning
+    }
     
     // Only check if auth is complete
     if (!isLoading) {
       // First check authentication
       if (!user || !session) {
         console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
-        window.location.href = "/login/promoter";
+        navigate("/login/promoter");
         return;
       }
       
@@ -35,23 +38,23 @@ export default function PromoterDashboard() {
         // Redirect to appropriate dashboard based on user's actual role
         switch(profile.role) {
           case 'user':
-            window.location.href = "/user-dashboard";
+            navigate("/user-dashboard");
             break;
           case 'hotel':
             if (profile.is_hotel_owner) {
-              window.location.href = "/hotel-dashboard";
+              navigate("/hotel-dashboard");
             } else {
-              window.location.href = "/user-dashboard";
+              navigate("/user-dashboard");
             }
             break;
           case 'association':
-            window.location.href = "/panel-asociacion";
+            navigate("/panel-asociacion");
             break;
           case 'admin':
-            window.location.href = "/admin";
+            navigate("/admin");
             break;
           default:
-            window.location.href = "/user-dashboard";
+            navigate("/user-dashboard");
         }
         return;
       }

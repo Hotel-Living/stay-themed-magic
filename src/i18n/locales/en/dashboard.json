@@ -165,6 +165,18 @@
         "hotelNameRequired": "Hotel name is required",
         "hotelsRequired": "At least one hotel must be submitted"
       }
+    },
+    "tabs": {
+      "dashboard": "Dashboard",
+      "experience": "My Experience",
+      "bookings": "My Bookings",
+      "history": "Stay History",
+      "saved": "Saved Hotels",
+      "payments": "Payment Methods",
+      "getThreeNights": "Recommend a Hotel",
+      "profile": "Profile",
+      "settings": "Settings",
+      "notifications": "Alerts"
     }
   }
 }

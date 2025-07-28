@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
+import { DASHBOARD_ROUTES } from '@/constants/routes';
 
 interface LoginFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
@@ -27,16 +28,16 @@ export function LoginForm({ role }: LoginFormProps) {
     if (user) {
       switch(role) {
         case 'user': 
-          navigate('/user-dashboard');
+          navigate(DASHBOARD_ROUTES.USER);
           break;
         case 'hotel': 
-          navigate('/hotel-dashboard');
+          navigate(DASHBOARD_ROUTES.HOTEL);
           break;
         case 'association': 
-          navigate('/panel-asociacion');
+          navigate(DASHBOARD_ROUTES.ASSOCIATION);
           break;
         case 'promoter': 
-          navigate('/promoter-dashboard');
+          navigate(DASHBOARD_ROUTES.PROMOTER);
           break;
         default:
           navigate('/');
@@ -90,16 +91,16 @@ export function LoginForm({ role }: LoginFormProps) {
         // Redirect based on role
         switch(role) {
           case 'user': 
-            navigate('/user-dashboard');
+            navigate(DASHBOARD_ROUTES.USER);
             break;
           case 'hotel': 
-            navigate('/hotel-dashboard');
+            navigate(DASHBOARD_ROUTES.HOTEL);
             break;
           case 'association': 
-            navigate('/panel-asociacion');
+            navigate(DASHBOARD_ROUTES.ASSOCIATION);
             break;
           case 'promoter': 
-            navigate('/promoter-dashboard');
+            navigate(DASHBOARD_ROUTES.PROMOTER);
             break;
           default:
             navigate('/');

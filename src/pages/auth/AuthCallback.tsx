@@ -47,7 +47,7 @@ export default function AuthCallback() {
                     navigate('/panel-asociacion');
                     break;
                   case 'promoter': 
-                    navigate('/promoter/dashboard');
+                    navigate('/promoter-dashboard');
                     break;
                   default:
                     navigate('/user-dashboard');
@@ -101,7 +101,7 @@ export default function AuthCallback() {
                   navigate('/panel-asociacion');
                   break;
                 case 'promoter': 
-                  navigate('/promoter/dashboard');
+                  navigate('/promoter-dashboard');
                   break;
                 default:
                   navigate('/user-dashboard');
@@ -168,7 +168,7 @@ export default function AuthCallback() {
                 navigate('/panel-asociacion');
                 break;
               case 'promoter': 
-                navigate('/promoter/dashboard');
+                navigate('/promoter-dashboard');
                 break;
               default:
                 navigate('/user-dashboard');

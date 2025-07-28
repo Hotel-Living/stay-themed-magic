@@ -165,6 +165,18 @@
         "hotelNameRequired": "Numele hotelului este obligatoriu",
         "hotelsRequired": "Cel puțin un hotel trebuie trimis"
       }
+    },
+    "tabs": {
+      "dashboard": "Tablou de bord",
+      "experience": "Experiența Mea",
+      "bookings": "Rezervările Mele",
+      "history": "Istoricul Șederilor",
+      "saved": "Hoteluri Salvate",
+      "payments": "Metode de Plată",
+      "getThreeNights": "Recomandă un Hotel",
+      "profile": "Profil",
+      "settings": "Setări",
+      "notifications": "Alerte"
     }
   }
 }

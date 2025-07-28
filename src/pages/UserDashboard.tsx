@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Calendar, 
   CreditCard, 
@@ -40,84 +40,28 @@ export default function UserDashboard() {
   // Check if user is an admin
   const checkAdminStatus = async () => {
     if (user) {
-      const { data: isAdmin, error } = await supabase.rpc('has_role', { role_name: 'admin' });
-      if (!error && isAdmin) {
-        console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
-        navigate('/admin/hotels');
-        return;
+      try {
+        const { data: isAdmin, error } = await supabase.rpc('has_role', { role_name: 'admin' });
+        if (!error && isAdmin) {
+          console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
+          navigate('/admin/hotels');
+          return;
+        }
+      } catch (error) {
+        console.warn('Role check failed, continuing with user dashboard:', error);
+        // Fallback: continue with user dashboard
       }
     }
   };
 
   // Run admin check once
-  useState(() => {
+  useEffect(() => {
     checkAdminStatus();
-  });
+  }, [user]);
   
   // Create tabs with language-specific labels
   const getTabLabel = (key: string) => {
-    if (language === 'pt') {
-      const portugueseLabels: Record<string, string> = {
-        dashboard: "Painel",
-        experience: "Minha Experiência",
-        bookings: "Minhas Reservas",
-        history: "Histórico de Estadias",
-        saved: "Hotéis Salvos",
-        payments: "Métodos de Pagamento",
-        getThreeNights: "Recomendar um Hotel",
-        profile: "Perfil",
-        settings: "Configurações",
-        notifications: "Alertas"
-      };
-      return portugueseLabels[key] || key;
-    }
-    
-    if (language === 'ro') {
-      const romanianLabels: Record<string, string> = {
-        dashboard: "Tablou de bord",
-        experience: "Experiența Mea",
-        bookings: "Rezervările Mele",
-        history: "Istoricul Șederilor",
-        saved: "Hoteluri Salvate",
-        payments: "Metode de Plată",
-        getThreeNights: "Recomandă un Hotel",
-        profile: "Profil",
-        settings: "Setări",
-        notifications: "Alerte"
-      };
-      return romanianLabels[key] || key;
-    }
-    
-    if (language === 'es') {
-      const spanishLabels: Record<string, string> = {
-        dashboard: "Tablero",
-        experience: "Mi Experiencia",
-        bookings: "Mis Reservas",
-        history: "Historial de Estadías",
-        saved: "Hoteles Guardados",
-        payments: "Métodos de Pago",
-        getThreeNights: "Recomendar un Hotel",
-        profile: "Perfil",
-        settings: "Configuración",
-        notifications: "Alertas"
-      };
-      return spanishLabels[key] || key;
-    }
-    
-    // Default English labels
-    const englishLabels: Record<string, string> = {
-      dashboard: "Dashboard",
-      experience: "My Experience",
-      bookings: "My Bookings",
-      history: "Stay History",
-      saved: "Saved Hotels",
-      payments: "Payment Methods",
-      getThreeNights: "Recommend a Hotel",
-      profile: "Profile",
-      settings: "Settings",
-      notifications: "Alerts"
-    };
-    return englishLabels[key] || key;
+    return t(`dashboard.tabs.${key}`, key); // Fallback to key if translation missing
   };
   
   const tabs: DashboardTab[] = [

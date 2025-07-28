@@ -137,25 +137,30 @@ export default function AuthCallback() {
           }
         }
 
-        // Handle standard magic link authentication
-        const { data, error } = await supabase.auth.getSession();
+        // Handle Supabase email verification callback
+        console.log("Checking for email verification callback");
         
-        if (error) {
-          console.error('Session error:', error);
+        // First try to exchange the URL hash for a session (email verification)
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
           toast({
             title: "Authentication Error", 
-            description: error.message,
+            description: sessionError.message,
             variant: "destructive"
           });
           navigate('/');
           return;
         }
 
-        if (data.session?.user) {
-          // User is confirmed and logged in via magic link
+        if (sessionData.session?.user) {
+          // User is successfully logged in after email verification
+          console.log("User authenticated after email verification:", sessionData.session.user.email);
+          
           toast({
-            title: "Welcome to Hotel-Living!",
-            description: "Successfully logged in. Redirecting to your dashboard...",
+            title: "Email Confirmed!",
+            description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
           });
 
           // Redirect to appropriate dashboard based on role
@@ -175,11 +180,70 @@ export default function AuthCallback() {
             }
           }, 1500);
         } else {
-          // If confirmed via our custom flow but no session, redirect to login
-          if (confirmed) {
+          // No session found - try to handle URL fragments for email confirmation
+          console.log("No session found, checking URL parameters");
+          
+          // Check if we have URL fragments that need to be processed
+          const urlFragment = window.location.hash;
+          if (urlFragment.includes('access_token') || urlFragment.includes('type=signup')) {
+            console.log("Found auth fragments in URL, waiting for auth state change");
+            
+            // Wait a moment for Supabase to process the URL fragments
+            setTimeout(async () => {
+              const { data: retrySession } = await supabase.auth.getSession();
+              if (retrySession.session?.user) {
+                console.log("Session established after retry");
+                toast({
+                  title: "Email Confirmed!",
+                  description: "Welcome to Hotel-Living! Redirecting to your dashboard...",
+                });
+
+                setTimeout(() => {
+                  switch(role) {
+                    case 'hotel': 
+                      navigate('/hotel-dashboard');
+                      break;
+                    case 'association': 
+                      navigate('/panel-asociacion');
+                      break;
+                    case 'promoter': 
+                      navigate('/promoter-dashboard');
+                      break;
+                    default:
+                      navigate('/user-dashboard');
+                  }
+                }, 1500);
+              } else {
+                // Still no session, redirect to login
+                console.log("Still no session after retry, redirecting to login");
+                toast({
+                  title: "Email Confirmed!",
+                  description: "Your email has been confirmed. Please log in to access your dashboard.",
+                });
+                
+                setTimeout(() => {
+                  switch(role) {
+                    case 'hotel': 
+                      navigate('/login/hotel');
+                      break;
+                    case 'association': 
+                      navigate('/login/association');
+                      break;
+                    case 'promoter': 
+                      navigate('/login/promoter');
+                      break;
+                    default:
+                      navigate('/login/user');
+                  }
+                }, 2000);
+              }
+            }, 1000);
+          } else {
+            // No auth fragments and no session - redirect to appropriate login
+            console.log("No auth data found, redirecting to login");
             toast({
               title: "Email Confirmed!",
-              description: "Your email has been confirmed. Please log in to access your dashboard.",
+              description: "Please log in to access your dashboard.",
             });
             
             setTimeout(() => {
@@ -194,12 +258,9 @@ export default function AuthCallback() {
                   navigate('/login/promoter');
                   break;
                 default:
-                  navigate('/login');
+                  navigate('/login/user');
               }
             }, 2000);
-          } else {
-            // Standard auth callback without session
-            navigate('/');
           }
         }
       } catch (error) {

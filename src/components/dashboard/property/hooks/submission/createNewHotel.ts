@@ -137,6 +137,13 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
   console.log("=== CREATE NEW HOTEL START ===");
   console.log("Creating new hotel with data:", formData);
   console.log("User ID provided:", userId);
+  console.log("=== COMPREHENSIVE DATA FLOW DEBUG ===");
+  console.log("formData.themes:", formData.themes);
+  console.log("formData.affinities:", formData.affinities);
+  console.log("formData.activities:", formData.activities);
+  console.log("formData.hotelImages:", formData.hotelImages);
+  console.log("formData.availabilityPackages:", formData.availabilityPackages);
+  console.log("All formData keys:", Object.keys(formData));
   
   // Validate required parameters
   if (!userId) {
@@ -311,8 +318,13 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
         const themesToProcess = (formData.themes && formData.themes.length > 0) ? formData.themes : (formData.affinities || []);
         const activitiesToProcess = formData.activities || [];
         
-        console.log("Final themes to process:", themesToProcess);
-        console.log("Final activities to process:", activitiesToProcess);
+        console.log("=== FINAL PROCESSING DEBUG ===");
+        console.log("formData.themes:", formData.themes, "Length:", formData.themes?.length);
+        console.log("formData.affinities:", formData.affinities, "Length:", formData.affinities?.length);
+        console.log("Final themes to process:", themesToProcess, "Length:", themesToProcess?.length);
+        console.log("Final activities to process:", activitiesToProcess, "Length:", activitiesToProcess?.length);
+        console.log("Themes data type:", typeof themesToProcess, "Is array:", Array.isArray(themesToProcess));
+        console.log("Activities data type:", typeof activitiesToProcess, "Is array:", Array.isArray(activitiesToProcess));
         
         await handleThemesAndActivities(
           data.id, 

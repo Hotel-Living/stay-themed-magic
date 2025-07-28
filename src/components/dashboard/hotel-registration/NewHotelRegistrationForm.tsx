@@ -198,6 +198,18 @@ export const NewHotelRegistrationForm = () => {
     console.log('=== HOTEL REGISTRATION SUBMISSION START ===');
     console.log('Form data:', data);
     console.log('User:', user);
+    console.log('=== DEBUGGING DATA FLOW ===');
+    console.log('clientAffinities from form:', data.clientAffinities);
+    console.log('activities from form:', data.activities);
+    console.log('photos from form:', data.photos);
+    console.log('availabilityPackages from form:', data.availabilityPackages);
+    
+    // Log transform debugging
+    console.log('=== TRANSFORM DEBUG NewHotelRegistrationForm ===');
+    console.log('clientAffinities transformed to themes:', data.clientAffinities);
+    console.log('activities transformed:', data.activities);
+    console.log('photos transformed to hotelImages:', data.photos);
+    console.log('availabilityPackages transformed:', data.availabilityPackages);
     
     // Check authentication first
     if (!user?.id) {

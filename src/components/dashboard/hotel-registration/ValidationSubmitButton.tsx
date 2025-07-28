@@ -29,6 +29,11 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
 
   const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => {
     console.log("Converting form data to PropertyFormData", { data, user });
+    console.log('=== TRANSFORM DEBUG ValidationSubmitButton ===');
+    console.log('clientAffinities transformed to themes:', data.clientAffinities);
+    console.log('activities transformed:', data.activities);
+    console.log('photos transformed to hotelImages:', data.photos);
+    console.log('availabilityPackages transformed:', data.availabilityPackages);
     
     return {
       hotelName: data.hotelName,

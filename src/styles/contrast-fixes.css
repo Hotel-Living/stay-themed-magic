@@ -19,7 +19,7 @@
 
 /* Fix white text on light backgrounds in cards */
 .card.bg-white,
-.bg-white/10 {
+.bg-white\/10 {
   background-color: hsla(268, 67%, 35%, 0.1) !important; /* Semi-transparent brand purple */
   backdrop-filter: blur(8px);
 }

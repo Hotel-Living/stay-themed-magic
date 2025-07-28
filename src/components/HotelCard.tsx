@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslationWithFallback } from "@/hooks/useTranslationWithFallback";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { HotelCardStars } from "./HotelCard/components/HotelCardStars";
@@ -55,6 +56,7 @@ export const HotelCard = React.memo<HotelCardProps>(({
   onClick
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslationWithFallback();
 
   const handleClick = () => {
     if (onClick) {
@@ -122,7 +124,7 @@ export const HotelCard = React.memo<HotelCardProps>(({
 
         {/* Location - Centered */}
         <p className="text-white/80 text-sm mb-3 text-center">
-          {city && country ? `${city}, ${country}` : city || country || "Location not specified"}
+          {city && country ? t('system:location.cityCountry', { city, country }) : city || country || t('system:location.notSpecified')}
         </p>
 
         {/* Stars - Centered and at fixed position */}

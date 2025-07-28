@@ -19,7 +19,7 @@ export default function PromoterDashboard() {
   useEffect(() => {
     // Log development mode but continue with auth checks
     if (isDevelopment) {
-      console.log('Development mode: Skipping role validation for PromoterDashboard');
+      if (process.env.NODE_ENV === 'development') console.log('Development mode: Skipping role validation for PromoterDashboard');
       // Continue to auth checks instead of returning
     }
     

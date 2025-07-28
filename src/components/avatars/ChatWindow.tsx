@@ -817,7 +817,7 @@ Hotel Living no es solo otra OTA — es una nueva era para la industria hotelera
       {/* Messages area */}
       <div className="flex-1 p-3 overflow-y-auto text-sm" style={{ height: `${position.height - 120}px` }}>
         {messages.map((message, index) => (
-          <div key={index} className={`mb-2 ${message.from === "user" ? "text-right" : "text-left"}`}>
+          <div key={`message-${index}`} className={`mb-2 ${message.from === "user" ? "text-right" : "text-left"}`}>
             <div 
               className="inline-block p-2 rounded-lg max-w-[85%] text-xs"
               style={{

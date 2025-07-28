@@ -25,21 +25,23 @@ export const AssociationDashboard = () => {
 
   // Check if user is authenticated AND has correct association role
   useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
+    // Log development mode but continue with auth checks
+    if (isDevelopment) {
+      if (process.env.NODE_ENV === 'development') console.log('Development mode: Continuing with auth checks in AssociationDashboard');
+    }
     
     // Only check if auth is complete
     if (!isLoading) {
       // First check authentication
       if (!user || !session) {
-        console.log("No authenticated user detected in association dashboard, redirecting to association login");
+        if (process.env.NODE_ENV === 'development') console.log("No authenticated user detected in association dashboard, redirecting to association login");
         window.location.href = "/login/association";
         return;
       }
       
       // Then check association role
       if (profile && profile.role !== 'association') {
-        console.log("User does not have association role, redirecting based on role:", profile.role);
+        if (process.env.NODE_ENV === 'development') console.log("User does not have association role, redirecting based on role:", profile.role);
         // Redirect to appropriate dashboard based on user's actual role
         switch(profile.role) {
           case 'user':
@@ -71,7 +73,7 @@ export const AssociationDashboard = () => {
     try {
       console.log("Association dashboard logout button clicked");
       await signOut();
-      console.log("Logout successful, user should be redirected to main page");
+      if (process.env.NODE_ENV === 'development') console.log("Logout successful, user should be redirected to main page");
       navigate('/');
     } catch (error) {
       console.error("Error during logout from association dashboard:", error);

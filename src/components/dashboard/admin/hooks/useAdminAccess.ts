@@ -18,7 +18,7 @@ export const useAdminAccess = () => {
     }
 
     try {
-      console.log(`Checking admin access for user: ${user.email}`);
+      if (process.env.NODE_ENV === 'development') console.log(`Checking admin access for user: ${user.email}`);
       
       const { data, error } = await supabase.rpc('has_role', { role_name: 'admin' });
       

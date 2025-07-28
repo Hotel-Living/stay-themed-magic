@@ -51,18 +51,20 @@ export function AdminAuthGuard({ children }: AdminAuthGuardProps) {
 
   const checkAdminRole = async (userId: string) => {
     try {
-      // Check if user has admin role
+      console.log("Checking admin role for user:", userId);
+      
+      // Check if user has admin role in user_roles table
       const { data: roleData, error: roleError } = await supabase
         .from('user_roles')
         .select('role')
         .eq('user_id', userId)
         .eq('role', 'admin')
-        .single();
+        .maybeSingle();
 
-      if (roleError && roleError.code !== 'PGRST116') {
+      console.log("Role check result:", { roleData, roleError });
+
+      if (roleError) {
         console.error('Role check error:', roleError);
-        setIsAdmin(false);
-        return;
       }
 
       // Also check admin_users table
@@ -70,16 +72,21 @@ export function AdminAuthGuard({ children }: AdminAuthGuardProps) {
         .from('admin_users')
         .select('id')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
-      if (adminError && adminError.code !== 'PGRST116') {
-        console.error('Admin check error:', adminError);
+      console.log("Admin users check result:", { adminData, adminError });
+
+      if (adminError) {
+        console.error('Admin users check error:', adminError);
       }
 
       const hasAdminRole = !!roleData;
       const isInAdminUsers = !!adminData;
+      const isAdmin = hasAdminRole || isInAdminUsers;
       
-      setIsAdmin(hasAdminRole || isInAdminUsers);
+      console.log("Final admin check:", { hasAdminRole, isInAdminUsers, isAdmin });
+      
+      setIsAdmin(isAdmin);
     } catch (error) {
       console.error('Admin role check error:', error);
       setIsAdmin(false);
@@ -89,21 +96,34 @@ export function AdminAuthGuard({ children }: AdminAuthGuardProps) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner />
+        <div className="flex flex-col items-center gap-4">
+          <LoadingSpinner />
+          <p className="text-gray-600">Checking admin privileges...</p>
+        </div>
       </div>
     );
   }
 
   if (!user) {
-    return <Navigate to="/auth" replace />;
+    console.log("No user found, redirecting to admin login");
+    return <Navigate to="/entrada-admin" replace />;
   }
 
   if (!isAdmin) {
+    console.log("User is not admin, showing access denied");
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Access Denied</h1>
-          <p className="text-gray-600">You don't have admin privileges to access this panel.</p>
+          <p className="text-gray-600 mb-4">You don't have admin privileges to access this panel.</p>
+          <p className="text-sm text-gray-500">User ID: {user.id}</p>
+          <p className="text-sm text-gray-500">Email: {user.email}</p>
+          <button 
+            onClick={() => window.location.href = '/entrada-admin'} 
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Back to Admin Login
+          </button>
         </div>
       </div>
     );

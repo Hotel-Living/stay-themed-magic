@@ -49,7 +49,7 @@ export function HeroSectionEnhanced() {
       <p 
         className={`
           text-left font-bold transition-all duration-300 hover:tracking-wide
-          ${isMobile ? "text-lg whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-base sm:text-lg" : "text-sm sm:text-base"}
+          ${isMobile ? "text-base whitespace-normal" : ['es', 'en', 'pt', 'ro'].includes(language) ? "text-sm sm:text-base md:text-lg" : "text-xs sm:text-sm md:text-base"}
         `}
         style={{
           fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif",
@@ -62,7 +62,7 @@ export function HeroSectionEnhanced() {
   );
 
   return (
-    <section className="py-0 px-4 overflow-hidden pt-1.5 w-full">
+    <section className="py-0 px-2 sm:px-4 overflow-hidden pt-1.5 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
           {/* Enhanced neon sign with breathing effect */}

@@ -114,16 +114,16 @@ export const HotelCard = React.memo<HotelCardProps>(({
       </div>
 
       {/* Card Content */}
-      <CardContent className="p-4 flex-1 flex flex-col">
+      <CardContent className="p-3 sm:p-4 flex-1 flex flex-col">
         {/* Hotel Name - Fixed height container for uniform alignment */}
-        <div className="h-14 flex items-center justify-center mb-2">
-          <h3 className="text-xl font-bold text-center line-clamp-2 flex items-center">
+        <div className="h-12 sm:h-14 flex items-center justify-center mb-2">
+          <h3 className="text-lg sm:text-xl font-bold text-center line-clamp-2 flex items-center">
             {name}
           </h3>
         </div>
 
         {/* Location - Centered */}
-        <p className="text-white/80 text-sm mb-3 text-center">
+        <p className="text-white/80 text-sm sm:text-base mb-3 text-center">
           {city && country ? t('system:location.cityCountry', { city, country }) : city || country || t('system:location.notSpecified')}
         </p>
 

@@ -43,8 +43,8 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-xs md:text-sm",
-  answerTextSizeClass = "text-[0.7rem] md:text-xs",
+  textSizeClass = "text-sm md:text-base",
+  answerTextSizeClass = "text-sm md:text-base",
   hideTabsList = false
 }: FaqTabsProps) {
   const {

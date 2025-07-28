@@ -128,9 +128,9 @@ export function LoginForm({ role }: LoginFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
       <div>
-        <Label htmlFor="email" className="text-black">Email</Label>
+        <Label htmlFor="email" className="text-black text-sm sm:text-base">Email</Label>
         <Input
           id="email"
           name="email"
@@ -143,7 +143,7 @@ export function LoginForm({ role }: LoginFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="password" className="text-black">Password</Label>
+        <Label htmlFor="password" className="text-black text-sm sm:text-base">Password</Label>
         <Input
           id="password"
           name="password"
@@ -157,13 +157,13 @@ export function LoginForm({ role }: LoginFormProps) {
       
       <Button 
         type="submit" 
-        className="w-full bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold py-3 rounded-lg shadow-[0_0_15px_rgba(126,38,166,0.3)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(126,38,166,0.5)]"
+        className="w-full bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold py-2 sm:py-3 rounded-lg shadow-[0_0_15px_rgba(126,38,166,0.3)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(126,38,166,0.5)] text-sm sm:text-base"
         disabled={isLoading}
       >
         {isLoading ? 'Signing In...' : `Sign In as ${getRoleDisplayName()}`}
       </Button>
       
-      <p className="text-center text-sm text-gray-600">
+      <p className="text-center text-xs sm:text-sm text-gray-600">
         Don't have an account?{' '}
         <a href={`/signup/${role}`} className="text-[#7E26A6] hover:underline">
           Create one here

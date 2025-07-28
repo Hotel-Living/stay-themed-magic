@@ -13,22 +13,22 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("hotels");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">
           Manage your platform from this central dashboard
         </p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12">
-          <TabsTrigger value="hotels" className="flex items-center gap-2">
-            <Hotel className="h-4 w-4" />
+        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 lg:grid-cols-12 gap-1">
+          <TabsTrigger value="hotels" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <Hotel className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Hotels</span>
           </TabsTrigger>
-          <TabsTrigger value="users" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
+          <TabsTrigger value="users" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Users</span>
           </TabsTrigger>
           <TabsTrigger value="bookings" className="flex items-center gap-2">

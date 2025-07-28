@@ -34,8 +34,6 @@ interface SearchResultsProps {
 
 export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsProps) {
   const navigate = useNavigate();
-  const [visibleCards, setVisibleCards] = useState<number[]>([]);
-  const [isAnimating, setIsAnimating] = useState(true);
   const [sortOrder, setSortOrder] = useState<'price-asc' | 'price-desc' | 'name'>('price-asc');
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -43,27 +41,14 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   const { addRecentSearch, getNoResultsFallback } = useSmartSearch();
   const { showLoadingError } = useSmartToast();
 
-  // Staggered card reveal animation
+  // Add to recent searches when results are loaded
   useEffect(() => {
     if (hotels && hotels.length > 0 && !loading) {
-      setVisibleCards([]);
-      setIsAnimating(true);
-      
-      // Add to recent searches when results are loaded
       const urlParams = new URLSearchParams(window.location.search);
       const query = urlParams.toString();
       if (query) {
         addRecentSearch(query, hotels.length);
       }
-      
-      hotels.forEach((_, index) => {
-        setTimeout(() => {
-          setVisibleCards(prev => [...prev, index]);
-          if (index === hotels.length - 1) {
-            setTimeout(() => setIsAnimating(false), 300);
-          }
-        }, index * 100);
-      });
     }
   }, [hotels, loading, addRecentSearch]);
 
@@ -227,19 +212,12 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
 
           console.log("🏨 Rendering hotel card for:", hotel.name);
 
-          const isVisible = visibleCards.includes(index);
-
           return (
             <div
               key={hotel.id}
-              className={`
-                transform transition-all duration-700 ease-out
-                ${isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'}
-                hover:scale-[1.02] hover:shadow-2xl hover:shadow-fuchsia-500/20
-                group cursor-pointer
-              `}
+              className="animate-fade-in hover:scale-[1.02] hover:shadow-2xl hover:shadow-fuchsia-500/20 group cursor-pointer"
               style={{ 
-                transitionDelay: isAnimating ? `${index * 100}ms` : '0ms'
+                animationDelay: `${index * 100}ms`
               }}
             >
               <div className="relative overflow-hidden rounded-xl">

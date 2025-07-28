@@ -40,7 +40,7 @@ interface HotelCardProps {
   onClick?: () => void;
 }
 
-export const HotelCard: React.FC<HotelCardProps> = React.memo(({
+export const HotelCard = React.memo<HotelCardProps>(({
   id,
   name,
   city,

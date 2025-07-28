@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { AdminAuthGuard } from "@/components/auth/AdminAuthGuard";
 import PanelFernandoLayout from "@/components/panel-fernando/PanelFernandoLayout";
 import FernandoHotels from "@/components/panel-fernando/FernandoHotels";
 import FernandoBookings from "@/components/panel-fernando/FernandoBookings";
@@ -18,24 +19,26 @@ import Fernando32DayHotels from "@/components/panel-fernando/Fernando32DayHotels
 
 export default function PanelFernando() {
   return (
-    <PanelFernandoLayout>
-      <Routes>
-        <Route path="/" element={<Navigate to="/panel-fernando/hotels" replace />} />
-        <Route path="/hotels" element={<FernandoHotels />} />
-        <Route path="/bookings" element={<FernandoBookings />} />
-        <Route path="/payments" element={<FernandoPayments />} />
-        <Route path="/statistics" element={<FernandoStatistics />} />
-        <Route path="/communications" element={<FernandoCommunications />} />
-        <Route path="/advertising" element={<FernandoAdvertising />} />
-        <Route path="/affinities" element={<FernandoAffinities />} />
-        <Route path="/filters" element={<FernandoFilters />} />
-        <Route path="/user-roles" element={<FernandoUserRoles />} />
-        <Route path="/analytics" element={<FernandoAnalytics />} />
-        <Route path="/translations" element={<FernandoTranslations />} />
-        <Route path="/batches/*" element={<FernandoBatches />} />
-        <Route path="/32-day-hotels" element={<Fernando32DayHotels />} />
-        <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
-      </Routes>
-    </PanelFernandoLayout>
+    <AdminAuthGuard>
+      <PanelFernandoLayout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/panel-fernando/hotels" replace />} />
+          <Route path="/hotels" element={<FernandoHotels />} />
+          <Route path="/bookings" element={<FernandoBookings />} />
+          <Route path="/payments" element={<FernandoPayments />} />
+          <Route path="/statistics" element={<FernandoStatistics />} />
+          <Route path="/communications" element={<FernandoCommunications />} />
+          <Route path="/advertising" element={<FernandoAdvertising />} />
+          <Route path="/affinities" element={<FernandoAffinities />} />
+          <Route path="/filters" element={<FernandoFilters />} />
+          <Route path="/user-roles" element={<FernandoUserRoles />} />
+          <Route path="/analytics" element={<FernandoAnalytics />} />
+          <Route path="/translations" element={<FernandoTranslations />} />
+          <Route path="/batches/*" element={<FernandoBatches />} />
+          <Route path="/32-day-hotels" element={<Fernando32DayHotels />} />
+          <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
+        </Routes>
+      </PanelFernandoLayout>
+    </AdminAuthGuard>
   );
 }

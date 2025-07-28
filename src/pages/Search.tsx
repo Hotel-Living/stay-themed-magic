@@ -10,10 +10,19 @@ import { FilterState } from "@/components/filters/FilterTypes";
 import { createDefaultFilters } from "@/utils/filterUtils";
 import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
+import { useSmartContentLoading } from "@/hooks/useSmartContentLoading";
 
 export default function Search() {
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
   const [filtersInitialized, setFiltersInitialized] = useState(false);
+  
+  // Smart content loading
+  const { prefetchLikelyRoutes } = useSmartContentLoading();
+  
+  // Prefetch likely next routes
+  useEffect(() => {
+    prefetchLikelyRoutes('/search');
+  }, [prefetchLikelyRoutes]);
   
   const {
     hotels,

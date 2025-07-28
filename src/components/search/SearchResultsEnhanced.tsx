@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HotelCard } from "@/components/HotelCard";
 import { Search, Filter, SortAsc } from "lucide-react";
+import { useSmartSearch } from "@/hooks/useSmartSearch";
+import { useSmartToast } from "@/hooks/useSmartToast";
+import { NoResultsFallback } from "./NoResultsFallback";
+import { SearchSuggestions } from "./SearchSuggestions";
 
 interface Hotel {
   id: string;
@@ -33,12 +37,24 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(true);
   const [sortOrder, setSortOrder] = useState<'price-asc' | 'price-desc' | 'name'>('price-asc');
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Smart search enhancements
+  const { addRecentSearch, getNoResultsFallback } = useSmartSearch();
+  const { showLoadingError } = useSmartToast();
 
   // Staggered card reveal animation
   useEffect(() => {
     if (hotels && hotels.length > 0 && !loading) {
       setVisibleCards([]);
       setIsAnimating(true);
+      
+      // Add to recent searches when results are loaded
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.toString();
+      if (query) {
+        addRecentSearch(query, hotels.length);
+      }
       
       hotels.forEach((_, index) => {
         setTimeout(() => {
@@ -49,7 +65,7 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
         }, index * 100);
       });
     }
-  }, [hotels, loading]);
+  }, [hotels, loading, addRecentSearch]);
 
   // Enhanced loading state with skeleton cards
   const LoadingSkeleton = () => (
@@ -101,6 +117,12 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   if (error) {
     console.error("❌ SearchResults - showing error state:", error);
     const errorMessage = error instanceof Error ? error.message : String(error);
+    
+    // Show smart toast for loading errors
+    useEffect(() => {
+      showLoadingError("hotels");
+    }, [showLoadingError]);
+    
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="text-center space-y-4 transform transition-all duration-500 hover:scale-105">
@@ -116,22 +138,27 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
 
   if (!hotels || hotels.length === 0) {
     console.warn("⚠️ SearchResults - no hotels to display");
+    
+    // Get smart fallback suggestions
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentQuery = urlParams.toString() || 'current search';
+    const suggestions = getNoResultsFallback(currentQuery);
+    
+    const handleSuggestionClick = (suggestion: string) => {
+      window.location.reload(); // Simple reload for fallback suggestions
+    };
+    
+    const handleClearSearch = () => {
+      window.location.href = '/search'; // Clear all parameters
+    };
+    
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="text-center space-y-6 transform transition-all duration-500 hover:scale-105">
-          <div className="w-24 h-24 mx-auto bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <Search className="w-12 h-12 text-white/60" />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-white">No hotels found</h3>
-            <p className="text-gray-300">Try adjusting your filters or search terms</p>
-          </div>
-          <div className="flex items-center gap-2 text-fuchsia-400 hover:text-fuchsia-300 transition-colors cursor-pointer">
-            <Filter className="w-4 h-4" />
-            <span className="text-sm">Modify filters</span>
-          </div>
-        </div>
-      </div>
+      <NoResultsFallback 
+        searchQuery={currentQuery}
+        suggestions={suggestions}
+        onSuggestionClick={handleSuggestionClick}
+        onClearSearch={handleClearSearch}
+      />
     );
   }
 

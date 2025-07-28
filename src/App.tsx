@@ -183,7 +183,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Router>
+        <MonitoringProvider>
+          <Router>
           <nav id="main-navigation" className="sr-only">
             <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 z-50 bg-background p-2 border border-border rounded">
               Skip to main content
@@ -211,7 +212,8 @@ function App() {
           </Routes>
           
           <Toaster />
-        </Router>
+          </Router>
+        </MonitoringProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

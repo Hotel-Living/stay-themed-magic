@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { DASHBOARD_ROUTES } from '@/constants/routes';
 import { useToastNotifications } from '@/hooks/useToastNotifications';
 import { useAutoFocus } from '@/hooks/useAutoFocus';
+import { isAdminTestEmail, updateAdminTestRole } from '@/utils/adminRoleSwitching';
 
 interface LoginFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
@@ -89,7 +90,17 @@ export function LoginForm({ role }: LoginFormProps) {
       }
 
       if (data.user) {
-        showSuccess("Login Successful!", "Welcome back!");
+        // Check if this is the admin test email and update role accordingly
+        if (isAdminTestEmail(formData.email)) {
+          const roleUpdateSuccess = await updateAdminTestRole(data.user.id, role);
+          if (roleUpdateSuccess) {
+            showSuccess("Login Successful!", `Welcome back! Role switched to ${getRoleDisplayName()}`);
+          } else {
+            showSuccess("Login Successful!", "Welcome back!");
+          }
+        } else {
+          showSuccess("Login Successful!", "Welcome back!");
+        }
         
         // Redirect based on role
         switch(role) {
@@ -187,6 +198,13 @@ export function LoginForm({ role }: LoginFormProps) {
         {isLoading ? 'Signing in, please wait...' : ''}
       </div>
       
+      {/* Role switching notice for admin test email */}
+      {isAdminTestEmail(formData.email) && (
+        <div className="text-center text-xs text-blue-600 bg-blue-50 p-2 rounded border">
+          🔧 Admin Testing Mode: Logging in as {getRoleDisplayName()}
+        </div>
+      )}
+
       <p className="text-center text-xs sm:text-sm text-gray-600">
         Don't have an account?{' '}
         <a 

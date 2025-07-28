@@ -1,5 +1,5 @@
 import React, { Suspense, ReactNode } from 'react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ResourceErrorBoundary } from './ResourceErrorBoundary';
 
 interface SuspenseWrapperProps {
   children: ReactNode;
@@ -15,10 +15,10 @@ export const SuspenseWrapper: React.FC<SuspenseWrapperProps> = ({
   identifier = 'component'
 }) => {
   return (
-    <ErrorBoundary fallback={errorFallback} identifier={identifier}>
+    <ResourceErrorBoundary fallback={errorFallback} identifier={identifier}>
       <Suspense fallback={fallback}>
         {children}
       </Suspense>
-    </ErrorBoundary>
+    </ResourceErrorBoundary>
   );
 };

@@ -2,6 +2,10 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './styles/index.css'
+import { resourceErrorHandler } from './utils/resourceErrorHandler'
+
+// Initialize global error handling for resource loading issues
+resourceErrorHandler.init();
 
 // Add structured logging for better debugging
 console.log('Application starting...', {

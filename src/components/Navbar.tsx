@@ -6,17 +6,42 @@ import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/context/AuthContext";
+import { isDevelopmentOrAdmin, getRedirectUrlForRole } from "@/utils/dashboardSecurity";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation('navigation');
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
 
   const handleLogout = async () => {
     try {
       await signOut();
     } catch (error) {
       console.error('Error during logout:', error);
+    }
+  };
+
+  const getDashboardUrl = () => {
+    if (!profile) return '/';
+    return getRedirectUrlForRole(profile);
+  };
+
+  const getDashboardLabel = () => {
+    if (!profile) return '';
+    
+    switch (profile.role) {
+      case 'admin':
+        return 'Admin Panel';
+      case 'hotel_owner':
+      case 'hotel':
+        return 'Hotel Panel';
+      case 'association':
+        return 'Association Panel';
+      case 'promoter':
+        return 'Promoter Panel';
+      case 'user':
+      default:
+        return 'User Panel';
     }
   };
 
@@ -99,13 +124,26 @@ export function Navbar() {
           
           {/* Authentication Buttons */}
           {user ? (
-            <button 
-              onClick={handleLogout}
-              className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
-            >
-              <LogOut className="w-3 h-3" />
-              {t('navigation.logout')}
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Dashboard Link */}
+              {profile && (
+                <Link
+                  to={getDashboardUrl()}
+                  className="bg-[#4A90E2] hover:bg-[#357ABD] text-white font-bold text-xs px-3 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
+                >
+                  {getDashboardLabel()}
+                </Link>
+              )}
+              
+              {/* Logout Button */}
+              <button 
+                onClick={handleLogout}
+                className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
+              >
+                <LogOut className="w-3 h-3" />
+                {t('navigation.logout')}
+              </button>
+            </div>
           ) : (
             <>
               <div className="relative group">

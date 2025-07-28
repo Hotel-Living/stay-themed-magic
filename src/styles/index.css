@@ -16,3 +16,9 @@
 
 /* Background styles */
 @import './background.css';
+
+/* CRITICAL: Toast accessibility fix */
+@import './toast-fix.css';
+
+/* CRITICAL: Contrast accessibility fixes */
+@import './contrast-fixes.css';

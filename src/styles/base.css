@@ -5,33 +5,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    /* CRITICAL: All colors must be HSL to prevent yellow/white conflicts */
+    --background: 269 69% 8%;
     --foreground: 280 10% 98%;
 
-    --card: 0 0% 100%;
+    --card: 269 69% 8%;
     --card-foreground: 280 10% 98%;
 
-    --popover: 0 0% 100%;
+    --popover: 269 40% 15%;
     --popover-foreground: 280 10% 98%;
 
-    --primary: 316 73% 52%;
+    /* Brand Purple as Primary */
+    --primary: 268 67% 35%;
     --primary-foreground: 280 10% 98%;
 
-    --secondary: 0 0% 100%;
+    --secondary: 269 40% 20%;
     --secondary-foreground: 280 10% 98%;
 
-    --muted: 0 0% 96%;
+    --muted: 269 40% 15%;
     --muted-foreground: 280 10% 60%;
 
     --accent: 311 90% 60%;
     --accent-foreground: 280 10% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 280 10% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 316 73% 52%;
+    --border: 269 40% 20%;
+    --input: 269 40% 15%;
+    --ring: 268 67% 35%;
 
     --radius: 1rem;
   }

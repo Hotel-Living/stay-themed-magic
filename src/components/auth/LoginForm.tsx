@@ -33,7 +33,7 @@ export function LoginForm({ role }: LoginFormProps) {
           navigate('/hotel-dashboard');
           break;
         case 'association': 
-          navigate('/association-dashboard');
+          navigate('/panel-asociacion');
           break;
         case 'promoter': 
           navigate('/promoter-dashboard');
@@ -96,7 +96,7 @@ export function LoginForm({ role }: LoginFormProps) {
             navigate('/hotel-dashboard');
             break;
           case 'association': 
-            navigate('/association-dashboard');
+            navigate('/panel-asociacion');
             break;
           case 'promoter': 
             navigate('/promoter-dashboard');

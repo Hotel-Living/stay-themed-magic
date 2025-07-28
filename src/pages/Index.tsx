@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/home/HeroSection';
+import { HeroSectionEnhanced as HeroSection } from '@/components/home/HeroSectionEnhanced';
 import { FilterState } from '@/components/filters';
 import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
 import { useThemes } from '@/hooks/useThemes';

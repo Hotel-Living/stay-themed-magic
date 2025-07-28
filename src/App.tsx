@@ -57,6 +57,7 @@ import OurValues from "@/pages/OurValues";
 import CustomerService from "@/pages/CustomerService";
 import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
+import Ayuda from "@/pages/Ayuda";
 import ExcelGenerator from "@/pages/ExcelGenerator";
 import ProfessionalStudy from "@/pages/ProfessionalStudy";
 import Ambassador from "@/pages/Ambassador";
@@ -151,7 +152,7 @@ function MainAppRoutes() {
             <Route path="/affinity-stays" element={<AffinityStays />} />
             <Route path="/videos" element={<Videos />} />
             <Route path="/featured-hotels" element={<FeaturedHotels />} />
-            <Route path="/ayuda" element={<CustomerService />} />
+            <Route path="/ayuda" element={<Ayuda />} />
             <Route path="/preguntas-frecuentes" element={<FAQ />} />
             <Route path="/nosotros" element={<OurValues />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />

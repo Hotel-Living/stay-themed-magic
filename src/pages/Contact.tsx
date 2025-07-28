@@ -3,18 +3,23 @@ import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export default function Contact() {
+  // Initialize smooth scroll for any anchor links
+  useSmoothScroll();
+  
   return (
     <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-12">
+      <main className="flex-1 container mx-auto px-4 py-12" role="main" aria-label="Contact information">
         <div className="max-w-2xl mx-auto bg-[#4b0456] p-6 rounded-lg">
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-slate-50">Contact</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-slate-50" id="contact-title">Contact</h1>
           
-          <div className="text-center p-6 bg-white/10 rounded-lg border border-white/20">
+          <div className="text-center p-6 bg-white/10 rounded-lg border border-white/20" role="region" aria-labelledby="contact-info">
+            <h2 id="contact-info" className="sr-only">Contact Information</h2>
             <p className="text-slate-50 text-lg leading-relaxed mb-2">
               We're here to listen.
             </p>
@@ -22,7 +27,13 @@ export default function Contact() {
               Feel free to reach out to us at
             </p>
             <p className="text-[#FFF9B0] hover:text-white transition-colors text-lg font-medium mb-1">
-              <a href="mailto:contact@hotel-living.com" className="underline">contact@hotel-living.com</a>
+              <a 
+                href="mailto:contact@hotel-living.com" 
+                className="underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-white/50 rounded"
+                aria-label="Send email to contact@hotel-living.com"
+              >
+                contact@hotel-living.com
+              </a>
             </p>
             <p className="text-slate-50/90 text-base">
               — we'd love to hear from you.

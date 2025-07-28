@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AccessibilityProvider } from "@/components/accessibility/AccessibilityProvider";
 import { MonitoringProvider } from "@/components/monitoring/MonitoringProvider";
+import { ConnectionBanner } from "@/components/ui/connection-banner";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import { AvatarManagerProvider } from "@/contexts/AvatarManager";
 import { VideoTestimonialProvider } from "@/contexts/VideoTestimonialContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -30,6 +32,7 @@ import IntroTest9 from "@/pages/IntroTest9";
 
 // Initialize i18n
 import "./i18n/config";
+import "./styles/micro-enhancements.css";
 
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
@@ -91,20 +94,24 @@ const queryClient = createQueryClient();
 function MainAppRoutes() {
   const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
   
+  // Initialize smooth scroll behavior
+  useSmoothScroll();
+  
   return (
     <MonitoringProvider>
-      <AccessibilityProvider>
-        <VideoTestimonialProvider>
-          <AvatarManagerProvider>
-            <AuthProvider>
-          <SEOMetadata />
-          <ScrollToTop />
-          <DashboardAccess />
-          <GoogleAnalytics />
-          
-          {shouldShowIntro && (
-            <IntroAnimation onComplete={handleIntroComplete} />
-          )}
+        <AccessibilityProvider>
+          <VideoTestimonialProvider>
+            <AvatarManagerProvider>
+              <AuthProvider>
+                <SEOMetadata />
+                <ScrollToTop />
+                <DashboardAccess />
+                <GoogleAnalytics />
+                <ConnectionBanner />
+                
+                {shouldShowIntro && (
+                  <IntroAnimation onComplete={handleIntroComplete} />
+                )}
           
           <main id="main-content">
             <Routes>

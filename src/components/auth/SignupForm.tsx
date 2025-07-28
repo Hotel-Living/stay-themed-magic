@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useAutoFocus } from '@/hooks/useAutoFocus';
 
 interface SignupFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
@@ -22,6 +23,9 @@ export function SignupForm({ role }: SignupFormProps) {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  // Auto-focus enhancement
+  const formRef = useAutoFocus<HTMLFormElement>({ enabled: true, delay: 200 });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -116,7 +120,14 @@ export function SignupForm({ role }: SignupFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form 
+      ref={formRef}
+      onSubmit={handleSubmit} 
+      className="space-y-6"
+      role="form"
+      aria-label={`${getRoleDisplayName()} registration form`}
+      noValidate
+    >
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="firstName" className="text-black">First Name</Label>
@@ -125,10 +136,15 @@ export function SignupForm({ role }: SignupFormProps) {
             name="firstName"
             type="text"
             required
+            autoComplete="given-name"
             value={formData.firstName}
             onChange={handleInputChange}
             className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+            aria-describedby="firstName-help"
           />
+          <div id="firstName-help" className="sr-only">
+            Enter your first name
+          </div>
         </div>
         <div>
           <Label htmlFor="lastName" className="text-black">Last Name</Label>
@@ -137,10 +153,15 @@ export function SignupForm({ role }: SignupFormProps) {
             name="lastName"
             type="text"
             required
+            autoComplete="family-name"
             value={formData.lastName}
             onChange={handleInputChange}
             className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+            aria-describedby="lastName-help"
           />
+          <div id="lastName-help" className="sr-only">
+            Enter your last name
+          </div>
         </div>
       </div>
       
@@ -151,10 +172,15 @@ export function SignupForm({ role }: SignupFormProps) {
           name="email"
           type="email"
           required
+          autoComplete="email"
           value={formData.email}
           onChange={handleInputChange}
           className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          aria-describedby="email-signup-help"
         />
+        <div id="email-signup-help" className="sr-only">
+          Enter your email address for account creation
+        </div>
       </div>
       
       <div>
@@ -164,10 +190,15 @@ export function SignupForm({ role }: SignupFormProps) {
           name="password"
           type="password"
           required
+          autoComplete="new-password"
           value={formData.password}
           onChange={handleInputChange}
           className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          aria-describedby="password-signup-help"
         />
+        <div id="password-signup-help" className="sr-only">
+          Password must be at least 6 characters long
+        </div>
       </div>
       
       <div>
@@ -177,23 +208,38 @@ export function SignupForm({ role }: SignupFormProps) {
           name="confirmPassword"
           type="password"
           required
+          autoComplete="new-password"
           value={formData.confirmPassword}
           onChange={handleInputChange}
           className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          aria-describedby="confirmPassword-help"
         />
+        <div id="confirmPassword-help" className="sr-only">
+          Re-enter your password to confirm
+        </div>
       </div>
       
       <Button 
         type="submit" 
         className="w-full bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold py-3 rounded-lg shadow-[0_0_15px_rgba(126,38,166,0.3)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(126,38,166,0.5)]"
         disabled={isLoading}
+        aria-busy={isLoading}
+        aria-describedby="signup-status"
       >
         {isLoading ? 'Creating Account...' : `Create ${getRoleDisplayName()} Account`}
       </Button>
       
+      <div id="signup-status" className="sr-only" aria-live="polite">
+        {isLoading ? 'Creating account, please wait...' : ''}
+      </div>
+      
       <p className="text-center text-sm text-gray-600">
         Already have an account?{' '}
-        <a href={`/login/${role}`} className="text-[#7E26A6] hover:underline">
+        <a 
+          href={`/login/${role}`} 
+          className="text-[#7E26A6] hover:underline"
+          aria-label={`Sign in to existing ${getRoleDisplayName().toLowerCase()} account`}
+        >
           Sign in here
         </a>
       </p>

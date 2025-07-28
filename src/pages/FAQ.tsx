@@ -7,9 +7,9 @@ import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { useFaqData } from "@/components/faq/faqData";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 
 
@@ -19,6 +19,9 @@ export default function FAQ() {
   const isMobile = useIsMobile();
   const { t, isReady } = useTranslation('faq');
   const { translatedCategories, translatedFaqsByCategory } = useFaqData();
+  
+  // Initialize smooth scroll behavior
+  useSmoothScroll();
 
   // Show loading until i18n is ready
   if (!isReady) {
@@ -39,12 +42,12 @@ export default function FAQ() {
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
+      <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent" role="main" aria-label="Frequently Asked Questions">
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <WhyHotelLivingSection />
           
           {/* Second title - Frequently Asked Questions */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-6 smooth-scroll-target" id="faq-section">
             <div className="flex justify-center">
               <h1 className={`
                 ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 

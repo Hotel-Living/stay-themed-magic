@@ -46,6 +46,7 @@ export const ClientAffinitiesSection = ({ form }: ClientAffinitiesSectionProps) 
           render={() => (
             <FormItem>
               <FormLabel className="text-white">{t('clientAffinities.selectAffinities')}</FormLabel>
+              <p className="text-white/60 text-sm">Optional, but strongly recommended to help your property stand out and attract perfectly matched guests. This can be modified anytime.</p>
               
               <div className="mt-4 space-y-4">
                 <Input

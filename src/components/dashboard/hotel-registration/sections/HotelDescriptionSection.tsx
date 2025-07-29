@@ -30,6 +30,7 @@ export const HotelDescriptionSection = ({ form }: HotelDescriptionSectionProps) 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white">{t('hotelDescription.label')}</FormLabel>
+              <p className="text-white/60 text-sm mb-2">Minimum 200 characters.</p>
               <FormControl>
                 <Textarea
                   placeholder={t('hotelDescription.placeholder')}

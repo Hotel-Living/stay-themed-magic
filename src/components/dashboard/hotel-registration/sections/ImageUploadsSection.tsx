@@ -75,7 +75,7 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
               name="photos.hotel"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-2">
                     <FormLabel className="text-white text-base font-semibold">{t('imageUploads.hotelPhotos')}</FormLabel>
                     <SelectionCounter 
                       selectedItems={photos.hotel}
@@ -83,6 +83,7 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
                       showCount={true}
                     />
                   </div>
+                  <p className="text-white/60 text-sm mb-2">Upload at least 5 hotel photos.</p>
                   <FormControl>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
@@ -140,7 +141,7 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
               name="photos.room"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-2">
                     <FormLabel className="text-white text-base font-semibold">{t('imageUploads.roomPhotos')}</FormLabel>
                     <SelectionCounter 
                       selectedItems={photos.room}
@@ -148,6 +149,7 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
                       showCount={true}
                     />
                   </div>
+                  <p className="text-white/60 text-sm mb-2">Upload at least 5 room photos.</p>
                   <FormControl>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">

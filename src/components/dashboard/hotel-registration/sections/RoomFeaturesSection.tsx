@@ -39,7 +39,7 @@ export const RoomFeaturesSection = ({ form }: RoomFeaturesSectionProps) => {
           name="roomFeatures"
           render={() => (
             <FormItem>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-2">
                 <FormLabel className="text-white">{t('roomFeatures.label')}</FormLabel>
                 <SelectionCounter 
                   selectedItems={selectedFeatures}
@@ -47,6 +47,7 @@ export const RoomFeaturesSection = ({ form }: RoomFeaturesSectionProps) => {
                   showCount={true}
                 />
               </div>
+              <p className="text-white/60 text-sm mb-2">Select at least 5 features.</p>
               <FormControl>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                   {isLoading ? (

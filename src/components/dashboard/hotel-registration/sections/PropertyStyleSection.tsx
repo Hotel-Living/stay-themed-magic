@@ -28,6 +28,7 @@ export const PropertyStyleSection = ({ form }: PropertyStyleSectionProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white">{t('propertyStyle.label')}</FormLabel>
+              <p className="text-white/60 text-sm mb-2">Select at least 1 property style.</p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="bg-white/10 border-white/30 text-white">

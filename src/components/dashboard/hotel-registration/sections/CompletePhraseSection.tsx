@@ -28,6 +28,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
+        <p className="text-white/60 text-sm mb-4">Minimum 40 characters each phrase.</p>
         <div className="space-y-6">
           <FormField
             control={form.control}

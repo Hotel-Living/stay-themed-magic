@@ -202,6 +202,7 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
           <div className="text-white/80 text-sm">
             {t('availabilityPackages.description')}
           </div>
+          <p className="text-white/60 text-sm">Add between 1 and 40 availability packages.</p>
 
           {/* Package Creation/Editing Form */}
           {showForm && (

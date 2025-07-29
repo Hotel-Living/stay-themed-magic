@@ -29,6 +29,7 @@ export const RoomDescriptionSection = ({ form }: RoomDescriptionSectionProps) =>
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white">{t('roomDescription.label')}</FormLabel>
+              <p className="text-white/60 text-sm mb-2">Minimum 100 characters.</p>
               <FormControl>
                 <Textarea
                   placeholder={t('roomDescription.placeholder')}

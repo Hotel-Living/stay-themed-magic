@@ -99,48 +99,35 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       return true;
     });
 
-    // If no active filters, use ultra-basic diagnostic query first
+    // If no active filters, use simple query for approved hotels
     if (!hasActiveFilters) {
-      console.log('🚀 Using ultra-basic diagnostic query for approved hotels');
+      console.log('🚀 Using simple query for approved hotels (no filters)');
       
-      try {
-        // First, let's try the most basic query possible to test connectivity
-        const { count, error: countError } = await supabase
-          .from('hotels')
-          .select('*', { count: 'exact', head: true })
-          .eq('status', 'approved');
+      const { data: hotels, error } = await supabase
+        .from('hotels')
+        .select(`
+          id,
+          name,
+          city,
+          country,
+          price_per_month,
+          main_image_url,
+          status,
+          category,
+          created_at
+        `)
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false })
+        .limit(20);
 
-        if (countError) {
-          console.error('Count query error:', countError);
-          throw countError;
-        }
-
-        console.log(`📊 Total approved hotels in database: ${count}`);
-
-        if (count === 0) {
-          console.warn('⚠️ No approved hotels found in database');
-          return [];
-        }
-
-        // If count query worked, try basic select
-        const { data: hotels, error } = await supabase
-          .from('hotels')
-          .select('id, name, city, country, price_per_month, main_image_url, status')
-          .eq('status', 'approved')
-          .limit(5); // Even smaller limit for testing
-
-        if (error) {
-          console.error('Basic select query error:', error);
-          throw error;
-        }
-
-        console.log(`⚡ Basic query completed in ${Date.now() - startTime}ms`);
-        console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
-        return hotels || [];
-      } catch (queryError) {
-        console.error('🔥 Diagnostic query failed:', queryError);
-        throw queryError;
+      if (error) {
+        console.error('Simple query error:', error);
+        throw error;
       }
+
+      console.log(`⚡ Simple query completed in ${Date.now() - startTime}ms`);
+      console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
+      return hotels || [];
     }
 
     // For filtered queries, get filter mappings

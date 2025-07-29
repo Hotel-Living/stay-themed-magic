@@ -49,12 +49,12 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setLoading(true);
       setError(null);
 
-      // Add timeout to prevent infinite loading - reduced to 10 seconds for faster feedback
+      // Add timeout to prevent infinite loading - reduced to 5 seconds for faster feedback
       const timeoutId = setTimeout(() => {
-        console.warn('⚠️ useHotels: Fetch timeout after 10 seconds, clearing loading state');
+        console.warn('⚠️ useHotels: Fetch timeout after 5 seconds, clearing loading state');
         setLoading(false);
-        setError(new Error('Search is taking too long. Please try refreshing the page.'));
-      }, 10000);
+        setError(new Error('Database connection is slow. Please check your internet connection and try again.'));
+      }, 5000);
 
       try {
         console.log('📡 useHotels: Calling fetchHotelsWithFilters...');

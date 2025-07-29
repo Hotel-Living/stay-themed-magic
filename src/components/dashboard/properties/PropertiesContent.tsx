@@ -5,8 +5,9 @@ import { useMyProperties } from "@/hooks/useMyProperties";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
+import { NewHotelRegistrationContent } from "@/components/dashboard/NewHotelRegistrationContent";
 // PropertyEditView and AddProperty removed with 5-step form
-// Editing functionality has been removed
+// Editing functionality has been restored
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -113,7 +114,6 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
 
   // If editing a hotel, render the 16-step form with pre-filled data
   if (editingHotelId) {
-    const { NewHotelRegistrationContent } = require('@/components/dashboard/NewHotelRegistrationContent');
     return <NewHotelRegistrationContent editingHotelId={editingHotelId} onComplete={handleBackToList} />;
   }
 

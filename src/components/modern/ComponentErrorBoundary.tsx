@@ -49,47 +49,38 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
   }
 
   private handleRetry = () => {
-    const { maxRetries = 3 } = this.props;
-    
-    if (this.state.retryCount < maxRetries) {
+    this.setState(prev => ({ 
+      hasError: false, 
+      error: undefined,
+      retryCount: prev.retryCount + 1 
+    }));
+  };
+
+  private handleAutoRetry = () => {
+    // Auto-retry after 2 seconds
+    const timeout = setTimeout(() => {
       this.setState(prev => ({ 
         hasError: false, 
         error: undefined,
         retryCount: prev.retryCount + 1 
       }));
-    }
-  };
-
-  private handleAutoRetry = () => {
-    const { maxRetries = 3 } = this.props;
+    }, 2000);
     
-    if (this.state.retryCount < maxRetries) {
-      // Auto-retry after 2 seconds
-      const timeout = setTimeout(() => {
-        this.setState(prev => ({ 
-          hasError: false, 
-          error: undefined,
-          retryCount: prev.retryCount + 1 
-        }));
-      }, 2000);
-      
-      this.retryTimeouts.push(timeout);
-    }
+    this.retryTimeouts.push(timeout);
   };
 
   render() {
     if (this.state.hasError) {
       const { 
         fallback, 
-        componentName = 'Component',
-        maxRetries = 3 
+        componentName = 'Component'
       } = this.props;
       
       if (fallback) {
         return fallback;
       }
 
-      const canRetry = this.state.retryCount < maxRetries;
+      const canRetry = true; // Always allow retry
 
       return (
         <div className="p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-700 rounded-lg">
@@ -107,7 +98,7 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
                 <p>This component failed to render properly.</p>
                 {this.state.retryCount > 0 && (
                   <p className="mt-1">
-                    Retry attempts: {this.state.retryCount}/{maxRetries}
+                    Retry attempts: {this.state.retryCount}
                   </p>
                 )}
               </div>
@@ -129,13 +120,6 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
                 </div>
               )}
 
-              {!canRetry && (
-                <div className="mt-4 p-3 bg-red-100 dark:bg-red-800/30 rounded border border-red-200 dark:border-red-700">
-                  <p className="text-sm text-red-800 dark:text-red-200">
-                    Maximum retry attempts reached. Please refresh the page or contact support.
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </div>

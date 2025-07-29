@@ -13,6 +13,8 @@ import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 import { useValidationSummary } from './hooks/useValidationSummary';
 import { ValidationSummary } from './components/ValidationSummary';
+import { useStepValidation } from './hooks/useStepValidation';
+import { StepStatusIndicator } from './components/StepStatusIndicator';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -116,17 +118,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const [accordionValue, setAccordionValue] = useState<string>('');
   const isEditing = !!editingHotelId;
   
-  // Validation summary hook
-  const {
-    validationErrors,
-    showValidationSummary,
-    validateAllSteps,
-    getStepsWithErrors,
-    getTotalErrorCount,
-    getAccordionValueForStep,
-    setShowValidationSummary
-  } = useValidationSummary();
-  
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
     defaultValues: {
@@ -142,6 +133,20 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       termsAccepted: false
     }
   });
+
+  // Validation summary hook
+  const {
+    validationErrors,
+    showValidationSummary,
+    validateAllSteps,
+    getStepsWithErrors,
+    getTotalErrorCount,
+    getAccordionValueForStep,
+    setShowValidationSummary
+  } = useValidationSummary();
+  
+  // Step validation hook
+  const { getStepValidation } = useStepValidation(form, validationErrors);
 
   // Convert form data to PropertyFormData for auto-save and submission
   const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => ({
@@ -304,7 +309,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             value={accordionValue}
             onValueChange={setAccordionValue}
           >
-            <HotelBasicInfoSection form={form} />
+            <HotelBasicInfoSection form={form} stepValidation={getStepValidation(1)} />
             <HotelClassificationSection form={form} />
             <PropertyTypeSection form={form} />
             <PropertyStyleSection form={form} />

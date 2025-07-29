@@ -11,6 +11,7 @@ import { format, differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
 import { cn } from '@/lib/utils';
+import { SelectionCounter } from '../components/SelectionCounter';
 
 interface AvailabilityPackagesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -182,9 +183,18 @@ export const AvailabilityPackagesSection = ({ form }: AvailabilityPackagesSectio
   return (
     <AccordionItem value="availability-packages" className="bg-white/5 border-white/20 rounded-lg">
       <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
-        <div className="flex items-center space-x-3">
-          <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">15</span>
-          <span>{t('availabilityPackages.title')}</span>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center space-x-3">
+            <span className="bg-fuchsia-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">15</span>
+            <span>{t('availabilityPackages.title')}</span>
+          </div>
+          <SelectionCounter 
+            selectedItems={availabilityPackages}
+            minRequired={1}
+            maxAllowed={40}
+            showCount={true}
+            className="mr-4"
+          />
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">

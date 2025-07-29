@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, X } from "lucide-react";
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
+import { SelectionCounter } from '../components/SelectionCounter';
 
 interface ImageUploadsSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -74,7 +75,14 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
               name="photos.hotel"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white text-base font-semibold">{t('imageUploads.hotelPhotos')}</FormLabel>
+                  <div className="flex items-center justify-between mb-4">
+                    <FormLabel className="text-white text-base font-semibold">{t('imageUploads.hotelPhotos')}</FormLabel>
+                    <SelectionCounter 
+                      selectedItems={photos.hotel}
+                      minRequired={5}
+                      showCount={true}
+                    />
+                  </div>
                   <FormControl>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
@@ -132,7 +140,14 @@ export function ImageUploadsSection({ form }: ImageUploadsSectionProps) {
               name="photos.room"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white text-base font-semibold">{t('imageUploads.roomPhotos')}</FormLabel>
+                  <div className="flex items-center justify-between mb-4">
+                    <FormLabel className="text-white text-base font-semibold">{t('imageUploads.roomPhotos')}</FormLabel>
+                    <SelectionCounter 
+                      selectedItems={photos.room}
+                      minRequired={5}
+                      showCount={true}
+                    />
+                  </div>
                   <FormControl>
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">

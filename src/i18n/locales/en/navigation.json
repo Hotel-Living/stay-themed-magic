@@ -20,7 +20,15 @@
     "affinityStays": "Affinity Stays",
     "register": "Register",
     "aboutUs": "About Us",
-    "press": "Press"
+    "press": "Press",
+    "dashboards": {
+      "admin": "Admin Dashboard",
+      "hotel": "Hotel Dashboard", 
+      "association": "Association Dashboard",
+      "promoter": "Promoter Dashboard",
+      "agent": "Agent Dashboard",
+      "user": "User Dashboard"
+    }
   },
   "panelLabels": {
     "user": "Panel – User",

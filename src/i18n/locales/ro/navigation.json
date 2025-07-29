@@ -20,7 +20,15 @@
     "affinityStays": "Șederi prin afinități",
     "register": "Înregistrare",
     "aboutUs": "Despre noi",
-    "press": "Presă"
+    "press": "Presă",
+    "dashboards": {
+      "admin": "Panou de Admin",
+      "hotel": "Panou de Hotel", 
+      "association": "Panou de Asociaţie",
+      "promoter": "Panou de Promotor",
+      "agent": "Panou de Agent",
+      "user": "Panou de Utilizator"
+    }
   },
   "panelLabels": {
     "user": "Panel – Utilizator",

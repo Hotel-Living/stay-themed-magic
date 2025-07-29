@@ -19,7 +19,15 @@
     "affinityStays": "Estancias por Afinidad",
     "register": "Registrar",
     "aboutUs": "Acerca de Nosotros",
-    "press": "Prensa"
+    "press": "Prensa",
+    "dashboards": {
+      "admin": "Panel de Admin",
+      "hotel": "Panel de Hotel", 
+      "association": "Panel de Asociación",
+      "promoter": "Panel de Promotor",
+      "agent": "Panel de Agente",
+      "user": "Panel de Usuario"
+    }
   },
   "panelLabels": {
     "user": "Panel – Usuario",

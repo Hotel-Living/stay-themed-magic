@@ -20,7 +20,15 @@
     "affinityStays": "Estadias por afinidades",
     "register": "Registrar",
     "aboutUs": "Sobre nós",
-    "press": "Imprensa"
+    "press": "Imprensa",
+    "dashboards": {
+      "admin": "Painel de Admin",
+      "hotel": "Painel de Hotel", 
+      "association": "Painel de Associação",
+      "promoter": "Painel de Promotor",
+      "agent": "Painel de Agente",
+      "user": "Painel de Usuário"
+    }
   },
   "panelLabels": {
     "user": "Panel – Utilizador",

@@ -41,7 +41,7 @@ export function Navbar() {
 
   const getDashboardUrl = () => {
     if (!profile) return '/';
-    return getRedirectUrlForRole(profile);
+    return getDashboardRoute();
   };
 
   const getDashboardLabel = () => {
@@ -49,17 +49,40 @@ export function Navbar() {
     
     switch (profile.role) {
       case 'admin':
-        return 'Admin Panel';
+        return t('navigation.dashboards.admin');
       case 'hotel_owner':
       case 'hotel':
-        return 'Hotel Panel';
+        return t('navigation.dashboards.hotel');
       case 'association':
-        return 'Association Panel';
+        return t('navigation.dashboards.association');
       case 'promoter':
-        return 'Promoter Panel';
+        return t('navigation.dashboards.promoter');
+      case 'agent':
+        return t('navigation.dashboards.agent');
       case 'user':
       default:
-        return 'User Panel';
+        return t('navigation.dashboards.user');
+    }
+  };
+
+  const getDashboardRoute = () => {
+    if (!profile) return '/';
+    
+    switch (profile.role) {
+      case 'admin':
+        return '/admin';
+      case 'hotel_owner':
+      case 'hotel':
+        return '/hotel-dashboard';
+      case 'association':
+        return '/panel-asociacion';
+      case 'promoter':
+        return '/promoter/dashboard';
+      case 'agent':
+        return '/panel-agente';
+      case 'user':
+      default:
+        return '/user-dashboard';
     }
   };
 
@@ -133,18 +156,17 @@ export function Navbar() {
           </Link>
           
           
-          {/* Authentication Buttons */}
-          {user ? (
+          {/* Universal Dashboard Access - ALWAYS VISIBLE for logged-in users */}
+          {user && profile ? (
             <div className="flex items-center gap-2">
-              {/* Dashboard Link */}
-              {profile && (
-                <Link
-                  to={getDashboardUrl()}
-                  className="bg-[#4A90E2] hover:bg-[#357ABD] text-white font-bold text-xs px-3 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
-                >
-                  {getDashboardLabel()}
-                </Link>
-              )}
+              {/* Dashboard Link - Prominent and always visible */}
+              <Link
+                to={getDashboardUrl()}
+                className="bg-[#4A90E2] hover:bg-[#357ABD] text-white font-bold text-xs px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg border border-white/20"
+              >
+                <span className="hidden sm:inline">{getDashboardLabel()}</span>
+                <span className="sm:hidden">Dashboard</span>
+              </Link>
               
               {/* Logout Button */}
               <button 
@@ -152,7 +174,7 @@ export function Navbar() {
                 className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-xs px-3 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
               >
                 <LogOut className="w-3 h-3" />
-                {t('navigation.logout')}
+                <span className="hidden sm:inline">{t('navigation.logout')}</span>
               </button>
             </div>
           ) : (
@@ -212,6 +234,28 @@ export function Navbar() {
 
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ backgroundColor: "#996515" }}>
         <nav className="flex flex-col space-y-4">
+          {/* Mobile Dashboard Link - ALWAYS VISIBLE for logged-in users */}
+          {user && profile && (
+            <div className="flex flex-col gap-2 mb-4 pt-2 border-b border-white/20 pb-4">
+              <Link
+                to={getDashboardUrl()}
+                onClick={() => setIsMenuOpen(false)}
+                className="bg-[#4A90E2] hover:bg-[#357ABD] text-white font-bold text-center text-base py-3 rounded-lg transition-all duration-300 hover:scale-105 border border-white/20"
+              >
+                {getDashboardLabel()}
+              </Link>
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleLogout();
+                }}
+                className="bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold text-center text-base py-2 rounded transition-all duration-300 hover:scale-105"
+              >
+                {t('navigation.logout')}
+              </button>
+            </div>
+          )}
+          
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.faq.mobile')}
           </Link>

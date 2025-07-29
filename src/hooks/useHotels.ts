@@ -35,12 +35,25 @@ interface UseHotelsProps {
 }
 
 export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
+  console.log('🚀 useHotels: Hook initialized with initialFilters:', initialFilters);
+  
   const [hotels, setHotels] = useState<HotelCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [filters, setFilters] = useState<FilterState>(
-    initialFilters || createDefaultFilters()
-  );
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const defaultFilters = createDefaultFilters();
+    const finalFilters = initialFilters || defaultFilters;
+    console.log('🎯 useHotels: Initial filters state:', finalFilters);
+    return finalFilters;
+  });
+
+  // Add effect to update filters when initialFilters change
+  useEffect(() => {
+    if (initialFilters) {
+      console.log('🔄 useHotels: Received new initialFilters:', initialFilters);
+      setFilters(initialFilters);
+    }
+  }, [initialFilters]);
 
   useEffect(() => {
     const getHotels = async () => {

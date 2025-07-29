@@ -61,9 +61,10 @@ export const convertHotelToUIFormat = (hotel: any) => {
       thumbnail: hotel.main_image_url || hotel.thumbnail,
       theme: hotel.theme,
       category: hotel.category,
+      // For simplified queries, these may be empty
       hotel_images: hotel.hotel_images || [],
       hotel_themes: hotel.hotel_themes || [],
-      hotel_activities: hotel.hotel_activities || [], // Include hotel_activities
+      hotel_activities: hotel.hotel_activities || [],
       available_months: hotel.available_months || [],
       features_hotel: hotel.features_hotel || {},
       features_room: hotel.features_room || {},
@@ -73,7 +74,6 @@ export const convertHotelToUIFormat = (hotel: any) => {
       property_type: hotel.property_type,
       style: hotel.style,
       rates: hotel.rates,
-      // Add any other pricing-related fields
       room_types: hotel.room_types,
       pricingMatrix: hotel.pricingMatrix || hotel.pricingmatrix,
     };
@@ -99,46 +99,32 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       return true;
     });
 
-    // If no active filters, use simplified query for better performance
+    // If no active filters, use ultra-simplified query for maximum performance
     if (!hasActiveFilters) {
-      console.log('🚀 Using simplified query for approved hotels (no filters)');
+      console.log('🚀 Using ultra-simplified query for approved hotels (no filters)');
       const { data: hotels, error } = await supabase
         .from('hotels')
         .select(`
-          *,
-          hotel_images (
-            id,
-            image_url,
-            is_main
-          ),
-          hotel_themes (
-            theme_id,
-            themes (
-              id,
-              name,
-              description,
-              category
-            )
-          ),
-          hotel_activities (
-            activity_id,
-            activities (
-              id,
-              name,
-              category
-            )
-          )
+          id,
+          name,
+          city,
+          country,
+          price_per_month,
+          main_image_url,
+          status,
+          category,
+          created_at
         `)
         .eq('status', 'approved')
         .order('created_at', { ascending: false })
-        .limit(100); // Increased limit for better coverage
+        .limit(20); // Much smaller limit for speed
 
       if (error) {
-        console.error('Simplified query error:', error);
+        console.error('Ultra-simplified query error:', error);
         throw error;
       }
 
-      console.log(`⚡ Simplified query completed in ${Date.now() - startTime}ms`);
+      console.log(`⚡ Ultra-simplified query completed in ${Date.now() - startTime}ms`);
       console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
       return hotels || [];
     }

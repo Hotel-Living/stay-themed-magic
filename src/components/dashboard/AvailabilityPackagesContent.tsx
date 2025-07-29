@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,13 +13,44 @@ import { PackagesTable } from "./packages/PackagesTable";
 import { PackagesCalendar } from "./packages/PackagesCalendar";
 import { AvailabilityPackage } from "@/types/availability-package";
 import { format } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 
 export function AvailabilityPackagesContent() {
-  const { profile } = useAuth();
+  const { user, profile } = useAuth();
   const [viewMode, setViewMode] = useState<'table' | 'calendar'>('table');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingPackage, setEditingPackage] = useState<AvailabilityPackage | null>(null);
   const [deletingPackage, setDeletingPackage] = useState<AvailabilityPackage | null>(null);
+  const [hotelId, setHotelId] = useState<string | undefined>(undefined);
+
+  // Get the user's hotel ID
+  useEffect(() => {
+    const fetchHotelId = async () => {
+      if (!user) return;
+      
+      try {
+        const { data: hotels, error } = await supabase
+          .from('hotels')
+          .select('id')
+          .eq('owner_id', user.id)
+          .limit(1);
+
+        if (error) {
+          console.error('Error fetching hotel ID:', error);
+          return;
+        }
+
+        if (hotels && hotels.length > 0) {
+          setHotelId(hotels[0].id);
+          console.log('Hotel ID found for availability packages:', hotels[0].id);
+        }
+      } catch (error) {
+        console.error('Error in fetchHotelId:', error);
+      }
+    };
+
+    fetchHotelId();
+  }, [user]);
 
   // Use real-time availability and secure operations
   const { 
@@ -28,7 +59,7 @@ export function AvailabilityPackagesContent() {
     error, 
     lastUpdated,
     refreshAvailability 
-  } = useRealTimeAvailability({ hotelId: undefined });
+  } = useRealTimeAvailability({ hotelId });
 
   const {
     loading: operationLoading,

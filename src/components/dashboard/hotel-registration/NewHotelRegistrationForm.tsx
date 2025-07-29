@@ -10,6 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { createNewHotel } from '../property/hooks/submission/createNewHotel';
+import { updateExistingHotel } from '../property/hooks/submission/updateExistingHotel';
+import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
@@ -101,11 +103,17 @@ const hotelRegistrationSchema = z.object({
 
 export type HotelRegistrationFormData = z.infer<typeof hotelRegistrationSchema>;
 
-export const NewHotelRegistrationForm = () => {
+interface NewHotelRegistrationFormProps {
+  editingHotelId?: string;
+  onComplete?: () => void;
+}
+
+export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHotelRegistrationFormProps = {}) => {
   const { t } = useTranslation('dashboard/hotel-registration');
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditing = !!editingHotelId;
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -182,8 +190,42 @@ export const NewHotelRegistrationForm = () => {
     availabilityPackages: data.availabilityPackages || []
   });
 
-  // Auto-save completely removed - no watching form values
-  const propertyFormData = convertToPropertyFormData(form.getValues());
+  // Load existing hotel data for editing
+  const { isLoading: isLoadingHotelData } = useHotelEditing({
+    editingHotelId,
+    setFormData: (updater) => {
+      const newData = updater({} as PropertyFormData);
+      // Convert PropertyFormData back to HotelRegistrationFormData
+      form.reset({
+        hotelName: newData.hotelName,
+        address: newData.address,
+        city: newData.city,
+        postalCode: newData.postalCode,
+        country: newData.country,
+        email: newData.contactEmail,
+        phone: newData.contactPhone,
+        classification: newData.category,
+        propertyType: newData.propertyType,
+        propertyStyle: newData.style,
+        hotelDescription: newData.description,
+        idealGuests: newData.idealGuests,
+        atmosphere: newData.atmosphere,
+        location: newData.perfectLocation,
+        hotelFeatures: Object.keys(newData.featuresHotel || {}).filter(key => newData.featuresHotel?.[key]),
+        roomFeatures: Object.keys(newData.featuresRoom || {}).filter(key => newData.featuresRoom?.[key]),
+        activities: newData.activities || [],
+        clientAffinities: newData.themes || [],
+        checkInDay: newData.preferredWeekday,
+        stayLengths: (newData.stayLengths || []).map(length => length.toString()) as ('8' | '15' | '22' | '29')[],
+        photos: {
+          hotel: newData.hotelImages || [],
+          room: []
+        },
+        pricingMatrix: newData.pricingMatrix || []
+      });
+    },
+    setCurrentStep: () => {} // Not needed for this form
+  });
 
   // Auto-save functionality completely disabled
   const autoSave = {
@@ -247,9 +289,14 @@ export const NewHotelRegistrationForm = () => {
       const propertyData = convertToPropertyFormData(data);
       console.log('Property data converted:', propertyData);
       
-      console.log('Calling createNewHotel...');
-      // Submit to hotel creation system
-      const result = await createNewHotel(propertyData, user.id);
+      let result;
+      if (isEditing) {
+        console.log('Calling updateExistingHotel...');
+        result = await updateExistingHotel(propertyData, editingHotelId!);
+      } else {
+        console.log('Calling createNewHotel...');
+        result = await createNewHotel(propertyData, user.id);
+      }
       console.log('=== HOTEL CREATION RESULT ===');
       console.log('Hotel creation result:', result);
       console.log('Result type:', typeof result);
@@ -266,20 +313,27 @@ export const NewHotelRegistrationForm = () => {
         
         // Show immediate success feedback
         toast({
-          title: "✅ Hotel Created Successfully!",
-          description: hasImages 
-            ? `Your hotel has been submitted with ${propertyData.hotelImages.length} images and is pending approval.`
-            : "Your hotel has been submitted and is pending approval.",
+          title: isEditing ? "✅ Hotel Updated Successfully!" : "✅ Hotel Created Successfully!",
+          description: isEditing 
+            ? "Your hotel information has been updated and is pending approval."
+            : hasImages 
+              ? `Your hotel has been submitted with ${propertyData.hotelImages.length} images and is pending approval.`
+              : "Your hotel has been submitted and is pending approval.",
           duration: 8000
         });
 
         // Clear the submitting state immediately to show success
         setIsSubmitting(false);
 
-        // Wait before redirect to ensure user sees success message
+        // Wait before redirect/callback to ensure user sees success message
         setTimeout(() => {
-          console.log('Redirecting to hotel dashboard...');
-          window.location.href = '/hotel-dashboard';
+          if (isEditing && onComplete) {
+            console.log('Completing edit operation...');
+            onComplete();
+          } else {
+            console.log('Redirecting to hotel dashboard...');
+            window.location.href = '/hotel-dashboard';
+          }
         }, 3000);
       } else {
         console.error('=== ERROR: Hotel creation returned invalid result ===');
@@ -336,9 +390,12 @@ export const NewHotelRegistrationForm = () => {
             <Button 
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoadingHotelData}
             >
-              {isSubmitting ? t('submitting') : t('submitRegistration')}
+              {isSubmitting 
+                ? (isEditing ? 'Updating...' : t('submitting'))
+                : (isEditing ? 'Update Property' : t('submitRegistration'))
+              }
             </Button>
           </div>
         </form>

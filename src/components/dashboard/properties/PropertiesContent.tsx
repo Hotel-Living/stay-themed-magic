@@ -95,8 +95,7 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   };
 
   // Rendering logic for different states
-  // Old 5-step form and editing functionality removed
-  if (showAddProperty || editingHotelId) {
+  if (showAddProperty) {
     return (
       <div className="p-6 bg-[#7a0486] border border-white rounded-lg">
         <h3 className="text-xl font-bold text-white mb-4">Property Management</h3>
@@ -110,6 +109,12 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
         </button>
       </div>
     );
+  }
+
+  // If editing a hotel, render the 16-step form with pre-filled data
+  if (editingHotelId) {
+    const { NewHotelRegistrationContent } = require('@/components/dashboard/NewHotelRegistrationContent');
+    return <NewHotelRegistrationContent editingHotelId={editingHotelId} onComplete={handleBackToList} />;
   }
 
   if (selectedHotel) {

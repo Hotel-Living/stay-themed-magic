@@ -130,7 +130,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
           )
         `)
         .eq('status', 'approved')
-        .limit(50); // Reasonable limit for performance
+        .order('created_at', { ascending: false })
+        .limit(100); // Increased limit for better coverage
 
       if (error) {
         console.error('Simplified query error:', error);

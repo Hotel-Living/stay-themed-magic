@@ -79,15 +79,21 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   const location = useLocation();
   const isAdmin = useIsAdmin();
 
-  // Check authentication and admin dashboard access
+  // Check authentication and admin dashboard access with improved persistence
   useEffect(() => {
     const checkAccess = async () => {
-      // Only check if auth is complete
+      // Only check if auth is complete and avoid race conditions
       if (!isLoading) {
+        // Add small delay to prevent tab switching issues
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
         // First check authentication
         if (!user || !session) {
           console.log("No authenticated user detected in admin dashboard layout, redirecting to login");
-          window.location.href = "/login/user";
+          // Use setTimeout to prevent race conditions
+          setTimeout(() => {
+            window.location.href = "/login/user";
+          }, 100);
           return;
         }
         

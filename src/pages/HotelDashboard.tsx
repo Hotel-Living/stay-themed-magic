@@ -56,13 +56,14 @@ const HotelDashboardLoader = () => (
 
 export default function HotelDashboard() {
   const { language } = useTranslation();
-  const { profile, session, isLoading } = useAuth();
+  const { profile, session, isLoading, user } = useAuth();
   
-  // Temporary debugging logs
+  // Debugging logs
   console.log('HotelDashboard Debug - Profile:', profile);
   console.log('HotelDashboard Debug - Session:', session);
+  console.log('HotelDashboard Debug - isLoading:', isLoading);
   
-  // Simplified: if user exists, show dashboard immediately
+  // Show loading while auth is being restored
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
@@ -74,10 +75,20 @@ export default function HotelDashboard() {
     );
   }
 
-  // If no session, redirect to login
-  if (!session) {
-    window.location.href = '/login/hotel';
-    return null;
+  // Only redirect if auth is complete and there's definitely no session
+  if (!isLoading && (!session || !user)) {
+    // Use setTimeout to prevent race conditions when tab visibility changes
+    setTimeout(() => {
+      window.location.href = '/login/hotel';
+    }, 100);
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-center text-white">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-purple-400" />
+          <p>Redirecting to login...</p>
+        </div>
+      </div>
+    );
   }
 
   // Render dashboard immediately - no validation, no suspense, no error boundaries

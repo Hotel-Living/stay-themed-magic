@@ -13,15 +13,19 @@ export default function PromoterDashboard() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Check authentication and promoter dashboard access
+  // Check authentication and promoter dashboard access with improved persistence
   useEffect(() => {
     const checkAccess = async () => {
-      // Only check if auth is complete
+      // Only check if auth is complete and avoid race conditions
       if (!isLoading) {
+        // Add small delay to prevent tab switching issues
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
         // First check authentication
         if (!user || !session) {
           console.log("No authenticated user detected in promoter dashboard, redirecting to promoter login");
-          navigate("/login/promoter");
+          // Use setTimeout to prevent race conditions
+          setTimeout(() => navigate("/login/promoter"), 100);
           return;
         }
         

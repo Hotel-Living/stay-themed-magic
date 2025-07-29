@@ -23,15 +23,21 @@ export const AssociationDashboard = () => {
   const { toast } = useToast();
   const consoleLog = useTranslatedConsole();
 
-  // Check authentication and association dashboard access
+  // Check authentication and association dashboard access with improved persistence
   useEffect(() => {
     const checkAccess = async () => {
-      // Only check if auth is complete
+      // Only check if auth is complete and avoid race conditions
       if (!isLoading) {
+        // Add small delay to prevent tab switching issues
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
         // First check authentication
         if (!user || !session) {
           consoleLog.log("userNotDetected", "in association dashboard, redirecting to association login");
-          window.location.href = "/login/association";
+          // Use setTimeout to prevent race conditions
+          setTimeout(() => {
+            window.location.href = "/login/association";
+          }, 100);
           return;
         }
         

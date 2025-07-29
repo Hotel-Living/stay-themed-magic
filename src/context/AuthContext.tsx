@@ -56,39 +56,69 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Get initial session
+    // Get initial session with improved error handling
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      }
-      
-      setIsLoading(false);
-    };
-
-    getInitialSession();
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
+      try {
+        // Add a small delay to prevent race conditions when returning to tabs
+        if (document.visibilityState === 'visible' && document.hidden === false) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error getting session:', error);
+          setIsLoading(false);
+          return;
+        }
         
         setSession(session);
         setUser(session?.user ?? null);
         
-        if (session?.user && event === 'SIGNED_IN') {
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        }
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error in getInitialSession:', error);
+        setIsLoading(false);
+      }
+    };
+
+    getInitialSession();
+
+    // Set up auth state listener with improved persistence handling
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email);
+        
+        // Handle different auth events with better state management
+        if (event === 'SIGNED_IN' && session?.user) {
           // Keep loading true while fetching profile to prevent premature redirects
           setIsLoading(true);
+          setSession(session);
+          setUser(session.user);
           // Fetch profile data after sign in
           await fetchProfile(session.user.id);
           setIsLoading(false);
         } else if (event === 'SIGNED_OUT') {
+          setSession(null);
+          setUser(null);
           setProfile(null);
           setIsLoading(false);
+        } else if (event === 'TOKEN_REFRESHED' && session) {
+          // Handle token refresh without disrupting UI
+          setSession(session);
+          setUser(session.user);
+          // Don't change loading state or refetch profile
         } else {
+          // Handle other events gracefully
+          setSession(session);
+          setUser(session?.user ?? null);
+          if (!session) {
+            setProfile(null);
+          }
           setIsLoading(false);
         }
       }

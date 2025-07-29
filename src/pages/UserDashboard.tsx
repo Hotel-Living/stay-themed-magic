@@ -37,17 +37,24 @@ export default function UserDashboard() {
   const navigate = useNavigate();
   const { t, language } = useTranslation();
   
-  // Simplified user dashboard - remove unnecessary admin checks
-  // Users accessing this route should already be validated by routing
+  // Improved user dashboard with better session persistence
   const initializeDashboard = async () => {
-    if (!user) {
-      console.log("No user found, redirecting to login");
-      navigate('/login');
-      return;
+    try {
+      // Add delay to prevent race conditions when returning to tabs
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (!user) {
+        console.log("No user found, redirecting to login");
+        // Use setTimeout to prevent race conditions
+        setTimeout(() => navigate('/login'), 100);
+        return;
+      }
+      
+      console.log("User dashboard initialized for:", user.email);
+      // No need for additional role validation here - let users access their dashboard
+    } catch (error) {
+      console.error('Error initializing dashboard:', error);
     }
-    
-    console.log("User dashboard initialized for:", user.email);
-    // No need for additional role validation here - let users access their dashboard
   };
 
   // Run initialization once

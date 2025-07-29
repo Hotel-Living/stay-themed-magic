@@ -24,6 +24,7 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
         )
       `)
       .eq("id", id)
+      .eq("status", "approved") // Only allow public access to approved hotels
       .single();
       
     if (error) throw error;

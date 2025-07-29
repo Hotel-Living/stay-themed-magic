@@ -80,9 +80,9 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
           <Card key={hotel.id} className="border-purple-500/20 bg-[#380048]">
             <CardHeader>
               <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg text-white">{hotel.name}</CardTitle>
-                  <p className="text-sm text-white/80">{hotel.city}, {hotel.country}</p>
+                <div className="flex-1 min-w-0 pr-4">
+                  <CardTitle className="text-lg text-white text-wrap-safe">{hotel.name}</CardTitle>
+                  <p className="text-sm text-white/80 text-wrap-safe">{hotel.city}, {hotel.country}</p>
                   <p className="text-sm font-medium mt-1">
                     Status: <span className={`px-2 py-1 rounded text-xs ${
                       hotel.status === 'approved' ? 'bg-green-100 text-green-800' :
@@ -128,8 +128,8 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
                     className="w-16 h-16 rounded object-cover"
                   />
                 )}
-                <div className="flex-1">
-                  <p className="text-sm text-white/80 line-clamp-2">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-white/80 line-clamp-2 text-wrap-safe">
                     {hotel.description || 'No description available'}
                   </p>
                   <p className="text-sm font-medium mt-1 text-white">

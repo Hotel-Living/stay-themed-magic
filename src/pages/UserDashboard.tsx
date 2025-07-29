@@ -37,26 +37,22 @@ export default function UserDashboard() {
   const navigate = useNavigate();
   const { t, language } = useTranslation();
   
-  // Check if user is an admin
-  const checkAdminStatus = async () => {
-    if (user) {
-      try {
-        const { data: isAdmin, error } = await supabase.rpc('has_role', { role_name: 'admin' });
-        if (!error && isAdmin) {
-          console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
-          navigate('/admin/hotels');
-          return;
-        }
-      } catch (error) {
-        console.warn('Role check failed, continuing with user dashboard:', error);
-        // Fallback: continue with user dashboard
-      }
+  // Simplified user dashboard - remove unnecessary admin checks
+  // Users accessing this route should already be validated by routing
+  const initializeDashboard = async () => {
+    if (!user) {
+      console.log("No user found, redirecting to login");
+      navigate('/login');
+      return;
     }
+    
+    console.log("User dashboard initialized for:", user.email);
+    // No need for additional role validation here - let users access their dashboard
   };
 
-  // Run admin check once
+  // Run initialization once
   useEffect(() => {
-    checkAdminStatus();
+    initializeDashboard();
   }, [user]);
   
   // Create tabs with language-specific labels

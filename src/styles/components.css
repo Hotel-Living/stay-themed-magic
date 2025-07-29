@@ -1,5 +1,12 @@
 
 @layer components {
+  /* Text wrapping utilities for layout overflow prevention */
+  .text-wrap-safe {
+    @apply break-words overflow-wrap-anywhere;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
   .glass-card {
     @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
   }

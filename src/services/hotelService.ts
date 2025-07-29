@@ -90,7 +90,59 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     console.log('🔍 fetchHotelsWithFilters: Applying filters:', filters);
     const startTime = Date.now();
 
-    // Get filter mappings for consistent hotel matching
+    // Check if this is a simple approved hotels fetch (no filters applied)
+    const hasActiveFilters = Object.entries(filters).some(([key, value]) => {
+      if (key === 'priceRange' && value === null) return false;
+      if (value === null || value === undefined || value === '') return false;
+      if (Array.isArray(value) && value.length === 0) return false;
+      if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return false;
+      return true;
+    });
+
+    // If no active filters, use simplified query for better performance
+    if (!hasActiveFilters) {
+      console.log('🚀 Using simplified query for approved hotels (no filters)');
+      const { data: hotels, error } = await supabase
+        .from('hotels')
+        .select(`
+          *,
+          hotel_images (
+            id,
+            image_url,
+            is_main
+          ),
+          hotel_themes (
+            theme_id,
+            themes (
+              id,
+              name,
+              description,
+              category
+            )
+          ),
+          hotel_activities (
+            activity_id,
+            activities (
+              id,
+              name,
+              category
+            )
+          )
+        `)
+        .eq('status', 'approved')
+        .limit(50); // Reasonable limit for performance
+
+      if (error) {
+        console.error('Simplified query error:', error);
+        throw error;
+      }
+
+      console.log(`⚡ Simplified query completed in ${Date.now() - startTime}ms`);
+      console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
+      return hotels || [];
+    }
+
+    // For filtered queries, get filter mappings
     console.log('📡 fetchHotelsWithFilters: Fetching filter mappings...');
     const filterMappings = await getFilterMappings();
     console.log(`🔗 fetchHotelsWithFilters: Filter mappings loaded in ${Date.now() - startTime}ms`);

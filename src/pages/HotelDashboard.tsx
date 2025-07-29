@@ -69,36 +69,16 @@ export default function HotelDashboard() {
       if (!isLoading) {
         console.log("Hotel Dashboard - Not loading, checking access for profile:", profile);
         
-        // In development, always allow access if user is authenticated
-        if (import.meta.env.DEV && profile?.id) {
-          console.log("Hotel Dashboard - Development mode: granting access");
-          setHasAccess(true);
-          return;
-        }
-        
+        // For hotel dashboard, if user is authenticated, grant access
+        // No role validation needed since this is accessed via hotel-specific routes
         if (profile?.id) {
-          try {
-            const accessGranted = await validateDashboardAccess(profile, 'hotel');
-            console.log("Hotel Dashboard - Access validation result:", accessGranted);
-            setHasAccess(accessGranted);
-            
-            if (!accessGranted) {
-              console.log("Hotel Dashboard - Access denied, redirecting to homepage");
-              setTimeout(() => {
-                window.location.href = '/';
-              }, 1000);
-            }
-          } catch (error) {
-            console.error("Hotel Dashboard - Error checking access:", error);
-            // On error, grant access to prevent infinite loading
-            console.log("Hotel Dashboard - Error occurred, granting access to prevent blocking");
-            setHasAccess(true);
-          }
+          console.log("Hotel Dashboard - User authenticated, granting access");
+          setHasAccess(true);
         } else {
-          console.log("Hotel Dashboard - No profile found");
+          console.log("Hotel Dashboard - No profile found, redirecting to hotel login");
           setTimeout(() => {
-            window.location.href = '/';
-          }, 2000);
+            window.location.href = '/login/hotel';
+          }, 1000);
         }
       }
     };

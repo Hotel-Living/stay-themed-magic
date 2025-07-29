@@ -114,8 +114,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       return true;
     });
 
-    // Simple direct query for approved hotels when no filters applied
-    if (!hasActiveFilters) {
+    // TEMPORARY DEBUG: Force simple query to bypass the hanging issue
+    if (true) { // Was: if (!hasActiveFilters) {
       console.log('🚀 Using simple query for approved hotels (no filters)');
       console.log('🔍 DEBUG: About to execute simple query to hotels table');
       

@@ -9,15 +9,14 @@ export function GlobalTestimonials() {
   const { i18n } = useTranslation();
   
   // Don't show on Index page
-  if (location.pathname === '/') {
-    return null;
-  }
+  const shouldShow = location.pathname !== '/';
   
-  // Show Spanish testimonials for Spanish language
-  if (i18n.language === 'es') {
-    return <GlobalVideoTestimonials />;
-  }
-  
-  // Show English testimonials for non-Spanish languages
-  return <EnglishVideoTestimonials />;
+  // Always render both components but conditionally show them
+  // This ensures consistent hook calls
+  return (
+    <>
+      {shouldShow && i18n.language === 'es' && <GlobalVideoTestimonials />}
+      {shouldShow && i18n.language !== 'es' && <EnglishVideoTestimonials />}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 
+console.log('🌟 SEARCH.TSX FILE LOADED - TOP LEVEL');
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -12,8 +13,10 @@ import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
 import { useSmartContentLoading } from "@/hooks/useSmartContentLoading";
 
+console.log('🌟 SEARCH FUNCTION DEFINITION REACHED');
+
 export default function Search() {
-  console.log('🚀 SEARCH COMPONENT RENDERED - STARTED LOADING');
+  console.log('🚀 SEARCH COMPONENT FUNCTION CALLED - STARTING EXECUTION');
   
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
   const [filtersInitialized, setFiltersInitialized] = useState(false);

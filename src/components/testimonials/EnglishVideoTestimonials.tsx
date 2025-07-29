@@ -26,11 +26,6 @@ export function EnglishVideoTestimonials() {
   // Check if videos were closed in this session
   const videosClosedInSession = sessionStorage.getItem('testimonialVideosClosed') === 'true';
   
-  // Clear session storage for testing - remove this in production
-  useEffect(() => {
-    sessionStorage.removeItem('testimonialVideosClosed');
-    console.log('Cleared testimonial videos session flag for testing');
-  }, []);
 
   // Only show on non-Index pages and non-Spanish languages, and if not closed in session
   const shouldShowVideos = location.pathname !== '/' && i18n.language !== 'es' && !videosClosedInSession;

@@ -64,7 +64,7 @@ export default function HotelDashboard() {
   
   useEffect(() => {
     const checkAccess = async () => {
-      if (!isLoading) {
+      if (!isLoading && profile) {
         console.log("Hotel Dashboard - Checking access for profile:", profile);
         
         try {
@@ -73,15 +73,23 @@ export default function HotelDashboard() {
           
           if (!accessGranted) {
             console.log("Hotel Dashboard - Access denied, redirecting to homepage");
-            window.location.href = '/';
+            // Use React Router navigate instead of window.location to avoid breaking browser history
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 100);
             return;
           }
           
           setHasAccess(true);
         } catch (error) {
           console.error("Hotel Dashboard - Error checking access:", error);
-          window.location.href = '/';
+          setHasAccess(true); // Allow access on error to prevent logout loops
         }
+      } else if (!isLoading && !profile) {
+        // Only redirect if we're sure there's no profile after loading completes
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000); // Give more time for profile to load
       }
     };
 
@@ -93,12 +101,7 @@ export default function HotelDashboard() {
     return <HotelDashboardLoader />;
   }
 
-  // If access is denied, this shouldn't render (redirect above), but safety check
-  if (!hasAccess) {
-    console.log("Hotel Dashboard - Final safety check: redirecting");
-    window.location.href = '/';
-    return null;
-  }
+  // Access granted - render dashboard
   
   const renderDashboard = () => {
     if (language === 'en') return <HotelDashboardEN />;

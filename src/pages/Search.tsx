@@ -13,8 +13,15 @@ import { ConnectionIndicator } from "@/components/ui/connection-indicator";
 import { useSmartContentLoading } from "@/hooks/useSmartContentLoading";
 
 export default function Search() {
+  console.log('🚀 SEARCH COMPONENT RENDERED - STARTED LOADING');
+  
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
   const [filtersInitialized, setFiltersInitialized] = useState(false);
+  
+  console.log('🎯 Search component initial state:', {
+    activeFilters,
+    filtersInitialized
+  });
   
   // Smart content loading
   const { prefetchLikelyRoutes } = useSmartContentLoading();
@@ -24,6 +31,8 @@ export default function Search() {
     prefetchLikelyRoutes('/search');
   }, [prefetchLikelyRoutes]);
   
+  
+  console.log('🔥 About to call useHotels hook');
   const {
     hotels,
     loading,
@@ -31,6 +40,13 @@ export default function Search() {
     updateFilters
   } = useHotels({
     initialFilters: filtersInitialized ? activeFilters : createDefaultFilters()
+  });
+  
+  console.log('✅ useHotels hook completed, current state:', {
+    hotelsCount: hotels?.length || 0,
+    loading,
+    error: error?.message,
+    filtersInitialized
   });
   
   // Parse URL parameters on component mount

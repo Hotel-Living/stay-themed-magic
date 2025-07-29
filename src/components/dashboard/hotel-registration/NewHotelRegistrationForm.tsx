@@ -11,6 +11,8 @@ import { useAuth } from '@/context/AuthContext';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
+import { useValidationSummary } from './hooks/useValidationSummary';
+import { ValidationSummary } from './components/ValidationSummary';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -111,7 +113,19 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [accordionValue, setAccordionValue] = useState<string>('');
   const isEditing = !!editingHotelId;
+  
+  // Validation summary hook
+  const {
+    validationErrors,
+    showValidationSummary,
+    validateAllSteps,
+    getStepsWithErrors,
+    getTotalErrorCount,
+    getAccordionValueForStep,
+    setShowValidationSummary
+  } = useValidationSummary();
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -234,7 +248,39 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     clearDraft: () => {}
   };
 
+  // Navigation handler for validation errors
+  const handleNavigateToStep = (step: number) => {
+    const accordionValue = getAccordionValueForStep(step);
+    setAccordionValue(accordionValue);
+    setShowValidationSummary(false);
+    
+    // Scroll to the accordion section
+    setTimeout(() => {
+      const element = document.querySelector(`[data-state="open"][value="${accordionValue}"]`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   const onSubmit = async (data: HotelRegistrationFormData) => {
+    setIsSubmitting(true);
+    
+    // Run comprehensive validation
+    const isValid = validateAllSteps(data);
+    
+    if (!isValid) {
+      setIsSubmitting(false);
+      toast({
+        title: "Validation Error",
+        description: "Please complete all required fields before submitting.",
+        variant: "destructive",
+        duration: 5000
+      });
+      return;
+    }
+    
+    // If validation passes, proceed with submission
     console.log('Form submission disabled - displaying data only');
     console.log('Form data:', data);
     
@@ -243,13 +289,21 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       description: "Hotel registration form is in UI-only mode. Check console for form data.",
       duration: 3000
     });
+    
+    setIsSubmitting(false);
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion 
+            type="single" 
+            collapsible 
+            className="space-y-4"
+            value={accordionValue}
+            onValueChange={setAccordionValue}
+          >
             <HotelBasicInfoSection form={form} />
             <HotelClassificationSection form={form} />
             <PropertyTypeSection form={form} />
@@ -279,12 +333,22 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             >
               {isSubmitting 
                 ? 'Processing...'
-                : 'View Form Data (Console)'
+                : 'Submit Hotel Registration'
               }
             </Button>
           </div>
         </form>
       </Form>
+      
+      {/* Validation Summary Modal */}
+      <ValidationSummary
+        errors={validationErrors}
+        totalErrorCount={getTotalErrorCount()}
+        stepsWithErrors={getStepsWithErrors()}
+        onNavigateToStep={handleNavigateToStep}
+        onClose={() => setShowValidationSummary(false)}
+        isVisible={showValidationSummary}
+      />
     </div>
   );
 };

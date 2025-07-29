@@ -5,6 +5,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Textarea } from '@/components/ui/textarea';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
+import { CharacterCounter } from '../components/CharacterCounter';
 
 interface RoomDescriptionSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -35,7 +36,14 @@ export const RoomDescriptionSection = ({ form }: RoomDescriptionSectionProps) =>
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <div className="flex justify-between items-center mt-2">
+                <FormMessage />
+                <CharacterCounter 
+                  value={field.value || ''} 
+                  minLength={100}
+                  className="text-right"
+                />
+              </div>
             </FormItem>
           )}
         />

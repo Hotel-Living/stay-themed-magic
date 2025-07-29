@@ -5,6 +5,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
+import { CharacterCounter } from '../components/CharacterCounter';
 
 interface CompletePhrasesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -42,7 +43,10 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('idealGuests')}
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="flex justify-between items-center mt-1">
+                  <FormMessage />
+                  <CharacterCounter value={field.value || ''} minLength={40} />
+                </div>
               </FormItem>
             )}
           />
@@ -61,7 +65,10 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('atmosphere')}
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="flex justify-between items-center mt-1">
+                  <FormMessage />
+                  <CharacterCounter value={field.value || ''} minLength={40} />
+                </div>
               </FormItem>
             )}
           />
@@ -80,7 +87,10 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('location')}
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="flex justify-between items-center mt-1">
+                  <FormMessage />
+                  <CharacterCounter value={field.value || ''} minLength={40} />
+                </div>
               </FormItem>
             )}
           />

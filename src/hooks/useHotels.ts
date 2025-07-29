@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { FilterState } from '@/components/filters/FilterTypes';
 import { fetchHotelsWithFilters, convertHotelToUIFormat } from '@/services/hotelService';
@@ -49,13 +48,6 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setLoading(true);
       setError(null);
 
-      // Add timeout to prevent infinite loading - increased to 30 seconds for hotel data
-      const timeoutId = setTimeout(() => {
-        console.warn('⚠️ useHotels: Fetch timeout after 30 seconds, clearing loading state');
-        setLoading(false);
-        setError(new Error('Request timed out. Please try again.'));
-      }, 30000);
-
       try {
         console.log('📡 useHotels: Calling fetchHotelsWithFilters...');
         
@@ -101,11 +93,9 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
           console.log('🏨 useHotels: Sample hotel names:', validHotels.slice(0, 3).map(h => h.name));
         }
         setHotels(validHotels);
-        clearTimeout(timeoutId);
       } catch (err: any) {
         console.error("❌ useHotels: Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));
-        clearTimeout(timeoutId);
       } finally {
         setLoading(false);
         console.log('🏁 useHotels: Hotel fetch completed');

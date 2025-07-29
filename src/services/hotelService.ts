@@ -2,48 +2,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { FilterState } from '@/components/filters/FilterTypes';
 
-// Helper function to get filter mappings for hotel search
-async function getFilterMappings() {
-  const { data: mappings, error } = await supabase
-    .from('filter_value_mappings')
-    .select('category, spanish_value, english_value')
-    .eq('is_active', true);
-
-  if (error) {
-    console.error('Error fetching filter mappings:', error);
-    return { meal_plans: new Map(), room_types: new Map(), property_styles: new Map() };
-  }
-
-  const filterMappings = {
-    meal_plans: new Map<string, string>(),
-    room_types: new Map<string, string>(),
-    property_styles: new Map<string, string>()
-  };
-
-  if (mappings) {
-    mappings.forEach(mapping => {
-      const category = mapping.category as keyof typeof filterMappings;
-      if (filterMappings[category]) {
-        // Bidirectional mapping for flexible matching
-        filterMappings[category].set(mapping.spanish_value, mapping.english_value);
-        filterMappings[category].set(mapping.english_value, mapping.spanish_value);
-      }
-    });
-  }
-
-  return filterMappings;
-}
-
-// Helper function to get all possible values for a filter (both languages)
-function getAllPossibleValues(filterValue: string, mappings: Map<string, string>): string[] {
-  const values = [filterValue];
-  const mappedValue = mappings.get(filterValue);
-  if (mappedValue && !values.includes(mappedValue)) {
-    values.push(mappedValue);
-  }
-  return values;
-}
-
 export const convertHotelToUIFormat = (hotel: any) => {
   console.log('🔄 Converting hotel to UI format:', hotel?.name, hotel?.id);
   
@@ -102,24 +60,23 @@ export const convertHotelToUIFormat = (hotel: any) => {
 
 export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
-    console.log('🔍 fetchHotelsWithFilters: SIMPLIFIED - Fetching all approved hotels');
-    const startTime = Date.now();
+    console.log('🔍 fetchHotelsWithFilters: Fetching all approved hotels - SIMPLE');
     
-    const { data: hotels, error } = await supabase
+    const { data: hotelData, error } = await supabase
       .from('hotels')
       .select('id, name, city, country, price_per_month, main_image_url, category')
       .eq('status', 'approved')
       .limit(50);
 
-    console.log('🔍 Simple query response:', { error, count: hotels?.length });
+    console.log('🔍 Simple query response:', { error, count: hotelData?.length });
 
     if (error) {
       console.error('Simple query error:', error);
       throw error;
     }
 
-    console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
-    return hotels || [];
+    console.log(`📊 Returning ${hotelData?.length || 0} approved hotels`);
+    return hotelData || [];
   } catch (error) {
     console.error('Error fetching hotels:', error);
     throw error;

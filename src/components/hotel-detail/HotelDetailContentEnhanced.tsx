@@ -15,6 +15,39 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   const [bookingStage, setBookingStage] = useState<'initial' | 'processing' | 'success'>('initial');
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
 
+  // Create a combined images array with fallback to main_image_url
+  const getHotelImages = () => {
+    const images = [];
+    
+    // First, add all hotel_images if they exist
+    if (hotel?.hotel_images && hotel.hotel_images.length > 0) {
+      images.push(...hotel.hotel_images);
+    }
+    
+    // If no hotel_images but main_image_url exists, use it as fallback
+    if (images.length === 0 && hotel?.main_image_url) {
+      images.push({
+        image_url: hotel.main_image_url,
+        is_main: true,
+        id: 'main-image'
+      });
+    }
+    
+    // Ultimate fallback to placeholder
+    if (images.length === 0) {
+      images.push({
+        image_url: '/placeholder.svg',
+        is_main: true,
+        id: 'placeholder'
+      });
+    }
+    
+    console.log('🖼️ Hotel images resolved:', images.length, images);
+    return images;
+  };
+
+  const hotelImages = getHotelImages();
+
   // Generate realistic availability packages
   const availabilityPackages = [
     {
@@ -92,13 +125,13 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
-      prev === hotel.hotel_images.length - 1 ? 0 : prev + 1
+      prev === hotelImages.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => 
-      prev === 0 ? hotel.hotel_images.length - 1 : prev - 1
+      prev === 0 ? hotelImages.length - 1 : prev - 1
     );
   };
 
@@ -123,7 +156,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {/* Image Gallery */}
           <div className="absolute inset-0">
             <img 
-              src={hotel.hotel_images[currentImageIndex]?.image_url}
+              src={hotelImages[currentImageIndex]?.image_url || '/placeholder.svg'}
               alt={hotel.name}
               className="w-full h-full object-cover"
             />
@@ -131,7 +164,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           </div>
 
           {/* Navigation arrows */}
-          {hotel.hotel_images.length > 1 && (
+          {hotelImages.length > 1 && (
             <>
               <button 
                 onClick={prevImage}
@@ -149,9 +182,9 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           )}
 
           {/* Image dots */}
-          {hotel.hotel_images.length > 1 && (
+          {hotelImages.length > 1 && (
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {hotel.hotel_images.map((_, index) => (
+              {hotelImages.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}

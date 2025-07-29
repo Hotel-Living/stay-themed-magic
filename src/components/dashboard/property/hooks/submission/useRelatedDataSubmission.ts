@@ -9,12 +9,16 @@ export const useRelatedDataSubmission = () => {
     if (themes && themes.length > 0) {
       try {
         // Create theme records - ensure each theme ID is properly processed
-        const themeRows = themes.map(themeId => ({
-          hotel_id: hotelId,
-          theme_id: themeId
-        }));
+        const themeRows = themes
+          .filter(themeId => themeId && typeof themeId === 'string') // Filter out invalid IDs
+          .map(themeId => ({
+            hotel_id: hotelId,
+            theme_id: themeId
+          }));
         
         if (themeRows.length > 0) {
+          console.log("Attempting to insert theme rows:", themeRows);
+          
           const { data, error } = await supabase
             .from('hotel_themes')
             .insert(themeRows)
@@ -22,11 +26,14 @@ export const useRelatedDataSubmission = () => {
             
           if (error) {
             console.error("Error inserting themes:", error);
+            console.error("Theme rows that failed:", themeRows);
             // Log the error but don't throw to prevent blocking hotel creation
             console.warn("Theme insertion failed but hotel creation will continue");
           } else {
             console.log("Successfully inserted themes:", data?.length || 0);
           }
+        } else {
+          console.warn("No valid theme IDs to insert");
         }
       } catch (error) {
         console.error("Error in theme processing:", error);
@@ -68,61 +75,27 @@ export const useRelatedDataSubmission = () => {
     if (!availableMonths || availableMonths.length === 0) return;
     
     try {
-      const preferredWeekday = 'Monday'; // Default weekday
-      
       console.log("Available months for hotel:", availableMonths);
       
-      // Clear existing hotel availability entries
-      const { error: deleteError } = await supabase
-        .from('hotel_availability')
-        .delete()
-        .eq('hotel_id', hotelId);
+      // IMPORTANT: DO NOT create hotel_availability records for full months
+      // Only availability_packages should determine what dates are available
+      // This method should only update the hotel's available_months array
+      
+      // Update the hotel's available_months field directly
+      const { error: updateError } = await supabase
+        .from('hotels')
+        .update({ 
+          available_months: availableMonths.map(month => month.toLowerCase())
+        })
+        .eq('id', hotelId);
         
-      if (deleteError) {
-        console.warn("Error deleting existing availability, will try to insert anyway:", deleteError);
+      if (updateError) {
+        console.warn("Error updating hotel available_months:", updateError);
+      } else {
+        console.log("Successfully updated hotel available_months:", availableMonths);
       }
       
-      // Only create entries if there are actual months selected
-      if (availableMonths.length > 0) {
-        const currentYear = new Date().getFullYear();
-        const availabilityRows = availableMonths
-          .map(month => {
-            // Ensure month name is properly capitalized
-            const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-            
-            try {
-              // Try to parse the date - this might fail if the month name format is unexpected
-              const firstDayOfMonth = parse(`01 ${capitalizedMonth} ${currentYear}`, 'dd MMMM yyyy', new Date());
-              const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
-              
-              return {
-                hotel_id: hotelId,
-                availability_month: month.toLowerCase(), // Store lowercase in this field
-                availability_year: currentYear,
-                availability_date: formattedDate,
-                is_full_month: true,
-                preferred_weekday: preferredWeekday,
-              };
-            } catch (error) {
-              console.warn(`Error parsing month ${month}, skipping:`, error);
-              return null;
-            }
-          })
-          .filter(Boolean); // Filter out any null entries from parsing errors
-
-        if (availabilityRows.length > 0) {
-          const { data, error } = await supabase
-            .from('hotel_availability')
-            .insert(availabilityRows)
-            .select();
-            
-          if (error) {
-            console.warn("Error inserting availability:", error);
-          } else {
-            console.log("Successfully inserted availability:", data?.length || 0);
-          }
-        }
-      }
+      console.log("IMPORTANT: Availability is now controlled ONLY by availability_packages, not by full month availability records");
     } catch (error) {
       console.error("Error in availability processing:", error);
       // Continue execution - don't throw error to parent function

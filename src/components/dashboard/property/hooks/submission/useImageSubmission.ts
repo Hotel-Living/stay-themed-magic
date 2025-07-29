@@ -43,7 +43,7 @@ export const useImageSubmission = () => {
         
         // Upload to Supabase Storage
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('hotel-images')
+          .from('Hotel Images')
           .upload(fileName, blob, {
             contentType: blob.type,
             upsert: false
@@ -56,7 +56,7 @@ export const useImageSubmission = () => {
 
         // Get public URL
         const { data: urlData } = supabase.storage
-          .from('hotel-images')
+          .from('Hotel Images')
           .getPublicUrl(uploadData.path);
         
         allImageUrls.push(urlData.publicUrl);

@@ -9,7 +9,7 @@ export function useRoomImagePersistence() {
     const fileName = `${hotelId}/rooms/${roomTypeId}/${Date.now()}-${index}.${fileExt}`;
     
     const { data, error } = await supabase.storage
-      .from('hotel-images')
+      .from('Hotel Images')
       .upload(fileName, file);
 
     if (error) {
@@ -18,7 +18,7 @@ export function useRoomImagePersistence() {
     }
 
     const { data: { publicUrl } } = supabase.storage
-      .from('hotel-images')
+      .from('Hotel Images')
       .getPublicUrl(fileName);
 
     return publicUrl;

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
@@ -99,6 +99,15 @@ const queryClient = createQueryClient();
 // Main App Routes with ALL providers and global components
 function MainAppRoutes() {
   const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
+  const location = useLocation();
+  
+  // Check if current route is a dashboard route
+  const isDashboardRoute = location.pathname.startsWith("/hotel-dashboard") || 
+                          location.pathname.startsWith("/user-dashboard") || 
+                          location.pathname.startsWith("/admin") || 
+                          location.pathname.startsWith("/panel-asociacion") || 
+                          location.pathname.startsWith("/panel-fernando") || 
+                          location.pathname.startsWith("/promoter");
   
   // Initialize smooth scroll behavior
   useSmoothScroll();
@@ -118,7 +127,7 @@ function MainAppRoutes() {
                 <GoogleAnalytics />
                 <ConnectionBanner />
                 
-                {shouldShowIntro && (
+                {shouldShowIntro && !isDashboardRoute && (
                   <IntroAnimation onComplete={handleIntroComplete} />
                 )}
           

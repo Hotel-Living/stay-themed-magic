@@ -56,26 +56,39 @@ export const validateDashboardAccess = async (
   // Allow access for development or admin users
   const isDevOrAdmin = await isDevelopmentOrAdmin();
   if (isDevOrAdmin) {
+    console.log('validateDashboardAccess: Dev/Admin access granted');
     return true;
   }
   
   // If no profile, deny access
   if (!profile) {
+    console.log('validateDashboardAccess: No profile, denying access');
     return false;
   }
   
+  console.log('validateDashboardAccess: Checking access for', { 
+    profileRole: profile.role, 
+    isHotelOwner: profile.is_hotel_owner, 
+    dashboardType 
+  });
+  
   // Check role-based access
   const allowedRoles = DASHBOARD_ROLE_MAP[dashboardType];
+  console.log('validateDashboardAccess: Allowed roles for', dashboardType, ':', allowedRoles);
   
   // For hotel dashboard, also check is_hotel_owner flag
   if (dashboardType === 'hotel') {
-    return (
+    const hasAccess = (
       allowedRoles.includes(profile.role || '') || 
       profile.is_hotel_owner === true
     );
+    console.log('validateDashboardAccess: Hotel dashboard access result:', hasAccess);
+    return hasAccess;
   }
   
-  return allowedRoles.includes(profile.role || '');
+  const hasAccess = allowedRoles.includes(profile.role || '');
+  console.log('validateDashboardAccess: General dashboard access result:', hasAccess);
+  return hasAccess;
 };
 
 /**
@@ -91,10 +104,7 @@ export const getRedirectUrlForRole = (profile: ProfileCompat | null): string => 
       return '/admin';
     case 'hotel_owner':
     case 'hotel':
-      if (profile.is_hotel_owner) {
-        return '/hotel-dashboard';
-      }
-      return '/user-dashboard';
+      return '/hotel-dashboard';
     case 'association':
       return '/panel-asociacion';
     case 'promoter':

@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getRedirectUrlForRole } from '@/utils/dashboardSecurity';
 
 export function DashboardAccess() {
   const { user, profile } = useAuth();
@@ -16,30 +17,12 @@ export function DashboardAccess() {
         role: profile.role 
       });
       
-      // Redirect based on user role
-      switch (profile.role) {
-        case 'hotel':
-          navigate('/hotel-dashboard', { replace: true });
-          break;
-        case 'user':
-          navigate('/user-dashboard', { replace: true });
-          break;
-        case 'admin':
-          navigate('/admin', { replace: true });
-          break;
-        case 'promoter':
-          navigate('/promoter', { replace: true });
-          break;
-        case 'association':
-          navigate('/panel-asociacion', { replace: true });
-          break;
-        case 'agent':
-          navigate('/panel-agente', { replace: true });
-          break;
-        default:
-          // For unknown roles, stay on homepage
-          console.log('DashboardAccess - Unknown role:', profile.role);
-          break;
+      const redirectUrl = getRedirectUrlForRole(profile);
+      if (redirectUrl !== '/') {
+        console.log('DashboardAccess - Redirecting to:', redirectUrl);
+        navigate(redirectUrl, { replace: true });
+      } else {
+        console.log('DashboardAccess - No valid redirect URL, staying on homepage');
       }
     }
   }, [user, profile, location.pathname, navigate]);

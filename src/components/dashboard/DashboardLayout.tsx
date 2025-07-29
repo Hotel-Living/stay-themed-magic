@@ -36,37 +36,18 @@ export default function DashboardLayout({
   const navigate = useNavigate();
   const { t } = useTranslation("dashboard");
 
-  // Check authentication and hotel dashboard access
+  // Check authentication only - no role validation for hotel dashboard
   useEffect(() => {
     const checkAccess = async () => {
-      // Only check if auth is complete and we have profile data
-      if (!isLoading && user && session) {
-        // Wait for profile data to be loaded before running security checks
-        if (profile === null) {
-          console.log("Profile data not yet loaded, waiting...");
-          return;
-        }
-        
-        console.log("Running security checks for hotel dashboard with profile:", profile);
-        
-        // Single security validation check - avoid duplicate calls
-        const hasAccess = await validateDashboardAccess(profile, 'hotel');
-        if (!hasAccess) {
-          console.log("User does not have hotel access, redirecting based on role:", profile.role);
-          
-          // Use navigate instead of window.location.href to prevent loops
-          const redirectUrl = getRedirectUrlForRole(profile);
-          console.log("Redirecting to:", redirectUrl);
-          navigate(redirectUrl, { replace: true });
-        }
-      } else if (!isLoading && (!user || !session)) {
+      // Only check if auth is complete
+      if (!isLoading && (!user || !session)) {
         console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
         navigate("/login/hotel", { replace: true });
       }
     };
     
     checkAccess();
-  }, [user, session, profile, isLoading, navigate]);
+  }, [user, session, isLoading, navigate]);
 
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';

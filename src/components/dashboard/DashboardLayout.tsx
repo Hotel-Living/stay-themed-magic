@@ -10,7 +10,6 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
-import { validateDashboardAccess, getRedirectUrlForRole } from "@/utils/dashboardSecurity";
 
 interface DashboardLayoutProps {
   children: ReactNode;

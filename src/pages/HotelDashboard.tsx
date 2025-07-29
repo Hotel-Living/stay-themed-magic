@@ -1,10 +1,7 @@
 
 import { useTranslation } from "@/hooks/useTranslation";
-import { SuspenseWrapper } from "@/components/modern/SuspenseWrapper";
 import { Loader2, AlertTriangle, RefreshCcw } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
-import { validateDashboardAccess } from "@/utils/dashboardSecurity";
 import HotelDashboardEN from "./HotelDashboard.en";
 import HotelDashboardES from "./HotelDashboard.es";
 import HotelDashboardPT from "./HotelDashboard.pt";

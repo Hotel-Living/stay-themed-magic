@@ -9,8 +9,6 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
-import { createNewHotel } from '../property/hooks/submission/createNewHotel';
-import { updateExistingHotel } from '../property/hooks/submission/updateExistingHotel';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 
@@ -33,7 +31,7 @@ import { ImageUploadsSection } from './sections/ImageUploadsSection';
 import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
 import { PricingMatrixSection } from './sections/PricingMatrixSection';
 import { TermsConditionsSection } from './sections/TermsConditionsSection';
-import { ValidationSubmitButton } from './ValidationSubmitButton';
+
 
 const hotelRegistrationSchema = z.object({
   // Basic Info
@@ -237,126 +235,14 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    console.log('=== HOTEL REGISTRATION SUBMISSION START ===');
+    console.log('Form submission disabled - displaying data only');
     console.log('Form data:', data);
-    console.log('User:', user);
-    console.log('=== DEBUGGING DATA FLOW ===');
-    console.log('clientAffinities from form:', data.clientAffinities);
-    console.log('activities from form:', data.activities);
-    console.log('photos from form:', data.photos);
-    console.log('availabilityPackages from form:', data.availabilityPackages);
     
-    // Log transform debugging
-    console.log('=== TRANSFORM DEBUG NewHotelRegistrationForm ===');
-    console.log('clientAffinities transformed to themes:', data.clientAffinities);
-    console.log('activities transformed:', data.activities);
-    console.log('photos transformed to hotelImages:', data.photos);
-    console.log('availabilityPackages transformed:', data.availabilityPackages);
-    
-    // Check authentication first
-    if (!user?.id) {
-      console.error('User not authenticated');
-      toast({
-        title: t('error'),
-        description: t('userNotAuthenticated'),
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    // Check if form is valid before proceeding
-    const isValid = await form.trigger();
-    if (!isValid) {
-      console.error('Form validation failed');
-      // Get all field errors and display them
-      const errors = form.formState.errors;
-      const errorMessages = Object.entries(errors)
-        .map(([field, error]) => `${field}: ${error?.message || 'Invalid'}`)
-        .join(', ');
-      
-      toast({
-        title: t('validationErrors'),
-        description: `${t('pleaseFixTheFollowingErrors')}: ${errorMessages}`,
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    try {
-      console.log('Converting form data...');
-      const propertyData = convertToPropertyFormData(data);
-      console.log('Property data converted:', propertyData);
-      
-      let result;
-      if (isEditing) {
-        console.log('Calling updateExistingHotel...');
-        result = await updateExistingHotel(propertyData, editingHotelId!);
-      } else {
-        console.log('Calling createNewHotel...');
-        result = await createNewHotel(propertyData, user.id);
-      }
-      console.log('=== HOTEL CREATION RESULT ===');
-      console.log('Hotel creation result:', result);
-      console.log('Result type:', typeof result);
-      console.log('Result keys:', result ? Object.keys(result) : 'No result');
-      
-      if (result && result.id) {
-        console.log('=== SUCCESS: Hotel created successfully ===');
-        console.log('Hotel ID:', result.id);
-        console.log('Hotel name:', result.name);
-        console.log('Hotel owner:', result.owner_id);
-        
-        // Check if images were included in the submission
-        const hasImages = propertyData.hotelImages && propertyData.hotelImages.length > 0;
-        
-        // Show immediate success feedback
-        toast({
-          title: isEditing ? "✅ Hotel Updated Successfully!" : "✅ Hotel Created Successfully!",
-          description: isEditing 
-            ? "Your hotel information has been updated and is pending approval."
-            : hasImages 
-              ? `Your hotel has been submitted with ${propertyData.hotelImages.length} images and is pending approval.`
-              : "Your hotel has been submitted and is pending approval.",
-          duration: 8000
-        });
-
-        // Clear the submitting state immediately to show success
-        setIsSubmitting(false);
-
-        // Wait before redirect/callback to ensure user sees success message
-        setTimeout(() => {
-          if (isEditing && onComplete) {
-            console.log('Completing edit operation...');
-            onComplete();
-          } else {
-            console.log('Redirecting to hotel dashboard...');
-            window.location.href = '/hotel-dashboard';
-          }
-        }, 3000);
-      } else {
-        console.error('=== ERROR: Hotel creation returned invalid result ===');
-        console.error('Result:', result);
-        throw new Error('Hotel creation failed - invalid result returned');
-      }
-    } catch (error: any) {
-      console.error('=== HOTEL SUBMISSION ERROR ===');
-      console.error('Error submitting hotel:', error);
-      console.error('Error message:', error?.message);
-      console.error('Error details:', error?.details);
-      console.error('Error hint:', error?.hint);
-      
-      toast({
-        title: t('error'),
-        description: error?.message || t('submissionFailed'),
-        variant: 'destructive',
-        duration: 8000
-      });
-    } finally {
-      setIsSubmitting(false);
-      console.log('=== HOTEL REGISTRATION SUBMISSION END ===');
-    }
+    toast({
+      title: "Form Data Captured",
+      description: "Hotel registration form is in UI-only mode. Check console for form data.",
+      duration: 3000
+    });
   };
 
   return (
@@ -386,15 +272,14 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
           <TermsConditionsSection form={form} />
           
           <div className="flex justify-end pt-6">
-            <ValidationSubmitButton form={form} />
             <Button 
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
               disabled={isSubmitting || isLoadingHotelData}
             >
               {isSubmitting 
-                ? (isEditing ? 'Updating...' : t('submitting'))
-                : (isEditing ? 'Update Property' : t('submitRegistration'))
+                ? 'Processing...'
+                : 'View Form Data (Console)'
               }
             </Button>
           </div>

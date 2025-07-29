@@ -13,7 +13,7 @@ interface ProfileCompat {
  */
 export const isDevelopmentOrAdmin = async (): Promise<boolean> => {
   // Always allow access in development
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     return true;
   }
   

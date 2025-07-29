@@ -79,15 +79,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
         console.log('🔍 Has active filters:', hasActiveFilters);
         console.log('🔍 DEBUG: About to call fetchHotelsWithFilters with filters:', filters);
         
-        // Add timeout to detect hanging requests
-        const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Hotel fetch timeout after 10 seconds')), 10000);
-        });
-        
-        const fetchPromise = fetchHotelsWithFilters(filters);
-        console.log('⏱️ Race between fetch and timeout started');
-        
-        const data = await Promise.race([fetchPromise, timeoutPromise]) as any[];
+        const data = await fetchHotelsWithFilters(filters);
         console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);
         
         // Convert API hotel data to UI format with better error handling

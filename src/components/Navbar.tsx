@@ -132,16 +132,6 @@ export function Navbar() {
             </div>
           </Link>
           
-          {/* HOTEL? Button - Smart routing based on user status */}
-          <Link 
-            to={user && profile && (profile.role === 'hotel_owner' || profile.role === 'hotel') ? "/hotel-dashboard" : "/hotels"} 
-            className="bg-gradient-to-r from-[#7E26A6] to-[#4A90E2] hover:from-[#5D0080] hover:to-[#357ABD] text-white font-bold text-xs px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg border-2 border-white/20"
-          >
-            <div className="text-center">
-              <div>HOTEL?</div>
-            </div>
-          </Link>
-          
           
           {/* Authentication Buttons */}
           {user ? (
@@ -240,15 +230,6 @@ export function Navbar() {
           
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.hotel.mobile')}
-          </Link>
-          
-          {/* HOTEL? Button - Mobile version with smart routing */}
-          <Link 
-            to={user && profile && (profile.role === 'hotel_owner' || profile.role === 'hotel') ? "/hotel-dashboard" : "/hotels"} 
-            onClick={() => setIsMenuOpen(false)} 
-            className="bg-gradient-to-r from-[#7E26A6] to-[#4A90E2] text-white font-bold text-center text-lg py-3 rounded-full transition-all duration-300 hover:scale-105 border-2 border-white/20"
-          >
-            HOTEL?
           </Link>
         </nav>
       </div>

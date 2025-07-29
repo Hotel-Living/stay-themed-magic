@@ -56,7 +56,11 @@ const HotelDashboardLoader = () => (
 
 export default function HotelDashboard() {
   const { language } = useTranslation();
-  const { profile, isLoading } = useAuth();
+  const { profile, session, isLoading } = useAuth();
+  
+  // Temporary debugging logs
+  console.log('HotelDashboard Debug - Profile:', profile);
+  console.log('HotelDashboard Debug - Session:', session);
   
   // Simplified: if user exists, show dashboard immediately
   if (isLoading) {
@@ -70,8 +74,8 @@ export default function HotelDashboard() {
     );
   }
 
-  // If no profile, redirect to login
-  if (!profile?.id) {
+  // If no session, redirect to login
+  if (!session) {
     window.location.href = '/login/hotel';
     return null;
   }

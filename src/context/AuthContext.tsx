@@ -34,17 +34,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('AuthContext Debug - Fetching profile for userId:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
+      console.log('AuthContext Debug - Profile fetch result:', { data, error });
+
       if (error && error.code !== 'PGRST116') {
         console.error('Error fetching profile:', error);
         return;
       }
 
+      console.log('AuthContext Debug - Setting profile:', data);
       setProfile(data);
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -131,6 +135,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthComplete,
     signOut,
   };
+
+  // Temporary debugging logs for hotel dashboard issue
+  console.log('AuthContext Debug - Current state:', {
+    hasUser: !!user,
+    hasProfile: !!profile,
+    hasSession: !!session,
+    isLoading,
+    profileData: profile
+  });
 
   return (
     <AuthContext.Provider value={value}>

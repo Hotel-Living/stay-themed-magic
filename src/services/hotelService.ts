@@ -99,30 +99,30 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       return true;
     });
 
-    // If no active filters, use simple query for approved hotels
+    // Simple direct query for approved hotels when no filters applied
     if (!hasActiveFilters) {
       console.log('🚀 Using simple query for approved hotels (no filters)');
       
       const { data: hotels, error } = await supabase
         .from('hotels')
-        .select(`
-          id,
-          name,
-          city,
-          country,
-          price_per_month,
-          main_image_url,
-          status,
-          category,
-          created_at
-        `)
+        .select('id, name, city, country, price_per_month, main_image_url, category')
         .eq('status', 'approved')
-        .order('created_at', { ascending: false })
-        .limit(20);
+        .limit(50);
 
       if (error) {
         console.error('Simple query error:', error);
-        throw error;
+        // Fallback: try again with minimal query
+        const { data: fallbackHotels, error: fallbackError } = await supabase
+          .from('hotels')
+          .select('id, name, city, country, price_per_month, main_image_url, category')
+          .eq('status', 'approved')
+          .limit(50);
+        
+        if (fallbackError) {
+          console.error('Fallback query also failed:', fallbackError);
+          throw fallbackError;
+        }
+        return fallbackHotels || [];
       }
 
       console.log(`⚡ Simple query completed in ${Date.now() - startTime}ms`);

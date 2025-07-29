@@ -97,17 +97,17 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   console.log("🔍 SearchResults - loading:", loading);
   console.log("🔍 SearchResults - error:", error);
 
-  if (loading) {
-    console.log("⏳ SearchResults - showing enhanced loading state");
-    return <LoadingSkeleton />;
-  }
-
-  // Handle error toast at the top level (outside conditional rendering)
+  // Handle error toast at the top level (BEFORE any conditional returns)
   useEffect(() => {
     if (error) {
       showLoadingError("hotels");
     }
   }, [error, showLoadingError]);
+
+  if (loading) {
+    console.log("⏳ SearchResults - showing enhanced loading state");
+    return <LoadingSkeleton />;
+  }
 
   if (error) {
     console.error("❌ SearchResults - showing error state:", error);

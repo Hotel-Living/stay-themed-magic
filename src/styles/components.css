@@ -2,9 +2,10 @@
 @layer components {
   /* Text wrapping utilities for layout overflow prevention */
   .text-wrap-safe {
-    @apply break-words overflow-wrap-anywhere;
+    @apply break-words;
     white-space: normal;
     word-break: break-word;
+    overflow-wrap: break-word;
   }
   
   .glass-card {

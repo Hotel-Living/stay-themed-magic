@@ -8,8 +8,10 @@ import { Accordion } from '@/components/ui/accordion';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
+import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
+import { createNewHotel } from '../property/hooks/submission/createNewHotel';
+import { updateExistingHotel } from '../property/hooks/submission/updateExistingHotel';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
-import { supabase } from '@/integrations/supabase/client';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
@@ -238,6 +240,18 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     console.log('=== HOTEL REGISTRATION SUBMISSION START ===');
     console.log('Form data:', data);
     console.log('User:', user);
+    console.log('=== DEBUGGING DATA FLOW ===');
+    console.log('clientAffinities from form:', data.clientAffinities);
+    console.log('activities from form:', data.activities);
+    console.log('photos from form:', data.photos);
+    console.log('availabilityPackages from form:', data.availabilityPackages);
+    
+    // Log transform debugging
+    console.log('=== TRANSFORM DEBUG NewHotelRegistrationForm ===');
+    console.log('clientAffinities transformed to themes:', data.clientAffinities);
+    console.log('activities transformed:', data.activities);
+    console.log('photos transformed to hotelImages:', data.photos);
+    console.log('availabilityPackages transformed:', data.availabilityPackages);
     
     // Check authentication first
     if (!user?.id) {
@@ -271,56 +285,67 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     setIsSubmitting(true);
     
     try {
-      // Store raw form data in temporary table
-      const rawSubmissionData = {
-        user_id: user.id,
-        is_edit: isEditing,
-        editing_hotel_id: editingHotelId || null,
-        raw_form_data: data,
-        form_version: '16-step',
-        submitted_at: new Date().toISOString()
-      };
-
-      const { data: submissionResult, error } = await supabase
-        .from('hotel_submissions_raw')
-        .insert([rawSubmissionData])
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Error storing raw submission:', error);
-        throw new Error(`Submission storage failed: ${error.message}`);
+      console.log('Converting form data...');
+      const propertyData = convertToPropertyFormData(data);
+      console.log('Property data converted:', propertyData);
+      
+      let result;
+      if (isEditing) {
+        console.log('Calling updateExistingHotel...');
+        result = await updateExistingHotel(propertyData, editingHotelId!);
+      } else {
+        console.log('Calling createNewHotel...');
+        result = await createNewHotel(propertyData, user.id);
       }
-
-      console.log('Raw submission stored successfully:', submissionResult);
+      console.log('=== HOTEL CREATION RESULT ===');
+      console.log('Hotel creation result:', result);
+      console.log('Result type:', typeof result);
+      console.log('Result keys:', result ? Object.keys(result) : 'No result');
       
-      // Show success feedback
-      toast({
-        title: isEditing ? "✅ Hotel Update Submitted!" : "✅ Hotel Registration Submitted!",
-        description: isEditing 
-          ? "Your hotel information has been submitted for processing."
-          : "Your hotel registration has been submitted and will be processed shortly.",
-        duration: 8000
-      });
+      if (result && result.id) {
+        console.log('=== SUCCESS: Hotel created successfully ===');
+        console.log('Hotel ID:', result.id);
+        console.log('Hotel name:', result.name);
+        console.log('Hotel owner:', result.owner_id);
+        
+        // Check if images were included in the submission
+        const hasImages = propertyData.hotelImages && propertyData.hotelImages.length > 0;
+        
+        // Show immediate success feedback
+        toast({
+          title: isEditing ? "✅ Hotel Updated Successfully!" : "✅ Hotel Created Successfully!",
+          description: isEditing 
+            ? "Your hotel information has been updated and is pending approval."
+            : hasImages 
+              ? `Your hotel has been submitted with ${propertyData.hotelImages.length} images and is pending approval.`
+              : "Your hotel has been submitted and is pending approval.",
+          duration: 8000
+        });
 
-      // Clear the submitting state immediately to show success
-      setIsSubmitting(false);
+        // Clear the submitting state immediately to show success
+        setIsSubmitting(false);
 
-      // Wait before redirect/callback to ensure user sees success message
-      setTimeout(() => {
-        if (isEditing && onComplete) {
-          console.log('Completing edit operation...');
-          onComplete();
-        } else {
-          console.log('Redirecting to hotel dashboard...');
-          window.location.href = '/hotel-dashboard';
-        }
-      }, 3000);
-      
+        // Wait before redirect/callback to ensure user sees success message
+        setTimeout(() => {
+          if (isEditing && onComplete) {
+            console.log('Completing edit operation...');
+            onComplete();
+          } else {
+            console.log('Redirecting to hotel dashboard...');
+            window.location.href = '/hotel-dashboard';
+          }
+        }, 3000);
+      } else {
+        console.error('=== ERROR: Hotel creation returned invalid result ===');
+        console.error('Result:', result);
+        throw new Error('Hotel creation failed - invalid result returned');
+      }
     } catch (error: any) {
       console.error('=== HOTEL SUBMISSION ERROR ===');
       console.error('Error submitting hotel:', error);
       console.error('Error message:', error?.message);
+      console.error('Error details:', error?.details);
+      console.error('Error hint:', error?.hint);
       
       toast({
         title: t('error'),

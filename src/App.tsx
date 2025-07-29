@@ -19,7 +19,7 @@ import { SEOMetadata } from "@/components/SEOMetadata";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import { IntroAnimation, useIntroAnimation } from "@/components/intro";
+
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
 import IntroTest1 from "@/pages/IntroTest1";
@@ -98,16 +98,7 @@ const queryClient = createQueryClient();
 
 // Main App Routes with ALL providers and global components
 function MainAppRoutes() {
-  const { shouldShowIntro, handleIntroComplete } = useIntroAnimation();
   const location = useLocation();
-  
-  // Check if current route is a dashboard route
-  const isDashboardRoute = location.pathname.startsWith("/hotel-dashboard") || 
-                          location.pathname.startsWith("/user-dashboard") || 
-                          location.pathname.startsWith("/admin") || 
-                          location.pathname.startsWith("/panel-asociacion") || 
-                          location.pathname.startsWith("/panel-fernando") || 
-                          location.pathname.startsWith("/promoter");
   
   // Initialize smooth scroll behavior
   useSmoothScroll();
@@ -126,10 +117,6 @@ function MainAppRoutes() {
                 <DashboardAccess />
                 <GoogleAnalytics />
                 <ConnectionBanner />
-                
-                {shouldShowIntro && !isDashboardRoute && (
-                  <IntroAnimation onComplete={handleIntroComplete} />
-                )}
           
           <main id="main-content">
             <Routes>

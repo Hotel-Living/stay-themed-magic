@@ -217,10 +217,10 @@ function App() {
             <Route path="/signup/hotel" element={<AuthProvider><SignupHotel /></AuthProvider>} />
             <Route path="/signup/association" element={<AuthProvider><SignupAssociation /></AuthProvider>} />
             <Route path="/signup/promoter" element={<AuthProvider><SignupPromoter /></AuthProvider>} />
-            <Route path="/login/user" element={<AuthProvider><LoginUser /></AuthProvider>} />
-            <Route path="/login/hotel" element={<AuthProvider><LoginHotel /></AuthProvider>} />
-            <Route path="/login/association" element={<AuthProvider><LoginAssociation /></AuthProvider>} />
-            <Route path="/login/promoter" element={<AuthProvider><LoginPromoter /></AuthProvider>} />
+            <Route path="/login/user" element={<LoginUser />} />
+            <Route path="/login/hotel" element={<LoginHotel />} />
+            <Route path="/login/association" element={<LoginAssociation />} />
+            <Route path="/login/promoter" element={<LoginPromoter />} />
             <Route path="/auth/callback" element={<AuthProvider><AuthCallback /></AuthProvider>} />
             <Route path="/registerUser" element={<AuthProvider><RegisterUser /></AuthProvider>} />
             <Route path="/registerHotel" element={<AuthProvider><RegisterHotel /></AuthProvider>} />

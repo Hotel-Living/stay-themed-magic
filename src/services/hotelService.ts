@@ -45,22 +45,36 @@ function getAllPossibleValues(filterValue: string, mappings: Map<string, string>
 }
 
 export const convertHotelToUIFormat = (hotel: any) => {
+  console.log('🔄 Converting hotel to UI format:', hotel?.name, hotel?.id);
+  
   if (!hotel || typeof hotel !== 'object') {
-    console.warn('Invalid hotel data received:', hotel);
+    console.warn('❌ Invalid hotel data received:', hotel);
     return null;
   }
 
   try {
+    // Ensure we have proper fallback image
+    const thumbnail = hotel.main_image_url || 
+                     hotel.thumbnail || 
+                     (hotel.hotel_images && hotel.hotel_images[0]?.image_url) ||
+                     "/placeholder.svg";
+    
+    console.log('🖼️ Hotel image fallback for', hotel.name, ':', {
+      main_image_url: hotel.main_image_url,
+      thumbnail: hotel.thumbnail,
+      final_thumbnail: thumbnail
+    });
+
     const converted = {
       id: hotel.id,
       name: hotel.name || 'Unnamed Hotel',
       location: hotel.location || `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*/, ''),
-      city: hotel.city,
-      country: hotel.country,
+      city: hotel.city || 'Unknown City',
+      country: hotel.country || 'Unknown Country',
       price_per_month: hotel.price_per_month || 0,
-      thumbnail: hotel.main_image_url || hotel.thumbnail,
+      thumbnail: thumbnail,
       theme: hotel.theme,
-      category: hotel.category,
+      category: hotel.category || 0,
       // For simplified queries, these may be empty
       hotel_images: hotel.hotel_images || [],
       hotel_themes: hotel.hotel_themes || [],
@@ -78,9 +92,10 @@ export const convertHotelToUIFormat = (hotel: any) => {
       pricingMatrix: hotel.pricingMatrix || hotel.pricingmatrix,
     };
 
+    console.log('✅ Successfully converted hotel:', converted.name, converted.id);
     return converted;
   } catch (error) {
-    console.error('Error converting hotel data:', error, hotel);
+    console.error('❌ Error converting hotel data:', error, hotel);
     return null;
   }
 };

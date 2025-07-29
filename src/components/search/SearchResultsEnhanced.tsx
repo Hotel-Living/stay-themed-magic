@@ -127,10 +127,12 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
   }
 
   if (!hotels || hotels.length === 0) {
-    console.warn("⚠️ SearchResults - no hotels to display");
+    console.warn("⚠️ SearchResults - NO HOTELS TO DISPLAY");
     console.log("⚠️ SearchResults - hotels array:", hotels);
     console.log("⚠️ SearchResults - is hotels null/undefined?", hotels === null || hotels === undefined);
     console.log("⚠️ SearchResults - hotels.length:", hotels?.length);
+    console.log("⚠️ SearchResults - loading state:", loading);
+    console.log("⚠️ SearchResults - error state:", error);
     
     // Get smart fallback suggestions
     const urlParams = new URLSearchParams(window.location.search);

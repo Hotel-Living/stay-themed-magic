@@ -1,7 +1,11 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useHotelSubmission } from "./submission/useHotelSubmission";
+import { useRelatedDataSubmission } from "./submission/useRelatedDataSubmission";
+import { useSubmissionSuccess } from "./submission/useSubmissionSuccess";
+import { useValidationError } from "./submission/useValidationError";
+import { useImageSubmission } from "./submission/useImageSubmission";
 import { PropertyFormData } from "./usePropertyFormData";
 
 interface PropertySubmissionProps {
@@ -32,6 +36,24 @@ export const usePropertySubmission = ({
   onDoneEditing
 }: PropertySubmissionProps) => {
   const { toast } = useToast();
+  const { createNewHotel, updateExistingHotel } = useHotelSubmission();
+  const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
+  const { handleSubmissionSuccess, showFallback, handleFallbackRedirect } = useSubmissionSuccess({
+    setIsSubmitted,
+    setSubmitSuccess,
+    setCurrentStep,
+    setFormData,
+    onDoneEditing
+  });
+  const { handlePlaceholderImages, handleCustomImages, handleAutoImagePopulation } = useImageSubmission();
+
+  const { handleValidationError } = useValidationError({
+    setErrorFields,
+    setShowValidationErrors,
+    getIncompleteFields,
+    stepValidation,
+    formData
+  });
 
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
@@ -55,104 +77,97 @@ export const usePropertySubmission = ({
 
     try {
       let hotelId: string;
+      let noChangesDetected = false;
+      let changesCount = 0;
       let hotelData: any;
       
       if (isEditing) {
-        // Update existing hotel directly
-        const { data: result, error } = await supabase
-          .from('hotels')
-          .update({
-            name: formData.hotelName,
-            description: formData.description,
-            country: formData.country,
-            address: formData.address,
-            city: formData.city,
-            postal_code: formData.postalCode,
-            contact_name: formData.contactName,
-            contact_email: formData.contactEmail,
-            contact_phone: formData.contactPhone,
-            status: 'pending'
-          })
-          .eq('id', editingHotelId)
-          .select()
-          .single();
-        
-        if (error) {
-          throw error;
-        }
-        
+        // Update existing hotel
+        const result = await updateExistingHotel(formData, editingHotelId);
         hotelId = result.id;
-        console.log(`Hotel update completed for hotel: ${hotelId}`);
-      } else {
-        // Create new hotel directly
-        console.log("=== STARTING HOTEL CREATION ===");
-        const { data: result, error } = await supabase
-          .from('hotels')
-          .insert({
-            name: formData.hotelName,
-            description: formData.description,
-            country: formData.country,
-            address: formData.address,
-            city: formData.city,
-            postal_code: formData.postalCode,
-            contact_name: formData.contactName,
-            contact_email: formData.contactEmail,
-            contact_phone: formData.contactPhone,
-            status: 'pending',
-            user_id: userId
-          })
-          .select()
-          .single();
         
-        if (error) {
-          throw error;
+        // Handle union type properly
+        if ('noChangesDetected' in result) {
+          noChangesDetected = result.noChangesDetected;
+        }
+        if ('changes' in result) {
+          changesCount = result.changes;
         }
         
-        hotelData = result;
+        if (noChangesDetected) {
+          toast({
+            title: "No changes detected",
+            description: "No changes were detected in your submission."
+          });
+          setIsSubmitted(false);
+          return;
+        }
+        
+        console.log(`Hotel update request submitted with ${changesCount} changes pending approval`);
+      } else {
+        // Create new hotel
+        console.log("=== STARTING HOTEL CREATION ===");
+        hotelData = await createNewHotel(formData, userId);
         hotelId = hotelData.id;
         console.log("=== HOTEL CREATION COMPLETED ===");
         console.log("New hotel created successfully:", hotelId);
+        console.log("Hotel data returned:", hotelData);
       }
       
-      setIsSubmitted(false);
-      setSubmitSuccess(true);
+      console.log("Processing images for hotel:", hotelId);
+      
+      // Handle image submissions immediately after hotel creation/update
+      try {
+        if (formData.hotelImages && formData.hotelImages.length > 0) {
+          console.log("Using custom images:", formData.hotelImages);
+          await handleCustomImages(hotelId, formData.hotelImages);
+        } else if (!isEditing) {
+          // For new hotels without custom images, use auto image population (non-blocking)
+          console.log("No custom images provided, using auto image population");
+          handleAutoImagePopulation(hotelId, hotelData).catch(error => {
+            console.warn("Auto image population failed, but continuing:", error);
+          });
+        }
+      } catch (imageError) {
+        console.warn("Image processing failed, but hotel creation succeeded:", imageError);
+        // Don't throw - let the hotel creation succeed even if images fail
+      }
+      
+      // For new hotels, process related data
+      if (!isEditing) {
+        // Submit related data - handle failures gracefully
+        try {
+          console.log("Processing themes and activities");
+          await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+        } catch (themeError) {
+          console.warn("Theme submission had issues but continuing:", themeError);
+        }
+        
+        try {
+          console.log("Processing availability");
+          // Availability should be processed after the hotel has been created/updated
+          await handleAvailability(hotelId, formData.available_months || []);
+        } catch (availError) {
+          console.warn("Availability submission had issues but continuing:", availError);
+        }
+      }
+      
+      // Handle submission success even if some related data had issues
+      handleSubmissionSuccess();
       
       toast({
         variant: "success",
-        title: isEditing ? "Hotel Updated" : "Hotel Submitted",
+        title: isEditing ? "Changes Submitted for Review" : "Hotel Submitted",
         description: isEditing 
-          ? "Your hotel has been updated successfully." 
-          : "Your hotel has been submitted and is pending approval."
+          ? "Your changes have been submitted and are pending admin approval." 
+          : "Your hotel has been submitted and is pending approval. Images will be populated automatically."
       });
       
       // Reset form data after successful submission if not editing
       if (!isEditing) {
-        setTimeout(() => {
-          setCurrentStep(1);
-          setFormData({
-            hotelName: "",
-            propertyType: "",
-            description: "",
-            country: "",
-            address: "",
-            city: "",
-            postalCode: "",
-            contactName: "",
-            contactEmail: "",
-            contactPhone: "",
-            category: "",
-            stayLengths: [],
-            mealPlans: [],
-            roomTypes: [],
-            themes: [],
-            activities: [],
-            faqs: [],
-            terms: "",
-            termsAccepted: false,
-            hotelImages: []
-          });
-          if (onDoneEditing) onDoneEditing();
-        }, 2000);
+        setFormData({
+          termsAccepted: false
+        });
       }
     } catch (error: any) {
       console.error("=== SUBMISSION ERROR ===");
@@ -173,6 +188,8 @@ export const usePropertySubmission = ({
   };
 
   return { 
-    handleSubmitProperty
+    handleSubmitProperty, 
+    showFallback, 
+    handleFallbackRedirect 
   };
 };

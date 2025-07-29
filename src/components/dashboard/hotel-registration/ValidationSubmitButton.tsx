@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
+import { createNewHotel } from '../property/hooks/submission/createNewHotel';
+import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 import { HotelRegistrationFormData } from './NewHotelRegistrationForm';
 
 interface ValidationSubmitButtonProps {
@@ -26,35 +27,70 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     return missingFields;
   };
 
-  const convertToHotelData = (data: HotelRegistrationFormData) => {
-    console.log("Converting form data to hotel data", { data, user });
+  const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => {
+    console.log("Converting form data to PropertyFormData", { data, user });
+    console.log('=== TRANSFORM DEBUG ValidationSubmitButton ===');
+    console.log('clientAffinities transformed to themes:', data.clientAffinities);
+    console.log('activities transformed:', data.activities);
+    console.log('photos transformed to hotelImages:', data.photos);
+    console.log('availabilityPackages transformed:', data.availabilityPackages);
     
     return {
-      name: data.hotelName,
-      property_type: data.propertyType,
+      hotelName: data.hotelName,
+      propertyType: data.propertyType,
       description: data.hotelDescription,
-      ideal_guests: data.idealGuests,
+      idealGuests: data.idealGuests,
       atmosphere: data.atmosphere,
-      perfect_location: data.location,
+      perfectLocation: data.location,
       style: data.propertyStyle,
       country: data.country,
       address: data.address,
       city: data.city,
-      postal_code: data.postalCode,
-      contact_name: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
-      contact_email: user?.email || '',
-      contact_phone: user?.user_metadata?.phone || user?.phone || '',
-      classification: data.classification,
-      stay_lengths: data.stayLengths?.map(length => parseInt(length)) || [],
-      meal_plan: data.mealPlan,
-      room_description: data.roomDescription,
-      check_in_day: data.checkInDay,
-      hotel_features: data.hotelFeatures,
-      room_features: data.roomFeatures,
+      postalCode: data.postalCode,
+      contactName: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
+      contactEmail: user?.email || '', // Use authenticated user's email
+      contactPhone: user?.user_metadata?.phone || user?.phone || '', // Use user's phone with fallback
+      category: data.classification,
+      stayLengths: data.stayLengths.map(length => parseInt(length)),
+      mealPlans: [data.mealPlan].filter(Boolean),
+      roomTypes: [{ description: data.roomDescription }].filter(rt => rt.description),
+      themes: data.clientAffinities || [], // FIX: Use only clientAffinities for themes
+      activities: data.activities || [], // FIX: Ensure array fallback
+      faqs: [],
+      terms: '',
+      termsAccepted: data.termsAccepted,
+      // FIX: Properly format images with correct structure
+      hotelImages: [
+        ...(data.photos?.hotel || []).map(img => ({
+          url: img.url || img,
+          isMain: img.isMain || false,
+          name: img.name || 'hotel-image'
+        })),
+        ...(data.photos?.room || []).map(img => ({
+          url: img.url || img,
+          isMain: false,
+          name: img.name || 'room-image'
+        }))
+      ],
+      mainImageUrl: data.photos?.hotel?.[0]?.url || data.photos?.hotel?.[0] || '',
+      preferredWeekday: data.checkInDay,
+      featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      // FIX: Process availability packages for months
+      available_months: data.availabilityPackages?.map(pkg => {
+        const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
+        return month;
+      }) || [],
+      rates: {},
+      currency: 'USD',
+      enablePriceIncrease: false,
+      priceIncreaseCap: 20,
+      pricingMatrix: data.pricingMatrix || [],
       price_per_month: data.price_per_month || 0,
-      terms_accepted: data.termsAccepted,
-      status: 'pending',
-      user_id: user?.id
+      checkinDay: data.checkInDay,
+      stayDurations: data.stayLengths.map(length => parseInt(length)),
+      // FIX: Add availability packages data for processing
+      availabilityPackages: data.availabilityPackages || []
     };
   };
 
@@ -92,21 +128,13 @@ export function ValidationSubmitButton({ form }: ValidationSubmitButtonProps) {
     setIsSubmitting(true);
     
     try {
-      const hotelData = convertToHotelData(currentData);
+      const propertyData = convertToPropertyFormData(currentData);
       
       console.log("=== STARTING HOTEL SUBMISSION ===");
-      console.log("Hotel data:", hotelData);
+      console.log("Property data:", propertyData);
       
-      // Submit directly to hotels table
-      const { data: result, error } = await supabase
-        .from('hotels')
-        .insert(hotelData)
-        .select()
-        .single();
-      
-      if (error) {
-        throw error;
-      }
+      // Submit to hotel creation system
+      const result = await createNewHotel(propertyData, user.id);
       
       console.log("=== HOTEL SUBMISSION RESULT ===");
       console.log("Result:", result);

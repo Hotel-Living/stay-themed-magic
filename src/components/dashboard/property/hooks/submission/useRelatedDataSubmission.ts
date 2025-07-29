@@ -8,16 +8,6 @@ export const useRelatedDataSubmission = () => {
     
     if (themes && themes.length > 0) {
       try {
-        // Delete existing themes first
-        const { error: deleteError } = await supabase
-          .from('hotel_themes')
-          .delete()
-          .eq('hotel_id', hotelId);
-          
-        if (deleteError) {
-          console.warn("Error deleting existing themes, will try to insert anyway:", deleteError);
-        }
-  
         // Create theme records - ensure each theme ID is properly processed
         const themeRows = themes.map(themeId => ({
           hotel_id: hotelId,
@@ -32,7 +22,8 @@ export const useRelatedDataSubmission = () => {
             
           if (error) {
             console.error("Error inserting themes:", error);
-            handleSupabaseError(error, "Failed to add hotel themes");
+            // Log the error but don't throw to prevent blocking hotel creation
+            console.warn("Theme insertion failed but hotel creation will continue");
           } else {
             console.log("Successfully inserted themes:", data?.length || 0);
           }
@@ -45,16 +36,6 @@ export const useRelatedDataSubmission = () => {
 
     if (activities && activities.length > 0) {
       try {
-        // Delete existing activities first
-        const { error: deleteActError } = await supabase
-          .from('hotel_activities')
-          .delete()
-          .eq('hotel_id', hotelId);
-          
-        if (deleteActError) {
-          console.warn("Error deleting existing activities, will try to insert anyway:", deleteActError);
-        }
-  
         // Activities are now directly provided as IDs, no need to fetch or create
         // Simply insert them into the hotel_activities table
         const activityRows = activities.map(activityId => ({
@@ -70,7 +51,8 @@ export const useRelatedDataSubmission = () => {
             
           if (error) {
             console.error("Error inserting activities:", error);
-            handleSupabaseError(error, "Failed to add hotel activities");
+            // Log the error but don't throw to prevent blocking hotel creation
+            console.warn("Activity insertion failed but hotel creation will continue");
           } else {
             console.log("Successfully inserted activities:", data?.length || 0, activityRows);
           }

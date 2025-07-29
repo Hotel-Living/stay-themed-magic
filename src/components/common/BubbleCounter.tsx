@@ -40,7 +40,7 @@ export default function BubbleCounter() {
     };
   }, []);
 
-  if (!visible) return null;
+  if (!visible) return <></>;
 
   return (
     <div className="fixed bottom-4 left-4 bg-yellow-200 text-yellow-900 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 z-50 text-sm animate-fade-in">

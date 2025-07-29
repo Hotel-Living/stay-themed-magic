@@ -44,7 +44,7 @@ export function ConnectionIndicator({
     'bottom-right': 'bottom-4 right-4'
   };
 
-  if (!showIndicator) return null;
+  if (!showIndicator) return <></>;
 
   return (
     <div className={cn(

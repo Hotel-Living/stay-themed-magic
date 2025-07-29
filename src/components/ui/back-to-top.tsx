@@ -27,7 +27,7 @@ export function BackToTopButton() {
     });
   };
 
-  if (!isVisible) return null;
+  if (!isVisible) return <></>;
 
   return (
     <button

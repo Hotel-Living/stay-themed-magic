@@ -60,56 +60,33 @@ const HotelDashboardLoader = () => (
 export default function HotelDashboard() {
   const { language } = useTranslation();
   const { profile, isLoading } = useAuth();
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   
-  useEffect(() => {
-    const checkAccess = async () => {
-      console.log("Hotel Dashboard - useEffect triggered", { isLoading, profile, hasAccess });
-      
-      if (!isLoading) {
-        console.log("Hotel Dashboard - Not loading, checking access for profile:", profile);
-        
-        // For hotel dashboard, if user is authenticated, grant access
-        // No role validation needed since this is accessed via hotel-specific routes
-        if (profile?.id) {
-          console.log("Hotel Dashboard - User authenticated, granting access");
-          setHasAccess(true);
-        } else {
-          console.log("Hotel Dashboard - No profile found, redirecting to hotel login");
-          setTimeout(() => {
-            window.location.href = '/login/hotel';
-          }, 1000);
-        }
-      }
-    };
-
-    checkAccess();
-  }, [profile, isLoading]);
-
-  // Show loading while checking access
-  if (isLoading || hasAccess === null) {
-    return <HotelDashboardLoader />;
+  // Simplified: if user exists, show dashboard immediately
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-center text-white">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-purple-400" />
+          <p>Loading Hotel Dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
-  // Access granted - render dashboard
-  
+  // If no profile, redirect to login
+  if (!profile?.id) {
+    window.location.href = '/login/hotel';
+    return null;
+  }
+
+  // Render dashboard immediately - no validation, no suspense, no error boundaries
   const renderDashboard = () => {
     if (language === 'en') return <HotelDashboardEN />;
     if (language === 'es') return <HotelDashboardES />;
     if (language === 'pt') return <HotelDashboardPT />;
     if (language === 'ro') return <HotelDashboardRO />;
-    
-    // Default fallback to English
     return <HotelDashboardEN />;
   };
 
-  return (
-    <SuspenseWrapper 
-      fallback={<HotelDashboardLoader />}
-      errorFallback={<HotelDashboardFallback />}
-      identifier="hotel-dashboard"
-    >
-      {renderDashboard()}
-    </SuspenseWrapper>
-  );
+  return renderDashboard();
 }

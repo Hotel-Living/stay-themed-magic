@@ -30,7 +30,7 @@ export default function Search() {
     error,
     updateFilters
   } = useHotels({
-    initialFilters: activeFilters
+    initialFilters: filtersInitialized ? activeFilters : createDefaultFilters()
   });
   
   // Parse URL parameters on component mount
@@ -115,13 +115,15 @@ export default function Search() {
       const initialFilters = { ...createDefaultFilters(), ...urlFilters };
       console.log("🎯 Final filters being set:", initialFilters);
       
-      // Set filters and mark as initialized - let useHotels handle the fetching
+      // Set filters and mark as initialized - trigger hotel fetch
       setActiveFilters(initialFilters);
+      updateFilters(initialFilters);
       setFiltersInitialized(true);
     } else {
       console.log("⚠️ No URL filters found - using default filters");
       const defaultFilters = createDefaultFilters();
       setActiveFilters(defaultFilters);
+      updateFilters(defaultFilters);
       setFiltersInitialized(true);
     }
   }, []); // Empty dependency array to run only once on mount

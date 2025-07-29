@@ -102,14 +102,16 @@ export function SearchResultsEnhanced({ hotels, loading, error }: SearchResultsP
     return <LoadingSkeleton />;
   }
 
+  // Handle error toast at the top level (outside conditional rendering)
+  useEffect(() => {
+    if (error) {
+      showLoadingError("hotels");
+    }
+  }, [error, showLoadingError]);
+
   if (error) {
     console.error("❌ SearchResults - showing error state:", error);
     const errorMessage = error instanceof Error ? error.message : String(error);
-    
-    // Show smart toast for loading errors
-    useEffect(() => {
-      showLoadingError("hotels");
-    }, [showLoadingError]);
     
     return (
       <div className="flex justify-center items-center min-h-[400px]">

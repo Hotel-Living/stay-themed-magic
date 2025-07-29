@@ -172,8 +172,9 @@ export function EnglishVideoTestimonials() {
     }
   };
 
+  // Always return JSX, never return null early after hooks
   if (!shouldShowVideos || !isVisible || isComplete) {
-    return null;
+    return <></>;
   }
 
   return (

@@ -175,8 +175,9 @@ export function GlobalVideoTestimonials() {
     setIsMuted(!isMuted);
   };
 
+  // Always return JSX, never return null early after hooks
   if (!shouldShowVideos || !isVisible) {
-    return null;
+    return <></>;
   }
 
   const currentVideo = videoTestimonials[currentVideoIndex];

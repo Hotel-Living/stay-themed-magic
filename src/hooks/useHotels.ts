@@ -63,9 +63,11 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
 
       try {
         console.log('📡 useHotels: Calling fetchHotelsWithFilters...');
+        console.log('🔍 DEBUG: Current filters object:', JSON.stringify(filters, null, 2));
         
         // If no specific filters are applied, use a simple query
         const hasActiveFilters = Object.entries(filters).some(([key, value]) => {
+          console.log(`🔍 DEBUG: Checking filter ${key}:`, value);
           if (key === 'priceRange' && value === null) return false;
           if (value === null || value === undefined || value === '') return false;
           if (Array.isArray(value) && value.length === 0) return false;
@@ -74,6 +76,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
         });
 
         console.log('🔍 Has active filters:', hasActiveFilters);
+        console.log('🔍 DEBUG: About to call fetchHotelsWithFilters with filters:', filters);
         
         const data = await fetchHotelsWithFilters(filters);
         console.log(`📊 useHotels: Received ${data?.length || 0} hotels from API`);

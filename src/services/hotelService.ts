@@ -102,6 +102,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     // Simple direct query for approved hotels when no filters applied
     if (!hasActiveFilters) {
       console.log('🚀 Using simple query for approved hotels (no filters)');
+      console.log('🔍 DEBUG: About to execute simple query to hotels table');
       
       const { data: hotels, error } = await supabase
         .from('hotels')
@@ -109,14 +110,23 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         .eq('status', 'approved')
         .limit(50);
 
+      console.log('🔍 DEBUG: Simple query response received');
+      console.log('🔍 DEBUG: Error:', error);
+      console.log('🔍 DEBUG: Data length:', hotels?.length);
+      console.log('🔍 DEBUG: First hotel (if any):', hotels?.[0]);
+
       if (error) {
         console.error('Simple query error:', error);
+        console.log('🔄 Attempting fallback query...');
+        
         // Fallback: try again with minimal query
         const { data: fallbackHotels, error: fallbackError } = await supabase
           .from('hotels')
           .select('id, name, city, country, price_per_month, main_image_url, category')
           .eq('status', 'approved')
           .limit(50);
+        
+        console.log('🔄 Fallback query response:', { data: fallbackHotels?.length, error: fallbackError });
         
         if (fallbackError) {
           console.error('Fallback query also failed:', fallbackError);
@@ -127,6 +137,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
       console.log(`⚡ Simple query completed in ${Date.now() - startTime}ms`);
       console.log(`📊 Returning ${hotels?.length || 0} approved hotels`);
+      console.log('🔍 DEBUG: Hotel data being returned:', hotels);
       return hotels || [];
     }
 

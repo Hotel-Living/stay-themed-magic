@@ -14,21 +14,30 @@ export interface ProfileCompat {
 export const isDevelopmentOrAdmin = async (): Promise<boolean> => {
   // Always allow access in development
   if (import.meta.env.DEV) {
+    console.log('isDevelopmentOrAdmin: Development mode detected, granting access');
     return true;
   }
   
   try {
+    console.log('isDevelopmentOrAdmin: Checking admin role via RPC...');
     // Check if current user has admin role
     const { data: hasAdminRole, error } = await supabase.rpc('has_role', { role_name: 'admin' });
     
     if (error) {
-      console.error('Error checking admin role:', error);
+      console.error('isDevelopmentOrAdmin: Error checking admin role:', error);
+      console.error('isDevelopmentOrAdmin: Error details:', { 
+        message: error.message, 
+        details: error.details,
+        hint: error.hint,
+        code: error.code 
+      });
       return false;
     }
     
+    console.log('isDevelopmentOrAdmin: Admin role check result:', hasAdminRole);
     return Boolean(hasAdminRole);
   } catch (error) {
-    console.error('Error in isDevelopmentOrAdmin:', error);
+    console.error('isDevelopmentOrAdmin: Unexpected error:', error);
     return false;
   }
 };

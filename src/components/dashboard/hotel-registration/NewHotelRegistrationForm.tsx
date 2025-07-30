@@ -271,6 +271,9 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const formData = form.watch();
   const autoSave = useAutoSaveReliable(formData, true);
 
+  // Track if draft has already been restored to prevent multiple attempts
+  const [isDraftRestored, setIsDraftRestored] = React.useState(false);
+
   // Load draft data when user becomes available (critical for data recovery after browser closure)
   useEffect(() => {
     const loadSavedDraft = async () => {
@@ -334,17 +337,19 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             description: "Your previous work has been restored. You can continue where you left off.",
             duration: 5000
           });
+          
+          setIsDraftRestored(true);
         }
       } catch (error) {
         console.error('[HOTEL-REGISTRATION] Failed to load draft:', error);
       }
     };
 
-    // Try to load draft when auth becomes ready
-    if ((user?.id || session?.user?.id) && !submissionState.submissionComplete) {
+    // Only try to load draft once when auth becomes ready and draft hasn't been restored yet
+    if ((user?.id || session?.user?.id) && !submissionState.submissionComplete && !isDraftRestored) {
       loadSavedDraft();
     }
-  }, [user?.id, session?.user?.id, autoSave, form, toast, submissionState.submissionComplete]);
+  }, [user?.id, session?.user?.id, autoSave.loadDraft, autoSave.hasValidDraftData, form, toast, submissionState.submissionComplete, isDraftRestored]);
 
   // Load any failed submission on component mount
   React.useEffect(() => {

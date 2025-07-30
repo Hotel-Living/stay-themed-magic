@@ -149,13 +149,14 @@ export function useAutoSaveReliable(
     // Check for meaningful form data (exclude metadata fields)
     const meaningfulFields = ['hotelName', 'address', 'city', 'country', 'phone', 'email', 'website', 'hotelDescription'];
     
-    return meaningfulFields.some(field => {
+    // Require at least one substantial text field with meaningful content (minimum 2 characters)
+    const hasTextContent = meaningfulFields.some(field => {
       const value = draft[field as keyof AutoSaveData];
-      return value && typeof value === 'string' && value.trim().length > 0;
-    }) || (draft.photoUrls && (
-      (draft.photoUrls.hotel && draft.photoUrls.hotel.length > 0) ||
-      (draft.photoUrls.room && draft.photoUrls.room.length > 0)
-    ));
+      return value && typeof value === 'string' && value.trim().length >= 2;
+    });
+    
+    // Photo URLs alone are not sufficient for draft restoration
+    return hasTextContent;
   }, []);
 
   const loadDraft = useCallback((): AutoSaveData | null => {

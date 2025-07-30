@@ -43,22 +43,35 @@ export default function FernandoHotels() {
   const [bulkAction, setBulkAction] = useState<'approve' | 'delete' | null>(null);
   
   // Column width management with localStorage persistence
-  const getStoredWidth = (column: string) => {
-    const stored = localStorage.getItem(`admin-table-${column}-width`);
-    return stored ? parseInt(stored) : getDefaultWidth(column);
-  };
-  
   const getDefaultWidth = (column: string) => {
     switch(column) {
-      case 'checkbox': return 40;
-      case 'name': return 160;
-      case 'location': return 140;
-      case 'status': return 90;
-      case 'price': return 100;
-      case 'created': return 110;
-      case 'actions': return 120;
-      default: return 150;
+      case 'checkbox': return 30;
+      case 'name': return 120;
+      case 'location': return 100;
+      case 'status': return 70;
+      case 'price': return 80;
+      case 'created': return 90;
+      case 'actions': return 100;
+      default: return 100;
     }
+  };
+
+  const getStoredWidth = (column: string) => {
+    // Check version to reset localStorage if needed
+    const currentVersion = "v2";
+    const storedVersion = localStorage.getItem('hotels-table-version');
+    
+    if (storedVersion !== currentVersion) {
+      // Clear all old column widths and set new version
+      ['checkbox', 'name', 'location', 'status', 'price', 'created', 'actions'].forEach(col => {
+        localStorage.removeItem(`admin-table-${col}-width`);
+      });
+      localStorage.setItem('hotels-table-version', currentVersion);
+      return getDefaultWidth(column);
+    }
+    
+    const stored = localStorage.getItem(`admin-table-${column}-width`);
+    return stored ? parseInt(stored) : getDefaultWidth(column);
   };
   
   const [columnWidths, setColumnWidths] = useState({
@@ -241,7 +254,7 @@ export default function FernandoHotels() {
           </div>
 
           <div className="rounded-md border overflow-hidden">
-            <div className="max-w-4xl mx-auto bg-purple-800/30 backdrop-blur rounded-lg border border-purple-600/20">
+            <div className="max-w-3xl mx-auto bg-purple-800/30 backdrop-blur rounded-lg border border-purple-600/20">
               <table className="table-fixed border-collapse">
                 <thead>
                   <tr className="border-b border-purple-600/30">

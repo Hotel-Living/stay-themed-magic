@@ -493,7 +493,7 @@ INFORMAȚII CHEIE HOTEL-LIVING:
 
   // Get Martin's commission speech
   const getMartinCommissionSpeech = () => {
-    const isHotelPage = location.pathname.includes('/hotels') || location.pathname.includes('/panel-fernando');
+    const isHotelPage = location.pathname.includes('/hotels') || location.pathname.includes('/panel-admin');
     
     if (activeAvatar === 'martin' && isHotelPage) {
       switch (cleanLanguage) {

@@ -32,7 +32,7 @@ export default function EditableFiltersPanel() {
               To manage filters and sync with JotForm, please use the official Fernando Admin panel instead.
             </p>
             <Button 
-              onClick={() => navigate('/panel-fernando/filters')}
+              onClick={() => navigate('/panel-admin/filters')}
               className="bg-orange-600 hover:bg-orange-700"
             >
               Go to Fernando Admin → Filters

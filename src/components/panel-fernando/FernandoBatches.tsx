@@ -16,43 +16,43 @@ const batchTabs = [{
   id: "batch-images",
   name: "Batch Images",
   icon: ImageIcon,
-  path: "/panel-fernando/batches/batch-images",
+  path: "/panel-admin/batches/batch-images",
   description: "Batch image operations"
 }, {
   id: "batch-text-completion",
   name: "Batch Text Completion",
   icon: FileText,
-  path: "/panel-fernando/batches/batch-text",
+  path: "/panel-admin/batches/batch-text",
   description: "Batch text completion"
 }, {
   id: "batch-pending-fields",
   name: "Batch Pending Fields",
   icon: Clock,
-  path: "/panel-fernando/batches/batch-pending",
+  path: "/panel-admin/batches/batch-pending",
   description: "Process pending fields"
 }, {
   id: "batch-hotel-creation",
   name: "Batch Hotel Creation",
   icon: Plus,
-  path: "/panel-fernando/batches/batch-create-hotels",
+  path: "/panel-admin/batches/batch-create-hotels",
   description: "Create hotels in batches"
 }, {
   id: "batch-room-images",
   name: "Batch Room Images",
   icon: Camera,
-  path: "/panel-fernando/batches/batch-room-images",
+  path: "/panel-admin/batches/batch-room-images",
   description: "Batch room image operations"
 }, {
   id: "batch-theme-assignment",
   name: "Batch Theme Assignment",
   icon: Tags,
-  path: "/panel-fernando/batches/batch-theme-assignment",
+  path: "/panel-admin/batches/batch-theme-assignment",
   description: "Assign themes to hotels in batches"
 }, {
   id: "batch-us-demo",
   name: "US Demo Hotels",
   icon: Flag,
-  path: "/panel-fernando/batches/batch-us-demo",
+  path: "/panel-admin/batches/batch-us-demo",
   description: "Generate 60 US demo hotels with specific combinations"
 }];
 
@@ -60,7 +60,7 @@ export default function FernandoBatches() {
   const location = useLocation();
   
   // If we're at the base batches route, show the overview
-  if (location.pathname === "/panel-fernando/batches") {
+  if (location.pathname === "/panel-admin/batches") {
     return (
       <div className="space-y-6">
         <Card>
@@ -108,7 +108,7 @@ export default function FernandoBatches() {
       <Route path="/batch-room-images" element={<FernandoBatchRoomImages />} />
       <Route path="/batch-theme-assignment" element={<FernandoBatchThemeAssignment />} />
       <Route path="/batch-us-demo" element={<FernandoBatchUSDemo />} />
-      <Route path="*" element={<Navigate to="/panel-fernando/batches" replace />} />
+      <Route path="*" element={<Navigate to="/panel-admin/batches" replace />} />
     </Routes>
   );
 }

@@ -104,7 +104,7 @@ export const getRedirectUrlForRole = (profile: ProfileCompat | null): string => 
   
   switch (profile.role) {
     case 'admin':
-      return '/panel-fernando';
+      return '/panel-admin';
     case 'hotel_owner':
     case 'hotel':
       return '/hotel-dashboard';

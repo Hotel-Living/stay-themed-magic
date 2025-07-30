@@ -8,7 +8,7 @@ export default function FernandoUserRoles() {
   const isAdmin = useIsAdmin();
   
   if (!isAdmin) {
-    return <Navigate to="/panel-fernando/hotels" replace />;
+    return <Navigate to="/panel-admin/hotels" replace />;
   }
   
   return (

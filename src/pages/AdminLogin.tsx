@@ -39,7 +39,7 @@ export default function AdminLogin() {
           .single();
 
         if (roleData || adminData) {
-          navigate('/panel-fernando', { replace: true });
+          navigate('/panel-admin', { replace: true });
         }
       }
     } catch (error) {
@@ -81,7 +81,7 @@ export default function AdminLogin() {
 
         if (roleData || adminData) {
           toast.success('Admin login successful');
-          navigate('/panel-fernando', { replace: true });
+          navigate('/panel-admin', { replace: true });
         } else {
           setError('Access denied: Admin privileges required');
           toast.error('Access denied: Admin privileges required');

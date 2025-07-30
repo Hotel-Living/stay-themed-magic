@@ -22,8 +22,20 @@ export function useAutoSave<T>(
       return;
     }
 
+    // Skip auto-save if submission is in progress
+    const submissionInProgress = localStorage.getItem('submission_in_progress');
+    if (submissionInProgress === 'true') {
+      return;
+    }
+
     const timeoutId = setTimeout(async () => {
       if (!isSaving) {
+        // Double-check submission status before saving
+        const currentSubmissionStatus = localStorage.getItem('submission_in_progress');
+        if (currentSubmissionStatus === 'true') {
+          return;
+        }
+
         setIsSaving(true);
         try {
           await saveDraft(formData);

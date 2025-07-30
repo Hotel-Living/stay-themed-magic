@@ -24,6 +24,8 @@ export const usePropertySubmission = ({
   const { toast } = useToast();
 
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
+    // Set submission lock to prevent auto-save conflicts
+    localStorage.setItem('submission_in_progress', 'true');
     setIsSubmitted(true);
     setShowValidationErrors(false);
     
@@ -51,6 +53,9 @@ export const usePropertySubmission = ({
         variant: "destructive",
         duration: 5000
       });
+    } finally {
+      // Always release submission lock
+      localStorage.removeItem('submission_in_progress');
     }
   };
 

@@ -883,11 +883,15 @@ export type Database = {
           ideal_guests: string | null
           ideal_guests_description: string | null
           is_featured: boolean | null
+          is_locked: boolean | null
+          last_modified_by: string | null
           latitude: number | null
           laundry_service: Json | null
           location_address: string | null
           location_description: string | null
           location_highlight_description: string | null
+          locked_at: string | null
+          locked_by: string | null
           longitude: number | null
           main_image_url: string | null
           meal_plans: string[] | null
@@ -915,6 +919,7 @@ export type Database = {
           style: string | null
           terms: string | null
           updated_at: string
+          version: number | null
           weekly_laundry_included: boolean | null
         }
         Insert: {
@@ -944,11 +949,15 @@ export type Database = {
           ideal_guests?: string | null
           ideal_guests_description?: string | null
           is_featured?: boolean | null
+          is_locked?: boolean | null
+          last_modified_by?: string | null
           latitude?: number | null
           laundry_service?: Json | null
           location_address?: string | null
           location_description?: string | null
           location_highlight_description?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
           longitude?: number | null
           main_image_url?: string | null
           meal_plans?: string[] | null
@@ -976,6 +985,7 @@ export type Database = {
           style?: string | null
           terms?: string | null
           updated_at?: string
+          version?: number | null
           weekly_laundry_included?: boolean | null
         }
         Update: {
@@ -1005,11 +1015,15 @@ export type Database = {
           ideal_guests?: string | null
           ideal_guests_description?: string | null
           is_featured?: boolean | null
+          is_locked?: boolean | null
+          last_modified_by?: string | null
           latitude?: number | null
           laundry_service?: Json | null
           location_address?: string | null
           location_description?: string | null
           location_highlight_description?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
           longitude?: number | null
           main_image_url?: string | null
           meal_plans?: string[] | null
@@ -1037,6 +1051,7 @@ export type Database = {
           style?: string | null
           terms?: string | null
           updated_at?: string
+          version?: number | null
           weekly_laundry_included?: boolean | null
         }
         Relationships: [
@@ -1757,6 +1772,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      check_version_conflict: {
+        Args: { p_hotel_id: string; p_expected_version: number }
+        Returns: boolean
+      }
+      cleanup_stale_hotel_locks: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       cleanup_stuck_accounts: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1865,6 +1888,10 @@ export type Database = {
       }
       is_admin_user: {
         Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      lock_hotel_for_editing: {
+        Args: { p_hotel_id: string; p_lock?: boolean }
         Returns: boolean
       }
       reserve_package_rooms: {

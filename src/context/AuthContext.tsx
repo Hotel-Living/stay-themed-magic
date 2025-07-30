@@ -59,11 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Get initial session with improved error handling and timeout
     const getInitialSession = async () => {
       try {
-        // Add a small delay to prevent race conditions when returning to tabs
-        if (document.visibilityState === 'visible' && document.hidden === false) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-
         // Add timeout to prevent infinite loading
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise((_, reject) => 

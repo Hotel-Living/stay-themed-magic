@@ -378,11 +378,21 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     // Form validation is handled by the Zod schema automatically
     // No legacy validation layers needed
     
-    // SURGICAL FIX: Allow submission even with blob URLs - let upload happen during submission
+    // SURGICAL FIX: Ensure all selected images are fully uploaded before submission
     const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
     
-    // Only block if user explicitly hasn't selected any images, not if they're uploading
+    // Check if user has selected images but they haven't finished uploading
     const hasAnyImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
+    
+    if (hasAnyImages && !allUploaded) {
+      toast({
+        title: "Images Still Processing",
+        description: "Some images are still uploading. Please wait for all uploads to complete before submitting.",
+        variant: "destructive",
+        duration: 5000
+      });
+      return;
+    }
     
     if (!hasAnyImages) {
       toast({
@@ -616,21 +626,27 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
                 isLoadingHotelData || 
                 isUploading() || 
                 submissionState.submissionComplete ||
-                submissionState.hasFailedSubmission
+                submissionState.hasFailedSubmission ||
+                (() => {
+                  const { allUploaded } = getAllUploadedUrls();
+                  const hasImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
+                  return hasImages && !allUploaded; // Disable if images selected but not all uploaded
+                })()
               }
             >
-              {lockState.isLocked
-                ? 'Editing Locked'
-                : submissionState.isSubmitting || stabilityState.isSubmitting
-                ? 'Processing...'
-                : isUploading()
-                ? 'Uploading Images...'
-                : submissionState.submissionComplete
-                ? 'Registration Complete ✅'
-                : submissionState.hasFailedSubmission
-                ? 'Use Retry Button Above'
-                : 'Submit Hotel Registration'
-              }
+              {(() => {
+                const { allUploaded } = getAllUploadedUrls();
+                const hasImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
+                const waitingForUploads = hasImages && !allUploaded;
+                
+                if (lockState.isLocked) return 'Editing Locked';
+                if (submissionState.isSubmitting || stabilityState.isSubmitting) return 'Processing...';
+                if (isUploading()) return 'Uploading Images...';
+                if (waitingForUploads) return 'Waiting for Uploads...';
+                if (submissionState.submissionComplete) return 'Registration Complete ✅';
+                if (submissionState.hasFailedSubmission) return 'Use Retry Button Above';
+                return 'Submit Hotel Registration';
+              })()}
             </Button>
           </div>
         </form>

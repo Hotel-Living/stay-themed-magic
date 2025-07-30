@@ -115,7 +115,9 @@ export function WhyHotelLivingSectionEN() {
       <div className="mb-24">
         <div className="w-full">
           <div className="flex justify-center mb-4">
-            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"} relative`}>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]"></div>
+              <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
               {accordionOptions.map((option) => {
                 return (
                   <div key={option.id} className="relative">
@@ -129,6 +131,7 @@ export function WhyHotelLivingSectionEN() {
                   </div>
                 );
               })}
+            </div>
             </div>
           </div>
           

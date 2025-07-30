@@ -17,16 +17,43 @@ export function useAutoSave<T>(
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // Auto-save completely disabled
-    return;
-  }, []);
+    if (!enabled || isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await saveDraft(formData);
+          setLastSaved(new Date());
+        } catch (error) {
+          console.error('Auto-save failed:', error);
+        } finally {
+          setIsSaving(false);
+        }
+      }
+    }, interval);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData, saveDraft, interval, enabled, isSaving]);
 
   return {
     isSaving,
     lastSaved,
     forceSave: async () => {
-      // Force save completely disabled
-      return;
+      if (!isSaving) {
+        setIsSaving(true);
+        try {
+          await saveDraft(formData);
+          setLastSaved(new Date());
+        } catch (error) {
+          console.error('Force save failed:', error);
+        } finally {
+          setIsSaving(false);
+        }
+      }
     }
   };
 }

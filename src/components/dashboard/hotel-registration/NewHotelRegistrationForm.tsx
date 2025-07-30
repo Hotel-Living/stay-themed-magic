@@ -227,14 +227,12 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     setCurrentStep: () => {} // Not needed for this form
   });
 
-  // Auto-save functionality completely disabled
-  const autoSave = {
-    isSaving: false,
-    lastSaved: null,
-    forceSave: async () => {},
-    loadDraft: () => null,
-    clearDraft: () => {}
-  };
+  // Auto-save functionality
+  const autoSave = usePropertyFormAutoSave(
+    convertToPropertyFormData(form.watch()),
+    () => {},
+    editingHotelId
+  );
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
     setIsSubmitting(true);
@@ -259,7 +257,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     
     // If validation passes, proceed with submission
     try {
-      console.log('Hotel registration data:', data);
+      // TODO: Implement actual RPC submission here
       
       toast({
         title: "Submission Successful",

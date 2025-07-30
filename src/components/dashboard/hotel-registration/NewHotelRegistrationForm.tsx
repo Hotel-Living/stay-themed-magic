@@ -16,7 +16,9 @@ import { useFormValidationReliable } from '@/hooks/useFormValidationReliable';
 import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
 import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
 import { useDataPreservation } from '@/hooks/useDataPreservation';
+import { useSubmissionStability } from '@/hooks/useSubmissionStability';
 import { SubmissionStatus } from './components/SubmissionStatus';
+import { LockStatusIndicator } from '@/components/ui/LockStatusIndicator';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -142,6 +144,16 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     loadFailedSubmission,
     getFailedSubmissionSummary
   } = useDataPreservation();
+
+  // Add stability features
+  const {
+    submissionState: stabilityState,
+    lockState,
+    submitWithStabilityChecks,
+    retryWithBackoff,
+    deleteWithCleanup,
+    resetSubmissionState
+  } = useSubmissionStability({ hotelId: editingHotelId });
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -265,8 +277,19 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   }, [loadFailedSubmission]);
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
+    // Check if locked first
+    if (lockState.isLocked) {
+      toast({
+        title: "Editing Locked",
+        description: `Cannot submit: ${lockState.lockReason}`,
+        variant: "destructive",
+        duration: 5000
+      });
+      return;
+    }
+
     // Prevent duplicate submissions if already submitting or completed
-    if (submissionState.isSubmitting || submissionState.submissionComplete) {
+    if (submissionState.isSubmitting || submissionState.submissionComplete || stabilityState.isSubmitting) {
       return;
     }
     
@@ -370,17 +393,19 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       }))
     ];
 
-    console.log('[HOTEL-REGISTRATION] Submitting hotel registration for authenticated user - no authorization blocks');
+    console.log('[HOTEL-REGISTRATION] Submitting hotel registration with stability checks');
     
-    // Submit using data preservation system - no role verification, only authentication check
-    const result = await submitWithPreservation(
-      data,
-      hotelData,
-      availabilityPackages,
-      hotelImages,
-      data.clientAffinities || [],
-      data.activities || []
-    );
+    // Submit using stability system with comprehensive checks
+    const result = await submitWithStabilityChecks(data, async () => {
+      return await submitWithPreservation(
+        data,
+        hotelData,
+        availabilityPackages,
+        hotelImages,
+        data.clientAffinities || [],
+        data.activities || []
+      );
+    });
 
     if (result.success) {
       console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
@@ -454,6 +479,13 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      {/* Lock Status Indicator */}
+      <LockStatusIndicator 
+        lockState={lockState} 
+        onRefresh={() => window.location.reload()}
+        className="mb-6" 
+      />
+      
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Accordion type="single" collapsible className="space-y-4">
@@ -504,14 +536,18 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={
+                lockState.isLocked || 
                 submissionState.isSubmitting || 
+                stabilityState.isSubmitting ||
                 isLoadingHotelData || 
                 isUploading() || 
                 submissionState.submissionComplete ||
                 submissionState.hasFailedSubmission
               }
             >
-              {submissionState.isSubmitting 
+              {lockState.isLocked
+                ? 'Editing Locked'
+                : submissionState.isSubmitting || stabilityState.isSubmitting
                 ? 'Processing...'
                 : isUploading()
                 ? 'Uploading Images...'

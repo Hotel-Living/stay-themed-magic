@@ -84,6 +84,31 @@ export default function Hotels() {
             </div>
           </div>
           
+          {/* New Professional Study Box - Static Style */}
+          <div className="my-8 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+            <div className="relative mx-2 sm:mx-8">
+              <div 
+                className="relative space-y-2 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-3 sm:px-6 py-[13px] my-[17px] transition-all duration-300 hover:border-fuchsia-400/40 bg-[#720ba1] cursor-pointer hover:scale-105 max-w-2xl" 
+                onClick={() => {
+                  navigate('/professional-study');
+                }}
+              >
+                <h2 className="text-xl sm:text-2xl md:text-3xl text-center text-white font-bold py-2 sm:py-[11px] my-2 sm:my-[17px] px-2 sm:px-4 uppercase tracking-wide">
+                  {language === 'en' && 'FREE STUDY'}
+                  {language === 'es' && 'ESTUDIO GRATUITO'}
+                  {language === 'pt' && 'ESTUDO GRATUITO'}
+                  {language === 'ro' && 'STUDIU GRATUIT'}
+                </h2>
+                <p className="text-base sm:text-lg text-center text-white py-2 sm:py-[8px] px-2 sm:px-4 leading-relaxed">
+                  {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
+                  {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
+                  {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
+                  {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
+                </p>
+              </div>
+            </div>
+          </div>
+          
           {/* New accordion menu */}
           <div className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
             <HotelNewAccordionMenu />

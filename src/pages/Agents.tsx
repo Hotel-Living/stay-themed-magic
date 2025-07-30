@@ -45,7 +45,7 @@ const Agents = () => {
               </Link>
             </div>
 
-            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white blue-glow">
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
               <div className="space-y-6">
                 
                 {/* Title Section */}
@@ -86,7 +86,7 @@ const Agents = () => {
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold mb-6 text-center">{t('calculator.title')}</h2>
                   
-                  <div className="bg-[#7801AA]/80 backdrop-blur-sm rounded-2xl p-8 border border-white/10 blue-glow">
+                  <div className="bg-[#7801AA]/80 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-[0_0_40px_rgba(0,200,255,0.6),0_0_80px_rgba(0,200,255,0.3)]">
                     
                     {/* Input Fields */}
                     <div className="space-y-6 mb-8">

@@ -18,7 +18,7 @@ export default function Videos() {
       
       <main className="flex-1 pt-8">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <div className="glass-card blue-glow rounded-2xl p-6 mb-8 bg-[#7E00B3]/90">
+          <div className="glass-card rounded-2xl p-6 mb-8 bg-[#7E00B3]/90 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Video - For Clients */}
               <div className="space-y-3">

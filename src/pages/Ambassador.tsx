@@ -34,7 +34,7 @@ const Ambassador = () => {
               </Link>
             </div>
 
-            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white blue-glow">
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
               <div className="space-y-6">
                 
                 {/* Title Section */}

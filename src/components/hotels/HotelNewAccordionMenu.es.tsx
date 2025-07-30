@@ -7,7 +7,7 @@ export function HotelNewAccordionMenuES() {
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
   };
-  return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 py-[15px] my-[55px] px-[12px] bg-[#8017B0]">
+  return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 py-[15px] my-[55px] px-[12px] bg-[#c1a0ff]">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         <AccordionItem value="los-beneficios" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#6804A3] to-[#6804A3] rounded-t-xl border-l-6 border-[#9861FF] hover:from-[#7805B0] hover:to-[#7805B0] transition-all duration-300">

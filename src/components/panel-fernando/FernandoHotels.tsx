@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +41,74 @@ export default function FernandoHotels() {
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
   const [showBulkConfirm, setShowBulkConfirm] = useState(false);
   const [bulkAction, setBulkAction] = useState<'approve' | 'delete' | null>(null);
+  
+  // Column width management with localStorage persistence
+  const getStoredWidth = (column: string) => {
+    const stored = localStorage.getItem(`admin-table-${column}-width`);
+    return stored ? parseInt(stored) : getDefaultWidth(column);
+  };
+  
+  const getDefaultWidth = (column: string) => {
+    switch(column) {
+      case 'checkbox': return 50;
+      case 'name': return 200;
+      case 'location': return 180;
+      case 'status': return 120;
+      case 'price': return 130;
+      case 'created': return 130;
+      case 'actions': return 160;
+      default: return 150;
+    }
+  };
+  
+  const [columnWidths, setColumnWidths] = useState({
+    checkbox: getStoredWidth('checkbox'),
+    name: getStoredWidth('name'),
+    location: getStoredWidth('location'),
+    status: getStoredWidth('status'),
+    price: getStoredWidth('price'),
+    created: getStoredWidth('created'),
+    actions: getStoredWidth('actions'),
+  });
+  
+  const [isResizing, setIsResizing] = useState<string | null>(null);
+  const [startX, setStartX] = useState(0);
+  const [startWidth, setStartWidth] = useState(0);
+  
+  const handleMouseDown = (column: string, e: React.MouseEvent) => {
+    setIsResizing(column);
+    setStartX(e.clientX);
+    setStartWidth(columnWidths[column as keyof typeof columnWidths]);
+    e.preventDefault();
+  };
+  
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isResizing) return;
+    const diff = e.clientX - startX;
+    const newWidth = Math.max(50, startWidth + diff);
+    
+    setColumnWidths(prev => ({
+      ...prev,
+      [isResizing]: newWidth
+    }));
+    
+    localStorage.setItem(`admin-table-${isResizing}-width`, newWidth.toString());
+  };
+  
+  const handleMouseUp = () => {
+    setIsResizing(null);
+  };
+  
+  useEffect(() => {
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isResizing, startX, startWidth]);
   useEffect(() => {
     refreshHotels();
   }, []);
@@ -172,79 +240,163 @@ export default function FernandoHotels() {
             </div>
           </div>
 
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <input type="checkbox" checked={selectedHotels.length === filteredAndSortedHotels.length && filteredAndSortedHotels.length > 0} onChange={handleSelectAll} className="rounded" />
-                  </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-gray-50 select-none" onClick={() => handleSort('name')}>
-                    <div className="flex items-center gap-1">
-                      Name
-                      {getSortIcon('name')}
-                    </div>
-                  </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-gray-50 select-none" onClick={() => handleSort('city')}>
-                    <div className="flex items-center gap-1">
-                      Location
-                      {getSortIcon('city')}
-                    </div>
-                  </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-gray-50 select-none" onClick={() => handleSort('status')}>
-                    <div className="flex items-center gap-1">
-                      Status
-                      {getSortIcon('status')}
-                    </div>
-                  </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-gray-50 select-none" onClick={() => handleSort('price_per_month')}>
-                    <div className="flex items-center gap-1">
-                      Price/Month
-                      {getSortIcon('price_per_month')}
-                    </div>
-                  </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-gray-50 select-none" onClick={() => handleSort('created_at')}>
-                    <div className="flex items-center gap-1">
-                      Created
-                      {getSortIcon('created_at')}
-                    </div>
-                  </TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredAndSortedHotels.map(hotel => <TableRow key={hotel.id}>
-                    <TableCell>
-                      <input type="checkbox" checked={selectedHotels.includes(hotel.id)} onChange={() => handleSelectHotel(hotel.id)} className="rounded" />
-                    </TableCell>
-                    <TableCell className="font-medium">{hotel.name}</TableCell>
-                    <TableCell>{hotel.city}, {hotel.country}</TableCell>
-                    <TableCell>
-                      <Badge variant={hotel.status === 'approved' ? 'default' : hotel.status === 'pending' ? 'secondary' : 'destructive'}>
-                        {hotel.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>€{hotel.price_per_month}</TableCell>
-                    <TableCell>{format(new Date(hotel.created_at), 'MMM dd, yyyy')}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Button size="sm" variant="ghost" onClick={() => navigate(`/hotel/${hotel.id}`)}>
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" variant="ghost" onClick={() => navigate(`/add-property?edit=${hotel.id}`)} className="text-purple-600 hover:text-purple-700">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        {hotel.status === 'pending' && <Button size="sm" variant="ghost" onClick={() => handleApprove(hotel.id)} className="text-green-600 hover:text-green-700">
-                            <Check className="w-4 h-4" />
-                          </Button>}
-                        <Button size="sm" variant="ghost" onClick={() => handleDelete(hotel.id)} className="text-red-600 hover:text-red-700">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
+          <div className="rounded-md border overflow-hidden">
+            <div className="max-w-fit mx-auto bg-purple-800/30 backdrop-blur rounded-lg border border-purple-600/20">
+              <table className="table-fixed border-collapse">
+                <thead>
+                  <tr className="border-b border-purple-600/30">
+                    <th 
+                      style={{ width: `${columnWidths.checkbox}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40"
+                    >
+                      <input 
+                        type="checkbox" 
+                        checked={selectedHotels.length === filteredAndSortedHotels.length && filteredAndSortedHotels.length > 0} 
+                        onChange={handleSelectAll} 
+                        className="rounded" 
+                      />
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('checkbox', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.name}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40 cursor-pointer hover:bg-purple-700/50 select-none"
+                      onClick={() => handleSort('name')}
+                    >
+                      <div className="flex items-center gap-1 truncate">
+                        Name
+                        {getSortIcon('name')}
                       </div>
-                    </TableCell>
-                  </TableRow>)}
-              </TableBody>
-            </Table>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('name', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.location}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40 cursor-pointer hover:bg-purple-700/50 select-none"
+                      onClick={() => handleSort('city')}
+                    >
+                      <div className="flex items-center gap-1 truncate">
+                        Location
+                        {getSortIcon('city')}
+                      </div>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('location', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.status}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40 cursor-pointer hover:bg-purple-700/50 select-none"
+                      onClick={() => handleSort('status')}
+                    >
+                      <div className="flex items-center gap-1 truncate">
+                        Status
+                        {getSortIcon('status')}
+                      </div>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('status', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.price}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40 cursor-pointer hover:bg-purple-700/50 select-none"
+                      onClick={() => handleSort('price_per_month')}
+                    >
+                      <div className="flex items-center gap-1 truncate">
+                        Price/Month
+                        {getSortIcon('price_per_month')}
+                      </div>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('price', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.created}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40 cursor-pointer hover:bg-purple-700/50 select-none"
+                      onClick={() => handleSort('created_at')}
+                    >
+                      <div className="flex items-center gap-1 truncate">
+                        Created
+                        {getSortIcon('created_at')}
+                      </div>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('created', e)}
+                      />
+                    </th>
+                    <th 
+                      style={{ width: `${columnWidths.actions}px` }}
+                      className="relative px-2 py-2 text-left text-white font-medium bg-purple-800/40"
+                    >
+                      <div className="truncate">Actions</div>
+                      <div 
+                        className="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-purple-400/50"
+                        onMouseDown={(e) => handleMouseDown('actions', e)}
+                      />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAndSortedHotels.map(hotel => (
+                    <tr key={hotel.id} className="border-b border-purple-600/20 hover:bg-purple-800/20">
+                      <td style={{ width: `${columnWidths.checkbox}px` }} className="px-2 py-2">
+                        <input 
+                          type="checkbox" 
+                          checked={selectedHotels.includes(hotel.id)} 
+                          onChange={() => handleSelectHotel(hotel.id)} 
+                          className="rounded" 
+                        />
+                      </td>
+                      <td style={{ width: `${columnWidths.name}px` }} className="px-2 py-2">
+                        <div className="font-medium text-white truncate" title={hotel.name}>
+                          {hotel.name}
+                        </div>
+                      </td>
+                      <td style={{ width: `${columnWidths.location}px` }} className="px-2 py-2">
+                        <div className="text-white/80 truncate" title={`${hotel.city}, ${hotel.country}`}>
+                          {hotel.city}, {hotel.country}
+                        </div>
+                      </td>
+                      <td style={{ width: `${columnWidths.status}px` }} className="px-2 py-2">
+                        <Badge variant={hotel.status === 'approved' ? 'default' : hotel.status === 'pending' ? 'secondary' : 'destructive'}>
+                          {hotel.status}
+                        </Badge>
+                      </td>
+                      <td style={{ width: `${columnWidths.price}px` }} className="px-2 py-2">
+                        <div className="text-white/80 truncate">€{hotel.price_per_month}</div>
+                      </td>
+                      <td style={{ width: `${columnWidths.created}px` }} className="px-2 py-2">
+                        <div className="text-white/80 truncate">{format(new Date(hotel.created_at), 'MMM dd, yyyy')}</div>
+                      </td>
+                      <td style={{ width: `${columnWidths.actions}px` }} className="px-2 py-2">
+                        <div className="flex items-center gap-1">
+                          <Button size="sm" variant="ghost" onClick={() => navigate(`/hotel/${hotel.id}`)} className="h-6 w-6 p-0">
+                            <Eye className="w-3 h-3" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => navigate(`/add-property?edit=${hotel.id}`)} className="h-6 w-6 p-0 text-purple-400 hover:text-purple-300">
+                            <Edit className="w-3 h-3" />
+                          </Button>
+                          {hotel.status === 'pending' && (
+                            <Button size="sm" variant="ghost" onClick={() => handleApprove(hotel.id)} className="h-6 w-6 p-0 text-green-400 hover:text-green-300">
+                              <Check className="w-3 h-3" />
+                            </Button>
+                          )}
+                          <Button size="sm" variant="ghost" onClick={() => handleDelete(hotel.id)} className="h-6 w-6 p-0 text-red-400 hover:text-red-300">
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {filteredAndSortedHotels.length === 0 && <div className="text-center py-8 text-gray-500">

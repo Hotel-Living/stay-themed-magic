@@ -22,7 +22,7 @@ export default function PanelFernando() {
     <AdminAuthGuard>
       <PanelFernandoLayout>
         <Routes>
-          <Route path="/" element={<Navigate to="/panel-admin/hotels" replace />} />
+          <Route path="/" element={<FernandoHotels />} />
           <Route path="/hotels" element={<FernandoHotels />} />
           <Route path="/bookings" element={<FernandoBookings />} />
           <Route path="/payments" element={<FernandoPayments />} />
@@ -36,7 +36,7 @@ export default function PanelFernando() {
           <Route path="/translations" element={<FernandoTranslations />} />
           <Route path="/batches/*" element={<FernandoBatches />} />
           <Route path="/32-day-hotels" element={<Fernando32DayHotels />} />
-          <Route path="*" element={<Navigate to="/panel-admin/hotels" replace />} />
+          <Route path="*" element={<Navigate to="/panel-admin" replace />} />
         </Routes>
       </PanelFernandoLayout>
     </AdminAuthGuard>

@@ -5,7 +5,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Textarea } from '@/components/ui/textarea';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
-import { CharacterCounter } from '../components/CharacterCounter';
 
 interface HotelDescriptionSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -30,7 +29,6 @@ export const HotelDescriptionSection = ({ form }: HotelDescriptionSectionProps) 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white">{t('hotelDescription.label')}</FormLabel>
-              <p className="text-white/60 text-sm mb-2">Minimum 200 characters.</p>
               <FormControl>
                 <Textarea
                   placeholder={t('hotelDescription.placeholder')}
@@ -38,13 +36,11 @@ export const HotelDescriptionSection = ({ form }: HotelDescriptionSectionProps) 
                   {...field}
                 />
               </FormControl>
-              <div className="flex justify-between items-center mt-2">
+              <div className="flex justify-between text-sm mt-1">
                 <FormMessage />
-                <CharacterCounter 
-                  value={field.value || ''} 
-                  minLength={200}
-                  className="text-right"
-                />
+                <span className={`${description.length < 200 ? 'text-red-400' : 'text-green-400'}`}>
+                  {description.length}/200 {t('hotelDescription.minCharacters')}
+                </span>
               </div>
             </FormItem>
           )}

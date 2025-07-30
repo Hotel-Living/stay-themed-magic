@@ -28,7 +28,6 @@ export const HotelClassificationSection = ({ form }: HotelClassificationSectionP
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white">{t('classification.label')}</FormLabel>
-              <p className="text-white/60 text-sm mb-2">Please select one option to proceed.</p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="bg-white/10 border-white/30 text-white">

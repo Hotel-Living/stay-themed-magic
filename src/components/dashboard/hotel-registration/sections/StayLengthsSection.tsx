@@ -5,7 +5,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
-import { SelectionCounter } from '../components/SelectionCounter';
 
 interface StayLengthsSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -37,15 +36,7 @@ export const StayLengthsSection = ({ form }: StayLengthsSectionProps) => {
           name="stayLengths"
           render={() => (
             <FormItem>
-              <div className="flex items-center justify-between mb-2">
-                <FormLabel className="text-white">{t('stayLengths.label')}</FormLabel>
-                <SelectionCounter 
-                  selectedItems={selectedLengths}
-                  minRequired={1}
-                  showCount={true}
-                />
-              </div>
-              <p className="text-white/60 text-sm mb-2">Select at least 1 available stay length.</p>
+              <FormLabel className="text-white">{t('stayLengths.label')}</FormLabel>
               <FormControl>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                   {['8', '15', '22', '29'].map((length) => (

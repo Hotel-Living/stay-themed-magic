@@ -60,7 +60,6 @@ export const ActivitiesSection = ({ form }: ActivitiesSectionProps) => {
           render={() => (
             <FormItem>
               <FormLabel className="text-white">{t('activities.selectActivities')}</FormLabel>
-              <p className="text-white/60 text-sm">Optional, but strongly recommended to highlight unique experiences and make your property more appealing. This can be modified anytime.</p>
               
               <div className="mt-4 space-y-4">
                 <Input

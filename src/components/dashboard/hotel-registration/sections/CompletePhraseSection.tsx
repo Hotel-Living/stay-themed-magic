@@ -5,7 +5,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/hooks/useTranslation';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
-import { CharacterCounter } from '../components/CharacterCounter';
 
 interface CompletePhrasesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -28,7 +27,6 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
-        <p className="text-white/60 text-sm mb-4">Minimum 40 characters each phrase.</p>
         <div className="space-y-6">
           <FormField
             control={form.control}
@@ -44,10 +42,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('idealGuests')}
                   />
                 </FormControl>
-                <div className="flex justify-between items-center mt-1">
-                  <FormMessage />
-                  <CharacterCounter value={field.value || ''} minLength={40} />
-                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -66,10 +61,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('atmosphere')}
                   />
                 </FormControl>
-                <div className="flex justify-between items-center mt-1">
-                  <FormMessage />
-                  <CharacterCounter value={field.value || ''} minLength={40} />
-                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -88,10 +80,7 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                     onChange={handleInputChange('location')}
                   />
                 </FormControl>
-                <div className="flex justify-between items-center mt-1">
-                  <FormMessage />
-                  <CharacterCounter value={field.value || ''} minLength={40} />
-                </div>
+                <FormMessage />
               </FormItem>
             )}
           />

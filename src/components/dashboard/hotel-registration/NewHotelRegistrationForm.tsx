@@ -11,8 +11,6 @@ import { useAuth } from '@/context/AuthContext';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
-import { useValidationSummary } from './hooks/useValidationSummary';
-import { ValidationSummary } from './components/ValidationSummary';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -113,7 +111,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [accordionValue, setAccordionValue] = useState<string>('');
   const isEditing = !!editingHotelId;
   
   const form = useForm<HotelRegistrationFormData>({
@@ -131,17 +128,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       termsAccepted: false
     }
   });
-
-  // Validation summary hook
-  const {
-    validationErrors,
-    showValidationSummary,
-    validateAllSteps,
-    getStepsWithErrors,
-    getTotalErrorCount,
-    getAccordionValueForStep,
-    setShowValidationSummary
-  } = useValidationSummary();
 
   // Convert form data to PropertyFormData for auto-save and submission
   const convertToPropertyFormData = (data: HotelRegistrationFormData): PropertyFormData => ({
@@ -248,128 +234,22 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     clearDraft: () => {}
   };
 
-  // Navigation handler for validation errors
-  const handleNavigateToStep = (step: number) => {
-    const accordionValue = getAccordionValueForStep(step);
-    setAccordionValue(accordionValue);
-    setShowValidationSummary(false);
-    
-    // Scroll to the accordion section
-    setTimeout(() => {
-      const element = document.querySelector(`[data-state="open"][value="${accordionValue}"]`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
-  };
-
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    setIsSubmitting(true);
+    console.log('Form submission disabled - displaying data only');
+    console.log('Form data:', data);
     
-    // Run comprehensive validation
-    const isValid = validateAllSteps(data);
-    
-    if (!isValid) {
-      setIsSubmitting(false);
-      toast({
-        title: "Validation Error",
-        description: "Please complete all required fields before submitting.",
-        variant: "destructive",
-        duration: 5000
-      });
-      return;
-    }
-    
-    // Convert form data and submit to database
-    const propertyFormData = convertToPropertyFormData(data);
-    
-    try {
-      const { supabase } = await import('@/integrations/supabase/client');
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast({
-          title: "Authentication Error", 
-          description: "Please log in to submit your property.",
-          variant: "destructive"
-        });
-        setIsSubmitting(false);
-        return;
-      }
-
-      const hotelData = {
-        name: propertyFormData.hotelName,
-        description: propertyFormData.description,
-        city: propertyFormData.city,
-        country: propertyFormData.country,
-        address: propertyFormData.address,
-        property_type: propertyFormData.propertyType,
-        style: propertyFormData.style,
-        price_per_month: propertyFormData.price_per_month || 0,
-        owner_id: user.id,
-        status: 'pending'
-      };
-
-      let result;
-      if (editingHotelId) {
-        result = await supabase
-          .from('hotels')
-          .update(hotelData)
-          .eq('id', editingHotelId)
-          .eq('owner_id', user.id)
-          .select()
-          .single();
-      } else {
-        result = await supabase
-          .from('hotels')
-          .insert(hotelData)
-          .select()
-          .single();
-      }
-
-      if (result.error) {
-        console.error('Hotel submission error:', result.error);
-        toast({
-          title: "Submission Failed",
-          description: result.error.message || "Failed to submit property. Please try again.",
-          variant: "destructive"
-        });
-        setIsSubmitting(false);
-        return;
-      }
-
-      toast({
-        title: "Property Submitted Successfully",
-        description: isEditing ? "Property updated successfully!" : "Property submitted for review!",
-      });
-
-      if (onComplete) {
-        onComplete();
-      }
-
-    } catch (error) {
-      console.error('Unexpected error during submission:', error);
-      toast({
-        title: "Submission Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive"
-      });
-    }
-    
-    setIsSubmitting(false);
+    toast({
+      title: "Form Data Captured",
+      description: "Hotel registration form is in UI-only mode. Check console for form data.",
+      duration: 3000
+    });
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Accordion 
-            type="single" 
-            collapsible 
-            className="space-y-4"
-            value={accordionValue}
-            onValueChange={setAccordionValue}
-          >
+          <Accordion type="single" collapsible className="space-y-4">
             <HotelBasicInfoSection form={form} />
             <HotelClassificationSection form={form} />
             <PropertyTypeSection form={form} />
@@ -399,22 +279,12 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             >
               {isSubmitting 
                 ? 'Processing...'
-                : 'Submit Hotel Registration'
+                : 'View Form Data (Console)'
               }
             </Button>
           </div>
         </form>
       </Form>
-      
-      {/* Validation Summary Modal */}
-      <ValidationSummary
-        errors={validationErrors}
-        totalErrorCount={getTotalErrorCount()}
-        stepsWithErrors={getStepsWithErrors()}
-        onNavigateToStep={handleNavigateToStep}
-        onClose={() => setShowValidationSummary(false)}
-        isVisible={showValidationSummary}
-      />
     </div>
   );
 };

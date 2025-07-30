@@ -24,7 +24,6 @@ export const MealPlanSection = ({ form }: MealPlanSectionProps) => {
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6 space-y-6">
-        <p className="text-white/60 text-sm mb-4">You must select one meal plan and one laundry option to proceed.</p>
         <FormField
           control={form.control}
           name="mealPlan"

@@ -6,7 +6,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useFiltersByCategoryWithLanguage } from '@/hooks/useFiltersByCategoryWithLanguage';
 import { HotelRegistrationFormData } from '../NewHotelRegistrationForm';
-import { SelectionCounter } from '../components/SelectionCounter';
 
 interface HotelFeaturesSectionProps {
   form: UseFormReturn<HotelRegistrationFormData>;
@@ -38,13 +37,9 @@ export const HotelFeaturesSection = ({ form }: HotelFeaturesSectionProps) => {
           control={form.control}
           name="hotelFeatures"
           render={() => (
-             <FormItem>
-               <div className="flex justify-between items-center mb-2">
-                 <FormLabel className="text-white">{t('hotelFeatures.label')}</FormLabel>
-                 <SelectionCounter selectedItems={selectedFeatures} minRequired={5} />
-               </div>
-               <p className="text-white/60 text-sm mb-2">Select at least 5 features.</p>
-               <FormControl>
+            <FormItem>
+              <FormLabel className="text-white">{t('hotelFeatures.label')}</FormLabel>
+              <FormControl>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                   {isLoading ? (
                     <div className="text-white text-sm">{t('hotelFeatures.loading')}</div>

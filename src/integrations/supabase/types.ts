@@ -1883,6 +1883,16 @@ export type Database = {
         Args: { p_package_id: string; p_rooms_to_restore: number }
         Returns: boolean
       }
+      submit_hotel_registration: {
+        Args: {
+          hotel_data: Json
+          availability_packages?: Json
+          hotel_images?: Json
+          hotel_themes?: Json
+          hotel_activities?: Json
+        }
+        Returns: Json
+      }
       validate_password_reset_token: {
         Args: { p_token: string }
         Returns: {

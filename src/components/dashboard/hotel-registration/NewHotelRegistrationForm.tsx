@@ -11,6 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
+import { validateHotelRegistration, getStepRequirements } from '@/utils/hotelRegistrationValidation';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -111,6 +112,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string | null>(null);
   const isEditing = !!editingHotelId;
   
   const form = useForm<HotelRegistrationFormData>({
@@ -235,14 +237,50 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   };
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    console.log('Form submission disabled - displaying data only');
-    console.log('Form data:', data);
+    setIsSubmitting(true);
+    setValidationErrors(null);
     
-    toast({
-      title: "Form Data Captured",
-      description: "Hotel registration form is in UI-only mode. Check console for form data.",
-      duration: 3000
-    });
+    // Perform comprehensive validation
+    const validationResult = validateHotelRegistration(data);
+    
+    if (!validationResult.isValid) {
+      const stepsList = validationResult.incompleteSteps.join(', ');
+      setValidationErrors(`Please complete correctly: Step ${stepsList}.`);
+      setIsSubmitting(false);
+      
+      toast({
+        title: "Validation Error",
+        description: `Please complete all required fields before submitting.`,
+        variant: "destructive",
+        duration: 5000
+      });
+      return;
+    }
+    
+    // If validation passes, proceed with submission
+    try {
+      console.log('Hotel registration data:', data);
+      
+      toast({
+        title: "Submission Successful",
+        description: "Hotel registration has been submitted successfully.",
+        duration: 3000
+      });
+      
+      if (onComplete) {
+        onComplete();
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Submission Error", 
+        description: "Failed to submit hotel registration. Please try again.",
+        variant: "destructive",
+        duration: 5000
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -271,6 +309,12 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
           
           <TermsConditionsSection form={form} />
           
+          {validationErrors && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+              <p className="text-red-400 text-sm font-medium">{validationErrors}</p>
+            </div>
+          )}
+          
           <div className="flex justify-end pt-6">
             <Button 
               type="submit" 
@@ -279,7 +323,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             >
               {isSubmitting 
                 ? 'Processing...'
-                : 'View Form Data (Console)'
+                : 'Submit Hotel Registration'
               }
             </Button>
           </div>

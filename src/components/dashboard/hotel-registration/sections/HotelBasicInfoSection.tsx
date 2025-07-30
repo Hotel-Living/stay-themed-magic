@@ -132,6 +132,11 @@ export const HotelBasicInfoSection = ({ form }: HotelBasicInfoSectionProps) => {
             )}
           />
 
+          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <p className="text-blue-300 text-xs font-medium">Step 1 Requirements:</p>
+            <p className="text-blue-200 text-xs">All address fields (hotel name, address, city, postal code, country) are required.</p>
+          </div>
+
           <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
             <p className="text-white/70 text-sm mb-2">Map Preview</p>
             <MapPreview 

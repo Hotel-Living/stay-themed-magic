@@ -61,13 +61,17 @@ export const HotelFeaturesSection = ({ form }: HotelFeaturesSectionProps) => {
                       </div>
                     ))
                   )}
-                </div>
-              </FormControl>
-              <FormMessage />
-              {selectedFeatures.length === 0 && (
-                <p className="text-red-400 text-sm mt-2">{t('hotelFeatures.required')}</p>
-              )}
-            </FormItem>
+                 </div>
+               </FormControl>
+               <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                 <p className="text-blue-300 text-xs font-medium">Step 8 Requirements:</p>
+                 <p className="text-blue-200 text-xs">Select at least 5 hotel features. ({selectedFeatures.length}/5)</p>
+               </div>
+               <FormMessage />
+               {selectedFeatures.length === 0 && (
+                 <p className="text-red-400 text-sm mt-2">{t('hotelFeatures.required')}</p>
+               )}
+             </FormItem>
           )}
         />
       </AccordionContent>

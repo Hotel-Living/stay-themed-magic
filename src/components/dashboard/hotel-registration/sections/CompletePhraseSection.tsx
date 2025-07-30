@@ -83,9 +83,14 @@ export const CompletePhraseSection = ({ form }: CompletePhrasesSectionProps) => 
                 <FormMessage />
               </FormItem>
             )}
-          />
-        </div>
-      </AccordionContent>
-    </AccordionItem>
-  );
-};
+           />
+
+           <div className="mt-6 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+             <p className="text-blue-300 text-xs font-medium">Step 7 Requirements:</p>
+             <p className="text-blue-200 text-xs">Complete all three phrases with at least 40 characters each.</p>
+           </div>
+         </div>
+       </AccordionContent>
+     </AccordionItem>
+   );
+ };

@@ -110,3 +110,13 @@
     text-shadow: 0 0 10px #5D0478, 0 0 20px #5D0478, 0 0 30px #5D0478, 0 0 40px #5D0478;
   }
 }
+
+/* Gentle gold color animation for main hotel slogan */
+@keyframes gentle-gold {
+  0%, 100% {
+    color: #FFD700;
+  }
+  50% {
+    color: #FFC300;
+  }
+}

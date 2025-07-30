@@ -55,20 +55,31 @@ export default function Hotels() {
             <HotelSlogans />
           </div>
           
-          {/* Professional Study Offer - Centered between blocks */}
+          {/* Professional Study Offer - Elegant Call-to-Action Box */}
           <div className="my-16 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             {/* Blue glow wrapper for professional study */}
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative bg-gradient-to-br from-purple-900/80 via-fuchsia-900/60 to-purple-800/80 backdrop-blur-sm border-2 border-fuchsia-400 rounded-2xl p-8 max-w-2xl cursor-pointer hover:border-fuchsia-300 hover:bg-gradient-to-br hover:from-purple-800/90 hover:via-fuchsia-800/70 hover:to-purple-700/90 transition-all duration-300 shadow-2xl hover:shadow-fuchsia-500/30 hover:scale-105" onClick={() => {
-              navigate('/professional-study');
-            }}>
-                <p className="text-white text-center text-lg leading-relaxed drop-shadow-lg font-bold uppercase">
-                  {language === 'en' && 'Get, at no cost, a complete professional, technical and in-person study about your hotel and its development possibilities'}
-                  {language === 'es' && 'Obtenga, sin coste alguno, un completo estudio profesional, técnico y presencial, sobre su hotel y sus posibilidades de desarrollo'}
-                  {language === 'pt' && 'Obtenha, sem qualquer custo, um estudo profissional, técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento'}
-                  {language === 'ro' && 'Obțineți, fără costuri, un studiu profesional complet, tehnic și în persoană despre hotelul dvs. și posibilitățile sale de dezvoltare'}
-                </p>
+              <div 
+                className="relative bg-gradient-to-br from-[#8017B0] via-[#6804A3] to-[#8017B0] backdrop-blur-sm border-2 border-white/20 rounded-2xl p-12 max-w-3xl cursor-pointer hover:border-white/30 hover:bg-gradient-to-br hover:from-[#9A1CC7] hover:via-[#7805B0] hover:to-[#9A1CC7] transition-all duration-300 shadow-2xl hover:shadow-blue-500/30 hover:scale-105" 
+                onClick={() => {
+                  navigate('/professional-study');
+                }}
+              >
+                <div className="text-center space-y-4">
+                  <h2 className="text-white text-3xl font-bold uppercase tracking-wide drop-shadow-lg">
+                    {language === 'en' && 'FREE STUDY'}
+                    {language === 'es' && 'ESTUDIO GRATUITO'}
+                    {language === 'pt' && 'ESTUDO GRATUITO'}
+                    {language === 'ro' && 'STUDIU GRATUIT'}
+                  </h2>
+                  <p className="text-white text-xl leading-relaxed drop-shadow-lg">
+                    {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
+                    {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
+                    {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
+                    {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dvs. și posibilitățile sale de dezvoltare.'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

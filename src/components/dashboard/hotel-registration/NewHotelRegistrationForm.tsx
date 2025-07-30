@@ -15,6 +15,7 @@ import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
 import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
 import { useDataPreservation } from '@/hooks/useDataPreservation';
 import { useSubmissionStability } from '@/hooks/useSubmissionStability';
+import { useHotelImagePersistence } from '@/hooks/useHotelImagePersistence';
 import { SubmissionStatus } from './components/SubmissionStatus';
 import { LockStatusIndicator } from '@/components/ui/LockStatusIndicator';
 
@@ -125,6 +126,9 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
   // Use reliable image upload
   const { isUploading, getAllUploadedUrls } = useImageUploadReliable();
+  
+  // Use hotel image persistence for Supabase storage uploads
+  const { uploadImagesToStorage, uploading: imageStorageUploading } = useHotelImagePersistence();
 
   // Use data preservation system
   const {
@@ -378,21 +382,11 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     // Form validation is handled by the Zod schema automatically
     // No legacy validation layers needed
     
-    // SURGICAL FIX: Ensure all selected images are fully uploaded before submission
+    // SURGICAL FIX: Upload blob URLs to Supabase storage before validation
     const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
     
-    // Check if user has selected images but they haven't finished uploading
-    const hasAnyImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
-    
-    if (hasAnyImages && !allUploaded) {
-      toast({
-        title: "Images Still Processing",
-        description: "Some images are still uploading. Please wait for all uploads to complete before submitting.",
-        variant: "destructive",
-        duration: 5000
-      });
-      return;
-    }
+    // Check if user has selected images
+    const hasAnyImages = (data.photos?.hotel?.length || 0) + (data.photos?.room?.length || 0) > 0;
     
     if (!hasAnyImages) {
       toast({
@@ -402,6 +396,55 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         duration: 5000
       });
       return;
+    }
+
+    // Extract blob URLs that need to be uploaded to storage
+    const hotelBlobUrls = (data.photos?.hotel || []).map(img => img.url || img).filter(url => typeof url === 'string');
+    const roomBlobUrls = (data.photos?.room || []).map(img => img.url || img).filter(url => typeof url === 'string');
+    
+    // Check if any images are still blob URLs (not yet uploaded to storage)
+    const hasBlobUrls = hotelBlobUrls.some(url => url.startsWith('blob:')) || roomBlobUrls.some(url => url.startsWith('blob:'));
+    
+    let finalHotelUrls = hotelBlobUrls;
+    let finalRoomUrls = roomBlobUrls;
+    
+    if (hasBlobUrls) {
+      try {
+        toast({
+          title: "Uploading Images to Storage",
+          description: "Converting temporary images to permanent storage. Please wait...",
+          duration: 3000
+        });
+
+        // Generate a temporary hotel ID for storage path
+        const tempHotelId = `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+        
+        // Upload all blob URLs to Supabase storage
+        const { hotelUrls: uploadedHotelUrls, roomUrls: uploadedRoomUrls } = await uploadImagesToStorage(
+          hotelBlobUrls,
+          roomBlobUrls,
+          tempHotelId
+        );
+        
+        finalHotelUrls = uploadedHotelUrls;
+        finalRoomUrls = uploadedRoomUrls;
+        
+        toast({
+          title: "Images Uploaded Successfully",
+          description: "All images have been uploaded to storage. Proceeding with submission...",
+          duration: 2000
+        });
+        
+      } catch (error: any) {
+        console.error('[HOTEL-REGISTRATION] Failed to upload images to storage:', error);
+        toast({
+          title: "Image Upload Failed",
+          description: "Failed to upload images to storage. Please try again or check your internet connection.",
+          variant: "destructive",
+          duration: 8000
+        });
+        return;
+      }
     }
     
     console.log('[HOTEL-REGISTRATION] Starting submission for authenticated user:', user?.id);
@@ -436,7 +479,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
         return month;
       }) || [],
-      main_image_url: hotelImageUrls[0] || '',
+      main_image_url: finalHotelUrls[0] || '',
       price_per_month: data.price_per_month || 0,
       terms: data.termsAccepted ? 'Terms accepted on ' + new Date().toISOString() : '',
       check_in_weekday: data.checkInDay || 'Monday'
@@ -451,14 +494,14 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       available_rooms: pkg.availableRooms
     })) || [];
 
-    // Use the uploaded URLs from storage
+    // Use the final uploaded URLs from storage (not original blob URLs)
     const hotelImages = [
-      ...hotelImageUrls.map((url, index) => ({
+      ...finalHotelUrls.map((url, index) => ({
         url,
         is_main: index === 0, // First hotel image is main
         name: `hotel-image-${index + 1}`
       })),
-      ...roomImageUrls.map((url, index) => ({
+      ...finalRoomUrls.map((url, index) => ({
         url,
         is_main: false,
         name: `room-image-${index + 1}`
@@ -625,6 +668,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
                 stabilityState.isSubmitting ||
                 isLoadingHotelData || 
                 isUploading() || 
+                imageStorageUploading ||
                 submissionState.submissionComplete ||
                 submissionState.hasFailedSubmission ||
                 (() => {
@@ -642,6 +686,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
                 if (lockState.isLocked) return 'Editing Locked';
                 if (submissionState.isSubmitting || stabilityState.isSubmitting) return 'Processing...';
                 if (isUploading()) return 'Uploading Images...';
+                if (imageStorageUploading) return 'Uploading to Storage...';
                 if (waitingForUploads) return 'Waiting for Uploads...';
                 if (submissionState.submissionComplete) return 'Registration Complete ✅';
                 if (submissionState.hasFailedSubmission) return 'Use Retry Button Above';

@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 import { supabase } from '@/integrations/supabase/client';
-import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
+import { useCheckpointAutoSave } from '@/hooks/useCheckpointAutoSave';
 import { useDataPreservation } from '@/hooks/useDataPreservation';
 import { useSubmissionStability } from '@/hooks/useSubmissionStability';
 import { SubmissionStatus } from './components/SubmissionStatus';
@@ -233,12 +233,13 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     setCurrentStep: () => {} // Not needed for this form
   });
 
-  // Auto-save functionality (only text and numeric fields)
+  // Checkpoint-based auto-save functionality
   const formData = form.watch();
-  const autoSave = useAutoSaveReliable(formData, true);
+  const autoSave = useCheckpointAutoSave(formData, true);
 
   // Track if draft has already been restored to prevent multiple attempts
   const [isDraftRestored, setIsDraftRestored] = React.useState(false);
+  const [lastCheckpointSave, setLastCheckpointSave] = React.useState<number>(0);
 
   // Load draft data when user becomes available (critical for data recovery after browser closure)
   useEffect(() => {
@@ -275,6 +276,26 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     }
   }, [user?.id, session?.user?.id, autoSave.loadDraft, autoSave.hasValidDraftData, form, toast, submissionState.submissionComplete, isDraftRestored]);
 
+  // Checkpoint auto-save effect - saves at sections 6 and 12
+  useEffect(() => {
+    const userId = user?.id || session?.user?.id;
+    if (!userId || !autoSave.isEnabled) {
+      return;
+    }
+
+    // Check if we should save at checkpoint 6 (after ROOM DESCRIPTION)
+    if (autoSave.checkSectionCompletion(6) && lastCheckpointSave < 6) {
+      autoSave.saveAtCheckpoint('Section 6 - Room Description');
+      setLastCheckpointSave(6);
+    }
+    
+    // Check if we should save at checkpoint 12 (after MEAL PLANS)
+    if (autoSave.checkSectionCompletion(12) && lastCheckpointSave < 12) {
+      autoSave.saveAtCheckpoint('Section 12 - Meal Plans');
+      setLastCheckpointSave(12);
+    }
+  }, [formData, user?.id, session?.user?.id, autoSave, lastCheckpointSave]);
+
   // Load any failed submission on component mount
   React.useEffect(() => {
     loadFailedSubmission();
@@ -299,6 +320,9 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     
     // Form validation is handled by the Zod schema automatically
     // No legacy validation layers needed
+    
+    // Save final checkpoint before submission
+    await autoSave.saveAtCheckpoint('Final Submission');
     
     console.log('[HOTEL-REGISTRATION] Starting submission for authenticated user:', user?.id);
     console.log('[HOTEL-REGISTRATION] No role verification required - authenticated user can submit');

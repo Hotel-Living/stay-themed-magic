@@ -70,7 +70,7 @@ export function useImageUploadReliable() {
     const fileName = `${user.id}/${type}/${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
     const { data, error } = await supabase.storage
-      .from('hotel-images')
+      .from('Hotel Images')
       .upload(fileName, file, {
         cacheControl: '3600',
         upsert: false
@@ -82,7 +82,7 @@ export function useImageUploadReliable() {
     }
 
     const { data: { publicUrl } } = supabase.storage
-      .from('hotel-images')
+      .from('Hotel Images')
       .getPublicUrl(fileName);
 
     return publicUrl;

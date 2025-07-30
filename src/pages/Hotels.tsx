@@ -67,13 +67,13 @@ export default function Hotels() {
                 }}
               >
                 <div className="text-center space-y-6 w-full">
-                  <h2 className="text-white text-5xl md:text-6xl font-black uppercase tracking-widest drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] filter contrast-125 brightness-110">
+                  <h2 className="font-black uppercase tracking-widest text-6xl md:text-7xl" style={{ color: '#FFFFFF', textShadow: '2px 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.8)' }}>
                     {language === 'en' && 'FREE STUDY'}
                     {language === 'es' && 'ESTUDIO GRATUITO'}
                     {language === 'pt' && 'ESTUDO GRATUITO'}
                     {language === 'ro' && 'STUDIU GRATUIT'}
                   </h2>
-                  <p className="text-white text-2xl md:text-3xl leading-relaxed font-bold max-w-5xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] filter contrast-125 brightness-110">
+                  <p className="font-bold text-3xl md:text-4xl leading-relaxed max-w-5xl mx-auto" style={{ color: '#FFFFFF', textShadow: '1px 1px 2px rgba(0,0,0,1), 0 0 4px rgba(0,0,0,0.8)' }}>
                     {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
                     {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
                     {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}

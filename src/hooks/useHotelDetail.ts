@@ -9,6 +9,11 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
   try {
     console.log("Fetching hotel detail for ID:", id);
     
+    // Get current user to check if they own this hotel
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log("Current user for hotel access:", user?.id);
+    
+    // First, try to get the hotel data without status filtering
     const { data, error } = await supabase
       .from("hotels")
       .select(`
@@ -24,7 +29,6 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
         )
       `)
       .eq("id", id)
-      .eq("status", "approved") // Only allow public access to approved hotels
       .single();
       
     if (error) throw error;
@@ -34,6 +38,29 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       return null;
     }
     
+    // Check access permissions:
+    // 1. If hotel is approved, everyone can see it
+    // 2. If hotel is pending/rejected, only the owner or admin can see it
+    const isOwner = user && data.owner_id === user.id;
+    const isApproved = data.status === 'approved';
+    
+    // Check if user is admin
+    let isAdmin = false;
+    if (user) {
+      const { data: adminCheck } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+      isAdmin = !!adminCheck;
+    }
+    
+    if (!isApproved && !isOwner && !isAdmin) {
+      console.log("Access denied: Hotel is not approved and user is not the owner or admin");
+      return null;
+    }
+    
+    console.log("Access granted:", { isOwner, isApproved, status: data.status });
     console.log("Fetched hotel data:", data);
     console.log("Hotel images count:", data.hotel_images?.length || 0);
     

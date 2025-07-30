@@ -15,6 +15,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useFormValidationReliable } from '@/hooks/useFormValidationReliable';
 import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
 import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
+import { useDataPreservation } from '@/hooks/useDataPreservation';
+import { SubmissionStatus } from './components/SubmissionStatus';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -130,6 +132,16 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
   // Use reliable image upload
   const { isUploading, getAllUploadedUrls } = useImageUploadReliable();
+
+  // Use data preservation system
+  const {
+    submissionState,
+    submitWithPreservation,
+    retryFailedSubmission,
+    clearFailedSubmission,
+    loadFailedSubmission,
+    getFailedSubmissionSummary
+  } = useDataPreservation();
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -247,14 +259,17 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const formData = form.watch();
   const autoSave = useAutoSaveReliable(formData, true);
 
+  // Load any failed submission on component mount
+  React.useEffect(() => {
+    loadFailedSubmission();
+  }, [loadFailedSubmission]);
+
   const onSubmit = async (data: HotelRegistrationFormData) => {
-    // Prevent duplicate submissions
-    if (isSubmitting || submissionAttempted) {
+    // Prevent duplicate submissions if already submitting or completed
+    if (submissionState.isSubmitting || submissionState.submissionComplete) {
       return;
     }
     
-    setIsSubmitting(true);
-    setSubmissionAttempted(true);
     clearValidationErrors();
     
     // Check if images are still uploading
@@ -265,8 +280,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         variant: "destructive",
         duration: 5000
       });
-      setIsSubmitting(false);
-      setSubmissionAttempted(false);
       return;
     }
     
@@ -280,8 +293,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         variant: "destructive",
         duration: 5000
       });
-      setIsSubmitting(false);
-      setSubmissionAttempted(false);
       return;
     }
     
@@ -295,142 +306,143 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         variant: "destructive",
         duration: 5000
       });
-      setIsSubmitting(false);
-      setSubmissionAttempted(false);
       return;
     }
     
-    // If validation passes, proceed with RPC submission
-    try {
-      const propertyData = convertToPropertyFormData(data);
-      
-      // Prepare hotel data for RPC
-      const hotelData = {
-        owner_id: user?.id,
-        name: data.hotelName,
-        description: data.hotelDescription,
-        country: data.country,
-        city: data.city,
-        address: data.address,
-        postal_code: data.postalCode,
-        contact_name: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
-        contact_email: data.email,
-        contact_phone: data.phone,
-        property_type: data.propertyType,
-        style: data.propertyStyle,
-        category: data.classification ? parseInt(data.classification) : 1,
-        ideal_guests: data.idealGuests,
-        atmosphere: data.atmosphere,
-        perfect_location: data.location,
-        room_description: data.roomDescription,
-        weekly_laundry_included: data.weeklyLaundryIncluded,
-        external_laundry_available: data.externalLaundryAvailable,
-        stay_lengths: data.stayLengths,
-        meals_offered: data.mealPlan ? [data.mealPlan] : [],
-        features_hotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-        features_room: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
-        available_months: data.availabilityPackages?.map(pkg => {
-          const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
-          return month;
-        }) || [],
-        main_image_url: data.photos?.hotel?.[0]?.url || data.photos?.hotel?.[0] || '',
-        price_per_month: data.price_per_month || 0,
-        terms: data.termsAccepted ? 'Terms accepted on ' + new Date().toISOString() : '',
-        check_in_weekday: data.checkInDay || 'Monday'
-      };
+    // Prepare hotel data for submission
+    const hotelData = {
+      owner_id: user?.id,
+      name: data.hotelName,
+      description: data.hotelDescription,
+      country: data.country,
+      city: data.city,
+      address: data.address,
+      postal_code: data.postalCode,
+      contact_name: user?.user_metadata?.first_name + ' ' + user?.user_metadata?.last_name || '',
+      contact_email: data.email,
+      contact_phone: data.phone,
+      property_type: data.propertyType,
+      style: data.propertyStyle,
+      category: data.classification ? parseInt(data.classification) : 1,
+      ideal_guests: data.idealGuests,
+      atmosphere: data.atmosphere,
+      perfect_location: data.location,
+      room_description: data.roomDescription,
+      weekly_laundry_included: data.weeklyLaundryIncluded,
+      external_laundry_available: data.externalLaundryAvailable,
+      stay_lengths: data.stayLengths,
+      meals_offered: data.mealPlan ? [data.mealPlan] : [],
+      features_hotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      features_room: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
+      available_months: data.availabilityPackages?.map(pkg => {
+        const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
+        return month;
+      }) || [],
+      main_image_url: hotelImageUrls[0] || '',
+      price_per_month: data.price_per_month || 0,
+      terms: data.termsAccepted ? 'Terms accepted on ' + new Date().toISOString() : '',
+      check_in_weekday: data.checkInDay || 'Monday'
+    };
 
-      // Prepare related data
-      const availabilityPackages = data.availabilityPackages?.map(pkg => ({
-        start_date: pkg.startDate.toISOString().split('T')[0],
-        end_date: pkg.endDate.toISOString().split('T')[0],
-        duration_days: pkg.duration,
-        total_rooms: pkg.availableRooms,
-        available_rooms: pkg.availableRooms
-      })) || [];
+    // Prepare related data
+    const availabilityPackages = data.availabilityPackages?.map(pkg => ({
+      start_date: pkg.startDate.toISOString().split('T')[0],
+      end_date: pkg.endDate.toISOString().split('T')[0],
+      duration_days: pkg.duration,
+      total_rooms: pkg.availableRooms,
+      available_rooms: pkg.availableRooms
+    })) || [];
 
-      // Use the uploaded URLs from storage
-      const hotelImages = [
-        ...hotelImageUrls.map((url, index) => ({
-          url,
-          is_main: index === 0, // First hotel image is main
-          name: `hotel-image-${index + 1}`
-        })),
-        ...roomImageUrls.map((url, index) => ({
-          url,
-          is_main: false,
-          name: `room-image-${index + 1}`
-        }))
-      ];
+    // Use the uploaded URLs from storage
+    const hotelImages = [
+      ...hotelImageUrls.map((url, index) => ({
+        url,
+        is_main: index === 0, // First hotel image is main
+        name: `hotel-image-${index + 1}`
+      })),
+      ...roomImageUrls.map((url, index) => ({
+        url,
+        is_main: false,
+        name: `room-image-${index + 1}`
+      }))
+    ];
 
-      // Submit via RPC
-      const { data: response, error } = await supabase.rpc('submit_hotel_registration', {
-        hotel_data: hotelData,
-        availability_packages: availabilityPackages,
-        hotel_images: hotelImages,
-        hotel_themes: data.clientAffinities || [],
-        hotel_activities: data.activities || []
+    // Submit using data preservation system
+    const result = await submitWithPreservation(
+      data,
+      hotelData,
+      availabilityPackages,
+      hotelImages,
+      data.clientAffinities || [],
+      data.activities || []
+    );
+
+    if (result.success) {
+      toast({
+        title: "Registration Completed ✅",
+        description: "Your hotel registration has been successfully submitted to Supabase and is under review. You will be notified of the status.",
+        duration: 5000
       });
-
-      if (error) {
-        console.error('RPC submission error:', error);
-        
-        // Show real error to user instead of fake success
-        toast({
-          title: "Submission Failed",
-          description: "There was an error submitting your registration. Please try again or contact support if the problem persists.",
-          variant: "destructive",
-          duration: 8000
-        });
-        
-        setIsSubmitting(false);
-        setSubmissionAttempted(false);
-        return;
+      
+      // Clear auto-save draft on successful submission
+      autoSave.clearDraft();
+      
+      if (onComplete) {
+        onComplete();
       }
+    } else {
+      // Error handling is managed by the data preservation system
+      // User will see the retry interface automatically
+      toast({
+        title: "Submission Error",
+        description: "Your data has been safely preserved. Use the retry button below to attempt submission again.",
+        variant: "destructive",
+        duration: 8000
+      });
+    }
+  };
 
-      // Only show success if we actually got a successful response
-      if ((response as any)?.success !== false) {
+  const handleRetrySubmission = async () => {
+    try {
+      const result = await retryFailedSubmission();
+      
+      if (result.success) {
         toast({
           title: "Registration Completed ✅",
-          description: "Your hotel registration has been submitted successfully and is under review. You will be notified of the status.",
+          description: "Your hotel registration has been successfully submitted to Supabase after retry.",
           duration: 5000
         });
         
-        // Clear auto-save draft on successful submission
         autoSave.clearDraft();
         
         if (onComplete) {
           onComplete();
         }
       } else {
-        // RPC returned error in response
         toast({
-          title: "Submission Failed",
-          description: (response as any)?.message || "Registration could not be processed. Please try again.",
+          title: "Retry Failed",
+          description: "The retry attempt failed. Your data remains safely stored for future attempts.",
           variant: "destructive",
           duration: 8000
         });
-        
-        setIsSubmitting(false);
-        setSubmissionAttempted(false);
-        return;
       }
     } catch (error) {
-      console.error('Submission error:', error);
-      
-      // Show real error to user
       toast({
-        title: "Submission Error",
-        description: "An unexpected error occurred. Please check your connection and try again.",
+        title: "Retry Error",
+        description: "An error occurred during retry. Please try again.",
         variant: "destructive",
-        duration: 8000
+        duration: 5000
       });
-      
-      setIsSubmitting(false);
-      setSubmissionAttempted(false);
-      return;
-    } finally {
-      setIsSubmitting(false);
     }
+  };
+
+  const handleClearFailedSubmission = () => {
+    clearFailedSubmission();
+    toast({
+      title: "Data Cleared",
+      description: "Saved submission data has been cleared from local storage.",
+      duration: 3000
+    });
   };
 
   return (
@@ -459,6 +471,15 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
           
           <TermsConditionsSection form={form} />
           
+          {/* Submission Status Display */}
+          <SubmissionStatus
+            submissionState={submissionState}
+            failedSubmissionSummary={getFailedSubmissionSummary()}
+            onRetry={handleRetrySubmission}
+            onClearFailed={handleClearFailedSubmission}
+          />
+
+          {/* Validation Errors */}
           {hasValidationErrors() && (
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 mb-4">
               <p className="text-destructive text-sm font-medium mb-2">Please fix the following issues:</p>
@@ -470,18 +491,27 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             </div>
           )}
           
+          {/* Submit Button */}
           <div className="flex justify-end pt-6">
             <Button 
               type="submit" 
               className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isSubmitting || isLoadingHotelData || isUploading() || submissionAttempted}
+              disabled={
+                submissionState.isSubmitting || 
+                isLoadingHotelData || 
+                isUploading() || 
+                submissionState.submissionComplete ||
+                submissionState.hasFailedSubmission
+              }
             >
-              {isSubmitting 
+              {submissionState.isSubmitting 
                 ? 'Processing...'
                 : isUploading()
                 ? 'Uploading Images...'
-                : submissionAttempted
-                ? 'Submitted'
+                : submissionState.submissionComplete
+                ? 'Registration Complete ✅'
+                : submissionState.hasFailedSubmission
+                ? 'Use Retry Button Above'
                 : 'Submit Hotel Registration'
               }
             </Button>

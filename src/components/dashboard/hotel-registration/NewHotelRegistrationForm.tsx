@@ -378,13 +378,16 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     // Form validation is handled by the Zod schema automatically
     // No legacy validation layers needed
     
-    // Ensure we have uploaded image URLs
+    // SURGICAL FIX: Allow submission even with blob URLs - let upload happen during submission
     const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
     
-    if (!allUploaded) {
+    // Only block if user explicitly hasn't selected any images, not if they're uploading
+    const hasAnyImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
+    
+    if (!hasAnyImages) {
       toast({
-        title: "Upload Error",
-        description: "Some images are still uploading or failed to upload. Please retry failed uploads.",
+        title: "Images Required",
+        description: "Please upload at least one image before submitting.",
         variant: "destructive",
         duration: 5000
       });

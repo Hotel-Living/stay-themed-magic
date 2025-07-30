@@ -33,12 +33,23 @@ export function useDataIntegrity() {
     const retryableUploads: string[] = [];
 
     allImages.forEach((image, index) => {
-      // Allow blob URLs and uploading images - only fail on actual missing data
-      // SURGICAL FIX: Don't reject blob: URLs or images in upload process
-      if (!image.url && !image.file && !image.uploaded) {
+      // SURGICAL FIX: Only fail if image has NO URL at all
+      // Accept blob URLs, permanent URLs, and any valid URL format
+      // Images with blob URLs are valid for submission (they'll be converted during upload)
+      if (!image.url && !image.file) {
         failedUploads.push(`Image ${index + 1}`);
       }
-      // Don't add to retryableUploads - let upload process handle async operations
+    });
+
+    console.log('[DATA-INTEGRITY] Image validation results:', {
+      totalImages: allImages.length,
+      failedUploads: failedUploads.length,
+      imageDetails: allImages.map((img, i) => ({
+        index: i + 1,
+        hasUrl: !!img.url,
+        hasFile: !!img.file,
+        urlType: img.url ? (img.url.startsWith('blob:') ? 'blob' : 'permanent') : 'none'
+      }))
     });
 
     return {

@@ -458,41 +458,63 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     console.log('[HOTEL-REGISTRATION] Submitting hotel registration with stability checks');
     
     // Submit using stability system with comprehensive checks
-    const result = await submitWithStabilityChecks(data, async () => {
-      return await submitWithPreservation(
-        data,
-        hotelData,
-        availabilityPackages,
-        hotelImages,
-        data.clientAffinities || [],
-        data.activities || []
-      );
-    });
+    try {
+      const result = await submitWithStabilityChecks(data, async () => {
+        return await submitWithPreservation(
+          data,
+          hotelData,
+          availabilityPackages,
+          hotelImages,
+          data.clientAffinities || [],
+          data.activities || []
+        );
+      });
 
-    if (result.success) {
-      console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
-      toast({
-        title: "Registration Completed ✅",
-        description: "Your hotel registration has been successfully submitted and will appear in both your hotel panel and the admin panel for approval.",
-        duration: 5000
-      });
-      
-      // Clear auto-save draft on successful submission
-      autoSave.clearDraft();
-      
-      if (onComplete) {
-        onComplete();
+      if (result.success) {
+        console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
+        toast({
+          title: "Registration Completed ✅",
+          description: "Your hotel registration has been successfully submitted and will appear in both your hotel panel and the admin panel for approval.",
+          duration: 5000
+        });
+        
+        // Clear auto-save draft on successful submission
+        autoSave.clearDraft();
+        
+        if (onComplete) {
+          onComplete();
+        }
+      } else {
+        // Error handling is managed by the data preservation system
+        // User will see the retry interface automatically
+        console.log('[HOTEL-REGISTRATION] Submission failed, data preserved for retry:', result.error);
+        toast({
+          title: "Submission Error",
+          description: result.error || "Your data has been safely preserved. Use the retry button below to attempt submission again.",
+          variant: "destructive",
+          duration: 8000
+        });
       }
-    } else {
-      // Error handling is managed by the data preservation system
-      // User will see the retry interface automatically
-      console.log('[HOTEL-REGISTRATION] Submission failed, data preserved for retry:', result.error);
-      toast({
-        title: "Submission Error",
-        description: "Your data has been safely preserved. Use the retry button below to attempt submission again.",
-        variant: "destructive",
-        duration: 8000
-      });
+    } catch (error: any) {
+      // SURGICAL FIX: Catch any validation errors and show user-facing messages
+      console.error('[HOTEL-REGISTRATION] Submission error caught:', error);
+      
+      // Check if it's an image validation error
+      if (error.message && error.message.includes('Image upload failures')) {
+        toast({
+          title: "Image Upload Issue",
+          description: "Some images are still processing. Please wait a moment and try submitting again, or try re-uploading any failed images.",
+          variant: "destructive",
+          duration: 8000
+        });
+      } else {
+        toast({
+          title: "Submission Failed",
+          description: error.message || "An unexpected error occurred. Please try again or contact support if the issue persists.",
+          variant: "destructive",
+          duration: 8000
+        });
+      }
     }
   };
 

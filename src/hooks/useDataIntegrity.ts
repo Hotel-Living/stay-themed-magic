@@ -33,12 +33,12 @@ export function useDataIntegrity() {
     const retryableUploads: string[] = [];
 
     allImages.forEach((image, index) => {
-      if (!image.url || image.url.includes('blob:')) {
-        if (image.file) {
-          retryableUploads.push(`Image ${index + 1}`);
-        } else {
-          failedUploads.push(`Image ${index + 1}`);
-        }
+      // Only fail if there's actually no URL and no file to upload
+      if (!image.url && !image.file) {
+        failedUploads.push(`Image ${index + 1}`);
+      } else if (image.file && !image.url) {
+        // Image is still uploading, don't block submission
+        retryableUploads.push(`Image ${index + 1} (uploading)`);
       }
     });
 

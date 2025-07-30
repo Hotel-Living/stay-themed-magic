@@ -71,12 +71,12 @@ export function useSubmissionStability(options: SubmissionOptions = {}) {
         throw new Error(`Data validation failed: ${consistencyCheck.errors.join(', ')}`);
       }
 
-      // Check for duplicates
-      if (formData.hotelName && formData.contactEmail) {
+      // Check for duplicates (only based on hotel name and owner, email is optional)
+      if (formData.hotelName && formData.owner_id) {
         const duplicateCheck = await checkDuplicateSubmission(
           formData.hotelName,
-          formData.contactEmail,
-          formData.owner_id || ''
+          '', // Email is optional, don't use for duplicate checking
+          formData.owner_id
         );
         
         if (duplicateCheck.isDuplicate) {

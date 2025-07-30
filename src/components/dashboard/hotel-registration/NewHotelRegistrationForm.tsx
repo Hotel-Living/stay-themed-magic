@@ -10,9 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
-import { validateHotelRegistration, getStepRequirements } from '@/utils/hotelRegistrationValidation';
 import { supabase } from '@/integrations/supabase/client';
-import { useFormValidationReliable } from '@/hooks/useFormValidationReliable';
 import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
 import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
 import { useDataPreservation } from '@/hooks/useDataPreservation';
@@ -122,15 +120,8 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const [submissionAttempted, setSubmissionAttempted] = useState(false);
   const isEditing = !!editingHotelId;
   
-  // Use reliable validation
-  const {
-    validationErrors,
-    isValidating,
-    validateAllFields,
-    validateSingleField,
-    clearValidationErrors,
-    hasValidationErrors
-  } = useFormValidationReliable();
+  // Form validation is now handled ONLY by the Zod schema
+  // No legacy validation layers
 
   // Use reliable image upload
   const { isUploading, getAllUploadedUrls } = useImageUploadReliable();
@@ -373,8 +364,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       return;
     }
     
-    clearValidationErrors();
-    
     // Check if images are still uploading
     if (isUploading()) {
       toast({
@@ -386,18 +375,8 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       return;
     }
     
-    // Perform comprehensive validation using reliable validator
-    const validationResult = validateAllFields(data);
-    
-    if (!validationResult.isValid) {
-      toast({
-        title: "Validation Error",
-        description: `Please complete all required fields before submitting. Issues found: ${validationResult.fieldErrors.length}`,
-        variant: "destructive",
-        duration: 5000
-      });
-      return;
-    }
+    // Form validation is handled by the Zod schema automatically
+    // No legacy validation layers needed
     
     // Ensure we have uploaded image URLs
     const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
@@ -598,17 +577,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             onClearFailed={handleClearFailedSubmission}
           />
 
-          {/* Validation Errors */}
-          {hasValidationErrors() && (
-            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 mb-4">
-              <p className="text-destructive text-sm font-medium mb-2">Please fix the following issues:</p>
-              <ul className="text-destructive text-sm space-y-1">
-                {Object.entries(validationErrors).map(([field, error]) => (
-                  <li key={field}>• {error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {/* Form validation errors are shown by individual form fields via Zod schema */}
           
           {/* Submit Button */}
           <div className="flex justify-end pt-6">

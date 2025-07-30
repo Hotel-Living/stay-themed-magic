@@ -40,6 +40,11 @@ interface AutoSaveData {
   numberOfRooms?: string;
   price_per_month?: number;
   termsAccepted?: boolean;
+  // Image URLs (not files) for persistence
+  photoUrls?: {
+    hotel?: string[];
+    room?: string[];
+  };
   timestamp?: number;
   version?: string;
 }
@@ -67,7 +72,7 @@ export function useAutoSaveReliable(
   const createSafeFormData = useCallback((data: HotelRegistrationFormData): AutoSaveData => {
     const safeData: AutoSaveData = {};
     
-    // Only include safe fields (exclude images and large objects)
+    // Only include safe fields (exclude files but include image URLs)
     Object.keys(data).forEach(key => {
       const fieldKey = key as keyof HotelRegistrationFormData;
       
@@ -77,9 +82,21 @@ export function useAutoSaveReliable(
       }
     });
 
+    // Extract image URLs for persistence (not the files)
+    if (data.photos) {
+      safeData.photoUrls = {
+        hotel: (data.photos.hotel || []).map(img => 
+          typeof img === 'string' ? img : img?.url || ''
+        ).filter(Boolean),
+        room: (data.photos.room || []).map(img => 
+          typeof img === 'string' ? img : img?.url || ''
+        ).filter(Boolean)
+      };
+    }
+
     // Add metadata
     safeData.timestamp = Date.now();
-    safeData.version = '2.0';
+    safeData.version = '2.1'; // Bump version for image URL support
 
     return safeData;
   }, []);
@@ -137,8 +154,8 @@ export function useAutoSaveReliable(
 
       const parsedDraft = JSON.parse(savedDraft);
       
-      // Version check
-      if (parsedDraft.version !== '2.0') {
+      // Version check (support both 2.0 and 2.1)
+      if (parsedDraft.version !== '2.0' && parsedDraft.version !== '2.1') {
         console.warn('[AUTO-SAVE] Incompatible draft version, clearing old draft');
         clearDraft();
         return null;

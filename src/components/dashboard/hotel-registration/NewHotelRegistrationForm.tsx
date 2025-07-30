@@ -273,7 +273,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
   // Load draft data when user becomes available (critical for data recovery after browser closure)
   useEffect(() => {
-    const loadSavedDraft = () => {
+    const loadSavedDraft = async () => {
       try {
         const draft = autoSave.loadDraft();
         if (draft && Object.keys(draft).length > 3) {
@@ -281,10 +281,53 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
           
           // Restore form values from draft
           Object.keys(draft).forEach(key => {
-            if (key !== 'timestamp' && key !== 'version' && draft[key] !== undefined) {
+            if (key !== 'timestamp' && key !== 'version' && key !== 'photoUrls' && draft[key] !== undefined) {
               form.setValue(key as any, draft[key]);
             }
           });
+
+          // Restore image URLs if available
+          if (draft.photoUrls) {
+            const { hotel: hotelUrls = [], room: roomUrls = [] } = draft.photoUrls;
+            
+            // Validate that images still exist in storage
+            const validatedPhotos = {
+              hotel: [] as any[],
+              room: [] as any[]
+            };
+
+            // Process hotel images
+            for (const url of hotelUrls) {
+              try {
+                // Simple check if URL is accessible (basic validation)
+                if (url && url.includes('supabase') && url.includes('hotel-images')) {
+                  validatedPhotos.hotel.push({ url, name: 'restored-hotel-image' });
+                }
+              } catch (error) {
+                console.warn('[HOTEL-REGISTRATION] Skipping invalid hotel image URL:', url);
+              }
+            }
+
+            // Process room images
+            for (const url of roomUrls) {
+              try {
+                if (url && url.includes('supabase') && url.includes('hotel-images')) {
+                  validatedPhotos.room.push({ url, name: 'restored-room-image' });
+                }
+              } catch (error) {
+                console.warn('[HOTEL-REGISTRATION] Skipping invalid room image URL:', url);
+              }
+            }
+
+            // Set the validated photos
+            if (validatedPhotos.hotel.length > 0 || validatedPhotos.room.length > 0) {
+              form.setValue('photos', validatedPhotos);
+              console.log('[HOTEL-REGISTRATION] Restored images from draft:', {
+                hotel: validatedPhotos.hotel.length,
+                room: validatedPhotos.room.length
+              });
+            }
+          }
           
           toast({
             title: "Draft Restored",

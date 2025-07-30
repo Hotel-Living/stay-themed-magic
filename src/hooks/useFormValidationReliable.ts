@@ -18,53 +18,52 @@ interface ValidationResult {
   fieldErrors: string[];
 }
 
+// WARNING: Keep validation rules synchronized with the Zod schema in NewHotelRegistrationForm.tsx
+// Only add 'required: true' for fields that are actually required in the current schema
+
 const validationRules: Partial<Record<keyof HotelRegistrationFormData, ValidationRule>> = {
   hotelName: {
     required: true,
     minLength: 2,
     maxLength: 100
   },
+  // All other basic info fields are optional in current schema
   address: {
-    required: true,
-    minLength: 5
+    minLength: 5  // Optional field - removed required: true
   },
   city: {
-    required: true,
-    minLength: 2
+    minLength: 2  // Optional field - removed required: true
   },
   country: {
-    required: true,
-    minLength: 2
+    minLength: 2  // Optional field - removed required: true
   },
+  // Contact fields are optional in current schema
   email: {
-    required: true,
-    email: true
+    email: true  // Optional field - removed required: true, but keep format validation
   },
   phone: {
-    required: true,
-    minLength: 6
+    minLength: 6  // Optional field - removed required: true
   },
+  // Property details are optional in current schema
   propertyType: {
-    required: true
+    // Optional field - removed required: true
   },
   propertyStyle: {
-    required: true
+    // Optional field - removed required: true
   },
   hotelDescription: {
-    required: true,
-    minLength: 20,
+    minLength: 20,    // Optional field - removed required: true
     maxLength: 2000
   },
   roomDescription: {
-    required: true,
-    minLength: 10,
+    minLength: 10,    // Optional field - removed required: true
     maxLength: 1000
   },
   classification: {
-    required: true
+    // Optional field - removed required: true
   },
   checkInDay: {
-    required: true
+    // Optional field - removed required: true
   },
   stayLengths: {
     custom: (value: string[]) => {
@@ -195,6 +194,8 @@ export function useFormValidationReliable() {
   const validateAllFields = useCallback((data: HotelRegistrationFormData): ValidationResult => {
     setIsValidating(true);
     
+    console.log('[VALIDATION-FIX] validateAllFields called with data:', Object.keys(data));
+    
     const errors: Record<string, string> = {};
     const fieldErrors: string[] = [];
 
@@ -202,9 +203,17 @@ export function useFormValidationReliable() {
     Object.keys(validationRules).forEach(fieldName => {
       const field = fieldName as keyof HotelRegistrationFormData;
       const value = data[field];
+      const rule = validationRules[field];
+      
+      // Log which fields are being checked as required
+      if (rule?.required) {
+        console.log(`[VALIDATION-FIX] Field ${field} marked as REQUIRED, value:`, value);
+      }
+      
       const error = validateField(field, value, data);
       
       if (error) {
+        console.log(`[VALIDATION-FIX] Validation error for ${field}:`, error);
         errors[field] = error;
         fieldErrors.push(`${field}: ${error}`);
       }

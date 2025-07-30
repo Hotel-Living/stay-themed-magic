@@ -9,8 +9,7 @@ export const useStepManagement = () => {
     1: false,
     2: false,
     3: false,
-    4: false,
-    5: false
+    4: false
   });
 
   const validateStep = (step: number, isValid: boolean) => {

@@ -12,10 +12,8 @@ import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 import { supabase } from '@/integrations/supabase/client';
 import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
-import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
 import { useDataPreservation } from '@/hooks/useDataPreservation';
 import { useSubmissionStability } from '@/hooks/useSubmissionStability';
-import { useHotelImagePersistence } from '@/hooks/useHotelImagePersistence';
 import { SubmissionStatus } from './components/SubmissionStatus';
 import { LockStatusIndicator } from '@/components/ui/LockStatusIndicator';
 
@@ -34,7 +32,6 @@ import { CheckInDaySection } from './sections/CheckInDaySection';
 import { MealPlanSection } from './sections/MealPlanSection';
 
 import { StayLengthsSection } from './sections/StayLengthsSection';
-import { ImageUploadsSection } from './sections/ImageUploadsSection';
 import { AvailabilityPackagesSection } from './sections/AvailabilityPackagesSection';
 import { PricingMatrixSection } from './sections/PricingMatrixSection';
 import { TermsConditionsSection } from './sections/TermsConditionsSection';
@@ -73,11 +70,6 @@ const hotelRegistrationSchema = z.object({
   activities: z.array(z.string()).default([]),
   clientAffinities: z.array(z.string()).default([]),
   
-  // Photos
-  photos: z.object({
-    hotel: z.array(z.any()).default([]),
-    room: z.array(z.any()).default([])
-  }).default({ hotel: [], room: [] }),
   
   // Accommodation Terms
   checkInDay: z.string().optional(),
@@ -124,11 +116,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   // Form validation is now handled ONLY by the Zod schema
   // No legacy validation layers
 
-  // Use reliable image upload
-  const { isUploading, getAllUploadedUrls } = useImageUploadReliable();
-  
-  // Use hotel image persistence for Supabase storage uploads
-  const { uploadImagesToStorage, uploading: imageStorageUploading } = useHotelImagePersistence();
 
   // Use data preservation system
   const {
@@ -158,7 +145,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       clientAffinities: [],
       hotelFeatures: [],
       roomFeatures: [],
-      photos: { hotel: [], room: [] },
+      
       pricingMatrix: [],
       weeklyLaundryIncluded: false,
       externalLaundryAvailable: false,
@@ -191,20 +178,8 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     faqs: [],
     terms: '',
     termsAccepted: data.termsAccepted,
-    // FIX: Properly format images with correct structure
-    hotelImages: [
-      ...(data.photos?.hotel || []).map(img => ({
-        url: img.url || img,
-        isMain: img.isMain || false,
-        name: img.name || 'hotel-image'
-      })),
-      ...(data.photos?.room || []).map(img => ({
-        url: img.url || img,
-        isMain: false,
-        name: img.name || 'room-image'
-      }))
-    ],
-    mainImageUrl: data.photos?.hotel?.[0]?.url || data.photos?.hotel?.[0] || '',
+    hotelImages: [],
+    mainImageUrl: '',
     preferredWeekday: data.checkInDay,
     featuresHotel: data.hotelFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
     featuresRoom: data.roomFeatures.reduce((acc, feature) => ({ ...acc, [feature]: true }), {}),
@@ -252,10 +227,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         clientAffinities: newData.themes || [],
         checkInDay: newData.preferredWeekday,
         stayLengths: (newData.stayLengths || []).map(length => length.toString()) as ('8' | '15' | '22' | '29')[],
-        photos: {
-          hotel: newData.hotelImages || [],
-          room: []
-        },
         pricingMatrix: newData.pricingMatrix || []
       });
     },
@@ -284,48 +255,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             }
           });
 
-          // Restore image URLs if available
-          if (draft.photoUrls) {
-            const { hotel: hotelUrls = [], room: roomUrls = [] } = draft.photoUrls;
-            
-            // Validate that images still exist in storage
-            const validatedPhotos = {
-              hotel: [] as any[],
-              room: [] as any[]
-            };
-
-            // Process hotel images
-            for (const url of hotelUrls) {
-              try {
-                // Simple check if URL is accessible (basic validation)
-                if (url && url.includes('supabase') && url.includes('hotel-images')) {
-                  validatedPhotos.hotel.push({ url, name: 'restored-hotel-image' });
-                }
-              } catch (error) {
-                console.warn('[HOTEL-REGISTRATION] Skipping invalid hotel image URL:', url);
-              }
-            }
-
-            // Process room images
-            for (const url of roomUrls) {
-              try {
-                if (url && url.includes('supabase') && url.includes('hotel-images')) {
-                  validatedPhotos.room.push({ url, name: 'restored-room-image' });
-                }
-              } catch (error) {
-                console.warn('[HOTEL-REGISTRATION] Skipping invalid room image URL:', url);
-              }
-            }
-
-            // Set the validated photos
-            if (validatedPhotos.hotel.length > 0 || validatedPhotos.room.length > 0) {
-              form.setValue('photos', validatedPhotos);
-              console.log('[HOTEL-REGISTRATION] Restored images from draft:', {
-                hotel: validatedPhotos.hotel.length,
-                room: validatedPhotos.room.length
-              });
-            }
-          }
           
           toast({
             title: "Draft Restored",
@@ -368,84 +297,8 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       return;
     }
     
-    // Check if images are still uploading
-    if (isUploading()) {
-      toast({
-        title: "Upload in Progress",
-        description: "Please wait for image uploads to complete before submitting.",
-        variant: "destructive",
-        duration: 5000
-      });
-      return;
-    }
-    
     // Form validation is handled by the Zod schema automatically
     // No legacy validation layers needed
-    
-    // SURGICAL FIX: Upload blob URLs to Supabase storage before validation
-    const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
-    
-    // Check if user has selected images
-    const hasAnyImages = (data.photos?.hotel?.length || 0) + (data.photos?.room?.length || 0) > 0;
-    
-    if (!hasAnyImages) {
-      toast({
-        title: "Images Required",
-        description: "Please upload at least one image before submitting.",
-        variant: "destructive",
-        duration: 5000
-      });
-      return;
-    }
-
-    // Extract blob URLs that need to be uploaded to storage
-    const hotelBlobUrls = (data.photos?.hotel || []).map(img => img.url || img).filter(url => typeof url === 'string');
-    const roomBlobUrls = (data.photos?.room || []).map(img => img.url || img).filter(url => typeof url === 'string');
-    
-    // Check if any images are still blob URLs (not yet uploaded to storage)
-    const hasBlobUrls = hotelBlobUrls.some(url => url.startsWith('blob:')) || roomBlobUrls.some(url => url.startsWith('blob:'));
-    
-    let finalHotelUrls = hotelBlobUrls;
-    let finalRoomUrls = roomBlobUrls;
-    
-    if (hasBlobUrls) {
-      try {
-        toast({
-          title: "Uploading Images to Storage",
-          description: "Converting temporary images to permanent storage. Please wait...",
-          duration: 3000
-        });
-
-        // Generate a temporary hotel ID for storage path
-        const tempHotelId = `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-        
-        // Upload all blob URLs to Supabase storage
-        const { hotelUrls: uploadedHotelUrls, roomUrls: uploadedRoomUrls } = await uploadImagesToStorage(
-          hotelBlobUrls,
-          roomBlobUrls,
-          tempHotelId
-        );
-        
-        finalHotelUrls = uploadedHotelUrls;
-        finalRoomUrls = uploadedRoomUrls;
-        
-        toast({
-          title: "Images Uploaded Successfully",
-          description: "All images have been uploaded to storage. Proceeding with submission...",
-          duration: 2000
-        });
-        
-      } catch (error: any) {
-        console.error('[HOTEL-REGISTRATION] Failed to upload images to storage:', error);
-        toast({
-          title: "Image Upload Failed",
-          description: "Failed to upload images to storage. Please try again or check your internet connection.",
-          variant: "destructive",
-          duration: 8000
-        });
-        return;
-      }
-    }
     
     console.log('[HOTEL-REGISTRATION] Starting submission for authenticated user:', user?.id);
     console.log('[HOTEL-REGISTRATION] No role verification required - authenticated user can submit');
@@ -479,7 +332,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         const month = new Date(pkg.startDate).toLocaleString('default', { month: 'long' }).toLowerCase();
         return month;
       }) || [],
-      main_image_url: finalHotelUrls[0] || '',
+      main_image_url: '',
       price_per_month: data.price_per_month || 0,
       terms: data.termsAccepted ? 'Terms accepted on ' + new Date().toISOString() : '',
       check_in_weekday: data.checkInDay || 'Monday'
@@ -494,19 +347,8 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       available_rooms: pkg.availableRooms
     })) || [];
 
-    // Use the final uploaded URLs from storage (not original blob URLs)
-    const hotelImages = [
-      ...finalHotelUrls.map((url, index) => ({
-        url,
-        is_main: index === 0, // First hotel image is main
-        name: `hotel-image-${index + 1}`
-      })),
-      ...finalRoomUrls.map((url, index) => ({
-        url,
-        is_main: false,
-        name: `room-image-${index + 1}`
-      }))
-    ];
+    // No images for registration - photos will be submitted via email
+    const hotelImages: any[] = [];
 
     console.log('[HOTEL-REGISTRATION] Submitting hotel registration with stability checks');
     
@@ -526,9 +368,9 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       if (result.success) {
         console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
         toast({
-          title: "Registration Completed ✅",
-          description: "Your hotel registration has been successfully submitted and will appear in both your hotel panel and the admin panel for approval.",
-          duration: 5000
+          title: "¡Ha completado su registro!",
+          description: "Ahora es imprescindible que nos envíe fotografías de su establecimiento (mínimo 10), y de las habitaciones (mínimo 5). Tamaño máximo por foto: 1 MB, formato JPG, PNG o WEBP. Envíelas ahora a contact@hotel-living.com. ¡Sin fotos no es posible publicar su propiedad, llenar sus habitaciones vacías y multiplicar sus beneficios!",
+          duration: 10000
         });
         
         // Clear auto-save draft on successful submission
@@ -641,7 +483,6 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
             <StayLengthsSection form={form} />
             <CheckInDaySection form={form} />
             <AvailabilityPackagesSection form={form} />
-            <ImageUploadsSection form={form} />
             <PricingMatrixSection form={form} />
           </Accordion>
           
@@ -667,27 +508,13 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
                 submissionState.isSubmitting || 
                 stabilityState.isSubmitting ||
                 isLoadingHotelData || 
-                isUploading() || 
-                imageStorageUploading ||
                 submissionState.submissionComplete ||
-                submissionState.hasFailedSubmission ||
-                (() => {
-                  const { allUploaded } = getAllUploadedUrls();
-                  const hasImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
-                  return hasImages && !allUploaded; // Disable if images selected but not all uploaded
-                })()
+                submissionState.hasFailedSubmission
               }
             >
-              {(() => {
-                const { allUploaded } = getAllUploadedUrls();
-                const hasImages = (formData.photos?.hotel?.length || 0) + (formData.photos?.room?.length || 0) > 0;
-                const waitingForUploads = hasImages && !allUploaded;
-                
+              {(() => {                
                 if (lockState.isLocked) return 'Editing Locked';
                 if (submissionState.isSubmitting || stabilityState.isSubmitting) return 'Processing...';
-                if (isUploading()) return 'Uploading Images...';
-                if (imageStorageUploading) return 'Uploading to Storage...';
-                if (waitingForUploads) return 'Waiting for Uploads...';
                 if (submissionState.submissionComplete) return 'Registration Complete ✅';
                 if (submissionState.hasFailedSubmission) return 'Use Retry Button Above';
                 return 'Submit Hotel Registration';

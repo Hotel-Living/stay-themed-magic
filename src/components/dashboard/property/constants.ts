@@ -1,12 +1,11 @@
 
 
-export const TOTAL_STEPS = 5;
+export const TOTAL_STEPS = 4;
 
 export const STEP_TITLES = [
   "INFORMACIÓN GENERAL",
   "HOTEL PROFILE", 
   "ACCOMMODATION TERMS",
-  "PAQUETES Y PRECIOS",
   "FAQ & TÉRMINOS Y CONDICIONES"
 ];
 

@@ -7,7 +7,7 @@ const MAX_STORAGE_SIZE = 4 * 1024 * 1024; // 4MB localStorage limit
 
 // Fields that should NOT be auto-saved (images, large objects)
 const EXCLUDED_FIELDS: Set<keyof HotelRegistrationFormData> = new Set([
-  'photos', // Exclude images to prevent localStorage overflow
+  // No excluded fields since photos field was removed
 ]);
 
 // Create a safe subset of form data for auto-save
@@ -40,11 +40,6 @@ interface AutoSaveData {
   numberOfRooms?: string;
   price_per_month?: number;
   termsAccepted?: boolean;
-  // Image URLs (not files) for persistence
-  photoUrls?: {
-    hotel?: string[];
-    room?: string[];
-  };
   timestamp?: number;
   version?: string;
 }
@@ -82,17 +77,7 @@ export function useAutoSaveReliable(
       }
     });
 
-    // Extract image URLs for persistence (not the files)
-    if (data.photos) {
-      safeData.photoUrls = {
-        hotel: (data.photos.hotel || []).map(img => 
-          typeof img === 'string' ? img : img?.url || ''
-        ).filter(Boolean),
-        room: (data.photos.room || []).map(img => 
-          typeof img === 'string' ? img : img?.url || ''
-        ).filter(Boolean)
-      };
-    }
+    // No photo processing needed since photos field was removed
 
     // Add metadata
     safeData.timestamp = Date.now();
@@ -155,7 +140,7 @@ export function useAutoSaveReliable(
       return value && typeof value === 'string' && value.trim().length >= 2;
     });
     
-    // Photo URLs alone are not sufficient for draft restoration
+    
     return hasTextContent;
   }, []);
 

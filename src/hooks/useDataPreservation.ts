@@ -139,7 +139,14 @@ ${JSON.stringify(logData.payload_summary, null, 2)}
 
   const submitToSupabase = useCallback(async (payload: SubmissionPayload): Promise<{ success: boolean; error?: string }> => {
     try {
-      console.log('[DATA-PRESERVATION] Attempting submission to Supabase');
+      console.log('[DATA-PRESERVATION] Attempting submission to Supabase for authenticated hotel user');
+      console.log('[DATA-PRESERVATION] User authenticated:', !!user?.id);
+      
+      // Ensure we have the authenticated user's ID for ownership
+      if (!payload.hotelData.owner_id && user?.id) {
+        payload.hotelData.owner_id = user.id;
+        console.log('[DATA-PRESERVATION] Set owner_id to authenticated user:', user.id);
+      }
       
       const { data: response, error } = await supabase.rpc('submit_hotel_registration', {
         hotel_data: payload.hotelData,
@@ -150,22 +157,35 @@ ${JSON.stringify(logData.payload_summary, null, 2)}
       });
 
       if (error) {
-        throw new Error(`Supabase RPC Error: ${error.message}`);
+        console.error('[DATA-PRESERVATION] Supabase RPC Error Details:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint
+        });
+        throw new Error(`Submission Error: ${error.message}`);
       }
 
       // Check if response indicates failure
       if ((response as any)?.success === false) {
-        throw new Error(`Server Response Error: ${(response as any)?.message || 'Unknown server error'}`);
+        const serverError = (response as any)?.message || 'Server rejected submission';
+        console.error('[DATA-PRESERVATION] Server Response Error:', serverError);
+        throw new Error(`Server Error: ${serverError}`);
       }
 
-      console.log('[DATA-PRESERVATION] Submission successful to Supabase');
+      console.log('[DATA-PRESERVATION] Submission successful to Supabase - hotel data saved and forwarded to admin panel');
       return { success: true };
     } catch (error: any) {
       const errorMessage = error.message || 'Unknown submission error';
-      console.error('[DATA-PRESERVATION] Submission failed:', errorMessage);
+      console.error('[DATA-PRESERVATION] Complete submission failure:', {
+        error: errorMessage,
+        userId: user?.id,
+        hotelName: payload.hotelData.name,
+        timestamp: new Date().toISOString()
+      });
       return { success: false, error: errorMessage };
     }
-  }, []);
+  }, [user?.id]);
 
   const submitWithPreservation = useCallback(async (
     formData: HotelRegistrationFormData,

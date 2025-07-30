@@ -276,7 +276,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     const loadSavedDraft = async () => {
       try {
         const draft = autoSave.loadDraft();
-        if (draft && Object.keys(draft).length > 3) {
+        if (draft && autoSave.hasValidDraftData && autoSave.hasValidDraftData(draft)) {
           console.log('[HOTEL-REGISTRATION] Loading saved draft data after session restoration');
           
           // Restore form values from draft

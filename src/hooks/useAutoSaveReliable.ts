@@ -143,6 +143,21 @@ export function useAutoSaveReliable(
     }
   }, [formData, getStorageKey, user?.id, session?.user?.id]);
 
+  const hasValidDraftData = useCallback((draft: AutoSaveData | null): boolean => {
+    if (!draft) return false;
+    
+    // Check for meaningful form data (exclude metadata fields)
+    const meaningfulFields = ['hotelName', 'address', 'city', 'country', 'phone', 'email', 'website', 'hotelDescription'];
+    
+    return meaningfulFields.some(field => {
+      const value = draft[field as keyof AutoSaveData];
+      return value && typeof value === 'string' && value.trim().length > 0;
+    }) || (draft.photoUrls && (
+      (draft.photoUrls.hotel && draft.photoUrls.hotel.length > 0) ||
+      (draft.photoUrls.room && draft.photoUrls.room.length > 0)
+    ));
+  }, []);
+
   const loadDraft = useCallback((): AutoSaveData | null => {
     try {
       const storageKey = getStorageKey();
@@ -169,15 +184,20 @@ export function useAutoSaveReliable(
         return null;
       }
 
-      console.log('[AUTO-SAVE] Draft loaded successfully');
-      return parsedDraft;
+      // Only log and return if there's valid data
+      if (hasValidDraftData(parsedDraft)) {
+        console.log('[AUTO-SAVE] Draft loaded successfully');
+        return parsedDraft;
+      }
+      
+      return null;
     } catch (error) {
       console.error('[AUTO-SAVE] Failed to load draft:', error);
       // Clear corrupted draft
       clearDraft();
       return null;
     }
-  }, [getStorageKey]);
+  }, [getStorageKey, hasValidDraftData]);
 
   const clearDraft = useCallback(() => {
     try {
@@ -191,8 +211,8 @@ export function useAutoSaveReliable(
 
   const hasValidDraft = useCallback((): boolean => {
     const draft = loadDraft();
-    return draft !== null && Object.keys(draft).length > 3; // More than just metadata
-  }, [loadDraft]);
+    return hasValidDraftData(draft);
+  }, [loadDraft, hasValidDraftData]);
 
   const getDraftAge = useCallback((): number | null => {
     const draft = loadDraft();
@@ -246,6 +266,7 @@ export function useAutoSaveReliable(
     loadDraft,
     clearDraft,
     hasValidDraft,
+    hasValidDraftData,
     getDraftAge,
     isEnabled: enabled && !!(user?.id || session?.user?.id)
   };

@@ -280,15 +280,81 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       return;
     }
     
-    // If validation passes, proceed with submission
-    console.log('Form submission disabled - displaying data only');
-    console.log('Form data:', data);
+    // Convert form data and submit to database
+    const propertyFormData = convertToPropertyFormData(data);
     
-    toast({
-      title: "Form Data Captured",
-      description: "Hotel registration form is in UI-only mode. Check console for form data.",
-      duration: 3000
-    });
+    try {
+      const { supabase } = await import('@/integrations/supabase/client');
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Authentication Error", 
+          description: "Please log in to submit your property.",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const hotelData = {
+        name: propertyFormData.hotelName,
+        description: propertyFormData.description,
+        city: propertyFormData.city,
+        country: propertyFormData.country,
+        address: propertyFormData.address,
+        property_type: propertyFormData.propertyType,
+        style: propertyFormData.style,
+        price_per_month: propertyFormData.price_per_month || 0,
+        owner_id: user.id,
+        status: 'pending'
+      };
+
+      let result;
+      if (editingHotelId) {
+        result = await supabase
+          .from('hotels')
+          .update(hotelData)
+          .eq('id', editingHotelId)
+          .eq('owner_id', user.id)
+          .select()
+          .single();
+      } else {
+        result = await supabase
+          .from('hotels')
+          .insert(hotelData)
+          .select()
+          .single();
+      }
+
+      if (result.error) {
+        console.error('Hotel submission error:', result.error);
+        toast({
+          title: "Submission Failed",
+          description: result.error.message || "Failed to submit property. Please try again.",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      toast({
+        title: "Property Submitted Successfully",
+        description: isEditing ? "Property updated successfully!" : "Property submitted for review!",
+      });
+
+      if (onComplete) {
+        onComplete();
+      }
+
+    } catch (error) {
+      console.error('Unexpected error during submission:', error);
+      toast({
+        title: "Submission Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    }
     
     setIsSubmitting(false);
   };

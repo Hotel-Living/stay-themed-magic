@@ -191,7 +191,7 @@ const AgentDashboard = () => {
           <div className="container mx-auto px-4 py-8 max-w-6xl">
             
             {/* Header */}
-            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-6 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] mb-6">
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-6 text-white blue-glow mb-6">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                   <h1 className="text-3xl font-bold glow">{t('dashboard.title')}</h1>
@@ -227,7 +227,7 @@ const AgentDashboard = () => {
             </div>
 
             {/* Dashboard Content */}
-            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-6 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+            <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-6 text-white blue-glow">
               <Tabs defaultValue="hotels" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 bg-white/10">
                   <TabsTrigger value="hotels" className="text-white data-[state=active]:bg-white/20">

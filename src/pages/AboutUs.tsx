@@ -31,7 +31,7 @@ export default function AboutUs() {
             </header>
             
             {/* Who we are section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Rocket className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Who We Are</h2>
@@ -44,7 +44,7 @@ export default function AboutUs() {
             </section>
             
             {/* We're welcoming new talent section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Lightbulb className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">We're Welcoming New Talent</h2>
@@ -56,7 +56,7 @@ export default function AboutUs() {
             </section>
             
             {/* Hotel Living: a necessary revolution section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Flame className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Hotel Living: A Necessary Revolution</h2>
@@ -73,7 +73,7 @@ export default function AboutUs() {
             </section>
             
             {/* A new alignment section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Globe className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">A New Alignment</h2>
@@ -103,7 +103,7 @@ export default function AboutUs() {
             </section>
             
             {/* Why did this emerge? section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Lightbulb className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Why Did This Emerge?</h2>
@@ -123,7 +123,7 @@ export default function AboutUs() {
             </section>
             
             {/* What we offer section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Compass className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">What We Offer</h2>
@@ -150,7 +150,7 @@ export default function AboutUs() {
             </section>
             
             {/* Jobs, innovation, future section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <BarChart3 className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Jobs, Innovation, Future</h2>
@@ -170,7 +170,7 @@ export default function AboutUs() {
             </section>
             
             {/* Technology with a human purpose section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Star className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Technology With a Human Purpose</h2>
@@ -185,7 +185,7 @@ export default function AboutUs() {
             </section>
             
             {/* Intellectual Positioning Statement section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Lightbulb className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Intellectual Positioning Statement</h2>
@@ -226,7 +226,7 @@ export default function AboutUs() {
             </section>
             
             {/* Join Us section */}
-            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+            <section className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg blue-glow">
               <div className="flex items-start mb-4">
                 <Star className="h-7 w-7 text-[#FFF9B0] mr-3 mt-1" />
                 <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">Want to Join Us?</h2>
@@ -240,7 +240,7 @@ export default function AboutUs() {
                 <h3 className="text-xl font-semibold text-[#FFF9B0]">Apply to join our founding team:</h3>
               </div>
               
-              <div className="text-center p-6 bg-white/10 rounded-lg border border-white/20">
+              <div className="text-center p-6 bg-white/10 rounded-lg border border-white/20 blue-glow">
                 <p className="text-white/90 text-base mb-1">
                   Feel free to reach out to us at
                 </p>

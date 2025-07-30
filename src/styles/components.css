@@ -11,16 +11,25 @@
   }
   
   .glass-card {
-    @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
+    @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)];
   }
   
   .glass-card-hover {
-    @apply glass-card transition-all duration-300 hover:bg-[#460F54] hover:shadow-[0_8px_25px_rgba(217,70,239,0.25)];
+    @apply glass-card transition-all duration-300 hover:bg-[#460F54] hover:shadow-[0_0_80px_rgba(0,200,255,0.9),0_0_160px_rgba(0,200,255,0.5),0_0_240px_rgba(0,200,255,0.3)];
   }
 
   .neo-blur {
-    @apply backdrop-blur-2xl bg-black/40 border border-fuchsia-500/20;
+    @apply backdrop-blur-2xl bg-black/40 border border-fuchsia-500/20 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)];
   }
+
+  .blue-glow {
+    @apply shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)];
+  }
+
+  .blue-glow-intense {
+    @apply shadow-[0_0_80px_rgba(0,200,255,0.9),0_0_160px_rgba(0,200,255,0.5),0_0_240px_rgba(0,200,255,0.3)];
+  }
+
 
   .text-gradient {
     @apply bg-gradient-to-br from-fuchsia-400 via-magenta-500 to-fuchsia-600 bg-clip-text text-transparent;

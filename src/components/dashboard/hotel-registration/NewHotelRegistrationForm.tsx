@@ -117,7 +117,7 @@ interface NewHotelRegistrationFormProps {
 export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHotelRegistrationFormProps = {}) => {
   const { t } = useTranslation('dashboard/hotel-registration');
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionAttempted, setSubmissionAttempted] = useState(false);
   const isEditing = !!editingHotelId;
@@ -270,6 +270,38 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   // Auto-save functionality (only text and numeric fields)
   const formData = form.watch();
   const autoSave = useAutoSaveReliable(formData, true);
+
+  // Load draft data when user becomes available (critical for data recovery after browser closure)
+  useEffect(() => {
+    const loadSavedDraft = () => {
+      try {
+        const draft = autoSave.loadDraft();
+        if (draft && Object.keys(draft).length > 3) {
+          console.log('[HOTEL-REGISTRATION] Loading saved draft data after session restoration');
+          
+          // Restore form values from draft
+          Object.keys(draft).forEach(key => {
+            if (key !== 'timestamp' && key !== 'version' && draft[key] !== undefined) {
+              form.setValue(key as any, draft[key]);
+            }
+          });
+          
+          toast({
+            title: "Draft Restored",
+            description: "Your previous work has been restored. You can continue where you left off.",
+            duration: 5000
+          });
+        }
+      } catch (error) {
+        console.error('[HOTEL-REGISTRATION] Failed to load draft:', error);
+      }
+    };
+
+    // Try to load draft when auth becomes ready
+    if ((user?.id || session?.user?.id) && !submissionState.submissionComplete) {
+      loadSavedDraft();
+    }
+  }, [user?.id, session?.user?.id, autoSave, form, toast, submissionState.submissionComplete]);
 
   // Load any failed submission on component mount
   React.useEffect(() => {

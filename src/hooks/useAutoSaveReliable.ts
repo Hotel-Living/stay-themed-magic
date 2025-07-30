@@ -48,13 +48,21 @@ export function useAutoSaveReliable(
   formData: HotelRegistrationFormData,
   enabled: boolean = true
 ) {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const lastSaveTimeRef = useRef<number>(0);
   const autoSaveIntervalRef = useRef<NodeJS.Timeout>();
 
   const getStorageKey = useCallback(() => {
-    return `hotel_registration_autosave_${user?.id || 'anonymous'}`;
-  }, [user?.id]);
+    const userId = user?.id || session?.user?.id;
+    if (userId) {
+      return `hotel_registration_reliable_${userId}`;
+    }
+    
+    // Fallback: try to detect user from existing localStorage keys
+    const keys = Object.keys(localStorage);
+    const hotelKey = keys.find(key => key.startsWith('hotel_registration_reliable_'));
+    return hotelKey || 'hotel_registration_reliable_temp';
+  }, [user?.id, session?.user?.id]);
 
   const createSafeFormData = useCallback((data: HotelRegistrationFormData): AutoSaveData => {
     const safeData: AutoSaveData = {};
@@ -82,8 +90,10 @@ export function useAutoSaveReliable(
   }, []);
 
   const saveDraft = useCallback(async () => {
-    if (!user?.id || !enabled) {
-      return { success: false, reason: 'Not authenticated or disabled' };
+    // Allow saving even when user context is loading, but require some form of user identification
+    const userId = user?.id || session?.user?.id;
+    if (!enabled || (!userId && !getStorageKey().includes('temp'))) {
+      return { success: false, reason: 'User not identified or auto-save disabled' };
     }
 
     try {
@@ -114,13 +124,9 @@ export function useAutoSaveReliable(
       console.error('[AUTO-SAVE] Failed to save draft:', error);
       return { success: false, reason: error instanceof Error ? error.message : 'Unknown error' };
     }
-  }, [user?.id, enabled, formData, createSafeFormData, checkStorageSize, getStorageKey]);
+  }, [formData, getStorageKey, user?.id, session?.user?.id]);
 
   const loadDraft = useCallback((): AutoSaveData | null => {
-    if (!user?.id) {
-      return null;
-    }
-
     try {
       const storageKey = getStorageKey();
       const savedDraft = localStorage.getItem(storageKey);
@@ -154,13 +160,9 @@ export function useAutoSaveReliable(
       clearDraft();
       return null;
     }
-  }, [user?.id, getStorageKey]);
+  }, [getStorageKey]);
 
   const clearDraft = useCallback(() => {
-    if (!user?.id) {
-      return;
-    }
-
     try {
       const storageKey = getStorageKey();
       localStorage.removeItem(storageKey);
@@ -168,7 +170,7 @@ export function useAutoSaveReliable(
     } catch (error) {
       console.error('[AUTO-SAVE] Failed to clear draft:', error);
     }
-  }, [user?.id, getStorageKey]);
+  }, [getStorageKey]);
 
   const hasValidDraft = useCallback((): boolean => {
     const draft = loadDraft();
@@ -183,9 +185,10 @@ export function useAutoSaveReliable(
     return Date.now() - draft.timestamp;
   }, [loadDraft]);
 
-  // Auto-save effect
+  // Auto-save effect - work even when auth is loading
   useEffect(() => {
-    if (!enabled || !user?.id) {
+    const userId = user?.id || session?.user?.id;
+    if (!enabled || !userId) {
       return;
     }
 
@@ -205,11 +208,12 @@ export function useAutoSaveReliable(
         clearInterval(autoSaveIntervalRef.current);
       }
     };
-  }, [enabled, user?.id, saveDraft]);
+  }, [enabled, user?.id, session?.user?.id, saveDraft]);
 
   // Save immediately when form data changes (with throttling)
   useEffect(() => {
-    if (!enabled || !user?.id) {
+    const userId = user?.id || session?.user?.id;
+    if (!enabled || !userId) {
       return;
     }
 
@@ -218,7 +222,7 @@ export function useAutoSaveReliable(
     }, 5000); // Debounce 5 seconds
 
     return () => clearTimeout(timeoutId);
-  }, [formData, enabled, user?.id, saveDraft]);
+  }, [formData, enabled, user?.id, session?.user?.id, saveDraft]);
 
   return {
     saveDraft,
@@ -226,6 +230,6 @@ export function useAutoSaveReliable(
     clearDraft,
     hasValidDraft,
     getDraftAge,
-    isEnabled: enabled && !!user?.id
+    isEnabled: enabled && !!(user?.id || session?.user?.id)
   };
 }

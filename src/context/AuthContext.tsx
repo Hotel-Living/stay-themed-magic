@@ -56,15 +56,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Get initial session with improved error handling
+    // Get initial session with improved error handling and timeout
     const getInitialSession = async () => {
       try {
         // Add a small delay to prevent race conditions when returning to tabs
         if (document.visibilityState === 'visible' && document.hidden === false) {
           await new Promise(resolve => setTimeout(resolve, 100));
         }
-        
-        const { data: { session }, error } = await supabase.auth.getSession();
+
+        // Add timeout to prevent infinite loading
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session fetch timeout')), 10000)
+        );
+
+        const { data: { session }, error } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ]) as any;
         
         if (error) {
           console.error('Error getting session:', error);
@@ -76,7 +85,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          // Add timeout for profile fetch to prevent infinite loading
+          try {
+            await Promise.race([
+              fetchProfile(session.user.id),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Profile fetch timeout')), 8000)
+              )
+            ]);
+          } catch (profileError) {
+            console.error('Profile fetch failed or timed out:', profileError);
+            // Continue with user authentication even if profile fails
+            // This prevents the loading screen from being stuck
+          }
         }
         
         setIsLoading(false);
@@ -99,8 +120,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setIsLoading(true);
           setSession(session);
           setUser(session.user);
-          // Fetch profile data after sign in
-          await fetchProfile(session.user.id);
+          // Fetch profile data after sign in with timeout
+          try {
+            await Promise.race([
+              fetchProfile(session.user.id),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Profile fetch timeout during auth change')), 8000)
+              )
+            ]);
+          } catch (profileError) {
+            console.error('Profile fetch failed during auth change:', profileError);
+            // Continue anyway to prevent loading screen lock
+          }
           setIsLoading(false);
         } else if (event === 'SIGNED_OUT') {
           setSession(null);

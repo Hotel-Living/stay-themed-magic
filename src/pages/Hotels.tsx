@@ -55,27 +55,17 @@ export default function Hotels() {
             <HotelSlogans />
           </div>
           
-          {/* Professional Study Box */}
+          {/* Professional Study Text Link */}
           <div className="my-8 flex justify-center px-4">
-            <div 
-              className="bg-[#4B006E] p-8 w-full max-w-lg cursor-pointer flex flex-col items-center justify-center min-h-[180px]"
-              onClick={() => {
-                navigate('/professional-study');
-              }}
+            <Link 
+              to="/professional-study"
+              className="text-white text-lg font-medium text-center hover:text-fuchsia-300 transition-all duration-300 animate-fade-in hover:scale-105 cursor-pointer"
             >
-              <h2 className="text-white text-2xl font-bold text-center mb-4">
-                {language === 'en' && 'FREE STUDY'}
-                {language === 'es' && 'ESTUDIO GRATUITO'}
-                {language === 'pt' && 'ESTUDO GRATUITO'}
-                {language === 'ro' && 'STUDIU GRATUIT'}
-              </h2>
-              <p className="text-white text-center leading-relaxed">
-                {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
-                {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
-                {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
-                {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
-              </p>
-            </div>
+              {language === 'en' && 'FREE STUDY – Get a complete technical and in-person study about your hotel and its development possibilities.'}
+              {language === 'es' && 'ESTUDIO GRATUITO – Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
+              {language === 'pt' && 'ESTUDO GRATUITO – Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
+              {language === 'ro' && 'STUDIU GRATUIT – Obțineți un studiu tehnic și în persoană complet despre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
+            </Link>
           </div>
           
           {/* New accordion menu */}

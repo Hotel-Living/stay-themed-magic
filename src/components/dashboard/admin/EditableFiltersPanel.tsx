@@ -4,13 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import AdminDashboardLayout from "./AdminDashboardLayout";
+
 
 export default function EditableFiltersPanel() {
   const navigate = useNavigate();
 
   return (
-    <AdminDashboardLayout>
+    <div className="p-6 max-w-4xl mx-auto">{" "}
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Filter Management - Deprecated</h2>
@@ -40,6 +40,6 @@ export default function EditableFiltersPanel() {
           </CardContent>
         </Card>
       </div>
-    </AdminDashboardLayout>
+    </div>
   );
 }

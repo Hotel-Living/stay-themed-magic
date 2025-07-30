@@ -70,7 +70,7 @@ export function Navbar() {
     
     switch (profile.role) {
       case 'admin':
-        return '/admin';
+        return '/panel-fernando';
       case 'hotel_owner':
       case 'hotel':
         return '/hotel-dashboard';

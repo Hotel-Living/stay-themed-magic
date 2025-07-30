@@ -44,7 +44,7 @@ import HotelComparisonPage from "@/pages/HotelComparisonPage";
 
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
-import AdminDashboard from "@/pages/AdminDashboard";
+
 import AdminLogin from "@/pages/AdminLogin";
 import PanelFernando from "@/pages/PanelFernando";
 import Terms from "@/pages/Terms";
@@ -159,8 +159,8 @@ function MainAppRoutes() {
             <Route path="/hotel-dashboard" element={<HotelDashboard />} />
             <Route path="/panel-hotel" element={<HotelDashboard />} />
             <Route path="/panel-fernando/*" element={<PanelFernando />} />
-            <Route path="/admin/*" element={<AdminDashboard />} />
-            <Route path="/panel-admin" element={<Navigate to="/admin" replace />} />
+            <Route path="/admin" element={<Navigate to="/panel-fernando" replace />} />
+            <Route path="/admin/*" element={<Navigate to="/panel-fernando" replace />} />
             <Route path="/add-property" element={<HotelDashboard />} />
             <Route path="/promoter/*" element={<PromoterDashboard />} />
             <Route path="/promoter-dashboard" element={<Navigate to="/promoter/dashboard" replace />} />

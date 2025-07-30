@@ -1,76 +1,12 @@
-
-import React, { useState } from "react";
-import AdminDashboardLayout from "../AdminDashboardLayout";
-import { useAffinities } from "./hooks/useAffinities";
-import { AffinityHeader } from "./AffinityHeader";
-import { AffinityContent } from "./AffinityContent";
-import { AffinityDialogs } from "./AffinityDialogs";
+import React from "react";
 
 export default function AffinitiesPanel() {
-  const [newThemeDialogOpen, setNewThemeDialogOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  
-  const {
-    themes,
-    loading,
-    editingTheme,
-    newTheme,
-    themeToDelete,
-    searchTerm,
-    pagination,
-    setSearchTerm,
-    setEditingTheme,
-    setNewTheme,
-    setThemeToDelete,
-    handlePageChange,
-    handleEdit,
-    handleSaveEdit,
-    handleCancelEdit,
-    handleAddNewTheme,
-    handleDelete
-  } = useAffinities();
-
-  const openDeleteDialog = (id: string, name: string) => {
-    setThemeToDelete({ id, name });
-    setDeleteDialogOpen(true);
-  };
-
   return (
-    <AdminDashboardLayout>
-      <div className="space-y-6">
-        <AffinityHeader 
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          openNewThemeDialog={() => setNewThemeDialogOpen(true)} 
-        />
-
-        <div className="rounded-xl p-6 bg-[#7a0486]">
-          <AffinityContent
-            themes={themes}
-            editingTheme={editingTheme}
-            pagination={pagination}
-            handlePageChange={handlePageChange}
-            handleEdit={handleEdit}
-            handleSaveEdit={handleSaveEdit}
-            handleCancelEdit={handleCancelEdit}
-            openDeleteDialog={openDeleteDialog}
-            setEditingTheme={setEditingTheme}
-            loading={loading}
-          />
-        </div>
-
-        <AffinityDialogs 
-          newThemeDialogOpen={newThemeDialogOpen}
-          setNewThemeDialogOpen={setNewThemeDialogOpen}
-          deleteDialogOpen={deleteDialogOpen}
-          setDeleteDialogOpen={setDeleteDialogOpen}
-          newTheme={newTheme}
-          setNewTheme={setNewTheme}
-          handleAddNewTheme={handleAddNewTheme}
-          themeToDelete={themeToDelete}
-          handleDelete={handleDelete}
-        />
-      </div>
-    </AdminDashboardLayout>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Affinities Management</h2>
+      <p className="text-gray-600">
+        Affinities management functionality will be implemented here.
+      </p>
+    </div>
   );
 }

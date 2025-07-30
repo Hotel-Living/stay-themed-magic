@@ -41,7 +41,7 @@ export function useSmartContentLoading() {
           modulePromise = import('@/pages/HotelDashboard');
           break;
         case '/admin':
-          modulePromise = import('@/pages/AdminDashboard');
+          modulePromise = import('@/pages/PanelFernando');
           break;
         default:
           console.warn(`[Prefetch] Unknown route: ${route}`);

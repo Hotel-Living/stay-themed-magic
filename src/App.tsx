@@ -161,6 +161,7 @@ function MainAppRoutes() {
             <Route path="/panel-admin/*" element={<PanelFernando />} />
             <Route path="/admin" element={<Navigate to="/panel-admin" replace />} />
             <Route path="/admin/*" element={<Navigate to="/panel-admin" replace />} />
+            <Route path="/panel-fernando" element={<Navigate to="/panel-admin" replace />} />
             <Route path="/panel-fernando/*" element={<Navigate to="/panel-admin" replace />} />
             <Route path="/add-property" element={<HotelDashboard />} />
             <Route path="/promoter/*" element={<PromoterDashboard />} />

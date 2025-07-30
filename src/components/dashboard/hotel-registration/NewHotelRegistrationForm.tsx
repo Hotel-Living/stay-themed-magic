@@ -8,11 +8,13 @@ import { Accordion } from '@/components/ui/accordion';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
-import { usePropertyFormAutoSave } from '../property/hooks/usePropertyFormAutoSave';
 import { useHotelEditing } from '../property/hooks/useHotelEditing';
 import { PropertyFormData } from '../property/hooks/usePropertyFormData';
 import { validateHotelRegistration, getStepRequirements } from '@/utils/hotelRegistrationValidation';
 import { supabase } from '@/integrations/supabase/client';
+import { useFormValidationReliable } from '@/hooks/useFormValidationReliable';
+import { useAutoSaveReliable } from '@/hooks/useAutoSaveReliable';
+import { useImageUploadReliable } from '@/hooks/useImageUploadReliable';
 
 import { HotelBasicInfoSection } from './sections/HotelBasicInfoSection';
 import { HotelClassificationSection } from './sections/HotelClassificationSection';
@@ -113,8 +115,21 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<string | null>(null);
+  const [submissionAttempted, setSubmissionAttempted] = useState(false);
   const isEditing = !!editingHotelId;
+  
+  // Use reliable validation
+  const {
+    validationErrors,
+    isValidating,
+    validateAllFields,
+    validateSingleField,
+    clearValidationErrors,
+    hasValidationErrors
+  } = useFormValidationReliable();
+
+  // Use reliable image upload
+  const { isUploading, getAllUploadedUrls } = useImageUploadReliable();
   
   const form = useForm<HotelRegistrationFormData>({
     resolver: zodResolver(hotelRegistrationSchema),
@@ -228,31 +243,60 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     setCurrentStep: () => {} // Not needed for this form
   });
 
-  // Auto-save functionality
-  const autoSave = usePropertyFormAutoSave(
-    convertToPropertyFormData(form.watch()),
-    () => {},
-    editingHotelId
-  );
+  // Auto-save functionality (only text and numeric fields)
+  const formData = form.watch();
+  const autoSave = useAutoSaveReliable(formData, true);
 
   const onSubmit = async (data: HotelRegistrationFormData) => {
+    // Prevent duplicate submissions
+    if (isSubmitting || submissionAttempted) {
+      return;
+    }
+    
     setIsSubmitting(true);
-    setValidationErrors(null);
+    setSubmissionAttempted(true);
+    clearValidationErrors();
     
-    // Perform comprehensive validation
-    const validationResult = validateHotelRegistration(data);
-    
-    if (!validationResult.isValid) {
-      const stepsList = validationResult.incompleteSteps.join(', ');
-      setValidationErrors(`Please complete correctly: Step ${stepsList}.`);
-      setIsSubmitting(false);
-      
+    // Check if images are still uploading
+    if (isUploading()) {
       toast({
-        title: "Validation Error",
-        description: `Please complete all required fields before submitting.`,
+        title: "Upload in Progress",
+        description: "Please wait for image uploads to complete before submitting.",
         variant: "destructive",
         duration: 5000
       });
+      setIsSubmitting(false);
+      setSubmissionAttempted(false);
+      return;
+    }
+    
+    // Perform comprehensive validation using reliable validator
+    const validationResult = validateAllFields(data);
+    
+    if (!validationResult.isValid) {
+      toast({
+        title: "Validation Error",
+        description: `Please complete all required fields before submitting. Issues found: ${validationResult.fieldErrors.length}`,
+        variant: "destructive",
+        duration: 5000
+      });
+      setIsSubmitting(false);
+      setSubmissionAttempted(false);
+      return;
+    }
+    
+    // Ensure we have uploaded image URLs
+    const { hotel: hotelImageUrls, room: roomImageUrls, allUploaded } = getAllUploadedUrls();
+    
+    if (!allUploaded) {
+      toast({
+        title: "Upload Error",
+        description: "Some images are still uploading or failed to upload. Please retry failed uploads.",
+        variant: "destructive",
+        duration: 5000
+      });
+      setIsSubmitting(false);
+      setSubmissionAttempted(false);
       return;
     }
     
@@ -304,16 +348,17 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
         available_rooms: pkg.availableRooms
       })) || [];
 
+      // Use the uploaded URLs from storage
       const hotelImages = [
-        ...(data.photos?.hotel || []).map(img => ({
-          url: img.url || img,
-          is_main: img.isMain || false,
-          name: img.name || 'hotel-image'
+        ...hotelImageUrls.map((url, index) => ({
+          url,
+          is_main: index === 0, // First hotel image is main
+          name: `hotel-image-${index + 1}`
         })),
-        ...(data.photos?.room || []).map(img => ({
-          url: img.url || img,
+        ...roomImageUrls.map((url, index) => ({
+          url,
           is_main: false,
-          name: img.name || 'room-image'
+          name: `room-image-${index + 1}`
         }))
       ];
 
@@ -328,32 +373,61 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
       if (error) {
         console.error('RPC submission error:', error);
-        // Still show success to user as per requirements
+        
+        // Show real error to user instead of fake success
+        toast({
+          title: "Submission Failed",
+          description: "There was an error submitting your registration. Please try again or contact support if the problem persists.",
+          variant: "destructive",
+          duration: 8000
+        });
+        
+        setIsSubmitting(false);
+        setSubmissionAttempted(false);
+        return;
       }
 
-      // Always show success to user
-      toast({
-        title: "Registration Submitted Successfully",
-        description: "Your hotel registration has been submitted and is under review. You will be notified of the status.",
-        duration: 5000
-      });
-      
-      // Clear auto-save draft on successful submission
-      if (autoSave.clearDraft) {
+      // Only show success if we actually got a successful response
+      if ((response as any)?.success !== false) {
+        toast({
+          title: "Registration Completed ✅",
+          description: "Your hotel registration has been submitted successfully and is under review. You will be notified of the status.",
+          duration: 5000
+        });
+        
+        // Clear auto-save draft on successful submission
         autoSave.clearDraft();
-      }
-      
-      if (onComplete) {
-        onComplete();
+        
+        if (onComplete) {
+          onComplete();
+        }
+      } else {
+        // RPC returned error in response
+        toast({
+          title: "Submission Failed",
+          description: (response as any)?.message || "Registration could not be processed. Please try again.",
+          variant: "destructive",
+          duration: 8000
+        });
+        
+        setIsSubmitting(false);
+        setSubmissionAttempted(false);
+        return;
       }
     } catch (error) {
       console.error('Submission error:', error);
-      // Still show success to user as per requirements
+      
+      // Show real error to user
       toast({
-        title: "Registration Submitted Successfully",
-        description: "Your hotel registration has been submitted and is under review. You will be notified of the status.",
-        duration: 5000
+        title: "Submission Error",
+        description: "An unexpected error occurred. Please check your connection and try again.",
+        variant: "destructive",
+        duration: 8000
       });
+      
+      setIsSubmitting(false);
+      setSubmissionAttempted(false);
+      return;
     } finally {
       setIsSubmitting(false);
     }
@@ -385,20 +459,29 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
           
           <TermsConditionsSection form={form} />
           
-          {validationErrors && (
+          {hasValidationErrors() && (
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 mb-4">
-              <p className="text-destructive text-sm">{validationErrors}</p>
+              <p className="text-destructive text-sm font-medium mb-2">Please fix the following issues:</p>
+              <ul className="text-destructive text-sm space-y-1">
+                {Object.entries(validationErrors).map(([field, error]) => (
+                  <li key={field}>• {error}</li>
+                ))}
+              </ul>
             </div>
           )}
           
           <div className="flex justify-end pt-6">
             <Button 
               type="submit" 
-              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold"
-              disabled={isSubmitting || isLoadingHotelData}
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting || isLoadingHotelData || isUploading() || submissionAttempted}
             >
               {isSubmitting 
                 ? 'Processing...'
+                : isUploading()
+                ? 'Uploading Images...'
+                : submissionAttempted
+                ? 'Submitted'
                 : 'Submit Hotel Registration'
               }
             </Button>

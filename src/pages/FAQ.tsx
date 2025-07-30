@@ -42,8 +42,8 @@ export default function FAQ() {
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent" role="main" aria-label="Frequently Asked Questions">
-        <div className="container max-w-5xl mx-auto px-4 py-6">
+      <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]" role="main" aria-label="Frequently Asked Questions">
+        <div className="container max-w-5xl mx-auto px-4 py-6 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
           <WhyHotelLivingSection />
           
           {/* Second title - Frequently Asked Questions */}

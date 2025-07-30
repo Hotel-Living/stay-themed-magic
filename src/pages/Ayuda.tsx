@@ -65,7 +65,7 @@ export default function Ayuda() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-4 relative z-10">
+      <main className="flex-1 container mx-auto px-4 py-4 relative z-10 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
 
         {/* Main Section - Avatar Group */}
         <div className="max-w-6xl mx-auto mt-4">
@@ -73,7 +73,7 @@ export default function Ayuda() {
             {avatarsData.slice(0, 4).map((avatar) => (
               <div key={avatar.id} className="flex flex-col items-center">
                 {/* Speech bubble above avatar */}
-                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]" style={{ backgroundColor: '#FBF3B4' }}>
                   <div className="whitespace-pre-line">{avatar.greeting}</div>
                   {/* Bubble tail pointing down */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
@@ -95,7 +95,7 @@ export default function Ayuda() {
             {avatarsData.slice(4, 8).map((avatar) => (
               <div key={avatar.id} className="flex flex-col items-center">
                 {/* Speech bubble above avatar */}
-                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+                <div className="relative mb-4 rounded-lg px-4 py-3 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[180px] leading-tight border border-gray-200 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]" style={{ backgroundColor: '#FBF3B4' }}>
                   <div className="whitespace-pre-line">{avatar.greeting}</div>
                   {/* Bubble tail pointing down */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>

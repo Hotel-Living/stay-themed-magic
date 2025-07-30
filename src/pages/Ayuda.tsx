@@ -65,7 +65,7 @@ export default function Ayuda() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-4 relative z-10 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+      <main className="flex-1 container mx-auto px-4 py-4 relative z-10">
 
         {/* Main Section - Avatar Group */}
         <div className="max-w-6xl mx-auto mt-4">

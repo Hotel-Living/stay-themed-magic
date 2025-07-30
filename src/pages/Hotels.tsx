@@ -57,43 +57,27 @@ export default function Hotels() {
           
           {/* Professional Study Offer - Large Horizontal Call-to-Action Box */}
           <div className="my-16 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-            {/* Simplified background for maximum text visibility */}
+            {/* Blue glow wrapper for professional study */}
             <div className="relative group w-full max-w-6xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div 
-                className="relative bg-black/60 backdrop-blur-sm border-4 border-white/60 rounded-2xl px-20 py-12 w-full cursor-pointer hover:border-white/80 hover:bg-black/70 transition-all duration-300 shadow-2xl hover:shadow-blue-500/30 hover:scale-[1.01] aspect-[4/1] flex items-center justify-center" 
+                className="relative bg-gradient-to-br from-[#8017B0] via-[#6804A3] to-[#8017B0] backdrop-blur-sm border-4 border-white/40 rounded-2xl px-20 py-12 w-full cursor-pointer hover:border-white/60 hover:bg-gradient-to-br hover:from-[#9A1CC7] hover:via-[#7805B0] hover:to-[#9A1CC7] transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 hover:scale-[1.01] aspect-[4/1] flex items-center justify-center" 
                 onClick={() => {
                   navigate('/professional-study');
                 }}
               >
                 <div className="text-center space-y-6 w-full">
-                  <h2 
-                    className="font-black uppercase tracking-widest text-6xl md:text-7xl"
-                    style={{ 
-                      color: '#FFFFFF !important',
-                      textShadow: '3px 3px 6px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.9), -1px -1px 0 rgba(0,0,0,1), 1px -1px 0 rgba(0,0,0,1), -1px 1px 0 rgba(0,0,0,1), 1px 1px 0 rgba(0,0,0,1)',
-                      WebkitTextStroke: '2px rgba(0,0,0,0.8)',
-                      fontWeight: '900'
-                    }}
-                  >
+                  <h2 className="font-black uppercase tracking-widest text-6xl md:text-7xl text-white">
                     {language === 'en' && 'FREE STUDY'}
                     {language === 'es' && 'ESTUDIO GRATUITO'}
                     {language === 'pt' && 'ESTUDO GRATUITO'}
                     {language === 'ro' && 'STUDIU GRATUIT'}
                   </h2>
-                  <p 
-                    className="font-bold text-3xl md:text-4xl leading-relaxed max-w-5xl mx-auto"
-                    style={{ 
-                      color: '#FFFFFF !important',
-                      textShadow: '2px 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.9), -1px -1px 0 rgba(0,0,0,0.8), 1px -1px 0 rgba(0,0,0,0.8), -1px 1px 0 rgba(0,0,0,0.8), 1px 1px 0 rgba(0,0,0,0.8)',
-                      WebkitTextStroke: '1px rgba(0,0,0,0.6)',
-                      fontWeight: '700'
-                    }}
-                  >
+                  <p className="font-bold text-3xl md:text-4xl leading-relaxed max-w-5xl mx-auto text-white">
                     {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
                     {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
                     {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
-                    {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dvs. și posibilitățile sale de dezvoltare.'}
+                    {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
                   </p>
                 </div>
               </div>

@@ -111,6 +111,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
   const { user, session } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionAttempted, setSubmissionAttempted] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const isEditing = !!editingHotelId;
   
   // Form validation is now handled ONLY by the Zod schema
@@ -391,11 +392,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
       if (result.success) {
         console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
-        toast({
-          title: "¡Ha completado su registro!",
-          description: "Ahora es imprescindible que nos envíe fotografías de su establecimiento (mínimo 10), y de las habitaciones (mínimo 5). Tamaño máximo por foto: 1 MB, formato JPG, PNG o WEBP. Envíelas ahora a contact@hotel-living.com. ¡Sin fotos no es posible publicar su propiedad, llenar sus habitaciones vacías y multiplicar sus beneficios!",
-          duration: 10000
-        });
+        setShowSuccessMessage(true);
         
         // Clear auto-save draft on successful submission
         autoSave.clearDraft();
@@ -482,6 +479,26 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="mb-6 p-6 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg border border-purple-500 relative">
+          <button
+            onClick={() => setShowSuccessMessage(false)}
+            className="absolute top-4 right-4 text-white hover:text-gray-200 text-xl font-bold"
+            aria-label="Cerrar mensaje"
+          >
+            ×
+          </button>
+          <h3 className="text-xl font-bold text-white mb-3">¡Ha completado su registro!</h3>
+          <p className="text-white text-base leading-relaxed">
+            Ahora es imprescindible que nos envíe fotografías de su establecimiento (mínimo 10), y de las 
+            habitaciones (mínimo 5). Tamaño máximo por foto: 1 MB, formato JPG, PNG o WEBP. Envíelas ahora a{' '}
+            <span className="font-semibold underline">contact@hotel-living.com</span>. ¡Sin fotos no es posible 
+            publicar su propiedad, llenar sus habitaciones vacías y multiplicar sus beneficios!
+          </p>
+        </div>
+      )}
+      
       {/* Lock Status Indicator */}
       <LockStatusIndicator 
         lockState={lockState} 

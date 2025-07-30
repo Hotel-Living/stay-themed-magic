@@ -309,9 +309,12 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       return;
     }
     
+    console.log('[HOTEL-REGISTRATION] Starting submission for authenticated user:', user?.id);
+    console.log('[HOTEL-REGISTRATION] No role verification required - authenticated user can submit');
+    
     // Prepare hotel data for submission
     const hotelData = {
-      owner_id: user?.id,
+      owner_id: user?.id, // Set to authenticated user - no role check needed
       name: data.hotelName,
       description: data.hotelDescription,
       country: data.country,
@@ -367,7 +370,9 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
       }))
     ];
 
-    // Submit using data preservation system
+    console.log('[HOTEL-REGISTRATION] Submitting hotel registration for authenticated user - no authorization blocks');
+    
+    // Submit using data preservation system - no role verification, only authentication check
     const result = await submitWithPreservation(
       data,
       hotelData,
@@ -378,9 +383,10 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     );
 
     if (result.success) {
+      console.log('[HOTEL-REGISTRATION] Submission successful - hotel data saved to user panel and forwarded to admin panel');
       toast({
         title: "Registration Completed ✅",
-        description: "Your hotel registration has been successfully submitted to Supabase and is under review. You will be notified of the status.",
+        description: "Your hotel registration has been successfully submitted and will appear in both your hotel panel and the admin panel for approval.",
         duration: 5000
       });
       
@@ -393,6 +399,7 @@ export const NewHotelRegistrationForm = ({ editingHotelId, onComplete }: NewHote
     } else {
       // Error handling is managed by the data preservation system
       // User will see the retry interface automatically
+      console.log('[HOTEL-REGISTRATION] Submission failed, data preserved for retry:', result.error);
       toast({
         title: "Submission Error",
         description: "Your data has been safely preserved. Use the retry button below to attempt submission again.",

@@ -55,25 +55,25 @@ export default function Hotels() {
             <HotelSlogans />
           </div>
           
-          {/* Professional Study Offer - Large Elegant Call-to-Action Box */}
+          {/* Professional Study Offer - Large Horizontal Call-to-Action Box */}
           <div className="my-16 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             {/* Blue glow wrapper for professional study */}
-            <div className="relative group w-full max-w-5xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-3xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative group w-full max-w-6xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div 
-                className="relative bg-gradient-to-br from-[#8017B0] via-[#6804A3] to-[#8017B0] backdrop-blur-sm border-2 border-white/30 rounded-3xl p-16 w-full cursor-pointer hover:border-white/50 hover:bg-gradient-to-br hover:from-[#9A1CC7] hover:via-[#7805B0] hover:to-[#9A1CC7] transition-all duration-300 shadow-2xl hover:shadow-blue-500/40 hover:scale-[1.02] min-h-[200px] flex items-center justify-center" 
+                className="relative bg-gradient-to-br from-[#8017B0] via-[#6804A3] to-[#8017B0] backdrop-blur-sm border-4 border-white/40 rounded-2xl px-20 py-12 w-full cursor-pointer hover:border-white/60 hover:bg-gradient-to-br hover:from-[#9A1CC7] hover:via-[#7805B0] hover:to-[#9A1CC7] transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 hover:scale-[1.01] aspect-[4/1] flex items-center justify-center" 
                 onClick={() => {
                   navigate('/professional-study');
                 }}
               >
                 <div className="text-center space-y-6 w-full">
-                  <h2 className="text-white text-4xl md:text-5xl font-bold uppercase tracking-wider drop-shadow-2xl">
+                  <h2 className="text-white text-5xl md:text-6xl font-black uppercase tracking-widest drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] filter contrast-125 brightness-110">
                     {language === 'en' && 'FREE STUDY'}
                     {language === 'es' && 'ESTUDIO GRATUITO'}
                     {language === 'pt' && 'ESTUDO GRATUITO'}
                     {language === 'ro' && 'STUDIU GRATUIT'}
                   </h2>
-                  <p className="text-white text-xl md:text-2xl leading-relaxed drop-shadow-lg font-medium max-w-4xl mx-auto">
+                  <p className="text-white text-2xl md:text-3xl leading-relaxed font-bold max-w-5xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] filter contrast-125 brightness-110">
                     {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
                     {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
                     {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}

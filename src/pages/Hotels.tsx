@@ -55,6 +55,29 @@ export default function Hotels() {
             <HotelSlogans />
           </div>
           
+          {/* Simple Professional Study Box */}
+          <div className="my-8 flex justify-center px-4">
+            <div 
+              className="bg-[#4A0E4E] rounded-lg p-8 w-full max-w-md cursor-pointer hover:bg-[#5A1A5E] transition-colors duration-200 flex flex-col items-center justify-center min-h-[200px]"
+              onClick={() => {
+                navigate('/professional-study');
+              }}
+            >
+              <h2 className="text-white text-2xl font-bold text-center mb-4">
+                {language === 'en' && 'FREE STUDY'}
+                {language === 'es' && 'ESTUDIO GRATUITO'}
+                {language === 'pt' && 'ESTUDO GRATUITO'}
+                {language === 'ro' && 'STUDIU GRATUIT'}
+              </h2>
+              <p className="text-white text-center leading-relaxed">
+                {language === 'en' && 'Get a complete technical and in-person study about your hotel and its development possibilities.'}
+                {language === 'es' && 'Obtenga un estudio técnico y presencial completo sobre su hotel y sus posibilidades de desarrollo.'}
+                {language === 'pt' && 'Obtenha um estudo técnico e presencial completo sobre o seu hotel e as suas possibilidades de desenvolvimento.'}
+                {language === 'ro' && 'Obțineți un studiu tehnic și în persoană complet despre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
+              </p>
+            </div>
+          </div>
+          
           {/* Professional Study Offer - Large Horizontal Call-to-Action Box */}
           <div className="my-16 flex justify-center px-4 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             {/* Blue glow wrapper for professional study */}

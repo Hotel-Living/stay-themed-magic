@@ -32,8 +32,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Cache profile data to prevent redundant fetches
+  const getCachedProfile = (userId: string): Profile | null => {
+    try {
+      const cached = sessionStorage.getItem(`profile_${userId}`);
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const setCachedProfile = (userId: string, profileData: Profile) => {
+    try {
+      sessionStorage.setItem(`profile_${userId}`, JSON.stringify(profileData));
+    } catch {
+      // Ignore cache errors
+    }
+  };
+
   const fetchProfile = async (userId: string) => {
     try {
+      // Check for cached profile first
+      const cachedProfile = getCachedProfile(userId);
+      if (cachedProfile) {
+        console.log('AuthContext Debug - Using cached profile for userId:', userId);
+        setProfile(cachedProfile);
+        return;
+      }
+
       console.log('AuthContext Debug - Fetching profile for userId:', userId);
       const { data, error } = await supabase
         .from('profiles')
@@ -50,6 +76,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       console.log('AuthContext Debug - Setting profile:', data);
       setProfile(data);
+      
+      // Cache the profile data
+      if (data) {
+        setCachedProfile(userId, data);
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
@@ -111,11 +142,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         // Handle different auth events with better state management
         if (event === 'SIGNED_IN' && session?.user) {
+          // Check if we already have valid session and profile to prevent redundant fetch
+          const hasValidSession = !!session;
+          const hasProfile = !!profile;
+          const isSameUser = profile?.id === session.user.id;
+          
+          if (hasValidSession && hasProfile && isSameUser) {
+            console.log('AuthContext Debug - Skipping redundant profile fetch, using existing data');
+            setSession(session);
+            setUser(session.user);
+            setIsLoading(false);
+            return;
+          }
+
           // Keep loading true while fetching profile to prevent premature redirects
           setIsLoading(true);
           setSession(session);
           setUser(session.user);
-          // Fetch profile data after sign in with timeout
+          
+          // Fetch profile data after sign in with timeout and graceful error handling
           try {
             await Promise.race([
               fetchProfile(session.user.id),
@@ -125,7 +170,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             ]);
           } catch (profileError) {
             console.error('Profile fetch failed during auth change:', profileError);
-            // Continue anyway to prevent loading screen lock
+            // Load dashboard with cached data if available, don't block indefinitely
+            const cachedProfile = getCachedProfile(session.user.id);
+            if (cachedProfile) {
+              console.log('AuthContext Debug - Using cached profile after fetch failure');
+              setProfile(cachedProfile);
+            }
           }
           setIsLoading(false);
         } else if (event === 'SIGNED_OUT') {

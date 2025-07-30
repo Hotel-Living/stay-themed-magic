@@ -18,6 +18,11 @@ export function useDataIntegrity() {
   const [isValidating, setIsValidating] = useState(false);
   const { toast } = useToast();
 
+  // ⚠️ CRITICAL SAFEGUARD: 
+  // This validation layer must NEVER hardcode field requirements.
+  // ALL required field validation MUST be handled by the Zod schema in NewHotelRegistrationForm.tsx
+  // Any hardcoded 'required' validations here create phantom validation errors.
+
   // Validate image upload integrity
   const validateImageUploads = useCallback((
     hotelImages: any[],
@@ -162,18 +167,22 @@ export function useDataIntegrity() {
   } => {
     const errors: string[] = [];
 
-    // Check required fields
+    // SURGICAL FIX: Only validate fields that are actually required in the Zod schema
+    // WARNING: Keep this aligned with hotelRegistrationSchema in NewHotelRegistrationForm.tsx
+    
+    // Only hotel name is required in current schema
     if (!formData.hotelName?.trim()) {
       errors.push('Hotel name is required');
     }
 
-    if (!formData.country?.trim()) {
-      errors.push('Country is required');
-    }
-
-    if (!formData.contactEmail?.trim()) {
-      errors.push('Contact email is required');
-    }
+    // REMOVED PHANTOM VALIDATIONS:
+    // - country (optional in schema)
+    // - contactEmail (optional in schema)
+    
+    console.log('[DATA-INTEGRITY-FIX] Validating data consistency, only checking required fields:', {
+      hotelName: !!formData.hotelName?.trim(),
+      phantomValidationsRemoved: ['country', 'contactEmail']
+    });
 
     // Check image consistency
     if (formData.photos) {

@@ -875,6 +875,7 @@ export type Database = {
           description: string | null
           enable_price_increase: boolean | null
           enablepriceincrease: boolean | null
+          external_laundry_available: boolean | null
           faqs: Json[] | null
           features_hotel: Json | null
           features_room: Json | null
@@ -907,12 +908,14 @@ export type Database = {
           property_type: string | null
           rates: Json | null
           rejection_reason: string | null
+          room_description: string | null
           room_types: Json[] | null
           status: string | null
           stay_lengths: number[] | null
           style: string | null
           terms: string | null
           updated_at: string
+          weekly_laundry_included: boolean | null
         }
         Insert: {
           additional_data?: Json | null
@@ -933,6 +936,7 @@ export type Database = {
           description?: string | null
           enable_price_increase?: boolean | null
           enablepriceincrease?: boolean | null
+          external_laundry_available?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -965,12 +969,14 @@ export type Database = {
           property_type?: string | null
           rates?: Json | null
           rejection_reason?: string | null
+          room_description?: string | null
           room_types?: Json[] | null
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null
           terms?: string | null
           updated_at?: string
+          weekly_laundry_included?: boolean | null
         }
         Update: {
           additional_data?: Json | null
@@ -991,6 +997,7 @@ export type Database = {
           description?: string | null
           enable_price_increase?: boolean | null
           enablepriceincrease?: boolean | null
+          external_laundry_available?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -1023,12 +1030,14 @@ export type Database = {
           property_type?: string | null
           rates?: Json | null
           rejection_reason?: string | null
+          room_description?: string | null
           room_types?: Json[] | null
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null
           terms?: string | null
           updated_at?: string
+          weekly_laundry_included?: boolean | null
         }
         Relationships: [
           {

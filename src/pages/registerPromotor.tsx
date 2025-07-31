@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { AuthLayout } from '@/components/auth/AuthLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function RegisterPromotor() {
   const [nombre, setNombre] = useState("");
@@ -47,21 +51,84 @@ export default function RegisterPromotor() {
   };
 
   return (
-    <div style={wrapperStyle}>
-      <h2 style={titleStyle}>Registro de Promotor</h2>
-      <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} style={inputStyle} />
-      <input type="text" placeholder="Apellidos" value={apellidos} onChange={(e) => setApellidos(e.target.value)} style={inputStyle} />
-      <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
-      <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
-      <input type="password" placeholder="Confirmar contraseña" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={inputStyle} />
-      <button onClick={handleRegister} style={buttonStyle}>Registrarse</button>
-      <p style={messageStyle}>{message}</p>
-    </div>
+    <AuthLayout 
+      title="Registro de Promotor" 
+      subtitle="Conviértete en promotor de Hotel-Living y gana comisiones"
+    >
+      <form onSubmit={(e) => { e.preventDefault(); handleRegister(); }} className="space-y-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="nombre" className="text-[#7E26A6] font-semibold">Nombre</Label>
+            <Input
+              id="nombre"
+              type="text"
+              placeholder="Nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
+            />
+          </div>
+          <div>
+            <Label htmlFor="apellidos" className="text-[#7E26A6] font-semibold">Apellidos</Label>
+            <Input
+              id="apellidos"
+              type="text"
+              placeholder="Apellidos"
+              value={apellidos}
+              onChange={(e) => setApellidos(e.target.value)}
+              className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <Label htmlFor="email" className="text-[#7E26A6] font-semibold">Correo electrónico</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="Correo electrónico"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="password" className="text-[#7E26A6] font-semibold">Contraseña</Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="confirmPassword" className="text-[#7E26A6] font-semibold">Confirmar contraseña</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirmar contraseña"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
+          />
+        </div>
+        
+        <Button 
+          type="submit" 
+          className="w-full bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold py-3 rounded-lg shadow-[0_0_15px_rgba(126,38,166,0.3)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(126,38,166,0.5)]"
+        >
+          Registrarse
+        </Button>
+        
+        {message && (
+          <p className="text-center text-sm text-gray-600">{message}</p>
+        )}
+      </form>
+    </AuthLayout>
   );
 }
 
-const wrapperStyle = { backgroundColor: "#fff", padding: "2rem", fontFamily: "sans-serif", maxWidth: "500px", margin: "5rem auto", borderRadius: "12px", boxShadow: "0 0 20px rgba(0,0,0,0.08)" };
-const titleStyle = { marginBottom: "1.5rem", color: "#333", textAlign: "center" as const };
-const inputStyle = { display: "block", marginBottom: "1rem", width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #ccc", color: "#000" };
-const buttonStyle = { backgroundColor: "#7E26A6", color: "#fff", padding: "0.8rem 1.5rem", border: "none", borderRadius: "6px", cursor: "pointer", width: "100%" };
-const messageStyle = { marginTop: "1rem", color: "#666", textAlign: "center" as const };

@@ -27,35 +27,31 @@ export function HotelRevenueCalculator() {
     switch (language) {
       case 'es':
         return {
-          title: 'CALCULADORA EN LÍNEA (¹)',
-          emptyRoomsLabel: 'Sus habitaciones vacías promedio diarias?',
-          monthlyPriceLabel: 'Precio mensual (USD)',
-          resultLabel: 'Ingresos adicionales estimados: USD',
-          perMonth: '/ mes'
+          emptyRoomsLabel: 'SUS HABITACIONES VACÍAS\nPROMEDIO DIARIAS',
+          monthlyPriceLabel: 'PRECIO MENSUAL\n(USD)',
+          resultTitle: 'INGRESOS ADICIONALES ANUALES (USD) *',
+          resultPrefix: 'USD'
         };
       case 'pt':
         return {
-          title: 'CALCULADORA ONLINE (¹)',
-          emptyRoomsLabel: 'Seus quartos vazios médios diários?',
-          monthlyPriceLabel: 'Preço mensal (USD)',
-          resultLabel: 'Receita adicional estimada: USD',
-          perMonth: '/ mês'
+          emptyRoomsLabel: 'SEUS QUARTOS VAZIOS\nMÉDIOS DIÁRIOS',
+          monthlyPriceLabel: 'PREÇO MENSAL\n(USD)',
+          resultTitle: 'RECEITA ADICIONAL ANUAL (USD) *',
+          resultPrefix: 'USD'
         };
       case 'ro':
         return {
-          title: 'CALCULATOR ONLINE (¹)',
-          emptyRoomsLabel: 'Camerele goale zilnice în medie?',
-          monthlyPriceLabel: 'Preț lunar (USD)',
-          resultLabel: 'Venituri suplimentare estimate: USD',
-          perMonth: '/ lună'
+          emptyRoomsLabel: 'CAMERELE DUMNEAVOASTRĂ GOALE\nZILNICE ÎN MEDIE',
+          monthlyPriceLabel: 'PREȚ LUNAR\n(USD)',
+          resultTitle: 'VENITURI SUPLIMENTARE ANUALE (USD) *',
+          resultPrefix: 'USD'
         };
       default:
         return {
-          title: 'ONLINE CALCULATOR (¹)',
-          emptyRoomsLabel: 'Your average daily empty rooms?',
-          monthlyPriceLabel: 'Monthly price (USD)',
-          resultLabel: 'Estimated additional revenue: USD',
-          perMonth: '/ month'
+          emptyRoomsLabel: 'YOUR AVERAGE DAILY\nEMPTY ROOMS',
+          monthlyPriceLabel: 'AVERAGE MONTHLY\nPRICE (USD)',
+          resultTitle: 'ADDITIONAL YEARLY REVENUE (USD) *',
+          resultPrefix: 'USD'
         };
     }
   };
@@ -68,10 +64,6 @@ export function HotelRevenueCalculator() {
       <div className="relative group">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-90 transition-opacity duration-300"></div>
         <div className="relative">
-          {/* Title */}
-          <h2 className="text-2xl font-bold text-center text-white mb-6 tracking-wide">
-            {labels.title}
-          </h2>
           
           {/* Calculator Box */}
           <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 shadow-lg">
@@ -79,10 +71,10 @@ export function HotelRevenueCalculator() {
               {/* Input Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Empty Rooms Input */}
-                <div className="space-y-2">
-                  <label className="block text-white font-medium text-sm">
-                    {labels.emptyRoomsLabel}
-                  </label>
+                 <div className="space-y-2">
+                   <label className="block text-white font-medium text-sm text-center whitespace-pre-line uppercase">
+                     {labels.emptyRoomsLabel}
+                   </label>
                   <input
                     type="number"
                     value={emptyRooms}
@@ -94,11 +86,11 @@ export function HotelRevenueCalculator() {
                   />
                 </div>
                 
-                {/* Monthly Price Input */}
-                <div className="space-y-2">
-                  <label className="block text-white font-medium text-sm">
-                    {labels.monthlyPriceLabel}
-                  </label>
+                 {/* Monthly Price Input */}
+                 <div className="space-y-2">
+                   <label className="block text-white font-medium text-sm text-center whitespace-pre-line uppercase">
+                     {labels.monthlyPriceLabel}
+                   </label>
                   <input
                     type="number"
                     value={monthlyPrice}
@@ -112,9 +104,12 @@ export function HotelRevenueCalculator() {
               </div>
               
               {/* Result Display */}
-              <div className="mt-6 p-4 bg-white/15 backdrop-blur-sm rounded-lg border border-white/20">
-                <p className="text-white text-lg font-semibold text-center">
-                  {labels.resultLabel} {formatCurrency(calculatedRevenue)} {labels.perMonth}
+              <div className="mt-6 p-4 bg-white/15 backdrop-blur-sm rounded-lg border border-white/20 text-center space-y-2">
+                <p className="text-white text-lg font-semibold uppercase">
+                  {labels.resultTitle}
+                </p>
+                <p className="text-white text-2xl font-bold">
+                  {labels.resultPrefix} {formatCurrency(calculatedRevenue)}
                 </p>
               </div>
             </div>

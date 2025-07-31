@@ -3,6 +3,7 @@ import { HotelDetailProps } from "@/types/hotel/detail";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, Heart, Share2, MapPin, Star, Sparkles, Users, Wifi, Car, Coffee, Utensils, Clock, CheckCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslationWithFallback } from "@/hooks/useTranslationWithFallback";
 
 interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -10,483 +11,308 @@ interface HotelDetailContentProps {
 }
 
 export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailContentProps) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedPackage, setSelectedPackage] = useState<any>(null);
-  const [bookingStage, setBookingStage] = useState<'initial' | 'processing' | 'success'>('initial');
+  const { t } = useTranslationWithFallback('hotel');
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
-
-  // Create a combined images array with fallback to main_image_url
-  const getHotelImages = () => {
-    const images = [];
-    
-    // First, add all hotel_images if they exist
-    if (hotel?.hotel_images && hotel.hotel_images.length > 0) {
-      images.push(...hotel.hotel_images);
-    }
-    
-    // If no hotel_images but main_image_url exists, use it as fallback
-    if (images.length === 0 && hotel?.main_image_url) {
-      images.push({
-        image_url: hotel.main_image_url,
-        is_main: true,
-        id: 'main-image'
-      });
-    }
-    
-    // Ultimate fallback to placeholder
-    if (images.length === 0) {
-      images.push({
-        image_url: '/placeholder.svg',
-        is_main: true,
-        id: 'placeholder'
-      });
-    }
-    
-    console.log('🖼️ Hotel images resolved:', images.length, images);
-    return images;
-  };
-
-  const hotelImages = getHotelImages();
-
-  // Generate realistic availability packages
-  const availabilityPackages = [
-    {
-      id: "package-1",
-      duration: "7 nights",
-      startDate: "2024-03-15",
-      endDate: "2024-03-22", 
-      price: 980,
-      available: 3,
-      popular: false
-    },
-    {
-      id: "package-2", 
-      duration: "14 nights",
-      startDate: "2024-03-20",
-      endDate: "2024-04-03",
-      price: 1850,
-      available: 2,
-      popular: true
-    },
-    {
-      id: "package-3",
-      duration: "30 days",
-      startDate: "2024-04-01", 
-      endDate: "2024-05-01",
-      price: 3900,
-      available: 1,
-      popular: false
-    }
-  ];
 
   // Staggered animation
   useEffect(() => {
-    if (!isLoading) {
-      [0, 1, 2, 3, 4, 5].forEach((section, index) => {
+    if (!isLoading && hotel) {
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((section, index) => {
         setTimeout(() => {
           setVisibleSections(prev => [...prev, section]);
-        }, index * 200);
+        }, index * 150);
       });
     }
-  }, [isLoading]);
+  }, [isLoading, hotel]);
 
   // Enhanced loading skeleton
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Main content skeleton */}
-            <div className="lg:col-span-8 space-y-8">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 animate-pulse shadow-lg">
-                  <div className="h-8 bg-gray-200 rounded-lg w-3/4 mb-4"></div>
-                  <div className="h-64 bg-gray-200 rounded-xl mb-6"></div>
-                  <div className="space-y-3">
-                    <div className="h-4 bg-gray-200 rounded w-full"></div>
-                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                  </div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-blue-900/10 to-purple-900/30 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="container mx-auto px-4 py-12 relative z-10">
+          <div className="space-y-8">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 animate-pulse shadow-lg border border-purple-600/20">
+                <div className="h-8 bg-purple-400/30 rounded-lg w-3/4 mb-4"></div>
+                <div className="h-64 bg-purple-400/20 rounded-xl mb-6"></div>
+                <div className="space-y-3">
+                  <div className="h-4 bg-purple-400/30 rounded w-full"></div>
+                  <div className="h-4 bg-purple-400/30 rounded w-5/6"></div>
                 </div>
-              ))}
-            </div>
-            {/* Sidebar skeleton */}
-            <div className="lg:col-span-4">
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 animate-pulse sticky top-8 shadow-lg">
-                <div className="h-12 bg-gray-200 rounded-lg mb-6"></div>
-                <div className="h-32 bg-gray-200 rounded-lg mb-6"></div>
-                <div className="h-12 bg-gray-200 rounded-lg"></div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
     );
   }
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === hotelImages.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? hotelImages.length - 1 : prev - 1
-    );
-  };
-
-  const handleBooking = () => {
-    setBookingStage('processing');
-    setTimeout(() => {
-      setBookingStage('success');
-      setTimeout(() => setBookingStage('initial'), 3000);
-    }, 2000);
-  };
+  if (!hotel) return null;
 
   const sectionClass = (index: number) => `
     transform transition-all duration-700 ease-out
     ${visibleSections.includes(index) ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}
   `;
 
+  // Helper functions for dynamic content
+  const getMainImage = () => {
+    if (hotel.hotel_images?.length > 0) {
+      return hotel.hotel_images[0].image_url;
+    }
+    return hotel.main_image_url || '/placeholder.svg';
+  };
+
+  const formatPropertyTypeStayText = () => {
+    const propertyType = hotel.property_type || t('detail.hotel');
+    const style = hotel.style || '';
+    const stayLengths = hotel.stay_lengths || [];
+    const mealPlans = hotel.meal_plans || [];
+    const hasLaundryIncluded = hotel.laundry_service?.available || false;
+    
+    let text = `Este ${propertyType.toLowerCase()}`;
+    if (style) {
+      text += ` es de estilo ${style.toLowerCase()}`;
+    }
+    
+    if (stayLengths.length > 0) {
+      const lengthsText = stayLengths.join(', ').replace(/, ([^,]*)$/, ' y $1');
+      text += ` y ofrece estancias de ${lengthsText} días`;
+    }
+    
+    // Only add meal plan if it's not "accommodation only"
+    if (mealPlans.length > 0 && !mealPlans.some(plan => plan.toLowerCase().includes('solo alojamiento') || plan.toLowerCase().includes('accommodation only'))) {
+      text += ` con ${mealPlans[0].toLowerCase()}`;
+    }
+    
+    if (hasLaundryIncluded) {
+      text += ' y servicio de lavandería incluido';
+    } else {
+      text += ' y servicio de lavandería disponible';
+    }
+    
+    return text + '.';
+  };
+
+  const formatAffinitiesActivitiesText = () => {
+    const affinities = hotel.hotel_themes?.map(theme => theme.themes.name) || [];
+    // Note: Activities would come from hotel_activities relation
+    const activities = []; // This would be populated from the actual activities data
+    
+    if (affinities.length === 0 && activities.length === 0) return null;
+    
+    let text = 'Es ideal para aquellos a quienes les gusta ';
+    
+    if (affinities.length > 0) {
+      text += affinities.join(', ').replace(/, ([^,]*)$/, ' y $1');
+    }
+    
+    if (activities.length > 0) {
+      if (affinities.length > 0) {
+        text += ' y disfrutan de ';
+      } else {
+        text = 'Es ideal para aquellos que disfrutan de ';
+      }
+      text += activities.join(', ').replace(/, ([^,]*)$/, ' y $1');
+    }
+    
+    return text + '.';
+  };
+
+  const getProportionalPriceText = () => {
+    if (hotel.price_per_month) {
+      return `El precio mensual proporcional es de USD ${hotel.price_per_month.toLocaleString()}.`;
+    }
+    return null;
+  };
+
+  const getSelectedFeatures = (features: Record<string, boolean> | undefined) => {
+    if (!features) return [];
+    return Object.entries(features)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([feature]) => feature.replace(/_/g, ' '));
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 relative overflow-x-hidden">
-      {/* Hero Section */}
-      <div className={`relative ${sectionClass(0)}`}>
-        <div className="h-[70vh] relative overflow-hidden">
-          {/* Image Gallery */}
-          <div className="absolute inset-0">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-blue-900/10 to-purple-900/30 relative">
+      {/* Blue glow background effect */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(147,51,234,0.1),transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_40%)]" />
+      
+      <div className="container mx-auto px-4 py-8 relative z-10 space-y-8">
+        
+        {/* 1️⃣ IMAGE - Step 1 Basic Information */}
+        <div className={`${sectionClass(0)}`}>
+          <div className="relative h-[60vh] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src={hotelImages[currentImageIndex]?.image_url || '/placeholder.svg'}
+              src={getMainImage()}
               alt={hotel.name}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-          </div>
-
-          {/* Navigation arrows */}
-          {hotelImages.length > 1 && (
-            <>
-              <button 
-                onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/90 transition-all duration-300 z-10 shadow-lg"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-800" />
-              </button>
-              <button 
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/90 transition-all duration-300 z-10 shadow-lg"
-              >
-                <ChevronRight className="w-6 h-6 text-gray-800" />
-              </button>
-            </>
-          )}
-
-          {/* Image dots */}
-          {hotelImages.length > 1 && (
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {hotelImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Hotel Header Content */}
-          <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
-            <div className="container mx-auto">
-              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-4">
-                    <h1 className="text-4xl lg:text-6xl font-bold text-white drop-shadow-lg">
-                      {hotel.name}
-                    </h1>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="ghost" className="bg-white/20 hover:bg-white/30 text-white border-white/20 backdrop-blur-sm shadow-lg">
-                        <Heart className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost" className="bg-white/20 hover:bg-white/30 text-white border-white/20 backdrop-blur-sm shadow-lg">
-                        <Share2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap items-center gap-4 text-white/95 drop-shadow-md">
-                    <div className="flex items-center gap-1">
-                      {Array.from({ length: hotel.category }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm" />
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-5 h-5" />
-                      <span className="text-lg">{hotel.address}, {hotel.city}, {hotel.country}</span>
-                    </div>
-                  </div>
-
-                  {/* Hotel themes */}
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {hotel.hotel_themes?.map((theme, index) => (
-                      <span 
-                        key={index}
-                        className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm border border-white/30 shadow-sm"
-                      >
-                        {theme.themes.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <div className="text-4xl font-bold text-white flex items-center gap-2 drop-shadow-lg">
-                    <Sparkles className="w-8 h-8 text-yellow-400" />
-                    ${hotel.price_per_month.toLocaleString()}
-                  </div>
-                  <div className="text-white/80 text-lg drop-shadow-md">per month</div>
-                </div>
-              </div>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column - Main Content */}
-          <div className="lg:col-span-8 space-y-8">
-            
-            {/* Description Section */}
-            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl hover:bg-white/90 transition-all duration-500 shadow-lg ${sectionClass(1)}`}>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">About The Aurora Palace</h2>
-              <div className="prose max-w-none">
-                <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  {hotel.description}
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-700">Perfect For</h3>
-                    <p className="text-gray-600">{hotel.ideal_guests}</p>
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-700">Atmosphere</h3>
-                    <p className="text-gray-600">{hotel.atmosphere}</p>
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-purple-700">Location</h3>
-                    <p className="text-gray-600">{hotel.perfect_location}</p>
-                  </div>
-                </div>
+        {/* 2️⃣ HOTEL IDENTIFICATION - Steps 1-2 */}
+        <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(1)}`}>
+          <div className="text-center space-y-4">
+            <h1 className="text-5xl font-bold text-white drop-shadow-lg">
+              {hotel.name}
+            </h1>
+            <div className="flex items-center justify-center gap-2 text-white/90">
+              <MapPin className="w-5 h-5" />
+              <span className="text-xl">{hotel.address}, {hotel.city}, {hotel.country}</span>
+            </div>
+            {hotel.category && (
+              <div className="flex items-center justify-center gap-1">
+                {Array.from({ length: hotel.category }).map((_, i) => (
+                  <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                ))}
               </div>
-            </Card>
+            )}
+          </div>
+        </div>
 
-            {/* Availability Packages */}
-            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl shadow-lg ${sectionClass(2)}`}>
-              <h2 className="text-3xl font-bold text-gray-800 mb-8">Availability & Packages</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {availabilityPackages.map((pkg, index) => (
-                  <div 
-                    key={pkg.id}
-                    className={`
-                      relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 group shadow-md
-                      ${selectedPackage?.id === pkg.id 
-                        ? 'border-purple-500 bg-purple-50' 
-                        : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-25'
-                      }
-                      ${pkg.popular ? 'ring-2 ring-yellow-400 shadow-lg' : ''}
-                    `}
-                    onClick={() => setSelectedPackage(selectedPackage?.id === pkg.id ? null : pkg)}
-                  >
-                    {pkg.popular && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
-                          Most Popular
-                        </span>
-                      </div>
-                    )}
-                    
-                    <div className="text-center space-y-4">
-                      <div className="text-2xl font-bold text-gray-800">{pkg.duration}</div>
-                      <div className="text-gray-600">
-                        {new Date(pkg.startDate).toLocaleDateString()} - {new Date(pkg.endDate).toLocaleDateString()}
-                      </div>
-                      <div className="text-3xl font-bold text-purple-600">${pkg.price.toLocaleString()}</div>
-                      <div className="flex items-center justify-center gap-2 text-green-600">
-                        <Users className="w-4 h-4" />
-                        <span>{pkg.available} rooms left</span>
-                      </div>
-                      {selectedPackage?.id === pkg.id && (
-                        <div className="mt-4 p-3 bg-purple-100 rounded-lg border border-purple-200">
-                          <CheckCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
-                          <p className="text-sm text-green-600 font-semibold">Package Selected</p>
-                        </div>
-                      )}
-                    </div>
+        {/* 3️⃣ PROPERTY TYPE, STYLE, DURATIONS, MEAL, LAUNDRY - Steps 3,4,8,9,12,13 */}
+        <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(2)}`}>
+          <p className="text-xl text-white leading-relaxed text-center">
+            {formatPropertyTypeStayText()}
+          </p>
+        </div>
+
+        {/* 4️⃣ AFFINITIES AND ACTIVITIES - Steps 10,11 (optional) */}
+        {formatAffinitiesActivitiesText() && (
+          <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(3)}`}>
+            <p className="text-xl text-white leading-relaxed text-center">
+              {formatAffinitiesActivitiesText()}
+            </p>
+          </div>
+        )}
+
+        {/* 5️⃣ PRICE REFERENCE - Step 16 Pricing Matrix */}
+        {getProportionalPriceText() && (
+          <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(4)}`}>
+            <p className="text-xl text-white leading-relaxed text-center font-semibold">
+              {getProportionalPriceText()}
+            </p>
+          </div>
+        )}
+
+        {/* 6️⃣ COMPLETE PHRASES - Step 7 */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${sectionClass(5)}`}>
+          {hotel.ideal_guests && (
+            <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-purple-600/20">
+              <h3 className="text-lg font-semibold text-purple-200 mb-3">
+                {t('detail.idealForGuests')}
+              </h3>
+              <p className="text-white leading-relaxed">{hotel.ideal_guests}</p>
+            </div>
+          )}
+          
+          {hotel.atmosphere && (
+            <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-purple-600/20">
+              <h3 className="text-lg font-semibold text-purple-200 mb-3">
+                {t('detail.atmosphere')}
+              </h3>
+              <p className="text-white leading-relaxed">{hotel.atmosphere}</p>
+            </div>
+          )}
+          
+          {hotel.perfect_location && (
+            <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-purple-600/20">
+              <h3 className="text-lg font-semibold text-purple-200 mb-3">
+                {t('detail.locationPerfectFor')}
+              </h3>
+              <p className="text-white leading-relaxed">{hotel.perfect_location}</p>
+            </div>
+          )}
+        </div>
+
+        {/* 7️⃣ HOTEL DESCRIPTION - Step 5 */}
+        {hotel.description && (
+          <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(6)}`}>
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              {t('detail.aboutOurHotel')}
+            </h2>
+            <p className="text-lg text-white leading-relaxed">
+              {hotel.description}
+            </p>
+          </div>
+        )}
+
+        {/* 8️⃣ ROOM DESCRIPTION - Step 6 */}
+        {hotel.additional_data?.room_description && (
+          <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(7)}`}>
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              Descripción de las Habitaciones
+            </h2>
+            <p className="text-lg text-white leading-relaxed">
+              {hotel.additional_data.room_description}
+            </p>
+          </div>
+        )}
+
+        {/* 9️⃣ FEATURES - Steps 8,9 */}
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${sectionClass(8)}`}>
+          {/* Hotel Features */}
+          {getSelectedFeatures(hotel.features_hotel).length > 0 && (
+            <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                {t('detail.hotelFeatures')}
+              </h3>
+              <div className="grid grid-cols-1 gap-3">
+                {getSelectedFeatures(hotel.features_hotel).map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3 text-white">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span className="capitalize">{feature}</span>
                   </div>
                 ))}
               </div>
+            </div>
+          )}
 
-              {selectedPackage && (
-                <div className="mt-8 p-6 bg-purple-50 rounded-xl border border-purple-200 shadow-sm">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Package Details</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Duration:</span>
-                        <span className="text-gray-800 font-semibold">{selectedPackage.duration}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Check-in:</span>
-                        <span className="text-gray-800 font-semibold">{new Date(selectedPackage.startDate).toLocaleDateString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Check-out:</span>
-                        <span className="text-gray-800 font-semibold">{new Date(selectedPackage.endDate).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Total Price:</span>
-                        <span className="text-gray-800 font-bold text-xl">${selectedPackage.price.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Availability:</span>
-                        <span className="text-green-600 font-semibold">{selectedPackage.available} rooms</span>
-                      </div>
-                    </div>
+          {/* Room Features */}
+          {getSelectedFeatures(hotel.features_room).length > 0 && (
+            <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                {t('detail.roomFeatures')}
+              </h3>
+              <div className="grid grid-cols-1 gap-3">
+                {getSelectedFeatures(hotel.features_room).map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3 text-white">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span className="capitalize">{feature}</span>
                   </div>
-                </div>
-              )}
-            </Card>
-
-            {/* Features Grid */}
-            <Card className={`bg-white/80 backdrop-blur-sm border-gray-200/50 p-8 rounded-2xl shadow-lg ${sectionClass(3)}`}>
-              <h2 className="text-3xl font-bold text-gray-800 mb-8">Amenities & Features</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2">
-                    <Coffee className="w-5 h-5" />
-                    Hotel Features
-                  </h3>
-                  <ul className="space-y-3">
-                    {hotel.hotelFeatures?.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-3 text-gray-700">
-                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2">
-                    <Wifi className="w-5 h-5" />
-                    Room Features
-                  </h3>
-                  <ul className="space-y-3">
-                    {hotel.roomFeatures?.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-3 text-gray-700">
-                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                ))}
               </div>
-            </Card>
-          </div>
+            </div>
+          )}
+        </div>
 
-          {/* Right Column - Booking Sidebar */}
-          <div className="lg:col-span-4">
-            <div className={`bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-2xl p-6 sticky top-8 shadow-lg ${sectionClass(4)}`}>
-              <div className="space-y-6">
-                
-                {/* Available Months */}
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-purple-600" />
-                    Available Months
-                  </h3>
-                  <div className="grid grid-cols-3 gap-2">
-                    {hotel.available_months?.map((month, index) => (
-                      <div 
-                        key={index}
-                        className="bg-purple-100 text-purple-700 px-3 py-2 rounded-lg text-center text-sm border border-purple-200 hover:bg-purple-200 transition-colors cursor-pointer font-medium"
-                      >
-                        {month.slice(0, 3)}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Booking Button */}
-                <Button 
-                  onClick={handleBooking}
-                  disabled={bookingStage === 'processing'}
-                  className={`
-                    w-full h-14 text-lg font-semibold transition-all duration-300 relative overflow-hidden shadow-lg
-                    ${bookingStage === 'success' 
-                      ? 'bg-green-600 hover:bg-green-700 text-white' 
-                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white'
-                    }
-                    ${!selectedPackage ? 'opacity-50 cursor-not-allowed' : ''}
-                  `}
-                >
-                  {bookingStage === 'processing' ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Processing Booking...
-                    </div>
-                  ) : bookingStage === 'success' ? (
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" />
-                      Booking Confirmed!
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-5 h-5" />
-                      {selectedPackage ? 'Book Selected Package' : 'Select a Package'}
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
-                  )}
-                </Button>
-
-                {/* Quick Stats */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-800 flex items-center justify-center gap-1">
-                      {Array.from({ length: hotel.category }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                      ))}
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">Hotel Rating</div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-800">
-                      {hotel.average_rating?.toFixed(1) || "N/A"}
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">Guest Reviews</div>
-                  </div>
-                </div>
-
-                {/* Contact Info */}
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-800 mb-2">Need Help?</h4>
-                  <p className="text-gray-600 text-sm mb-3">Our concierge team is available 24/7</p>
-                  <Button variant="outline" size="sm" className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
-                    Contact Concierge
-                  </Button>
-                </div>
+        {/* 🔟 MAP - Step 1 Address */}
+        {hotel.address && (
+          <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(9)}`}>
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">Ubicación</h2>
+            <div className="bg-gray-200 rounded-xl h-64 flex items-center justify-center">
+              <div className="text-center text-gray-600">
+                <MapPin className="w-12 h-12 mx-auto mb-4" />
+                <p className="text-lg font-medium">Mapa de Google</p>
+                <p className="text-sm">{hotel.address}, {hotel.city}, {hotel.country}</p>
               </div>
             </div>
           </div>
+        )}
+
+        {/* 11️⃣ AVAILABILITY PACKAGES - Step 15 */}
+        {/* Note: This would be populated from actual availability_packages data when available */}
+        <div className={`bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-purple-600/20 ${sectionClass(10)}`}>
+          <h2 className="text-3xl font-bold text-white mb-6 text-center">Paquetes de Disponibilidad</h2>
+          <div className="text-center text-white/70">
+            <p>Los paquetes de disponibilidad aparecerán aquí cuando estén configurados.</p>
+          </div>
         </div>
+
       </div>
     </div>
   );

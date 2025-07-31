@@ -101,7 +101,7 @@ export default function AssociationSlug() {
                   </h3>
                   <div className="space-y-6 text-lg text-white/90 leading-relaxed">
                     <p>
-                      Como es sabido Las grandes cadenas hoteleras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson y muchas
+                      Las grandes cadenas hoteleras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson y muchas
                       más) hace ya años que están rentabilizando y ampliando el nuevo modelo social que nuestra sociedad va
                       imponiendo: las estancias residenciales en hoteles, de media y larga duración.
                     </p>
@@ -109,9 +109,10 @@ export default function AssociationSlug() {
                       ¿SÓLO PARA LAS GRANDES CADENAS HOTELERAS?
                     </h4>
                     <p>
-                      Mientras estas expanden sin cesar sus modelos residenciales, centenares de miles de pequeños hoteles
-                      independientes y cadenas pequeñas o medianas no han podido rentabilizar hasta ahora este modelo, ni
-                      acceder a sus inmensos beneficios, por falta de una herramienta común especializada y accesible.
+                      No. Gracias a Hotel-Living.com centenares de miles de hoteles independientes pueden comenzar a cobrar ya los inmensos beneficios de este modelo.
+                    </p>
+                    <p>
+                      Y aun más: nuestro modelo ofrece herramientas únicas diseñadas especialmente para los hoteles independientes, que otorga beneficios aun mayores frente a las grandes cadenas.
                     </p>
                   </div>
                 </div>

@@ -65,14 +65,20 @@ export function AssociationMiniCalculator() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
-              <p className="text-white text-lg font-bold mb-2">Beneficios para los hoteles *:</p>
+              <div className="text-white text-lg font-bold mb-2">
+                <div>Beneficios para</div>
+                <div>los hoteles *:</div>
+              </div>
               <p className="text-yellow-300 font-bold text-2xl">
                 ${hotelSales.toLocaleString()}
               </p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
-              <p className="text-white text-lg font-bold mb-2">Beneficios para la asociación *:</p>
+              <div className="text-white text-lg font-bold mb-2">
+                <div>Beneficios para</div>
+                <div>la asociación *:</div>
+              </div>
               <p className="text-yellow-300 font-bold text-2xl">
                 ${associationEarnings.toLocaleString()}
               </p>

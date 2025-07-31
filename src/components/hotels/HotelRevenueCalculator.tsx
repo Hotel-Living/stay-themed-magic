@@ -12,8 +12,8 @@ export function HotelRevenueCalculator() {
     
     if (rooms <= 0 || price <= 0) return 0;
     
-    // Formula: (Empty rooms × 365 ÷ 12) × Monthly price
-    return Math.round((rooms * 365 / 12) * price);
+    // Formula: (Empty rooms × 365 ÷ 28) × Monthly price
+    return Math.round((rooms * 365 / 28) * price);
   }, [emptyRooms, monthlyPrice]);
 
   const formatCurrency = (amount: number) => {
@@ -109,7 +109,7 @@ export function HotelRevenueCalculator() {
                   {labels.resultTitle}
                 </p>
                 <p className="text-white text-2xl font-bold">
-                  {formatCurrency(calculatedRevenue)}
+                  {formatCurrency(calculatedRevenue)} USD
                 </p>
               </div>
             </div>

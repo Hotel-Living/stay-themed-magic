@@ -73,10 +73,7 @@ export default function Hotels() {
               to="/professional-study"
               className="text-white text-lg font-medium text-center hover:text-fuchsia-300 transition-all duration-300 animate-fade-in hover:scale-105 cursor-pointer whitespace-pre-line"
             >
-              {language === 'en' && 'FREE STUDY\nGet a complete technical and in-person study\nabout your hotel and its development possibilities.'}
-              {language === 'es' && 'ESTUDIO GRATUITO\nObtenga un estudio técnico y presencial completo\nsobre su hotel y sus posibilidades de desarrollo.'}
-              {language === 'pt' && 'ESTUDO GRATUITO\nObtenha um estudo técnico e presencial completo\nsobre o seu hotel e as suas possibilidades de desenvolvimento.'}
-              {language === 'ro' && 'STUDIU GRATUIT\nObțineți un studiu tehnic și în persoană complet\ndespre hotelul dumneavoastră și posibilitățile sale de dezvoltare.'}
+              {t('hotels:professionalStudy')}
             </Link>
           </div>
           
@@ -107,7 +104,7 @@ export default function Hotels() {
                   to="/hotel-crisis" 
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/30"
                 >
-                  📊 {t('linkText', { defaultValue: 'Retrato de la Crisis Hotelera' })}
+                  📊 {t('hotels:linkText')}
                 </Link>
               </div>
               

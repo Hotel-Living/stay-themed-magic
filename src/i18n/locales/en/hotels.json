@@ -368,6 +368,8 @@
       }
     }
   },
+  "professionalStudy": "FREE STUDY\nGet a complete technical and in-person study\nabout your hotel and its development possibilities.",
+  "linkText": "Portrait of the Hotel Crisis",
   "atAGlance": "At a Glance",
   "propertyDescription": "This {{style}} {{propertyType}} offers {{stayLengths}} stays.",
   "idealFor": "Ideal for ",

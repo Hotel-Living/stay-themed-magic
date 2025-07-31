@@ -112,7 +112,7 @@ export function HotelRevenueCalculator() {
                   {formatCurrency(calculatedRevenue)} USD
                 </p>
                 <div className="mt-3">
-                  <p className="text-white/80 text-sm text-center">
+                  <p className="text-white/80 text-base text-center">
                     (Almost pure profit: empty rooms<br />
                     already have all fixed costs paid)
                   </p>

@@ -5,7 +5,7 @@ export function HotelSlogansES() {
   } = useTranslation('hotels');
   return <>
       {/* Main slogans */}
-      <div className="space-y-3 animate-fade-in px-8">
+      <div className="space-y-3 animate-fade-in px-8 my-[20px]">
         {/* Blue glow wrapper for main title */}
         <div className="relative group w-fit mx-auto">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>

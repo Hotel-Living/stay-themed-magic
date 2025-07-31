@@ -90,6 +90,11 @@ export function Footer() {
         
         <div className={`text-center text-xs text-white px-2 sm:px-0 ${isMobile ? "mt-6 mb-4" : ""}`}>
           <p className="font-semibold">{t('footer.copyright')}</p>
+          
+          {/* Calculator Disclaimer */}
+          <p className="text-xs text-white/80 mt-2 font-normal">
+            (¹) These are estimated values based on the data you provided. Actual results may vary depending on your hotel's occupancy and conditions.
+          </p>
         </div>
       </div>
     </footer>;

@@ -16,6 +16,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { HotelPageAvatar } from "@/components/avatars/HotelPageAvatar";
 import { PageTransitionBar } from "@/components/layout/PageTransitionBar";
 import { ConnectionIndicator } from "@/components/ui/connection-indicator";
+import { HotelRevenueCalculator } from "@/components/hotels/HotelRevenueCalculator";
 const orderedCategoryIds = ["benefits", "models", "revenue", "guests", "seniors", "affinities", "operation", "integration", "marketing", "payment"];
 const HotelSignupButtons = ({
   isMobile
@@ -53,6 +54,11 @@ export default function Hotels() {
         <div className="container mx-auto px-2 sm:px-4 py-3 flex flex-col items-center">
           <div className="animate-fade-in w-full">
             <HotelSlogans />
+          </div>
+          
+          {/* Hotel Revenue Calculator */}
+          <div className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+            <HotelRevenueCalculator />
           </div>
           
           {/* Professional Study Text Link */}

@@ -183,8 +183,8 @@ export const DashboardContent = () => {
         </p>
       </div>
 
-      {/* Recommended Hotels Section */}
-      <RecommendedHotels />
+      {/* Recommended Hotels Section - Temporarily disabled to fix black screen issue */}
+      {/* <RecommendedHotels /> */}
 
       {/* Quick Actions */}
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">

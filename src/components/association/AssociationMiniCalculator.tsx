@@ -15,7 +15,7 @@ export function AssociationMiniCalculator() {
   const associationEarnings = (hotelSales / 100) * 4;
 
   return (
-    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-2xl mx-auto">
+    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-blue-400/30 shadow-[0_0_60px_rgba(59,130,246,0.4)] max-w-2xl mx-auto">
       <div className="mx-auto">
         {/* Calculator Title */}
         <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">

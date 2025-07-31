@@ -130,7 +130,7 @@ export function SignupForm({ role }: SignupFormProps) {
     >
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="firstName" className="text-black">First Name</Label>
+          <Label htmlFor="firstName" className="text-[#7E26A6] font-semibold">First Name</Label>
           <Input
             id="firstName"
             name="firstName"
@@ -139,7 +139,7 @@ export function SignupForm({ role }: SignupFormProps) {
             autoComplete="given-name"
             value={formData.firstName}
             onChange={handleInputChange}
-            className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+            className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
             aria-describedby="firstName-help"
           />
           <div id="firstName-help" className="sr-only">
@@ -147,7 +147,7 @@ export function SignupForm({ role }: SignupFormProps) {
           </div>
         </div>
         <div>
-          <Label htmlFor="lastName" className="text-black">Last Name</Label>
+          <Label htmlFor="lastName" className="text-[#7E26A6] font-semibold">Last Name</Label>
           <Input
             id="lastName"
             name="lastName"
@@ -156,7 +156,7 @@ export function SignupForm({ role }: SignupFormProps) {
             autoComplete="family-name"
             value={formData.lastName}
             onChange={handleInputChange}
-            className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+            className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
             aria-describedby="lastName-help"
           />
           <div id="lastName-help" className="sr-only">
@@ -166,7 +166,7 @@ export function SignupForm({ role }: SignupFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="email" className="text-black">Email</Label>
+        <Label htmlFor="email" className="text-[#7E26A6] font-semibold">Email</Label>
         <Input
           id="email"
           name="email"
@@ -175,7 +175,7 @@ export function SignupForm({ role }: SignupFormProps) {
           autoComplete="email"
           value={formData.email}
           onChange={handleInputChange}
-          className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
           aria-describedby="email-signup-help"
         />
         <div id="email-signup-help" className="sr-only">
@@ -184,7 +184,7 @@ export function SignupForm({ role }: SignupFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="password" className="text-black">Password</Label>
+        <Label htmlFor="password" className="text-[#7E26A6] font-semibold">Password</Label>
         <Input
           id="password"
           name="password"
@@ -193,7 +193,7 @@ export function SignupForm({ role }: SignupFormProps) {
           autoComplete="new-password"
           value={formData.password}
           onChange={handleInputChange}
-          className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
           aria-describedby="password-signup-help"
         />
         <div id="password-signup-help" className="sr-only">
@@ -202,7 +202,7 @@ export function SignupForm({ role }: SignupFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="confirmPassword" className="text-black">Confirm Password</Label>
+        <Label htmlFor="confirmPassword" className="text-[#7E26A6] font-semibold">Confirm Password</Label>
         <Input
           id="confirmPassword"
           name="confirmPassword"
@@ -211,7 +211,7 @@ export function SignupForm({ role }: SignupFormProps) {
           autoComplete="new-password"
           value={formData.confirmPassword}
           onChange={handleInputChange}
-          className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
           aria-describedby="confirmPassword-help"
         />
         <div id="confirmPassword-help" className="sr-only">

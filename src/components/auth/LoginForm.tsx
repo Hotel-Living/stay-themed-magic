@@ -86,7 +86,7 @@ export function LoginForm({ role }: LoginFormProps) {
       className="space-y-4 sm:space-y-6"
     >
       <div>
-        <Label htmlFor="email" className="text-black text-sm sm:text-base">Email</Label>
+        <Label htmlFor="email" className="text-[#7E26A6] text-sm sm:text-base font-semibold">Email</Label>
         <Input
           id="email"
           name="email"
@@ -95,12 +95,12 @@ export function LoginForm({ role }: LoginFormProps) {
           autoComplete="email"
           value={formData.email}
           onChange={handleInputChange}
-          className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
         />
       </div>
       
       <div>
-        <Label htmlFor="password" className="text-black text-sm sm:text-base">Password</Label>
+        <Label htmlFor="password" className="text-[#7E26A6] text-sm sm:text-base font-semibold">Password</Label>
         <Input
           id="password"
           name="password"
@@ -109,7 +109,7 @@ export function LoginForm({ role }: LoginFormProps) {
           autoComplete="current-password"
           value={formData.password}
           onChange={handleInputChange}
-          className="bg-white text-black border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6]"
+          className="bg-white text-[#7E26A6] border-gray-300 focus:border-[#7E26A6] focus:ring-[#7E26A6] placeholder:text-gray-400"
         />
       </div>
       

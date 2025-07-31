@@ -29,28 +29,28 @@ export function HotelRevenueCalculator() {
         return {
           emptyRoomsLabel: 'SUS HABITACIONES VACÍAS\nPROMEDIO DIARIAS?',
           monthlyPriceLabel: 'PRECIO MENSUAL\n(USD)?',
-          resultTitle: 'INGRESOS ADICIONALES ANUALES (USD) *',
+          resultTitle: 'INGRESOS ADICIONALES ANUALES*',
           resultPrefix: ''
         };
       case 'pt':
         return {
           emptyRoomsLabel: 'SEUS QUARTOS VAZIOS\nMÉDIOS DIÁRIOS?',
           monthlyPriceLabel: 'PREÇO MENSAL\n(USD)?',
-          resultTitle: 'RECEITA ADICIONAL ANUAL (USD) *',
+          resultTitle: 'RECEITA ADICIONAL ANUAL*',
           resultPrefix: ''
         };
       case 'ro':
         return {
           emptyRoomsLabel: 'CAMERELE DUMNEAVOASTRĂ GOALE\nZILNICE ÎN MEDIE?',
           monthlyPriceLabel: 'PREȚ LUNAR\n(USD)?',
-          resultTitle: 'VENITURI SUPLIMENTARE ANUALE (USD) *',
+          resultTitle: 'VENITURI SUPLIMENTARE ANUALE*',
           resultPrefix: ''
         };
       default:
         return {
           emptyRoomsLabel: 'YOUR AVERAGE DAILY\nEMPTY ROOMS?',
           monthlyPriceLabel: 'AVERAGE MONTHLY\nPRICE (USD)?',
-          resultTitle: 'ADDITIONAL YEARLY REVENUE (USD) *',
+          resultTitle: 'ADDITIONAL YEARLY REVENUE*',
           resultPrefix: ''
         };
     }
@@ -109,8 +109,14 @@ export function HotelRevenueCalculator() {
                   {labels.resultTitle}
                 </p>
                 <p className="text-white text-2xl font-bold">
-                  {formatCurrency(calculatedRevenue)}
+                  {formatCurrency(calculatedRevenue)} USD
                 </p>
+                <div className="mt-3">
+                  <p className="text-white/80 text-sm text-center">
+                    (Almost pure profit: empty rooms<br />
+                    already have all fixed costs paid)
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -285,6 +285,7 @@ export type Database = {
           full_name: string
           id: string
           is_active: boolean | null
+          referral_code: string | null
           total_earned: number | null
           total_paid: number | null
           total_pending: number | null
@@ -299,6 +300,7 @@ export type Database = {
           full_name: string
           id?: string
           is_active?: boolean | null
+          referral_code?: string | null
           total_earned?: number | null
           total_paid?: number | null
           total_pending?: number | null
@@ -313,6 +315,7 @@ export type Database = {
           full_name?: string
           id?: string
           is_active?: boolean | null
+          referral_code?: string | null
           total_earned?: number | null
           total_paid?: number | null
           total_pending?: number | null
@@ -584,6 +587,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          referral_code: string | null
           responsible_person: string
           status: string | null
           updated_at: string
@@ -596,6 +600,7 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          referral_code?: string | null
           responsible_person: string
           status?: string | null
           updated_at?: string
@@ -608,6 +613,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          referral_code?: string | null
           responsible_person?: string
           status?: string | null
           updated_at?: string
@@ -1283,6 +1289,7 @@ export type Database = {
           last_name: string | null
           phone: string | null
           preferred_language: string | null
+          referral_code: string | null
           role: string | null
           updated_at: string
         }
@@ -1298,6 +1305,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
+          referral_code?: string | null
           role?: string | null
           updated_at?: string
         }
@@ -1313,6 +1321,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           preferred_language?: string | null
+          referral_code?: string | null
           role?: string | null
           updated_at?: string
         }

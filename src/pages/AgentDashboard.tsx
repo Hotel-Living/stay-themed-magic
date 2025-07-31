@@ -24,6 +24,7 @@ interface Agent {
   total_earned: number;
   total_paid: number;
   total_pending: number;
+  referral_code: string;
 }
 
 interface AgentHotel {
@@ -422,7 +423,16 @@ const AgentDashboard = () => {
                             readOnly
                           />
                         </div>
-                        <div className="md:col-span-2">
+                        <div>
+                          <Label className="text-white">Código de Referido</Label>
+                          <Input
+                            value={agent.referral_code || ''}
+                            className="bg-white/10 border-white/20 text-white"
+                            readOnly
+                            placeholder="Generado automáticamente"
+                          />
+                        </div>
+                        <div>
                           <Label className="text-white">{t('dashboard.profile.bank_account')}</Label>
                           <Input
                             value={agent.bank_account || ''}

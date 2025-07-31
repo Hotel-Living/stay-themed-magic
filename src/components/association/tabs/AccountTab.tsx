@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { User, Mail, Phone, MapPin, Building, CreditCard } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Building, CreditCard, Hash } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/context/AuthContext';
 
 export const AccountTab = () => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: 'Asociación Marítima',
     responsibleName: 'Juan Pérez',
@@ -17,6 +20,25 @@ export const AccountTab = () => {
     description: 'Asociación dedicada a hoteles marítimos',
     bankAccount: 'ES12 3456 7890 1234 5678 9012'
   });
+  const [referralCode, setReferralCode] = useState<string>('');
+
+  useEffect(() => {
+    const fetchReferralCode = async () => {
+      if (!user?.id) return;
+      
+      const { data, error } = await supabase
+        .from('hotel_associations')
+        .select('referral_code')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      
+      if (data?.referral_code) {
+        setReferralCode(data.referral_code);
+      }
+    };
+
+    fetchReferralCode();
+  }, [user?.id]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -116,6 +138,20 @@ export const AccountTab = () => {
               value={formData.bankAccount}
               onChange={(e) => handleInputChange('bankAccount', e.target.value)}
               className="bg-slate-800/50 border-blue-500/20 text-white"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="referralCode" className="text-white flex items-center gap-2">
+              <Hash className="w-4 h-4 text-blue-400" />
+              Código de Referido
+            </Label>
+            <Input
+              id="referralCode"
+              value={referralCode}
+              className="bg-slate-800/50 border-blue-500/20 text-white"
+              readOnly
+              placeholder="Generado automáticamente"
             />
           </div>
 

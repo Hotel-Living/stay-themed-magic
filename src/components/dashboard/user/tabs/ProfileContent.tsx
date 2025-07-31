@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { UserRoles } from "@/components/dashboard/user/UserRoles";
 import { MyAffinities } from "@/components/dashboard/user/MyAffinities";
 import { AvatarUpload } from "@/components/dashboard/user/AvatarUpload";
 import { UserAffinities } from "@/components/dashboard/user/UserAffinities";
+import { Hash } from "lucide-react";
 
 const ProfileContent = () => {
   const { profile, user } = useAuth();
@@ -19,6 +20,25 @@ const ProfileContent = () => {
   const [phone, setPhone] = useState(profile?.phone || "");
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [referralCode, setReferralCode] = useState<string>('');
+
+  useEffect(() => {
+    const fetchReferralCode = async () => {
+      if (!user?.id || !profile?.is_hotel_owner) return;
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('referral_code')
+        .eq('id', user.id)
+        .maybeSingle();
+      
+      if (data?.referral_code) {
+        setReferralCode(data.referral_code);
+      }
+    };
+
+    fetchReferralCode();
+  }, [user?.id, profile?.is_hotel_owner]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,6 +174,17 @@ const ProfileContent = () => {
                   <p className="text-sm text-muted-foreground">Phone Number</p>
                   <p className="font-medium">{profile?.phone || "-"}</p>
                 </div>
+                {profile?.is_hotel_owner && (
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                      <Hash className="w-4 h-4" />
+                      Código de Referido
+                    </p>
+                    <p className="font-medium font-mono bg-muted px-3 py-2 rounded-md inline-block">
+                      {referralCode || "Generado automáticamente"}
+                    </p>
+                  </div>
+                )}
                 <Button type="button" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </Button>

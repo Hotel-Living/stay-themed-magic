@@ -15,12 +15,12 @@ export function AssociationMiniCalculator() {
   const associationEarnings = (hotelSales / 100) * 4;
 
   return (
-    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-      <div className="max-w-4xl mx-auto">
+    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-3xl mx-auto">
+      <div className="mx-auto">
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase">
-              HOTELES
+            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
+              ¿CUÁNTOS HOTELES AFILIADOS?
             </label>
             <Input
               type="number"
@@ -31,8 +31,8 @@ export function AssociationMiniCalculator() {
           </div>
           
           <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase">
-              HABITACIONES
+            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
+              ¿CUÁNTAS HABITACIONES VACÍAS DIARIAS DE MEDIA?
             </label>
             <Input
               type="number"
@@ -43,8 +43,8 @@ export function AssociationMiniCalculator() {
           </div>
           
           <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase">
-              DÓLARES
+            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
+              ¿PRECIO MENSUAL POR HABITACIÓN?
             </label>
             <Input
               type="number"

@@ -55,7 +55,7 @@ export default function AssociationSlug() {
             
             {/* 1️⃣ Personalized Header */}
             <div className="text-center mb-16">
-              <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
+              <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-3xl mx-auto">
                 <h1 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed">
                   Estimada {associationName}
                 </h1>
@@ -94,8 +94,8 @@ export default function AssociationSlug() {
 
             {/* 7️⃣ Society Has Changed Section */}
             <div className="mb-16">
-              <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-                <div className="max-w-4xl mx-auto">
+              <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-4xl mx-auto">
+                <div className="mx-auto">
                   <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8">
                     LA SOCIEDAD HA CAMBIADO. NUESTRO MODELO NO.
                   </h3>

@@ -1,130 +1,97 @@
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useTranslation } from "@/hooks/useTranslation";
 
 export function AssociationAccordion() {
-  const { t } = useTranslation('hotelAssociation');
-
-  // Helper function to safely get array translations
-  const getArrayTranslation = (key: string): string[] => {
-    const result = t(key, { returnObjects: true });
-    
-    if (Array.isArray(result) && result.every(item => typeof item === 'string')) {
-      return result as string[];
-    }
-    
-    return [];
-  };
-
   return (
-    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-6 md:p-8 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-      <Accordion type="multiple" className="space-y-4">
-        
-        {/* Point 3: Association Benefits */}
-        <AccordionItem value="association-benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
-          <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-            <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide uppercase">
-              ¿Qué ventajas obtienen sus hoteles asociados por registrarse a través de su asociación?
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 bg-white/3">
-            <div className="space-y-6 pt-4">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h4 className="text-lg font-bold text-yellow-300 mb-4 flex items-center">
-                    📊 {t('accordionSection3.profitabilityTitle')}
-                  </h4>
-                  <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                    {getArrayTranslation('accordionSection3.profitabilityPoints').map((point: string, index: number) => 
-                      <li key={index}>{point}</li>
-                    )}
+    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-4xl mx-auto">
+      <div className="mx-auto">
+        <Accordion type="single" collapsible className="space-y-4">
+          
+          <AccordionItem value="advantages">
+            <AccordionTrigger className="text-2xl font-bold text-yellow-300 uppercase hover:text-yellow-200">
+              ¿QUÉ VENTAJAS OBTIENEN SUS HOTELES ASOCIADOS POR REGISTRARSE A TRAVÉS DE SU ASOCIACIÓN?
+            </AccordionTrigger>
+            <AccordionContent className="text-white space-y-4">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Rentabilidad</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Multiplicamos la rentabilidad por huésped hasta 7 veces más que el modelo tradicional hotelero.</li>
+                    <li className="text-sm">• Garantizamos un 5% de beneficio neto inmediato por cada reserva confirmada.</li>
+                    <li className="text-sm">• Eliminamos la estacionalidad: alta ocupación los 12 meses del año.</li>
+                    <li className="text-sm">• Transformamos habitaciones vacías en ingresos constantes y predecibles.</li>
                   </ul>
                 </div>
-
-                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h4 className="text-lg font-bold text-yellow-300 mb-4 flex items-center">
-                    📜 {t('accordionSection3.costsTitle')}
-                  </h4>
-                  <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                    {getArrayTranslation('accordionSection3.costsPoints').map((point: string, index: number) => 
-                      <li key={index}>{point}</li>
-                    )}
-                  </ul>
-                </div>
-
-                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h4 className="text-lg font-bold text-yellow-300 mb-4 flex items-center">
-                    💼 {t('accordionSection3.staffTitle')}
-                  </h4>
-                  <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                    {getArrayTranslation('accordionSection3.staffPoints').map((point: string, index: number) => 
-                      <li key={index}>{point}</li>
-                    )}
-                  </ul>
-                </div>
-
-                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h4 className="text-lg font-bold text-yellow-300 mb-4 flex items-center">
-                    💰 {t('accordionSection3.economicTitle')}
-                  </h4>
-                  <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                    {getArrayTranslation('accordionSection3.economicPoints').map((point: string, index: number) => 
-                      <li key={index}>{point}</li>
-                    )}
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Reducción de Costes</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Reducimos drásticamente los costes de marketing y adquisición de clientes.</li>
+                    <li className="text-sm">• Eliminamos intermediarios costosos y comisiones excesivas de OTAs.</li>
+                    <li className="text-sm">• Simplificamos la operativa diaria con un modelo de gestión unificado.</li>
+                    <li className="text-sm">• Optimizamos el uso de recursos al consolidar entradas y salidas semanalmente.</li>
                   </ul>
                 </div>
               </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        {/* Point 4: Millions of Clients Waiting */}
-        <AccordionItem value="clients-waiting" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
-          <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-            <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide uppercase">
-              Cientos de millones de clientes están esperando
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 bg-white/3">
-            <div className="space-y-6 pt-4">
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-lg text-white/90 leading-relaxed">
-                  {t('accordionSection4.intro')}
-                </p>
-                
-                <div className="grid md:grid-cols-2 gap-8 mt-6">
-                  <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                    <h4 className="text-lg font-bold text-yellow-300 mb-4">
-                      {t('accordionSection4.demographicsTitle')}
-                    </h4>
-                    <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                      {getArrayTranslation('accordionSection4.demographicsPoints').map((point: string, index: number) => 
-                        <li key={index}>{point}</li>
-                      )}
-                    </ul>
-                  </div>
-
-                  <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                    <h4 className="text-lg font-bold text-yellow-300 mb-4">
-                      {t('accordionSection4.socialTitle')}
-                    </h4>
-                    <ul className="list-disc list-inside space-y-2 text-base text-white/80 leading-relaxed">
-                      {getArrayTranslation('accordionSection4.socialPoints').map((point: string, index: number) => 
-                        <li key={index}>{point}</li>
-                      )}
-                    </ul>
-                  </div>
+              
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Personal y Operaciones</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Proporcionamos estabilidad laboral absoluta durante todo el año.</li>
+                    <li className="text-sm">• Simplificamos la gestión de housekeeping con turnos planificados.</li>
+                    <li className="text-sm">• Reducimos el estrés operativo con ocupaciones largas y predecibles.</li>
+                    <li className="text-sm">• Creamos un ambiente de trabajo más relajado y profesional.</li>
+                  </ul>
                 </div>
-
-                <p className="text-lg text-yellow-300 font-semibold mt-6">
-                  {t('accordionSection4.conclusion')}
-                </p>
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Beneficios Económicos Adicionales</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Sin costes de integración, adaptación o formación específica.</li>
+                    <li className="text-sm">• Sin contratos forzosos, suscripciones o cuotas mensuales.</li>
+                    <li className="text-sm">• Acceso inmediato a una base de clientes globales segmentados.</li>
+                    <li className="text-sm">• Ingresos adicionales por servicios complementarios y experiencias locales.</li>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+            </AccordionContent>
+          </AccordionItem>
 
-      </Accordion>
+          <AccordionItem value="clients">
+            <AccordionTrigger className="text-2xl font-bold text-yellow-300 uppercase hover:text-yellow-200">
+              CIENTOS DE MILLONES DE CLIENTES ESTÁN ESPERANDO
+            </AccordionTrigger>
+            <AccordionContent className="text-white space-y-4">
+              <p className="text-lg leading-relaxed">La revolución del turismo residencial ya está aquí. Millones de personas buscan alternativas al modelo tradicional de estancias cortas, y su asociación puede liderar esta transformación en su mercado.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Perfil Demográfico</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Nómadas digitales: +50 millones globalmente, creciendo 20% anual.</li>
+                    <li className="text-sm">• Profesionales en transición que buscan flexibilidad geográfica.</li>
+                    <li className="text-sm">• Jubilados activos con poder adquisitivo y tiempo para viajar.</li>
+                    <li className="text-sm">• Estudiantes internacionales y profesionales en programas de intercambio.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Cambio Social</h4>
+                  <ul className="space-y-2">
+                    <li className="text-sm">• Trabajo remoto normalizado post-pandemia en múltiples sectores.</li>
+                    <li className="text-sm">• Preferencia creciente por experiencias auténticas vs. turismo masivo.</li>
+                    <li className="text-sm">• Búsqueda de comunidades temporales con afinidades compartidas.</li>
+                    <li className="text-sm">• Valoración de la sostenibilidad y el impacto positivo local.</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-yellow-300/20 rounded-lg border border-yellow-300/40">
+                <p className="text-yellow-100 font-semibold text-center">Su asociación puede ser pionera en capturar esta demanda masiva inexplorada, generando beneficios extraordinarios para todos sus miembros.</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+        </Accordion>
+      </div>
     </div>
   );
 }

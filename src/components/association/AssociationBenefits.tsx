@@ -19,12 +19,12 @@ export function AssociationBenefits() {
   ];
 
   return (
-    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-      <h2 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">
+    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-3xl mx-auto">
+      <h2 className="text-lg md:text-xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">
         Beneficios directos para sus miembros afiliados
       </h2>
       
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto">
         {benefits.map((benefit, index) => (
           <div key={index} className="flex items-start space-x-4 mb-4">
             <span className="text-green-400 text-2xl mt-1">✓</span>

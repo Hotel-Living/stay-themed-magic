@@ -102,6 +102,7 @@ import esHotelCrisis from './locales/es/hotel-crisis.json';
 import esHotelAccordion from './locales/es/hotel-accordion.json';
 import esHotelAssociation from './locales/es/hotelAssociation.json';
 import esAssociationRegistration from './locales/es/associationRegistration.json';
+import esAssociationSlug from './locales/es/associationSlug.json';
 import esDashboardHotelRegistration from './locales/es/dashboard/hotel-registration.json';
 import esHotel from './locales/es/hotel.json';
 import esUI from './locales/es/ui.json';
@@ -306,6 +307,7 @@ const resources = {
     'hotel-accordion': esHotelAccordion,
     hotelAssociation: esHotelAssociation,
     associationRegistration: esAssociationRegistration,
+    associationSlug: esAssociationSlug,
     hotel: esHotel,
     ui: esUI,
     system: esSystem,

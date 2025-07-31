@@ -69,6 +69,7 @@ import AgentRegistration from "@/pages/AgentRegistration";
 import AgentDashboard from "@/pages/AgentDashboard";
 import HotelAssociation from "@/pages/HotelAssociation";
 import AssociationRegistration from "@/pages/AssociationRegistration";
+import AssociationSlug from "@/pages/AssociationSlug";
 import { AssociationDashboard } from "@/components/association/AssociationDashboard";
 import AmbassadorsList from "@/pages/AmbassadorsList";
 import AmbassadorsUSA from "@/pages/AmbassadorsUSA";
@@ -143,6 +144,7 @@ function MainAppRoutes() {
             <Route path="/panel-agente" element={<AgentDashboard />} />
             <Route path="/asociacion" element={<HotelAssociation />} />
             <Route path="/asociacion/registro" element={<AssociationRegistration />} />
+            <Route path="/association/:slug" element={<AssociationSlug />} />
             <Route path="/panel-asociacion" element={<AssociationDashboard />} />
             <Route path="/ambassadors" element={<AmbassadorsList />} />
             <Route path="/ambassadors/usa" element={<AmbassadorsUSA />} />

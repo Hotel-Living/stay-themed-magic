@@ -1,0 +1,49 @@
+{
+  "fallbackAssociation": "Estimada Asociación",
+  "greeting": "Estimada {{associationName}}",
+  "question": "¿Cuánto dinero pierden cada año ustedes y sus hoteles por tantas habitaciones vacías?",
+  "calculatorTitle": "Calculadora Integrada",
+  "resultsTitle": "RESULTADOS INSTANTÁNEOS",
+  "slogans": {
+    "title": "Eslóganes Introductorios",
+    "items": [
+      "SOMOS HOTEL-LIVING.COM",
+      "SOMOS POSIBLE OCUPACIÓN MASIVA PARA SUS HOTELES AFILIADOS",
+      "SOMOS UNA GRAN FUENTE DE INGRESOS PARA SU ASOCIACIÓN",
+      "SOMOS LA REVOLUCIÓN HOTELERA MUNDIAL QUE SU ASOCIACIÓN PUEDE SER LA PRIMERA EN COMUNICAR A SUS AFILIADOS"
+    ]
+  },
+  "benefits": {
+    "title": "Beneficios directos para sus miembros afiliados",
+    "items": [
+      "Acabamos con las temporadas medias y bajas.",
+      "Multiplicamos radicalmente los beneficios hoteleros.",
+      "Activamos el 100 % de la rentabilidad de las habitaciones vacías.",
+      "El hotel cobra por anticipado el 5 % de cada reserva, beneficio neto no reembolsable.",
+      "Recuperamos a los clientes que se fueron a Airbnb.",
+      "Reducimos los costes operativos.",
+      "Traemos estancias más largas y rentables.",
+      "Unificamos entradas y salidas en un solo día semanal.",
+      "Simplificamos la gestión diaria.",
+      "Damos absoluta estabilidad de personal.",
+      "Llenamos de vida y atractivo los hoteles.",
+      "Llevamos a los hoteles sus clientes ideales según afinidades elegidas por el propio hotel.",
+      "Conectamos a su asociación con una nueva era de rentabilidad, estabilidad y sentido.",
+      "Sin suscripciones – Sin membresías – Sin cuotas mensuales – Sin contratos forzosos – Sin costes anticipados – Sin adaptaciones."
+    ]
+  },
+  "offers": {
+    "title": "Qué ofrecemos a su asociación",
+    "firstPeriod": "4% de las reservas generadas por sus hoteles durante los primeros 18 meses",
+    "secondPeriod": "2% durante los 12 meses siguientes",
+    "note": "Este ingreso no afecta en nada a los hoteles, proviene de nuestro propio coste de gestión y puede ser reinvertido en beneficio de la asociación y sus miembros."
+  },
+  "societyChanged": {
+    "title": "LA SOCIEDAD HA CAMBIADO. NUESTRO MODELO NO.",
+    "content": [
+      "Como es sabido Las grandes cadenas hoteleras (Hyatt, Marriott, Hilton, Accor, IHG, Radisson y muchas más) hace ya años que están rentabilizando y ampliando el nuevo modelo social que nuestra sociedad va imponiendo: las estancias residenciales en hoteles, de media y larga duración.",
+      "¿SÓLO PARA LAS GRANDES CADENAS HOTELERAS?",
+      "Mientras estas expanden sin cesar sus modelos residenciales, centenares de miles de pequeños hoteles independientes y cadenas pequeñas o medianas no han podido rentabilizar hasta ahora este modelo, ni acceder a sus inmensos beneficios, por falta de una herramienta común especializada y accesible."
+    ]
+  }
+}

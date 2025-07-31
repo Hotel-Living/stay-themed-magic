@@ -15,7 +15,7 @@ export function HotelSlogansEN() {
         </div>
         
         {/* Blue glow wrapper for slogans block */}
-        <div className="relative group mx-auto max-w-4xl">
+        <div className="relative group w-fit mx-auto">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div className="relative space-y-2 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-0 py-[13px] my-[17px] transition-all duration-300 hover:border-fuchsia-400/40 bg-[#720ba1] w-fit mx-auto">
           <p className="text-base sm:text-lg md:text-xl text-center text-[#8017B0] font-bold animate-text-slow py-2 sm:py-[11px] my-2 sm:my-[17px] px-1 animate-fade-in transition-all duration-300 hover:scale-105" style={{

@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { HotelSlogans } from "@/components/hotels/HotelSlogans";
+import { HotelSlogans, HotelTitle } from "@/components/hotels/HotelSlogans";
 import { HotelNewAccordionMenu } from "@/components/hotels/HotelNewAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
@@ -52,13 +52,19 @@ export default function Hotels() {
       
       <main className="flex-1 pt-8 relative z-10">
         <div className="container mx-auto px-2 sm:px-4 py-3 flex flex-col items-center">
+          {/* Hotel Title */}
           <div className="animate-fade-in w-full">
-            <HotelSlogans />
+            <HotelTitle />
           </div>
           
-          {/* Hotel Revenue Calculator */}
-          <div className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+          {/* Hotel Revenue Calculator - positioned right after title */}
+          <div className="animate-fade-in mt-6" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
             <HotelRevenueCalculator />
+          </div>
+          
+          {/* Hotel Slogans - positioned after calculator */}
+          <div className="animate-fade-in w-full mt-6" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+            <HotelSlogans />
           </div>
           
           {/* Professional Study Text Link */}

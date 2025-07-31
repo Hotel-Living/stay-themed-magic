@@ -1,21 +1,27 @@
 import { useTranslation } from "@/hooks/useTranslation";
+// Title component
+export function HotelTitleEN() {
+  const { t } = useTranslation('hotels');
+  return (
+    <div className="space-y-3 animate-fade-in px-8">
+      {/* Blue glow wrapper for main title */}
+      <div className="relative group w-fit mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <h1 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 mx-auto shadow-sm whitespace-nowrap">
+          <span className="px-[8px] text-center uppercase font-bold animate-pulse" style={{color: '#FFD700', animation: 'gentle-gold 3s ease-in-out infinite'}}>{t('slogans.mainTitle')}</span>
+        </h1>
+      </div>
+    </div>
+  );
+}
+
+// Slogans component (without title)
 export function HotelSlogansEN() {
-  const {
-    t
-  } = useTranslation('hotels');
-  return <>
-      {/* Main slogans */}
-      <div className="space-y-3 animate-fade-in px-8">
-        {/* Blue glow wrapper for main title */}
-        <div className="relative group w-fit mx-auto">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <h1 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 mx-auto shadow-sm whitespace-nowrap">
-            <span className="px-[8px] text-center uppercase font-bold animate-pulse" style={{color: '#FFD700', animation: 'gentle-gold 3s ease-in-out infinite'}}>{t('slogans.mainTitle')}</span>
-          </h1>
-        </div>
-        
-        {/* Blue glow wrapper for slogans block */}
-        <div className="relative group mx-auto max-w-4xl">
+  const { t } = useTranslation('hotels');
+  return (
+    <div className="space-y-3 animate-fade-in px-8">
+      {/* Blue glow wrapper for slogans block */}
+      <div className="relative group mx-auto max-w-4xl">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="relative space-y-2 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-2 py-[13px] my-[17px] transition-all duration-300 hover:border-fuchsia-400/40 bg-[#720ba1] w-fit mx-auto">
           <p className="text-base sm:text-lg md:text-xl text-center text-[#8017B0] font-bold animate-text-slow py-2 sm:py-[11px] my-2 sm:my-[17px] px-2 sm:px-4 animate-fade-in transition-all duration-300 hover:scale-105" style={{
@@ -105,5 +111,5 @@ export function HotelSlogansEN() {
           </div>
         </div>
       </div>
-    </>;
+    );
 }

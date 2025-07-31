@@ -62,7 +62,7 @@ export default function AssociationSlug() {
                 
                 <h2 className="text-xl md:text-2xl font-bold text-yellow-300 leading-relaxed">
                   <div>¿Cuánto dinero pierden cada año ustedes</div>
-                  <div>y sus hoteles por tantas habitaciones vacías?</div>
+                  <div>y sus hoteles por tantos miles de habitaciones vacías?</div>
                 </h2>
               </div>
             </div>
@@ -119,7 +119,20 @@ export default function AssociationSlug() {
               </div>
             </div>
 
-            {/* 8️⃣ Legal Disclaimer */}
+            {/* 8️⃣ CTA Button */}
+            <div className="mb-16 text-center">
+              <a
+                href="https://hotel-living.com/registerAssociation"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-purple-400/30 hover:border-purple-300/50"
+                style={{
+                  boxShadow: '0 0 30px rgba(168, 85, 247, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2)'
+                }}
+              >
+                Únase sin compromiso
+              </a>
+            </div>
+
+            {/* 9️⃣ Legal Disclaimer */}
             <AssociationDisclaimer />
 
           </div>

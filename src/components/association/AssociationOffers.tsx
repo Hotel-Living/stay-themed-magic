@@ -31,7 +31,7 @@ export function AssociationOffers() {
         <div className="bg-green-300/20 rounded-xl p-6 border border-green-300/40">
           <div className="text-white text-center text-lg leading-relaxed">
             <div><span className="font-bold text-green-300">Este ingreso no afecta en nada a los hoteles</span>.</div>
-            <div>Proviene de nuestro propio coste de gestión</div>
+            <div>Proviene de nuestro propio coste de gestión (10%)</div>
             <div>y puede ser reinvertido en beneficio de la asociación y sus miembros.</div>
           </div>
         </div>

@@ -17,6 +17,11 @@ export function AssociationMiniCalculator() {
   return (
     <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-2xl mx-auto">
       <div className="mx-auto">
+        {/* Calculator Title */}
+        <h3 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">
+          Calculadora online
+        </h3>
+        
         {/* Calculator embedded style */}
         <div className="bg-gray-100 rounded-xl p-6 border-2 border-gray-300 shadow-inner mb-8">
           <div className="grid md:grid-cols-3 gap-6 mb-6">

@@ -52,5 +52,8 @@
     "slogan21": "Conectăm hotelul dvs. cu o eră nouă.\n\nProfitabilitate, stabilitate și sens."
   },
   "professionalStudy": "STUDIU GRATUIT\nObțineți un studiu tehnic și în persoană complet\ndespre hotelul dumneavoastră și posibilitățile sale de dezvoltare.",
-  "linkText": "Portretul Crizei Hoteliere"
+  "linkText": "Portretul Crizei Hoteliere",
+  "calculator": {
+    "profitExplanation": "(Profit aproape pur: camerele goale\nau deja toate costurile fixe plătite)"
+  }
 }

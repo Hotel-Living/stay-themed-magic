@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelRevenueCalculator() {
-  const { language } = useTranslation();
+  const { language, t } = useTranslation();
   const [emptyRooms, setEmptyRooms] = useState<string>('10');
   const [monthlyPrice, setMonthlyPrice] = useState<string>('1500');
 
@@ -113,8 +113,7 @@ export function HotelRevenueCalculator() {
                 </p>
                 <div className="mt-3">
                   <p className="text-white/80 text-base text-center">
-                    (Almost pure profit: empty rooms<br />
-                    already have all fixed costs paid)
+                    {t('hotels:calculator.profitExplanation')}
                   </p>
                 </div>
               </div>

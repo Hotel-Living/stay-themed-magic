@@ -3,7 +3,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelRevenueCalculator() {
   const { language } = useTranslation();
-  const [emptyRooms, setEmptyRooms] = useState<string>('');
+  const [emptyRooms, setEmptyRooms] = useState<string>('10');
   const [monthlyPrice, setMonthlyPrice] = useState<string>('1500');
 
   const calculatedRevenue = useMemo(() => {
@@ -27,31 +27,31 @@ export function HotelRevenueCalculator() {
     switch (language) {
       case 'es':
         return {
-          emptyRoomsLabel: 'SUS HABITACIONES VACÍAS\nPROMEDIO DIARIAS',
-          monthlyPriceLabel: 'PRECIO MENSUAL\n(USD)',
+          emptyRoomsLabel: 'SUS HABITACIONES VACÍAS\nPROMEDIO DIARIAS?',
+          monthlyPriceLabel: 'PRECIO MENSUAL\n(USD)?',
           resultTitle: 'INGRESOS ADICIONALES ANUALES (USD) *',
-          resultPrefix: 'USD'
+          resultPrefix: ''
         };
       case 'pt':
         return {
-          emptyRoomsLabel: 'SEUS QUARTOS VAZIOS\nMÉDIOS DIÁRIOS',
-          monthlyPriceLabel: 'PREÇO MENSAL\n(USD)',
+          emptyRoomsLabel: 'SEUS QUARTOS VAZIOS\nMÉDIOS DIÁRIOS?',
+          monthlyPriceLabel: 'PREÇO MENSAL\n(USD)?',
           resultTitle: 'RECEITA ADICIONAL ANUAL (USD) *',
-          resultPrefix: 'USD'
+          resultPrefix: ''
         };
       case 'ro':
         return {
-          emptyRoomsLabel: 'CAMERELE DUMNEAVOASTRĂ GOALE\nZILNICE ÎN MEDIE',
-          monthlyPriceLabel: 'PREȚ LUNAR\n(USD)',
+          emptyRoomsLabel: 'CAMERELE DUMNEAVOASTRĂ GOALE\nZILNICE ÎN MEDIE?',
+          monthlyPriceLabel: 'PREȚ LUNAR\n(USD)?',
           resultTitle: 'VENITURI SUPLIMENTARE ANUALE (USD) *',
-          resultPrefix: 'USD'
+          resultPrefix: ''
         };
       default:
         return {
-          emptyRoomsLabel: 'YOUR AVERAGE DAILY\nEMPTY ROOMS',
-          monthlyPriceLabel: 'AVERAGE MONTHLY\nPRICE (USD)',
+          emptyRoomsLabel: 'YOUR AVERAGE DAILY\nEMPTY ROOMS?',
+          monthlyPriceLabel: 'AVERAGE MONTHLY\nPRICE (USD)?',
           resultTitle: 'ADDITIONAL YEARLY REVENUE (USD) *',
-          resultPrefix: 'USD'
+          resultPrefix: ''
         };
     }
   };
@@ -72,7 +72,7 @@ export function HotelRevenueCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Empty Rooms Input */}
                  <div className="space-y-2">
-                   <label className="block text-white font-medium text-sm text-center whitespace-pre-line uppercase">
+                    <label className="block text-white font-medium text-base text-center whitespace-pre-line uppercase">
                      {labels.emptyRoomsLabel}
                    </label>
                   <input
@@ -88,7 +88,7 @@ export function HotelRevenueCalculator() {
                 
                  {/* Monthly Price Input */}
                  <div className="space-y-2">
-                   <label className="block text-white font-medium text-sm text-center whitespace-pre-line uppercase">
+                   <label className="block text-white font-medium text-base text-center whitespace-pre-line uppercase">
                      {labels.monthlyPriceLabel}
                    </label>
                   <input
@@ -109,7 +109,7 @@ export function HotelRevenueCalculator() {
                   {labels.resultTitle}
                 </p>
                 <p className="text-white text-2xl font-bold">
-                  {labels.resultPrefix} {formatCurrency(calculatedRevenue)}
+                  {formatCurrency(calculatedRevenue)}
                 </p>
               </div>
             </div>

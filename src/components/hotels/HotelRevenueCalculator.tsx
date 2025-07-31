@@ -72,7 +72,7 @@ export function HotelRevenueCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Empty Rooms Input */}
                  <div className="space-y-2">
-                    <label className="block text-white font-medium text-base text-center whitespace-pre-line uppercase">
+                    <label className="block text-white font-bold text-base text-center whitespace-pre-line uppercase">
                      {labels.emptyRoomsLabel}
                    </label>
                   <input
@@ -82,13 +82,13 @@ export function HotelRevenueCalculator() {
                     placeholder="0"
                     min="0"
                     step="1"
-                    className="w-full px-4 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 focus:border-transparent transition-all duration-300 text-center text-xl"
                   />
                 </div>
                 
                  {/* Monthly Price Input */}
                  <div className="space-y-2">
-                   <label className="block text-white font-medium text-base text-center whitespace-pre-line uppercase">
+                   <label className="block text-white font-bold text-base text-center whitespace-pre-line uppercase">
                      {labels.monthlyPriceLabel}
                    </label>
                   <input
@@ -98,7 +98,7 @@ export function HotelRevenueCalculator() {
                     placeholder="1500"
                     min="0"
                     step="50"
-                    className="w-full px-4 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 focus:border-transparent transition-all duration-300 text-center text-xl"
                   />
                 </div>
               </div>
@@ -109,7 +109,7 @@ export function HotelRevenueCalculator() {
                   {labels.resultTitle}
                 </p>
                 <p className="text-white text-2xl font-bold">
-                  {formatCurrency(calculatedRevenue)} USD
+                  {formatCurrency(calculatedRevenue)}
                 </p>
               </div>
             </div>

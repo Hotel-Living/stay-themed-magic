@@ -148,11 +148,11 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(147,51,234,0.1),transparent_40%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_40%)]" />
       
-      <div className="container mx-auto px-4 py-8 relative z-10 space-y-8">
+      <div className="container mx-auto px-4 py-8 relative z-10 space-y-6">
         
-        {/* 1️⃣ IMAGE - Step 1 Basic Information */}
+        {/* 1️⃣ IMAGE - Main hotel photo at top */}
         <div className={`${sectionClass(0)}`}>
-          <div className="relative h-[60vh] rounded-2xl overflow-hidden shadow-2xl">
+          <div className="relative h-[50vh] rounded-2xl overflow-hidden shadow-2xl">
             <img 
               src={getMainImage()}
               alt={hotel.name}
@@ -162,61 +162,106 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           </div>
         </div>
 
-        {/* 2️⃣ HOTEL IDENTIFICATION - Steps 1-2 */}
-        <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(1)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-          <div className="text-center space-y-3">
-            <h1 className="text-3xl font-bold text-white drop-shadow-lg">
-              {hotel.name}
-            </h1>
-            <div className="flex items-center justify-center gap-2 text-white/90">
-              <MapPin className="w-4 h-4" />
-              <span className="text-sm">{hotel.address}, {hotel.city}, {hotel.country}</span>
+        {/* 2️⃣ THREE-COLUMN LAYOUT: Text block | Hotel name & address | Price */}
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(1)}`}>
+          {/* Left: Property type, style, duration and services text */}
+          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+            <div className="text-left space-y-1">
+              {formatPropertyTypeStayText().map((line, index) => (
+                <div key={index} className="text-xs text-white leading-relaxed">
+                  {line}
+                </div>
+              ))}
             </div>
-            {hotel.category && (
-              <div className="flex items-center justify-center gap-1">
-                {Array.from({ length: hotel.category }).map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+          </div>
+
+          {/* Center: Hotel name and address */}
+          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+            <div className="text-center space-y-2">
+              <h1 className="text-xl font-bold text-white drop-shadow-lg">
+                {hotel.name}
+              </h1>
+              <div className="flex items-center justify-center gap-2 text-white/90">
+                <MapPin className="w-3 h-3" />
+                <span className="text-xs">{hotel.address}, {hotel.city}, {hotel.country}</span>
+              </div>
+              {hotel.category && (
+                <div className="flex items-center justify-center gap-1">
+                  {Array.from({ length: hotel.category }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Proportional monthly price */}
+          {getProportionalPriceText() && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+              <p className="text-xs text-white leading-relaxed text-center font-semibold">
+                {getProportionalPriceText()}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* 3️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(2)}`}>
+          {/* Left: Hotel Features */}
+          {getSelectedFeatures(hotel.features_hotel).length > 0 && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+              <h3 className="text-sm font-bold text-white mb-3 text-center">
+                Amenidades del Hotel
+              </h3>
+              <div className="grid grid-cols-1 gap-1">
+                {getSelectedFeatures(hotel.features_hotel).slice(0, 6).map((feature, index) => (
+                  <div key={index} className="flex items-center gap-2 text-white">
+                    <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                    <span className="capitalize text-xs">{feature}</span>
+                  </div>
                 ))}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          )}
 
-        {/* 3️⃣ PROPERTY TYPE, STYLE, DURATIONS, MEAL, LAUNDRY - Steps 3,4,8,9,12,13 */}
-        <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(2)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-          <div className="text-left space-y-1">
-            {formatPropertyTypeStayText().map((line, index) => (
-              <div key={index} className="text-sm text-white leading-relaxed">
-                {line}
+          {/* Center: Google Map */}
+          {hotel.address && (
+            <div className="bg-white rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+              <h2 className="text-sm font-bold text-gray-800 mb-3 text-center">Ubicación</h2>
+              <div className="bg-gray-200 rounded-xl h-32 flex items-center justify-center">
+                <div className="text-center text-gray-600">
+                  <MapPin className="w-8 h-8 mx-auto mb-2" />
+                  <p className="text-xs font-medium">Mapa de Google</p>
+                  <p className="text-xs">{hotel.city}, {hotel.country}</p>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {/* Right: Room Features */}
+          {getSelectedFeatures(hotel.features_room).length > 0 && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+              <h3 className="text-sm font-bold text-white mb-3 text-center">
+                Amenidades de la Habitación
+              </h3>
+              <div className="grid grid-cols-1 gap-1">
+                {getSelectedFeatures(hotel.features_room).slice(0, 6).map((feature, index) => (
+                  <div key={index} className="flex items-center gap-2 text-white">
+                    <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                    <span className="capitalize text-xs">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* 4️⃣ AFFINITIES AND ACTIVITIES - Steps 10,11 (optional) */}
-        {formatAffinitiesActivitiesText() && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(3)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-            <p className="text-sm text-white leading-relaxed text-center">
-              {formatAffinitiesActivitiesText()}
-            </p>
-          </div>
-        )}
-
-        {/* 5️⃣ PRICE REFERENCE - Step 16 Pricing Matrix */}
-        {getProportionalPriceText() && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(4)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-            <p className="text-sm text-white leading-relaxed text-center font-semibold">
-              {getProportionalPriceText()}
-            </p>
-          </div>
-        )}
-
-        {/* 6️⃣ COMPLETE PHRASES - Step 7 */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${sectionClass(5)}`}>
+        {/* 4️⃣ THREE DESCRIPTION BOXES */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${sectionClass(3)}`}>
           {hotel.ideal_guests && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-sm font-semibold text-purple-200 mb-2">
-                {t('detail.idealForGuests')}
+              <h3 className="text-xs font-semibold text-purple-200 mb-2">
+                Ideal para huéspedes que...
               </h3>
               <p className="text-xs text-white leading-relaxed">{hotel.ideal_guests}</p>
             </div>
@@ -224,8 +269,8 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           
           {hotel.atmosphere && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-sm font-semibold text-purple-200 mb-2">
-                {t('detail.atmosphere')}
+              <h3 className="text-xs font-semibold text-purple-200 mb-2">
+                El ambiente es...
               </h3>
               <p className="text-xs text-white leading-relaxed">{hotel.atmosphere}</p>
             </div>
@@ -233,95 +278,31 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           
           {hotel.perfect_location && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-sm font-semibold text-purple-200 mb-2">
-                {t('detail.locationPerfectFor')}
+              <h3 className="text-xs font-semibold text-purple-200 mb-2">
+                Nuestra ubicación es perfecta para...
               </h3>
               <p className="text-xs text-white leading-relaxed">{hotel.perfect_location}</p>
             </div>
           )}
         </div>
 
-        {/* 7️⃣ HOTEL DESCRIPTION - Step 5 */}
+        {/* 5️⃣ ABOUT OUR HOTEL DESCRIPTION */}
         {hotel.description && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(6)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-            <h2 className="text-xl font-bold text-white mb-4 text-center">
-              {t('detail.aboutOurHotel')}
+          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(4)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+            <h2 className="text-sm font-bold text-white mb-3 text-center">
+              Acerca de Nuestro Hotel
             </h2>
-            <p className="text-sm text-white leading-relaxed">
+            <p className="text-xs text-white leading-relaxed">
               {hotel.description}
             </p>
           </div>
         )}
 
-        {/* 8️⃣ ROOM DESCRIPTION - Step 6 */}
-        {hotel.additional_data?.room_description && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(7)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-            <h2 className="text-xl font-bold text-white mb-4 text-center">
-              Descripción de las Habitaciones
-            </h2>
-            <p className="text-sm text-white leading-relaxed">
-              {hotel.additional_data.room_description}
-            </p>
-          </div>
-        )}
-
-        {/* 9️⃣ FEATURES - Steps 8,9 */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${sectionClass(8)}`}>
-          {/* Hotel Features */}
-          {getSelectedFeatures(hotel.features_hotel).length > 0 && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-lg font-bold text-white mb-4 text-center">
-                {t('detail.hotelFeatures')}
-              </h3>
-              <div className="grid grid-cols-1 gap-2">
-                {getSelectedFeatures(hotel.features_hotel).map((feature, index) => (
-                  <div key={index} className="flex items-center gap-2 text-white">
-                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                    <span className="capitalize text-xs">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Room Features */}
-          {getSelectedFeatures(hotel.features_room).length > 0 && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-lg font-bold text-white mb-4 text-center">
-                {t('detail.roomFeatures')}
-              </h3>
-              <div className="grid grid-cols-1 gap-2">
-                {getSelectedFeatures(hotel.features_room).map((feature, index) => (
-                  <div key={index} className="flex items-center gap-2 text-white">
-                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                    <span className="capitalize text-xs">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* 🔟 MAP - Step 1 Address */}
-        {hotel.address && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(9)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-            <h2 className="text-xl font-bold text-white mb-4 text-center">Ubicación</h2>
-            <div className="bg-gray-200 rounded-xl h-48 flex items-center justify-center">
-              <div className="text-center text-gray-600">
-                <MapPin className="w-10 h-10 mx-auto mb-3" />
-                <p className="text-base font-medium">Mapa de Google</p>
-                <p className="text-xs">{hotel.address}, {hotel.city}, {hotel.country}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 11️⃣ AVAILABILITY PACKAGES - Step 15 */}
-        {/* Note: This would be populated from actual availability_packages data when available */}
-        <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-6 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(10)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-          <h2 className="text-xl font-bold text-white mb-4 text-center">Paquetes de Disponibilidad</h2>
+        {/* 6️⃣ AVAILABILITY PACKAGES */}
+        <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 ${sectionClass(5)}`} style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+          <h2 className="text-sm font-bold text-white mb-3 text-center">Paquetes de Disponibilidad</h2>
           <div className="text-center text-white/70">
-            <p className="text-sm">Los paquetes de disponibilidad aparecerán aquí cuando estén configurados.</p>
+            <p className="text-xs">Los paquetes de disponibilidad aparecerán aquí cuando estén configurados.</p>
           </div>
         </div>
 

@@ -12,7 +12,7 @@ const AmbassadorsList = () => {
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-[#7E00B3]/90 backdrop-blur-sm rounded-lg p-8 text-white shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-6 glow">🤝 CINE SUNT AMBASADORII HOTEL-LIVING?</h1>
+                
                 <div className="space-y-4 text-left max-w-4xl mx-auto">
                   <p className="text-lg">Sunt gazde, profesioniști din sector, sau adevărați îndrăgostiți de bogăția culturală și personală pe care o oferă călătoriile și cunoașterea lumii.</p>
                   

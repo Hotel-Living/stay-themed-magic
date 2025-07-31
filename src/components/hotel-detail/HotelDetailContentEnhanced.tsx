@@ -169,10 +169,10 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         {/* 2️⃣ THREE-COLUMN LAYOUT: Text block | Hotel name & address | Price */}
         <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(1)}`}>
           {/* Left: Property type, style, duration and services text */}
-          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 flex items-center justify-center" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
             <div className="text-center space-y-1">
               {formatPropertyTypeStayText().map((line, index) => (
-                <div key={index} className="text-lg text-white font-bold leading-relaxed">
+                <div key={index} className="text-base text-white font-bold leading-relaxed">
                   {line}
                 </div>
               ))}
@@ -201,15 +201,15 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
           {/* Right: Proportional monthly price */}
           {getProportionalPriceText() && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 flex items-center justify-center" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
               <div className="text-center space-y-1">
-                <div className="text-lg text-white font-bold leading-relaxed">
+                <div className="text-base text-white font-bold leading-relaxed">
                   {getProportionalPriceText()?.line1}
                 </div>
-                <div className="text-lg text-white font-bold leading-relaxed">
+                <div className="text-base text-white font-bold leading-relaxed">
                   {getProportionalPriceText()?.line2}
                 </div>
-                <div className="text-lg text-white font-bold leading-relaxed">
+                <div className="text-base text-white font-bold leading-relaxed">
                   {getProportionalPriceText()?.line3}
                 </div>
               </div>
@@ -272,28 +272,28 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${sectionClass(3)}`}>
           {hotel.ideal_guests && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-lg font-semibold text-purple-200 mb-2">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
                 Ideal para huéspedes que...
               </h3>
-              <p className="text-lg text-white leading-relaxed">{hotel.ideal_guests}</p>
+              <p className="text-base text-white leading-relaxed">{hotel.ideal_guests}</p>
             </div>
           )}
           
           {hotel.atmosphere && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-lg font-semibold text-purple-200 mb-2">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
                 El ambiente es...
               </h3>
-              <p className="text-lg text-white leading-relaxed">{hotel.atmosphere}</p>
+              <p className="text-base text-white leading-relaxed">{hotel.atmosphere}</p>
             </div>
           )}
           
           {hotel.perfect_location && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
-              <h3 className="text-lg font-semibold text-purple-200 mb-2">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
                 Nuestra ubicación es perfecta para...
               </h3>
-              <p className="text-lg text-white leading-relaxed">{hotel.perfect_location}</p>
+              <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
             </div>
           )}
         </div>
@@ -304,7 +304,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             <h2 className="text-base font-bold text-white mb-3 text-center">
               Acerca de Nuestro Hotel
             </h2>
-            <p className="text-lg text-white leading-relaxed">
+            <p className="text-base text-white leading-relaxed">
               {hotel.description}
             </p>
           </div>

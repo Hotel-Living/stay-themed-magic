@@ -17,8 +17,9 @@ const AmbassadorsList = () => {
                 <Link to="/ambassadors/usa" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg">
                   📊 Nuestros Embajadores
                 </Link>
-                <Link to="/auth" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg">
-                  Hágase Embajador
+                <Link to="/auth" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg text-center">
+                  <div>Hágase Embajador</div>
+                  <div className="text-sm">a través de su panel de usuario</div>
                 </Link>
               </div>
 

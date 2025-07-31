@@ -15,43 +15,46 @@ export function AssociationMiniCalculator() {
   const associationEarnings = (hotelSales / 100) * 4;
 
   return (
-    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-3xl mx-auto">
+    <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)] max-w-2xl mx-auto">
       <div className="mx-auto">
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
-              ¿CUÁNTOS HOTELES AFILIADOS?
-            </label>
-            <Input
-              type="number"
-              value={hotels}
-              onChange={(e) => setHotels(e.target.value)}
-              className="bg-white/10 border-white/20 text-white text-center text-xl font-bold"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
-              ¿CUÁNTAS HABITACIONES VACÍAS DIARIAS DE MEDIA?
-            </label>
-            <Input
-              type="number"
-              value={roomsPerHotel}
-              onChange={(e) => setRoomsPerHotel(e.target.value)}
-              className="bg-white/10 border-white/20 text-white text-center text-xl font-bold"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-white font-semibold mb-2 text-center uppercase text-sm">
-              ¿PRECIO MENSUAL POR HABITACIÓN?
-            </label>
-            <Input
-              type="number"
-              value={avgPrice}
-              onChange={(e) => setAvgPrice(e.target.value)}
-              className="bg-white/10 border-white/20 text-white text-center text-xl font-bold"
-            />
+        {/* Calculator embedded style */}
+        <div className="bg-gray-100 rounded-xl p-6 border-2 border-gray-300 shadow-inner mb-8">
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+                ¿CUÁNTOS HOTELES AFILIADOS?
+              </label>
+              <Input
+                type="number"
+                value={hotels}
+                onChange={(e) => setHotels(e.target.value)}
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+                ¿CUÁNTAS HABITACIONES VACÍAS DIARIAS DE MEDIA?
+              </label>
+              <Input
+                type="number"
+                value={roomsPerHotel}
+                onChange={(e) => setRoomsPerHotel(e.target.value)}
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+                ¿PRECIO MENSUAL POR HABITACIÓN?
+              </label>
+              <Input
+                type="number"
+                value={avgPrice}
+                onChange={(e) => setAvgPrice(e.target.value)}
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
           </div>
         </div>
 

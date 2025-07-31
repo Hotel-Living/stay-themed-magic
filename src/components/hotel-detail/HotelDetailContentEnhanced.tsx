@@ -120,7 +120,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   };
 
   const getProportionalPriceText = () => {
-    if (hotel.price_per_month) {
+    if (hotel.price_per_month && typeof hotel.price_per_month === 'number') {
       return `El precio mensual proporcional es de USD ${hotel.price_per_month.toLocaleString()}.`;
     }
     return null;

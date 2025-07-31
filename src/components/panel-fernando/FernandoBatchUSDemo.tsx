@@ -197,7 +197,7 @@ export default function FernandoBatchUSDemo() {
                               </div>
                               <div className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
-                                <span className="font-medium">Durations:</span> {hotel.stayDurations.join(', ')} nights
+                                <span className="font-medium">Durations:</span> {hotel.stayDurations?.join(', ') || 'N/A'} nights
                               </div>
                               <div className="flex items-center gap-1">
                                 <Utensils className="w-3 h-3" />

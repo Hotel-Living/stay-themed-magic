@@ -172,7 +172,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 flex items-center justify-center" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
             <div className="text-center space-y-1">
               {formatPropertyTypeStayText().map((line, index) => (
-                <div key={index} className="text-base text-white font-bold leading-relaxed">
+                <div key={index} className="text-base font-bold text-white text-center">
                   {line}
                 </div>
               ))}
@@ -203,13 +203,13 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {getProportionalPriceText() && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25)] border border-blue-400/20 flex items-center justify-center" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2)'}}>
               <div className="text-center space-y-1">
-                <div className="text-base text-white font-bold leading-relaxed">
+                <div className="text-base font-bold text-white text-center">
                   {getProportionalPriceText()?.line1}
                 </div>
-                <div className="text-base text-white font-bold leading-relaxed">
+                <div className="text-base font-bold text-white text-center">
                   {getProportionalPriceText()?.line2}
                 </div>
-                <div className="text-base text-white font-bold leading-relaxed">
+                <div className="text-base font-bold text-white text-center">
                   {getProportionalPriceText()?.line3}
                 </div>
               </div>

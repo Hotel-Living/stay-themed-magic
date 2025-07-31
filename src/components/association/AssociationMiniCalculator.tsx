@@ -20,59 +20,59 @@ export function AssociationMiniCalculator() {
         {/* Calculator embedded style */}
         <div className="bg-gray-100 rounded-xl p-6 border-2 border-gray-300 shadow-inner mb-8">
           <div className="grid md:grid-cols-3 gap-6 mb-6">
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+            <div className="flex flex-col">
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm flex-shrink-0">
                 ¿CUÁNTOS HOTELES AFILIADOS?
               </label>
               <Input
                 type="number"
                 value={hotels}
                 onChange={(e) => setHotels(e.target.value)}
-                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 mt-auto"
               />
             </div>
             
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+            <div className="flex flex-col">
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm flex-shrink-0">
                 ¿CUÁNTAS HABITACIONES VACÍAS DIARIAS DE MEDIA?
               </label>
               <Input
                 type="number"
                 value={roomsPerHotel}
                 onChange={(e) => setRoomsPerHotel(e.target.value)}
-                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 mt-auto"
               />
             </div>
             
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm">
+            <div className="flex flex-col">
+              <label className="block text-gray-700 font-semibold mb-2 text-center uppercase text-sm flex-shrink-0">
                 ¿PRECIO MENSUAL POR HABITACIÓN?
               </label>
               <Input
                 type="number"
                 value={avgPrice}
                 onChange={(e) => setAvgPrice(e.target.value)}
-                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="bg-white border-2 border-gray-400 text-gray-800 text-center text-xl font-bold shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 mt-auto"
               />
             </div>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
-            <p className="text-white text-lg font-bold mb-2">Beneficios para los hoteles:</p>
-            <p className="text-yellow-300 font-bold text-2xl">
-              ${hotelSales.toLocaleString()}
-            </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
+              <p className="text-white text-lg font-bold mb-2">Beneficios para los hoteles *:</p>
+              <p className="text-yellow-300 font-bold text-2xl">
+                ${hotelSales.toLocaleString()}
+              </p>
+            </div>
+            
+            <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
+              <p className="text-white text-lg font-bold mb-2">Beneficios para la asociación *:</p>
+              <p className="text-yellow-300 font-bold text-2xl">
+                ${associationEarnings.toLocaleString()}
+              </p>
+            </div>
           </div>
-          
-          <div className="bg-white/10 rounded-xl p-6 border border-white/20 text-center">
-            <p className="text-white text-lg font-bold mb-2">Beneficios para la asociación:</p>
-            <p className="text-yellow-300 font-bold text-2xl">
-              ${associationEarnings.toLocaleString()}
-            </p>
-          </div>
-        </div>
       </div>
 
     </div>

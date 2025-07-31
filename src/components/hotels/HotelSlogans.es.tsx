@@ -20,8 +20,8 @@ export function HotelSlogansES() {
         {/* Blue glow wrapper for slogans block */}
         <div className="relative group mx-auto w-fit">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl py-[13px] my-[17px] px-0 w-fit mx-auto">
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl px-4">{t('slogans.slogan1')}</p>
+          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-0 w-fit mx-auto my-[14px] py-0">
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow text-xl py-[15px] my-px px-[9px] mx-0">{t('slogans.slogan1')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-0 my-[12px] py-[5px]">{t('slogans.slogan2')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-4">{t('slogans.slogan3')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] px-4">{t('slogans.slogan4')}</p>

@@ -11,7 +11,7 @@ export function AssociationMiniCalculator() {
   const roomsCount = parseInt(roomsPerHotel) || 0;
   const priceValue = parseInt(avgPrice) || 0;
 
-  const hotelSales = hotelCount * roomsCount * 365 * priceValue;
+  const hotelSales = (hotelCount * roomsCount * 365 / 12) * priceValue;
   const associationEarnings = (hotelSales / 100) * 4;
 
   return (

@@ -65,5 +65,9 @@
   "cta": {
     "title": "🚀 READY TO BECOME ONE OF THE FACES OF CHANGE?",
     "description": "✨ Join our network of ambassadors today."
+  },
+  "buttons": {
+    "viewAmbassadors": "📊 Our Ambassadors",
+    "becomeAmbassador": "Become Ambassador"
   }
 }

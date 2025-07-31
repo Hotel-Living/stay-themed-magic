@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const AmbassadorsList = () => {
+  const { t } = useTranslation('ambassador');
+  
   return (
     <div className="min-h-screen relative">
       <Starfield />
@@ -35,13 +38,13 @@ const AmbassadorsList = () => {
                   to="/ambassadors/usa" 
                   className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
                 >
-                  📊 Nuestros Embajadores
+                  {t('buttons.viewAmbassadors')}
                 </Link>
                 <Link 
                   to="/auth" 
                   className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
                 >
-                  Hágase Embajador
+                  {t('buttons.becomeAmbassador')}
                 </Link>
               </div>
 

@@ -65,5 +65,9 @@
   "cta": {
     "title": "🚀 ¿LISTO PARA CONVERTIRSE EN UNO DE LOS ROSTROS DEL CAMBIO?",
     "description": "✨ Únase hoy mismo a nuestra red de embajadores."
+  },
+  "buttons": {
+    "viewAmbassadors": "📊 Nuestros Embajadores",
+    "becomeAmbassador": "Hágase Embajador"
   }
 }

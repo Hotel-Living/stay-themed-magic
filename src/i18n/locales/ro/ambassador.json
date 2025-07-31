@@ -65,5 +65,9 @@
   "cta": {
     "title": "🚀 GATA SĂ DEVENIȚI UNA DINTRE FEȚELE SCHIMBĂRII?",
     "description": "✨ Alăturați-vă astăzi rețelei noastre de ambasadori."
+  },
+  "buttons": {
+    "viewAmbassadors": "📊 Ambasadorii Noștri",
+    "becomeAmbassador": "Deveniți Ambasador"
   }
 }

@@ -65,5 +65,9 @@
   "cta": {
     "title": "🚀 PRONTO PARA SE TORNAR UM DOS ROSTOS DA MUDANÇA?",
     "description": "✨ Junte-se hoje mesmo à nossa rede de embaixadores."
+  },
+  "buttons": {
+    "viewAmbassadors": "📊 Nossos Embaixadores",
+    "becomeAmbassador": "Torne-se Embaixador"
   }
 }

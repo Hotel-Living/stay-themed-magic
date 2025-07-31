@@ -28,9 +28,9 @@ export function AssociationOffers() {
           </p>
         </div>
         
-        <div className="bg-yellow-300/20 rounded-xl p-6 border border-yellow-300/40">
+        <div className="bg-green-300/20 rounded-xl p-6 border border-green-300/40">
           <p className="text-white text-center text-lg leading-relaxed">
-            <span className="font-bold text-yellow-300">Este ingreso no afecta en nada a los hoteles</span>, 
+            <span className="font-bold text-green-300">Este ingreso no afecta en nada a los hoteles</span>, 
             proviene de nuestro propio coste de gestión y puede ser reinvertido en beneficio de la asociación y sus miembros.
           </p>
         </div>

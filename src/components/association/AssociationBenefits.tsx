@@ -20,15 +20,15 @@ export function AssociationBenefits() {
 
   return (
     <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
-      <h2 className="text-2xl md:text-3xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">
+      <h2 className="text-xl md:text-2xl font-bold text-yellow-300 uppercase tracking-wide mb-8 text-center">
         Beneficios directos para sus miembros afiliados
       </h2>
       
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="max-w-4xl mx-auto">
         {benefits.map((benefit, index) => (
-          <div key={index} className="flex items-start space-x-3">
-            <span className="text-yellow-300 font-bold text-lg">•</span>
-            <p className="text-white leading-relaxed">{benefit}</p>
+          <div key={index} className="flex items-start space-x-4 mb-4">
+            <span className="text-green-400 text-2xl mt-1">✓</span>
+            <p className="text-white leading-relaxed text-xl">{benefit}</p>
           </div>
         ))}
       </div>

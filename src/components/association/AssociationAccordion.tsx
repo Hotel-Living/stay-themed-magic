@@ -23,8 +23,8 @@ export function AssociationAccordion() {
         {/* Point 3: Association Benefits */}
         <AccordionItem value="association-benefits" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
           <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-            <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-              ③ ¿Qué ventajas obtienen sus hoteles asociados por registrarse a través de su asociación?
+            <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide uppercase">
+              ¿Qué ventajas obtienen sus hoteles asociados por registrarse a través de su asociación?
             </span>
           </AccordionTrigger>
           <AccordionContent className="px-6 pb-6 bg-white/3">
@@ -81,8 +81,8 @@ export function AssociationAccordion() {
         {/* Point 4: Millions of Clients Waiting */}
         <AccordionItem value="clients-waiting" className="bg-white/5 border border-white/20 rounded-xl overflow-hidden shadow-lg">
           <AccordionTrigger className="px-6 py-5 text-left hover:bg-white/5 transition-colors duration-200">
-            <span className="text-sm md:text-base font-bold text-yellow-300 tracking-wide">
-              ④ Cientos de millones de clientes están esperando
+            <span className="text-lg md:text-xl font-bold text-yellow-300 tracking-wide uppercase">
+              Cientos de millones de clientes están esperando
             </span>
           </AccordionTrigger>
           <AccordionContent className="px-6 pb-6 bg-white/3">

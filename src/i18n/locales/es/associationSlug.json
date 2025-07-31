@@ -38,6 +38,54 @@
     "secondPeriod": "2% durante los 12 meses siguientes",
     "note": "Este ingreso no afecta en nada a los hoteles, proviene de nuestro propio coste de gestión y puede ser reinvertido en beneficio de la asociación y sus miembros."
   },
+  "accordionSection3": {
+    "profitabilityTitle": "Rentabilidad",
+    "profitabilityPoints": [
+      "Multiplicamos la rentabilidad por huésped hasta 7 veces más que el modelo tradicional hotelero.",
+      "Garantizamos un 5% de beneficio neto inmediato por cada reserva confirmada.",
+      "Eliminamos la estacionalidad: alta ocupación los 12 meses del año.",
+      "Transformamos habitaciones vacías en ingresos constantes y predecibles."
+    ],
+    "costsTitle": "Reducción de Costes",
+    "costsPoints": [
+      "Reducimos drásticamente los costes de marketing y adquisición de clientes.",
+      "Eliminamos intermediarios costosos y comisiones excesivas de OTAs.",
+      "Simplificamos la operativa diaria con un modelo de gestión unificado.",
+      "Optimizamos el uso de recursos al consolidar entradas y salidas semanalmente."
+    ],
+    "staffTitle": "Personal y Operaciones",
+    "staffPoints": [
+      "Proporcionamos estabilidad laboral absoluta durante todo el año.",
+      "Simplificamos la gestión de housekeeping con turnos planificados.",
+      "Reducimos el estrés operativo con ocupaciones largas y predecibles.",
+      "Creamos un ambiente de trabajo más relajado y profesional."
+    ],
+    "economicTitle": "Beneficios Económicos Adicionales",
+    "economicPoints": [
+      "Sin costes de integración, adaptación o formación específica.",
+      "Sin contratos forzosos, suscripciones o cuotas mensuales.",
+      "Acceso inmediato a una base de clientes globales segmentados.",
+      "Ingresos adicionales por servicios complementarios y experiencias locales."
+    ]
+  },
+  "accordionSection4": {
+    "intro": "La revolución del turismo residencial ya está aquí. Millones de personas buscan alternativas al modelo tradicional de estancias cortas, y su asociación puede liderar esta transformación en su mercado.",
+    "demographicsTitle": "Perfil Demográfico",
+    "demographicsPoints": [
+      "Nómadas digitales: +50 millones globalmente, creciendo 20% anual.",
+      "Profesionales en transición que buscan flexibilidad geográfica.",
+      "Jubilados activos con poder adquisitivo y tiempo para viajar.",
+      "Estudiantes internacionales y profesionales en programas de intercambio."
+    ],
+    "socialTitle": "Cambio Social",
+    "socialPoints": [
+      "Trabajo remoto normalizado post-pandemia en múltiples sectores.",
+      "Preferencia creciente por experiencias auténticas vs. turismo masivo.",
+      "Búsqueda de comunidades temporales con afinidades compartidas.",
+      "Valoración de la sostenibilidad y el impacto positivo local."
+    ],
+    "conclusion": "Su asociación puede ser pionera en capturar esta demanda masiva inexplorada, generando beneficios extraordinarios para todos sus miembros."
+  },
   "societyChanged": {
     "title": "LA SOCIEDAD HA CAMBIADO. NUESTRO MODELO NO.",
     "content": [

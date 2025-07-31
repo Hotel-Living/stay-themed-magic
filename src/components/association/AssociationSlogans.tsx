@@ -15,7 +15,7 @@ export function AssociationSlogans() {
           key={index}
           className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-6 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]"
         >
-          <p className="text-xl md:text-2xl font-bold text-white text-center leading-relaxed">
+          <p className="text-sm md:text-lg font-bold text-white text-center leading-relaxed">
             {slogan}
           </p>
         </div>

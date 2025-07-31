@@ -55,23 +55,14 @@ export default function AssociationSlug() {
             
             {/* 1️⃣ Personalized Header */}
             <div className="text-center mb-16">
-              <div className="flex justify-center mb-8">
-                <img 
-                  src="/lovable-uploads/950ed52a-c737-4637-9751-d6f1db78b7b4.png" 
-                  alt="Hotel-Living Logo" 
-                  loading="eager" 
-                  fetchPriority="high" 
-                  className="h-20 md:h-24 drop-shadow-lg" 
-                />
-              </div>
-              
               <div className="bg-[#7802A9] backdrop-blur-md rounded-2xl p-8 md:p-12 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.4)]">
                 <h1 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed">
                   Estimada {associationName}
                 </h1>
                 
                 <h2 className="text-xl md:text-2xl font-bold text-yellow-300 leading-relaxed">
-                  ¿Cuánto dinero pierden cada año ustedes y sus hoteles por tantas habitaciones vacías?
+                  <div>¿Cuánto dinero pierden cada año ustedes</div>
+                  <div>y sus hoteles por tantas habitaciones vacías?</div>
                 </h2>
               </div>
             </div>

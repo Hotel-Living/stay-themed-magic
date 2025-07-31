@@ -1,9 +1,9 @@
 {
   "userDashboard": {
-    "title": "PAINEL DO USUÁRIO",
+    "title": "USER DASHBOARD",
     "tabs": {
       "dashboard": "Dashboard",
-      "bookings": "Bookings",
+      "bookings": "Bookings", 
       "experience": "Experience",
       "getThreeNights": "Three Free Nights!",
       "becomeAmbassador": "Become Ambassador",
@@ -14,12 +14,12 @@
       "notifications": "Notifications"
     },
     "help": {
-      "needHelp": "Precisa de ajuda?",
-      "supportDescription": "Nossa equipe de suporte está disponível 24/7 para ajudá-lo com quaisquer dúvidas.",
-      "contactSupport": "Contatar suporte"
+      "needHelp": "Need Help?",
+      "supportDescription": "Our support team is available 24/7 to assist you with any questions.",
+      "contactSupport": "Contact Support"
     },
     "actions": {
-      "logOut": "Sair"
+      "logOut": "Log Out"
     }
   }
 }

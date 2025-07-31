@@ -1,18 +1,17 @@
-
 {
   "userDashboard": {
     "title": "TABLOU DE BORD UTILIZATOR",
     "tabs": {
-      "dashboard": "Tablou de bord",
-      "experience": "Experiența Mea",
-      "bookings": "Rezervările Mele",
-      "history": "Istoricul Șederilor",
-      "saved": "Hoteluri Salvate",
-      "payments": "Metode de Plată",
-      "getThreeNights": "Recomandă un Hotel",
-      "profile": "Profil",
-      "settings": "Setări",
-      "notifications": "Alerte"
+      "dashboard": "Dashboard",
+      "bookings": "Bookings",
+      "experience": "Experience",
+      "getThreeNights": "Three Free Nights!",
+      "becomeAmbassador": "Become Ambassador",
+      "history": "History",
+      "payments": "Payments",
+      "profile": "Profile",
+      "settings": "Settings",
+      "notifications": "Notifications"
     },
     "help": {
       "needHelp": "Ai nevoie de ajutor?",

@@ -1,10 +1,10 @@
 {
   "userDashboard": {
-    "title": "PAINEL DO USUÁRIO",
+    "title": "PANEL DE USUARIO",
     "tabs": {
       "dashboard": "Dashboard",
       "bookings": "Bookings",
-      "experience": "Experience",
+      "experience": "Experience", 
       "getThreeNights": "Three Free Nights!",
       "becomeAmbassador": "Become Ambassador",
       "history": "History",
@@ -14,12 +14,12 @@
       "notifications": "Notifications"
     },
     "help": {
-      "needHelp": "Precisa de ajuda?",
-      "supportDescription": "Nossa equipe de suporte está disponível 24/7 para ajudá-lo com quaisquer dúvidas.",
-      "contactSupport": "Contatar suporte"
+      "needHelp": "¿Necesitas Ayuda?",
+      "supportDescription": "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier pregunta.",
+      "contactSupport": "Contactar Soporte"
     },
     "actions": {
-      "logOut": "Sair"
+      "logOut": "Cerrar Sesión"
     }
   }
 }

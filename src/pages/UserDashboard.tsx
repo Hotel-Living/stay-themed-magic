@@ -11,7 +11,8 @@ import {
   Gift,
   Heart,
   Star,
-  Bell
+  Bell,
+  Crown
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import UserDashboardLayout from "@/components/dashboard/user/UserDashboardLayout";
@@ -24,6 +25,7 @@ import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
 import SettingsContent from "@/components/dashboard/user/tabs/SettingsContent";
 import GetThreeNightsContent from "@/components/dashboard/user/tabs/GetThreeNightsContent";
 import ExperienceContent from "@/components/dashboard/user/tabs/ExperienceContent";
+import BecomeAmbassadorContent from "@/components/dashboard/user/tabs/BecomeAmbassadorContent";
 import { NotificationsContent } from "@/components/dashboard/user/tabs/NotificationsContent";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
@@ -69,12 +71,12 @@ export default function UserDashboard() {
   
   const tabs: DashboardTab[] = [
     { id: "dashboard", label: getTabLabel("dashboard"), icon: <LayoutDashboard className="w-5 h-5" /> },
-    { id: "experience", label: getTabLabel("experience"), icon: <Star className="w-5 h-5" /> },
     { id: "bookings", label: getTabLabel("bookings"), icon: <Calendar className="w-5 h-5" /> },
-    { id: "history", label: getTabLabel("history"), icon: <History className="w-5 h-5" /> },
-    { id: "saved", label: getTabLabel("saved"), icon: <Heart className="w-5 h-5" /> },
-    { id: "payments", label: getTabLabel("payments"), icon: <CreditCard className="w-5 h-5" /> },
+    { id: "experience", label: getTabLabel("experience"), icon: <Star className="w-5 h-5" /> },
     { id: "getThreeNights", label: getTabLabel("getThreeNights"), icon: <Gift className="w-5 h-5" /> },
+    { id: "becomeAmbassador", label: getTabLabel("becomeAmbassador"), icon: <Crown className="w-5 h-5" /> },
+    { id: "history", label: getTabLabel("history"), icon: <History className="w-5 h-5" /> },
+    { id: "payments", label: getTabLabel("payments"), icon: <CreditCard className="w-5 h-5" /> },
     { id: "profile", label: getTabLabel("profile"), icon: <User className="w-5 h-5" /> },
     { id: "settings", label: getTabLabel("settings"), icon: <Settings className="w-5 h-5" /> },
     { id: "notifications", label: getTabLabel("notifications"), icon: <Bell className="w-5 h-5" /> },
@@ -83,12 +85,12 @@ export default function UserDashboard() {
   const renderContent = () => {
     switch(activeTab) {
       case "dashboard": return <DashboardContent />;
-      case "experience": return <ExperienceContent />;
       case "bookings": return <BookingsContent />;
-      case "history": return <HistoryContent />;
-      case "saved": return <SavedContent />;
-      case "payments": return <PaymentsContent />;
+      case "experience": return <ExperienceContent />;
       case "getThreeNights": return <GetThreeNightsContent />;
+      case "becomeAmbassador": return <BecomeAmbassadorContent />;
+      case "history": return <HistoryContent />;
+      case "payments": return <PaymentsContent />;
       case "profile": return <ProfileContent />;
       case "settings": return <SettingsContent />;
       case "notifications": return <NotificationsContent />;

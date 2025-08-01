@@ -66,7 +66,13 @@ export default function UserDashboard() {
   
   // Create tabs with language-specific labels
   const getTabLabel = (key: string) => {
-    return t(`dashboard.tabs.${key}`, key); // Fallback to key if translation missing
+    const translation = t(`userDashboard.tabs.${key}`);
+    // If translation is not found (returns key), format it properly
+    if (translation === `userDashboard.tabs.${key}`) {
+      // Convert camelCase to proper capitalization with spaces
+      return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    }
+    return translation;
   };
   
   const tabs: DashboardTab[] = [

@@ -15,8 +15,6 @@ interface HotelDetailContentProps {
 export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailContentProps) {
   const { t, language } = useTranslationWithFallback('hotel');
   const { translateHotelFeatures, translateRoomFeatures } = useFilterTranslations();
-  
-  console.log('🏨 HotelDetailContentEnhanced rendered with:', { language, hotelId: hotel?.id });
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
   const [windowWidth, setWindowWidth] = useState(1024);
 
@@ -252,35 +250,11 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     }
   };
 
-  // Helper function to get translated hotel content with proper field lookup
+  // Since useHotelDetailWithTranslations should provide translated content,
+  // use the hotel object directly as translations are already applied at hook level
   const getTranslatedContent = (fieldName: string): string => {
-    console.log('🔍 getTranslatedContent called with:', { fieldName, language });
-    console.log('🏨 Hotel object keys:', Object.keys(hotel));
-    console.log('🔤 Available language fields:', Object.keys(hotel).filter(key => key.includes('_')));
-    
-    if (language === 'en') {
-      const content = hotel[fieldName as keyof typeof hotel];
-      console.log('📝 English content for', fieldName, ':', content);
-      return typeof content === 'string' ? content : '';
-    }
-    
-    // Try to get language-specific field first (e.g., ideal_guests_es, atmosphere_pt)
-    const translatedField = `${fieldName}_${language}` as keyof typeof hotel;
-    const translatedContent = hotel[translatedField];
-    
-    console.log('🌐 Looking for translated field:', translatedField);
-    console.log('🔍 Translated content found:', translatedContent);
-    
-    // If translated content exists and is a string, use it
-    if (typeof translatedContent === 'string' && translatedContent.trim()) {
-      console.log('✅ Using translated content:', translatedContent);
-      return translatedContent;
-    }
-    
-    // Fallback to English if translation is missing or empty
-    const fallbackContent = hotel[fieldName as keyof typeof hotel];
-    console.log('⚠️ Falling back to English:', fallbackContent);
-    return typeof fallbackContent === 'string' ? fallbackContent : '';
+    const content = hotel[fieldName as keyof typeof hotel];
+    return typeof content === 'string' ? content : '';
   };
 
   // Calculate dynamic widths for highlight boxes to balance line count

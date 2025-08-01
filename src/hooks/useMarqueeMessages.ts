@@ -43,7 +43,10 @@ export const useMarqueeMessages = () => {
           const shuffledMessages = shuffleArray(messagesData);
           setMessages(shuffledMessages);
           setCurrentIndex(0);
-          console.log('Messages set successfully');
+          console.log('Messages set successfully:', shuffledMessages.length);
+        } else {
+          console.warn('No messages found in data');
+          setMessages(['Welcome to Hotel Living - Live the Life You Love']);
         }
       } catch (error) {
         console.error('Error loading marquee messages:', error);

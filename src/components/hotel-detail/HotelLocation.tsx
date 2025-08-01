@@ -115,13 +115,26 @@ export function HotelLocation({
     mapError
   });
 
-  // Don't render if we have no location data at all
+  // ALWAYS render for debugging - don't return null
   if (!fullAddress.trim() && (!latitude || !longitude || isNaN(latitude) || isNaN(longitude))) {
-    console.log('🗺️ No location data available, not rendering map', {
+    console.log('🗺️ No location data available, showing fallback', {
       fullAddress: fullAddress.trim(),
-      hasValidCoords: !!(latitude && longitude && !isNaN(latitude) && !isNaN(longitude))
+      hasValidCoords: !!(latitude && longitude && !isNaN(latitude) && !isNaN(longitude)),
+      latitude,
+      longitude
     });
-    return null;
+    // Show fallback instead of returning null
+    return (
+      <div className="w-full h-[300px] flex flex-col items-center justify-center bg-muted rounded-lg border-2 border-dashed border-border">
+        <MapPin className="h-12 w-12 text-muted-foreground mb-4" />
+        <p className="text-sm text-muted-foreground mb-4 text-center">
+          Location data not available for this hotel
+        </p>
+        <p className="text-xs text-muted-foreground text-center">
+          Hotel: {hotelName}
+        </p>
+      </div>
+    );
   }
 
   // Show fallback if map failed to load or no API key

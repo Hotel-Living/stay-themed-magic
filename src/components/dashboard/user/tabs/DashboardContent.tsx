@@ -7,7 +7,7 @@ import ActionCard from '../../ActionCard';
 import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 import { Button } from '@/components/ui/button';
 import { RecommendedHotels } from '@/components/dashboard/user/RecommendedHotels';
-import { FirstTimeUserBanner } from '@/components/dashboard/user/FirstTimeUserBanner';
+
 import { useFirstBookingMode } from '@/hooks/useFirstBookingMode';
 import { useSavedHotelsCount } from '@/components/dashboard/hooks/useSavedHotelsCount';
 import { ExpertBadge } from '@/components/dashboard/user/ExpertBadge';
@@ -156,11 +156,6 @@ export const DashboardContent = () => {
     <div className="space-y-8">
       {/* Expert Badge */}
       <ExpertBadge />
-
-      {/* First Time User Banner */}
-      {!firstTimeLoading && isFirstTimeUser && (
-        <FirstTimeUserBanner />
-      )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

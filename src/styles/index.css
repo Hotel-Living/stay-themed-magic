@@ -22,3 +22,6 @@
 
 /* CRITICAL: Contrast accessibility fixes */
 @import './contrast-fixes.css';
+
+/* Marquee animations */
+@import './marquee.css';

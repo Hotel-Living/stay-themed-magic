@@ -19,6 +19,7 @@ import { SEOMetadata } from "@/components/SEOMetadata";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { ScrollingMarquee } from "@/components/marquee/ScrollingMarquee";
 
 import OurTeam from "@/pages/OurTeam";
 import IntroTest from "@/pages/IntroTest";
@@ -195,6 +196,9 @@ function MainAppRoutes() {
           
           {/* Global UI Enhancements */}
           <BackToTopButton />
+          
+          {/* Scrolling Marquee - appears on all public pages */}
+          <ScrollingMarquee />
             </AuthProvider>
           </AvatarManagerProvider>
         </VideoTestimonialProvider>

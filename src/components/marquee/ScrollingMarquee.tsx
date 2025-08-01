@@ -5,7 +5,7 @@ import { useMarqueeMessages } from '@/hooks/useMarqueeMessages';
 
 export const ScrollingMarquee: React.FC = () => {
   const location = useLocation();
-  const { getNextMessage, reshuffleMessages, isLoading, hasMessages } = useMarqueeMessages();
+  const { getNextMessage, reshuffleMessages, isLoading, hasMessages, messages } = useMarqueeMessages();
   const [displayText, setDisplayText] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -13,6 +13,15 @@ export const ScrollingMarquee: React.FC = () => {
 
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && hasMessages;
+  
+  console.log('ScrollingMarquee state:', { 
+    pathname: location.pathname, 
+    isPublic: isPublicPage(location.pathname), 
+    isLoading, 
+    hasMessages, 
+    shouldShow,
+    messagesCount: messages.length 
+  });
 
   // IMPORTANT: All hooks must be called before any conditional returns
   const animationDuration = React.useMemo(() => {

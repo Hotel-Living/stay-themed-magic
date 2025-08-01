@@ -34,18 +34,22 @@ export const useMarqueeMessages = () => {
         }
         
         const textData = await response.text();
+        console.log('Marquee data loaded:', { language, fileName, dataLength: textData.length });
         
-        // Parse text data - split by double line breaks to separate messages
+        // Parse text data - split by single line breaks and filter empty lines
         const messages = textData
-          .split('\n\n')
+          .split('\n')
           .map(msg => msg.trim())
           .filter(msg => msg.length > 0);
+        
+        console.log('Parsed messages:', messages.length, messages.slice(0, 3));
         
         if (messages.length > 0) {
           // Shuffle messages to prevent predictable order
           const shuffledMessages = shuffleArray(messages);
           setMessages(shuffledMessages);
           setCurrentIndex(0);
+          console.log('Messages set successfully');
         }
       } catch (error) {
         console.error('Error loading marquee messages:', error);

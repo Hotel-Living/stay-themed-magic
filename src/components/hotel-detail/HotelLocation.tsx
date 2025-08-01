@@ -25,6 +25,18 @@ export function HotelLocation({
   const [mapError, setMapError] = useState(false);
   const [apiKey, setApiKey] = useState<string | null>(null);
   
+  // Add debug logging at component mount
+  console.log(`🗺️ HotelLocation MOUNTED for hotel: ${hotelName}`, {
+    hotelId,
+    latitude, 
+    longitude,
+    address,
+    city,
+    country,
+    hasCoordinates: !!(latitude && longitude),
+    hasAddress: !!(address || city || country)
+  });
+  
   // Build full address from hotel data
   const fullAddress = [address, city, country].filter(Boolean).join(', ');
   

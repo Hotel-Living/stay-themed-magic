@@ -348,7 +348,14 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       <div className="container mx-auto px-4 py-8 relative z-10 space-y-6">
         
         {/* 1️⃣ IMAGE - Main hotel photo with overlay */}
-        <div className={`${sectionClass(0)}`}>
+        <div 
+          className={`${sectionClass(0)}`}
+          style={{
+            background: 'linear-gradient(180deg, #3B6DB3 0%, #1F3A78 50%, #0A0A3B 100%)',
+            borderRadius: '1rem',
+            padding: '1rem'
+          }}
+        >
           <div className="relative h-[50vh] rounded-2xl overflow-hidden shadow-2xl">
             <img 
               src={getMainImage()}

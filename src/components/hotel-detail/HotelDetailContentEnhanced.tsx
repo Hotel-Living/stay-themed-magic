@@ -145,6 +145,60 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       .map(([feature]) => feature.replace(/_/g, ' '));
   };
 
+  // Helper function to generate hotel highlights following Fernando's exact format
+  const generateHotelHighlights = () => {
+    const highlights = [];
+    
+    // 1. ¡Este hotel es de estilo urbano!
+    if (hotel.property_type && hotel.style) {
+      highlights.push(`¡Este ${hotel.property_type.toLowerCase()} es de estilo ${hotel.style.toLowerCase()}!`);
+    }
+    
+    // 2. ¡Ofrece estancias de 32 días!
+    if (hotel.stay_lengths && hotel.stay_lengths.length > 0) {
+      const lengths = hotel.stay_lengths.join(' y ');
+      highlights.push(`¡Ofrece estancias de ${lengths} días!`);
+    }
+    
+    // 3. ¡Con half board incluido!
+    if (hotel.meal_plans && hotel.meal_plans.length > 0) {
+      const mealPlan = hotel.meal_plans[0].toLowerCase();
+      if (!mealPlan.includes('solo alojamiento') && !mealPlan.includes('accommodation only')) {
+        highlights.push(`¡Con ${mealPlan} incluido!`);
+      }
+    }
+    
+    // 4. ¡Con servicio de lavandería disponible!
+    const hasLaundryIncluded = hotel.laundry_service?.available;
+    if (hasLaundryIncluded) {
+      highlights.push('¡Con servicio de lavandería incluido!');
+    } else if (hotel.laundry_service) {
+      highlights.push('¡Con servicio de lavandería disponible!');
+    }
+    
+    // 5. ¡Su precio mensual proporcional es USD 1,120!
+    if (hotel.price_per_month && typeof hotel.price_per_month === 'number') {
+      highlights.push(`¡Su precio mensual proporcional es USD ${hotel.price_per_month.toLocaleString()}!`);
+    }
+    
+    // 6. ¡Sus clientes Hotel-Living disfrutan de (AFINIDADES)!
+    const affinities = hotel.hotel_themes?.map(theme => theme.themes?.name).filter(Boolean) || [];
+    if (affinities.length > 0) {
+      const affinitiesText = affinities.join(', ').replace(/, ([^,]*)$/, ' y $1');
+      highlights.push(`¡Sus clientes Hotel-Living disfrutan de ${affinitiesText}!`);
+    }
+    
+    // 7. ¡Su/s actividad/es perfecta/s es/son: (ACTIVIDADES)!
+    const activities = hotel.activities || [];
+    if (activities.length > 0) {
+      const activitiesText = activities.join(', ').replace(/, ([^,]*)$/, ' y $1');
+      const activityForm = activities.length === 1 ? 'Su actividad perfecta es' : 'Sus actividades perfectas son';
+      highlights.push(`¡${activityForm}: ${activitiesText}!`);
+    }
+    
+    return highlights;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-blue-900/10 to-purple-900/30 relative">
       {/* Blue glow background effect */}
@@ -154,7 +208,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       
       <div className="container mx-auto px-4 py-8 relative z-10 space-y-6">
         
-        {/* 1️⃣ IMAGE - Main hotel photo at top */}
+        {/* 1️⃣ IMAGE - Main hotel photo with overlay */}
         <div className={`${sectionClass(0)}`}>
           <div className="relative h-[50vh] rounded-2xl overflow-hidden shadow-2xl">
             <img 
@@ -163,58 +217,81 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            
+            {/* Hotel Name and Address Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div 
+                className="text-center p-4 rounded-lg"
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  backdropFilter: 'blur(2px)'
+                }}
+              >
+                <h1 
+                  className="mb-2"
+                  style={{
+                    fontSize: '28px',
+                    fontWeight: '700',
+                    color: '#FFFFFF',
+                    textAlign: 'center'
+                  }}
+                >
+                  {hotel.name}
+                </h1>
+                <p 
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    color: '#FFFFFFCC',
+                    textAlign: 'center'
+                  }}
+                >
+                  {hotel.address}, {hotel.city}, {hotel.country}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* 2️⃣ THREE-COLUMN LAYOUT: Text block | Hotel name & address | Price */}
-        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(1)}`}>
-          {/* Left: Property type, style, duration and services text */}
-          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 flex items-center justify-center">
-            <div className="text-center space-y-1">
-              {formatPropertyTypeStayText().map((line, index) => (
-                <div key={index} className="text-base font-bold text-white text-center">
-                  {line}
+        {/* 2️⃣ HOTEL HIGHLIGHTS SECTION */}
+        <div className={`${sectionClass(1)}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+            {generateHotelHighlights().map((highlight, index) => (
+              <div 
+                key={index}
+                className="text-center"
+                style={{
+                  background: '#FFFFFF',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                  marginBottom: '10px'
+                }}
+              >
+                {/* Green check icon centered on top */}
+                <div className="flex justify-center mb-3">
+                  <CheckCircle 
+                    className="w-6 h-6" 
+                    style={{ color: '#22c55e' }}
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Center: Hotel name and address */}
-          <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold text-white drop-shadow-lg">
-                {hotel.name}
-              </h1>
-              <div className="flex items-center justify-center gap-2 text-white/90">
-                <MapPin className="w-3 h-3" />
-                <span className="text-sm">{hotel.address}, {hotel.city}, {hotel.country}</span>
+                
+                {/* Text centered below icon */}
+                <p 
+                  className="text-base sm:text-lg"
+                  style={{
+                    fontWeight: '500',
+                    color: '#222',
+                    textAlign: 'center',
+                    lineHeight: '1.4',
+                    minHeight: '16px'
+                  }}
+                >
+                  {highlight}
+                </p>
               </div>
-              {hotel.category && (
-                <div className="flex items-center justify-center gap-1">
-                  {Array.from({ length: hotel.category }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-              )}
-            </div>
+            ))}
           </div>
-
-          {/* Right: Proportional monthly price */}
-          {getProportionalPriceText() && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 flex items-center justify-center">
-              <div className="text-center space-y-1">
-                <div className="text-base font-bold text-white text-center">
-                  {getProportionalPriceText()?.line1}
-                </div>
-                <div className="text-base font-bold text-white text-center">
-                  {getProportionalPriceText()?.line2}
-                </div>
-                <div className="text-base font-bold text-white text-center">
-                  {getProportionalPriceText()?.line3}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* 3️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}

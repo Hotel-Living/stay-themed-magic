@@ -72,7 +72,12 @@ export default function HotelDetail() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div 
+      className="min-h-screen flex flex-col"
+      style={{
+        background: 'linear-gradient(180deg, #00DCF9 0%, #001999 100%)'
+      }}
+    >
       <Navbar />
       <BubbleCounter />
       <main className="flex-1">

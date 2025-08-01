@@ -48,7 +48,7 @@ export const isDevelopmentOrAdmin = async (): Promise<boolean> => {
 export type DashboardType = 'user' | 'hotel' | 'association' | 'promoter' | 'admin';
 
 export const DASHBOARD_ROLE_MAP: Record<DashboardType, string[]> = {
-  user: ['user', 'guest'],
+  user: ['user'],
   hotel: ['hotel', 'hotel_owner'],
   association: ['association'],
   promoter: ['promoter'],
@@ -113,7 +113,6 @@ export const getRedirectUrlForRole = (profile: ProfileCompat | null): string => 
     case 'promoter':
       return '/promoter/dashboard';
     case 'user':
-    case 'guest':
     default:
       return '/user-dashboard';
   }

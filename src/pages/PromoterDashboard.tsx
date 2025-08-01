@@ -39,7 +39,6 @@ export default function PromoterDashboard() {
           // Redirect to appropriate dashboard based on user's actual role
           switch(profile.role) {
             case 'user':
-            case 'guest':
               navigate("/user-dashboard");
               break;
             case 'hotel':

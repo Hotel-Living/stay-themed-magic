@@ -51,7 +51,6 @@ export const AssociationDashboard = () => {
           // Redirect to appropriate dashboard based on user's actual role
           switch(profile.role) {
             case 'user':
-            case 'guest':
               window.location.href = "/user-dashboard";
               break;
             case 'hotel':

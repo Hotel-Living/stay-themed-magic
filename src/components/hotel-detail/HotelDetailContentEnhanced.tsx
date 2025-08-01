@@ -258,11 +258,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-blue-900/10 to-purple-900/30 relative">
-      {/* Blue glow background effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(147,51,234,0.1),transparent_40%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_40%)]" />
+    <div className="min-h-screen relative" style={{ backgroundColor: '#FCF7CE' }}>
       
       <div className="container mx-auto px-4 py-8 relative z-10 space-y-6">
         
@@ -281,7 +277,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
               <div 
                 className="text-center p-4 rounded-lg"
                 style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  backgroundColor: 'rgba(252, 247, 206, 0.6)',
                   backdropFilter: 'blur(2px)'
                 }}
               >
@@ -290,7 +286,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                   style={{
                     fontSize: '28px',
                     fontWeight: '700',
-                    color: '#FFFFFF',
+                    color: '#FCEE76',
                     textAlign: 'center'
                   }}
                 >
@@ -300,7 +296,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                   style={{
                     fontSize: '16px',
                     fontWeight: '400',
-                    color: '#FFFFFFCC',
+                    color: '#FCEE76',
                     textAlign: 'center'
                   }}
                 >

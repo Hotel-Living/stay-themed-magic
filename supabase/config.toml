@@ -45,7 +45,13 @@ allowed_mime_types = ["application/pdf", "application/msword", "application/vnd.
 verify_jwt = true
 
 [functions.batch-translate-hotels]
-verify_jwt = true
+verify_jwt = false
+
+[functions.translate-hotel-content]
+verify_jwt = false
+
+[functions.detect-language]
+verify_jwt = false
 
 [functions.batch-populate-hotel-images]
 verify_jwt = true

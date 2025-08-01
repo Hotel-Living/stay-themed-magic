@@ -5,7 +5,8 @@ import { useToast } from '@/hooks/use-toast';
 
 interface TranslationRequest {
   hotelId: string;
-  targetLanguage: 'es' | 'pt' | 'ro';
+  targetLanguage: 'en' | 'es' | 'pt' | 'ro';
+  sourceLanguage?: 'en' | 'es' | 'pt' | 'ro';
   content: {
     name: string;
     description?: string;

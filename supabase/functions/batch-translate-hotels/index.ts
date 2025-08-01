@@ -14,7 +14,8 @@ const supabase = createClient(
 );
 
 interface BatchTranslationRequest {
-  languages?: ('es' | 'pt' | 'ro')[];
+  languages?: ('en' | 'es' | 'pt' | 'ro')[];
+  sourceLanguage?: 'en' | 'es' | 'pt' | 'ro';
 }
 
 const getHotelsNeedingTranslation = async (languages: string[]) => {

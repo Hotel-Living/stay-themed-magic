@@ -17,7 +17,8 @@ const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
 interface TranslationRequest {
   hotelId: string;
-  targetLanguage: 'es' | 'pt' | 'ro';
+  targetLanguage: 'en' | 'es' | 'pt' | 'ro';
+  sourceLanguage?: 'en' | 'es' | 'pt' | 'ro';
   content: {
     name: string;
     description?: string;
@@ -37,6 +38,7 @@ interface TranslationResponse {
 
 const getLanguageName = (code: string): string => {
   const languages: Record<string, string> = {
+    'en': 'English',
     'es': 'Spanish',
     'pt': 'Portuguese', 
     'ro': 'Romanian'
@@ -44,21 +46,22 @@ const getLanguageName = (code: string): string => {
   return languages[code] || code;
 };
 
-const translateContent = async (content: TranslationRequest['content'], targetLanguage: string): Promise<TranslationResponse> => {
-  const languageName = getLanguageName(targetLanguage);
+const translateContent = async (content: TranslationRequest['content'], targetLanguage: string, sourceLanguage: string = 'en'): Promise<TranslationResponse> => {
+  const targetLanguageName = getLanguageName(targetLanguage);
+  const sourceLanguageName = getLanguageName(sourceLanguage);
   
   const systemPrompt = `You are a professional hotel content translator specializing in hospitality marketing. 
   
-Your task is to translate hotel content into ${languageName} while:
+Your task is to translate hotel content from ${sourceLanguageName} into ${targetLanguageName} while:
 - Maintaining the welcoming, inviting tone typical of hotel descriptions
 - Preserving the marketing appeal and emotional connection
 - Using hospitality industry terminology appropriately
 - Keeping the same structure and formatting
-- Ensuring cultural appropriateness for ${languageName}-speaking markets
+- Ensuring cultural appropriateness for ${targetLanguageName}-speaking markets
 
 Respond ONLY with a valid JSON object containing the translated fields. Do not include any explanations or additional text.`;
 
-  const userPrompt = `Translate the following hotel content to ${languageName}:
+  const userPrompt = `Translate the following hotel content from ${sourceLanguageName} to ${targetLanguageName}:
 
 ${JSON.stringify(content, null, 2)}
 
@@ -111,9 +114,9 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    const { hotelId, targetLanguage, content }: TranslationRequest = await req.json();
+    const { hotelId, targetLanguage, sourceLanguage = 'en', content }: TranslationRequest = await req.json();
 
-    console.log(`Starting translation for hotel ${hotelId} to ${targetLanguage}`);
+    console.log(`Starting translation for hotel ${hotelId} from ${sourceLanguage} to ${targetLanguage}`);
 
     // Check if translation already exists
     const { data: existingTranslation } = await supabase
@@ -157,7 +160,7 @@ serve(async (req) => {
     }
 
     // Perform translation
-    const translatedContent = await translateContent(content, targetLanguage);
+    const translatedContent = await translateContent(content, targetLanguage, sourceLanguage);
 
     // Update with completed translation
     const { data: finalTranslation, error: updateError } = await supabase

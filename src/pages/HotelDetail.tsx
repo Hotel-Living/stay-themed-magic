@@ -72,16 +72,28 @@ export default function HotelDetail() {
   }
 
   return (
-    <div 
-      className="min-h-screen flex flex-col"
-      style={{
-        background: 'linear-gradient(180deg, #00DCF9 0%, #001999 100%)'
-      }}
-    >
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <BubbleCounter />
-      <main className="flex-1">
-        <HotelDetailContentEnhanced hotel={hotel} isLoading={false} />
+      <main className="flex-1 relative">
+        {/* Gradient background for upper section only */}
+        <div 
+          className="absolute top-0 left-0 w-full h-[80vh]"
+          style={{
+            background: 'linear-gradient(180deg, #00DCF9 0%, #001999 100%)'
+          }}
+        />
+        {/* Solid dark blue background for the rest */}
+        <div 
+          className="absolute top-[80vh] left-0 w-full"
+          style={{
+            background: '#001999',
+            height: 'calc(100vh + 200px)' // Extra height to ensure coverage
+          }}
+        />
+        <div className="relative z-10">
+          <HotelDetailContentEnhanced hotel={hotel} isLoading={false} />
+        </div>
       </main>
       <Footer />
       <HotelPageAvatar />

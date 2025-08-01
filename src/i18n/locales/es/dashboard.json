@@ -166,16 +166,17 @@
       }
     },
     "tabs": {
-      "dashboard": "Tablero",
-      "experience": "Mi Experiencia",
-      "bookings": "Mis Reservas",
-      "history": "Historial de Estadías",
+      "dashboard": "Dashboard",
+      "experience": "Experience",
+      "bookings": "Bookings",
+      "history": "History",
       "saved": "Hoteles Guardados",
-      "payments": "Métodos de Pago",
-      "getThreeNights": "Recomendar un Hotel",
-      "profile": "Perfil",
-      "settings": "Configuración",
-      "notifications": "Alertas"
+      "payments": "Payments",
+      "getThreeNights": "Get Three Nights",
+      "becomeAmbassador": "Become Ambassador",
+      "profile": "Profile",
+      "settings": "Settings",
+      "notifications": "Notifications"
     }
   }
 }

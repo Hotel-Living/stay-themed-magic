@@ -167,16 +167,17 @@
       }
     },
     "tabs": {
-      "dashboard": "Tablou de bord",
-      "experience": "Experiența Mea",
-      "bookings": "Rezervările Mele",
-      "history": "Istoricul Șederilor",
+      "dashboard": "Dashboard",
+      "experience": "Experience",
+      "bookings": "Bookings",
+      "history": "History",
       "saved": "Hoteluri Salvate",
-      "payments": "Metode de Plată",
-      "getThreeNights": "Recomandă un Hotel",
-      "profile": "Profil",
-      "settings": "Setări",
-      "notifications": "Alerte"
+      "payments": "Payments",
+      "getThreeNights": "Get Three Nights",
+      "becomeAmbassador": "Become Ambassador",
+      "profile": "Profile",
+      "settings": "Settings",
+      "notifications": "Notifications"
     }
   }
 }

@@ -168,15 +168,16 @@
     },
     "tabs": {
       "dashboard": "Dashboard",
-      "experience": "My Experience",
-      "bookings": "My Bookings",
-      "history": "Stay History",
+      "experience": "Experience",
+      "bookings": "Bookings",
+      "history": "History",
       "saved": "Saved Hotels",
-      "payments": "Payment Methods",
-      "getThreeNights": "Recommend a Hotel",
+      "payments": "Payments",
+      "getThreeNights": "Get Three Nights",
+      "becomeAmbassador": "Become Ambassador",
       "profile": "Profile",
       "settings": "Settings",
-      "notifications": "Alerts"
+      "notifications": "Notifications"
     }
   }
 }

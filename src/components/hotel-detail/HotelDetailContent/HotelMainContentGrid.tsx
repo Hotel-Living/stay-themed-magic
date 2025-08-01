@@ -62,6 +62,18 @@ export function HotelMainContentGrid({
     converted_hotel: hotelFeaturesArray,
     converted_room: roomFeaturesArray
   });
+
+  // Debug hotel location props
+  console.log('🏨 About to render HotelLocation with props:', {
+    hotelId: hotel.id,
+    latitude: hotel.latitude,
+    longitude: hotel.longitude,
+    hotelName: hotel.name,
+    address: hotel.address,
+    city: hotel.city,
+    country: hotel.country
+  });
+
   return <div className="grid lg:grid-cols-3 gap-8">
       {/* Left content area - Features and Map */}
       <div className="lg:col-span-2 space-y-8">

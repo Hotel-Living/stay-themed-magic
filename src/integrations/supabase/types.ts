@@ -1929,6 +1929,10 @@ export type Database = {
         }
         Returns: Json
       }
+      trigger_batch_hotel_translations: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       validate_password_reset_token: {
         Args: { p_token: string }
         Returns: {

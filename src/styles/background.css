@@ -8,7 +8,7 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  background-color: #860493; /* Kept the same color */
+  background-color: #7901AB !important;
 }
 
 .bg-slide {

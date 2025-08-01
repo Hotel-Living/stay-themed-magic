@@ -168,7 +168,7 @@ function MainAppRoutes() {
             <Route path="/add-property" element={<HotelDashboard />} />
             <Route path="/promoter/*" element={<PromoterDashboard />} />
             <Route path="/promoter-dashboard" element={<Navigate to="/promoter/dashboard" replace />} />
-            <Route path="/login" element={<Navigate to="/login/user" replace />} />
+            <Route path="/login" element={<Navigate to="/sign-in" replace />} />
             <Route path="/intro-test" element={<IntroTest />} />
             <Route path="/intro-test1" element={<IntroTest1 />} />
             <Route path="/intro-test2" element={<IntroTest2 />} />

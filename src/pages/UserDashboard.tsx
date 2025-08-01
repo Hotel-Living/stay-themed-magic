@@ -46,9 +46,9 @@ export default function UserDashboard() {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       if (!user) {
-        console.log("No user found, redirecting to login");
+        console.log("No user found, redirecting to sign-in");
         // Use setTimeout to prevent race conditions
-        setTimeout(() => navigate('/login'), 100);
+        setTimeout(() => navigate('/sign-in'), 100);
         return;
       }
       

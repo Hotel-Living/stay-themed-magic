@@ -126,6 +126,38 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     return `${formattedAddress}, ${formattedCity}, ${formattedCountry}`;
   };
 
+  // Function to get only street address without city/country
+  const getStreetAddressOnly = () => {
+    if (!hotel.address) {
+      return '';
+    }
+    
+    const formattedAddress = formatAddress(hotel.address);
+    const addressLower = formattedAddress.toLowerCase();
+    const cityLower = hotel.city.toLowerCase();
+    const countryLower = hotel.country.toLowerCase();
+    
+    // Remove city and country from address if they exist
+    let streetAddress = formattedAddress;
+    
+    // Remove country first (longer strings first to avoid partial matches)
+    if (addressLower.includes(countryLower)) {
+      const countryIndex = addressLower.indexOf(countryLower);
+      streetAddress = streetAddress.substring(0, countryIndex).trim();
+    }
+    
+    // Remove city
+    if (streetAddress.toLowerCase().includes(cityLower)) {
+      const cityIndex = streetAddress.toLowerCase().indexOf(cityLower);
+      streetAddress = streetAddress.substring(0, cityIndex).trim();
+    }
+    
+    // Clean up any trailing commas or spaces
+    streetAddress = streetAddress.replace(/[,\s]+$/, '');
+    
+    return streetAddress;
+  };
+
   const formatPropertyTypeStayText = () => {
     const propertyType = hotel.property_type || t('detail.hotel');
     const style = hotel.style || '';
@@ -336,6 +368,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                     color: '#FFFFFF',
                     textAlign: 'center',
                     textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                    WebkitTextStroke: '1.5px rgba(126, 38, 166, 0.7)',
                     marginBottom: '6px'
                   }}
                 >
@@ -357,19 +390,21 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                   </div>
                 )}
                 
-                {/* Address */}
-                <p 
-                  style={{
-                    fontSize: '16px',
-                    fontWeight: '700',
-                    color: '#FFFFFF',
-                    textAlign: 'center',
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-                    marginBottom: '6px'
-                  }}
-                >
-                  {getFormattedAddressDisplay()}
-                </p>
+                {/* Street Address Only */}
+                {getStreetAddressOnly() && (
+                  <p 
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: '700',
+                      color: '#FFFFFF',
+                      textAlign: 'center',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    {getStreetAddressOnly()}
+                  </p>
+                )}
                 
                 {/* City - Country */}
                 <p 

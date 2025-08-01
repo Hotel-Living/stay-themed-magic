@@ -25,7 +25,8 @@ export function HotelLocation({
   const [mapError, setMapError] = useState(false);
   const [apiKey, setApiKey] = useState<string | null>(null);
   
-  // Add debug logging at component mount
+  
+  // FORCE debug logging to always show
   console.log(`🗺️ HotelLocation MOUNTED for hotel: ${hotelName}`, {
     hotelId,
     latitude, 
@@ -36,9 +37,12 @@ export function HotelLocation({
     hasCoordinates: !!(latitude && longitude),
     hasAddress: !!(address || city || country)
   });
-  
+
   // Build full address from hotel data
   const fullAddress = [address, city, country].filter(Boolean).join(', ');
+  
+  console.log(`🗺️ HotelLocation fullAddress: "${fullAddress}"`);
+  console.log(`🗺️ HotelLocation will render: true (forced for debugging)`);
   
   // Fetch API key from Supabase Edge Function
   useEffect(() => {

@@ -28,8 +28,8 @@ export const UserDashboardLayout = () => {
     if (!isLoading) {
       // First check authentication
       if (!user || !session) {
-        console.log("No authenticated user detected in user dashboard layout, redirecting to user login");
-        window.location.href = "/login/user";
+        console.log("No authenticated user detected in user dashboard layout, redirecting to sign-in");
+        window.location.href = "/sign-in";
         return;
       }
       

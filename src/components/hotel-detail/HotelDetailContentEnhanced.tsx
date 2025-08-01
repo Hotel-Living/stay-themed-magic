@@ -13,6 +13,20 @@ interface HotelDetailContentProps {
 export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailContentProps) {
   const { t } = useTranslationWithFallback('hotel');
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
+  const [windowWidth, setWindowWidth] = useState(1024);
+
+  // Window resize handler
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
 
   // Staggered animation
   useEffect(() => {
@@ -255,36 +269,47 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
         {/* 2️⃣ HOTEL HIGHLIGHTS SECTION */}
         <div className={`${sectionClass(1)}`}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+          <div 
+            className="flex flex-nowrap justify-center gap-2 overflow-x-auto"
+            style={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              justifyContent: 'center',
+              gap: '10px'
+            }}
+          >
             {generateHotelHighlights().map((highlight, index) => (
               <div 
                 key={index}
-                className="text-center"
+                className="text-center flex-shrink-0"
                 style={{
-                  background: '#FFFFFF',
+                  background: '#7E26A6',
                   borderRadius: '8px',
-                  padding: '12px',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                  marginBottom: '10px'
+                  padding: '10px 14px',
+                  minWidth: '120px',
+                  maxWidth: `${Math.max(120, Math.floor((windowWidth - 80) / Math.min(generateHotelHighlights().length, 7)))}px`
                 }}
               >
                 {/* Green check icon centered on top */}
-                <div className="flex justify-center mb-3">
+                <div 
+                  className="flex justify-center"
+                  style={{ marginBottom: '5px' }}
+                >
                   <CheckCircle 
-                    className="w-6 h-6" 
+                    className="w-5 h-5" 
                     style={{ color: '#22c55e' }}
                   />
                 </div>
                 
                 {/* Text centered below icon */}
                 <p 
-                  className="text-base sm:text-lg"
                   style={{
+                    fontSize: `${Math.max(14, Math.min(18, 18 - Math.max(0, generateHotelHighlights().length - 4)))}px`,
                     fontWeight: '500',
-                    color: '#222',
+                    color: '#FFFFFF',
                     textAlign: 'center',
-                    lineHeight: '1.4',
-                    minHeight: '16px'
+                    lineHeight: '1.3',
+                    margin: '0'
                   }}
                 >
                   {highlight}

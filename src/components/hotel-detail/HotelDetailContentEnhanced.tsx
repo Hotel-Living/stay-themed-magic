@@ -258,7 +258,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   };
 
   return (
-    <div className="min-h-screen relative" style={{ backgroundColor: '#110089' }}>
+    <div className="min-h-screen relative" style={{ backgroundColor: '#000075' }}>
       {/* Blue glow background effect */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(147,51,234,0.1),transparent_40%)]" />

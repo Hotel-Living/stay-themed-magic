@@ -129,7 +129,7 @@ export const AssociationDashboard = () => {
           </button>
         </div>
 
-        <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]">
+        <Card className="bg-[#7E00B3]/90 backdrop-blur-sm border-none" style={{boxShadow: '0px 0px 18px 3px rgba(0, 174, 255, 0.7)'}}>
           <CardContent className="p-6">
             <Tabs defaultValue="hotels" className="w-full">
               <TabsList className="grid w-full grid-cols-5 bg-slate-700/50 border border-blue-500/20">

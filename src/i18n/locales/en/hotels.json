@@ -373,7 +373,6 @@
   "calculator": {
     "profitExplanation": "(Almost pure profit: empty rooms\nalready have all fixed costs paid)"
   },
-  "hotelLocation": "Hotel Location",
   "atAGlance": "At a Glance",
   "propertyDescription": "This {{style}} {{propertyType}} offers {{stayLengths}} stays.",
   "idealFor": "Ideal for ",

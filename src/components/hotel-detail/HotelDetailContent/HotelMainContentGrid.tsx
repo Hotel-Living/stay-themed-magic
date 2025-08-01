@@ -62,18 +62,6 @@ export function HotelMainContentGrid({
     converted_hotel: hotelFeaturesArray,
     converted_room: roomFeaturesArray
   });
-
-  // Debug hotel location props
-  console.log('🏨 About to render HotelLocation with props:', {
-    hotelId: hotel.id,
-    latitude: hotel.latitude,
-    longitude: hotel.longitude,
-    hotelName: hotel.name,
-    address: hotel.address,
-    city: hotel.city,
-    country: hotel.country
-  });
-
   return <div className="grid lg:grid-cols-3 gap-8">
       {/* Left content area - Features and Map */}
       <div className="lg:col-span-2 space-y-8">
@@ -101,15 +89,7 @@ export function HotelMainContentGrid({
         <Card className="bg-[#6000B3] border-border shadow-2xl">
           <div className="p-6 bg-[#6000B3]">
             <h2 className="text-2xl font-bold mb-6 text-white text-center">{t('hotelLocation')}</h2>
-            <HotelLocation 
-              hotelId={hotel.id} 
-              latitude={Number(hotel.latitude) || 0} 
-              longitude={Number(hotel.longitude) || 0} 
-              hotelName={hotel.name} 
-              address={hotel.address || ""} 
-              city={hotel.city || ""} 
-              country={hotel.country || ""} 
-            />
+            <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
           </div>
         </Card>
       </div>

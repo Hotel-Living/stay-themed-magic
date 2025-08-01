@@ -156,6 +156,33 @@ ${JSON.stringify(logData.payload_summary, null, 2)}
         hotel_activities: payload.hotelActivities
       });
 
+      // After successful hotel registration, trigger automatic translations
+      if (response?.success && response?.hotel_id) {
+        console.log('[DATA-PRESERVATION] Hotel registration successful, triggering auto-translations for hotel:', response.hotel_id);
+        
+        try {
+          // Import the auto-translation hook
+          const { useAutoTranslation } = await import('@/hooks/useAutoTranslation');
+          const { triggerAutoTranslations } = useAutoTranslation();
+          
+          // Prepare content for translation
+          const contentForTranslation = {
+            name: payload.hotelData.name,
+            description: payload.hotelData.description,
+            ideal_guests: payload.hotelData.ideal_guests,
+            atmosphere: payload.hotelData.atmosphere,
+            perfect_location: payload.hotelData.perfect_location
+          };
+          
+          // Trigger translations for all target languages
+          await triggerAutoTranslations(response.hotel_id, contentForTranslation);
+          console.log('[DATA-PRESERVATION] Auto-translations triggered successfully');
+        } catch (translationError) {
+          console.warn('[DATA-PRESERVATION] Auto-translation failed, but hotel registration was successful:', translationError);
+          // Don't fail the entire process if translation fails
+        }
+      }
+
       if (error) {
         console.error('[DATA-PRESERVATION] Supabase RPC Error Details:', {
           message: error.message,

@@ -33,20 +33,14 @@ export const useMarqueeMessages = () => {
           throw new Error(`Failed to load messages: ${response.status}`);
         }
         
-        const textData = await response.text();
-        console.log('Marquee data loaded:', { language, fileName, dataLength: textData.length });
+        const messagesData = await response.json() as string[];
+        console.log('Marquee data loaded:', { language, fileName, messagesCount: messagesData.length });
         
-        // Parse text data - split by single line breaks and filter empty lines
-        const messages = textData
-          .split('\n')
-          .map(msg => msg.trim())
-          .filter(msg => msg.length > 0);
+        console.log('Parsed messages:', messagesData.length, messagesData.slice(0, 3));
         
-        console.log('Parsed messages:', messages.length, messages.slice(0, 3));
-        
-        if (messages.length > 0) {
+        if (messagesData.length > 0) {
           // Shuffle messages to prevent predictable order
-          const shuffledMessages = shuffleArray(messages);
+          const shuffledMessages = shuffleArray(messagesData);
           setMessages(shuffledMessages);
           setCurrentIndex(0);
           console.log('Messages set successfully');

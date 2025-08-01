@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, Heart, Share2, MapPin, Star, Sparkles, Users, Wifi, Car, Coffee, Utensils, Clock, CheckCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslationWithFallback } from "@/hooks/useTranslationWithFallback";
+import { useFilterTranslations } from "@/hooks/useFilterTranslations";
 import { HotelLocationMap } from "./HotelLocationMap";
 
 interface HotelDetailContentProps {
@@ -13,6 +14,7 @@ interface HotelDetailContentProps {
 
 export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailContentProps) {
   const { t } = useTranslationWithFallback('hotel');
+  const { translateHotelFeatures, translateRoomFeatures } = useFilterTranslations();
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
   const [windowWidth, setWindowWidth] = useState(1024);
 
@@ -234,11 +236,18 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     return null;
   };
 
-  const getSelectedFeatures = (features: Record<string, boolean> | undefined) => {
+  const getSelectedFeatures = (features: Record<string, boolean> | undefined, type: 'hotel' | 'room') => {
     if (!features) return [];
-    return Object.entries(features)
+    const selectedFeatureKeys = Object.entries(features)
       .filter(([_, isSelected]) => isSelected)
-      .map(([feature]) => feature.replace(/_/g, ' '));
+      .map(([feature]) => feature);
+    
+    // Translate features based on type
+    if (type === 'hotel') {
+      return translateHotelFeatures(selectedFeatureKeys);
+    } else {
+      return translateRoomFeatures(selectedFeatureKeys);
+    }
   };
 
   // Calculate dynamic widths for highlight boxes to balance line count
@@ -289,51 +298,68 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       return hotel.custom_highlights;
     }
     
-    // 1. ¡Este hotel es de estilo urbano!
+    // 1. Property type and style
     if (hotel.property_type && hotel.style) {
-      highlights.push(`¡Este ${hotel.property_type.toLowerCase()} es de estilo ${hotel.style.toLowerCase()}!`);
+      highlights.push(
+        t('detail.highlights.propertyStyle', { 
+          type: hotel.property_type.toLowerCase(), 
+          style: hotel.style.toLowerCase() 
+        })
+      );
     }
     
-    // 2. ¡Ofrece estancias de 32 días!
+    // 2. Stay duration
     if (hotel.stay_lengths && hotel.stay_lengths.length > 0) {
-      const lengths = hotel.stay_lengths.join(' y ');
-      highlights.push(`¡Ofrece estancias de ${lengths} días!`);
+      const lengths = hotel.stay_lengths.join(` ${t('detail.and')} `);
+      highlights.push(
+        t('detail.highlights.stayDuration', { days: lengths })
+      );
     }
     
-    // 3. ¡Con half board incluido!
+    // 3. Meal plans
     if (hotel.meal_plans && hotel.meal_plans.length > 0) {
       const mealPlan = hotel.meal_plans[0].toLowerCase();
       if (!mealPlan.includes('solo alojamiento') && !mealPlan.includes('accommodation only')) {
-        highlights.push(`¡Con ${mealPlan} incluido!`);
+        highlights.push(
+          t('detail.highlights.mealPlanIncluded', { plan: mealPlan })
+        );
       }
     }
     
-    // 4. ¡Con servicio de lavandería disponible!
+    // 4. Laundry service
     const hasLaundryIncluded = hotel.laundry_service?.available;
     if (hasLaundryIncluded) {
-      highlights.push('¡Con servicio de lavandería incluido!');
+      highlights.push(t('detail.highlights.laundryIncluded'));
     } else if (hotel.laundry_service) {
-      highlights.push('¡Con servicio de lavandería disponible!');
+      highlights.push(t('detail.highlights.laundryAvailable'));
     }
     
-    // 5. ¡Su precio mensual proporcional es USD 1,120!
+    // 5. Monthly price
     if (hotel.price_per_month && typeof hotel.price_per_month === 'number') {
-      highlights.push(`¡Su precio mensual proporcional es USD ${hotel.price_per_month.toLocaleString()}!`);
+      highlights.push(
+        t('detail.highlights.monthlyPrice', { 
+          price: hotel.price_per_month.toLocaleString() 
+        })
+      );
     }
     
-    // 6. ¡Sus clientes Hotel-Living disfrutan de (AFINIDADES)!
+    // 6. Client affinities
     const affinities = hotel.hotel_themes?.map(theme => theme.themes?.name).filter(Boolean) || [];
     if (affinities.length > 0) {
-      const affinitiesText = affinities.join(', ').replace(/, ([^,]*)$/, ' y $1');
-      highlights.push(`¡Sus clientes Hotel-Living disfrutan de ${affinitiesText}!`);
+      const affinitiesText = affinities.join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`);
+      highlights.push(
+        t('detail.highlights.clientAffinities', { affinities: affinitiesText })
+      );
     }
     
-    // 7. ¡Su/s actividad/es perfecta/s es/son: (ACTIVIDADES)!
+    // 7. Activities
     const activities = hotel.activities || [];
     if (activities.length > 0) {
-      const activitiesText = activities.join(', ').replace(/, ([^,]*)$/, ' y $1');
-      const activityForm = activities.length === 1 ? 'Su actividad perfecta es' : 'Sus actividades perfectas son';
-      highlights.push(`¡${activityForm}: ${activitiesText}!`);
+      const activitiesText = activities.join(', ').replace(/, ([^,]*)$/, ` ${t('detail.and')} $1`);
+      const activityKey = activities.length === 1 ? 
+        'detail.highlights.perfectActivitySingle' : 
+        'detail.highlights.perfectActivityPlural';
+      highlights.push(t(activityKey, { activities: activitiesText }));
     }
     
     return highlights;
@@ -501,7 +527,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {hotel.ideal_guests && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
-                Ideal para huéspedes que...
+                {t('detail.idealForGuests')}
               </h3>
               <p className="text-base text-white leading-relaxed">{hotel.ideal_guests}</p>
             </div>
@@ -510,7 +536,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {hotel.atmosphere && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
-                El ambiente es...
+                {t('detail.atmosphere')}
               </h3>
               <p className="text-base text-white leading-relaxed">{hotel.atmosphere}</p>
             </div>
@@ -519,7 +545,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {hotel.perfect_location && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
-                La ubicación es perfecta para...
+                {t('detail.locationPerfectFor')}
               </h3>
               <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
             </div>
@@ -538,13 +564,13 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         {/* 5️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}
         <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(4)}`}>
           {/* Left: Hotel Features */}
-          {getSelectedFeatures(hotel.features_hotel).length > 0 && (
+          {getSelectedFeatures(hotel.features_hotel, 'hotel').length > 0 && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-bold text-white mb-3 text-center">
-                Amenidades del Hotel
+                {t('detail.hotelAmenities')}
               </h3>
               <div className="grid grid-cols-1 gap-1">
-                {getSelectedFeatures(hotel.features_hotel).slice(0, 6).map((feature, index) => (
+                {getSelectedFeatures(hotel.features_hotel, 'hotel').slice(0, 6).map((feature, index) => (
                   <div key={index} className="flex items-center gap-2 text-white">
                     <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
                     <span className="capitalize text-sm">{feature}</span>
@@ -557,26 +583,26 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {/* Center: Location */}
           {(hotel.city || hotel.country) && (
             <div className="bg-white rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
-              <h2 className="text-base font-bold text-gray-800 mb-3 text-center">Ubicación</h2>
+              <h2 className="text-base font-bold text-gray-800 mb-3 text-center">{t('detail.location')}</h2>
               <HotelLocationMap
                 address={hotel.address}
                 city={hotel.city}
                 country={hotel.country}
-                latitude={hotel.latitude}
-                longitude={hotel.longitude}
+                latitude={typeof hotel.latitude === 'number' ? hotel.latitude : undefined}
+                longitude={typeof hotel.longitude === 'number' ? hotel.longitude : undefined}
                 hotelName={hotel.name}
               />
             </div>
           )}
 
           {/* Right: Room Features */}
-          {getSelectedFeatures(hotel.features_room).length > 0 && (
+          {getSelectedFeatures(hotel.features_room, 'room').length > 0 && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-bold text-white mb-3 text-center">
-                Amenidades de la Habitación
+                {t('detail.roomAmenities')}
               </h3>
               <div className="grid grid-cols-1 gap-1">
-                {getSelectedFeatures(hotel.features_room).slice(0, 6).map((feature, index) => (
+                {getSelectedFeatures(hotel.features_room, 'room').slice(0, 6).map((feature, index) => (
                   <div key={index} className="flex items-center gap-2 text-white">
                     <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
                     <span className="capitalize text-sm">{feature}</span>
@@ -589,9 +615,9 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
         {/* 6️⃣ AVAILABILITY PACKAGES */}
         <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(5)}`}>
-          <h2 className="text-base font-bold text-white mb-3 text-center">Paquetes de Disponibilidad</h2>
+          <h2 className="text-base font-bold text-white mb-3 text-center">{t('detail.availabilityPackages')}</h2>
           <div className="text-center text-white/70">
-            <p className="text-lg">Los paquetes de disponibilidad aparecerán aquí cuando estén configurados.</p>
+            <p className="text-lg">{t('detail.availabilityPackagesPlaceholder')}</p>
           </div>
         </div>
 

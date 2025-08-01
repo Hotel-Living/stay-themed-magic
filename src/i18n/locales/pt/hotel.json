@@ -2,7 +2,7 @@
   "detail": {
     "idealForGuests": "Ideal para hóspedes que...",
     "atmosphere": "A atmosfera é...",
-    "locationPerfectFor": "Nossa localização é perfeita para...",
+    "locationPerfectFor": "A localização é perfeita para...",
     "aboutOurHotel": "Sobre Nosso Hotel",
     "roomFeatures": "Características do Quarto",
     "hotelFeatures": "Características do Hotel",
@@ -37,6 +37,22 @@
     "loadingHotelDetails": "Carregando detalhes do hotel...",
     "doubleOccupancy": "Ocupação Dupla",
     "singleOccupancy": "Ocupação Individual",
-    "accommodationOnly": "Apenas acomodação"
+    "accommodationOnly": "Apenas acomodação",
+    "hotelAmenities": "Comodidades do Hotel",
+    "roomAmenities": "Comodidades do Quarto",
+    "location": "Localização",
+    "availabilityPackages": "Pacotes de Disponibilidade",
+    "availabilityPackagesPlaceholder": "Os pacotes de disponibilidade aparecerão aqui quando configurados.",
+    "highlights": {
+      "propertyStyle": "Este {{type}} é de estilo {{style}}!",
+      "stayDuration": "Oferece estadias de {{days}} dias!",
+      "mealPlanIncluded": "Com {{plan}} incluído!",
+      "laundryIncluded": "Com serviço de lavanderia incluído!",
+      "laundryAvailable": "Com serviço de lavanderia disponível!",
+      "monthlyPrice": "Preço mensal proporcional é USD {{price}}!",
+      "clientAffinities": "Clientes Hotel-Living desfrutam de {{affinities}}!",
+      "perfectActivitySingle": "Atividade perfeita é: {{activities}}!",
+      "perfectActivityPlural": "Atividades perfeitas são: {{activities}}!"
+    }
   }
 }

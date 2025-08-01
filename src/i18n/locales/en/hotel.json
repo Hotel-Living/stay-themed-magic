@@ -37,6 +37,22 @@
     "loadingHotelDetails": "Loading hotel details...",
     "doubleOccupancy": "Double Occupancy",
     "singleOccupancy": "Single Occupancy",
-    "accommodationOnly": "Accommodation Only"
+    "accommodationOnly": "Accommodation Only",
+    "hotelAmenities": "Hotel Amenities",
+    "roomAmenities": "Room Amenities",
+    "location": "Location",
+    "availabilityPackages": "Availability Packages",
+    "availabilityPackagesPlaceholder": "Availability packages will appear here when configured.",
+    "highlights": {
+      "propertyStyle": "This {{type}} is {{style}} style!",
+      "stayDuration": "Offers stays of {{days}} days!",
+      "mealPlanIncluded": "With {{plan}} included!",
+      "laundryIncluded": "With laundry service included!",
+      "laundryAvailable": "With laundry service available!",
+      "monthlyPrice": "Monthly proportional price is USD {{price}}!",
+      "clientAffinities": "Hotel-Living clients enjoy {{affinities}}!",
+      "perfectActivitySingle": "Perfect activity is: {{activities}}!",
+      "perfectActivityPlural": "Perfect activities are: {{activities}}!"
+    }
   }
 }

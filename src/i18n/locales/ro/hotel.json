@@ -2,7 +2,7 @@
   "detail": {
     "idealForGuests": "Ideal pentru oaspeții care...",
     "atmosphere": "Atmosfera este...",
-    "locationPerfectFor": "Locația noastră este perfectă pentru...",
+    "locationPerfectFor": "Locația este perfectă pentru...",
     "aboutOurHotel": "Despre Hotelul Nostru",
     "roomFeatures": "Caracteristicile Camerei",
     "hotelFeatures": "Caracteristicile Hotelului",
@@ -37,6 +37,22 @@
     "loadingHotelDetails": "Se încarcă detaliile hotelului...",
     "doubleOccupancy": "Ocupare Dublă",
     "singleOccupancy": "Ocupare Individuală",
-    "accommodationOnly": "Doar cazare"
+    "accommodationOnly": "Doar cazare",
+    "hotelAmenities": "Facilitățile Hotelului",
+    "roomAmenities": "Facilitățile Camerei",
+    "location": "Locație",
+    "availabilityPackages": "Pachete de Disponibilitate",
+    "availabilityPackagesPlaceholder": "Pachetele de disponibilitate vor apărea aici când sunt configurate.",
+    "highlights": {
+      "propertyStyle": "Acest {{type}} este de stil {{style}}!",
+      "stayDuration": "Oferă sejururi de {{days}} zile!",
+      "mealPlanIncluded": "Cu {{plan}} inclus!",
+      "laundryIncluded": "Cu serviciul de spălătorie inclus!",
+      "laundryAvailable": "Cu serviciul de spălătorie disponibil!",
+      "monthlyPrice": "Prețul lunar proporțional este USD {{price}}!",
+      "clientAffinities": "Clienții Hotel-Living se bucură de {{affinities}}!",
+      "perfectActivitySingle": "Activitatea perfectă este: {{activities}}!",
+      "perfectActivityPlural": "Activitățile perfecte sunt: {{activities}}!"
+    }
   }
 }

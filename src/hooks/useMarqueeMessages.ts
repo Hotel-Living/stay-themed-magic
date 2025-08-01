@@ -33,12 +33,17 @@ export const useMarqueeMessages = () => {
           throw new Error(`Failed to load messages: ${response.status}`);
         }
         
-        const data: MarqueeMessagesData = await response.json();
-        const languageMessages = data[language] || data['en'] || [];
+        const textData = await response.text();
         
-        if (languageMessages.length > 0) {
+        // Parse text data - split by double line breaks to separate messages
+        const messages = textData
+          .split('\n\n')
+          .map(msg => msg.trim())
+          .filter(msg => msg.length > 0);
+        
+        if (messages.length > 0) {
           // Shuffle messages to prevent predictable order
-          const shuffledMessages = shuffleArray(languageMessages);
+          const shuffledMessages = shuffleArray(messages);
           setMessages(shuffledMessages);
           setCurrentIndex(0);
         }

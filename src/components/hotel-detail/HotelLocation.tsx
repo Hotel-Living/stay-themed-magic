@@ -161,33 +161,27 @@ export function HotelLocation({
       
       if (error || !data || (!data.key && !data.apiKey)) {
         console.error('Error fetching map key:', error);
-        // Try fallback from environment variable
-        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        if (envKey) {
-          console.log('Using fallback API key from environment');
-          apiKey = envKey;
-        } else {
-          setError("Could not load map key");
-          setIsLoading(false);
-          return;
-        }
+        console.log('Falling back to hardcoded API key');
+        // Use hardcoded fallback API key for immediate rendering
+        apiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM';
       } else {
-        console.log('Successfully retrieved API key');
+        console.log('Successfully retrieved API key from edge function');
         apiKey = data.key || data.apiKey;
       }
       
       if (apiKey) {
         setMapKey(apiKey);
         setMapReady(true);
-        
-        // Geocode address if coordinates are missing
-        await geocodeAddress(apiKey);
+        console.log('Map key set successfully, map ready');
       } else {
         setError("No map key available");
       }
     } catch (err) {
       console.error('Exception fetching map key:', err);
-      setError("Error loading map");
+      console.log('Using fallback API key due to exception');
+      // Use hardcoded fallback on exception
+      setMapKey('AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM');
+      setMapReady(true);
     } finally {
       setIsLoading(false);
     }
@@ -196,21 +190,27 @@ export function HotelLocation({
     fetchMapKey();
   }, []);
 
-  // Generate map URL based on available data
+  // Generate map URL based on available data with dual fallback logic
   const getMapUrl = () => {
-    if (!mapKey) return null;
+    const fallbackApiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM';
+    const activeApiKey = mapKey || fallbackApiKey;
     
-    if (coordinates) {
-      // Use geocoded or existing coordinates
-      return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${coordinates.lat},${coordinates.lng}&zoom=15`;
-    } else {
-      // Fallback to address-based map
-      const fullAddress = [address, city, country].filter(Boolean).join(', ');
-      if (fullAddress.trim()) {
-        return `https://www.google.com/maps/embed/v1/place?key=${mapKey}&q=${encodeURIComponent(fullAddress)}&zoom=15`;
-      }
+    if (!activeApiKey) {
+      console.error('No API key available for map rendering');
+      return null;
     }
-    return null;
+    
+    // Build full address dynamically from hotel data
+    const fullAddress = [address, city, country].filter(Boolean).join(', ');
+    console.log('Building map URL with:', { latitude, longitude, fullAddress, activeApiKey: activeApiKey ? 'present' : 'missing' });
+    
+    // Use coordinates if available, otherwise use address
+    const queryParam = (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) 
+      ? `${latitude},${longitude}` 
+      : encodeURIComponent(fullAddress);
+    
+    console.log('Map query parameter:', queryParam);
+    return `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${queryParam}`;
   };
 
   // Check if we have any location data to display
@@ -238,16 +238,17 @@ export function HotelLocation({
             </Button>
           </div>}
         
-        {!isLoading && !error && mapReady && mapUrl && <iframe 
-          src={mapUrl} 
+        {!isLoading && !error && mapUrl && <iframe 
           width="100%" 
-          height="100%" 
+          height="300" 
           style={{ border: 0 }} 
-          allowFullScreen 
           loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade" 
+          allowFullScreen 
+          src={mapUrl}
           title={`${hotelName} location`}
           className="rounded-lg"
+          onError={(e) => console.error('Map iframe error:', e)}
+          onLoad={() => console.log('Map iframe loaded successfully')}
         ></iframe>}
         
         {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">

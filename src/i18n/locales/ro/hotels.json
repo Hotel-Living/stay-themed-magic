@@ -55,5 +55,6 @@
   "linkText": "Portretul Crizei Hoteliere",
   "calculator": {
     "profitExplanation": "(Profit aproape pur: camerele goale\nau deja toate costurile fixe plătite)"
-  }
+  },
+  "hotelLocation": "Locația Hotelului"
 }

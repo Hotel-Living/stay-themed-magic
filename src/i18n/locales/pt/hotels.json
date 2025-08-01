@@ -55,5 +55,6 @@
   "linkText": "Retrato da Crise Hoteleira",
   "calculator": {
     "profitExplanation": "(Lucro quase puro: quartos vazios\njá têm todos os custos fixos pagos)"
-  }
+  },
+  "hotelLocation": "Localização do Hotel"
 }

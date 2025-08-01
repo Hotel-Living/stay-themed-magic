@@ -116,8 +116,11 @@ export function HotelLocation({
   });
 
   // Don't render if we have no location data at all
-  if (!fullAddress.trim() && (!latitude || !longitude)) {
-    console.log('🗺️ No location data available, not rendering map');
+  if (!fullAddress.trim() && (!latitude || !longitude || isNaN(latitude) || isNaN(longitude))) {
+    console.log('🗺️ No location data available, not rendering map', {
+      fullAddress: fullAddress.trim(),
+      hasValidCoords: !!(latitude && longitude && !isNaN(latitude) && !isNaN(longitude))
+    });
     return null;
   }
 

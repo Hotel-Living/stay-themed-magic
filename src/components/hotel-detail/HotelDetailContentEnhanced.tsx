@@ -276,32 +276,46 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             
-            {/* Hotel Name and Address Overlay */}
+            {/* Hotel Name, Stars and Address Overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div 
-                className="text-center p-4 rounded-lg"
-                style={{
-                  backgroundColor: 'rgba(252, 247, 206, 0.6)',
-                  backdropFilter: 'blur(2px)'
-                }}
-              >
+              <div className="text-center space-y-1.5">
+                {/* Hotel Name */}
                 <h1 
-                  className="mb-2"
                   style={{
                     fontSize: '28px',
                     fontWeight: '700',
-                    color: '#4A007D',
-                    textAlign: 'center'
+                    color: '#7E26A6',
+                    textAlign: 'center',
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                    marginBottom: '6px'
                   }}
                 >
                   {hotel.name}
                 </h1>
+                
+                {/* Star Rating */}
+                {hotel.category && (
+                  <div 
+                    style={{
+                      fontSize: '28px',
+                      color: '#D7CC00',
+                      textAlign: 'center',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                      marginBottom: '6px'
+                    }}
+                  >
+                    {"★".repeat(Math.min(hotel.category, 5))}
+                  </div>
+                )}
+                
+                {/* Address */}
                 <p 
                   style={{
                     fontSize: '16px',
-                    fontWeight: '400',
-                    color: '#4A007D',
-                    textAlign: 'center'
+                    fontWeight: '700',
+                    color: '#FFFFFF',
+                    textAlign: 'center',
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                   }}
                 >
                   {hotel.address}, {hotel.city}, {hotel.country}

@@ -11,12 +11,13 @@ export const ScrollingMarquee: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Don't render on non-public pages
-  if (!isPublicPage(location.pathname) || isLoading || !hasMessages) {
-    return null;
-  }
+  // Determine if component should be visible
+  const shouldShow = isPublicPage(location.pathname) && !isLoading && hasMessages;
 
   useEffect(() => {
+    // Only run effects if component should be visible
+    if (!shouldShow) return;
+
     const updateMessage = () => {
       const message = getNextMessage();
       if (message) {
@@ -53,7 +54,12 @@ export const ScrollingMarquee: React.FC = () => {
       clearInterval(messageInterval);
       clearInterval(reshuffleInterval);
     };
-  }, [getNextMessage, reshuffleMessages]);
+  }, [getNextMessage, reshuffleMessages, shouldShow]);
+
+  // Don't render anything if component shouldn't show
+  if (!shouldShow) {
+    return null;
+  }
 
   const animationDuration = React.useMemo(() => {
     if (!marqueeRef.current || !containerRef.current) return 30;

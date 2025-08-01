@@ -14,6 +14,15 @@ export const ScrollingMarquee: React.FC = () => {
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && hasMessages;
 
+  // IMPORTANT: All hooks must be called before any conditional returns
+  const animationDuration = React.useMemo(() => {
+    if (!marqueeRef.current || !containerRef.current) return 30;
+    const textWidth = marqueeRef.current.scrollWidth;
+    const containerWidth = containerRef.current.offsetWidth;
+    const totalDistance = textWidth + containerWidth;
+    return totalDistance / 80; // 80px per second
+  }, [displayText]);
+
   useEffect(() => {
     // Only run effects if component should be visible
     if (!shouldShow) return;
@@ -56,18 +65,10 @@ export const ScrollingMarquee: React.FC = () => {
     };
   }, [getNextMessage, reshuffleMessages, shouldShow]);
 
-  // Don't render anything if component shouldn't show
+  // Don't render anything if component shouldn't show - AFTER all hooks
   if (!shouldShow) {
     return null;
   }
-
-  const animationDuration = React.useMemo(() => {
-    if (!marqueeRef.current || !containerRef.current) return 30;
-    const textWidth = marqueeRef.current.scrollWidth;
-    const containerWidth = containerRef.current.offsetWidth;
-    const totalDistance = textWidth + containerWidth;
-    return totalDistance / 80; // 80px per second
-  }, [displayText]);
 
   return (
     <div 

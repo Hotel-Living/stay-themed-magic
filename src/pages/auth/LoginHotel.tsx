@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { supabase } from '@/integrations/supabase/client';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function LoginHotel() {
+  const { t } = useTranslation('auth');
+  
   useEffect(() => {
     // Check for existing session and redirect immediately if found
     const checkSession = async () => {
@@ -19,8 +22,8 @@ export default function LoginHotel() {
 
   return (
     <AuthLayout 
-      title="Hotel Partner Login" 
-      subtitle="Access your Hotel-Living partner dashboard"
+      title={t('hotelLogin')} 
+      subtitle={t('hotelLoginSubtitle')}
     >
       <LoginForm role="hotel" />
     </AuthLayout>

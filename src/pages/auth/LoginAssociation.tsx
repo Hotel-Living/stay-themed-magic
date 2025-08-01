@@ -1,12 +1,15 @@
 import React from 'react';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { LoginForm } from '@/components/auth/LoginForm';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function LoginAssociation() {
+  const { t } = useTranslation('auth');
+  
   return (
     <AuthLayout 
-      title="Association Login" 
-      subtitle="Access your Hotel-Living association dashboard"
+      title={t('associationLogin')} 
+      subtitle={t('associationLoginSubtitle')}
     >
       <LoginForm role="association" />
     </AuthLayout>

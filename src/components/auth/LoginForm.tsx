@@ -3,12 +3,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface LoginFormProps {
   role: 'user' | 'hotel' | 'association' | 'promoter';
 }
 
 export function LoginForm({ role }: LoginFormProps) {
+  const { t } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
@@ -27,7 +29,7 @@ export function LoginForm({ role }: LoginFormProps) {
     e.preventDefault();
     
     if (!formData.email || !formData.password) {
-      setMessage("❌ Please enter your email and password.");
+      setMessage("❌ " + t('enterEmailPassword'));
       return;
     }
     
@@ -72,11 +74,11 @@ export function LoginForm({ role }: LoginFormProps) {
 
   const getRoleDisplayName = () => {
     switch (role) {
-      case 'user': return 'User';
-      case 'hotel': return 'Hotel Partner';
-      case 'association': return 'Association';
-      case 'promoter': return 'Promoter';
-      default: return 'User';
+      case 'user': return t('createUserAccount').replace('Create ', '').replace('Crear cuenta como ', '').replace('Creează Cont ca ', '').replace('Criar Conta de ', '');
+      case 'hotel': return t('createHotelAccount').replace('Hotel Registration', 'Hotel Partner').replace('Registro de Hotel', 'Socio Hotelero').replace('Înregistrare Hotel', 'Partener Hotelier').replace('Registro de Hotel', 'Parceiro Hoteleiro');
+      case 'association': return t('createAssociationAccount').replace('Association Registration', 'Association').replace('Registro de Asociación', 'Asociación').replace('Înregistrare Asociație', 'Asociație').replace('Registro de Associação', 'Associação');
+      case 'promoter': return t('createPromoterAccount').replace('Promoter Registration', 'Promoter').replace('Registro de Promotor', 'Promotor').replace('Înregistrare Promotor', 'Promotor').replace('Registro de Promotor', 'Promotor');
+      default: return t('createUserAccount').replace('Create ', '').replace('Crear cuenta como ', '').replace('Creează Cont ca ', '').replace('Criar Conta de ', '');
     }
   };
 
@@ -86,7 +88,7 @@ export function LoginForm({ role }: LoginFormProps) {
       className="space-y-4 sm:space-y-6"
     >
       <div>
-        <Label htmlFor="email" className="text-[#7E26A6] text-sm sm:text-base font-semibold">Email</Label>
+        <Label htmlFor="email" className="text-[#7E26A6] text-sm sm:text-base font-semibold">{t('email')}</Label>
         <Input
           id="email"
           name="email"
@@ -100,7 +102,7 @@ export function LoginForm({ role }: LoginFormProps) {
       </div>
       
       <div>
-        <Label htmlFor="password" className="text-[#7E26A6] text-sm sm:text-base font-semibold">Password</Label>
+        <Label htmlFor="password" className="text-[#7E26A6] text-sm sm:text-base font-semibold">{t('password')}</Label>
         <Input
           id="password"
           name="password"
@@ -118,7 +120,7 @@ export function LoginForm({ role }: LoginFormProps) {
         className="w-full bg-[#7E26A6] hover:bg-[#5D0080] text-white font-bold py-2 sm:py-3 rounded-lg shadow-[0_0_15px_rgba(126,38,166,0.3)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(126,38,166,0.5)] text-sm sm:text-base"
         disabled={isLoading}
       >
-        {isLoading ? 'Signing In...' : `Sign In as ${getRoleDisplayName()}`}
+        {isLoading ? t('signingIn') : `${t('signInAs')} ${getRoleDisplayName()}`}
       </Button>
       
       {message && (
@@ -126,12 +128,12 @@ export function LoginForm({ role }: LoginFormProps) {
       )}
 
       <p className="text-center text-xs sm:text-sm text-gray-600">
-        Don't have an account?{' '}
+        {t('dontHaveAccount')}{' '}
         <a 
           href={`/signup/${role}`} 
           className="text-[#7E26A6] hover:underline"
         >
-          Create one here
+          {t('createOneHere')}
         </a>
       </p>
     </form>

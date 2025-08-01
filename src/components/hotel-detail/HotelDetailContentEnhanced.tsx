@@ -351,7 +351,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         <div 
           className={`${sectionClass(0)}`}
           style={{
-            background: 'linear-gradient(180deg, #3B6DB3 0%, #1F3A78 50%, #0A0A3B 100%)',
+            background: 'linear-gradient(180deg, #00DCF9 0%, #001999 100%)',
             borderRadius: '1rem',
             padding: '1rem'
           }}

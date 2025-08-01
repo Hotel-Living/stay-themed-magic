@@ -77,6 +77,55 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     return hotel.main_image_url || '/placeholder.svg';
   };
 
+  // Helper function to format address without duplication
+  const formatAddress = (text: string) => {
+    return text
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  const formatCountry = (country: string) => {
+    if (country.toUpperCase() === 'US') {
+      return 'United States';
+    }
+    return formatAddress(country);
+  };
+
+  const getFormattedAddressDisplay = () => {
+    const formattedCity = formatAddress(hotel.city);
+    const formattedCountry = formatCountry(hotel.country);
+    const formattedAddress = hotel.address ? formatAddress(hotel.address) : null;
+    
+    if (!formattedAddress) {
+      return `${formattedCity}, ${formattedCountry}`;
+    }
+    
+    // Check if address already contains city or country to avoid duplication
+    const addressLower = formattedAddress.toLowerCase();
+    const cityLower = formattedCity.toLowerCase();
+    const countryLower = formattedCountry.toLowerCase();
+    
+    // If address already contains both city and country, return just the address
+    if (addressLower.includes(cityLower) && addressLower.includes(countryLower)) {
+      return formattedAddress;
+    }
+    
+    // If address contains city but not country
+    if (addressLower.includes(cityLower) && !addressLower.includes(countryLower)) {
+      return `${formattedAddress}, ${formattedCountry}`;
+    }
+    
+    // If address contains country but not city (unlikely but possible)
+    if (!addressLower.includes(cityLower) && addressLower.includes(countryLower)) {
+      return `${formattedCity}, ${formattedAddress}`;
+    }
+    
+    // Default: address doesn't contain city or country, show all
+    return `${formattedAddress}, ${formattedCity}, ${formattedCountry}`;
+  };
+
   const formatPropertyTypeStayText = () => {
     const propertyType = hotel.property_type || t('detail.hotel');
     const style = hotel.style || '';
@@ -318,7 +367,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                     textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                   }}
                 >
-                  {hotel.address}, {hotel.city}, {hotel.country}
+                  {getFormattedAddressDisplay()}
                 </p>
               </div>
             </div>

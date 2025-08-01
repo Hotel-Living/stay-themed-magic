@@ -250,11 +250,25 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     }
   };
 
-  // The hotel data already contains translated content from useHotelDetailWithTranslations
-  // No need for manual field lookup since translations are applied at the hook level
+  // Helper function to get translated hotel content with proper field lookup
   const getTranslatedContent = (fieldName: string): string => {
-    const content = hotel[fieldName as keyof typeof hotel];
-    return typeof content === 'string' ? content : '';
+    if (language === 'en') {
+      const content = hotel[fieldName as keyof typeof hotel];
+      return typeof content === 'string' ? content : '';
+    }
+    
+    // Try to get language-specific field first (e.g., ideal_guests_es, atmosphere_pt)
+    const translatedField = `${fieldName}_${language}` as keyof typeof hotel;
+    const translatedContent = hotel[translatedField];
+    
+    // If translated content exists and is a string, use it
+    if (typeof translatedContent === 'string' && translatedContent.trim()) {
+      return translatedContent;
+    }
+    
+    // Fallback to English if translation is missing or empty
+    const fallbackContent = hotel[fieldName as keyof typeof hotel];
+    return typeof fallbackContent === 'string' ? fallbackContent : '';
   };
 
   // Calculate dynamic widths for highlight boxes to balance line count

@@ -89,7 +89,20 @@ export function HotelMainContentGrid({
         <Card className="bg-[#6000B3] border-border shadow-2xl">
           <div className="p-6 bg-[#6000B3]">
             <h2 className="text-2xl font-bold mb-6 text-white text-center">{t('hotelLocation')}</h2>
-            <HotelLocation hotelId={hotel.id} latitude={Number(hotel.latitude)} longitude={Number(hotel.longitude)} hotelName={hotel.name} address={hotel.address || ""} city={hotel.city || ""} country={hotel.country || ""} />
+            <HotelLocation 
+              hotelId={hotel.id} 
+              latitude={Number(hotel.latitude) || 0} 
+              longitude={Number(hotel.longitude) || 0} 
+              hotelName={hotel.name} 
+              address={hotel.address || ""} 
+              city={hotel.city || ""} 
+              country={hotel.country || ""} 
+            />
+            {/* Debug coordinates */}
+            <div className="text-white text-xs mt-2 p-2 bg-black/20 rounded">
+              DEBUG: lat={hotel.latitude}, lng={hotel.longitude}, 
+              numLat={Number(hotel.latitude)}, numLng={Number(hotel.longitude)}
+            </div>
           </div>
         </Card>
       </div>

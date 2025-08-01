@@ -270,24 +270,25 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         {/* 2️⃣ HOTEL HIGHLIGHTS SECTION */}
         <div className={`${sectionClass(1)}`}>
           <div 
-            className="flex flex-nowrap justify-center gap-2 overflow-x-auto"
             style={{
               display: 'flex',
-              flexWrap: 'nowrap',
               justifyContent: 'center',
+              alignItems: 'flex-start',
+              flexWrap: 'nowrap',
               gap: '10px'
             }}
           >
             {generateHotelHighlights().map((highlight, index) => (
               <div 
                 key={index}
-                className="text-center flex-shrink-0"
+                className="text-center"
                 style={{
                   background: '#7E26A6',
                   borderRadius: '8px',
                   padding: '10px 14px',
-                  minWidth: '120px',
-                  maxWidth: `${Math.max(120, Math.floor((windowWidth - 80) / Math.min(generateHotelHighlights().length, 7)))}px`
+                  width: 'fit-content',
+                  minWidth: '160px',
+                  maxWidth: '280px'
                 }}
               >
                 {/* Green check icon centered on top */}

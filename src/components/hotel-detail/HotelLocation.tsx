@@ -20,7 +20,14 @@ export function HotelLocation({
   country
 }: HotelLocationProps) {
   
-  // Debug logging
+  // Build full address from hotel data
+  const fullAddress = [address, city, country].filter(Boolean).join(', ');
+  
+  // Create Google Maps URL - use coordinates if available, otherwise use address
+  const mapsUrl = latitude && longitude && !isNaN(latitude) && !isNaN(longitude)
+    ? `https://www.google.com/maps?q=${latitude},${longitude}&t=m&z=15&output=embed&iwloc=near`
+    : `https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=15&output=embed&iwloc=near`;
+
   console.log(`🗺️ HotelLocation Debug for ${hotelName}:`, {
     hotelId,
     latitude,
@@ -28,21 +35,9 @@ export function HotelLocation({
     address,
     city,
     country,
-    hasCoordinates: !!(latitude && longitude)
+    hasCoordinates: !!(latitude && longitude),
+    mapsUrl: mapsUrl.substring(0, 100) + '...'
   });
-
-  // Build full address from hotel data
-  const fullAddress = [address, city, country].filter(Boolean).join(', ');
-  
-  // Hardcoded API key for immediate map rendering
-  const apiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM';
-  
-  // Simple direct approach: use coordinates if available, otherwise use address
-  const mapSrc = latitude && longitude && !isNaN(latitude) && !isNaN(longitude)
-    ? `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${latitude},${longitude}`
-    : `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(fullAddress)}`;
-
-  console.log(`🗺️ Map URL generated:`, mapSrc.replace(apiKey, 'API_KEY_HIDDEN'));
 
   // Don't render if we have no location data at all
   if (!fullAddress.trim() && (!latitude || !longitude)) {
@@ -58,7 +53,8 @@ export function HotelLocation({
         style={{ border: 0 }} 
         loading="lazy" 
         allowFullScreen 
-        src={mapSrc}
+        referrerPolicy="no-referrer-when-downgrade"
+        src={mapsUrl}
         title={`${hotelName} location`}
         className="rounded-lg"
         onError={(e) => console.error('🗺️ Map iframe error:', e)}

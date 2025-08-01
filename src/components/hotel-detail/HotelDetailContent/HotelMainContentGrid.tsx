@@ -98,11 +98,6 @@ export function HotelMainContentGrid({
               city={hotel.city || ""} 
               country={hotel.country || ""} 
             />
-            {/* Debug coordinates */}
-            <div className="text-white text-xs mt-2 p-2 bg-black/20 rounded">
-              DEBUG: lat={hotel.latitude}, lng={hotel.longitude}, 
-              numLat={Number(hotel.latitude)}, numLng={Number(hotel.longitude)}
-            </div>
           </div>
         </Card>
       </div>

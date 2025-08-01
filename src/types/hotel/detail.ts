@@ -78,4 +78,5 @@ export interface HotelDetailProps {
   house_rules?: string[];
   cancellation_policy?: string | null;
   additional_data?: Record<string, any> | null;
+  custom_highlights?: string[];
 }

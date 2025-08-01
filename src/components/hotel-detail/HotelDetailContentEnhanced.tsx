@@ -202,6 +202,11 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
   const generateHotelHighlights = () => {
     const highlights = [];
     
+    // Check for custom highlights (for demo pages)
+    if (hotel.custom_highlights && hotel.custom_highlights.length > 0) {
+      return hotel.custom_highlights;
+    }
+    
     // 1. ¡Este hotel es de estilo urbano!
     if (hotel.property_type && hotel.style) {
       highlights.push(`¡Este ${hotel.property_type.toLowerCase()} es de estilo ${hotel.style.toLowerCase()}!`);

@@ -204,13 +204,13 @@ export function HotelLocation({
     const fullAddress = [address, city, country].filter(Boolean).join(', ');
     console.log('Building map URL with:', { latitude, longitude, fullAddress, activeApiKey: activeApiKey ? 'present' : 'missing' });
     
-    // Use coordinates if available, otherwise use address
-    const queryParam = (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) 
-      ? `${latitude},${longitude}` 
-      : encodeURIComponent(fullAddress);
+    // Simplified fallback logic: coordinates if available, otherwise use address
+    const mapSrc = latitude && longitude
+      ? `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${latitude},${longitude}`
+      : `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${encodeURIComponent(fullAddress)}`;
     
-    console.log('Map query parameter:', queryParam);
-    return `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${queryParam}`;
+    console.log('Map src:', mapSrc);
+    return mapSrc;
   };
 
   // Check if we have any location data to display

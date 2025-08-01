@@ -331,9 +331,9 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                 {/* Hotel Name */}
                 <h1 
                   style={{
-                    fontSize: '28px',
+                    fontSize: '36px',
                     fontWeight: '700',
-                    color: '#7E26A6',
+                    color: '#FFFFFF',
                     textAlign: 'center',
                     textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
                     marginBottom: '6px'
@@ -346,7 +346,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                 {hotel.category && (
                   <div 
                     style={{
-                      fontSize: '28px',
+                      fontSize: '42px',
                       color: '#D7CC00',
                       textAlign: 'center',
                       textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
@@ -364,10 +364,24 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
                     fontWeight: '700',
                     color: '#FFFFFF',
                     textAlign: 'center',
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                    marginBottom: '6px'
                   }}
                 >
                   {getFormattedAddressDisplay()}
+                </p>
+                
+                {/* City - Country */}
+                <p 
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    color: '#FFFFFF',
+                    textAlign: 'center',
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                  }}
+                >
+                  {formatAddress(hotel.city)} - {formatCountry(hotel.country)}
                 </p>
               </div>
             </div>

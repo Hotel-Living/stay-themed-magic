@@ -376,8 +376,50 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           })()}
         </div>
 
-        {/* 3️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}
-        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(2)}`}>
+        {/* 3️⃣ THREE DESCRIPTION BOXES */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${sectionClass(2)}`}>
+          {hotel.ideal_guests && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
+                Ideal para huéspedes que...
+              </h3>
+              <p className="text-base text-white leading-relaxed">{hotel.ideal_guests}</p>
+            </div>
+          )}
+          
+          {hotel.atmosphere && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
+                El ambiente es...
+              </h3>
+              <p className="text-base text-white leading-relaxed">{hotel.atmosphere}</p>
+            </div>
+          )}
+          
+          {hotel.perfect_location && (
+            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
+              <h3 className="text-base font-semibold text-purple-200 mb-2">
+                Nuestra ubicación es perfecta para...
+              </h3>
+              <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
+            </div>
+          )}
+        </div>
+
+        {/* 4️⃣ ABOUT OUR HOTEL DESCRIPTION */}
+        {hotel.description && (
+          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(3)}`}>
+            <h2 className="text-base font-bold text-white mb-3 text-center">
+              Acerca de Nuestro Hotel
+            </h2>
+            <p className="text-base text-white leading-relaxed">
+              {hotel.description}
+            </p>
+          </div>
+        )}
+
+        {/* 5️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 ${sectionClass(4)}`}>
           {/* Left: Hotel Features */}
           {getSelectedFeatures(hotel.features_hotel).length > 0 && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
@@ -395,8 +437,8 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             </div>
           )}
 
-          {/* Center: Google Map */}
-          {hotel.address && (
+          {/* Center: Location */}
+          {(hotel.city || hotel.country) && (
             <div className="bg-white rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h2 className="text-base font-bold text-gray-800 mb-3 text-center">Ubicación</h2>
               <div className="bg-gray-200 rounded-xl h-32 flex items-center justify-center">
@@ -426,48 +468,6 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             </div>
           )}
         </div>
-
-        {/* 4️⃣ THREE DESCRIPTION BOXES */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${sectionClass(3)}`}>
-          {hotel.ideal_guests && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
-              <h3 className="text-base font-semibold text-purple-200 mb-2">
-                Ideal para huéspedes que...
-              </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.ideal_guests}</p>
-            </div>
-          )}
-          
-          {hotel.atmosphere && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
-              <h3 className="text-base font-semibold text-purple-200 mb-2">
-                El ambiente es...
-              </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.atmosphere}</p>
-            </div>
-          )}
-          
-          {hotel.perfect_location && (
-            <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
-              <h3 className="text-base font-semibold text-purple-200 mb-2">
-                Nuestra ubicación es perfecta para...
-              </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
-            </div>
-          )}
-        </div>
-
-        {/* 5️⃣ ABOUT OUR HOTEL DESCRIPTION */}
-        {hotel.description && (
-          <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(4)}`}>
-            <h2 className="text-base font-bold text-white mb-3 text-center">
-              Acerca de Nuestro Hotel
-            </h2>
-            <p className="text-base text-white leading-relaxed">
-              {hotel.description}
-            </p>
-          </div>
-        )}
 
         {/* 6️⃣ AVAILABILITY PACKAGES */}
         <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(5)}`}>

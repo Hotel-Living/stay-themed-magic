@@ -98,7 +98,7 @@ export default function PruebaUsers() {
     const matchesSearch = fullName.includes(searchTerm.toLowerCase());
     const matchesRole = roleFilter === "all" || 
                        (roleFilter === "hotel_owner" && user.is_hotel_owner) ||
-                       (roleFilter === "guest" && !user.is_hotel_owner) ||
+                       (roleFilter === "user" && !user.is_hotel_owner) ||
                        user.role === roleFilter;
     return matchesSearch && matchesRole;
   });
@@ -107,7 +107,7 @@ export default function PruebaUsers() {
     if (user.is_hotel_owner) {
       return <Badge className="bg-blue-500 text-white">Hotel Owner</Badge>;
     }
-    return <Badge className="bg-gray-500 text-white">Guest</Badge>;
+    return <Badge className="bg-gray-500 text-white">User</Badge>;
   };
 
   if (loading) {
@@ -151,7 +151,7 @@ export default function PruebaUsers() {
               <SelectContent>
                 <SelectItem value="all">All Roles</SelectItem>
                 <SelectItem value="hotel_owner">Hotel Owners</SelectItem>
-                <SelectItem value="guest">Guests</SelectItem>
+                <SelectItem value="user">Users</SelectItem>
                 <SelectItem value="admin">Admins</SelectItem>
               </SelectContent>
             </Select>

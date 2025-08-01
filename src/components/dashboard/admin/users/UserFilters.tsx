@@ -29,7 +29,7 @@ export function UserFilters({ searchTerm, setSearchTerm, roleFilter, setRoleFilt
         <SelectContent>
           <SelectItem value="all">All Users</SelectItem>
           <SelectItem value="owner">Hotel Owners</SelectItem>
-          <SelectItem value="guest">Regular Users</SelectItem>
+          <SelectItem value="user">Regular Users</SelectItem>
         </SelectContent>
       </Select>
     </div>

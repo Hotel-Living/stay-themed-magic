@@ -11,7 +11,7 @@ export function useUserFiltering(users: User[]) {
       // Role filtering
       if (roleFilter !== "all") {
         if (roleFilter === "owner" && !user.is_hotel_owner) return false;
-        if (roleFilter === "guest" && user.is_hotel_owner) return false;
+        if (roleFilter === "user" && user.is_hotel_owner) return false;
       }
 
       // Search filtering

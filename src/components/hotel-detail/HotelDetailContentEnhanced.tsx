@@ -276,47 +276,32 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             
-            {/* Hotel Name, Stars, and Address Overlay */}
+            {/* Hotel Name and Address Overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                {/* Line 1: Hotel Name */}
+              <div 
+                className="text-center p-4 rounded-lg"
+                style={{
+                  backgroundColor: 'rgba(252, 247, 206, 0.6)',
+                  backdropFilter: 'blur(2px)'
+                }}
+              >
                 <h1 
+                  className="mb-2"
                   style={{
                     fontSize: '28px',
                     fontWeight: '700',
-                    color: '#7E26A6',
-                    textAlign: 'center',
-                    marginBottom: '4px',
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)'
+                    color: '#4A007D',
+                    textAlign: 'center'
                   }}
                 >
                   {hotel.name}
                 </h1>
-                
-                {/* Line 2: Star Rating */}
-                <div 
-                  style={{
-                    fontSize: '22px', // 80% of 28px
-                    textAlign: 'center',
-                    marginBottom: '4px',
-                    color: '#FCF7CE',
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)'
-                  }}
-                >
-                  {(() => {
-                    const stars = hotel.category || 3; // Default to 3 stars if no category
-                    return '★'.repeat(Math.max(1, Math.min(5, stars))); // Ensure between 1-5 stars
-                  })()}
-                </div>
-                
-                {/* Line 3: Hotel Address */}
                 <p 
                   style={{
                     fontSize: '16px',
-                    fontWeight: '700',
-                    color: '#7E26A6',
-                    textAlign: 'center',
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)'
+                    fontWeight: '400',
+                    color: '#4A007D',
+                    textAlign: 'center'
                   }}
                 >
                   {hotel.address}, {hotel.city}, {hotel.country}

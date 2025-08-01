@@ -159,7 +159,46 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
       .map(([feature]) => feature.replace(/_/g, ' '));
   };
 
-  // Helper function to generate hotel highlights following Fernando's exact format
+  // Calculate dynamic widths for highlight boxes to balance line count
+  const calculateHighlightWidths = (highlights: string[]) => {
+    if (highlights.length === 0) return [];
+    
+    const containerWidth = Math.min(windowWidth - 80, 1200); // Max container width
+    const minWidth = 140;
+    const maxWidth = 300;
+    
+    // Calculate text lengths
+    const textLengths = highlights.map(text => text.length);
+    const totalTextLength = textLengths.reduce((sum, length) => sum + length, 0);
+    
+    // Find the longest text and calculate its target width
+    const maxTextLength = Math.max(...textLengths);
+    const longestTextIndex = textLengths.indexOf(maxTextLength);
+    
+    // Calculate proportional widths
+    let widths = textLengths.map(length => {
+      const proportion = length / totalTextLength;
+      let width = Math.max(minWidth, containerWidth * proportion);
+      return Math.min(width, maxWidth);
+    });
+    
+    // Ensure the longest text gets adequate width (target ~4 lines)
+    const longestTextTargetWidth = Math.min(maxWidth, Math.max(220, maxTextLength * 2.5));
+    widths[longestTextIndex] = longestTextTargetWidth;
+    
+    // Redistribute remaining space proportionally
+    const usedWidth = widths.reduce((sum, width) => sum + width, 0);
+    const availableWidth = containerWidth - (highlights.length - 1) * 10; // subtract gaps
+    
+    if (usedWidth > availableWidth) {
+      // Scale down proportionally if total exceeds container
+      const scale = availableWidth / usedWidth;
+      widths = widths.map(width => Math.max(minWidth, width * scale));
+    }
+    
+    return widths;
+  };
+
   const generateHotelHighlights = () => {
     const highlights = [];
     
@@ -269,55 +308,67 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
         {/* 2️⃣ HOTEL HIGHLIGHTS SECTION */}
         <div className={`${sectionClass(1)}`}>
-          <div 
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              flexWrap: 'nowrap',
-              gap: '10px'
-            }}
-          >
-            {generateHotelHighlights().map((highlight, index) => (
+          {(() => {
+            const highlights = generateHotelHighlights();
+            const widths = calculateHighlightWidths(highlights);
+            
+            return (
               <div 
-                key={index}
-                className="text-center"
                 style={{
-                  background: '#7E26A6',
-                  borderRadius: '8px',
-                  padding: '10px 14px',
-                  width: 'fit-content',
-                  minWidth: '160px',
-                  maxWidth: '280px'
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  flexWrap: 'nowrap',
+                  gap: '10px'
                 }}
               >
-                {/* Green check icon centered on top */}
-                <div 
-                  className="flex justify-center"
-                  style={{ marginBottom: '5px' }}
-                >
-                  <CheckCircle 
-                    className="w-5 h-5" 
-                    style={{ color: '#22c55e' }}
-                  />
-                </div>
-                
-                {/* Text centered below icon */}
-                <p 
-                  style={{
-                    fontSize: `${Math.max(14, Math.min(18, 18 - Math.max(0, generateHotelHighlights().length - 4)))}px`,
-                    fontWeight: '500',
-                    color: '#FFFFFF',
-                    textAlign: 'center',
-                    lineHeight: '1.3',
-                    margin: '0'
-                  }}
-                >
-                  {highlight}
-                </p>
+                {highlights.map((highlight, index) => (
+                  <div 
+                    key={index}
+                    className="text-center"
+                    style={{
+                      background: '#7E26A6',
+                      borderRadius: '8px',
+                      padding: '10px 14px',
+                      flex: '1 1 auto',
+                      minWidth: `${widths[index] || 140}px`,
+                      maxWidth: '300px',
+                      width: `${widths[index] || 140}px`,
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word'
+                    }}
+                  >
+                    {/* Green check icon centered on top */}
+                    <div 
+                      className="flex justify-center"
+                      style={{ marginBottom: '5px' }}
+                    >
+                      <CheckCircle 
+                        className="w-5 h-5" 
+                        style={{ color: '#22c55e' }}
+                      />
+                    </div>
+                    
+                    {/* Text centered below icon */}
+                    <p 
+                      style={{
+                        fontSize: `${Math.max(14, Math.min(18, 18 - Math.max(0, highlights.length - 4)))}px`,
+                        fontWeight: '500',
+                        color: '#FFFFFF',
+                        textAlign: 'center',
+                        lineHeight: '1.3',
+                        margin: '0',
+                        whiteSpace: 'normal',
+                        wordBreak: 'break-word'
+                      }}
+                    >
+                      {highlight}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            );
+          })()}
         </div>
 
         {/* 3️⃣ THREE-COLUMN LAYOUT: Hotel Features | Google Map | Room Features */}

@@ -399,7 +399,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {hotel.perfect_location && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
-                Nuestra ubicación es perfecta para...
+                La ubicación es perfecta para...
               </h3>
               <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
             </div>
@@ -409,10 +409,7 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
         {/* 4️⃣ ABOUT OUR HOTEL DESCRIPTION */}
         {hotel.description && (
           <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(3)}`}>
-            <h2 className="text-base font-bold text-white mb-3 text-center">
-              Acerca de Nuestro Hotel
-            </h2>
-            <p className="text-base text-white leading-relaxed">
+            <p className="text-base text-white leading-relaxed break-words overflow-wrap-anywhere">
               {hotel.description}
             </p>
           </div>

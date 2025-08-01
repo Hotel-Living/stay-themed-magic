@@ -151,7 +151,7 @@ export function HotelLocation({
       setIsLoading(true);
       setError(null);
 
-      // Fetch from the edge function that securely provides the API key
+      // Try to fetch from edge function, but use hardcoded fallback immediately if it fails
       const {
         data,
         error
@@ -160,25 +160,20 @@ export function HotelLocation({
       let apiKey: string | null = null;
       
       if (error || !data || (!data.key && !data.apiKey)) {
-        console.error('Error fetching map key:', error);
-        console.log('Falling back to hardcoded API key');
-        // Use hardcoded fallback API key for immediate rendering
+        console.log('Using hardcoded API key fallback');
         apiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM';
       } else {
-        console.log('Successfully retrieved API key from edge function');
         apiKey = data.key || data.apiKey;
       }
       
       if (apiKey) {
         setMapKey(apiKey);
         setMapReady(true);
-        console.log('Map key set successfully, map ready');
       } else {
         setError("No map key available");
       }
     } catch (err) {
       console.error('Exception fetching map key:', err);
-      console.log('Using fallback API key due to exception');
       // Use hardcoded fallback on exception
       setMapKey('AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM');
       setMapReady(true);
@@ -186,59 +181,68 @@ export function HotelLocation({
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchMapKey();
   }, []);
 
-  // Generate map URL based on available data with dual fallback logic
+  // Simplified map URL generation - no complex geocoding
   const getMapUrl = () => {
     const fallbackApiKey = 'AIzaSyBGCKW0b90070alJcyrv-8nSb8kr56c2jM';
     const activeApiKey = mapKey || fallbackApiKey;
     
     if (!activeApiKey) {
-      console.error('No API key available for map rendering');
       return null;
     }
     
-    // Build full address dynamically from hotel data
+    // Build full address from hotel data
     const fullAddress = [address, city, country].filter(Boolean).join(', ');
-    console.log('Building map URL with:', { latitude, longitude, fullAddress, activeApiKey: activeApiKey ? 'present' : 'missing' });
     
-    // Simplified fallback logic: coordinates if available, otherwise use address
+    // Simple fallback: coordinates if available, otherwise use address directly
     const mapSrc = latitude && longitude
       ? `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${latitude},${longitude}`
       : `https://www.google.com/maps/embed/v1/place?key=${activeApiKey}&q=${encodeURIComponent(fullAddress)}`;
     
-    console.log('Map src:', mapSrc);
     return mapSrc;
   };
 
   // Check if we have any location data to display
   const fullAddress = [address, city, country].filter(Boolean).join(', ');
-  const hasMapData = coordinates || fullAddress.trim();
+  const hasMapData = (latitude && longitude) || fullAddress.trim();
   const mapUrl = mapReady ? getMapUrl() : null;
+
   if (!hasMapData) {
     return null;
   }
-  return <div className="w-full h-full">
-        {isLoading && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
-            <p className="text-center text-white">Loading map...</p>
-          </div>}
-        
-        {!isLoading && error && <div className="w-full h-full bg-purple-800/30 flex flex-col items-center justify-center p-4 rounded-lg">
-            <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
-            <p className="text-center text-white mb-3">
-              {error}
-            </p>
-            <p className="text-sm text-white/70 mb-3">
-              Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
-            </p>
-            <Button variant="outline" size="sm" className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" onClick={fetchMapKey}>
-              Retry Loading Map
-            </Button>
-          </div>}
-        
-        {!isLoading && !error && mapUrl && <iframe 
+
+  return (
+    <div className="w-full h-full">
+      {isLoading && (
+        <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+          <p className="text-center text-white">Loading map...</p>
+        </div>
+      )}
+      
+      {!isLoading && error && (
+        <div className="w-full h-full bg-purple-800/30 flex flex-col items-center justify-center p-4 rounded-lg">
+          <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
+          <p className="text-center text-white mb-3">{error}</p>
+          <p className="text-sm text-white/70 mb-3">
+            Location: {fullAddress}
+          </p>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500" 
+            onClick={fetchMapKey}
+          >
+            Retry Loading Map
+          </Button>
+        </div>
+      )}
+      
+      {!isLoading && !error && mapUrl && (
+        <iframe 
           width="100%" 
           height="300" 
           style={{ border: 0 }} 
@@ -249,14 +253,18 @@ export function HotelLocation({
           className="rounded-lg"
           onError={(e) => console.error('Map iframe error:', e)}
           onLoad={() => console.log('Map iframe loaded successfully')}
-        ></iframe>}
-        
-        {!isLoading && !error && (!mapReady || !mapUrl) && <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
-            <p className="text-center text-white">
-              Location information unavailable.
-              <br />
-              Location: {fullAddress || (coordinates ? `${coordinates.lat}, ${coordinates.lng}` : 'No location data')}
-            </p>
-          </div>}
-    </div>;
+        />
+      )}
+      
+      {!isLoading && !error && (!mapReady || !mapUrl) && (
+        <div className="w-full h-full bg-purple-800/30 flex items-center justify-center rounded-lg">
+          <p className="text-center text-white">
+            Location information unavailable.
+            <br />
+            Location: {fullAddress}
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }

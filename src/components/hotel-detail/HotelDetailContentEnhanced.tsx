@@ -13,7 +13,7 @@ interface HotelDetailContentProps {
 }
 
 export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailContentProps) {
-  const { t } = useTranslationWithFallback('hotel');
+  const { t, language } = useTranslationWithFallback('hotel');
   const { translateHotelFeatures, translateRoomFeatures } = useFilterTranslations();
   const [visibleSections, setVisibleSections] = useState<number[]>([]);
   const [windowWidth, setWindowWidth] = useState(1024);
@@ -248,6 +248,26 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
     } else {
       return translateRoomFeatures(selectedFeatureKeys);
     }
+  };
+
+  // Helper function to get translated hotel content
+  const getTranslatedContent = (fieldName: string): string => {
+    if (language === 'en') {
+      const content = hotel[fieldName as keyof typeof hotel];
+      return typeof content === 'string' ? content : '';
+    }
+    
+    const translatedField = `${fieldName}_${language}` as keyof typeof hotel;
+    const translatedContent = hotel[translatedField];
+    
+    // Fallback to English if translation is missing
+    const fallbackContent = hotel[fieldName as keyof typeof hotel];
+    
+    if (typeof translatedContent === 'string' && translatedContent) {
+      return translatedContent;
+    }
+    
+    return typeof fallbackContent === 'string' ? fallbackContent : '';
   };
 
   // Calculate dynamic widths for highlight boxes to balance line count
@@ -524,39 +544,39 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
 
         {/* 3️⃣ THREE DESCRIPTION BOXES */}
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${sectionClass(2)}`}>
-          {hotel.ideal_guests && (
+          {getTranslatedContent('ideal_guests') && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
                 {t('detail.idealForGuests')}
               </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.ideal_guests}</p>
+              <p className="text-base text-white leading-relaxed">{getTranslatedContent('ideal_guests')}</p>
             </div>
           )}
           
-          {hotel.atmosphere && (
+          {getTranslatedContent('atmosphere') && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
                 {t('detail.atmosphere')}
               </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.atmosphere}</p>
+              <p className="text-base text-white leading-relaxed">{getTranslatedContent('atmosphere')}</p>
             </div>
           )}
           
-          {hotel.perfect_location && (
+          {getTranslatedContent('perfect_location') && (
             <div className="bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h3 className="text-base font-semibold text-purple-200 mb-2">
                 {t('detail.locationPerfectFor')}
               </h3>
-              <p className="text-base text-white leading-relaxed">{hotel.perfect_location}</p>
+              <p className="text-base text-white leading-relaxed">{getTranslatedContent('perfect_location')}</p>
             </div>
           )}
         </div>
 
         {/* 4️⃣ ABOUT OUR HOTEL DESCRIPTION */}
-        {hotel.description && (
+        {getTranslatedContent('description') && (
           <div className={`bg-[#6C1395] backdrop-blur-sm rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20 ${sectionClass(3)}`}>
             <p className="text-base text-white leading-relaxed break-words overflow-wrap-anywhere">
-              {hotel.description}
+              {getTranslatedContent('description')}
             </p>
           </div>
         )}

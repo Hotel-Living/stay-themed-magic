@@ -75,7 +75,7 @@ export default function HotelDetail() {
     <div 
       className="min-h-screen flex flex-col"
       style={{
-        background: 'linear-gradient(180deg, #42FFFE 0%, #2E4DA6 30%, #0A0A3B 100%)'
+        background: 'linear-gradient(180deg, #00DCF9 0%, #2E4DA6 80%, #0A0A3B 100%)'
       }}
     >
       <Navbar />

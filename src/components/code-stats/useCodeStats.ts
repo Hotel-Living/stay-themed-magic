@@ -108,7 +108,7 @@ export function useCodeStats() {
           { path: "src/pages/HotelDetail.tsx", lineCount: 85, sizeInBytes: 3320 },
           { path: "src/pages/UserDashboard.tsx", lineCount: 70, sizeInBytes: 2780 },
           { path: "src/pages/HotelDashboard.tsx", lineCount: 85, sizeInBytes: 3350 },
-          { path: "src/pages/Login.tsx", lineCount: 130, sizeInBytes: 5180 },
+          
           { path: "src/pages/SignUp.tsx", lineCount: 150, sizeInBytes: 6050 },
           { path: "src/pages/FAQ.tsx", lineCount: 70, sizeInBytes: 2780 },
           { path: "src/pages/OurValues.tsx", lineCount: 60, sizeInBytes: 2390 },

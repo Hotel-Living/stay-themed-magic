@@ -1,29 +1,31 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { isPublicPage } from '@/utils/pageUtils';
 import { useMarqueeMessages } from '@/hooks/useMarqueeMessages';
 
 export const ScrollingMarquee: React.FC = () => {
   const location = useLocation();
-  const { getNextMessage, reshuffleMessages, isLoading, hasMessages, messages } = useMarqueeMessages();
+  const { messages, isLoading } = useMarqueeMessages();
   const [displayText, setDisplayText] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Determine if component should be visible
-  const shouldShow = isPublicPage(location.pathname) && !isLoading && hasMessages;
-  
-  console.log('ScrollingMarquee state:', { 
-    pathname: location.pathname, 
-    isPublic: isPublicPage(location.pathname), 
-    isLoading, 
-    hasMessages, 
-    shouldShow,
-    messagesCount: messages.length 
-  });
+  const shouldShow = isPublicPage(location.pathname) && !isLoading && messages.length > 0;
 
-  // IMPORTANT: All hooks must be called before any conditional returns
+  // Stable function to get next message
+  const getNextMessage = useCallback((): string => {
+    if (messages.length === 0) return '';
+    
+    const message = messages[currentIndex];
+    setCurrentIndex((prev) => (prev + 1) % messages.length);
+    
+    return message;
+  }, [messages, currentIndex]);
+
+  // Animation duration calculation
   const animationDuration = React.useMemo(() => {
     if (!marqueeRef.current || !containerRef.current) return 30;
     const textWidth = marqueeRef.current.scrollWidth;
@@ -63,16 +65,10 @@ export const ScrollingMarquee: React.FC = () => {
       updateMessage();
     }, calculateDuration() * 1000);
 
-    // Reshuffle messages every 10 cycles to prevent repetition
-    const reshuffleInterval = setInterval(() => {
-      reshuffleMessages();
-    }, calculateDuration() * 1000 * 10);
-
     return () => {
       clearInterval(messageInterval);
-      clearInterval(reshuffleInterval);
     };
-  }, [getNextMessage, reshuffleMessages, shouldShow]);
+  }, [shouldShow, getNextMessage]); // Stable dependencies
 
   // Don't render anything if component shouldn't show - AFTER all hooks
   if (!shouldShow) {

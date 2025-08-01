@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, Heart, Share2, MapPin, Star, Sparkles, Users, Wifi, Car, Coffee, Utensils, Clock, CheckCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslationWithFallback } from "@/hooks/useTranslationWithFallback";
+import { HotelLocationMap } from "./HotelLocationMap";
 
 interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -557,13 +558,14 @@ export function HotelDetailContentEnhanced({ hotel, isLoading }: HotelDetailCont
           {(hotel.city || hotel.country) && (
             <div className="bg-white rounded-2xl p-4 shadow-[0_8px_25px_rgba(59,130,246,0.25),0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)] border border-blue-400/20">
               <h2 className="text-base font-bold text-gray-800 mb-3 text-center">Ubicación</h2>
-              <div className="bg-gray-200 rounded-xl h-32 flex items-center justify-center">
-                <div className="text-center text-gray-600">
-                  <MapPin className="w-8 h-8 mx-auto mb-2" />
-                  <p className="text-sm font-medium">Mapa de Google</p>
-                  <p className="text-sm">{hotel.city}, {hotel.country}</p>
-                </div>
-              </div>
+              <HotelLocationMap
+                address={hotel.address}
+                city={hotel.city}
+                country={hotel.country}
+                latitude={hotel.latitude}
+                longitude={hotel.longitude}
+                hotelName={hotel.name}
+              />
             </div>
           )}
 

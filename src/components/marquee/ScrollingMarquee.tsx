@@ -19,11 +19,15 @@ export const ScrollingMarquee: React.FC = () => {
   const getNextMessage = useCallback((): string => {
     if (messages.length === 0) return '';
     
-    const message = messages[currentIndex];
-    setCurrentIndex((prev) => (prev + 1) % messages.length);
+    setCurrentIndex((prev) => {
+      const nextIndex = (prev + 1) % messages.length;
+      return nextIndex;
+    });
     
-    return message;
-  }, [messages, currentIndex]);
+    // Use the current index to get the message
+    const message = messages[currentIndex];
+    return message || '';
+  }, [messages]);
 
   // Animation duration calculation
   const animationDuration = React.useMemo(() => {

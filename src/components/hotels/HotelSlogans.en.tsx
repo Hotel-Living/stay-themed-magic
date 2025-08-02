@@ -13,7 +13,7 @@ export function HotelTitleEN() {
            color: '#FFD700',
            animation: 'gentle-gold 3s ease-in-out infinite'
          }}>
-           We fill your<br />empty rooms
+           <span dangerouslySetInnerHTML={{ __html: t('slogans.mainTitle') }} />
          </span>
          </h1>
       </div>

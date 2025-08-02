@@ -10,7 +10,12 @@ export function HotelSlogansPT() {
         <div className="relative group w-fit mx-auto">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
           <h1 className="relative text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 mx-auto shadow-sm whitespace-nowrap">
-            
+            <span className="px-[8px] text-center uppercase font-bold animate-pulse block" style={{
+            color: '#FFD700',
+            animation: 'gentle-gold 3s ease-in-out infinite'
+          }}>
+            <span dangerouslySetInnerHTML={{ __html: t('slogans.mainTitle') }} />
+          </span>
           </h1>
         </div>
         

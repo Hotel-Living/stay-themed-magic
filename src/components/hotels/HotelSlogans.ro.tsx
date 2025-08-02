@@ -16,9 +16,9 @@ export function HotelSlogansRO() {
         </div>
         
         {/* Blue glow wrapper for slogans block */}
-        <div className="relative group mx-8">
+        <div className="relative group mx-auto w-fit">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-6 py-[13px] my-[17px]">
+          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-0 w-fit mx-auto my-[14px] py-0">
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('slogans.slogan1')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('slogans.slogan2')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-4">{t('slogans.slogan3')}</p>

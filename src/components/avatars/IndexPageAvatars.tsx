@@ -75,7 +75,8 @@ export function IndexPageAvatars() {
   const { t } = useTranslation('faq');
 
   const getAvatarMessage = (avatarId: string) => {
-    return t(`avatars.${avatarId}.shortMessage`, `¡Hola!`);
+    // Use proper language-specific fallbacks instead of hardcoded Spanish
+    return t(`avatars.${avatarId}.shortMessage`, undefined);
   };
 
   useEffect(() => {

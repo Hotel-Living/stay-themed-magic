@@ -14,8 +14,8 @@ export function HotelPageAvatar() {
   }, []);
 
   const getMessage = () => {
-    // Always return the translated full interactive message for Martín
-    return t('avatars.martin.fullMessage', '¡Hola, soy Martín! Soy hotelero. ¿Te puedo ayudar?');
+    // Use proper translation without hardcoded fallback
+    return t('avatars.martin.fullMessage', undefined);
   };
 
   if (!showAvatar) return null;

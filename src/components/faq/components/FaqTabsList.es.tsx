@@ -12,9 +12,9 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
   const isMobile = useIsMobile();
   
   return (
-    <div className="flex justify-center mb-8 overflow-x-auto">
+    <div className="flex justify-center mb-4 overflow-x-auto">
       <div className={`${isMobile ? "grid grid-cols-3 gap-2 w-full" : "w-full max-w-4xl"}`}>
-        <TabsList className={`${isMobile ? "contents" : "flex flex-wrap justify-center gap-3 mb-5"} p-2 sm:p-4 bg-[#6804A3] rounded-none border-none shadow-none`}>
+        <TabsList className={`${isMobile ? "contents" : "flex flex-wrap justify-center gap-3 mb-2"} p-2 sm:p-4 bg-[#6804A3] rounded-none border-none shadow-none`}>
           {faqCategories.map((category, index) => {
             // Add line breaks for long category names
             let displayName = category.name;

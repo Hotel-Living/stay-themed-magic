@@ -34,16 +34,16 @@ export function AffinityStaysSlogans() {
             <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl py-[4px] px-[23px] my-[7px]">
-            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.meetShareBelong')}</p>
+            <p className="text-[#8017B0] text-lg font-bold mobile-break" dangerouslySetInnerHTML={{ __html: t('affinity.slogans.meetShareBelong') }} />
           </div>
           <div className="bg-[#FFC700] py-2 text-center rounded-xl px-[3px] my-[10px]">
-            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.stayWithThoseWhoGetYou')}</p>
+            <p className="text-[#8017B0] text-lg font-bold mobile-break" dangerouslySetInnerHTML={{ __html: t('affinity.slogans.stayWithThoseWhoGetYou') }} />
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl px-[7px] my-[2px] py-[4px]">
-            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.tiredOfRandom')}</p>
+            <p className="text-[#8017B0] text-lg font-bold mobile-break" dangerouslySetInnerHTML={{ __html: t('affinity.slogans.tiredOfRandom') }} />
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl py-[4px] px-[41px] my-[9px]">
-            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.stayAndConnect')}</p>
+            <p className="text-[#8017B0] text-lg font-bold mobile-break" dangerouslySetInnerHTML={{ __html: t('affinity.slogans.stayAndConnect') }} />
           </div>
         </div>
       </div>

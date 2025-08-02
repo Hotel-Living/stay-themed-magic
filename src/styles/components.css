@@ -124,4 +124,17 @@
       opacity: 0.8;
     }
   }
+  
+  /* Mobile line breaks for affinity slogans */
+  @media (max-width: 768px) {
+    .mobile-break br {
+      display: inline;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .mobile-break br {
+      display: none;
+    }
+  }
 }

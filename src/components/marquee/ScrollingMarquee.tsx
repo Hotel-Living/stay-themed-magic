@@ -11,6 +11,7 @@ export const ScrollingMarquee: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && messages.length > 0;
@@ -25,14 +26,22 @@ export const ScrollingMarquee: React.FC = () => {
   }, [displayText]);
 
   useEffect(() => {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
     // Only run effects if component should be visible
     if (!shouldShow) return;
+
+    let localCurrentIndex = 0;
 
     const updateMessage = () => {
       if (messages.length === 0) return;
       
-      // Get current message in natural order
-      const message = messages[currentIndex];
+      // Get current message in natural order (no shuffling)
+      const message = messages[localCurrentIndex];
       if (message) {
         // Add 30 spaces between messages for clear separation
         const spacedMessage = `${message}${' '.repeat(30)}`;
@@ -40,7 +49,10 @@ export const ScrollingMarquee: React.FC = () => {
         setAnimationKey(prev => prev + 1);
         
         // Move to next message
-        setCurrentIndex(prev => (prev + 1) % messages.length);
+        localCurrentIndex = (localCurrentIndex + 1) % messages.length;
+        setCurrentIndex(localCurrentIndex);
+        
+        console.log(`Marquee: Showing message ${localCurrentIndex}/${messages.length}: ${message.substring(0, 50)}...`);
       }
     };
 
@@ -57,12 +69,15 @@ export const ScrollingMarquee: React.FC = () => {
     };
 
     // Set up interval for message updates
-    const messageInterval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       updateMessage();
     }, calculateDuration() * 1000);
 
     return () => {
-      clearInterval(messageInterval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
   }, [shouldShow, messages]); // Only depend on shouldShow and messages
 

@@ -18,6 +18,8 @@ export const useMarqueeMessages = () => {
         setIsLoading(true);
         const language = getMarqueeLanguage(i18n.language);
         
+        console.log(`🌐 Language Detection: Browser=${i18n.language}, Mapped=${language}`);
+        
         // Map language codes to file names
         const fileMap: Record<string, string> = {
           'en': 'hotel_living_messages_en.json',
@@ -27,16 +29,20 @@ export const useMarqueeMessages = () => {
         };
         
         const fileName = fileMap[language] || fileMap['en'];
-        const response = await fetch(`/locales/marquee/${fileName}`);
+        const fetchUrl = `/locales/marquee/${fileName}`;
+        
+        console.log(`📁 Fetching: ${fetchUrl}`);
+        
+        const response = await fetch(fetchUrl);
         
         if (!response.ok) {
           throw new Error(`Failed to load messages: ${response.status}`);
         }
         
         const messagesData = await response.json() as string[];
-        console.log('Marquee data loaded:', { language, fileName, messagesCount: messagesData.length });
+        console.log(`✅ Marquee data loaded: Language=${language}, File=${fileName}, Count=${messagesData.length}`);
         
-        console.log('Parsed messages:', messagesData.length, messagesData.slice(0, 3));
+        console.log('📝 Sample messages:', messagesData.slice(0, 3));
         
         if (messagesData.length > 0) {
           // Keep messages in natural order (no shuffling)

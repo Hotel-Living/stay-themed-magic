@@ -107,9 +107,10 @@ export function EnhancedAvatarAssistant({
               <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}
-                className="absolute -top-1 -right-1 text-gray-500 hover:text-gray-700 rounded-full w-3 h-3 flex items-center justify-center border border-gray-300" style={{ backgroundColor: '#FBF3B4' }}
+                className="absolute -top-1 -right-1 text-white hover:text-white/80 rounded-full w-3 h-3 md:w-3 md:h-3 max-md:w-6 max-md:h-6 flex items-center justify-center border border-gray-300 bg-[#7E26A6] hover:bg-[#7E26A6]/90 transition-colors duration-200"
               >
-                <X size={6} />
+                <X size={6} className="md:block max-md:hidden" />
+                <X size={12} className="hidden max-md:block" />
               </button>
               {/* Bubble tail */}
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>

@@ -105,7 +105,7 @@ export const useHotelFaqCategories = (): FaqCategory[] => {
   
   const translations = categoryTranslations[language as keyof typeof categoryTranslations] || categoryTranslations.en;
   
-  return [
+  const categories = [
     { id: "benefits", name: translations.benefits },
     { id: "models", name: translations.models },
     { id: "revenue", name: translations.revenue },
@@ -117,6 +117,8 @@ export const useHotelFaqCategories = (): FaqCategory[] => {
     { id: "marketing", name: translations.marketing },
     { id: "payment", name: translations.payment }
   ];
+  
+  return categories;
 };
 
 export const useHotelFaqsByCategory = () => {

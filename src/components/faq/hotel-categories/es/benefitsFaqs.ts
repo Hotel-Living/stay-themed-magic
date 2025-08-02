@@ -1,5 +1,5 @@
 
-import { FaqItem } from "../../hotel-types";
+import { FaqItem } from "../../types";
 
 export const benefitsFaqs: FaqItem[] = [
   {

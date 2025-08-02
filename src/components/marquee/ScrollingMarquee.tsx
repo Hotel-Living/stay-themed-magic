@@ -16,13 +16,13 @@ export const ScrollingMarquee: React.FC = () => {
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && messages.length > 0;
 
-  // Animation duration calculation
+  // Animation duration calculation with 20% increased speed
   const animationDuration = React.useMemo(() => {
-    if (!marqueeRef.current || !containerRef.current) return 30;
+    if (!marqueeRef.current || !containerRef.current) return 15;
     const textWidth = marqueeRef.current.scrollWidth;
     const containerWidth = containerRef.current.offsetWidth;
     const totalDistance = textWidth + containerWidth;
-    return totalDistance / 80; // 80px per second
+    return totalDistance / 96; // 20% faster than 80px per second
   }, [displayText]);
 
   useEffect(() => {
@@ -35,7 +35,8 @@ export const ScrollingMarquee: React.FC = () => {
     // Only run effects if component should be visible
     if (!shouldShow) return;
 
-    let messageIndex = 0;
+    // Start from a random message index for variety
+    let messageIndex = Math.floor(Math.random() * messages.length);
 
     const updateMessage = () => {
       if (messages.length === 0) return;
@@ -59,10 +60,10 @@ export const ScrollingMarquee: React.FC = () => {
     // Initial message
     updateMessage();
 
-    // Set up interval for message updates - fixed timing for consistent cycling
+    // Set up interval for message updates - increased speed by 20% (12s -> 9.6s)
     intervalRef.current = setInterval(() => {
       updateMessage();
-    }, 12000); // 12 seconds per message
+    }, 9600); // 20% faster than 12000ms
 
     return () => {
       if (intervalRef.current) {
@@ -80,10 +81,10 @@ export const ScrollingMarquee: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      className="fixed bottom-0 left-0 right-0 h-8 overflow-hidden z-40"
+      className="fixed bottom-0 left-0 right-0 h-6 overflow-hidden z-40"
       style={{ 
         backgroundColor: '#7E26A6',
-        marginBottom: '0px' // Reduced bottom margin
+        marginBottom: '0px'
       }}
       role="status"
       aria-live="polite"
@@ -92,7 +93,7 @@ export const ScrollingMarquee: React.FC = () => {
       <div
         ref={marqueeRef}
         key={animationKey}
-        className="whitespace-nowrap text-white font-semibold px-3 py-1 marquee-scroll"
+        className="whitespace-nowrap text-white font-semibold px-3 py-0.5 marquee-scroll"
         style={{
           fontSize: '11px',
           fontWeight: 600,

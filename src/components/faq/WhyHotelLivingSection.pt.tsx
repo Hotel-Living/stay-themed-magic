@@ -116,13 +116,13 @@ export function WhyHotelLivingSectionPT() {
           <div className="flex justify-center mb-4">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]"></div>
-              <div className={`relative flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-8 place-items-center"}`}>
+              <div className={`relative grid grid-cols-4 gap-3 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md place-items-center`}>
               {accordionOptions.map((option) => {
                 return (
                   <div key={option.id} className="relative">
                     <button 
                       onClick={() => handleAccordionTabChange(option.id)}
-                      className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                      className={`px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-[10px] px-1 py-2" : "text-xs px-2 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                     >
                       <span className="mb-1 leading-tight">{option.label}</span>
                       <span className="text-xs">▼</span>

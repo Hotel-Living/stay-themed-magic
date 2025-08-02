@@ -57,7 +57,7 @@ function SimpleAvatar({ avatar, position, message }: { avatar: { id: string; gif
         </div>
 
         {/* Speech bubble */}
-        <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
+        <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[12px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
           <span className="text-gray-800 leading-tight block">{message}</span>
            {/* Bubble tail */}
            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>

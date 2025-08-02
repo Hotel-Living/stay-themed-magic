@@ -103,7 +103,7 @@ export function EnhancedAvatarAssistant({
 
           {/* Speech bubble - show for all positions when showMessage is true */}
           {showMessage && (
-            <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[8px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
+            <div className="absolute -top-28 left-1/2 transform -translate-x-1/2 rounded-lg px-2 py-1 shadow-md text-[12px] max-w-[80px] text-center z-10 border border-fuchsia-200" style={{ backgroundColor: '#FBF3B4' }}>
               <span className="text-gray-800 leading-tight block">{displayMessage}</span>
               <button 
                 onClick={handleDismiss}

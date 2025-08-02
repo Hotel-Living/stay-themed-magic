@@ -58,31 +58,40 @@ export default function Hotels() {
           </div>
           
           {/* Hotel Revenue Calculator - positioned right after title */}
-          <div className="animate-fade-in mt-6" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+          <div className="animate-fade-in mt-6" style={{
+          animationDelay: '0.1s',
+          animationFillMode: 'both'
+        }}>
             <HotelRevenueCalculator />
           </div>
           
           {/* Hotel Slogans - positioned after calculator */}
-          <div className="animate-fade-in w-full mt-6" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+          <div className="animate-fade-in w-full mt-6" style={{
+          animationDelay: '0.2s',
+          animationFillMode: 'both'
+        }}>
             <HotelSlogans />
           </div>
           
           {/* Professional Study Text Link */}
           <div className="my-8 flex justify-center px-4">
-            <Link 
-              to="/professional-study"
-              className="text-white text-lg font-medium text-center hover:text-fuchsia-300 transition-all duration-300 animate-fade-in hover:scale-105 cursor-pointer whitespace-pre-line"
-            >
+            <Link to="/professional-study" className="text-white text-lg font-medium text-center hover:text-fuchsia-300 transition-all duration-300 animate-fade-in hover:scale-105 cursor-pointer whitespace-pre-line">
               {t('hotels:professionalStudy')}
             </Link>
           </div>
           
           {/* New accordion menu */}
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
+          <div style={{
+          animationDelay: '0.4s',
+          animationFillMode: 'both'
+        }} className="animate-fade-in mx-0 px-0">
             <HotelNewAccordionMenu />
           </div>
           
-          <div className="w-full max-w-4xl mt-10 animate-fade-in px-2 sm:px-0" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
+          <div className="w-full max-w-4xl mt-10 animate-fade-in px-2 sm:px-0" style={{
+          animationDelay: '0.6s',
+          animationFillMode: 'both'
+        }}>
             <div className="glass-card rounded-lg overflow-hidden border-none p-2 sm:p-4 mb-10 bg-[#5f0276] transition-all duration-300 hover:shadow-lg hover:shadow-fuchsia-500/20">
               {/* Blue glow wrapper for FAQ title */}
               <div className="relative group w-fit mx-auto mb-4 sm:mb-6">
@@ -100,10 +109,7 @@ export default function Hotels() {
               
               {/* Portrait of the Hotel Crisis Link */}
               <div className="mt-6 flex justify-center">
-                <Link 
-                  to="/hotel-crisis" 
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/30"
-                >
+                <Link to="/hotel-crisis" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/30">
                   📊 {t('hotels:linkText')}
                 </Link>
               </div>
@@ -112,15 +118,24 @@ export default function Hotels() {
             </div>
           </div>
           
-          <div className="animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'both' }}>
+          <div className="animate-fade-in" style={{
+          animationDelay: '0.8s',
+          animationFillMode: 'both'
+        }}>
             <HotelCards />
           </div>
           
-          <div className="animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'both' }}>
+          <div className="animate-fade-in" style={{
+          animationDelay: '1s',
+          animationFillMode: 'both'
+        }}>
             <HotelFeatures />
           </div>
           
-          <div className="w-full max-w-2xl mt-16 mb-12 animate-fade-in" style={{ animationDelay: '1.2s', animationFillMode: 'both' }}>
+          <div className="w-full max-w-2xl mt-16 mb-12 animate-fade-in" style={{
+          animationDelay: '1.2s',
+          animationFillMode: 'both'
+        }}>
             <HotelVideoPlayer />
           </div>
         </div>

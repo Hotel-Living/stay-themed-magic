@@ -23,9 +23,9 @@ export function Footer() {
           {/* Extra spacing between logo and menu for mobile */}
           {isMobile && <div className="mb-8"></div>}
           
-          {/* Footer Menu - 4 column layout */}
+          {/* Footer Menu - Single column on mobile, 4 columns on desktop */}
           <div className={`w-full max-w-4xl ${isMobile ? "mb-4" : "mb-8"} animate-fade-in px-2 sm:px-0`} style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-            <div className={`grid ${isMobile ? "grid-cols-2 gap-x-4 gap-y-4" : "grid-cols-4 gap-8"} text-center text-white text-xs sm:text-sm font-bold`}>
+            <div className={`grid ${isMobile ? "grid-cols-1 gap-y-4" : "grid-cols-4 gap-8"} text-center text-white text-xs sm:text-sm font-bold`}>
               
               {/* Column 1: About Us */}
               <div className="space-y-1 sm:space-y-2">

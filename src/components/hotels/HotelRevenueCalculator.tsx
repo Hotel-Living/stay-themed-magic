@@ -27,30 +27,30 @@ export function HotelRevenueCalculator() {
     switch (language) {
       case 'es':
         return {
-          emptyRoomsLabel: 'SUS HABITACIONES VACÍAS\nPROMEDIO DIARIAS?',
-          monthlyPriceLabel: 'PRECIO MENSUAL\n(USD)?',
-          resultTitle: 'INGRESOS ADICIONALES ANUALES*',
+          emptyRoomsLabel: '¿CUÁNTAS HABITACIONES VACÍAS\nDIARIAS, DE MEDIA?',
+          monthlyPriceLabel: '¿PRECIO POR MES?',
+          resultTitle: 'INGRESOS EXTRA ANUALES*',
           resultPrefix: ''
         };
       case 'pt':
         return {
-          emptyRoomsLabel: 'SEUS QUARTOS VAZIOS\nMÉDIOS DIÁRIOS?',
-          monthlyPriceLabel: 'PREÇO MENSAL\n(USD)?',
-          resultTitle: 'RECEITA ADICIONAL ANUAL*',
+          emptyRoomsLabel: 'QUANTOS QUARTOS VAZIOS POR DIA,\nEM MÉDIA?',
+          monthlyPriceLabel: 'PREÇO MENSAL?',
+          resultTitle: 'RECEITA EXTRA ANUAL*',
           resultPrefix: ''
         };
       case 'ro':
         return {
-          emptyRoomsLabel: 'CAMERELE DUMNEAVOASTRĂ GOALE\nZILNICE ÎN MEDIE?',
-          monthlyPriceLabel: 'PREȚ LUNAR\n(USD)?',
-          resultTitle: 'VENITURI SUPLIMENTARE ANUALE*',
+          emptyRoomsLabel: 'CÂTE CAMERE LIBERE PE ZI,\nÎN MEDIE?',
+          monthlyPriceLabel: 'PREȚ PE LUNĂ?',
+          resultTitle: 'VENITURI EXTRA ANUALE*',
           resultPrefix: ''
         };
       default:
         return {
-          emptyRoomsLabel: 'YOUR AVERAGE DAILY\nEMPTY ROOMS?',
-          monthlyPriceLabel: 'AVERAGE MONTHLY\nPRICE (USD)?',
-          resultTitle: 'ADDITIONAL YEARLY REVENUE*',
+          emptyRoomsLabel: 'HOW MANY EMPTY ROOMS PER DAY,\nON AVERAGE?',
+          monthlyPriceLabel: 'MONTHLY PRICE?',
+          resultTitle: 'EXTRA ANNUAL REVENUE*',
           resultPrefix: ''
         };
     }

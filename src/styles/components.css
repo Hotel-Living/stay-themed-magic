@@ -49,6 +49,12 @@
     .hero-section h2 {
       font-size: 18px !important;
     }
+    
+    /* FAQ questions spacing - prevent overlap with bottom menu */
+    .faq-questions-list {
+      margin-top: 32px !important;
+      clear: both;
+    }
   }
   
   /* Text wrapping utilities for layout overflow prevention */

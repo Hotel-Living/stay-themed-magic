@@ -18,6 +18,50 @@
     "hotel": "{{count}} pessoas estão vendo este hotel agora mesmo!"
   },
   "helpAssistant": {
-    "message": "Olá! Estou aqui para ajudá-lo."
+    "message": "Olá! Estou aqui para ajudá-lo.",
+    "mainMessage": "Fale ou escreva sua pergunta para mim.",
+    "inputLabel": "Digite sua mensagem aqui...",
+    "avatars": {
+      "antonio": { 
+        "name": "Antonio", 
+        "description": "Aposentado",
+        "greeting": "Olá, sou Antonio!\nAposentado\nPosso te ajudar?"
+      },
+      "luisa": { 
+        "name": "Luisa", 
+        "description": "Aposentada",
+        "greeting": "Olá, sou Luisa!\nAposentada\nPosso te ajudar?"
+      },
+      "john": { 
+        "name": "John", 
+        "description": "Trabalhador Remoto",
+        "greeting": "Olá, sou John!\nTrabalhador online\nPosso te ajudar?"
+      },
+      "teresa": { 
+        "name": "Teresa", 
+        "description": "Amante de Viagens",
+        "greeting": "Olá, sou Teresa!\nAposentada\nPosso te ajudar?"
+      },
+      "juan": { 
+        "name": "Juan", 
+        "description": "Ex-Senhorio",
+        "greeting": "Olá, sou Juan!\nEx-Airbnb\nPosso te ajudar?"
+      },
+      "ion": { 
+        "name": "Ion", 
+        "description": "Ex-Inquilino",
+        "greeting": "Olá, sou Ion!\nEx-inquilino\nPosso te ajudar?"
+      },
+      "maria": { 
+        "name": "María", 
+        "description": "Residente Suburbana",
+        "greeting": "Olá, sou María!\nEx-viajante diária\nPosso te ajudar?"
+      },
+      "martin": { 
+        "name": "Martin", 
+        "description": "Dono de Hotel",
+        "greeting": "Olá, sou Martin!\nHoteleiro\nPosso te ajudar?"
+      }
+    }
   }
 }

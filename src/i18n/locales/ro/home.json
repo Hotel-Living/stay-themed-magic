@@ -18,6 +18,50 @@
     "hotel": "{{count}} de persoane vizualizează acest hotel chiar acum!"
   },
   "helpAssistant": {
-    "message": "Salut! Sunt aici să te ajut."
+    "message": "Salut! Sunt aici să te ajut.",
+    "mainMessage": "Vorbește sau scrie întrebarea către mine.",
+    "inputLabel": "Scrie mesajul tău aici...",
+    "avatars": {
+      "antonio": { 
+        "name": "Antonio", 
+        "description": "Pensionar",
+        "greeting": "Salut, sunt Antonio!\nPensionar\nTe pot ajuta?"
+      },
+      "luisa": { 
+        "name": "Luisa", 
+        "description": "Pensionară",
+        "greeting": "Salut, sunt Luisa!\nPensionară\nTe pot ajuta?"
+      },
+      "john": { 
+        "name": "John", 
+        "description": "Lucrător la Distanță",
+        "greeting": "Salut, sunt John!\nLucrător online\nTe pot ajuta?"
+      },
+      "teresa": { 
+        "name": "Teresa", 
+        "description": "Iubitoare de Călătorii",
+        "greeting": "Salut, sunt Teresa!\nPensionară\nTe pot ajuta?"
+      },
+      "juan": { 
+        "name": "Juan", 
+        "description": "Fost Proprietar",
+        "greeting": "Salut, sunt Juan!\nEx-Airbnb\nTe pot ajuta?"
+      },
+      "ion": { 
+        "name": "Ion", 
+        "description": "Fost Chiriaș",
+        "greeting": "Salut, sunt Ion!\nFost chiriaș\nTe pot ajuta?"
+      },
+      "maria": { 
+        "name": "María", 
+        "description": "Rezidentă Suburbană",
+        "greeting": "Salut, sunt María!\nFostă navetistă\nTe pot ajuta?"
+      },
+      "martin": { 
+        "name": "Martin", 
+        "description": "Proprietar Hotel",
+        "greeting": "Salut, sunt Martin!\nHotelier\nTe pot ajuta?"
+      }
+    }
   }
 }

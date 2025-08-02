@@ -95,14 +95,16 @@ export function HeroSectionEnhanced() {
           {/* Enhanced main title with sophisticated entrance */}
           <h1 
             className={`
-              ${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} 
+              ${isMobile ? "text-[86.4px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} 
               font-bold mb-2 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent
               transform transition-all duration-1000 ease-out hover:scale-[1.02]
-              ${isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}
+              ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}
             `}
             style={{
               filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))',
-              animationDelay: "400ms"
+              animationDelay: "400ms",
+              animationDuration: isMobile ? "3s" : "1s",
+              animationTimingFunction: "ease-out"
             }}
           >
             {t('heroSection.liveInHotels')}
@@ -111,14 +113,16 @@ export function HeroSectionEnhanced() {
           {/* Enhanced subtitle with delayed entrance */}
           <h2 
             className={`
-              ${isMobile ? "text-[1.6rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} 
+              ${isMobile ? "text-[3.2rem]" : "text-[1.3rem] sm:text-[1.6rem] md:text-[2.1rem] lg:text-[2.7rem]"} 
               font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#FFF7BD] via-[#FFF7BD] to-[#FFF7BD] bg-clip-text text-transparent
               transform transition-all duration-1000 ease-out hover:scale-[1.01]
-              ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}
+              ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}
             `}
             style={{
               filter: 'drop-shadow(0 0 10px rgba(255, 247, 189, 0.8)) drop-shadow(0 0 20px rgba(255, 247, 189, 0.6)) drop-shadow(0 0 30px rgba(255, 247, 189, 0.4))',
-              animationDelay: "600ms"
+              animationDelay: "600ms",
+              animationDuration: isMobile ? "3s" : "1s",
+              animationTimingFunction: "ease-out"
             }}
           >
             {t('heroSection.boostYourLife')}

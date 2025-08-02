@@ -20,43 +20,43 @@ const ambassadors = [
     id: 1,
     name: "David Thompson",
     image: davidThompsonImg,
-    bio: "Después de jubilarme, quería viajar sin preocupaciones. Hotel Living me dio la posibilidad de vivir entre hoteles en estancias medias y largas. Ahora alquilo mi casa de siempre, duplico mi entrada y vivo una vida alucinante conociendo gente."
+    bioKey: "usa.ambassadors.davidThompson"
   },
   {
     id: 2,
     name: "Mariana López",
     image: marianaLopezImg,
-    bio: "Organizo viajes de amigos con intereses comunes y vamos sumando muchos amigos a los que nos gusta lo mismo. Así vivimos de hotel en hotel, con todo hecho. En cuanto empiece a haber países afuera de Estados Unidos, comenzaremos a viajar despacio por el mundo."
+    bioKey: "usa.ambassadors.marianaLopez"
   },
   {
     id: 3,
     name: "James Carter",
     image: jamesCarterImg,
-    bio: "Pasé años en hoteles por trabajo. Ahora elijo Hotel Living porque me hace sentir en casa. Conoces mucha gente pues todos estamos ahí para divertirnos."
+    bioKey: "usa.ambassadors.jamesCarter"
   },
   {
     id: 4,
     name: "Elena Rodríguez",
     image: elenaRodriguezImg,
-    bio: "Soy profesora de español online y viajo mientras enseño. ¡Hotel Living es perfecto para mí!"
+    bioKey: "usa.ambassadors.elenaRodriguez"
   },
   {
     id: 5,
     name: "Michael Nguyen",
     image: michaelNguyenImg,
-    bio: "Mi esposa y yo dejamos el alquiler y vivimos entre hoteles. Es más práctico y emocionante."
+    bioKey: "usa.ambassadors.michaelNguyen"
   },
   {
     id: 6,
     name: "Sarah Miller",
     image: sarahMillerImg,
-    bio: "Me uní a Hotel Living por unos meses. Paso estancias largas en hoteles en mi ciudad. Es una gran vida. Jamás volveré a alquilar y a complicarme."
+    bioKey: "usa.ambassadors.sarahMiller"
   },
   {
     id: 7,
     name: "Ricardo Sánchez",
     image: ricardoSanchezImg,
-    bio: "Estaba harto de los apartamentos turísticos. Hotel Living superó mis expectativas y lo difundo todo cuanto puedo."
+    bioKey: "usa.ambassadors.ricardoSanchez"
   }
 ];
 
@@ -116,7 +116,7 @@ const AmbassadorsUSA = () => {
                     </div>
                     <h3 className="text-xl font-bold mb-3">{ambassador.name}</h3>
                     <p className="text-sm leading-relaxed opacity-90">
-                      "{ambassador.bio}"
+                      "{t(ambassador.bioKey)}"
                     </p>
                   </div>
                 ))}

@@ -72,6 +72,15 @@
   },
   "usa": {
     "title": "Hotel Living Ambassadors — USA",
-    "backButton": "Back"
+    "backButton": "Back",
+    "ambassadors": {
+      "davidThompson": "After retiring, I wanted to travel without worries. Hotel Living gave me the possibility to live between hotels in medium and long stays. Now I rent out my house, double my income and live an amazing life meeting people.",
+      "marianaLopez": "I organize trips with friends who share common interests and we keep adding many friends who like the same things. We live from hotel to hotel, with everything taken care of. As soon as there are countries outside the United States, we'll start traveling slowly around the world.",
+      "jamesCarter": "I spent years in hotels for work. Now I choose Hotel Living because it makes me feel at home. You meet a lot of people since we're all there to have fun.",
+      "elenaRodriguez": "I'm an online Spanish teacher and I travel while teaching. Hotel Living is perfect for me!",
+      "michaelNguyen": "My wife and I left renting and live between hotels. It's more practical and exciting.",
+      "sarahMiller": "I joined Hotel Living for a few months. I spend long stays in hotels in my city. It's a great life. I'll never go back to renting and complicating myself.",
+      "ricardoSanchez": "I was fed up with tourist apartments. Hotel Living exceeded my expectations and I spread the word as much as I can."
+    }
   }
 }

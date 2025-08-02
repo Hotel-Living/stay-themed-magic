@@ -72,6 +72,15 @@
   },
   "usa": {
     "title": "Hotel Living Embajadores — USA",
-    "backButton": "Volver"
+    "backButton": "Volver",
+    "ambassadors": {
+      "davidThompson": "Después de jubilarme, quería viajar sin preocupaciones. Hotel Living me dio la posibilidad de vivir entre hoteles en estancias medias y largas. Ahora alquilo mi casa de siempre, duplico mi entrada y vivo una vida alucinante conociendo gente.",
+      "marianaLopez": "Organizo viajes de amigos con intereses comunes y vamos sumando muchos amigos a los que nos gusta lo mismo. Así vivimos de hotel en hotel, con todo hecho. En cuanto empiece a haber países afuera de Estados Unidos, comenzaremos a viajar despacio por el mundo.",
+      "jamesCarter": "Pasé años en hoteles por trabajo. Ahora elijo Hotel Living porque me hace sentir en casa. Conoces mucha gente pues todos estamos ahí para divertirnos.",
+      "elenaRodriguez": "Soy profesora de español online y viajo mientras enseño. ¡Hotel Living es perfecto para mí!",
+      "michaelNguyen": "Mi esposa y yo dejamos el alquiler y vivimos entre hoteles. Es más práctico y emocionante.",
+      "sarahMiller": "Me uní a Hotel Living por unos meses. Paso estancias largas en hoteles en mi ciudad. Es una gran vida. Jamás volveré a alquilar y a complicarme.",
+      "ricardoSanchez": "Estaba harto de los apartamentos turísticos. Hotel Living superó mis expectativas y lo difundo todo cuanto puedo."
+    }
   }
 }

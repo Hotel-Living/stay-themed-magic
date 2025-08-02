@@ -72,6 +72,15 @@
   },
   "usa": {
     "title": "Ambasadorii Hotel Living — SUA",
-    "backButton": "Înapoi"
+    "backButton": "Înapoi",
+    "ambassadors": {
+      "davidThompson": "După pensionare, voiam să călătoresc fără griji. Hotel Living mi-a dat posibilitatea să trăiesc între hoteluri în șederi medii și lungi. Acum închiriez casa mea, îmi dublez venitul și trăiesc o viață uimitoare cunoscând oameni.",
+      "marianaLopez": "Organizez călătorii cu prieteni care au interese comune și continuăm să adăugăm mulți prieteni cărora le plac aceleași lucruri. Trăim din hotel în hotel, cu totul rezolvat. De îndată ce vor fi țări în afara Statelor Unite, vom începe să călătorim încet prin lume.",
+      "jamesCarter": "Am petrecut ani în hoteluri pentru muncă. Acum aleg Hotel Living pentru că mă face să mă simt acasă. Întâlnești mulți oameni pentru că toți suntem acolo să ne distrăm.",
+      "elenaRodriguez": "Sunt profesoară de spaniolă online și călătoresc în timp ce predau. Hotel Living este perfect pentru mine!",
+      "michaelNguyen": "Eu și soția mea am renunțat la închiriere și trăim între hoteluri. Este mai practic și emoționant.",
+      "sarahMiller": "M-am alăturat Hotel Living pentru câteva luni. Petrec șederi lungi în hoteluri în orașul meu. Este o viață minunată. Nu mă voi întoarce niciodată la închiriere și complicații.",
+      "ricardoSanchez": "Eram sătul de apartamentele turistice. Hotel Living mi-a depășit așteptările și răspândesc vestea cât pot de mult."
+    }
   }
 }

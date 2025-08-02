@@ -93,9 +93,9 @@ export const ScrollingMarquee: React.FC = () => {
         key={animationKey}
         className="whitespace-nowrap text-white font-semibold px-3 py-1.5 marquee-scroll"
         style={{
-          fontSize: '16px',
+          fontSize: '12px',
           fontWeight: 600,
-          lineHeight: '20px',
+          lineHeight: '14px',
           animation: `scroll-left ${animationDuration}s linear infinite`,
           willChange: 'transform'
         }}

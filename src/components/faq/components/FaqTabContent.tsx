@@ -21,7 +21,7 @@ export function FaqTabContent({
 }: FaqTabContentProps) {
   const isMobile = useIsMobile();
   return <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in mt-4">
-      {filteredFaqs.length > 0 ? <Accordion type="multiple" className={`w-full space-y-3.5 ${isMobile ? "mt-24" : ""}`}>
+      {filteredFaqs.length > 0 ? <Accordion type="multiple" className={`w-full space-y-3.5 ${isMobile ? "mt-30" : ""}`}>
           {filteredFaqs.map((faq, index) => {
         const questionNumber = startIndex + index;
         return <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-2xl hover:shadow-purple-500/30 transition-all duration-500 group">

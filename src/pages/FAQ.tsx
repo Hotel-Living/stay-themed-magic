@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -10,35 +9,34 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
-
-
-
 export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
-  const { t, isReady } = useTranslation('faq');
-  const { translatedCategories, translatedFaqsByCategory } = useFaqData();
-  
+  const {
+    t,
+    isReady
+  } = useTranslation('faq');
+  const {
+    translatedCategories,
+    translatedFaqsByCategory
+  } = useFaqData();
+
   // Initialize smooth scroll behavior
   useSmoothScroll();
 
   // Show loading until i18n is ready
   if (!isReady) {
-    return (
-      <div className="min-h-screen flex flex-col relative">
+    return <div className="min-h-screen flex flex-col relative">
         <HotelStarfield />
         <Navbar />
         <main className="flex-1 pt-16 flex items-center justify-center">
           <div className="text-white text-lg">Loading translations...</div>
         </main>
         <Footer />
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen flex flex-col relative">
+  return <div className="min-h-screen flex flex-col relative">
       <HotelStarfield />
       <Navbar />
       
@@ -59,29 +57,16 @@ export default function FAQ() {
                 {t('title')}
               </h1>
             </div>
-            <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
-              {t('subtitle')}
-            </p>
+            
             
             <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder={t('search')} />
           </div>
 
 
-          <FaqTabs 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-            faqCategories={translatedCategories} 
-            faqsByCategory={translatedFaqsByCategory} 
-            numbered={true} 
-            searchQuery={searchQuery} 
-            textSizeClass="text-base md:text-lg" 
-            answerTextSizeClass="text-sm md:text-base" 
-            marginBottom={isMobile ? "mb-10" : "mb-20"} 
-          />
+          <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={translatedCategories} faqsByCategory={translatedFaqsByCategory} numbered={true} searchQuery={searchQuery} textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" marginBottom={isMobile ? "mb-10" : "mb-20"} />
         </div>
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

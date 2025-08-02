@@ -30,7 +30,7 @@ export function AffinityStaysSlogans() {
         
         {/* Slogans - updated to match FAQ page styling */}
         <div className="space-y-5 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center py-0 my-[34px]">
-          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+          <div className="bg-[#FFC700] text-center rounded-xl my-[2px] px-[7px] py-[4px]">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">

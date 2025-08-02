@@ -84,7 +84,7 @@ export const ScrollingMarquee: React.FC = () => {
       ref={containerRef}
       className="fixed bottom-0 left-0 right-0 h-6 overflow-hidden z-40"
       style={{ 
-        backgroundColor: '#7E26A6',
+        backgroundColor: '#0000B8',
         marginBottom: '0px'
       }}
       role="status"

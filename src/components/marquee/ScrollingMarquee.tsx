@@ -40,17 +40,17 @@ export const ScrollingMarquee: React.FC = () => {
     const updateMessage = () => {
       if (messages.length === 0) return;
       
-      // Get current message in natural order (no shuffling)
+      // Get current message in natural order
       const message = messages[messageIndex];
       if (message) {
-        // Add 30 spaces between messages for clear separation
+        // Create display text with 30 spaces separation
         const spacedMessage = `${message}${' '.repeat(30)}`;
-        setDisplayText(spacedMessage.repeat(3)); // Repeat for seamless loop
+        setDisplayText(spacedMessage);
         setAnimationKey(prev => prev + 1);
         
         console.log(`Marquee: Message ${messageIndex + 1}/${messages.length}: "${message.substring(0, 50)}..."`);
         
-        // Move to next message
+        // Move to next message for next cycle
         messageIndex = (messageIndex + 1) % messages.length;
         setCurrentIndex(messageIndex);
       }
@@ -59,19 +59,10 @@ export const ScrollingMarquee: React.FC = () => {
     // Initial message
     updateMessage();
 
-    // Calculate animation duration based on text length
-    const calculateDuration = () => {
-      if (!marqueeRef.current || !containerRef.current) return 15; // Shorter duration for better cycling
-      const textWidth = marqueeRef.current.scrollWidth;
-      const containerWidth = containerRef.current.offsetWidth;
-      const totalDistance = textWidth + containerWidth;
-      return Math.max(15, totalDistance / 100); // Minimum 15 seconds, faster speed
-    };
-
-    // Set up interval for message updates - use a fixed duration to ensure consistent cycling
+    // Set up interval for message updates - fixed timing for consistent cycling
     intervalRef.current = setInterval(() => {
       updateMessage();
-    }, 15000); // Fixed 15 seconds per message
+    }, 12000); // 12 seconds per message
 
     return () => {
       if (intervalRef.current) {
@@ -90,7 +81,10 @@ export const ScrollingMarquee: React.FC = () => {
     <div 
       ref={containerRef}
       className="fixed bottom-0 left-0 right-0 h-8 overflow-hidden z-40"
-      style={{ backgroundColor: '#7E26A6' }}
+      style={{ 
+        backgroundColor: '#7E26A6',
+        marginBottom: '0px' // Reduced bottom margin
+      }}
       role="status"
       aria-live="polite"
       aria-label="Live updates from Hotel Living"
@@ -98,9 +92,9 @@ export const ScrollingMarquee: React.FC = () => {
       <div
         ref={marqueeRef}
         key={animationKey}
-        className="whitespace-nowrap text-white font-semibold px-3 py-1.5 marquee-scroll"
+        className="whitespace-nowrap text-white font-semibold px-3 py-1 marquee-scroll"
         style={{
-          fontSize: '12px',
+          fontSize: '11px',
           fontWeight: 600,
           lineHeight: '14px',
           animation: `scroll-left ${animationDuration}s linear infinite`,

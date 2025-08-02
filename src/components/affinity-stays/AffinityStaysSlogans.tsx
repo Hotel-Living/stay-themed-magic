@@ -1,9 +1,8 @@
-
 import { useTranslation } from "@/hooks/useTranslation";
-
 export function AffinityStaysSlogans() {
-  const { t } = useTranslation('affinity');
-  
+  const {
+    t
+  } = useTranslation('affinity');
   return <>
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
@@ -30,7 +29,7 @@ export function AffinityStaysSlogans() {
         </div>
         
         {/* Slogans - updated to match FAQ page styling */}
-        <div className="space-y-5 py-4 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center">
+        <div className="space-y-5 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center py-0 my-[35px]">
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>

@@ -68,7 +68,8 @@
   },
   "buttons": {
     "viewAmbassadors": "📊 Nuestros Embajadores",
-    "becomeAmbassador": "Hágase Embajador"
+    "becomeAmbassador": "Hágase Embajador",
+    "throughUserPanel": "a través de su panel de usuario"
   },
   "usa": {
     "title": "Hotel Living Embajadores — USA",

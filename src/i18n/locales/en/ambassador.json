@@ -68,7 +68,8 @@
   },
   "buttons": {
     "viewAmbassadors": "📊 Our Ambassadors",
-    "becomeAmbassador": "Become Ambassador"
+    "becomeAmbassador": "Become Ambassador",
+    "throughUserPanel": "through your user panel"
   },
   "usa": {
     "title": "Hotel Living Ambassadors — USA",

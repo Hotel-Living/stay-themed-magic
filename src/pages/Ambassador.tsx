@@ -24,14 +24,14 @@ const Ambassador = () => {
                 to="/ambassadors" 
                 className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg"
               >
-                📊 Nuestros Embajadores
+                {t('buttons.viewAmbassadors')}
               </Link>
               <Link 
                 to="/signup" 
                 className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg text-center"
               >
-                <div>Hágase Embajador</div>
-                <div className="text-sm">a través de su panel de usuario</div>
+                <div>{t('buttons.becomeAmbassador')}</div>
+                <div className="text-sm">{t('buttons.throughUserPanel')}</div>
               </Link>
             </div>
 

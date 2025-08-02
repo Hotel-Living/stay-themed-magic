@@ -42,7 +42,7 @@ export function AffinityStaysSlogans() {
           <div className="bg-[#FFC700] text-center rounded-xl px-[7px] my-[2px] py-[3px]">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.tiredOfRandom')}</p>
           </div>
-          <div className="bg-[#FFC700] text-center rounded-xl px-[7px] py-[4px] my-px">
+          <div className="bg-[#FFC700] text-center rounded-xl px-[7px] py-[4px] my-[2px]">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.stayAndConnect')}</p>
           </div>
         </div>

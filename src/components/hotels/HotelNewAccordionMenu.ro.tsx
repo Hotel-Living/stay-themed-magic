@@ -9,7 +9,7 @@ export function HotelNewAccordionMenuRO() {
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
   };
-  return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0 bg-[#a70adb]">
+  return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 py-[15px] my-0 bg-[#a70adb] mx-[12px] px-[7px]">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         <AccordionItem value="benefits" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">

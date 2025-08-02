@@ -277,7 +277,7 @@ export function Navbar() {
             </button>
             
             {isVideosOpen && (
-              <div className="bg-[#7801AA] rounded-lg mt-2 overflow-hidden ml-auto max-w-xs">
+              <div className="absolute right-0 top-full bg-[#7801AA] rounded-lg mt-2 overflow-hidden min-w-[180px] z-50">
                 <Link 
                   to="/videos" 
                   onClick={() => {
@@ -314,7 +314,7 @@ export function Navbar() {
             </button>
             
             {isGrowWithUsOpen && (
-              <div className="bg-[#7801AA] rounded-lg mt-2 overflow-hidden ml-auto max-w-xs">
+              <div className="absolute right-0 top-full bg-[#7801AA] rounded-lg mt-2 overflow-hidden min-w-[180px] z-50">
                 <Link 
                   to="/ambassador" 
                   onClick={() => {

@@ -13,30 +13,37 @@ export function FaqTabsListEN({ faqCategories }: FaqTabsListENProps) {
   
   return (
     <div className="flex justify-center mb-8">
-      <TabsList className={`${isMobile ? "grid grid-cols-3 gap-2 w-full" : "flex flex-wrap justify-center gap-3"} p-2 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg ${!isMobile ? "w-4/5" : ""}`}>
-        {faqCategories.map(category => {
-          // Add line breaks for long category names
-          let displayName = category.name;
-          if (category.name === "During your stay") {
-            displayName = "DURING\nYOUR STAY";
-          } else if (category.name === "Digital Nomads?") {
-            displayName = "DIGITAL\nNOMADS?";
-          } else if (category.name === "Practical Details?") {
-            displayName = "PRACTICAL\nDETAILS?";
-          }
-          
-          return (
-            <TabsTrigger 
-              key={category.id} 
-              value={category.id} 
-              className={`faq-button faq-button ${isMobile ? "px-1 py-1 text-[8px] leading-[1.1] flex-1" : "min-w-[120px] h-[40px] px-4 py-3 text-[10px]"} uppercase text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl font-bold tracking-wide backdrop-blur-sm ${!isMobile ? "flex-1" : ""} min-w-0 border border-purple-600`}
-              style={{ whiteSpace: 'normal', wordWrap: 'break-word', textAlign: 'center', ...(isMobile && { lineHeight: '1.2em' }) }}
-            >
-              {displayName}
-            </TabsTrigger>
-          );
-        })}
-      </TabsList>
+      <div className={`${isMobile ? "grid grid-cols-3 gap-2 w-full" : "w-full max-w-4xl"}`}>
+        <TabsList className={`${isMobile ? "contents" : "flex flex-wrap justify-center gap-3 mb-5"} p-2 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg`}>
+          {faqCategories.map((category, index) => {
+            // Add line breaks for long category names
+            let displayName = category.name;
+            if (category.name === "During your stay") {
+              displayName = "DURING\nYOUR STAY";
+            } else if (category.name === "Digital Nomads?") {
+              displayName = "DIGITAL\nNOMADS?";
+            } else if (category.name === "Practical Details?") {
+              displayName = "PRACTICAL\nDETAILS?";
+            }
+            
+            // For desktop: Force line break after 5th item (index 4)
+            const shouldBreak = !isMobile && index === 5;
+            
+            return (
+              <React.Fragment key={category.id}>
+                {shouldBreak && <div className="w-full h-0"></div>}
+                <TabsTrigger 
+                  value={category.id} 
+                  className={`faq-button faq-button ${isMobile ? "px-1 py-1 text-[8px] leading-[1.1]" : "min-w-[120px] h-[40px] px-4 py-3 text-[10px]"} uppercase text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl font-bold tracking-wide backdrop-blur-sm min-w-0 border border-purple-600`}
+                  style={{ whiteSpace: 'normal', wordWrap: 'break-word', textAlign: 'center', ...(isMobile && { lineHeight: '1.2em' }) }}
+                >
+                  {displayName}
+                </TabsTrigger>
+              </React.Fragment>
+            );
+          })}
+        </TabsList>
+      </div>
     </div>
   );
 }

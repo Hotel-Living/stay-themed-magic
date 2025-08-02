@@ -15,7 +15,15 @@ import { paymentFaqs as paymentFaqsEs } from "./hotel-categories/es/paymentFaqs"
 
 // English imports
 import { benefitsFaqs as benefitsFaqsEn } from "./hotel-categories/en/benefitsFaqs";
+import { modelsFaqs as modelsFaqsEn } from "./hotel-categories/en/modelsFaqs";
+import { revenueFaqs as revenueFaqsEn } from "./hotel-categories/en/revenueFaqs";
+import { guestsFaqs as guestsFaqsEn } from "./hotel-categories/en/guestsFaqs";
+import { seniorsFaqs as seniorsFaqsEn } from "./hotel-categories/en/seniorsFaqs";
 import { affinitiesFaqs as affinitiesFaqsEn } from "./hotel-categories/en/affinitiesFaqs";
+import { operationFaqs as operationFaqsEn } from "./hotel-categories/en/operationFaqs";
+import { integrationFaqs as integrationFaqsEn } from "./hotel-categories/en/integrationFaqs";
+import { marketingFaqs as marketingFaqsEn } from "./hotel-categories/en/marketingFaqs";
+import { paymentFaqs as paymentFaqsEn } from "./hotel-categories/en/paymentFaqs";
 
 // Portuguese imports  
 import { benefitsFaqs as benefitsFaqsPt } from "./hotel-categories/pt/benefitsFaqs";
@@ -119,15 +127,15 @@ export const useHotelFaqsByCategory = () => {
     case 'en':
       return {
         benefits: benefitsFaqsEn,
-        models: modelsFaqsEs, // Fallback to Spanish until English translation exists
-        revenue: revenueFaqsEs, // Fallback to Spanish until English translation exists
-        guests: guestsFaqsEs, // Fallback to Spanish until English translation exists
-        seniors: seniorsFaqsEs, // Fallback to Spanish until English translation exists
+        models: modelsFaqsEn,
+        revenue: revenueFaqsEn,
+        guests: guestsFaqsEn,
+        seniors: seniorsFaqsEn,
         affinities: affinitiesFaqsEn,
-        operation: operationFaqsEs, // Fallback to Spanish until English translation exists
-        integration: integrationFaqsEs, // Fallback to Spanish until English translation exists
-        marketing: marketingFaqsEs, // Fallback to Spanish until English translation exists
-        payment: paymentFaqsEs // Fallback to Spanish until English translation exists
+        operation: operationFaqsEn,
+        integration: integrationFaqsEn,
+        marketing: marketingFaqsEn,
+        payment: paymentFaqsEn
       };
     case 'pt':
       return {

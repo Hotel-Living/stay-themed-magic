@@ -123,7 +123,7 @@ export function WhyHotelLivingSectionEN() {
                   <div key={option.id} className="relative">
                     <button 
                       onClick={() => handleAccordionTabChange(option.id)}
-                      className={`faq-button px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-[10px] px-1 py-1.5 leading-[1.1] font-bold tracking-wide" : "text-xs px-2 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                      className={`faq-button faq-button px-2 uppercase whitespace-pre text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-[8px] px-1 py-1.5 leading-[1.1] font-bold tracking-wide" : "text-[10px] px-2 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                     >
                       <span className="mb-1 leading-tight">{option.label}</span>
                       <span className="text-xs">▼</span>

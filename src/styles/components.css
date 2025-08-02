@@ -11,22 +11,23 @@
     font-size: clamp(1.5rem, 4vw, 3rem);
   }
   
-  /* Specific minimum sizes for mobile devices ≤ 400px */
-  @media (max-width: 400px) {
+  /* Specific minimum sizes for mobile devices ≤ 768px */
+  @media (max-width: 768px) {
     h1 { font-size: 24px !important; }
     h2 { font-size: 18px !important; }
     h3 { font-size: 16px !important; }
     h4 { font-size: 16px !important; }
     
-    /* Ensure all interactive elements are readable and touchable */
+    /* Ensure all interactive elements are readable and touchable - EXCEPT FAQ buttons */
     button:not(.faq-button), select, input, textarea {
       font-size: 16px !important;
       min-height: 44px !important;
     }
     
-    /* Allow FAQ buttons to use custom sizes */
-    .faq-button {
+    /* Allow FAQ buttons to use custom sizes - with high specificity */
+    .faq-button.faq-button {
       font-size: inherit !important;
+      min-height: auto !important;
     }
     
     /* Hero section and main components scaling */

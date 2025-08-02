@@ -33,7 +33,7 @@ export function AffinityStaysSlogans() {
           <div className="bg-[#FFC700] text-center rounded-xl my-[2px] px-[7px] py-[4px]">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>
-          <div className="bg-[#FFC700] text-center rounded-xl my-[2px] py-[4px] px-[23px]">
+          <div className="bg-[#FFC700] text-center rounded-xl py-[4px] px-[23px] my-[7px]">
             <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.meetShareBelong')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 text-center rounded-xl px-[3px] my-[10px]">

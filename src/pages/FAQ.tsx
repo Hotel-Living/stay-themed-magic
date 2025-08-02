@@ -47,15 +47,7 @@ export default function FAQ() {
           {/* Second title - Frequently Asked Questions */}
           <div className="text-center mb-6 smooth-scroll-target" id="faq-section">
             <div className="flex justify-center">
-              <h1 className={`
-                ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-                font-bold mb-4 text-[#eedbf7] glow 
-                tracking-tight leading-tight
-                bg-[#8017B0] py-2 px-8 rounded-lg inline-block
-                shadow-[0_0_60px_rgba(0,200,255,0.8),0_0_120px_rgba(0,200,255,0.4),0_0_180px_rgba(0,200,255,0.2)]
-              `}>
-                {t('title')}
-              </h1>
+              
             </div>
             
             

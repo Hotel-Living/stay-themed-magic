@@ -85,6 +85,7 @@ export default function Ayuda() {
                   gif={avatar.gif}
                   position="content"
                   showMessage={false}
+                  size="small"
                 />
               </div>
             ))}
@@ -107,6 +108,7 @@ export default function Ayuda() {
                   gif={avatar.gif}
                   position="content"
                   showMessage={false}
+                  size="small"
                 />
               </div>
             ))}

@@ -13,6 +13,7 @@ interface EnhancedAvatarAssistantProps {
   showMessage?: boolean;
   message?: string;
   onClose?: () => void;
+  size?: 'default' | 'small';
 }
 
 export function EnhancedAvatarAssistant({ 
@@ -21,7 +22,8 @@ export function EnhancedAvatarAssistant({
   position = 'content',
   showMessage = false,
   message,
-  onClose 
+  onClose,
+  size = 'default'
 }: EnhancedAvatarAssistantProps) {
   const [showChat, setShowChat] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
@@ -91,7 +93,7 @@ export function EnhancedAvatarAssistant({
           {/* Avatar */}
           <button
             onClick={handleAvatarClick}
-            className="w-24 h-24 md:w-24 md:h-24 max-md:w-48 max-md:h-48 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-fuchsia-400/50"
+            className={`${size === 'small' ? 'w-24 h-24 md:w-24 md:h-24 max-md:w-20 max-md:h-20' : 'w-24 h-24 md:w-24 md:h-24 max-md:w-48 max-md:h-48'} rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-fuchsia-400/50`}
             style={{ boxShadow: '0 0 60px rgba(0,200,255,0.8), 0 0 120px rgba(0,200,255,0.4), 0 0 180px rgba(0,200,255,0.2)' }}
           >
             <img 

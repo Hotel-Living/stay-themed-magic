@@ -26,8 +26,15 @@
     
     /* Allow FAQ buttons to use custom sizes - with high specificity */
     .faq-button.faq-button {
-      font-size: inherit !important;
+      font-size: 8px !important;
       min-height: auto !important;
+    }
+    
+    /* Desktop FAQ button sizes */
+    @media (min-width: 769px) {
+      .faq-button.faq-button {
+        font-size: 10px !important;
+      }
     }
     
     /* Hero section and main components scaling */

@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 const AmbassadorsList = () => {
+  const { t } = useTranslation('ambassador');
+  
   return <div className="min-h-screen relative">
       <Starfield />
       <div className="relative z-10">
@@ -15,12 +18,12 @@ const AmbassadorsList = () => {
 
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
                 <Link to="/ambassadors/usa" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg">
-                  📊 Nuestros Embajadores
+                  {t('buttons.viewAmbassadors')}
                 </Link>
-                <Link to="/auth" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg text-center">
-                  <div>Hágase Embajador</div>
+                <a href="https://www.hotel-living.com/registerUser" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg text-center">
+                  <div>{t('buttons.becomeAmbassador')}</div>
                   <div className="text-sm">a través de su panel de usuario</div>
-                </Link>
+                </a>
               </div>
 
               <div className="flex justify-center items-center space-x-6">

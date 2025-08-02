@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { isPublicPage } from '@/utils/pageUtils';
 import { useMarqueeMessages } from '@/hooks/useMarqueeMessages';
@@ -15,17 +15,6 @@ export const ScrollingMarquee: React.FC = () => {
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && messages.length > 0;
 
-  // Stable function to get next message
-  const getNextMessage = useCallback((): string => {
-    if (messages.length === 0) return '';
-    
-    const message = messages[currentIndex];
-    // Update index for next call
-    setCurrentIndex((prev) => (prev + 1) % messages.length);
-    
-    return message || '';
-  }, [messages, currentIndex]);
-
   // Animation duration calculation
   const animationDuration = React.useMemo(() => {
     if (!marqueeRef.current || !containerRef.current) return 30;
@@ -40,12 +29,18 @@ export const ScrollingMarquee: React.FC = () => {
     if (!shouldShow) return;
 
     const updateMessage = () => {
-      const message = getNextMessage();
+      if (messages.length === 0) return;
+      
+      // Get current message in natural order
+      const message = messages[currentIndex];
       if (message) {
-        // Add spacing between messages for continuous scroll
-        const spacedMessage = `${message}${' '.repeat(25)}`;
+        // Add 30 spaces between messages for clear separation
+        const spacedMessage = `${message}${' '.repeat(30)}`;
         setDisplayText(spacedMessage.repeat(3)); // Repeat for seamless loop
         setAnimationKey(prev => prev + 1);
+        
+        // Move to next message
+        setCurrentIndex(prev => (prev + 1) % messages.length);
       }
     };
 
@@ -69,9 +64,9 @@ export const ScrollingMarquee: React.FC = () => {
     return () => {
       clearInterval(messageInterval);
     };
-  }, [shouldShow, getNextMessage]); // Stable dependencies
+  }, [shouldShow, messages]); // Only depend on shouldShow and messages
 
-  // Don't render anything if component shouldn't show - AFTER all hooks
+  // Don't render anything if component shouldn't show
   if (!shouldShow) {
     return null;
   }

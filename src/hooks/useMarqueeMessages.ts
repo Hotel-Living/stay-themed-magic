@@ -39,11 +39,10 @@ export const useMarqueeMessages = () => {
         console.log('Parsed messages:', messagesData.length, messagesData.slice(0, 3));
         
         if (messagesData.length > 0) {
-          // Shuffle messages to prevent predictable order
-          const shuffledMessages = shuffleArray(messagesData);
-          setMessages(shuffledMessages);
+          // Keep messages in natural order (no shuffling)
+          setMessages(messagesData);
           setCurrentIndex(0);
-          console.log('Messages set successfully:', shuffledMessages.length);
+          console.log('Messages set successfully:', messagesData.length);
         } else {
           console.warn('No messages found in data');
           setMessages(['Welcome to Hotel Living - Live the Life You Love']);

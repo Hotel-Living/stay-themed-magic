@@ -1,24 +1,21 @@
-
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useTranslation } from "@/hooks/useTranslation";
 import calculatorSpanish from "@/assets/calculator-spanish.png";
 import calculatorEnglish from "@/assets/calculator-english.png";
-
 export function HotelNewAccordionMenuEN() {
   const [openItem, setOpenItem] = useState<string | null>(null);
-  const { t } = useTranslation('hotel-accordion');
-  
+  const {
+    t
+  } = useTranslation('hotel-accordion');
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
   };
-  
-  return (
-    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0">
+  return <div className="pt-4 border-t border-yellow-300/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0 bg-[#c458fa]">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         
         <AccordionItem value="benefits" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-3 sm:px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger className="px-3 sm:px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 text-slate-50">
             <div className="text-[#FFF9B0] font-bold text-sm sm:text-base md:text-lg">
               1 - THE BENEFITS
             </div>
@@ -348,7 +345,7 @@ export function HotelNewAccordionMenuEN() {
                 <p>• We adapt to you, not the other way around</p>
               </div>
               <p className="text-[#FFF9B0] font-bold text-center mt-4">
-                This is flexibility. This is profitability.<br/>
+                This is flexibility. This is profitability.<br />
                 This is Perfect Integration
               </p>
             </div>
@@ -430,26 +427,17 @@ export function HotelNewAccordionMenuEN() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div className="space-y-3">
                   <h4 className="text-[#FFF9B0] font-bold text-lg">English Version</h4>
-                  <img 
-                    src="/lovable-uploads/a434a2cc-c665-4c9b-828a-d5945a335947.png" 
-                    alt="Hotel-Living Calculator English Version" 
-                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
-                  />
+                  <img src="/lovable-uploads/a434a2cc-c665-4c9b-828a-d5945a335947.png" alt="Hotel-Living Calculator English Version" className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg" />
                 </div>
                 
                 <div className="space-y-3">
                   <h4 className="text-[#FFF9B0] font-bold text-lg">Spanish Version</h4>
-                  <img 
-                    src="/lovable-uploads/132f46c4-4760-4907-bb8a-30ea52da9991.png" 
-                    alt="Hotel-Living Calculator Spanish Version" 
-                    className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg"
-                  />
+                  <img src="/lovable-uploads/132f46c4-4760-4907-bb8a-30ea52da9991.png" alt="Hotel-Living Calculator Spanish Version" className="w-full h-auto rounded-lg border border-[#FFF9B0]/30 shadow-lg" />
                 </div>
               </div>
             </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>
-  );
+    </div>;
 }

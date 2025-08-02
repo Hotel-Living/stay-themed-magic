@@ -10,6 +10,7 @@ import { isDevelopmentOrAdmin, getRedirectUrlForRole } from "@/utils/dashboardSe
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isGrowWithUsOpen, setIsGrowWithUsOpen] = useState(false);
   const { t } = useTranslation('navigation');
   const { user, profile, signOut } = useAuth();
 
@@ -265,9 +266,43 @@ export function Navbar() {
           <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.videos.mobile')}
           </Link>
-          <Link to="/ambassador" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.ambassador.mobile')}
-          </Link>
+          {/* Mobile Grow With Us Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setIsGrowWithUsOpen(!isGrowWithUsOpen)}
+              className="text-white font-bold hover:text-white/80 text-right text-base uppercase w-full py-3 flex items-center justify-between min-h-[44px]"
+            >
+              {t('mainNavigationContent.ambassador.mobile')}
+              <span className={`transform transition-transform duration-300 ${isGrowWithUsOpen ? 'rotate-180' : ''}`}>
+                ▼
+              </span>
+            </button>
+            
+            {isGrowWithUsOpen && (
+              <div className="bg-[#7801AA] rounded-lg mt-2 overflow-hidden">
+                <Link 
+                  to="/ambassador" 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsGrowWithUsOpen(false);
+                  }} 
+                  className="block text-white hover:bg-[#5D0080] px-4 py-3 transition-all duration-300 text-base min-h-[44px] flex items-center"
+                >
+                  {t('mainNavigationContent.growWithUs.ambassador')}
+                </Link>
+                <Link 
+                  to="/agentes" 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsGrowWithUsOpen(false);
+                  }} 
+                  className="block text-white hover:bg-[#5D0080] px-4 py-3 transition-all duration-300 text-base min-h-[44px] flex items-center"
+                >
+                  {t('mainNavigationContent.growWithUs.localPromoter')}
+                </Link>
+              </div>
+            )}
+          </div>
            <Link to="/ayuda" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.frequentQuestions.mobile')}
           </Link>

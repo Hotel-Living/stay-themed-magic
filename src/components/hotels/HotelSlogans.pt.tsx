@@ -1,26 +1,23 @@
-
 import { useTranslation } from "@/hooks/useTranslation";
-
 export function HotelSlogansPT() {
-  const { t } = useTranslation('hotels');
-  
+  const {
+    t
+  } = useTranslation('hotels');
   return <>
       {/* Main slogans */}
       <div className="space-y-3 animate-fade-in px-8">
         {/* Blue glow wrapper for main title */}
         <div className="relative group w-fit mx-auto">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-           <h1 className="relative text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 mx-auto shadow-sm">
-             <span className="px-[8px] text-center uppercase font-bold animate-pulse block" style={{color: '#FFD700', animation: 'gentle-gold 3s ease-in-out infinite'}}>
-             Enchemos seus<br />quartos vazios
-             </span>
-           </h1>
+          <h1 className="relative text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 mx-auto shadow-sm whitespace-nowrap">
+            
+          </h1>
         </div>
         
         {/* Blue glow wrapper for slogans block */}
-        <div className="relative group mx-auto w-fit">
+        <div className="relative group mx-8">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-0 w-fit mx-auto my-[14px] py-0">
+          <div className="relative space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl px-6 py-[13px] my-[17px]">
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('slogans.slogan1')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-4">{t('slogans.slogan2')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-4">{t('slogans.slogan3')}</p>

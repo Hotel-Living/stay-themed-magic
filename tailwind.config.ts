@@ -24,6 +24,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        'roboto-condensed': ['"Roboto Condensed"', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',

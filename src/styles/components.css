@@ -26,14 +26,15 @@
     
     /* Allow FAQ buttons to use custom sizes - with high specificity */
     .faq-button.faq-button {
-      font-size: 8px !important;
+      font-size: 16px !important;
       min-height: auto !important;
+      line-height: 1.2em;
     }
     
     /* Desktop FAQ button sizes */
     @media (min-width: 769px) {
       .faq-button.faq-button {
-        font-size: 10px !important;
+        font-size: 20px !important;
       }
     }
     
@@ -53,7 +54,7 @@
     /* FAQ questions spacing - prevent overlap with bottom menu */
     @media (max-width: 768px) {
       .faq-questions-list {
-        margin-top: 32px !important;
+        margin-top: 40px !important;
         clear: both;
       }
     }

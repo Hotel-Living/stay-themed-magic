@@ -23,7 +23,7 @@ export const useMarqueeMessages = () => {
           'en': 'hotel_living_messages_en.json',
           'es': 'hotel_living_messages_es.json', 
           'pt': 'hotel_living_messages_pt.json',
-          'ro': 'hotel_living_us_messages_ro.json'
+          'ro': 'hotel_living_messages_ro.json'
         };
         
         const fileName = fileMap[language] || fileMap['en'];

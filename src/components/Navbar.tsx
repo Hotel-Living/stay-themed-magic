@@ -270,7 +270,7 @@ export function Navbar() {
           <div className="relative">
             <button
               onClick={() => setIsGrowWithUsOpen(!isGrowWithUsOpen)}
-              className="text-white font-bold hover:text-white/80 text-right text-base uppercase w-full py-3 flex items-center justify-between min-h-[44px]"
+              className="text-white font-bold hover:text-white/80 text-right text-base uppercase w-full py-3 flex items-center justify-end gap-1 min-h-[44px]"
             >
               {t('mainNavigationContent.ambassador.mobile')}
               <span className={`transform transition-transform duration-300 ${isGrowWithUsOpen ? 'rotate-180' : ''}`}>

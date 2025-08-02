@@ -11,6 +11,7 @@ import { isDevelopmentOrAdmin, getRedirectUrlForRole } from "@/utils/dashboardSe
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isGrowWithUsOpen, setIsGrowWithUsOpen] = useState(false);
+  const [isVideosOpen, setIsVideosOpen] = useState(false);
   const { t } = useTranslation('navigation');
   const { user, profile, signOut } = useAuth();
 
@@ -263,9 +264,43 @@ export function Navbar() {
           <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.affinityStays.mobile')}
           </Link>
-          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.videos.mobile')}
-          </Link>
+          {/* Mobile Videos & Press Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setIsVideosOpen(!isVideosOpen)}
+              className="text-white font-bold hover:text-white/80 text-right text-base uppercase w-full py-3 flex items-center justify-end gap-1 min-h-[44px]"
+            >
+              {t('mainNavigationContent.videos.mobile')}
+              <span className={`transform transition-transform duration-300 ${isVideosOpen ? 'rotate-180' : ''}`}>
+                ▼
+              </span>
+            </button>
+            
+            {isVideosOpen && (
+              <div className="bg-[#7801AA] rounded-lg mt-2 overflow-hidden">
+                <Link 
+                  to="/videos" 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsVideosOpen(false);
+                  }} 
+                  className="block text-white hover:bg-[#5D0080] px-4 py-3 transition-all duration-300 text-base min-h-[44px] flex items-center"
+                >
+                  {t('mainNavigationContent.videosAndPress.videos')}
+                </Link>
+                <Link 
+                  to="/press" 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsVideosOpen(false);
+                  }} 
+                  className="block text-white hover:bg-[#5D0080] px-4 py-3 transition-all duration-300 text-base min-h-[44px] flex items-center"
+                >
+                  {t('mainNavigationContent.videosAndPress.press')}
+                </Link>
+              </div>
+            )}
+          </div>
           {/* Mobile Grow With Us Dropdown */}
           <div className="relative">
             <button

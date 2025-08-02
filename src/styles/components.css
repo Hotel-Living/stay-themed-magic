@@ -51,9 +51,11 @@
     }
     
     /* FAQ questions spacing - prevent overlap with bottom menu */
-    .faq-questions-list {
-      margin-top: 32px !important;
-      clear: both;
+    @media (max-width: 768px) {
+      .faq-questions-list {
+        margin-top: 32px !important;
+        clear: both;
+      }
     }
   }
   

@@ -44,6 +44,8 @@
 
   html, body {
     @apply overflow-x-hidden max-w-[100vw];
+    font-size: 16px;
+    min-font-size: 14px;
   }
 
   body {

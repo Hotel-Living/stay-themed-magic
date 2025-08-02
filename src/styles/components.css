@@ -1,5 +1,15 @@
 
 @layer components {
+  /* Mobile responsive typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(1rem, 4vw, 2.5rem);
+  }
+  
+  h1 { font-size: clamp(1.75rem, 5vw, 3rem); }
+  h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+  h3 { font-size: clamp(1.25rem, 3vw, 2rem); }
+  h4 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+  
   /* Text wrapping utilities for layout overflow prevention */
   .text-wrap-safe {
     @apply break-words;

@@ -27,7 +27,7 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
             }
             
             // For desktop: Force line break after 5th item (index 4)
-            const shouldBreak = !isMobile && index === 5;
+            const shouldBreak = !isMobile && index === 4;
             
             return (
               <React.Fragment key={category.id}>

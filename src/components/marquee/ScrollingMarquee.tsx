@@ -84,7 +84,7 @@ export const ScrollingMarquee: React.FC = () => {
       ref={containerRef}
       className="fixed bottom-0 left-0 right-0 h-6 overflow-hidden z-40"
       style={{ 
-        backgroundColor: '#0000B8',
+        backgroundColor: '#FFFFFF',
         marginBottom: '0px'
       }}
       role="status"
@@ -94,7 +94,7 @@ export const ScrollingMarquee: React.FC = () => {
       <div
         ref={marqueeRef}
         key={animationKey}
-        className="whitespace-nowrap text-white font-semibold px-3 py-0.5 marquee-scroll"
+        className="whitespace-nowrap text-black font-semibold px-3 py-0.5 marquee-scroll"
         style={{
           fontSize: '11px',
           fontWeight: 600,

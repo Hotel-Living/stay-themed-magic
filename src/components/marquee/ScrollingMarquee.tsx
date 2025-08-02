@@ -16,12 +16,13 @@ export const ScrollingMarquee: React.FC = () => {
   // Determine if component should be visible
   const shouldShow = isPublicPage(location.pathname) && !isLoading && messages.length > 0;
 
-  // Animation duration calculation with 20% increased speed
+  // Animation duration calculation for proper full-width scrolling
   const animationDuration = React.useMemo(() => {
     if (!marqueeRef.current || !containerRef.current) return 15;
     const textWidth = marqueeRef.current.scrollWidth;
     const containerWidth = containerRef.current.offsetWidth;
-    const totalDistance = textWidth + containerWidth;
+    // Total distance: container width + text width for complete traversal
+    const totalDistance = containerWidth + textWidth;
     return totalDistance / 96; // 20% faster than 80px per second
   }, [displayText]);
 

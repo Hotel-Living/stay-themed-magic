@@ -35,24 +35,24 @@ export const ScrollingMarquee: React.FC = () => {
     // Only run effects if component should be visible
     if (!shouldShow) return;
 
-    let localCurrentIndex = 0;
+    let messageIndex = 0;
 
     const updateMessage = () => {
       if (messages.length === 0) return;
       
       // Get current message in natural order (no shuffling)
-      const message = messages[localCurrentIndex];
+      const message = messages[messageIndex];
       if (message) {
         // Add 30 spaces between messages for clear separation
         const spacedMessage = `${message}${' '.repeat(30)}`;
         setDisplayText(spacedMessage.repeat(3)); // Repeat for seamless loop
         setAnimationKey(prev => prev + 1);
         
-        // Move to next message
-        localCurrentIndex = (localCurrentIndex + 1) % messages.length;
-        setCurrentIndex(localCurrentIndex);
+        console.log(`Marquee: Message ${messageIndex + 1}/${messages.length}: "${message.substring(0, 50)}..."`);
         
-        console.log(`Marquee: Showing message ${localCurrentIndex}/${messages.length}: ${message.substring(0, 50)}...`);
+        // Move to next message
+        messageIndex = (messageIndex + 1) % messages.length;
+        setCurrentIndex(messageIndex);
       }
     };
 
@@ -61,17 +61,17 @@ export const ScrollingMarquee: React.FC = () => {
 
     // Calculate animation duration based on text length
     const calculateDuration = () => {
-      if (!marqueeRef.current || !containerRef.current) return 30;
+      if (!marqueeRef.current || !containerRef.current) return 15; // Shorter duration for better cycling
       const textWidth = marqueeRef.current.scrollWidth;
       const containerWidth = containerRef.current.offsetWidth;
       const totalDistance = textWidth + containerWidth;
-      return totalDistance / 80; // 80px per second
+      return Math.max(15, totalDistance / 100); // Minimum 15 seconds, faster speed
     };
 
-    // Set up interval for message updates
+    // Set up interval for message updates - use a fixed duration to ensure consistent cycling
     intervalRef.current = setInterval(() => {
       updateMessage();
-    }, calculateDuration() * 1000);
+    }, 15000); // Fixed 15 seconds per message
 
     return () => {
       if (intervalRef.current) {

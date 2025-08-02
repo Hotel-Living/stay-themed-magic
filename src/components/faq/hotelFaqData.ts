@@ -18,10 +18,28 @@ import { benefitsFaqs as benefitsFaqsEn } from "./hotel-categories/en/benefitsFa
 import { affinitiesFaqs as affinitiesFaqsEn } from "./hotel-categories/en/affinitiesFaqs";
 
 // Portuguese imports  
+import { benefitsFaqs as benefitsFaqsPt } from "./hotel-categories/pt/benefitsFaqs";
+import { modelsFaqs as modelsFaqsPt } from "./hotel-categories/pt/modelsFaqs";
+import { revenueFaqs as revenueFaqsPt } from "./hotel-categories/pt/revenueFaqs";
+import { guestsFaqs as guestsFaqsPt } from "./hotel-categories/pt/guestsFaqs";
+import { seniorsFaqs as seniorsFaqsPt } from "./hotel-categories/pt/seniorsFaqs";
 import { affinitiesFaqs as affinitiesFaqsPt } from "./hotel-categories/pt/affinitiesFaqs";
+import { operationFaqs as operationFaqsPt } from "./hotel-categories/pt/operationFaqs";
+import { integrationFaqs as integrationFaqsPt } from "./hotel-categories/pt/integrationFaqs";
+import { marketingFaqs as marketingFaqsPt } from "./hotel-categories/pt/marketingFaqs";
+import { paymentFaqs as paymentFaqsPt } from "./hotel-categories/pt/paymentFaqs";
 
 // Romanian imports
+import { benefitsFaqs as benefitsFaqsRo } from "./hotel-categories/ro/benefitsFaqs";
+import { modelsFaqs as modelsFaqsRo } from "./hotel-categories/ro/modelsFaqs";
+import { revenueFaqs as revenueFaqsRo } from "./hotel-categories/ro/revenueFaqs";
+import { guestsFaqs as guestsFaqsRo } from "./hotel-categories/ro/guestsFaqs";
+import { seniorsFaqs as seniorsFaqsRo } from "./hotel-categories/ro/seniorsFaqs";
 import { affinitiesFaqs as affinitiesFaqsRo } from "./hotel-categories/ro/affinitiesFaqs";
+import { operationFaqs as operationFaqsRo } from "./hotel-categories/ro/operationFaqs";
+import { integrationFaqs as integrationFaqsRo } from "./hotel-categories/ro/integrationFaqs";
+import { marketingFaqs as marketingFaqsRo } from "./hotel-categories/ro/marketingFaqs";
+import { paymentFaqs as paymentFaqsRo } from "./hotel-categories/ro/paymentFaqs";
 
 export const useHotelFaqCategories = (): FaqCategory[] => {
   const { language } = useTranslation();
@@ -113,29 +131,29 @@ export const useHotelFaqsByCategory = () => {
       };
     case 'pt':
       return {
-        benefits: benefitsFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        models: modelsFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        revenue: revenueFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        guests: guestsFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        seniors: seniorsFaqsEs, // Fallback to Spanish until Portuguese translation exists
+        benefits: benefitsFaqsPt,
+        models: modelsFaqsPt,
+        revenue: revenueFaqsPt,
+        guests: guestsFaqsPt,
+        seniors: seniorsFaqsPt,
         affinities: affinitiesFaqsPt,
-        operation: operationFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        integration: integrationFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        marketing: marketingFaqsEs, // Fallback to Spanish until Portuguese translation exists
-        payment: paymentFaqsEs // Fallback to Spanish until Portuguese translation exists
+        operation: operationFaqsPt,
+        integration: integrationFaqsPt,
+        marketing: marketingFaqsPt,
+        payment: paymentFaqsPt
       };
     case 'ro':
       return {
-        benefits: benefitsFaqsEs, // Fallback to Spanish until Romanian translation exists
-        models: modelsFaqsEs, // Fallback to Spanish until Romanian translation exists
-        revenue: revenueFaqsEs, // Fallback to Spanish until Romanian translation exists
-        guests: guestsFaqsEs, // Fallback to Spanish until Romanian translation exists
-        seniors: seniorsFaqsEs, // Fallback to Spanish until Romanian translation exists
+        benefits: benefitsFaqsRo,
+        models: modelsFaqsRo,
+        revenue: revenueFaqsRo,
+        guests: guestsFaqsRo,
+        seniors: seniorsFaqsRo,
         affinities: affinitiesFaqsRo,
-        operation: operationFaqsEs, // Fallback to Spanish until Romanian translation exists
-        integration: integrationFaqsEs, // Fallback to Spanish until Romanian translation exists
-        marketing: marketingFaqsEs, // Fallback to Spanish until Romanian translation exists
-        payment: paymentFaqsEs // Fallback to Spanish until Romanian translation exists
+        operation: operationFaqsRo,
+        integration: integrationFaqsRo,
+        marketing: marketingFaqsRo,
+        payment: paymentFaqsRo
       };
     default: // Spanish (es)
       return {

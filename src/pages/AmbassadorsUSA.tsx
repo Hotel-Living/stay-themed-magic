@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Import ambassador images
 import davidThompsonImg from "@/assets/ambassadors/david-thompson.jpg";
@@ -60,6 +61,8 @@ const ambassadors = [
 ];
 
 const AmbassadorsUSA = () => {
+  const { t } = useTranslation('ambassador');
+  
   return (
     <div className="min-h-screen relative">
       <Starfield />
@@ -76,14 +79,25 @@ const AmbassadorsUSA = () => {
                   className="flex items-center space-x-2 text-white/80 hover:text-white transition-colors mr-6"
                 >
                   <ArrowLeft className="w-5 h-5" />
-                  <span>Volver</span>
+                  <span>{t('usa.backButton')}</span>
                 </Link>
                 <div className="flex items-center space-x-4">
                   <span className="text-4xl">🇺🇸</span>
                   <div>
-                    <h1 className="text-3xl font-bold">Hotel Living Ambassadors — USA</h1>
+                    <h1 className="text-3xl font-bold">{t('usa.title')}</h1>
                   </div>
                 </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+                <Link to="/ambassadors/usa" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg">
+                  {t('buttons.viewAmbassadors')}
+                </Link>
+                <a href="https://www.hotel-living.com/registerUser" className="bg-[#70009E] hover:bg-[#70009E]/80 text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg text-center">
+                  <div>{t('buttons.becomeAmbassador')}</div>
+                  <div className="text-sm">a través de su panel de usuario</div>
+                </a>
               </div>
 
               {/* Ambassador Grid */}

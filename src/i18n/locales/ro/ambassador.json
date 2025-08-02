@@ -69,5 +69,9 @@
   "buttons": {
     "viewAmbassadors": "📊 Ambasadorii Noștri",
     "becomeAmbassador": "Deveniți Ambasador"
+  },
+  "usa": {
+    "title": "Ambasadorii Hotel Living — SUA",
+    "backButton": "Înapoi"
   }
 }

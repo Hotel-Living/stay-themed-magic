@@ -69,5 +69,9 @@
   "buttons": {
     "viewAmbassadors": "📊 Our Ambassadors",
     "becomeAmbassador": "Become Ambassador"
+  },
+  "usa": {
+    "title": "Hotel Living Ambassadors — USA",
+    "backButton": "Back"
   }
 }

@@ -69,5 +69,9 @@
   "buttons": {
     "viewAmbassadors": "📊 Nossos Embaixadores",
     "becomeAmbassador": "Torne-se Embaixador"
+  },
+  "usa": {
+    "title": "Embaixadores Hotel Living — EUA",
+    "backButton": "Voltar"
   }
 }

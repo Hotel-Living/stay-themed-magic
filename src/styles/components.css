@@ -51,13 +51,16 @@
       font-size: 18px !important;
     }
     
-    /* FAQ questions spacing - prevent overlap with bottom menu */
-    @media (max-width: 768px) {
-      .faq-questions-list {
-        margin-top: 40px !important;
-        clear: both;
-      }
-    }
+  }
+  
+  /* FAQ questions spacing - prevent overlap with bottom menu */
+  .faq-questions-list {
+    margin-top: 60px !important;
+    position: relative;
+    z-index: 1;
+    clear: both;
+    padding-top: 20px;
+  }
   }
   
   /* Text wrapping utilities for layout overflow prevention */

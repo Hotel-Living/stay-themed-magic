@@ -20,7 +20,7 @@ export function FaqTabContent({
   answerTextSizeClass
 }: FaqTabContentProps) {
   const isMobile = useIsMobile();
-  return <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in mt-4">
+  return <TabsContent key={category.id} value={category.id} className={`customer-text animate-fade-in ${isMobile ? "mt-6" : "mt-4"}`}>
       {filteredFaqs.length > 0 ? <Accordion type="multiple" className={`w-full space-y-3.5 ${isMobile ? "mt-30" : ""}`}>
           {filteredFaqs.map((faq, index) => {
         const questionNumber = startIndex + index;

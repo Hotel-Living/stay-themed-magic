@@ -29,7 +29,7 @@ export function FaqTabsListES({ faqCategories }: FaqTabsListESProps) {
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className={`${isMobile ? "px-1 py-1 text-[5px] leading-[1.1]" : "px-2 sm:px-5 py-2 sm:py-4 text-[8px] sm:text-[10px]"} uppercase text-center bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-white text-white hover:bg-transparent hover:text-white transition-all duration-200 rounded-none font-bold tracking-wide ${!isMobile ? "flex-shrink-0" : ""} min-w-0 border-none`}
+              className={`faq-button ${isMobile ? "px-1 py-1 text-[10px] leading-[1.1]" : "px-2 sm:px-5 py-2 sm:py-4 text-[8px] sm:text-[10px]"} uppercase text-center bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-white text-white hover:bg-transparent hover:text-white transition-all duration-200 rounded-none font-bold tracking-wide ${!isMobile ? "flex-shrink-0" : ""} min-w-0 border-none`}
               style={{ whiteSpace: 'normal', wordWrap: 'break-word', textAlign: 'center', ...(isMobile && { lineHeight: '1.2em' }) }}
             >
               {displayName}

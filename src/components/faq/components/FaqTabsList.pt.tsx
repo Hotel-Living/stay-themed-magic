@@ -29,8 +29,8 @@ export function FaqTabsListPT({ faqCategories }: FaqTabsListPTProps) {
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className={`${isMobile ? "px-2 py-2 text-[8px]" : "px-4 py-3 text-[10px]"} uppercase whitespace-pre-line text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl font-bold tracking-wide backdrop-blur-sm ${!isMobile ? "flex-1" : ""} min-w-0 border border-purple-600`}
-              style={{ whiteSpace: 'normal', wordWrap: 'break-word', textAlign: 'center' }}
+              className={`${isMobile ? "px-2 py-2 text-[6px] leading-tight" : "px-4 py-3 text-[10px]"} uppercase text-center bg-purple-800 data-[state=active]:bg-purple-900 data-[state=active]:text-white text-white hover:bg-purple-700 hover:text-white transition-all duration-200 rounded-xl font-bold tracking-wide backdrop-blur-sm ${!isMobile ? "flex-1" : ""} min-w-0 border border-purple-600`}
+              style={{ whiteSpace: 'normal', wordWrap: 'break-word', textAlign: 'center', ...(isMobile && { lineHeight: '1.2em' }) }}
             >
               {displayName}
             </TabsTrigger>

@@ -31,19 +31,19 @@ export function AffinityStaysSlogans() {
         {/* Slogans - updated to match FAQ page styling */}
         <div className="space-y-5 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center py-0 my-[34px]">
           <div className="bg-[#FFC700] text-center rounded-xl my-[2px] px-[7px] py-[4px]">
-            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.notJustStay')}</p>
+            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl py-[4px] px-[23px] my-[7px]">
-            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.meetShareBelong')}</p>
+            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.meetShareBelong')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 text-center rounded-xl px-[3px] my-[10px]">
-            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.stayWithThoseWhoGetYou')}</p>
+            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.stayWithThoseWhoGetYou')}</p>
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl px-[7px] my-[2px] py-[4px]">
-            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.tiredOfRandom')}</p>
+            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.tiredOfRandom')}</p>
           </div>
           <div className="bg-[#FFC700] text-center rounded-xl py-[4px] px-[41px] my-[9px]">
-            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.stayAndConnect')}</p>
+            <p className="text-[#8017B0] text-lg font-bold">{t('affinity.slogans.stayAndConnect')}</p>
           </div>
         </div>
       </div>

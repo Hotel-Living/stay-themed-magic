@@ -28,7 +28,7 @@ export function TabAvatar({ avatarId, gif, message, onClose }: TabAvatarProps) {
           src={gif} 
           alt={avatarId}
           data-avatar-id={avatarId}
-          className="w-20 h-20 rounded-full object-cover shadow-lg border-2 border-white"
+          className="w-20 h-20 max-md:w-12 max-md:h-12 rounded-full object-cover shadow-lg border-2 border-white"
           style={{ objectPosition: 'center' }}
         />
         
@@ -43,7 +43,7 @@ export function TabAvatar({ avatarId, gif, message, onClose }: TabAvatarProps) {
 
       {/* Message bubble */}
       {showMessage && (
-        <div className="absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2 rounded-lg px-3 py-2 shadow-lg text-xs font-medium text-gray-800 text-center max-w-[140px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
+        <div className="absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2 rounded-lg px-3 py-2 shadow-lg text-xs max-md:text-sm font-medium text-gray-800 text-center max-w-[140px] leading-tight border border-gray-200" style={{ backgroundColor: '#FBF3B4' }}>
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: '#FBF3B4' }}></div>
           {message}
         </div>

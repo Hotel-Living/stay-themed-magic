@@ -1,5 +1,11 @@
 
 @layer components {
+  /* Universal zoom prevention */
+  html, body {
+    zoom: 1 !important;
+    transform: none !important;
+  }
+  
   /* Mobile responsive typography - ensuring minimum readable sizes */
   h1, h2, h3, h4, h5, h6 {
     font-size: clamp(1.5rem, 4vw, 3rem);
@@ -8,22 +14,27 @@
   /* Specific minimum sizes for mobile devices ≤ 400px */
   @media (max-width: 400px) {
     h1 { font-size: 24px !important; }
-    h2 { font-size: 24px !important; }
-    h3 { font-size: 20px !important; }
-    h4 { font-size: 18px !important; }
+    h2 { font-size: 18px !important; }
+    h3 { font-size: 16px !important; }
+    h4 { font-size: 16px !important; }
     
-    /* Ensure all text inputs and buttons are readable */
-    input, button, select, textarea {
+    /* Ensure all interactive elements are readable and touchable */
+    button, select, input, textarea {
       font-size: 16px !important;
-      min-height: 48px !important;
+      min-height: 44px !important;
     }
     
-    /* Search forms and main interactive elements */
-    .search-form input,
-    .search-input,
-    form input {
+    /* Hero section and main components scaling */
+    .hero-section, .search-bar, .cta-buttons {
       font-size: 16px !important;
-      min-height: 48px !important;
+    }
+    
+    .hero-section h1 {
+      font-size: 24px !important;
+    }
+    
+    .hero-section h2 {
+      font-size: 18px !important;
     }
   }
   
